@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ProtonLab — Sitio en construcción</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#6ee7b7;--muted:#9aa7b2}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,#071026 0%, #0b1220 100%);color:#e6f3f1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px}
+    .container{width:100%;max-width:900px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,255,255,0.03);padding:36px;border-radius:14px;box-shadow:0 10px 30px rgba(2,6,23,0.6);position:relative}
+    .brand{display:flex;align-items:center;gap:16px}
+    .logo{width:72px;height:72px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#60a5fa);color:#042024;font-weight:700;font-size:20px}
+    h1{margin:8px 0 0;font-size:28px}
+    p.lead{color:var(--muted);margin:10px 0 20px}
+    .info-grid{display:flex;gap:16px;flex-wrap:wrap}
+    .card{flex:1 1 220px;background:rgba(255,255,255,0.02);padding:16px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+
+    @media (max-width:560px){.brand{gap:12px}.logo{width:56px;height:56px}h1{font-size:20px}}
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">PL</div>
+      <div>
+        <h1>ProtonLab</h1>
+        <p class="lead">Estamos construyendo algo genial. Volvemos pronto con nuestro nuevo sitio.</p>
+      </div>
+    </div>
+
+    <div class="info-grid" style="margin-top:20px">
+      <div class="card">
+        <strong>Progreso</strong>
+        <p style="margin:8px 0;color:var(--muted)">Fase de diseño y desarrollo — integración de servicios y pruebas.</p>
+        <div style="margin-top:10px">
+          <div style="height:10px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden">
+            <div style="width:56%;height:100%;background:linear-gradient(90deg,var(--accent),#60a5fa);"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <strong>Contacto</strong>
+        <p style="margin:8px 0;color:var(--muted)">¿Necesitas hablar con nosotros? <br><a href="mailto:gapcode@protonmail.com" style="color:var(--accent);text-decoration:none">gapcode@protonmail.com</a></p>
+      </div>
+
+      <div class="card">
+        <strong>Sobre ProtonLab</strong>
+        <p style="margin:8px 0;color:var(--muted)">Laboratorio de software y productos digitales — soluciones enfocadas en privacidad y rendimiento.</p>
+      </div>
+    </div>
+
+    <footer>
+      © ProtonLab — Página temporal. Síguenos en <a href="#" style="color:var(--accent);text-decoration:none">Twitter</a> y <a href="#" style="color:var(--accent);text-decoration:none">GitHub</a>.
+    </footer>
+  </div>
+</body>
+</html>
