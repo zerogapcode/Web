@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ProtonLab — Desarrollo de software y hardware</title>
   <meta name="description" content="ProtonLab — Desarrollo web y apps iOS, integración software+hardware, impresión 3D y electrónica" />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -15,8 +15,8 @@
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
     }
 
-    *{box-sizing:border-box}
-    body{margin:0;font-family:var(--mono);background:var(--bg-light);color:var(--text-light);}
+    *{box-sizing:border-box; font-family: var(--mono);}
+    body{margin:0;background:var(--bg-light);color:var(--text-light);}
     .wrap{max-width:var(--max-width);margin:0 auto;padding:36px 24px}
     
     /* Header modernizado */
@@ -97,7 +97,6 @@
       padding:6px 12px;
       border:0;
       background:transparent;
-      font-family:var(--mono);
       font-size: 12px;
       cursor:pointer;
       transition:background .2s,color .2s;
@@ -120,9 +119,16 @@
     }
 
     section{padding:80px 0;border-top:1px solid rgba(11,11,11,0.04)}
-    h2{font-size:20px;margin:0 0 12px}
-    p.lead{color:var(--muted-light);margin:0 0 18px}
+    h2{font-size:20px;margin:0 0 12px; font-weight: 600;}
+    p.lead{color:var(--muted-light);margin:0 0 18px; font-weight: 400;}
     .card{background:transparent;border-radius:10px;padding:18px;border:1px solid rgba(11,11,11,0.04)}
+    
+    /* Textos justificados */
+    p {
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.6;
+    }
     
     .service-grid {
       display: grid;
@@ -148,6 +154,12 @@
       margin-top: 0;
       font-size: 16px;
       color: inherit;
+      font-weight: 600;
+    }
+    
+    .service-card p {
+      text-align: justify;
+      text-justify: inter-word;
     }
 
     footer{padding:40px 0;text-align:center;color:var(--muted-light);font-size:13px}
@@ -178,15 +190,27 @@
       z-index: 0;
     }
     
-    .panel .inner{padding:12px;font-size:12px;color:var(--muted-light)}
+    .panel .inner{
+      padding: 12px;
+      color: var(--muted-light);
+    }
+    
+    /* Tamaños de fuente diferentes para sensación de profundidad */
+    .panel.large .inner {
+      font-size: 12px;
+    }
+    
+    .panel.small .inner {
+      font-size: 10px; /* Fuente más pequeña para paneles pequeños */
+    }
     
     /* Cursor parpadeante para animación de escritura */
     .typing-cursor {
       display: inline-block;
-      width: 8px;
+      width: 6px;
       height: 1em;
       background-color: currentColor;
-      margin-left: 2px;
+      margin-left: 1px;
       animation: blink 1s infinite;
       vertical-align: middle;
     }
@@ -338,27 +362,6 @@
             Nuestro enfoque multidisciplinario nos permite abordar proyectos desde la concepción hasta la implementación, 
             creando soluciones integrales que conectan el mundo digital con el físico.</p>
         </div>
-
-        <div style="width:360px;flex-shrink:0">
-          <div class="card">
-            <h2>Contacto rápido</h2>
-            <p class="muted">
-              Email: <a class="link-plain" href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a><br>
-              WhatsApp: <a class="link-plain" href="https://wa.me/17542313968">+1 754 231 3968</a><br>
-              Teléfono: <a class="link-plain" href="tel:+17542313968">+1 754 231 3968</a>
-            </p>
-          </div>
-          
-          <div class="card" style="margin-top: 20px;">
-            <h2>Enfoque</h2>
-            <p class="muted">
-              • Desarrollo ágil y iterativo<br>
-              • Código limpio y mantenible<br>
-              • Documentación exhaustiva<br>
-              • Soporte post-implementación
-            </p>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -369,32 +372,32 @@
       <div class="service-grid">
         <div class="service-card">
           <h3>Desarrollo iOS</h3>
-          <p>Aplicaciones nativas para iPhone y iPad usando Swift y SwiftUI. Interfaces optimizadas y experiencia de usuario excepcional.</p>
+          <p>Aplicaciones nativas para iPhone y iPad usando Swift y SwiftUI. Interfaces optimizadas y experiencia de usuario excepcional con integración completa del ecosistema Apple.</p>
         </div>
         
         <div class="service-card">
           <h3>Soluciones Web</h3>
-          <p>Desarrollo de aplicaciones web modernas, APIs RESTful y sistemas backend escalables con las últimas tecnologías.</p>
+          <p>Desarrollo de aplicaciones web modernas, APIs RESTful y sistemas backend escalables con las últimas tecnologías. Arquitecturas robustas y mantenibles.</p>
         </div>
         
         <div class="service-card">
           <h3>Integración Hardware/Software</h3>
-          <p>Sistemas embebidos, IoT, automatización y control de dispositivos físicos mediante software personalizado.</p>
+          <p>Sistemas embebidos, IoT, automatización y control de dispositivos físicos mediante software personalizado. Conexión perfecta entre mundo digital y físico.</p>
         </div>
         
         <div class="service-card">
           <h3>Fabricación Aditiva</h3>
-          <p>Prototipado rápido, piezas personalizadas y soluciones de impresión 3D para proyectos de hardware y productos físicos.</p>
+          <p>Prototipado rápido, piezas personalizadas y soluciones de impresión 3D para proyectos de hardware y productos físicos. Desde concepto hasta producto final.</p>
         </div>
         
         <div class="service-card">
           <h3>Consultoría Técnica</h3>
-          <p>Asesoramiento especializado en arquitectura de software, optimización de procesos y estrategias tecnológicas.</p>
+          <p>Asesoramiento especializado en arquitectura de software, optimización de procesos y estrategias tecnológicas. Maximizamos el valor de tu inversión tecnológica.</p>
         </div>
         
         <div class="service-card">
           <h3>Mantenimiento & Soporte</h3>
-          <p>Servicios continuos de mantenimiento, actualizaciones y soporte técnico para garantizar el funcionamiento óptimo.</p>
+          <p>Servicios continuos de mantenimiento, actualizaciones y soporte técnico para garantizar el funcionamiento óptimo de tus sistemas a largo plazo.</p>
         </div>
       </div>
     </section>
@@ -406,32 +409,32 @@
       <div class="service-grid">
         <div class="service-card">
           <h3>Desarrollo iOS</h3>
-          <p>Especialistas en Swift, SwiftUI y el ecosistema Apple. Creación de aplicaciones nativas de alto rendimiento.</p>
+          <p>Especialistas en Swift, SwiftUI y el ecosistema Apple. Creación de aplicaciones nativas de alto rendimiento con interfaces fluidas y experiencias de usuario excepcionales.</p>
         </div>
         
         <div class="service-card">
           <h3>Ingeniería de Software</h3>
-          <p>Arquitectura de sistemas, desarrollo backend, bases de datos y APIs. Tecnologías modernas y escalables.</p>
+          <p>Arquitectura de sistemas, desarrollo backend, bases de datos y APIs. Tecnologías modernas y escalables para construir soluciones robustas y mantenibles.</p>
         </div>
         
         <div class="service-card">
           <h3>Electrónica & IoT</h3>
-          <p>Diseño de circuitos, sistemas embebidos, sensores y conectividad. Puente entre el mundo digital y físico.</p>
+          <p>Diseño de circuitos, sistemas embebidos, sensores y conectividad. Puente entre el mundo digital y físico, creando soluciones tangibles e innovadoras.</p>
         </div>
         
         <div class="service-card">
           <h3>Diseño & UX/UI</h3>
-          <p>Interfaces intuitivas, experiencia de usuario optimizada y diseño visual atractivo para todos nuestros productos.</p>
+          <p>Interfaces intuitivas, experiencia de usuario optimizada y diseño visual atractivo para todos nuestros productos. Centrados en la usabilidad y estética.</p>
         </div>
         
         <div class="service-card">
           <h3>Fabricación & Prototipado</h3>
-          <p>Impresión 3D, mecanizado CNC y fabricación de prototipos funcionales para validación de conceptos.</p>
+          <p>Impresión 3D, mecanizado CNC y fabricación de prototipos funcionales para validación de conceptos. Materialización de ideas en productos físicos.</p>
         </div>
         
         <div class="service-card">
           <h3>Control de Calidad</h3>
-          <p>Testing exhaustivo, automatización de pruebas y garantía de calidad en cada etapa del desarrollo.</p>
+          <p>Testing exhaustivo, automatización de pruebas y garantía de calidad en cada etapa del desarrollo. Comprometidos con la excelencia y fiabilidad.</p>
         </div>
       </div>
     </section>
@@ -479,23 +482,23 @@
       <div class="service-grid">
         <div class="service-card">
           <h3>Nuestra Filosofía</h3>
-          <p>Creemos en la intersección entre software y hardware como el futuro de la tecnología. Cada proyecto es una oportunidad para crear algo único y significativo.</p>
+          <p>Creemos en la intersección entre software y hardware como el futuro de la tecnología. Cada proyecto es una oportunidad para crear algo único y significativo que resuelva problemas reales y mejore la experiencia del usuario.</p>
         </div>
         
         <div class="service-card">
           <h3>Metodología</h3>
-          <p>Combinamos desarrollo ágil con principios de ingeniería sólidos. Priorizamos la comunicación transparente y la entrega iterativa de valor.</p>
+          <p>Combinamos desarrollo ágil con principios de ingeniería sólidos. Priorizamos la comunicación transparente y la entrega iterativa de valor, asegurando que cada etapa del proyecto esté alineada con los objetivos del cliente.</p>
         </div>
         
         <div class="service-card">
           <h3>Tecnologías</h3>
-          <p>Trabajamos con un stack tecnológico moderno y versátil, seleccionando siempre la herramienta adecuada para cada desafío específico.</p>
+          <p>Trabajamos con un stack tecnológico moderno y versátil, seleccionando siempre la herramienta adecuada para cada desafío específico. Mantenemosnos actualizados con las últimas tendencias y mejores prácticas de la industria.</p>
         </div>
       </div>
       
       <div class="card" style="margin-top: 30px;">
         <h3>Compromiso con la Calidad</h3>
-        <p>En ProtonLab, no entregamos solo código; entregamos soluciones que funcionan, escalan y perduran. Nuestro compromiso es con la excelencia técnica y la satisfacción del cliente en cada proyecto que emprendemos.</p>
+        <p>En ProtonLab, no entregamos solo código; entregamos soluciones que funcionan, escalan y perduran. Nuestro compromiso es con la excelencia técnica y la satisfacción del cliente en cada proyecto que emprendemos, asegurando que cada línea de código y cada componente físico cumplan con los más altos estándares de calidad.</p>
       </div>
     </section>
 
@@ -594,14 +597,56 @@
       }
     ];
     
-    // Configuración de paneles pequeños (nuevos)
+    // Configuración de paneles pequeños (nuevos) con contenido para animación
     const smallPanels = [
-      {left:'15%',top:'5%',speed:0.15,lines:['npm install','build...','✓ Done']},
-      {left:'80%',top:'15%',speed:0.2,lines:['git commit','[main 123abc]','push origin']},
-      {left:'5%',top:'50%',speed:0.25,lines:['DEBUG','WARNING:','check params']},
-      {left:'65%',top:'70%',speed:0.18,lines:['CPU: 45%','MEM: 2.3GB','NET: 120kb/s']},
-      {left:'40%',top:'80%',speed:0.22,lines:['test.py','running...','✓ 15/15 passed']},
-      {left:'85%',top:'45%',speed:0.3,lines:['docker','building...','image ready']}
+      {
+        left:'15%',top:'5%',speed:0.15,
+        lines:[
+          'npm install...',
+          '✓ Dependencies',
+          'build completed'
+        ]
+      },
+      {
+        left:'80%',top:'15%',speed:0.2,
+        lines:[
+          'git commit -m',
+          '"update: features"',
+          'push origin main'
+        ]
+      },
+      {
+        left:'5%',top:'50%',speed:0.25,
+        lines:[
+          'DEBUG MODE',
+          'WARNING: check',
+          'parameters valid'
+        ]
+      },
+      {
+        left:'65%',top:'70%',speed:0.18,
+        lines:[
+          'CPU: 45% load',
+          'MEM: 2.3GB used',
+          'NET: 120kb/s'
+        ]
+      },
+      {
+        left:'40%',top:'80%',speed:0.22,
+        lines:[
+          'test.py running',
+          '✓ 15/15 passed',
+          'coverage: 92%'
+        ]
+      },
+      {
+        left:'85%',top:'45%',speed:0.3,
+        lines:[
+          'docker build',
+          'image: ready',
+          'container: run'
+        ]
+      }
     ];
     
     // Función para animar escritura de texto
@@ -634,7 +679,7 @@
     }
     
     // Función para animar múltiples líneas
-    function animatePanel(panel, lines) {
+    function animatePanel(panel, lines, isSmall = false) {
       const inner = panel.querySelector('.inner');
       let currentLine = 0;
       
@@ -645,19 +690,23 @@
           lineElement.className = 'code-line';
           inner.appendChild(lineElement);
           
+          // Velocidad más rápida para paneles pequeños
+          const baseSpeed = isSmall ? 25 + Math.random() * 20 : 40 + Math.random() * 30;
+          
           // Escribir la línea
-          typeText(lineElement, lines[currentLine], 40 + Math.random() * 30, () => {
+          typeText(lineElement, lines[currentLine], baseSpeed, () => {
             currentLine++;
             if (currentLine < lines.length) {
-              // Pausa entre líneas
-              setTimeout(typeNextLine, 300);
+              // Pausa más corta entre líneas para paneles pequeños
+              const pauseTime = isSmall ? 200 : 300;
+              setTimeout(typeNextLine, pauseTime);
             } else {
               // Reiniciar después de completar todas las líneas
               setTimeout(() => {
                 inner.innerHTML = '';
                 currentLine = 0;
-                setTimeout(typeNextLine, 800);
-              }, 2000);
+                setTimeout(typeNextLine, isSmall ? 500 : 800);
+              }, isSmall ? 1500 : 2000);
             }
           });
         }
@@ -680,21 +729,25 @@
       
       // Iniciar animación de escritura
       setTimeout(() => {
-        animatePanel(el, c.lines);
+        animatePanel(el, c.lines, false);
       }, Math.random() * 2000);
     });
     
-    // Crear paneles pequeños
+    // Crear paneles pequeños con animación
     smallPanels.forEach(c=>{
       const el=document.createElement('div');
       el.className='panel small';
       el.style.left=c.left; el.style.top=c.top;
       const inner=document.createElement('div');
       inner.className='inner';
-      inner.innerHTML = c.lines.join('<br>');
       el.appendChild(inner);
       panels.appendChild(el);
       c.el=el;
+      
+      // Iniciar animación de escritura con retraso diferente
+      setTimeout(() => {
+        animatePanel(el, c.lines, true);
+      }, Math.random() * 3000 + 1000); // Retraso mayor para que no empiecen todos a la vez
     });
 
     window.addEventListener('scroll',()=>{
