@@ -3,58 +3,205 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ProtonLab — Sitio en construcción</title>
-  <style>
-    :root{--bg:#0f1724;--card:#0b1220;--accent:#6ee7b7;--muted:#9aa7b2}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,#071026 0%, #0b1220 100%);color:#e6f3f1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px}
-    .container{width:100%;max-width:900px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,255,255,0.03);padding:36px;border-radius:14px;box-shadow:0 10px 30px rgba(2,6,23,0.6);position:relative}
-    .brand{display:flex;align-items:center;gap:16px}
-    .logo{width:72px;height:72px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#60a5fa);color:#042024;font-weight:700;font-size:20px}
-    h1{margin:8px 0 0;font-size:28px}
-    p.lead{color:var(--muted);margin:10px 0 20px}
-    .info-grid{display:flex;gap:16px;flex-wrap:wrap}
-    .card{flex:1 1 220px;background:rgba(255,255,255,0.02);padding:16px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
-    footer{margin-top:18px;color:var(--muted);font-size:13px}
+  <title>ProtonLab — Desarrollo de software y hardware</title>
+  <meta name="description" content="ProtonLab — Desarrollo web y apps iOS, integración software+hardware, impresión 3D y electrónica" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
 
-    @media (max-width:560px){.brand{gap:12px}.logo{width:56px;height:56px}h1{font-size:20px}}
+  <style>
+    :root{
+      --bg-light:#ffffff; --text-light:#0b0b0b; --muted-light:#6b7280; --panel-light:#f3f4f6;
+      --bg-dark:#000000; --text-dark:#00ff66; --muted-dark:#0b3a26; --panel-dark:#071015;
+      --accent-dark:#00ff66; --max-width:1100px; 
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    }
+
+    *{box-sizing:border-box}
+    body{margin:0;font-family:var(--mono);background:var(--bg-light);color:var(--text-light);}
+    .wrap{max-width:var(--max-width);margin:0 auto;padding:36px 24px}
+    header{position:fixed;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;
+      padding:14px 28px;background:rgba(255,255,255,0.7);backdrop-filter:blur(6px);
+      border-bottom:1px solid rgba(0,0,0,0.04);transition:transform .35s ease,opacity .35s ease;z-index:60}
+    header.hidden{transform:translateY(-110%);opacity:0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .mini{font-weight:600;font-size:18px;letter-spacing:0.12em}
+
+    .mode-toggle{display:flex;align-items:center;gap:6px}
+    .seg{display:inline-flex;border-radius:999px;overflow:hidden;border:2px solid #000}
+    .seg button{padding:6px 10px;border:0;background:transparent;font-family:var(--mono);
+      cursor:pointer;transition:background .2s,color .2s;border-radius:0;color:inherit}
+    .seg button.active{background:rgba(0,0,0,0.06)}
+
+    main{padding-top:120px}
+    .hero{min-height:70vh;display:flex;align-items:center}
+    .hero-inner{width:100%;display:flex;align-items:flex-start;gap:36px}
+    .hero-left{flex:1}
+    .code-title{font-size:44px;line-height:1;letter-spacing:0.02em;color:inherit}
+    .code-title small{display:block;font-size:14px;color:var(--muted-light);margin-top:8px}
+
+    section{padding:80px 0;border-top:1px solid rgba(11,11,11,0.04)}
+    h2{font-size:20px;margin:0 0 12px}
+    p.lead{color:var(--muted-light);margin:0 0 18px}
+    .card{background:transparent;border-radius:10px;padding:18px;border:1px solid rgba(11,11,11,0.04)}
+
+    footer{padding:40px 0;text-align:center;color:var(--muted-light);font-size:13px}
+
+    /* Parallax panels */
+    .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
+    .panel{position:absolute;width:320px;height:160px;background:var(--panel-light);
+      border-radius:8px;opacity:.95;box-shadow:0 18px 40px rgba(2,6,23,0.06);
+      border:1px solid rgba(11,11,11,0.04);}
+    .panel .inner{padding:12px;font-size:12px;color:var(--muted-light)}
+
+    a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
+    a.link-plain:hover{text-decoration:none;color:inherit}
+
+    body[data-theme='dark']{background:var(--bg-dark);color:var(--text-dark)}
+    body[data-theme='dark'] header{background:rgba(0,0,0,0.6);border-bottom:1px solid rgba(255,255,255,0.03)}
+    body[data-theme='dark'] .seg{border-color:#000}
+    body[data-theme='dark'] .seg button{color:var(--accent-dark)}
+    body[data-theme='dark'] .seg button.active{background:rgba(0,0,0,0.3)}
+    body[data-theme='dark'] .panel{background:var(--panel-dark);color:var(--text-dark);
+      box-shadow:0 18px 40px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.04);}
+    body[data-theme='dark'] .panel .inner{color:var(--muted-dark)}
   </style>
 </head>
-<body>
-  <div class="container" role="main">
-    <div class="brand">
-      <div class="logo" aria-hidden="true">PL</div>
-      <div>
-        <h1>ProtonLab</h1>
-        <p class="lead">Estamos construyendo algo genial. Volvemos pronto con nuestro nuevo sitio.</p>
-      </div>
-    </div>
 
-    <div class="info-grid" style="margin-top:20px">
-      <div class="card">
-        <strong>Progreso</strong>
-        <p style="margin:8px 0;color:var(--muted)">Fase de diseño y desarrollo — integración de servicios y pruebas.</p>
-        <div style="margin-top:10px">
-          <div style="height:10px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden">
-            <div style="width:56%;height:100%;background:linear-gradient(90deg,var(--accent),#60a5fa);"></div>
+<body>
+  <header id="topbar">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;">
+      <div class="brand"><div class="mini" id="brandMini">&lt;/&gt;</div></div>
+      <nav>
+        <a class="navlink" href="#inicio">Inicio</a>
+        <a class="navlink" href="#servicios">Servicios</a>
+        <a class="navlink" href="#departamentos">Departamentos</a>
+        <a class="navlink" href="#contacto">Contacto</a>
+        <a class="navlink" href="#acerca">Acerca</a>
+        <div class="mode-toggle">
+          <div class="seg">
+            <button data-mode="auto" class="active">Auto</button>
+            <button data-mode="light">Claro</button>
+            <button data-mode="dark">Oscuro</button>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="panels" id="panels"></div>
+
+  <main class="wrap">
+    <section id="inicio" class="hero">
+      <div class="hero-inner">
+        <div class="hero-left">
+          <div class="code-title"><span id="typedWrap">&lt;<span id="typed"></span>&gt;</span>
+            <small class="muted">Software y hardware al alcance de todos.</small></div>
+          <p style="margin-top:18px;color:var(--muted-light)">
+            Somos un laboratorio de desarrollo especializado en aplicaciones iOS, soluciones web,
+            integración de electrónica y fabricación aditiva (3D).</p>
+        </div>
+
+        <div style="width:360px;flex-shrink:0">
+          <div class="card">
+            <h2>Contacto rápido</h2>
+            <p class="muted">
+              Email: <a class="link-plain" href="mailto:gapcode@protonmail.com">Email</a><br>
+              WhatsApp: <a class="link-plain" href="https://wa.me/17542313968">WhatsApp</a><br>
+              Teléfono: <a class="link-plain" href="tel:+17542313968">Teléfono</a>
+            </p>
           </div>
         </div>
       </div>
+    </section>
 
+    <section id="servicios">
+      <h2>Servicios</h2>
+      <p class="lead">Desarrollo a medida, consultoría técnica y prototipado rápido.</p>
+      <div class="card">Apps iOS · Web · Integración · 3D & Fabricación</div>
+    </section>
+
+    <section id="departamentos">
+      <h2>Departamentos</h2>
+      <p class="lead">Desde la idea hasta el producto real.</p>
+      <div class="card">Desarrollo iOS · Engineering · Electrónica · Diseño & UX</div>
+    </section>
+
+    <section id="contacto">
+      <h2>Contacto</h2>
       <div class="card">
-        <strong>Contacto</strong>
-        <p style="margin:8px 0;color:var(--muted)">¿Necesitas hablar con nosotros? <br><a href="mailto:gapcode@protonmail.com" style="color:var(--accent);text-decoration:none">gapcode@protonmail.com</a></p>
+        <strong>Contacto directo</strong>
+        <p class="muted">
+          Email: <a class="link-plain" href="mailto:gapcode@protonmail.com">Email</a><br>
+          WhatsApp: <a class="link-plain" href="https://wa.me/17542313968">WhatsApp</a><br>
+          Tel: <a class="link-plain" href="tel:+17542313968">Teléfono</a>
+        </p>
       </div>
+    </section>
 
-      <div class="card">
-        <strong>Sobre ProtonLab</strong>
-        <p style="margin:8px 0;color:var(--muted)">Laboratorio de software y productos digitales — soluciones enfocadas en privacidad y rendimiento.</p>
-      </div>
-    </div>
+    <section id="acerca">
+      <h2>Acerca</h2>
+      <p class="lead">ProtonLab une software, hardware y fabricación para crear soluciones tangibles.</p>
+    </section>
 
-    <footer>
-      © ProtonLab — Página temporal.
-    </footer>
-  </div>
+    <footer>© ProtonLab — www.protonlab.site</footer>
+  </main>
+
+  <script>
+    // === Modo de color ===
+    const modeButtons=document.querySelectorAll('.seg button');
+    function applyTheme(mode){
+      if(mode==='auto'){
+        const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.body.dataset.theme=prefersDark?'dark':'light';
+      }else document.body.dataset.theme=mode;
+    }
+    modeButtons.forEach(btn=>btn.addEventListener('click',()=>{
+      modeButtons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      applyTheme(btn.dataset.mode);
+    }));
+    applyTheme('auto');
+
+    // === Animación título ===
+    const typed=document.getElementById('typed');
+    const full='ProtonLab'; let i=0;
+    (function type(){ if(i<=full.length){typed.textContent=full.slice(0,i++); setTimeout(type,90);} })();
+
+    // === Ocultar header ===
+    const topbar=document.getElementById('topbar'); let lastScroll=0;
+    window.addEventListener('scroll',()=>{
+      const y=window.scrollY;
+      if(y>lastScroll+10) topbar.classList.add('hidden');
+      else if(y<lastScroll-10) topbar.classList.remove('hidden');
+      lastScroll=y;
+    });
+
+    // === Parallax invertido ===
+    const panels=document.getElementById('panels');
+    const config=[
+      {left:'6%',top:'18%',speed:0.3,lines:['const a=42;','function ping(){return "pong"};']},
+      {left:'50%',top:'10%',speed:0.6,lines:['<init/>','#include <stdio.h>','boot> OK']},
+      {left:'72%',top:'40%',speed:0.9,lines:['// sensor read','val=analogRead(A0);','send(val);']},
+      {left:'22%',top:'66%',speed:0.45,lines:['class Device','{',' run(){}','}']}
+    ];
+    config.forEach(c=>{
+      const el=document.createElement('div');
+      el.className='panel';
+      el.style.left=c.left; el.style.top=c.top;
+      const inner=document.createElement('div');
+      inner.className='inner';
+      inner.innerHTML=c.lines.join('<br>');
+      el.appendChild(inner);
+      panels.appendChild(el);
+      c.el=el;
+    });
+
+    window.addEventListener('scroll',()=>{
+      const scrollY=window.scrollY;
+      config.forEach(c=>{
+        const offset=scrollY*c.speed; // invertir movimiento
+        c.el.style.transform=`translateY(${offset}px)`;
+      });
+    });
+  </script>
 </body>
 </html>
