@@ -14,9 +14,15 @@
       --accent-dark:#e0e0e0; --max-width:1100px; 
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
       
-      /* Colores para modo claro - translúcidos mejorados */
-      --card-bg-light: rgba(245, 247, 250, 0.85);
-      --card-border-light: rgba(203, 213, 225, 0.4);
+      /* Colores para modo claro - Efecto Liquid Glass - MÁS TRANSLÚCIDOS (0.01) */
+      --card-bg-light: rgba(255, 255, 255, 0.01);
+      --card-border-light: rgba(255, 255, 255, 0.1);
+      --card-shadow-light: 0 8px 32px rgba(0, 0, 0, 0.03);
+      
+      /* Colores para modo oscuro - Efecto Liquid Glass */
+      --card-bg-dark: rgba(0, 0, 0, 0.08);
+      --card-border-dark: rgba(255, 255, 255, 0.1);
+      --card-shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
 
     *{box-sizing:border-box; font-family: var(--mono);}
@@ -113,7 +119,7 @@
     }
     .seg button.active{background:rgba(0,0,0,0.08)}
 
-    /* Botón hamburguesa para móviles */
+    /* Botón hamburguesa para móviles - MEJORADO */
     .hamburger {
       display: none;
       flex-direction: column;
@@ -124,6 +130,7 @@
       border: none;
       cursor: pointer;
       padding: 0;
+      z-index: 70;
     }
     
     .hamburger span {
@@ -132,6 +139,7 @@
       width: 100%;
       background-color: #000000;
       transition: all 0.3s ease;
+      transform-origin: center;
     }
     
     .hamburger.active span:nth-child(1) {
@@ -140,6 +148,7 @@
     
     .hamburger.active span:nth-child(2) {
       opacity: 0;
+      transform: translateX(-10px);
     }
     
     .hamburger.active span:nth-child(3) {
@@ -183,22 +192,39 @@
     h2{font-size:20px;margin:0 0 12px; font-weight: 600;}
     p.lead{color:var(--muted-light);margin:0 0 18px; font-weight: 400;}
     
-    /* Tarjetas translúcidas en modo claro - MEJORADA */
+    /* Tarjetas con efecto Liquid Glass - MÁS TRANSLÚCIDAS en modo claro (0.01) */
     .card{
       background: var(--card-bg-light);
-      border-radius:10px;
-      padding:18px;
+      border-radius:16px;
+      padding:24px;
       border:1px solid var(--card-border-light);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: var(--card-shadow-light);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Efecto de brillo sutil en las tarjetas */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.4) 50%, 
+        rgba(255,255,255,0) 100%);
+      z-index: 1;
     }
     
     .card:hover {
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-      transform: translateY(-2px);
-      border-color: rgba(0,0,0,0.15);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.4);
     }
     
     /* Textos justificados */
@@ -211,32 +237,47 @@
     .service-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 24px;
       margin-top: 30px;
     }
     @media (min-width: 640px) {
       .service-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       }
     }
     
     .service-card {
       background: var(--card-bg-light);
-      border-radius: 8px;
-      padding: 20px;
+      border-radius: 16px;
+      padding: 24px;
       border: 1px solid var(--card-border-light);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
       position: relative;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      box-shadow: var(--card-shadow-light);
+    }
+    
+    /* Efecto de brillo sutil en las tarjetas de servicio */
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.4) 50%, 
+        rgba(255,255,255,0) 100%);
+      z-index: 1;
     }
     
     .service-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-      border-color: rgba(0,0,0,0.15);
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+      border-color: rgba(255, 255, 255, 0.5);
     }
     
     .service-card h3 {
@@ -398,13 +439,29 @@
       border-top: 1px solid rgba(255,255,255,0.08);
     }
     
+    /* TARJETAS LIQUID GLASS EN MODO OSCURO */
     body[data-theme='dark'] .card,
     body[data-theme='dark'] .service-card {
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(40,40,40,0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      background: var(--card-bg-dark);
+      border: 1px solid var(--card-border-dark);
+      box-shadow: var(--card-shadow-dark);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+    
+    /* Efecto de brillo en modo oscuro */
+    body[data-theme='dark'] .card::before,
+    body[data-theme='dark'] .service-card::before {
+      background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.1) 50%, 
+        rgba(255,255,255,0) 100%);
+    }
+    
+    body[data-theme='dark'] .card:hover,
+    body[data-theme='dark'] .service-card:hover {
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+      border-color: rgba(255, 255, 255, 0.2);
     }
     
     /* Asegurar que todo el texto principal sea blanco/gris en modo oscuro */
@@ -466,17 +523,11 @@
     }
     
     /* Efectos hover en modo oscuro */
-    body[data-theme='dark'] .service-card:hover,
-    body[data-theme='dark'] .card:hover {
-      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-      border-color: rgba(255,255,255,0.2);
-    }
-    
     body[data-theme='dark'] a.link-plain:hover {
       color: #ffffff;
     }
     
-    /* Media queries para responsive */
+    /* Media queries para responsive - MEJORADAS */
     @media (max-width: 1024px) {
       nav {
         gap: 16px;
@@ -509,27 +560,37 @@
         gap: 16px;
         transform: translateY(-100%);
         opacity: 0;
+        visibility: hidden;
         transition: all 0.3s ease;
         border-bottom: 1px solid rgba(0,0,0,0.1);
         z-index: 50;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       }
       
       nav.active {
         transform: translateY(0);
         opacity: 1;
+        visibility: visible;
       }
       
       .navlink {
-        padding: 10px 0;
+        padding: 12px 0;
         font-size: 16px;
         width: 100%;
         text-align: center;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+      }
+      
+      .navlink:last-child {
+        border-bottom: none;
       }
       
       .mode-toggle {
         justify-content: center;
         width: 100%;
         margin-top: 10px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(0,0,0,0.1);
       }
       
       .hero-inner {
@@ -552,6 +613,11 @@
       .panel:nth-child(n+4) {
         display: none;
       }
+      
+      /* Ajustar tarjetas para móviles */
+      .card, .service-card {
+        padding: 20px;
+      }
     }
     
     @media (max-width: 480px) {
@@ -564,11 +630,21 @@
       }
       
       .card, .service-card {
-        padding: 16px;
+        padding: 18px;
+        border-radius: 12px;
       }
       
       .service-grid {
-        gap: 16px;
+        gap: 18px;
+      }
+      
+      nav {
+        padding: 15px;
+      }
+      
+      .navlink {
+        padding: 10px 0;
+        font-size: 15px;
       }
     }
     
@@ -581,13 +657,25 @@
       background: rgba(0,0,0,0.98);
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
+    
+    body[data-theme='dark'] .navlink {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    body[data-theme='dark'] .navlink:last-child {
+      border-bottom: none;
+    }
+    
+    body[data-theme='dark'] .mode-toggle {
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
   </style>
 </head>
 
 <body>
   <header id="topbar">
     <div class="brand"><div class="mini" id="brandMini">&lt;/&gt;</div></div>
-    <button class="hamburger" id="hamburger">
+    <button class="hamburger" id="hamburger" aria-label="Menú principal">
       <span></span>
       <span></span>
       <span></span>
@@ -788,13 +876,90 @@
     }));
     applyTheme('auto');
 
-    // === Animación título ===
-    const typed=document.getElementById('typed');
-    const full='ProtonLab'; let i=0;
-    (function type(){ if(i<=full.length){typed.textContent=full.slice(0,i++); setTimeout(type,90);} })();
+    // === ANIMACIÓN TÍTULO MEJORADA CON VELOCIDAD CONSTANTE ===
+    const typed = document.getElementById('typed');
+    const finalText = 'ProtonLab';
+    const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+    
+    // Orden de revelación de caracteres: 1,7,4,8,3,6,9,2,5 (basado en índices 0-8)
+    const revealOrder = [0, 6, 3, 7, 2, 5, 8, 1, 4];
+    
+    let currentText = Array(9).fill('');
+    let currentStep = 0;
+    let animationPhase = 1; // 1 = caracteres apareciendo uno a uno, 2 = caracteres cambiando aleatoriamente
+    let animationInterval;
+    const animationSpeed = 100; // Velocidad constante de 100ms para todo el proceso
+    
+    function startTitleAnimation() {
+      // Iniciar el intervalo de animación con velocidad constante
+      animationInterval = setInterval(updateAnimation, animationSpeed);
+      
+      // Fase 1: Los caracteres aparecen uno a uno durante 3 segundos
+      const phase1Steps = 9;
+      const phase1TimePerStep = 3000 / phase1Steps; // 333ms por carácter
+      
+      for (let i = 0; i < phase1Steps; i++) {
+        setTimeout(() => {
+          if (currentStep < 9) {
+            currentStep++;
+          }
+        }, i * phase1TimePerStep);
+      }
+      
+      // Transición a fase 2 después de 3 segundos
+      setTimeout(() => {
+        animationPhase = 2;
+      }, 3000);
+      
+      // Finalizar animación después de 5 segundos totales
+      setTimeout(() => {
+        clearInterval(animationInterval);
+        typed.textContent = finalText;
+      }, 5000);
+    }
+    
+    function updateAnimation() {
+      if (animationPhase === 1) {
+        // Fase 1: Los caracteres van apareciendo uno a uno
+        for (let i = 0; i < 9; i++) {
+          if (i < currentStep) {
+            // Para los caracteres que ya han aparecido, generar aleatorios
+            const pos = revealOrder[i];
+            currentText[pos] = randomChars[Math.floor(Math.random() * randomChars.length)];
+          } else {
+            // Para los caracteres que aún no han aparecido, mantener vacío
+            const pos = revealOrder[i];
+            currentText[pos] = '';
+          }
+        }
+      } else if (animationPhase === 2) {
+        // Fase 2: Todos los caracteres siguen cambiando, pero se van fijando progresivamente
+        const progress = (Date.now() - animationStartTime - 3000) / 2000; // 0 a 1 durante 2 segundos
+        const charsToReveal = Math.min(9, Math.floor(progress * 9));
+        
+        for (let i = 0; i < 9; i++) {
+          if (i < charsToReveal) {
+            // Estos caracteres ya están fijos (definitivos)
+            const pos = revealOrder[i];
+            currentText[pos] = finalText[pos];
+          } else {
+            // Estos caracteres siguen cambiando aleatoriamente
+            const pos = revealOrder[i];
+            currentText[pos] = randomChars[Math.floor(Math.random() * randomChars.length)];
+          }
+        }
+      }
+      
+      typed.textContent = currentText.join('');
+    }
+    
+    let animationStartTime = Date.now();
+    // Iniciar la animación
+    startTitleAnimation();
 
     // === Ocultar header ===
-    const topbar=document.getElementById('topbar'); let lastScroll=0;
+    const topbar=document.getElementById('topbar'); 
+    let lastScroll=0;
     window.addEventListener('scroll',()=>{
       const y=window.scrollY;
       if(y>lastScroll+10) topbar.classList.add('hidden');
@@ -802,21 +967,47 @@
       lastScroll=y;
     });
 
-    // === Menú hamburguesa para móviles ===
+    // === Menú hamburguesa para móviles - CORREGIDO ===
     const hamburger = document.getElementById('hamburger');
     const nav = document.getElementById('nav');
+    let isMenuOpen = false;
     
-    hamburger.addEventListener('click', () => {
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
       hamburger.classList.toggle('active');
       nav.classList.toggle('active');
-    });
+      
+      // Prevenir scroll del cuerpo cuando el menú está abierto
+      if (isMenuOpen) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+    
+    hamburger.addEventListener('click', toggleMenu);
     
     // Cerrar menú al hacer clic en un enlace
     document.querySelectorAll('.navlink').forEach(link => {
       link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        nav.classList.remove('active');
+        if (isMenuOpen) {
+          toggleMenu();
+        }
       });
+    });
+    
+    // Cerrar menú al hacer clic fuera de él
+    document.addEventListener('click', (e) => {
+      if (isMenuOpen && !nav.contains(e.target) && !hamburger.contains(e.target)) {
+        toggleMenu();
+      }
+    });
+    
+    // Cerrar menú al redimensionar la ventana (si se cambia a desktop)
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && isMenuOpen) {
+        toggleMenu();
+      }
     });
 
     // === Parallax invertido con animación de escritura ===
