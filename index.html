@@ -359,10 +359,11 @@
       box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
     }
     
+    /* TRES TAMAÑOS DE PANELES - MODIFICADO */
     .panel.large {
       width: 280px;
       height: 140px;
-      z-index: 1;
+      z-index: 3;
     }
     @media (min-width: 768px) {
       .panel.large {
@@ -371,11 +372,24 @@
       }
     }
     
+    .panel.medium {
+      width: 220px;
+      height: 110px;
+      z-index: 2;
+      opacity: 0.85;
+    }
+    @media (min-width: 768px) {
+      .panel.medium {
+        width: 250px;
+        height: 125px;
+      }
+    }
+    
     .panel.small {
       width: 150px;
       height: 75px;
       opacity: 0.7;
-      z-index: 0;
+      z-index: 1;
     }
     @media (min-width: 768px) {
       .panel.small {
@@ -400,6 +414,15 @@
     @media (min-width: 768px) {
       .panel.large .inner {
         font-size: 12px;
+      }
+    }
+    
+    .panel.medium .inner {
+      font-size: 10px;
+    }
+    @media (min-width: 768px) {
+      .panel.medium .inner {
+        font-size: 11px;
       }
     }
     
@@ -1105,7 +1128,7 @@
       }
     });
 
-    // === PARALLAX CON INTERSECTION OBSERVER OPTIMIZADO ===
+    // === PARALLAX CON 3 TAMAÑOS Y VELOCIDADES DIFERENCIADAS ===
     const panels=document.getElementById('panels');
     
     // Colores del arcoíris para distribuir entre los paneles
@@ -1133,20 +1156,36 @@
     }
     
     // Función para generar posición aleatoria sin solapamiento
-    function getRandomPosition(isLarge) {
-      // Rangos ajustados para evitar que salgan de la pantalla
-      const leftMin = 2;
-      const leftMax = isLarge ? 70 : 82; // Más margen para los grandes
-      const topMin = 15; // Empezar más abajo para que no se salgan arriba
-      const topMax = isLarge ? 70 : 80;
+    function getRandomPosition(sizeType) {
+      let leftMin, leftMax, topMin, topMax, size;
       
-      // Tamaños aproximados en porcentaje del viewport
-      const size = isLarge 
-        ? { width: 20, height: 15 } // Paneles grandes
-        : { width: 12, height: 8 };  // Paneles pequeños
+      // Configurar rangos según el tamaño
+      switch(sizeType) {
+        case 'large':
+          leftMin = 2;
+          leftMax = 70;
+          topMin = 15;
+          topMax = 70;
+          size = { width: 20, height: 15 };
+          break;
+        case 'medium':
+          leftMin = 5;
+          leftMax = 75;
+          topMin = 10;
+          topMax = 75;
+          size = { width: 16, height: 12 };
+          break;
+        case 'small':
+          leftMin = 8;
+          leftMax = 82;
+          topMin = 5;
+          topMax = 80;
+          size = { width: 12, height: 8 };
+          break;
+      }
       
       let attempts = 0;
-      const maxAttempts = 50; // Intentos máximos para encontrar posición
+      const maxAttempts = 50;
       
       while (attempts < maxAttempts) {
         const position = {
@@ -1173,7 +1212,6 @@
       }
       
       // Si no se encuentra posición después de muchos intentos, devolver una aleatoria
-      // (esto es un fallback que raramente se ejecutará)
       const fallbackPosition = {
         left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%',
         top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%'
@@ -1195,11 +1233,12 @@
     // Mezclar colores aleatoriamente
     const shuffledColors = shuffleArray(rainbowColors);
     
-    // Configuración de paneles con contenido fijo pero posiciones aleatorias
+    // CONFIGURACIÓN DE 3 TAMAÑOS CON VELOCIDADES PROGRESIVAS
+    // Grandes: más rápidos (0.6-0.9) - primer plano
     const largePanelsContent = [
       {
-        speed:0.3,
-        lines:[
+        speed: 0.9, // Más rápido
+        lines: [
           '// Inicializando sistema...',
           'const a = 42;',
           'function ping() {',
@@ -1209,8 +1248,8 @@
         ]
       },
       {
-        speed:0.6,
-        lines:[
+        speed: 0.8,
+        lines: [
           '<init/>',
           '#include <stdio.h>',
           'int main() {',
@@ -1221,8 +1260,8 @@
         ]
       },
       {
-        speed:0.9,
-        lines:[
+        speed: 0.7,
+        lines: [
           '// Lectura de sensor',
           'val = analogRead(A0);',
           'if (val > 512) {',
@@ -1234,8 +1273,8 @@
         ]
       },
       {
-        speed:0.45,
-        lines:[
+        speed: 0.6,
+        lines: [
           'class Device {',
           '  constructor(name) {',
           '    this.name = name;',
@@ -1249,106 +1288,132 @@
       }
     ];
     
+    // Medianos: velocidad media (0.3-0.5) - plano medio
+    const mediumPanelsContent = [
+      {
+        speed: 0.5,
+        lines: [
+          '// Configuración API',
+          'const config = {',
+          '  endpoint: "/api",',
+          '  timeout: 5000,',
+          '  retries: 3',
+          '}',
+          'export default config;'
+        ]
+      },
+      {
+        speed: 0.45,
+        lines: [
+          'func calculate() {',
+          '  let x = 10',
+          '  let y = 20',
+          '  return x + y',
+          '}',
+          'print(calculate())'
+        ]
+      },
+      {
+        speed: 0.4,
+        lines: [
+          'public class Hello {',
+          '  public static void',
+          '  main(String[] args) {',
+          '    System.out.println("Hi");',
+          '  }',
+          '}'
+        ]
+      },
+      {
+        speed: 0.35,
+        lines: [
+          '-- Tabla de usuarios',
+          'CREATE TABLE users (',
+          '  id INT PRIMARY KEY,',
+          '  name VARCHAR(100)',
+          ');',
+          'INSERT INTO users...'
+        ]
+      },
+      {
+        speed: 0.3,
+        lines: [
+          'import SwiftUI',
+          'struct ContentView: View {',
+          '  var body: some View {',
+          '    Text("Hello")',
+          '  }',
+          '}'
+        ]
+      }
+    ];
+    
+    // Pequeños: más lentos (0.1-0.25) - fondo
     const smallPanelsContent = [
       {
-        speed:0.15,
-        lines:[
+        speed: 0.25,
+        lines: [
           'npm install...',
           '✓ Dependencies',
           'build completed'
         ]
       },
       {
-        speed:0.2,
-        lines:[
+        speed: 0.2,
+        lines: [
           'git commit -m',
           '"update: features"',
           'push origin main'
         ]
       },
       {
-        speed:0.25,
-        lines:[
+        speed: 0.18,
+        lines: [
           'DEBUG MODE',
           'WARNING: check',
           'parameters valid'
         ]
       },
       {
-        speed:0.18,
-        lines:[
+        speed: 0.15,
+        lines: [
           'CPU: 45% load',
           'MEM: 2.3GB used',
           'NET: 120kb/s'
         ]
       },
       {
-        speed:0.22,
-        lines:[
+        speed: 0.12,
+        lines: [
           'test.py running',
           '✓ 15/15 passed',
           'coverage: 92%'
         ]
       },
       {
-        speed:0.3,
-        lines:[
+        speed: 0.1,
+        lines: [
           'docker build',
           'image: ready',
           'container: run'
         ]
-      },
-      {
-        speed:0.28,
-        lines:[
-          'API: listening',
-          'port: 3000',
-          'status: ready'
-        ]
-      },
-      {
-        speed:0.16,
-        lines:[
-          'def calculate():',
-          '  return x * 2',
-          'print(result)'
-        ]
-      },
-      {
-        speed:0.24,
-        lines:[
-          'SQL> SELECT *',
-          'FROM users',
-          'WHERE active=1'
-        ]
-      },
-      {
-        speed:0.19,
-        lines:[
-          'import React',
-          'export default',
-          'function App()'
-        ]
-      },
-      {
-        speed:0.26,
-        lines:[
-          'rustc --version',
-          'cargo build',
-          '✓ Compiled'
-        ]
       }
     ];
     
-    // Generar posiciones aleatorias para cada panel SIN SOLAPAMIENTO
+    // Generar posiciones para los 3 tamaños
     const largePanels = largePanelsContent.map(content => ({
       ...content,
-      ...getRandomPosition(true)
+      ...getRandomPosition('large')
+    }));
+    
+    const mediumPanels = mediumPanelsContent.map(content => ({
+      ...content,
+      ...getRandomPosition('medium')
     }));
     
     const smallPanels = smallPanelsContent.map(content => ({
       ...content,
-      ...getRandomPosition(false)
+      ...getRandomPosition('small')
     }));
     
     // Función para animar escritura
@@ -1441,7 +1506,7 @@
     // Crear IntersectionObserver para detectar paneles visibles
     const observerOptions = {
       root: null,
-      rootMargin: '100px', // Comenzar animación 100px antes de que sea visible
+      rootMargin: '100px',
       threshold: 0
     };
     
@@ -1464,10 +1529,9 @@
       });
     }, observerOptions);
     
-    // Crear paneles grandes con posiciones y colores aleatorios
+    // Crear paneles grandes
     largePanels.forEach((c, index) => {
       const el = document.createElement('div');
-      // Color aleatorio de la lista mezclada
       el.className = 'panel large ' + shuffledColors[index % shuffledColors.length];
       el.style.left = c.left;
       el.style.top = c.top;
@@ -1485,13 +1549,35 @@
       panelObserver.observe(el);
     });
     
-    // Mezclar colores nuevamente para los paneles pequeños
+    // Mezclar colores para paneles medianos
+    const shuffledColorsMedium = shuffleArray(rainbowColors);
+    
+    // Crear paneles medianos
+    mediumPanels.forEach((c, index) => {
+      const el = document.createElement('div');
+      el.className = 'panel medium ' + shuffledColorsMedium[index % shuffledColorsMedium.length];
+      el.style.left = c.left;
+      el.style.top = c.top;
+      const inner = document.createElement('div');
+      inner.className = 'inner';
+      el.appendChild(inner);
+      panels.appendChild(el);
+      c.el = el;
+      
+      // Crear controlador de animación
+      const controller = animatePanel(el, c.lines, false);
+      animationControllers.set(el, controller);
+      
+      // Observar el panel
+      panelObserver.observe(el);
+    });
+    
+    // Mezclar colores para paneles pequeños
     const shuffledColorsSmall = shuffleArray(rainbowColors);
     
-    // Crear paneles pequeños con posiciones y colores aleatorios
+    // Crear paneles pequeños
     smallPanels.forEach((c, index) => {
       const el = document.createElement('div');
-      // Color aleatorio diferente para paneles pequeños
       el.className = 'panel small ' + shuffledColorsSmall[index % shuffledColorsSmall.length];
       el.style.left = c.left;
       el.style.top = c.top;
@@ -1509,7 +1595,7 @@
       panelObserver.observe(el);
     });
 
-    // Parallax con aceleración GPU (usando translate3d)
+    // Parallax con 3 velocidades diferenciadas
     let ticking = false;
     
     window.addEventListener('scroll', () => {
@@ -1517,15 +1603,21 @@
         window.requestAnimationFrame(() => {
           const scrollY = window.scrollY;
           
-          // Aplicar parallax a paneles grandes
+          // Paneles grandes - más rápidos (primer plano)
           largePanels.forEach(c => {
             const offset = -scrollY * c.speed;
             c.el.style.transform = `translate3d(0, ${offset}px, 0)`;
           });
           
-          // Aplicar parallax a paneles pequeños
+          // Paneles medianos - velocidad media (plano medio)
+          mediumPanels.forEach(c => {
+            const offset = -scrollY * c.speed;
+            c.el.style.transform = `translate3d(0, ${offset}px, 0)`;
+          });
+          
+          // Paneles pequeños - más lentos (fondo)
           smallPanels.forEach(c => {
-            const offset = -scrollY * (c.speed * 0.7);
+            const offset = -scrollY * c.speed;
             c.el.style.transform = `translate3d(0, ${offset}px, 0)`;
           });
           
