@@ -70,6 +70,41 @@
       transform: scale(0.95);
     }
 
+    /* BOTÓN CRAZYGPT */
+    .crazy-gpt-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      background: rgba(100, 220, 150, 0.18);
+      border: 1px solid rgba(100, 220, 150, 0.5);
+      border-radius: 999px;
+      color: #000000;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 8px 32px rgba(100, 220, 150, 0.25);
+      white-space: nowrap;
+    }
+    
+    .crazy-gpt-btn:hover {
+      background: rgba(100, 220, 150, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(100, 220, 150, 0.35);
+    }
+    
+    .crazy-gpt-btn:active {
+      transform: translateY(0);
+    }
+    
+    body[data-theme='dark'] .crazy-gpt-btn {
+      color: #000000;
+    }
+
     nav {
       display: flex;
       align-items: center;
@@ -790,7 +825,11 @@
 
 <body>
   <header id="topbar">
-    <div class="brand"><div class="mini" id="brandMini">&lt;/&gt;</div></div>
+    <div class="brand">
+      <div class="mini" id="brandMini">&lt;/&gt;</div>
+      <!-- BOTÓN CRAZYGPT AÑADIDO -->
+      <a href="ia.html" class="crazy-gpt-btn">CrazyGPT</a>
+    </div>
     <button class="hamburger" id="hamburger" aria-label="Menú principal">
       <span></span>
       <span></span>
