@@ -14,12 +14,10 @@
       --accent-dark:#e0e0e0; --max-width:1100px; 
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
       
-      /* Colores para modo claro - Efecto Liquid Glass - MÁS TRANSLÚCIDOS (0.01) */
       --card-bg-light: rgba(255, 255, 255, 0.01);
       --card-border-light: rgba(255, 255, 255, 0.1);
       --card-shadow-light: 0 8px 32px rgba(0, 0, 0, 0.03);
       
-      /* Colores para modo oscuro - Efecto Liquid Glass */
       --card-bg-dark: rgba(0, 0, 0, 0.08);
       --card-border-dark: rgba(255, 255, 255, 0.1);
       --card-shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -29,7 +27,6 @@
     body{margin:0;background:var(--bg-light);color:var(--text-light);}
     .wrap{max-width:var(--max-width);margin:0 auto;padding:36px 24px}
     
-    /* Header modernizado - Mejorado para responsive */
     header{
       position:fixed;
       left:0;
@@ -46,9 +43,12 @@
       transition:transform .35s ease,opacity .35s ease;
       z-index:60;
       height: 70px;
+      /* GPU Acceleration */
+      transform: translateZ(0);
+      will-change: transform;
     }
     
-    header.hidden{transform:translateY(-110%);opacity:0}
+    header.hidden{transform:translate3d(0, -110%, 0);opacity:0}
     
     .brand{display:flex;align-items:center;gap:12px}
     .brand .mini{
@@ -58,7 +58,6 @@
       color:#000000;
     }
 
-    /* Navegación en una línea - Mejorada para responsive */
     nav {
       display: flex;
       align-items: center;
@@ -119,7 +118,6 @@
     }
     .seg button.active{background:rgba(0,0,0,0.08)}
 
-    /* Botón hamburguesa para móviles - MEJORADO */
     .hamburger {
       display: none;
       flex-direction: column;
@@ -192,7 +190,6 @@
     h2{font-size:20px;margin:0 0 12px; font-weight: 600;}
     p.lead{color:var(--muted-light);margin:0 0 18px; font-weight: 400;}
     
-    /* Tarjetas con efecto Liquid Glass - MÁS TRANSLÚCIDAS en modo claro (0.01) */
     .card{
       background: var(--card-bg-light);
       border-radius:16px;
@@ -204,9 +201,11 @@
       box-shadow: var(--card-shadow-light);
       position: relative;
       overflow: hidden;
+      /* GPU Acceleration */
+      transform: translateZ(0);
+      will-change: transform;
     }
     
-    /* Efecto de brillo sutil en las tarjetas */
     .card::before {
       content: '';
       position: absolute;
@@ -223,11 +222,10 @@
     
     .card:hover {
       box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-      transform: translateY(-5px);
+      transform: translate3d(0, -5px, 0);
       border-color: rgba(255, 255, 255, 0.4);
     }
     
-    /* Textos justificados */
     p {
       text-align: justify;
       text-justify: inter-word;
@@ -257,9 +255,11 @@
       position: relative;
       overflow: hidden;
       box-shadow: var(--card-shadow-light);
+      /* GPU Acceleration */
+      transform: translateZ(0);
+      will-change: transform;
     }
     
-    /* Efecto de brillo sutil en las tarjetas de servicio */
     .service-card::before {
       content: '';
       position: absolute;
@@ -275,7 +275,7 @@
     }
     
     .service-card:hover {
-      transform: translateY(-8px);
+      transform: translate3d(0, -8px, 0);
       box-shadow: 0 16px 40px rgba(0,0,0,0.2);
       border-color: rgba(255, 255, 255, 0.5);
     }
@@ -294,7 +294,6 @@
 
     footer{padding:40px 0;text-align:center;color:var(--muted-light);font-size:13px}
 
-    /* Parallax panels - Ajustados para móviles */
     .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
     .panel{
       position:absolute;
@@ -303,9 +302,13 @@
       opacity:.95;
       box-shadow:0 18px 40px rgba(2,6,23,0.06);
       border:1px solid rgba(11,11,11,0.04);
+      /* GPU Acceleration - CRÍTICO para parallax suave */
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
     
-    /* Paneles grandes (existentes) */
     .panel.large {
       width: 280px;
       height: 140px;
@@ -318,7 +321,6 @@
       }
     }
     
-    /* Paneles pequeños (nuevos) */
     .panel.small {
       width: 150px;
       height: 75px;
@@ -342,7 +344,6 @@
       }
     }
     
-    /* Tamaños de fuente diferentes para sensación de profundidad */
     .panel.large .inner {
       font-size: 11px;
     }
@@ -361,7 +362,6 @@
       }
     }
     
-    /* Cursor parpadeante para animación de escritura */
     .typing-cursor {
       display: inline-block;
       width: 6px;
@@ -380,7 +380,7 @@
     a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
     a.link-plain:hover{text-decoration:none;color:inherit}
 
-    /* Modo oscuro - Paleta blanco y gris */
+    /* Modo oscuro */
     body[data-theme='dark']{
       background:var(--bg-dark);
       color:var(--text-dark);
@@ -391,7 +391,6 @@
       border-bottom:1px solid rgba(255,255,255,0.1);
     }
     
-    /* Logo y enlaces en modo oscuro */
     body[data-theme='dark'] .brand .mini {
       color: var(--text-dark);
     }
@@ -408,7 +407,6 @@
       background-color: var(--text-dark);
     }
     
-    /* Selector en modo oscuro */
     body[data-theme='dark'] .seg{
       border-color: var(--accent-dark);
       background: rgba(255,255,255,0.05);
@@ -434,12 +432,10 @@
       color:var(--muted-dark);
     }
     
-    /* Bordes y separadores en modo oscuro */
     body[data-theme='dark'] section {
       border-top: 1px solid rgba(255,255,255,0.08);
     }
     
-    /* TARJETAS LIQUID GLASS EN MODO OSCURO */
     body[data-theme='dark'] .card,
     body[data-theme='dark'] .service-card {
       background: var(--card-bg-dark);
@@ -449,7 +445,6 @@
       -webkit-backdrop-filter: blur(20px) saturate(180%);
     }
     
-    /* Efecto de brillo en modo oscuro */
     body[data-theme='dark'] .card::before,
     body[data-theme='dark'] .service-card::before {
       background: linear-gradient(90deg, 
@@ -464,7 +459,6 @@
       border-color: rgba(255, 255, 255, 0.2);
     }
     
-    /* Asegurar que todo el texto principal sea blanco/gris en modo oscuro */
     body[data-theme='dark'] .code-title,
     body[data-theme='dark'] h2,
     body[data-theme='dark'] h3,
@@ -476,7 +470,6 @@
       color: var(--text-dark);
     }
     
-    /* Texto negro en modo claro */
     body[data-theme='light'] .code-title,
     body[data-theme='light'] h2,
     body[data-theme='light'] h3,
@@ -489,7 +482,6 @@
       color: #000000;
     }
     
-    /* Ajustar colores de enlaces en modo claro */
     body[data-theme='light'] a.link-plain {
       color: #000000;
     }
@@ -498,7 +490,6 @@
       color: #333333;
     }
     
-    /* Asegurar que el texto "Software y hardware..." sea negro en claro y blanco en oscuro */
     body[data-theme='light'] .code-title small.muted {
       color: #000000;
     }
@@ -507,7 +498,6 @@
       color: var(--text-dark);
     }
     
-    /* Asegurar que el texto descriptivo tenga el color correcto */
     body[data-theme='light'] .hero p {
       color: #000000;
     }
@@ -516,18 +506,35 @@
       color: var(--text-dark);
     }
     
-    /* Mejorar contraste para textos muted en modo oscuro */
     body[data-theme='dark'] .muted,
     body[data-theme='dark'] p.lead {
       color: var(--muted-dark);
     }
     
-    /* Efectos hover en modo oscuro */
     body[data-theme='dark'] a.link-plain:hover {
       color: #ffffff;
     }
     
-    /* Media queries para responsive - MEJORADAS */
+    /* Soporte para prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      
+      .panel {
+        transform: none !important;
+      }
+      
+      .typing-cursor {
+        animation: none;
+        opacity: 1;
+      }
+    }
+    
     @media (max-width: 1024px) {
       nav {
         gap: 16px;
@@ -609,12 +616,10 @@
         padding: 36px 16px;
       }
       
-      /* Ocultar algunos paneles en móviles para mejor rendimiento */
       .panel:nth-child(n+4) {
         display: none;
       }
       
-      /* Ajustar tarjetas para móviles */
       .card, .service-card {
         padding: 20px;
       }
@@ -648,7 +653,6 @@
       }
     }
     
-    /* Modo oscuro para menú móvil */
     body[data-theme='dark'] .hamburger span {
       background-color: var(--text-dark);
     }
@@ -881,22 +885,19 @@
     const finalText = 'ProtonLab';
     const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
     
-    // Orden de revelación de caracteres: 1,7,4,8,3,6,9,2,5 (basado en índices 0-8)
     const revealOrder = [0, 6, 3, 7, 2, 5, 8, 1, 4];
     
     let currentText = Array(9).fill('');
     let currentStep = 0;
-    let animationPhase = 1; // 1 = caracteres apareciendo uno a uno, 2 = caracteres cambiando aleatoriamente
+    let animationPhase = 1;
     let animationInterval;
-    const animationSpeed = 100; // Velocidad constante de 100ms para todo el proceso
+    const animationSpeed = 100;
     
     function startTitleAnimation() {
-      // Iniciar el intervalo de animación con velocidad constante
       animationInterval = setInterval(updateAnimation, animationSpeed);
       
-      // Fase 1: Los caracteres aparecen uno a uno durante 3 segundos
       const phase1Steps = 9;
-      const phase1TimePerStep = 3000 / phase1Steps; // 333ms por carácter
+      const phase1TimePerStep = 3000 / phase1Steps;
       
       for (let i = 0; i < phase1Steps; i++) {
         setTimeout(() => {
@@ -906,12 +907,10 @@
         }, i * phase1TimePerStep);
       }
       
-      // Transición a fase 2 después de 3 segundos
       setTimeout(() => {
         animationPhase = 2;
       }, 3000);
       
-      // Finalizar animación después de 5 segundos totales
       setTimeout(() => {
         clearInterval(animationInterval);
         typed.textContent = finalText;
@@ -920,30 +919,24 @@
     
     function updateAnimation() {
       if (animationPhase === 1) {
-        // Fase 1: Los caracteres van apareciendo uno a uno
         for (let i = 0; i < 9; i++) {
           if (i < currentStep) {
-            // Para los caracteres que ya han aparecido, generar aleatorios
             const pos = revealOrder[i];
             currentText[pos] = randomChars[Math.floor(Math.random() * randomChars.length)];
           } else {
-            // Para los caracteres que aún no han aparecido, mantener vacío
             const pos = revealOrder[i];
             currentText[pos] = '';
           }
         }
       } else if (animationPhase === 2) {
-        // Fase 2: Todos los caracteres siguen cambiando, pero se van fijando progresivamente
-        const progress = (Date.now() - animationStartTime - 3000) / 2000; // 0 a 1 durante 2 segundos
+        const progress = (Date.now() - animationStartTime - 3000) / 2000;
         const charsToReveal = Math.min(9, Math.floor(progress * 9));
         
         for (let i = 0; i < 9; i++) {
           if (i < charsToReveal) {
-            // Estos caracteres ya están fijos (definitivos)
             const pos = revealOrder[i];
             currentText[pos] = finalText[pos];
           } else {
-            // Estos caracteres siguen cambiando aleatoriamente
             const pos = revealOrder[i];
             currentText[pos] = randomChars[Math.floor(Math.random() * randomChars.length)];
           }
@@ -954,7 +947,6 @@
     }
     
     let animationStartTime = Date.now();
-    // Iniciar la animación
     startTitleAnimation();
 
     // === Ocultar header ===
@@ -967,7 +959,7 @@
       lastScroll=y;
     });
 
-    // === Menú hamburguesa para móviles - CORREGIDO ===
+    // === Menú hamburguesa ===
     const hamburger = document.getElementById('hamburger');
     const nav = document.getElementById('nav');
     let isMenuOpen = false;
@@ -977,7 +969,6 @@
       hamburger.classList.toggle('active');
       nav.classList.toggle('active');
       
-      // Prevenir scroll del cuerpo cuando el menú está abierto
       if (isMenuOpen) {
         document.body.style.overflow = 'hidden';
       } else {
@@ -987,7 +978,6 @@
     
     hamburger.addEventListener('click', toggleMenu);
     
-    // Cerrar menú al hacer clic en un enlace
     document.querySelectorAll('.navlink').forEach(link => {
       link.addEventListener('click', () => {
         if (isMenuOpen) {
@@ -996,24 +986,22 @@
       });
     });
     
-    // Cerrar menú al hacer clic fuera de él
     document.addEventListener('click', (e) => {
       if (isMenuOpen && !nav.contains(e.target) && !hamburger.contains(e.target)) {
         toggleMenu();
       }
     });
     
-    // Cerrar menú al redimensionar la ventana (si se cambia a desktop)
     window.addEventListener('resize', () => {
       if (window.innerWidth > 768 && isMenuOpen) {
         toggleMenu();
       }
     });
 
-    // === Parallax invertido con animación de escritura ===
+    // === PARALLAX CON INTERSECTION OBSERVER OPTIMIZADO ===
     const panels=document.getElementById('panels');
     
-    // Configuración de paneles grandes (existentes)
+    // Configuración de paneles
     const largePanels = [
       {
         left:'6%',top:'18%',speed:0.3,
@@ -1067,7 +1055,6 @@
       }
     ];
     
-    // Configuración de paneles pequeños (nuevos) con contenido para animación
     const smallPanels = [
       {
         left:'15%',top:'5%',speed:0.15,
@@ -1119,121 +1106,184 @@
       }
     ];
     
-    // Función para animar escritura de texto
+    // Función para animar escritura
     function typeText(element, text, speed, onComplete) {
       let i = 0;
       element.innerHTML = '';
       
       function typeChar() {
         if (i < text.length) {
-          // Simular velocidad variable como una persona
           const char = text.charAt(i);
           element.innerHTML += char === ' ' ? '&nbsp;' : char;
           i++;
           
-          // Velocidad variable para simular escritura natural
           let delay = speed;
           if (char === '.' || char === ';' || char === '}') {
-            delay = speed * 3; // Pausa más larga después de puntos y puntos y coma
+            delay = speed * 3;
           } else if (char === ',' || char === ' ') {
-            delay = speed * 1.5; // Pausa media después de comas
+            delay = speed * 1.5;
           }
           
           setTimeout(typeChar, delay);
         } else if (onComplete) {
-          setTimeout(onComplete, 1000); // Pausa antes de reiniciar
+          setTimeout(onComplete, 1000);
         }
       }
       
       typeChar();
     }
     
-    // Función para animar múltiples líneas
+    // Función para animar panel con control de estado
     function animatePanel(panel, lines, isSmall = false) {
       const inner = panel.querySelector('.inner');
       let currentLine = 0;
+      let isAnimating = false;
+      let timeoutId = null;
+      
+      function stopAnimation() {
+        isAnimating = false;
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+      }
       
       function typeNextLine() {
+        if (!isAnimating) return;
+        
         if (currentLine < lines.length) {
-          // Crear elemento para la línea actual
           const lineElement = document.createElement('div');
           lineElement.className = 'code-line';
           inner.appendChild(lineElement);
           
-          // Velocidad más rápida para paneles pequeños
           const baseSpeed = isSmall ? 25 + Math.random() * 20 : 40 + Math.random() * 30;
           
-          // Escribir la línea
           typeText(lineElement, lines[currentLine], baseSpeed, () => {
+            if (!isAnimating) return;
+            
             currentLine++;
             if (currentLine < lines.length) {
-              // Pausa más corta entre líneas para paneles pequeños
               const pauseTime = isSmall ? 200 : 300;
-              setTimeout(typeNextLine, pauseTime);
+              timeoutId = setTimeout(typeNextLine, pauseTime);
             } else {
-              // Reiniciar después de completar todas las líneas
-              setTimeout(() => {
+              timeoutId = setTimeout(() => {
+                if (!isAnimating) return;
                 inner.innerHTML = '';
                 currentLine = 0;
-                setTimeout(typeNextLine, isSmall ? 500 : 800);
+                timeoutId = setTimeout(typeNextLine, isSmall ? 500 : 800);
               }, isSmall ? 1500 : 2000);
             }
           });
         }
       }
       
-      // Iniciar la animación
-      typeNextLine();
+      return {
+        start: () => {
+          if (!isAnimating) {
+            isAnimating = true;
+            typeNextLine();
+          }
+        },
+        stop: () => {
+          stopAnimation();
+        }
+      };
     }
     
+    // Almacenar controladores de animación
+    const animationControllers = new Map();
+    
+    // Crear IntersectionObserver para detectar paneles visibles
+    const observerOptions = {
+      root: null,
+      rootMargin: '100px', // Comenzar animación 100px antes de que sea visible
+      threshold: 0
+    };
+    
+    const panelObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const panelEl = entry.target;
+        const controller = animationControllers.get(panelEl);
+        
+        if (entry.isIntersecting) {
+          // Panel visible: iniciar animación
+          if (controller) {
+            controller.start();
+          }
+        } else {
+          // Panel fuera de vista: detener animación
+          if (controller) {
+            controller.stop();
+          }
+        }
+      });
+    }, observerOptions);
+    
     // Crear paneles grandes
-    largePanels.forEach(c=>{
-      const el=document.createElement('div');
-      el.className='panel large';
-      el.style.left=c.left; el.style.top=c.top;
-      const inner=document.createElement('div');
-      inner.className='inner';
+    largePanels.forEach((c, index) => {
+      const el = document.createElement('div');
+      el.className = 'panel large';
+      el.style.left = c.left;
+      el.style.top = c.top;
+      const inner = document.createElement('div');
+      inner.className = 'inner';
       el.appendChild(inner);
       panels.appendChild(el);
-      c.el=el;
+      c.el = el;
       
-      // Iniciar animación de escritura
-      setTimeout(() => {
-        animatePanel(el, c.lines, false);
-      }, Math.random() * 2000);
+      // Crear controlador de animación
+      const controller = animatePanel(el, c.lines, false);
+      animationControllers.set(el, controller);
+      
+      // Observar el panel
+      panelObserver.observe(el);
     });
     
-    // Crear paneles pequeños con animación
-    smallPanels.forEach(c=>{
-      const el=document.createElement('div');
-      el.className='panel small';
-      el.style.left=c.left; el.style.top=c.top;
-      const inner=document.createElement('div');
-      inner.className='inner';
+    // Crear paneles pequeños
+    smallPanels.forEach((c, index) => {
+      const el = document.createElement('div');
+      el.className = 'panel small';
+      el.style.left = c.left;
+      el.style.top = c.top;
+      const inner = document.createElement('div');
+      inner.className = 'inner';
       el.appendChild(inner);
       panels.appendChild(el);
-      c.el=el;
+      c.el = el;
       
-      // Iniciar animación de escritura con retraso diferente
-      setTimeout(() => {
-        animatePanel(el, c.lines, true);
-      }, Math.random() * 3000 + 1000); // Retraso mayor para que no empiecen todos a la vez
+      // Crear controlador de animación
+      const controller = animatePanel(el, c.lines, true);
+      animationControllers.set(el, controller);
+      
+      // Observar el panel
+      panelObserver.observe(el);
     });
 
-    window.addEventListener('scroll',()=>{
-      const scrollY=window.scrollY;
-      
-      // Aplicar parallax a paneles grandes
-      largePanels.forEach(c=>{
-        const offset = -scrollY * c.speed;
-        c.el.style.transform=`translateY(${offset}px)`;
-      });
-      
-      // Aplicar parallax a paneles pequeños (más lento para sensación de profundidad)
-      smallPanels.forEach(c=>{
-        const offset = -scrollY * (c.speed * 0.7);
-        c.el.style.transform=`translateY(${offset}px)`;
-      });
+    // Parallax con aceleración GPU (usando translate3d)
+    let ticking = false;
+    
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          
+          // Aplicar parallax a paneles grandes
+          largePanels.forEach(c => {
+            const offset = -scrollY * c.speed;
+            c.el.style.transform = `translate3d(0, ${offset}px, 0)`;
+          });
+          
+          // Aplicar parallax a paneles pequeños
+          smallPanels.forEach(c => {
+            const offset = -scrollY * (c.speed * 0.7);
+            c.el.style.transform = `translate3d(0, ${offset}px, 0)`;
+          });
+          
+          ticking = false;
+        });
+        
+        ticking = true;
+      }
     });
   </script>
 </body>
