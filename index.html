@@ -1111,10 +1111,94 @@
     // Colores del arcoíris para distribuir entre los paneles
     const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
     
-    // Configuración de paneles
-    const largePanels = [
+    // Array para almacenar las posiciones ya ocupadas
+    const occupiedPositions = [];
+    
+    // Función para verificar si dos rectángulos se solapan
+    function isOverlapping(pos1, pos2, size1, size2, margin = 5) {
+      // Convertir porcentajes a números
+      const left1 = parseFloat(pos1.left);
+      const top1 = parseFloat(pos1.top);
+      const left2 = parseFloat(pos2.left);
+      const top2 = parseFloat(pos2.top);
+      
+      // Calcular los límites de cada rectángulo con margen adicional
+      const right1 = left1 + size1.width + margin;
+      const bottom1 = top1 + size1.height + margin;
+      const right2 = left2 + size2.width + margin;
+      const bottom2 = top2 + size2.height + margin;
+      
+      // Verificar solapamiento
+      return !(right1 < left2 || left1 > right2 || bottom1 < top2 || top1 > bottom2);
+    }
+    
+    // Función para generar posición aleatoria sin solapamiento
+    function getRandomPosition(isLarge) {
+      // Rangos ajustados para evitar que salgan de la pantalla
+      const leftMin = 2;
+      const leftMax = isLarge ? 70 : 82; // Más margen para los grandes
+      const topMin = 15; // Empezar más abajo para que no se salgan arriba
+      const topMax = isLarge ? 70 : 80;
+      
+      // Tamaños aproximados en porcentaje del viewport
+      const size = isLarge 
+        ? { width: 20, height: 15 } // Paneles grandes
+        : { width: 12, height: 8 };  // Paneles pequeños
+      
+      let attempts = 0;
+      const maxAttempts = 50; // Intentos máximos para encontrar posición
+      
+      while (attempts < maxAttempts) {
+        const position = {
+          left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%',
+          top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%'
+        };
+        
+        // Verificar si esta posición se solapa con alguna existente
+        let hasOverlap = false;
+        for (const occupied of occupiedPositions) {
+          if (isOverlapping(position, occupied.position, size, occupied.size)) {
+            hasOverlap = true;
+            break;
+          }
+        }
+        
+        if (!hasOverlap) {
+          // Guardar esta posición como ocupada
+          occupiedPositions.push({ position, size });
+          return position;
+        }
+        
+        attempts++;
+      }
+      
+      // Si no se encuentra posición después de muchos intentos, devolver una aleatoria
+      // (esto es un fallback que raramente se ejecutará)
+      const fallbackPosition = {
+        left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%',
+        top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%'
+      };
+      occupiedPositions.push({ position: fallbackPosition, size });
+      return fallbackPosition;
+    }
+    
+    // Función para mezclar aleatoriamente un array (Fisher-Yates shuffle)
+    function shuffleArray(array) {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    }
+    
+    // Mezclar colores aleatoriamente
+    const shuffledColors = shuffleArray(rainbowColors);
+    
+    // Configuración de paneles con contenido fijo pero posiciones aleatorias
+    const largePanelsContent = [
       {
-        left:'6%',top:'18%',speed:0.3,
+        speed:0.3,
         lines:[
           '// Inicializando sistema...',
           'const a = 42;',
@@ -1125,7 +1209,7 @@
         ]
       },
       {
-        left:'50%',top:'10%',speed:0.6,
+        speed:0.6,
         lines:[
           '<init/>',
           '#include <stdio.h>',
@@ -1137,7 +1221,7 @@
         ]
       },
       {
-        left:'72%',top:'40%',speed:0.9,
+        speed:0.9,
         lines:[
           '// Lectura de sensor',
           'val = analogRead(A0);',
@@ -1150,7 +1234,7 @@
         ]
       },
       {
-        left:'22%',top:'66%',speed:0.45,
+        speed:0.45,
         lines:[
           'class Device {',
           '  constructor(name) {',
@@ -1165,9 +1249,9 @@
       }
     ];
     
-    const smallPanels = [
+    const smallPanelsContent = [
       {
-        left:'15%',top:'5%',speed:0.15,
+        speed:0.15,
         lines:[
           'npm install...',
           '✓ Dependencies',
@@ -1175,7 +1259,7 @@
         ]
       },
       {
-        left:'80%',top:'15%',speed:0.2,
+        speed:0.2,
         lines:[
           'git commit -m',
           '"update: features"',
@@ -1183,7 +1267,7 @@
         ]
       },
       {
-        left:'5%',top:'50%',speed:0.25,
+        speed:0.25,
         lines:[
           'DEBUG MODE',
           'WARNING: check',
@@ -1191,7 +1275,7 @@
         ]
       },
       {
-        left:'65%',top:'70%',speed:0.18,
+        speed:0.18,
         lines:[
           'CPU: 45% load',
           'MEM: 2.3GB used',
@@ -1199,7 +1283,7 @@
         ]
       },
       {
-        left:'40%',top:'80%',speed:0.22,
+        speed:0.22,
         lines:[
           'test.py running',
           '✓ 15/15 passed',
@@ -1207,14 +1291,65 @@
         ]
       },
       {
-        left:'85%',top:'45%',speed:0.3,
+        speed:0.3,
         lines:[
           'docker build',
           'image: ready',
           'container: run'
         ]
+      },
+      {
+        speed:0.28,
+        lines:[
+          'API: listening',
+          'port: 3000',
+          'status: ready'
+        ]
+      },
+      {
+        speed:0.16,
+        lines:[
+          'def calculate():',
+          '  return x * 2',
+          'print(result)'
+        ]
+      },
+      {
+        speed:0.24,
+        lines:[
+          'SQL> SELECT *',
+          'FROM users',
+          'WHERE active=1'
+        ]
+      },
+      {
+        speed:0.19,
+        lines:[
+          'import React',
+          'export default',
+          'function App()'
+        ]
+      },
+      {
+        speed:0.26,
+        lines:[
+          'rustc --version',
+          'cargo build',
+          '✓ Compiled'
+        ]
       }
     ];
+    
+    // Generar posiciones aleatorias para cada panel SIN SOLAPAMIENTO
+    const largePanels = largePanelsContent.map(content => ({
+      ...content,
+      ...getRandomPosition(true)
+    }));
+    
+    const smallPanels = smallPanelsContent.map(content => ({
+      ...content,
+      ...getRandomPosition(false)
+    }));
     
     // Función para animar escritura
     function typeText(element, text, speed, onComplete) {
@@ -1329,10 +1464,11 @@
       });
     }, observerOptions);
     
-    // Crear paneles grandes
+    // Crear paneles grandes con posiciones y colores aleatorios
     largePanels.forEach((c, index) => {
       const el = document.createElement('div');
-      el.className = 'panel large ' + rainbowColors[index % rainbowColors.length];
+      // Color aleatorio de la lista mezclada
+      el.className = 'panel large ' + shuffledColors[index % shuffledColors.length];
       el.style.left = c.left;
       el.style.top = c.top;
       const inner = document.createElement('div');
@@ -1349,11 +1485,14 @@
       panelObserver.observe(el);
     });
     
-    // Crear paneles pequeños
+    // Mezclar colores nuevamente para los paneles pequeños
+    const shuffledColorsSmall = shuffleArray(rainbowColors);
+    
+    // Crear paneles pequeños con posiciones y colores aleatorios
     smallPanels.forEach((c, index) => {
       const el = document.createElement('div');
-      // Desplazar el índice para que los colores no coincidan con los grandes
-      el.className = 'panel small ' + rainbowColors[(index + 3) % rainbowColors.length];
+      // Color aleatorio diferente para paneles pequeños
+      el.className = 'panel small ' + shuffledColorsSmall[index % shuffledColorsSmall.length];
       el.style.left = c.left;
       el.style.top = c.top;
       const inner = document.createElement('div');
