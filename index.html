@@ -56,6 +56,18 @@
       font-size:20px;
       letter-spacing:0.12em;
       color:#000000;
+      cursor: pointer;
+      transition: transform 0.3s ease, color 0.3s ease;
+      user-select: none;
+    }
+    
+    .brand .mini:hover{
+      transform: scale(1.1);
+      color: #333333;
+    }
+    
+    .brand .mini:active{
+      transform: scale(0.95);
     }
 
     nav {
@@ -297,16 +309,54 @@
     .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
     .panel{
       position:absolute;
-      background:var(--panel-light);
       border-radius:8px;
       opacity:.95;
       box-shadow:0 18px 40px rgba(2,6,23,0.06);
-      border:1px solid rgba(11,11,11,0.04);
+      border:1px solid rgba(255,255,255,0.2);
       /* GPU Acceleration - CRÍTICO para parallax suave */
       transform: translate3d(0, 0, 0);
       will-change: transform;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+    
+    /* Colores arcoíris translúcidos con liquid glass - MODO CLARO (más intensos) */
+    .panel.color-red {
+      background: rgba(255, 100, 100, 0.18);
+      border-color: rgba(255, 100, 100, 0.5);
+      box-shadow: 0 18px 40px rgba(255, 100, 100, 0.25);
+    }
+    
+    .panel.color-orange {
+      background: rgba(255, 165, 80, 0.18);
+      border-color: rgba(255, 165, 80, 0.5);
+      box-shadow: 0 18px 40px rgba(255, 165, 80, 0.25);
+    }
+    
+    .panel.color-yellow {
+      background: rgba(255, 220, 100, 0.18);
+      border-color: rgba(255, 220, 100, 0.5);
+      box-shadow: 0 18px 40px rgba(255, 220, 100, 0.25);
+    }
+    
+    .panel.color-green {
+      background: rgba(100, 220, 150, 0.18);
+      border-color: rgba(100, 220, 150, 0.5);
+      box-shadow: 0 18px 40px rgba(100, 220, 150, 0.25);
+    }
+    
+    .panel.color-blue {
+      background: rgba(100, 180, 255, 0.18);
+      border-color: rgba(100, 180, 255, 0.5);
+      box-shadow: 0 18px 40px rgba(100, 180, 255, 0.25);
+    }
+    
+    .panel.color-violet {
+      background: rgba(180, 120, 255, 0.18);
+      border-color: rgba(180, 120, 255, 0.5);
+      box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
     }
     
     .panel.large {
@@ -395,6 +445,10 @@
       color: var(--text-dark);
     }
     
+    body[data-theme='dark'] .brand .mini:hover {
+      color: #ffffff;
+    }
+    
     body[data-theme='dark'] .navlink {
       color: var(--text-dark);
     }
@@ -422,10 +476,45 @@
     }
     
     body[data-theme='dark'] .panel{
-      background:var(--panel-dark);
       color:var(--text-dark);
-      box-shadow:0 18px 40px rgba(0,0,0,0.8);
-      border:1px solid rgba(255,255,255,0.1);
+      box-shadow:0 18px 40px rgba(0,0,0,0.4);
+    }
+    
+    /* Colores más intensos en modo oscuro */
+    body[data-theme='dark'] .panel.color-red {
+      background: rgba(255, 100, 100, 0.12);
+      border-color: rgba(255, 100, 100, 0.4);
+      box-shadow: 0 18px 40px rgba(255, 100, 100, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-orange {
+      background: rgba(255, 165, 80, 0.12);
+      border-color: rgba(255, 165, 80, 0.4);
+      box-shadow: 0 18px 40px rgba(255, 165, 80, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-yellow {
+      background: rgba(255, 220, 100, 0.12);
+      border-color: rgba(255, 220, 100, 0.4);
+      box-shadow: 0 18px 40px rgba(255, 220, 100, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-green {
+      background: rgba(100, 220, 150, 0.12);
+      border-color: rgba(100, 220, 150, 0.4);
+      box-shadow: 0 18px 40px rgba(100, 220, 150, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-blue {
+      background: rgba(100, 180, 255, 0.12);
+      border-color: rgba(100, 180, 255, 0.4);
+      box-shadow: 0 18px 40px rgba(100, 180, 255, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-violet {
+      background: rgba(180, 120, 255, 0.12);
+      border-color: rgba(180, 120, 255, 0.4);
+      box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
     }
     
     body[data-theme='dark'] .panel .inner{
@@ -882,6 +971,7 @@
 
     // === ANIMACIÓN TÍTULO MEJORADA CON VELOCIDAD CONSTANTE ===
     const typed = document.getElementById('typed');
+    const brandMini = document.getElementById('brandMini');
     const finalText = 'ProtonLab';
     const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
     
@@ -891,9 +981,21 @@
     let currentStep = 0;
     let animationPhase = 1;
     let animationInterval;
+    let animationStartTime;
     const animationSpeed = 100;
     
     function startTitleAnimation() {
+      // Reiniciar variables
+      currentText = Array(9).fill('');
+      currentStep = 0;
+      animationPhase = 1;
+      animationStartTime = Date.now();
+      
+      // Limpiar intervalo anterior si existe
+      if (animationInterval) {
+        clearInterval(animationInterval);
+      }
+      
       animationInterval = setInterval(updateAnimation, animationSpeed);
       
       const phase1Steps = 9;
@@ -946,8 +1048,13 @@
       typed.textContent = currentText.join('');
     }
     
-    let animationStartTime = Date.now();
+    // Iniciar animación al cargar
     startTitleAnimation();
+    
+    // Reiniciar animación al hacer clic en el logo
+    brandMini.addEventListener('click', () => {
+      startTitleAnimation();
+    });
 
     // === Ocultar header ===
     const topbar=document.getElementById('topbar'); 
@@ -1000,6 +1107,9 @@
 
     // === PARALLAX CON INTERSECTION OBSERVER OPTIMIZADO ===
     const panels=document.getElementById('panels');
+    
+    // Colores del arcoíris para distribuir entre los paneles
+    const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
     
     // Configuración de paneles
     const largePanels = [
@@ -1222,7 +1332,7 @@
     // Crear paneles grandes
     largePanels.forEach((c, index) => {
       const el = document.createElement('div');
-      el.className = 'panel large';
+      el.className = 'panel large ' + rainbowColors[index % rainbowColors.length];
       el.style.left = c.left;
       el.style.top = c.top;
       const inner = document.createElement('div');
@@ -1242,7 +1352,8 @@
     // Crear paneles pequeños
     smallPanels.forEach((c, index) => {
       const el = document.createElement('div');
-      el.className = 'panel small';
+      // Desplazar el índice para que los colores no coincidan con los grandes
+      el.className = 'panel small ' + rainbowColors[(index + 3) % rainbowColors.length];
       el.style.left = c.left;
       el.style.top = c.top;
       const inner = document.createElement('div');
