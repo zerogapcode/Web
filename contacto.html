@@ -7,9 +7,7 @@
   <meta name="description" content="Contacta a ProtonLab para desarrollo de software y hardware" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Usamos el mismo CSS que en index.html -->
   <style>
-    /* Copia todo el CSS del index.html aquí */
     :root{
       --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
       --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
@@ -951,14 +949,15 @@
         </div>
       </div>
     </section>
-  </main>
 
-  <footer>
-    <p>© 2023 ProtonLab — www.protonlab.site</p>
-    <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
-      Innovación en cada línea de código, precisión en cada componente físico.
-    </p>
-  </footer>
+    <!-- FOOTER MOVIDO DENTRO DEL MAIN - IGUAL QUE EN INDEX.HTML -->
+    <footer>
+      <p>© 2023 ProtonLab — www.protonlab.site</p>
+      <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
+        Innovación en cada línea de código, precisión en cada componente físico.
+      </p>
+    </footer>
+  </main>
 
   <script>
     // === Modo de color ===
@@ -1026,7 +1025,6 @@
     });
 
     // === PARALLAX CON 3 TAMAÑOS Y VELOCIDADES DIFERENCIADAS ===
-    // (El mismo código de parallax del index.html, pero reducido para ahorrar espacio)
     const panels=document.getElementById('panels');
     const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
     const occupiedPositions = [];
