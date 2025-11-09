@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CrazyGPT — IA</title>
+  <title>CrazyGPT — IA en Español</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -65,10 +65,18 @@
       font-weight:700;
       font-size:20px;
       letter-spacing:0.12em;
-      color:#00cc88;
+      color:#ffffff; /* Blanco por defecto (tema oscuro) */
       cursor: pointer;
       transition: transform 0.3s ease, color 0.3s ease;
       user-select: none;
+      text-decoration: none;
+    }
+    
+    .link-plain {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
     }
     
     .brand .mini:hover{
@@ -216,6 +224,7 @@
       line-height:1.5;
       font-size:14px;
       white-space:pre-wrap;
+      word-break: break-word;
     }
     
     .user .message-content{
@@ -332,58 +341,6 @@
       background: #00cc88;
       transition: width 0.3s ease;
     }
-    
-    /* Panel binario vertical izquierdo */
-    .binary-panel{
-      position:fixed;
-      left:20px;
-      top:50%;
-      transform:translateY(-50%);
-      width:120px;
-      height:70vh;
-      border-radius:12px;
-      opacity:0.7;
-      box-shadow:0 18px 40px rgba(0,0,0,0.3);
-      border:1px solid rgba(0,204,136,0.3);
-      /* GPU Acceleration */
-      transform: translate3d(0, -50%, 0);
-      will-change: transform;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: rgba(0, 204, 136, 0.7);
-      background: rgba(0, 204, 136, 0.08);
-      z-index: 0;
-    }
-    
-    .binary-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      padding: 12px;
-      line-height: 1.2;
-    }
-    
-    .binary-digit {
-      display: inline-block;
-      width: 8px;
-      text-align: center;
-      margin: 0 2px;
-      transition: color 0.3s ease;
-    }
 
     /* Modo claro */
     body[data-theme='light']{
@@ -402,6 +359,11 @@
     
     body[data-theme='light'] .brand .subtitle{
       color:var(--muted-light);
+    }
+    
+    /* Cambio de color del símbolo </> en modo claro */
+    body[data-theme='light'] .brand .mini{
+      color: #000000; /* Negro en tema claro */
     }
     
     body[data-theme='light'] .navlink {
@@ -448,20 +410,12 @@
     body[data-theme='light'] .input-container{
       border-top:1px solid rgba(0,0,0,0.1);
     }
-    
-    body[data-theme='light'] .binary-panel{
-      color: rgba(0, 100, 80, 0.7);
-      background: rgba(0, 150, 100, 0.1);
-      border-color: rgba(0, 150, 100, 0.3);
-    }
 
     /* ============================
        MEJORAS ESPECÍFICAS PARA MÓVILES
     ============================ */
     
-    /* Ajustes generales para móviles */
     @media (max-width: 768px) {
-      /* Header más compacto */
       header {
         height: 60px;
         padding: 10px 15px;
@@ -480,7 +434,6 @@
         font-size: 10px;
       }
       
-      /* Navegación optimizada */
       nav {
         gap: 12px;
       }
@@ -494,7 +447,6 @@
         font-size: 10px;
       }
       
-      /* Mensajes más adaptables */
       .message {
         gap: 8px;
       }
@@ -511,9 +463,8 @@
         font-size: 14px;
       }
       
-      /* Área de entrada mejorada */
       .input-container {
-        padding: 15px 0;
+        padding: 25px 0;
       }
       
       .input-wrapper {
@@ -521,27 +472,21 @@
       }
       
       .input-field {
-        padding: 10px 14px;
-        font-size: 16px; /* Evita zoom automático en iOS */
+        padding: 14px 16px;
+        font-size: 16px;
+        min-height: 50px;
       }
       
       .send-button {
-        width: 42px;
-        height: 42px;
+        width: 50px;
+        height: 50px;
       }
       
-      /* Contenedor de mensajes con mejor scroll */
       .messages-container {
         padding: 15px 0;
       }
-      
-      /* Ocultar panel binario en móviles */
-      .binary-panel {
-        display: none;
-      }
     }
     
-    /* Ajustes para pantallas muy pequeñas */
     @media (max-width: 480px) {
       header {
         padding: 8px 12px;
@@ -574,21 +519,20 @@
       }
       
       .input-container {
-        padding: 12px 0;
+        padding: 20px 0;
       }
       
       .input-field {
-        padding: 8px 12px;
-        min-height: 40px;
+        padding: 12px 14px;
+        min-height: 48px;
       }
       
       .send-button {
-        width: 40px;
-        height: 40px;
+        width: 48px;
+        height: 48px;
       }
     }
     
-    /* Ajustes para orientación horizontal en móviles */
     @media (max-height: 500px) and (orientation: landscape) {
       header {
         height: 50px;
@@ -619,17 +563,19 @@
       }
       
       .input-container {
-        padding: 10px 0;
+        padding: 12px 0;
+      }
+      
+      .input-field {
+        min-height: 44px;
       }
     }
     
-    /* Prevenir desbordamiento de texto en pantallas pequeñas */
     .message-content {
       word-break: break-word;
       overflow-wrap: break-word;
     }
     
-    /* Mejorar el área táctil en dispositivos móviles */
     @media (hover: none) and (pointer: coarse) {
       .send-button, .seg button, .navlink {
         min-height: 44px;
@@ -655,7 +601,7 @@
       <a href="index.html" class="link-plain"><div class="mini" id="brandMini">&lt;/&gt;</div></a>
       <div>
         <div class="title">CrazyGPT</div>
-        <div class="subtitle">IA RUNNING</div>
+        <div class="subtitle">IA en Español</div>
       </div>
     </div>
     <nav>
@@ -669,17 +615,14 @@
     </nav>
   </header>
 
-  <!-- Panel binario vertical izquierdo -->
-  <div class="binary-panel" id="binary-panel">
-    <div class="binary-content" id="binary-content"></div>
-  </div>
+  <!-- El panel binario ha sido eliminado -->
 
   <div class="chat-container">
     <div class="messages-container" id="messages-container">
       <div class="message ai">
         <div class="message-avatar">IA</div>
         <div class="message-content" id="status-message">
-          Inicializando modelo de IA local...
+          Cargando modelo de IA en español...
         </div>
       </div>
     </div>
@@ -692,7 +635,7 @@
         <textarea 
           id="inputText" 
           class="input-field" 
-          placeholder="Escribe tu mensaje..." 
+          placeholder="Escribe tu mensaje en español..." 
           rows="1"
           disabled
         ></textarea>
@@ -715,8 +658,6 @@
     const statusMessage = document.getElementById('status-message');
     const modeButtons = document.querySelectorAll('.seg button');
     const topbar = document.getElementById('topbar');
-    const binaryPanel = document.getElementById('binary-panel');
-    const binaryContent = document.getElementById('binary-content');
 
     // Variables de estado
     let generator;
@@ -732,7 +673,7 @@
       });
     });
 
-    // Ocultar header al hacer scroll (como en index.html)
+    // Ocultar header al hacer scroll
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
       if (y > lastScroll + 10) topbar.classList.add('hidden');
@@ -833,21 +774,39 @@
       const typingIndicator = showTypingIndicator();
       
       try {
+        // Formatear el prompt para español
+        const prompt = `Pregunta: ${text}\nRespuesta:`;
+        
         // Generar respuesta
-        const result = await generator(text, { 
-          max_new_tokens: 80,
+        const result = await generator(prompt, { 
+          max_new_tokens: 150,
           temperature: 0.7,
-          do_sample: true
+          do_sample: true,
+          top_p: 0.9,
+          repetition_penalty: 1.2,
+          pad_token_id: 50256
         });
         
         // Remover indicador de escritura
         typingIndicator.remove();
         
-        // Agregar respuesta de la IA
-        const response = result[0].generated_text;
-        // Eliminar el prompt del usuario de la respuesta
-        const aiResponse = response.startsWith(text) ? response.slice(text.length) : response;
-        addMessage(aiResponse.trim());
+        // Procesar la respuesta
+        let response = result[0].generated_text;
+        
+        // Extraer solo la parte después del prompt
+        if (response.startsWith(prompt)) {
+          response = response.slice(prompt.length);
+        }
+        
+        // Limpiar la respuesta
+        response = response.split('\n')[0].trim();
+        
+        // Si la respuesta está vacía, proporcionar una respuesta por defecto
+        if (!response) {
+          response = "Lo siento, no pude generar una respuesta. ¿Podrías reformular tu pregunta en español?";
+        }
+        
+        addMessage(response);
         
       } catch (error) {
         // Remover indicador de escritura
@@ -865,48 +824,6 @@
       }
     }
 
-    // Crear panel con código binario
-    function createBinaryPanel() {
-      // Calcular cuántos dígitos caben en el panel
-      const panelWidth = 120; // px
-      const panelHeight = window.innerHeight * 0.7; // 70vh
-      const charWidth = 12; // px por dígito (incluyendo margen)
-      const lineHeight = 14; // px por línea
-      
-      const columns = Math.floor(panelWidth / charWidth);
-      const rows = Math.floor(panelHeight / lineHeight);
-      
-      // Generar dígitos binarios
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < columns; col++) {
-          const digit = document.createElement('span');
-          digit.className = 'binary-digit';
-          digit.textContent = Math.random() > 0.5 ? '1' : '0';
-          binaryContent.appendChild(digit);
-        }
-        // Agregar salto de línea después de cada fila
-        binaryContent.appendChild(document.createElement('br'));
-      }
-      
-      // Iniciar animación de dígitos binarios
-      startBinaryAnimation();
-    }
-    
-    // Animación de dígitos binarios
-    function startBinaryAnimation() {
-      setInterval(() => {
-        const digits = binaryContent.querySelectorAll('.binary-digit');
-        // Cambiar algunos dígitos aleatoriamente
-        digits.forEach(digit => {
-          if (Math.random() > 0.8) { // 20% de probabilidad de cambiar
-            digit.textContent = digit.textContent === '1' ? '0' : '1';
-            // Efecto visual sutil
-            digit.style.color = `rgba(0, 204, 136, ${0.5 + Math.random() * 0.5})`;
-          }
-        });
-      }, 200); // Actualizar cada 200ms
-    }
-
     // Callback de progreso
     const progressCallback = (progress) => {
       if (progress && progress.status === 'downloading') {
@@ -916,34 +833,40 @@
       }
     };
 
-    // Cargar modelo
+    // Cargar modelo en español - CORREGIDO
     async function loadModel() {
       try {
-        statusMessage.textContent = 'Inicializando modelo de IA...';
+        statusMessage.textContent = 'Inicializando modelo de IA en español...';
         progressContainer.style.display = 'block';
         
+        // Usar un modelo compatible con transformers.js
         generator = await pipeline(
           'text-generation', 
-          'Xenova/distilgpt2', 
+          'Xenova/gpt2', // Modelo base compatible
           { 
             progress_callback: progressCallback 
           }
         );
         
         progressBar.style.width = '100%';
-        statusMessage.textContent = 'What?';
+        statusMessage.textContent = '¡Hola! Soy tu asistente de IA. Aunque mi modelo base está en inglés, intentaré ayudarte en español. ¿En qué puedo ayudarte?';
         
         // Habilitar entrada después de cargar el modelo
         setTimeout(() => {
           inputField.disabled = false;
           sendButton.disabled = false;
-          inputField.placeholder = 'Escribe tu mensaje...';
+          inputField.placeholder = 'Escribe tu mensaje en español...';
           inputField.focus();
-        }, 500);
+        }, 1000);
         
       } catch (error) {
-        statusMessage.textContent = `Error al cargar el modelo: ${error.message}`;
-        console.error(error);
+        console.error('Error al cargar el modelo:', error);
+        statusMessage.textContent = `Error al cargar el modelo: ${error.message}. Recargando con configuración alternativa...`;
+        
+        // Intentar con configuración alternativa
+        setTimeout(() => {
+          location.reload();
+        }, 3000);
       } finally {
         setTimeout(() => {
           progressContainer.style.display = 'none';
@@ -953,7 +876,6 @@
 
     // Inicializar
     loadModel();
-    createBinaryPanel();
   </script>
 </body>
 </html>
