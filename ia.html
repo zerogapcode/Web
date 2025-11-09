@@ -455,40 +455,195 @@
       border-color: rgba(0, 150, 100, 0.3);
     }
 
-    /* Responsive */
+    /* ============================
+       MEJORAS ESPECÍFICAS PARA MÓVILES
+    ============================ */
+    
+    /* Ajustes generales para móviles */
     @media (max-width: 768px) {
-      .chat-container{
-        padding:0 16px;
+      /* Header más compacto */
+      header {
+        height: 60px;
+        padding: 10px 15px;
       }
       
-      .message-content{
-        max-width:90%;
+      .chat-container {
+        margin-top: 60px;
+        padding: 0 15px;
       }
       
-      header{
-        padding:12px 16px;
+      .brand .title {
+        font-size: 16px;
       }
       
+      .brand .subtitle {
+        font-size: 10px;
+      }
+      
+      /* Navegación optimizada */
       nav {
-        gap: 16px;
+        gap: 12px;
       }
       
       .navlink {
-        font-size: 13px;
+        font-size: 12px;
       }
       
+      .seg button {
+        padding: 5px 8px;
+        font-size: 10px;
+      }
+      
+      /* Mensajes más adaptables */
+      .message {
+        gap: 8px;
+      }
+      
+      .message-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+      }
+      
+      .message-content {
+        max-width: 90%;
+        padding: 10px 14px;
+        font-size: 14px;
+      }
+      
+      /* Área de entrada mejorada */
+      .input-container {
+        padding: 15px 0;
+      }
+      
+      .input-wrapper {
+        gap: 10px;
+      }
+      
+      .input-field {
+        padding: 10px 14px;
+        font-size: 16px; /* Evita zoom automático en iOS */
+      }
+      
+      .send-button {
+        width: 42px;
+        height: 42px;
+      }
+      
+      /* Contenedor de mensajes con mejor scroll */
+      .messages-container {
+        padding: 15px 0;
+      }
+      
+      /* Ocultar panel binario en móviles */
       .binary-panel {
         display: none;
       }
     }
     
+    /* Ajustes para pantallas muy pequeñas */
     @media (max-width: 480px) {
-      .message-content{
-        max-width:95%;
+      header {
+        padding: 8px 12px;
       }
       
-      .brand .subtitle{
-        display:none;
+      .chat-container {
+        padding: 0 12px;
+      }
+      
+      .brand .subtitle {
+        display: none;
+      }
+      
+      nav {
+        gap: 10px;
+      }
+      
+      .navlink {
+        font-size: 11px;
+      }
+      
+      .seg button {
+        padding: 4px 6px;
+        font-size: 9px;
+      }
+      
+      .message-content {
+        max-width: 95%;
+        padding: 8px 12px;
+      }
+      
+      .input-container {
+        padding: 12px 0;
+      }
+      
+      .input-field {
+        padding: 8px 12px;
+        min-height: 40px;
+      }
+      
+      .send-button {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    
+    /* Ajustes para orientación horizontal en móviles */
+    @media (max-height: 500px) and (orientation: landscape) {
+      header {
+        height: 50px;
+        padding: 8px 15px;
+      }
+      
+      .chat-container {
+        margin-top: 50px;
+      }
+      
+      .messages-container {
+        padding: 10px 0;
+      }
+      
+      .message {
+        gap: 6px;
+      }
+      
+      .message-avatar {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+      }
+      
+      .message-content {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+      
+      .input-container {
+        padding: 10px 0;
+      }
+    }
+    
+    /* Prevenir desbordamiento de texto en pantallas pequeñas */
+    .message-content {
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+    
+    /* Mejorar el área táctil en dispositivos móviles */
+    @media (hover: none) and (pointer: coarse) {
+      .send-button, .seg button, .navlink {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .seg button {
+        padding: 8px 12px;
+      }
+      
+      .navlink {
+        padding: 12px 0;
       }
     }
   </style>
