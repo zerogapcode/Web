@@ -488,6 +488,53 @@
     a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
     a.link-plain:hover{text-decoration:none;color:inherit}
 
+    /* Símbolo Pi - NUEVO ESTILO AÑADIDO */
+    .pi-symbol {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 24px;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      z-index: 50;
+      user-select: none;
+      opacity: 0;
+      transform: scale(0.8);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      text-decoration: none;
+    }
+    
+    .pi-symbol:hover {
+      opacity: 1;
+      transform: scale(1);
+      color: rgba(0, 0, 0, 0.8);
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    body[data-theme='dark'] .pi-symbol {
+      color: rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    body[data-theme='dark'] .pi-symbol:hover {
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
     /* Modo oscuro */
     body[data-theme='dark']{
       background:var(--bg-dark);
@@ -680,6 +727,10 @@
         animation: none;
         opacity: 1;
       }
+      
+      .pi-symbol {
+        transition: none !important;
+      }
     }
     
     @media (max-width: 1024px) {
@@ -770,6 +821,14 @@
       .card, .service-card {
         padding: 20px;
       }
+      
+      .pi-symbol {
+        bottom: 15px;
+        right: 15px;
+        font-size: 20px;
+        width: 35px;
+        height: 35px;
+      }
     }
     
     @media (max-width: 480px) {
@@ -797,6 +856,14 @@
       .navlink {
         padding: 10px 0;
         font-size: 15px;
+      }
+      
+      .pi-symbol {
+        bottom: 10px;
+        right: 10px;
+        font-size: 18px;
+        width: 32px;
+        height: 32px;
       }
     }
     
@@ -1015,6 +1082,9 @@
       </p>
     </footer>
   </main>
+
+  <!-- SÍMBOLO PI AÑADIDO - AHORA ES UN ENLACE -->
+  <a href="pi.html" class="pi-symbol" title="π">π</a>
 
   <script>
     // === Modo de color ===
