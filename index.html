@@ -488,7 +488,7 @@
     a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
     a.link-plain:hover{text-decoration:none;color:inherit}
 
-    /* Símbolo Pi - NUEVO ESTILO AÑADIDO */
+    /* Símbolo Pi - ESTILOS MEJORADOS PARA MÓVIL */
     .pi-symbol {
       position: fixed;
       bottom: 20px;
@@ -533,6 +533,91 @@
       color: rgba(255, 255, 255, 0.9);
       background: rgba(0, 0, 0, 0.3);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* MEJORAS ESPECÍFICAS PARA DISPOSITIVOS MÓVILES */
+    @media (max-width: 768px) {
+      .pi-symbol {
+        opacity: 0.7; /* Visible pero discreto */
+        transform: scale(1);
+        bottom: 80px; /* Posición más accesible */
+        right: 20px;
+        width: 55px;
+        height: 55px;
+        font-size: 28px;
+        background: rgba(255, 255, 255, 0.85);
+        border: 2px solid rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      }
+      
+      .pi-symbol:hover {
+        opacity: 1;
+        transform: scale(1.05);
+        background: rgba(255, 255, 255, 0.95);
+      }
+      
+      /* Efecto táctil para móviles */
+      .pi-symbol:active {
+        transform: scale(0.95);
+        background: rgba(100, 180, 255, 0.2);
+        transition: all 0.1s ease;
+      }
+      
+      body[data-theme='dark'] .pi-symbol {
+        background: rgba(0, 0, 0, 0.7);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+      
+      body[data-theme='dark'] .pi-symbol:hover {
+        background: rgba(0, 0, 0, 0.85);
+        color: rgba(255, 255, 255, 0.95);
+      }
+      
+      body[data-theme='dark'] .pi-symbol:active {
+        background: rgba(100, 180, 255, 0.3);
+      }
+      
+      /* Pequeña animación intermitente para llamar la atención */
+      @keyframes subtle-pulse {
+        0%, 100% { 
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+        50% { 
+          box-shadow: 0 4px 20px rgba(100, 180, 255, 0.3);
+        }
+      }
+      
+      .pi-symbol {
+        animation: subtle-pulse 3s infinite;
+      }
+      
+      .pi-symbol:active {
+        animation: none;
+      }
+    }
+
+    /* Ajustes para pantallas muy pequeñas */
+    @media (max-width: 480px) {
+      .pi-symbol {
+        bottom: 70px;
+        right: 15px;
+        width: 50px;
+        height: 50px;
+        font-size: 26px;
+      }
+    }
+
+    /* Para tablets en orientación vertical */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .pi-symbol {
+        bottom: 25px;
+        right: 25px;
+        width: 45px;
+        height: 45px;
+        font-size: 26px;
+      }
     }
 
     /* Modo oscuro */
@@ -730,6 +815,7 @@
       
       .pi-symbol {
         transition: none !important;
+        animation: none !important;
       }
     }
     
@@ -821,14 +907,6 @@
       .card, .service-card {
         padding: 20px;
       }
-      
-      .pi-symbol {
-        bottom: 15px;
-        right: 15px;
-        font-size: 20px;
-        width: 35px;
-        height: 35px;
-      }
     }
     
     @media (max-width: 480px) {
@@ -856,14 +934,6 @@
       .navlink {
         padding: 10px 0;
         font-size: 15px;
-      }
-      
-      .pi-symbol {
-        bottom: 10px;
-        right: 10px;
-        font-size: 18px;
-        width: 32px;
-        height: 32px;
       }
     }
     
@@ -1083,7 +1153,7 @@
     </footer>
   </main>
 
-  <!-- SÍMBOLO PI AÑADIDO - AHORA ES UN ENLACE -->
+  <!-- SÍMBOLO PI MEJORADO PARA MÓVILES -->
   <a href="pi.html" class="pi-symbol" title="π">π</a>
 
   <script>
