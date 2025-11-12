@@ -622,7 +622,7 @@
       <div class="message ai">
         <div class="message-avatar">IA</div>
         <div class="message-content" id="status-message">
-          Cargando modelo de IA en español...
+          Conectando con el servidor de IA...
         </div>
       </div>
     </div>
@@ -635,7 +635,7 @@
         <textarea 
           id="inputText" 
           class="input-field" 
-          placeholder="Escribe tu mensaje en español..." 
+          placeholder="Conectando con el servidor..." 
           rows="1"
           disabled
         ></textarea>
@@ -646,9 +646,7 @@
     </div>
   </div>
 
-  <script type="module">
-    import { pipeline } from "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.14.0";
-
+  <script>
     // Elementos DOM
     const messagesContainer = document.getElementById('messages-container');
     const inputField = document.getElementById('inputText');
@@ -659,10 +657,75 @@
     const modeButtons = document.querySelectorAll('.seg button');
     const topbar = document.getElementById('topbar');
 
+    // Configuración - ¡IMPORTANTE! Cambia esta URL por la de tu ngrok
+    const OLLAMA_SERVER_URL = 'https://TU-URL-NGROK-AQUI.ngrok.io';
+
     // Variables de estado
-    let generator;
     let isGenerating = false;
     let lastScroll = 0;
+    let chatBot = null;
+
+    // Clase para manejar la comunicación con Ollama
+    class OllamaChat {
+      constructor(serverUrl) {
+        this.serverUrl = serverUrl;
+        this.isConnected = false;
+      }
+
+      async connect() {
+        try {
+          const health = await this.checkHealth();
+          this.isConnected = health.status === 'healthy';
+          return this.isConnected;
+        } catch (error) {
+          console.error('Error conectando:', error);
+          return false;
+        }
+      }
+
+      async sendMessage(message) {
+        if (!this.isConnected) {
+          const connected = await this.connect();
+          if (!connected) {
+            throw new Error('No se pudo conectar al servidor de IA');
+          }
+        }
+
+        try {
+          const response = await fetch(`${this.serverUrl}/chat`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              message: message 
+            })
+          });
+          
+          const data = await response.json();
+          
+          if (data.status === 'success') {
+            return data.response;
+          } else {
+            throw new Error(data.error || 'Error del servidor');
+          }
+          
+        } catch (error) {
+          console.error('Error:', error);
+          this.isConnected = false;
+          throw error;
+        }
+      }
+
+      async checkHealth() {
+        try {
+          const response = await fetch(`${this.serverUrl}/health`);
+          return await response.json();
+        } catch {
+          return { status: 'offline' };
+        }
+      }
+    }
 
     // Manejo del modo claro/oscuro
     modeButtons.forEach(btn => {
@@ -709,7 +772,9 @@
       
       const contentDiv = document.createElement('div');
       contentDiv.className = 'message-content';
-      contentDiv.textContent = content;
+      
+      // Usar textContent para seguridad, pero permitir saltos de línea
+      contentDiv.innerHTML = content.replace(/\n/g, '<br>');
       
       messageDiv.appendChild(avatarDiv);
       messageDiv.appendChild(contentDiv);
@@ -774,38 +839,13 @@
       const typingIndicator = showTypingIndicator();
       
       try {
-        // Formatear el prompt para español
-        const prompt = `Pregunta: ${text}\nRespuesta:`;
-        
-        // Generar respuesta
-        const result = await generator(prompt, { 
-          max_new_tokens: 150,
-          temperature: 0.7,
-          do_sample: true,
-          top_p: 0.9,
-          repetition_penalty: 1.2,
-          pad_token_id: 50256
-        });
+        // Enviar mensaje al servidor Ollama
+        const response = await chatBot.sendMessage(text);
         
         // Remover indicador de escritura
         typingIndicator.remove();
         
-        // Procesar la respuesta
-        let response = result[0].generated_text;
-        
-        // Extraer solo la parte después del prompt
-        if (response.startsWith(prompt)) {
-          response = response.slice(prompt.length);
-        }
-        
-        // Limpiar la respuesta
-        response = response.split('\n')[0].trim();
-        
-        // Si la respuesta está vacía, proporcionar una respuesta por defecto
-        if (!response) {
-          response = "Lo siento, no pude generar una respuesta. ¿Podrías reformular tu pregunta en español?";
-        }
-        
+        // Agregar respuesta al chat
         addMessage(response);
         
       } catch (error) {
@@ -813,8 +853,18 @@
         typingIndicator.remove();
         
         // Mostrar mensaje de error
-        addMessage(`Lo siento, ocurrió un error: ${error.message}`);
-        console.error(error);
+        let errorMessage = 'Lo siento, ocurrió un error al conectar con la IA.';
+        
+        if (error.message.includes('Failed to fetch')) {
+          errorMessage = 'Error de conexión: No se pudo contactar al servidor de IA. Verifica que tu Mac esté encendida y conectada.';
+        } else if (error.message.includes('No se pudo conectar')) {
+          errorMessage = 'El servidor de IA no está disponible. Por favor, intenta más tarde.';
+        } else {
+          errorMessage = `Error: ${error.message}`;
+        }
+        
+        addMessage(errorMessage);
+        console.error('Error:', error);
       } finally {
         // Rehabilitar entrada
         inputField.disabled = false;
@@ -824,58 +874,51 @@
       }
     }
 
-    // Callback de progreso
-    const progressCallback = (progress) => {
-      if (progress && progress.status === 'downloading') {
-        progressContainer.style.display = 'block';
-        progressBar.style.width = `${Math.round(progress.progress * 100)}%`;
-        statusMessage.textContent = `Descargando modelo: ${Math.round(progress.progress * 100)}%`;
-      }
-    };
-
-    // Cargar modelo en español - CORREGIDO
-    async function loadModel() {
+    // Inicializar conexión con Ollama
+    async function initChat() {
       try {
-        statusMessage.textContent = 'Inicializando modelo de IA en español...';
+        statusMessage.textContent = 'Conectando con el servidor de IA...';
         progressContainer.style.display = 'block';
+        progressBar.style.width = '30%';
         
-        // Usar un modelo compatible con transformers.js
-        generator = await pipeline(
-          'text-generation', 
-          'Xenova/gpt2', // Modelo base compatible
-          { 
-            progress_callback: progressCallback 
-          }
-        );
+        // Crear instancia del chat
+        chatBot = new OllamaChat(OLLAMA_SERVER_URL);
         
-        progressBar.style.width = '100%';
-        statusMessage.textContent = '¡Hola! ¿En qué puedo ayudarte?';
+        // Intentar conexión
+        const connected = await chatBot.connect();
         
-        // Habilitar entrada después de cargar el modelo
-        setTimeout(() => {
-          inputField.disabled = false;
-          sendButton.disabled = false;
-          inputField.placeholder = 'Escribe tu mensaje...';
-          inputField.focus();
-        }, 1000);
+        if (connected) {
+          progressBar.style.width = '100%';
+          statusMessage.textContent = '¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte?';
+          
+          // Habilitar entrada después de conectar
+          setTimeout(() => {
+            inputField.disabled = false;
+            sendButton.disabled = false;
+            inputField.placeholder = 'Escribe tu mensaje...';
+            inputField.focus();
+            progressContainer.style.display = 'none';
+          }, 1000);
+        } else {
+          throw new Error('No se pudo conectar al servidor');
+        }
         
       } catch (error) {
-        console.error('Error al cargar el modelo:', error);
-        statusMessage.textContent = `Error al cargar el modelo: ${error.message}. Recargando con configuración alternativa...`;
+        console.error('Error al inicializar:', error);
+        statusMessage.textContent = 'Error al conectar con el servidor de IA. Verifica que el servidor esté corriendo.';
+        progressBar.style.width = '0%';
         
-        // Intentar con configuración alternativa
+        // Intentar reconectar después de 5 segundos
         setTimeout(() => {
-          location.reload();
-        }, 3000);
-      } finally {
-        setTimeout(() => {
-          progressContainer.style.display = 'none';
-        }, 2000);
+          initChat();
+        }, 5000);
       }
     }
 
-    // Inicializar
-    loadModel();
+    // Inicializar cuando la página cargue
+    document.addEventListener('DOMContentLoaded', function() {
+      initChat();
+    });
   </script>
 </body>
 </html>
