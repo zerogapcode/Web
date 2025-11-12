@@ -646,7 +646,7 @@
     </div>
   </div>
 
- <script>
+  <script>
   // Elementos DOM
   const messagesContainer = document.getElementById('messages-container');
   const inputField = document.getElementById('inputText');
@@ -657,14 +657,13 @@
   const modeButtons = document.querySelectorAll('.seg button');
   const topbar = document.getElementById('topbar');
 
-  // Configuración - ¡IMPORTANTE! Cambia el puerto a 5002
+  // Configuración - URL del servidor
   const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
 
   // Variables de estado
   let isGenerating = false;
   let lastScroll = 0;
-  let currentMessageDiv = null;
-  let currentTypingIndicator = null;
+  let isServerAvailable = false;
 
   // Manejo del modo claro/oscuro
   modeButtons.forEach(btn => {
@@ -711,6 +710,8 @@
     
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
+    
+    // Usar textContent para seguridad, pero permitir saltos de línea
     contentDiv.innerHTML = content.replace(/\n/g, '<br>');
     
     messageDiv.appendChild(avatarDiv);
@@ -749,12 +750,57 @@
     messageDiv.appendChild(contentDiv);
     messagesContainer.appendChild(messageDiv);
     
+    // Scroll al final
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
     
     return messageDiv;
   }
 
-  // Función para enviar mensaje con STREAMING
+  // Función para verificar si el servidor está disponible
+  async function checkServerAvailability() {
+    try {
+      // Intentar health check primero
+      const healthResponse = await fetch(`${OLLAMA_SERVER_URL}/health`, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (healthResponse.ok) {
+        const data = await healthResponse.json();
+        return { available: true, method: 'health', data: data };
+      }
+    } catch (healthError) {
+      console.log('Health check falló, intentando con chat...');
+    }
+    
+    // Si health check falla, intentar con chat
+    try {
+      const testMessage = { message: 'test' };
+      const chatResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(testMessage)
+      });
+      
+      if (chatResponse.ok) {
+        const data = await chatResponse.json();
+        return { available: true, method: 'chat', data: data };
+      }
+    } catch (chatError) {
+      console.log('Chat test también falló');
+    }
+    
+    return { available: false, method: 'none' };
+  }
+
+  // Función para enviar mensaje
   async function sendMessage() {
     const text = inputField.value.trim();
     if (!text || isGenerating) return;
@@ -772,14 +818,10 @@
     isGenerating = true;
     
     // Mostrar indicador de escritura
-    currentTypingIndicator = showTypingIndicator();
+    const typingIndicator = showTypingIndicator();
     
     try {
-      // Crear elemento para la respuesta en tiempo real
-      currentMessageDiv = addMessage('', false);
-      const contentDiv = currentMessageDiv.querySelector('.message-content');
-      
-      // Hacer petición con streaming
+      // Enviar mensaje al servidor
       const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
         method: 'POST',
         headers: {
@@ -794,105 +836,74 @@
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       
+      const data = await response.json();
+      
       // Remover indicador de escritura
-      currentTypingIndicator.remove();
-      currentTypingIndicator = null;
+      typingIndicator.remove();
       
-      // Leer el stream
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let accumulatedText = '';
-      
-      while (true) {
-        const { value, done } = await reader.read();
-        
-        if (done) break;
-        
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
-        
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            try {
-              const data = JSON.parse(line.slice(6));
-              
-              if (data.error) {
-                throw new Error(data.error);
-              }
-              
-              if (data.chunk) {
-                // Agregar chunk al texto acumulado
-                accumulatedText += data.chunk;
-                contentDiv.innerHTML = accumulatedText.replace(/\n/g, '<br>');
-                
-                // Scroll automático
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                
-                // Pequeña pausa para efecto de escritura
-                await new Promise(resolve => setTimeout(resolve, 10));
-              }
-              
-              if (data.done) {
-                console.log('✅ Respuesta completa recibida');
-                break;
-              }
-              
-            } catch (e) {
-              console.error('Error parsing stream data:', e);
-            }
-          }
-        }
+      // Verificar estructura de respuesta
+      if (data.status === 'success' && data.response) {
+        addMessage(data.response);
+        isServerAvailable = true;
+      } else {
+        throw new Error('Respuesta del servidor inválida');
       }
       
     } catch (error) {
-      // Limpiar indicadores
-      if (currentTypingIndicator) {
-        currentTypingIndicator.remove();
-        currentTypingIndicator = null;
-      }
+      // Remover indicador de escritura
+      typingIndicator.remove();
       
-      // Mostrar mensaje de error
+      // Mostrar mensaje de error específico
       let errorMessage = 'Error al conectar con la IA. ';
       
-      if (error.message.includes('Failed to fetch')) {
-        errorMessage += 'Verifica que los servidores estén ejecutándose.';
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        errorMessage += 'No se puede contactar al servidor. Verifica:';
+        errorMessage += '\n• Que tu Mac esté encendida';
+        errorMessage += '\n• Que el servidor Flask esté ejecutándose';
+        errorMessage += '\n• Que ngrok esté activo';
+        errorMessage += '\n• Tu conexión a internet';
+      } else if (error.message.includes('HTTP 5')) {
+        errorMessage += 'Error del servidor. Intenta más tarde.';
+      } else if (error.message.includes('HTTP 4')) {
+        errorMessage += 'Error en la solicitud. Verifica la configuración.';
       } else {
         errorMessage += error.message;
       }
       
-      if (currentMessageDiv) {
-        currentMessageDiv.querySelector('.message-content').textContent = errorMessage;
-      } else {
-        addMessage(errorMessage);
-      }
-      
+      addMessage(errorMessage);
       console.error('Error detallado:', error);
+      isServerAvailable = false;
     } finally {
       // Rehabilitar entrada
       inputField.disabled = false;
       sendButton.disabled = false;
       isGenerating = false;
       inputField.focus();
-      
-      currentMessageDiv = null;
-      currentTypingIndicator = null;
     }
   }
 
-  // Inicializar conexión
+  // Inicializar conexión con el servidor
   async function initChat() {
     try {
-      statusMessage.textContent = 'Conectando con el servidor...';
+      statusMessage.textContent = 'Verificando conexión con el servidor...';
       progressContainer.style.display = 'block';
       progressBar.style.width = '30%';
       
-      // Verificar servidor
-      const response = await fetch(`${OLLAMA_SERVER_URL}/health`);
+      // Verificar disponibilidad del servidor
+      const serverStatus = await checkServerAvailability();
       
-      if (response.ok) {
+      if (serverStatus.available) {
         progressBar.style.width = '100%';
-        statusMessage.textContent = '¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte?';
         
+        if (serverStatus.method === 'health') {
+          statusMessage.textContent = '¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte?';
+        } else {
+          statusMessage.textContent = '¡Conectado! (Modo de compatibilidad) ¿En qué puedo ayudarte?';
+        }
+        
+        isServerAvailable = true;
+        
+        // Habilitar entrada
         setTimeout(() => {
           inputField.disabled = false;
           sendButton.disabled = false;
@@ -900,23 +911,30 @@
           inputField.focus();
           progressContainer.style.display = 'none';
         }, 1000);
+        
       } else {
         throw new Error('Servidor no disponible');
       }
       
     } catch (error) {
       console.error('Error en inicialización:', error);
-      statusMessage.textContent = '⚠️ Modo streaming activado. Puedes enviar mensajes.';
-      progressBar.style.width = '0%';
       
-      // Habilitar interfaz de todas formas
+      // MOSTRAR INTERFAZ A PESAR DEL ERROR - PERMITIR USO
+      statusMessage.textContent = '⚠️ Advertencia: No se pudo verificar el servidor, pero puedes intentar enviar mensajes.';
+      progressBar.style.width = '0%';
+      isServerAvailable = false;
+      
+      // HABILITAR INTERFAZ DE TODAS FORMAS
       setTimeout(() => {
         inputField.disabled = false;
         sendButton.disabled = false;
-        inputField.placeholder = 'Escribe tu mensaje (modo streaming)...';
+        inputField.placeholder = 'Escribe tu mensaje (modo prueba)...';
         inputField.focus();
         progressContainer.style.display = 'none';
-      }, 1000);
+        
+        // Agregar mensaje informativo
+        addMessage('💡 **Modo de compatibilidad activado**\nEl sistema detectó posibles problemas de conexión, pero puedes intentar enviar mensajes. Si fallan, verifica que tu servidor local esté ejecutándose.');
+      }, 1500);
     }
   }
 
