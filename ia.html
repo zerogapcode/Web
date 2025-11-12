@@ -647,278 +647,301 @@
   </div>
 
   <script>
-    // Elementos DOM
-    const messagesContainer = document.getElementById('messages-container');
-    const inputField = document.getElementById('inputText');
-    const sendButton = document.getElementById('send-button');
-    const progressBar = document.getElementById('progress-bar');
-    const progressContainer = document.getElementById('progress-container');
-    const statusMessage = document.getElementById('status-message');
-    const modeButtons = document.querySelectorAll('.seg button');
-    const topbar = document.getElementById('topbar');
+  // Elementos DOM
+  const messagesContainer = document.getElementById('messages-container');
+  const inputField = document.getElementById('inputText');
+  const sendButton = document.getElementById('send-button');
+  const progressBar = document.getElementById('progress-bar');
+  const progressContainer = document.getElementById('progress-container');
+  const statusMessage = document.getElementById('status-message');
+  const modeButtons = document.querySelectorAll('.seg button');
+  const topbar = document.getElementById('topbar');
 
-    // Configuración - ¡IMPORTANTE! Cambia esta URL por la de tu ngrok
-    const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+  // Configuración - URL del servidor
+  const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
 
-    // Variables de estado
-    let isGenerating = false;
-    let lastScroll = 0;
-    let chatBot = null;
+  // Variables de estado
+  let isGenerating = false;
+  let lastScroll = 0;
+  let isServerAvailable = false;
 
-    // Clase para manejar la comunicación con Ollama
-    class OllamaChat {
-      constructor(serverUrl) {
-        this.serverUrl = serverUrl;
-        this.isConnected = false;
-      }
+  // Manejo del modo claro/oscuro
+  modeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modeButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.body.dataset.theme = btn.dataset.mode;
+    });
+  });
 
-      async connect() {
-        try {
-          const health = await this.checkHealth();
-          this.isConnected = health.status === 'healthy';
-          return this.isConnected;
-        } catch (error) {
-          console.error('Error conectando:', error);
-          return false;
-        }
-      }
+  // Ocultar header al hacer scroll
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > lastScroll + 10) topbar.classList.add('hidden');
+    else if (y < lastScroll - 10) topbar.classList.remove('hidden');
+    lastScroll = y;
+  });
 
-      async sendMessage(message) {
-        if (!this.isConnected) {
-          const connected = await this.connect();
-          if (!connected) {
-            throw new Error('No se pudo conectar al servidor de IA');
-          }
-        }
+  // Autoajuste de altura del textarea
+  inputField.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight) + 'px';
+  });
 
-        try {
-          const response = await fetch(`${this.serverUrl}/chat`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-              message: message 
-            })
-          });
-          
-          const data = await response.json();
-          
-          if (data.status === 'success') {
-            return data.response;
-          } else {
-            throw new Error(data.error || 'Error del servidor');
-          }
-          
-        } catch (error) {
-          console.error('Error:', error);
-          this.isConnected = false;
-          throw error;
-        }
-      }
-
-      async checkHealth() {
-        try {
-          const response = await fetch(`${this.serverUrl}/health`);
-          return await response.json();
-        } catch {
-          return { status: 'offline' };
-        }
-      }
+  // Envío de mensajes con Enter (sin Shift)
+  inputField.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (!isGenerating) sendMessage();
     }
+  });
 
-    // Manejo del modo claro/oscuro
-    modeButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        modeButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.body.dataset.theme = btn.dataset.mode;
+  // Envío de mensajes con el botón
+  sendButton.addEventListener('click', sendMessage);
+
+  // Función para agregar mensajes al chat
+  function addMessage(content, isUser = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+    
+    const avatarDiv = document.createElement('div');
+    avatarDiv.className = 'message-avatar';
+    avatarDiv.textContent = isUser ? 'Tú' : 'IA';
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+    
+    // Usar textContent para seguridad, pero permitir saltos de línea
+    contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+    
+    messageDiv.appendChild(avatarDiv);
+    messageDiv.appendChild(contentDiv);
+    messagesContainer.appendChild(messageDiv);
+    
+    // Scroll al final
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    
+    return contentDiv;
+  }
+
+  // Función para mostrar indicador de escritura
+  function showTypingIndicator() {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message ai';
+    messageDiv.id = 'typing-indicator';
+    
+    const avatarDiv = document.createElement('div');
+    avatarDiv.className = 'message-avatar';
+    avatarDiv.textContent = 'IA';
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+    
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'typing-indicator';
+    typingDiv.innerHTML = `
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    `;
+    
+    contentDiv.appendChild(typingDiv);
+    messageDiv.appendChild(avatarDiv);
+    messageDiv.appendChild(contentDiv);
+    messagesContainer.appendChild(messageDiv);
+    
+    // Scroll al final
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    
+    return messageDiv;
+  }
+
+  // Función para verificar si el servidor está disponible
+  async function checkServerAvailability() {
+    try {
+      // Intentar health check primero
+      const healthResponse = await fetch(`${OLLAMA_SERVER_URL}/health`, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json'
+        }
       });
-    });
-
-    // Ocultar header al hacer scroll
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if (y > lastScroll + 10) topbar.classList.add('hidden');
-      else if (y < lastScroll - 10) topbar.classList.remove('hidden');
-      lastScroll = y;
-    });
-
-    // Autoajuste de altura del textarea
-    inputField.addEventListener('input', function() {
-      this.style.height = 'auto';
-      this.style.height = (this.scrollHeight) + 'px';
-    });
-
-    // Envío de mensajes con Enter (sin Shift)
-    inputField.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        if (!isGenerating) sendMessage();
+      
+      if (healthResponse.ok) {
+        const data = await healthResponse.json();
+        return { available: true, method: 'health', data: data };
       }
-    });
-
-    // Envío de mensajes con el botón
-    sendButton.addEventListener('click', sendMessage);
-
-    // Función para agregar mensajes al chat
-    function addMessage(content, isUser = false) {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
-      
-      const avatarDiv = document.createElement('div');
-      avatarDiv.className = 'message-avatar';
-      avatarDiv.textContent = isUser ? 'Tú' : 'IA';
-      
-      const contentDiv = document.createElement('div');
-      contentDiv.className = 'message-content';
-      
-      // Usar textContent para seguridad, pero permitir saltos de línea
-      contentDiv.innerHTML = content.replace(/\n/g, '<br>');
-      
-      messageDiv.appendChild(avatarDiv);
-      messageDiv.appendChild(contentDiv);
-      messagesContainer.appendChild(messageDiv);
-      
-      // Scroll al final
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      
-      return contentDiv;
+    } catch (healthError) {
+      console.log('Health check falló, intentando con chat...');
     }
-
-    // Función para mostrar indicador de escritura
-    function showTypingIndicator() {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message ai';
-      messageDiv.id = 'typing-indicator';
+    
+    // Si health check falla, intentar con chat
+    try {
+      const testMessage = { message: 'test' };
+      const chatResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(testMessage)
+      });
       
-      const avatarDiv = document.createElement('div');
-      avatarDiv.className = 'message-avatar';
-      avatarDiv.textContent = 'IA';
-      
-      const contentDiv = document.createElement('div');
-      contentDiv.className = 'message-content';
-      
-      const typingDiv = document.createElement('div');
-      typingDiv.className = 'typing-indicator';
-      typingDiv.innerHTML = `
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      `;
-      
-      contentDiv.appendChild(typingDiv);
-      messageDiv.appendChild(avatarDiv);
-      messageDiv.appendChild(contentDiv);
-      messagesContainer.appendChild(messageDiv);
-      
-      // Scroll al final
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      
-      return messageDiv;
+      if (chatResponse.ok) {
+        const data = await chatResponse.json();
+        return { available: true, method: 'chat', data: data };
+      }
+    } catch (chatError) {
+      console.log('Chat test también falló');
     }
+    
+    return { available: false, method: 'none' };
+  }
 
-    // Función para enviar mensaje
-    async function sendMessage() {
-      const text = inputField.value.trim();
-      if (!text || isGenerating) return;
+  // Función para enviar mensaje
+  async function sendMessage() {
+    const text = inputField.value.trim();
+    if (!text || isGenerating) return;
+    
+    // Limpiar input
+    inputField.value = '';
+    inputField.style.height = 'auto';
+    
+    // Agregar mensaje del usuario
+    addMessage(text, true);
+    
+    // Deshabilitar entrada
+    inputField.disabled = true;
+    sendButton.disabled = true;
+    isGenerating = true;
+    
+    // Mostrar indicador de escritura
+    const typingIndicator = showTypingIndicator();
+    
+    try {
+      // Enviar mensaje al servidor
+      const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          message: text 
+        })
+      });
       
-      // Limpiar input
-      inputField.value = '';
-      inputField.style.height = 'auto';
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
       
-      // Agregar mensaje del usuario
-      addMessage(text, true);
+      const data = await response.json();
       
-      // Deshabilitar entrada
-      inputField.disabled = true;
-      sendButton.disabled = true;
-      isGenerating = true;
+      // Remover indicador de escritura
+      typingIndicator.remove();
       
-      // Mostrar indicador de escritura
-      const typingIndicator = showTypingIndicator();
+      // Verificar estructura de respuesta
+      if (data.status === 'success' && data.response) {
+        addMessage(data.response);
+        isServerAvailable = true;
+      } else {
+        throw new Error('Respuesta del servidor inválida');
+      }
       
-      try {
-        // Enviar mensaje al servidor Ollama
-        const response = await chatBot.sendMessage(text);
+    } catch (error) {
+      // Remover indicador de escritura
+      typingIndicator.remove();
+      
+      // Mostrar mensaje de error específico
+      let errorMessage = 'Error al conectar con la IA. ';
+      
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        errorMessage += 'No se puede contactar al servidor. Verifica:';
+        errorMessage += '\n• Que tu Mac esté encendida';
+        errorMessage += '\n• Que el servidor Flask esté ejecutándose';
+        errorMessage += '\n• Que ngrok esté activo';
+        errorMessage += '\n• Tu conexión a internet';
+      } else if (error.message.includes('HTTP 5')) {
+        errorMessage += 'Error del servidor. Intenta más tarde.';
+      } else if (error.message.includes('HTTP 4')) {
+        errorMessage += 'Error en la solicitud. Verifica la configuración.';
+      } else {
+        errorMessage += error.message;
+      }
+      
+      addMessage(errorMessage);
+      console.error('Error detallado:', error);
+      isServerAvailable = false;
+    } finally {
+      // Rehabilitar entrada
+      inputField.disabled = false;
+      sendButton.disabled = false;
+      isGenerating = false;
+      inputField.focus();
+    }
+  }
+
+  // Inicializar conexión con el servidor
+  async function initChat() {
+    try {
+      statusMessage.textContent = 'Verificando conexión con el servidor...';
+      progressContainer.style.display = 'block';
+      progressBar.style.width = '30%';
+      
+      // Verificar disponibilidad del servidor
+      const serverStatus = await checkServerAvailability();
+      
+      if (serverStatus.available) {
+        progressBar.style.width = '100%';
         
-        // Remover indicador de escritura
-        typingIndicator.remove();
-        
-        // Agregar respuesta al chat
-        addMessage(response);
-        
-      } catch (error) {
-        // Remover indicador de escritura
-        typingIndicator.remove();
-        
-        // Mostrar mensaje de error
-        let errorMessage = 'Lo siento, ocurrió un error al conectar con la IA.';
-        
-        if (error.message.includes('Failed to fetch')) {
-          errorMessage = 'Error de conexión: No se pudo contactar al servidor de IA. Verifica que tu Mac esté encendida y conectada.';
-        } else if (error.message.includes('No se pudo conectar')) {
-          errorMessage = 'El servidor de IA no está disponible. Por favor, intenta más tarde.';
+        if (serverStatus.method === 'health') {
+          statusMessage.textContent = '¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte?';
         } else {
-          errorMessage = `Error: ${error.message}`;
+          statusMessage.textContent = '¡Conectado! (Modo de compatibilidad) ¿En qué puedo ayudarte?';
         }
         
-        addMessage(errorMessage);
-        console.error('Error:', error);
-      } finally {
-        // Rehabilitar entrada
+        isServerAvailable = true;
+        
+        // Habilitar entrada
+        setTimeout(() => {
+          inputField.disabled = false;
+          sendButton.disabled = false;
+          inputField.placeholder = 'Escribe tu mensaje...';
+          inputField.focus();
+          progressContainer.style.display = 'none';
+        }, 1000);
+        
+      } else {
+        throw new Error('Servidor no disponible');
+      }
+      
+    } catch (error) {
+      console.error('Error en inicialización:', error);
+      
+      // MOSTRAR INTERFAZ A PESAR DEL ERROR - PERMITIR USO
+      statusMessage.textContent = '⚠️ Advertencia: No se pudo verificar el servidor, pero puedes intentar enviar mensajes.';
+      progressBar.style.width = '0%';
+      isServerAvailable = false;
+      
+      // HABILITAR INTERFAZ DE TODAS FORMAS
+      setTimeout(() => {
         inputField.disabled = false;
         sendButton.disabled = false;
-        isGenerating = false;
+        inputField.placeholder = 'Escribe tu mensaje (modo prueba)...';
         inputField.focus();
-      }
+        progressContainer.style.display = 'none';
+        
+        // Agregar mensaje informativo
+        addMessage('💡 **Modo de compatibilidad activado**\nEl sistema detectó posibles problemas de conexión, pero puedes intentar enviar mensajes. Si fallan, verifica que tu servidor local esté ejecutándose.');
+      }, 1500);
     }
+  }
 
-    // Inicializar conexión con Ollama
-    async function initChat() {
-      try {
-        statusMessage.textContent = 'Conectando con el servidor de IA...';
-        progressContainer.style.display = 'block';
-        progressBar.style.width = '30%';
-        
-        // Crear instancia del chat
-        chatBot = new OllamaChat(OLLAMA_SERVER_URL);
-        
-        // Intentar conexión
-        const connected = await chatBot.connect();
-        
-        if (connected) {
-          progressBar.style.width = '100%';
-          statusMessage.textContent = '¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte?';
-          
-          // Habilitar entrada después de conectar
-          setTimeout(() => {
-            inputField.disabled = false;
-            sendButton.disabled = false;
-            inputField.placeholder = 'Escribe tu mensaje...';
-            inputField.focus();
-            progressContainer.style.display = 'none';
-          }, 1000);
-        } else {
-          throw new Error('No se pudo conectar al servidor');
-        }
-        
-      } catch (error) {
-        console.error('Error al inicializar:', error);
-        statusMessage.textContent = 'Error al conectar con el servidor de IA. Verifica que el servidor esté corriendo.';
-        progressBar.style.width = '0%';
-        
-        // Intentar reconectar después de 5 segundos
-        setTimeout(() => {
-          initChat();
-        }, 5000);
-      }
-    }
-
-    // Inicializar cuando la página cargue
-    document.addEventListener('DOMContentLoaded', function() {
-      initChat();
-    });
-  </script>
+  // Inicializar cuando la página cargue
+  document.addEventListener('DOMContentLoaded', function() {
+    initChat();
+  });
+</script>
 </body>
 </html>
