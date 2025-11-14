@@ -316,6 +316,38 @@
     .footer-pi:hover {
       opacity: 1;
     }
+    
+    /* Botón de contacto con liquid glass */
+    .contact-button {
+      display: inline-block;
+      padding: 12px 32px;
+      margin-top: 16px;
+      border-radius: 999px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: pointer;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.3);
+      user-select: none;
+    }
+    
+    .contact-button:hover {
+      transform: translateY(-2px);
+    }
+    
+    body[data-theme='dark'] .contact-button {
+      color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .contact-button-wrapper {
+      text-align: center;
+      margin-top: 20px;
+    }
 
     .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
     .panel{
@@ -468,7 +500,7 @@
     #ai-float-btn {
       position: fixed;
       bottom: 20px;
-      right: 90px;
+      right: 20px;
       width: 60px;
       height: 60px;
       border-radius: 50%;
@@ -482,7 +514,7 @@
       transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       font-weight: 700;
       font-size: 22px;
-      color: #000000;
+      color: rgba(0, 0, 0, 0.3);
       user-select: none;
     }
     
@@ -497,7 +529,7 @@
     #ai-chat-window {
       position: fixed;
       bottom: 20px;
-      right: 90px;
+      right: 20px;
       width: 60px;
       height: 60px;
       border-radius: 50%;
@@ -709,7 +741,7 @@
     
     /* Tema oscuro para ventana IA */
     body[data-theme='dark'] #ai-float-btn {
-      color: #f0f0f0;
+      color: rgba(255, 255, 255, 0.3);
     }
     
     body[data-theme='dark'] #ai-chat-window {
@@ -1232,6 +1264,9 @@
             <strong>Teléfono:</strong> <a class="link-plain" href="tel:+17542313968">+1 754 231 3968</a><br>
             <strong>WhatsApp:</strong> <a class="link-plain" href="https://wa.me/17542313968">Enviar mensaje</a>
           </p>
+          <div class="contact-button-wrapper">
+            <a href="contacto.html" class="contact-button" id="contact-btn">CONTACTO</a>
+          </div>
         </div>
         
         <div class="service-card">
@@ -1318,7 +1353,7 @@
     let isDragging = false;
     let dragOffsetX = 0;
     let dragOffsetY = 0;
-    const initialPosition = { bottom: 20, right: 90 };
+    const initialPosition = { bottom: 20, right: 20 };
 
     // === Elementos DOM ===
     const aiFloatBtn = document.getElementById('ai-float-btn');
@@ -1328,6 +1363,7 @@
     const aiInput = document.getElementById('ai-input');
     const aiSendBtn = document.getElementById('ai-send-btn');
     const aiDragHandle = document.getElementById('ai-drag-handle');
+    const contactBtn = document.getElementById('contact-btn');
     
     // === COLORES LIQUID GLASS ALEATORIOS ===
     const aiColors = [
@@ -1341,8 +1377,9 @@
     
     // Seleccionar color aleatorio
     const randomColor = aiColors[Math.floor(Math.random() * aiColors.length)];
+    const randomColorContact = aiColors[Math.floor(Math.random() * aiColors.length)];
     
-    // Aplicar estilos al botón
+    // Aplicar estilos al botón R
     aiFloatBtn.style.background = randomColor.bg;
     aiFloatBtn.style.border = `1px solid ${randomColor.border}`;
     aiFloatBtn.style.boxShadow = `0 8px 32px ${randomColor.shadow}`;
@@ -1352,7 +1389,12 @@
     aiChatWindow.style.border = `1px solid ${randomColor.border}`;
     aiChatWindow.style.boxShadow = `0 8px 32px ${randomColor.shadow}`;
     
-    // Hover para el botón
+    // Aplicar estilos al botón de contacto
+    contactBtn.style.background = randomColorContact.bg;
+    contactBtn.style.border = `1px solid ${randomColorContact.border}`;
+    contactBtn.style.boxShadow = `0 8px 32px ${randomColorContact.shadow}`;
+    
+    // Hover para el botón R
     aiFloatBtn.addEventListener('mouseenter', () => {
       aiFloatBtn.style.boxShadow = `0 12px 40px ${randomColor.shadow}`;
     });
@@ -1361,6 +1403,15 @@
       if (!isAIChatOpen) {
         aiFloatBtn.style.boxShadow = `0 8px 32px ${randomColor.shadow}`;
       }
+    });
+    
+    // Hover para el botón de contacto
+    contactBtn.addEventListener('mouseenter', () => {
+      contactBtn.style.boxShadow = `0 12px 40px ${randomColorContact.shadow}`;
+    });
+    
+    contactBtn.addEventListener('mouseleave', () => {
+      contactBtn.style.boxShadow = `0 8px 32px ${randomColorContact.shadow}`;
     });
 
     // === Modo de color ===
