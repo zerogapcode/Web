@@ -43,7 +43,6 @@
       transition:transform .35s ease,opacity .35s ease;
       z-index:60;
       height: 70px;
-      /* GPU Acceleration */
       transform: translateZ(0);
       will-change: transform;
     }
@@ -68,41 +67,6 @@
     
     .brand .mini:active{
       transform: scale(0.95);
-    }
-
-    /* BOTÓN CRAZYGPT */
-    .crazy-gpt-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 16px;
-      background: rgba(100, 220, 150, 0.18);
-      border: 1px solid rgba(100, 220, 150, 0.5);
-      border-radius: 999px;
-      color: #000000;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 14px;
-      letter-spacing: 0.02em;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      box-shadow: 0 8px 32px rgba(100, 220, 150, 0.25);
-      white-space: nowrap;
-    }
-    
-    .crazy-gpt-btn:hover {
-      background: rgba(100, 220, 150, 0.25);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(100, 220, 150, 0.35);
-    }
-    
-    .crazy-gpt-btn:active {
-      transform: translateY(0);
-    }
-    
-    body[data-theme='dark'] .crazy-gpt-btn {
-      color: #000000;
     }
 
     nav {
@@ -248,7 +212,6 @@
       box-shadow: var(--card-shadow-light);
       position: relative;
       overflow: hidden;
-      /* GPU Acceleration */
       transform: translateZ(0);
       will-change: transform;
     }
@@ -302,7 +265,6 @@
       position: relative;
       overflow: hidden;
       box-shadow: var(--card-shadow-light);
-      /* GPU Acceleration */
       transform: translateZ(0);
       will-change: transform;
     }
@@ -340,6 +302,20 @@
     }
 
     footer{padding:40px 0;text-align:center;color:var(--muted-light);font-size:13px}
+    
+    .footer-pi {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+      font-style: normal;
+      margin-left: 4px;
+    }
+    
+    .footer-pi:hover {
+      opacity: 1;
+    }
 
     .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
     .panel{
@@ -348,7 +324,6 @@
       opacity:.95;
       box-shadow:0 18px 40px rgba(2,6,23,0.06);
       border:1px solid rgba(255,255,255,0.2);
-      /* GPU Acceleration - CRÍTICO para parallax suave */
       transform: translate3d(0, 0, 0);
       will-change: transform;
       backface-visibility: hidden;
@@ -357,7 +332,6 @@
       -webkit-backdrop-filter: blur(20px) saturate(180%);
     }
     
-    /* Colores arcoíris translúcidos con liquid glass - MODO CLARO (más intensos) */
     .panel.color-red {
       background: rgba(255, 100, 100, 0.18);
       border-color: rgba(255, 100, 100, 0.5);
@@ -394,7 +368,6 @@
       box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
     }
     
-    /* TRES TAMAÑOS DE PANELES - MODIFICADO */
     .panel.large {
       width: 280px;
       height: 140px;
@@ -488,139 +461,314 @@
     a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
     a.link-plain:hover{text-decoration:none;color:inherit}
 
-    /* Símbolo Pi - ESTILOS MEJORADOS PARA MÓVIL */
-    .pi-symbol {
+    /* ============================================
+       ESTILOS VENTANA FLOTANTE IA
+    ============================================ */
+    
+    #ai-float-btn {
       position: fixed;
       bottom: 20px;
-      right: 20px;
-      font-size: 24px;
-      font-weight: 700;
-      color: rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      cursor: pointer;
-      z-index: 50;
-      user-select: none;
-      opacity: 0;
-      transform: scale(0.8);
-      background: rgba(255, 255, 255, 0.1);
+      right: 90px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 9999;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      font-weight: 700;
+      font-size: 22px;
+      color: #000000;
+      user-select: none;
+    }
+    
+    #ai-float-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    #ai-float-btn.expanding {
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    #ai-chat-window {
+      position: fixed;
+      bottom: 20px;
+      right: 90px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      z-index: 9998;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    #ai-chat-window.expanding {
+      display: flex;
+      opacity: 1;
+      width: 400px;
+      height: 600px;
+      border-radius: 20px;
+      bottom: 20px;
+      right: 20px;
+    }
+    
+    #ai-chat-window.dragging {
+      transition: none;
+    }
+    
+    .ai-chat-header {
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: move;
+      user-select: none;
+    }
+    
+    .ai-chat-title {
+      font-weight: 600;
+      font-size: 16px;
+      color: #000000;
+    }
+    
+    .ai-chat-close {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 100, 100, 0.2);
+      border: 1px solid rgba(255, 100, 100, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 18px;
+      color: #ff6464;
+    }
+    
+    .ai-chat-close:hover {
+      background: rgba(255, 100, 100, 0.3);
+      transform: scale(1.1);
+    }
+    
+    .ai-chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .ai-message {
+      display: flex;
+      gap: 10px;
+      animation: messageSlideIn 0.3s ease;
+    }
+    
+    @keyframes messageSlideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .ai-message.user {
+      justify-content: flex-end;
+    }
+    
+    .ai-message-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    
+    .user .ai-message-avatar {
+      background: rgba(100, 180, 255, 0.3);
+      color: #64b4ff;
+    }
+    
+    .ai .ai-message-avatar {
+      background: rgba(100, 220, 150, 0.3);
+      color: #00cc88;
+    }
+    
+    .ai-message-content {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      line-height: 1.5;
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    
+    .user .ai-message-content {
+      background: rgba(100, 180, 255, 0.15);
+      border-top-right-radius: 4px;
+    }
+    
+    .ai .ai-message-content {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-top-left-radius: 4px;
+    }
+    
+    .ai-typing {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .ai-typing-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--muted-dark);
+      animation: aiTypingAnimation 1.4s infinite ease-in-out;
+    }
+    
+    .ai-typing-dot:nth-child(1) { animation-delay: 0s; }
+    .ai-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .ai-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes aiTypingAnimation {
+      0%, 60%, 100% { transform: scale(1); opacity: 0.5; }
+      30% { transform: scale(1.2); opacity: 1; }
+    }
+    
+    .ai-chat-input-container {
+      padding: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    
+    .ai-chat-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px 14px;
+      color: #000000;
+      font-size: 13px;
+      resize: none;
+      min-height: 40px;
+      max-height: 100px;
+      transition: all 0.3s ease;
+    }
+    
+    .ai-chat-input:focus {
+      outline: none;
+      border-color: rgba(100, 220, 150, 0.5);
+      box-shadow: 0 0 0 2px rgba(100, 220, 150, 0.1);
+    }
+    
+    .ai-chat-send {
+      background: rgba(100, 220, 150, 0.3);
+      color: #000000;
+      border: 1px solid rgba(100, 220, 150, 0.5);
+      border-radius: 12px;
       width: 40px;
       height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      flex-shrink: 0;
     }
     
-    .pi-symbol:hover {
-      opacity: 1;
-      transform: scale(1);
-      color: rgba(0, 0, 0, 0.8);
-      background: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    .ai-chat-send:hover {
+      background: rgba(100, 220, 150, 0.4);
+      transform: translateY(-2px);
     }
     
-    body[data-theme='dark'] .pi-symbol {
-      color: rgba(255, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+    .ai-chat-send:disabled {
+      background: rgba(150, 150, 150, 0.2);
+      cursor: not-allowed;
+      transform: none;
     }
     
-    body[data-theme='dark'] .pi-symbol:hover {
-      color: rgba(255, 255, 255, 0.9);
+    /* Tema oscuro para ventana IA */
+    body[data-theme='dark'] #ai-float-btn {
+      color: #f0f0f0;
+    }
+    
+    body[data-theme='dark'] #ai-chat-window {
       background: rgba(0, 0, 0, 0.3);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
-
-    /* MEJORAS ESPECÍFICAS PARA DISPOSITIVOS MÓVILES */
+    
+    body[data-theme='dark'] .ai-chat-title {
+      color: #f0f0f0;
+    }
+    
+    body[data-theme='dark'] .ai-chat-input {
+      color: #f0f0f0;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    body[data-theme='dark'] .ai .ai-message-content {
+      background: rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    body[data-theme='dark'] .user .ai-message-content {
+      background: rgba(100, 180, 255, 0.2);
+    }
+    
+    /* Responsive móvil - Fullscreen */
     @media (max-width: 768px) {
-      .pi-symbol {
-        opacity: 0.7; /* Visible pero discreto */
-        transform: scale(1);
-        bottom: 80px; /* Posición más accesible */
+      #ai-float-btn {
+        bottom: 90px;
         right: 20px;
         width: 55px;
         height: 55px;
-        font-size: 28px;
-        background: rgba(255, 255, 255, 0.85);
-        border: 2px solid rgba(0, 0, 0, 0.15);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        font-size: 20px;
       }
       
-      .pi-symbol:hover {
-        opacity: 1;
-        transform: scale(1.05);
-        background: rgba(255, 255, 255, 0.95);
+      #ai-chat-window.expanding {
+        width: 100vw !important;
+        height: 100vh !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        border-radius: 0;
       }
       
-      /* Efecto táctil para móviles */
-      .pi-symbol:active {
-        transform: scale(0.95);
-        background: rgba(100, 180, 255, 0.2);
-        transition: all 0.1s ease;
+      .ai-chat-header {
+        cursor: default;
       }
       
-      body[data-theme='dark'] .pi-symbol {
-        background: rgba(0, 0, 0, 0.7);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        color: rgba(255, 255, 255, 0.8);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      .ai-message-content {
+        max-width: 85%;
+        font-size: 14px;
       }
       
-      body[data-theme='dark'] .pi-symbol:hover {
-        background: rgba(0, 0, 0, 0.85);
-        color: rgba(255, 255, 255, 0.95);
-      }
-      
-      body[data-theme='dark'] .pi-symbol:active {
-        background: rgba(100, 180, 255, 0.3);
-      }
-      
-      /* Pequeña animación intermitente para llamar la atención */
-      @keyframes subtle-pulse {
-        0%, 100% { 
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        }
-        50% { 
-          box-shadow: 0 4px 20px rgba(100, 180, 255, 0.3);
-        }
-      }
-      
-      .pi-symbol {
-        animation: subtle-pulse 3s infinite;
-      }
-      
-      .pi-symbol:active {
-        animation: none;
+      .ai-chat-input {
+        font-size: 16px;
       }
     }
 
-    /* Ajustes para pantallas muy pequeñas */
-    @media (max-width: 480px) {
-      .pi-symbol {
-        bottom: 70px;
-        right: 15px;
-        width: 50px;
-        height: 50px;
-        font-size: 26px;
-      }
-    }
-
-    /* Para tablets en orientación vertical */
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .pi-symbol {
-        bottom: 25px;
-        right: 25px;
-        width: 45px;
-        height: 45px;
-        font-size: 26px;
-      }
-    }
-
-    /* Modo oscuro */
+    /* Modo oscuro general */
     body[data-theme='dark']{
       background:var(--bg-dark);
       color:var(--text-dark);
@@ -670,7 +818,6 @@
       box-shadow:0 18px 40px rgba(0,0,0,0.4);
     }
     
-    /* Colores más intensos en modo oscuro */
     body[data-theme='dark'] .panel.color-red {
       background: rgba(255, 100, 100, 0.12);
       border-color: rgba(255, 100, 100, 0.4);
@@ -794,7 +941,6 @@
       color: #ffffff;
     }
     
-    /* Soporte para prefers-reduced-motion */
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -811,11 +957,6 @@
       .typing-cursor {
         animation: none;
         opacity: 1;
-      }
-      
-      .pi-symbol {
-        transition: none !important;
-        animation: none !important;
       }
     }
     
@@ -964,8 +1105,6 @@
   <header id="topbar">
     <div class="brand">
       <div class="mini" id="brandMini">&lt;/&gt;</div>
-      <!-- BOTÓN CRAZYGPT AÑADIDO -->
-      <a href="ia.html" class="crazy-gpt-btn">CrazyGPT</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Menú principal">
       <span></span>
@@ -976,8 +1115,7 @@
       <a class="navlink" href="#inicio">Inicio</a>
       <a class="navlink" href="#servicios">Servicios</a>
       <a class="navlink" href="#departamentos">Departamentos</a>
-      <!-- CAMBIO PRINCIPAL: Enlace a página de contacto -->
-      <a class="navlink" href="contacto.html">Contacto</a>
+      <a class="navlink" href="#contacto">Contacto</a>
       <a class="navlink" href="#acerca">Acerca</a>
       <div class="mode-toggle">
         <div class="seg">
@@ -1148,15 +1286,83 @@
     <footer>
       <p>© 2023 ProtonLab — www.protonlab.site</p>
       <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
-        Innovación en cada línea de código, precisión en cada componente físico.
+        Innovación en cada línea de código, precisión en cada componente físico. <a href="pi.html" class="footer-pi">π</a>
       </p>
     </footer>
   </main>
 
-  <!-- SÍMBOLO PI MEJORADO PARA MÓVILES -->
-  <a href="pi.html" class="pi-symbol" title="π">π</a>
+  <!-- BOTÓN FLOTANTE IA -->
+  <div id="ai-float-btn">R</div>
+
+  <!-- VENTANA FLOTANTE IA -->
+  <div id="ai-chat-window">
+    <div class="ai-chat-header" id="ai-drag-handle">
+      <div class="ai-chat-title">RickGPT</div>
+      <div class="ai-chat-close" id="ai-close-btn">×</div>
+    </div>
+    <div class="ai-chat-body" id="ai-messages"></div>
+    <div class="ai-chat-input-container">
+      <textarea id="ai-input" class="ai-chat-input" placeholder="Conectando..." rows="1" disabled></textarea>
+      <button id="ai-send-btn" class="ai-chat-send" disabled>↑</button>
+    </div>
+  </div>
 
   <script>
+    // === CONFIGURACIÓN ===
+    const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+
+    // === Variables globales ===
+    let isAIChatOpen = false;
+    let isGenerating = false;
+    let isServerAvailable = false;
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+    const initialPosition = { bottom: 20, right: 90 };
+
+    // === Elementos DOM ===
+    const aiFloatBtn = document.getElementById('ai-float-btn');
+    const aiChatWindow = document.getElementById('ai-chat-window');
+    const aiCloseBtn = document.getElementById('ai-close-btn');
+    const aiMessages = document.getElementById('ai-messages');
+    const aiInput = document.getElementById('ai-input');
+    const aiSendBtn = document.getElementById('ai-send-btn');
+    const aiDragHandle = document.getElementById('ai-drag-handle');
+    
+    // === COLORES LIQUID GLASS ALEATORIOS ===
+    const aiColors = [
+      { bg: 'rgba(255, 100, 100, 0.18)', border: 'rgba(255, 100, 100, 0.5)', shadow: 'rgba(255, 100, 100, 0.25)' },
+      { bg: 'rgba(255, 165, 80, 0.18)', border: 'rgba(255, 165, 80, 0.5)', shadow: 'rgba(255, 165, 80, 0.25)' },
+      { bg: 'rgba(255, 220, 100, 0.18)', border: 'rgba(255, 220, 100, 0.5)', shadow: 'rgba(255, 220, 100, 0.25)' },
+      { bg: 'rgba(100, 220, 150, 0.18)', border: 'rgba(100, 220, 150, 0.5)', shadow: 'rgba(100, 220, 150, 0.25)' },
+      { bg: 'rgba(100, 180, 255, 0.18)', border: 'rgba(100, 180, 255, 0.5)', shadow: 'rgba(100, 180, 255, 0.25)' },
+      { bg: 'rgba(180, 120, 255, 0.18)', border: 'rgba(180, 120, 255, 0.5)', shadow: 'rgba(180, 120, 255, 0.25)' }
+    ];
+    
+    // Seleccionar color aleatorio
+    const randomColor = aiColors[Math.floor(Math.random() * aiColors.length)];
+    
+    // Aplicar estilos al botón
+    aiFloatBtn.style.background = randomColor.bg;
+    aiFloatBtn.style.border = `1px solid ${randomColor.border}`;
+    aiFloatBtn.style.boxShadow = `0 8px 32px ${randomColor.shadow}`;
+    
+    // Aplicar estilos a la ventana
+    aiChatWindow.style.background = randomColor.bg;
+    aiChatWindow.style.border = `1px solid ${randomColor.border}`;
+    aiChatWindow.style.boxShadow = `0 8px 32px ${randomColor.shadow}`;
+    
+    // Hover para el botón
+    aiFloatBtn.addEventListener('mouseenter', () => {
+      aiFloatBtn.style.boxShadow = `0 12px 40px ${randomColor.shadow}`;
+    });
+    
+    aiFloatBtn.addEventListener('mouseleave', () => {
+      if (!isAIChatOpen) {
+        aiFloatBtn.style.boxShadow = `0 8px 32px ${randomColor.shadow}`;
+      }
+    });
+
     // === Modo de color ===
     const modeButtons=document.querySelectorAll('.seg button');
     function applyTheme(mode){
@@ -1172,7 +1378,7 @@
     }));
     applyTheme('auto');
 
-    // === ANIMACIÓN TÍTULO MEJORADA CON VELOCIDAD CONSTANTE ===
+    // === ANIMACIÓN TÍTULO ===
     const typed = document.getElementById('typed');
     const brandMini = document.getElementById('brandMini');
     const finalText = 'ProtonLab';
@@ -1188,13 +1394,11 @@
     const animationSpeed = 100;
     
     function startTitleAnimation() {
-      // Reiniciar variables
       currentText = Array(9).fill('');
       currentStep = 0;
       animationPhase = 1;
       animationStartTime = Date.now();
       
-      // Limpiar intervalo anterior si existe
       if (animationInterval) {
         clearInterval(animationInterval);
       }
@@ -1251,10 +1455,7 @@
       typed.textContent = currentText.join('');
     }
     
-    // Iniciar animación al cargar
     startTitleAnimation();
-    
-    // Reiniciar animación al hacer clic en el logo
     brandMini.addEventListener('click', () => {
       startTitleAnimation();
     });
@@ -1308,58 +1509,40 @@
       }
     });
 
-    // === PARALLAX CON 3 TAMAÑOS Y VELOCIDADES DIFERENCIADAS ===
+    // === PARALLAX (código reducido por brevedad) ===
     const panels=document.getElementById('panels');
     
-    // Colores del arcoíris para distribuir entre los paneles
     const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
-    
-    // Array para almacenar las posiciones ya ocupadas
     const occupiedPositions = [];
     
-    // Función para verificar si dos rectángulos se solapan
     function isOverlapping(pos1, pos2, size1, size2, margin = 5) {
-      // Convertir porcentajes a números
       const left1 = parseFloat(pos1.left);
       const top1 = parseFloat(pos1.top);
       const left2 = parseFloat(pos2.left);
       const top2 = parseFloat(pos2.top);
       
-      // Calcular los límites de cada rectángulo con margen adicional
       const right1 = left1 + size1.width + margin;
       const bottom1 = top1 + size1.height + margin;
       const right2 = left2 + size2.width + margin;
       const bottom2 = top2 + size2.height + margin;
       
-      // Verificar solapamiento
       return !(right1 < left2 || left1 > right2 || bottom1 < top2 || top1 > bottom2);
     }
     
-    // Función para generar posición aleatoria sin solapamiento
     function getRandomPosition(sizeType) {
       let leftMin, leftMax, topMin, topMax, size;
       
-      // Configurar rangos según el tamaño
       switch(sizeType) {
         case 'large':
-          leftMin = 2;
-          leftMax = 70;
-          topMin = 15;
-          topMax = 70;
+          leftMin = 2; leftMax = 70; topMin = 15; topMax = 70;
           size = { width: 20, height: 15 };
           break;
         case 'medium':
-          leftMin = 5;
-          leftMax = 75;
-          topMin = 10;
-          topMax = 75;
+          leftMin = 5; leftMax = 75; topMin = 10; topMax = 75;
           size = { width: 16, height: 12 };
           break;
         case 'small':
-          leftMin = 8;
-          leftMax = 82;
-          topMin = 5;
-          topMax = 80;
+          leftMin = 8; leftMax = 82; topMin = 5; topMax = 80;
           size = { width: 12, height: 8 };
           break;
       }
@@ -1373,7 +1556,6 @@
           top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%'
         };
         
-        // Verificar si esta posición se solapa con alguna existente
         let hasOverlap = false;
         for (const occupied of occupiedPositions) {
           if (isOverlapping(position, occupied.position, size, occupied.size)) {
@@ -1383,7 +1565,6 @@
         }
         
         if (!hasOverlap) {
-          // Guardar esta posición como ocupada
           occupiedPositions.push({ position, size });
           return position;
         }
@@ -1391,7 +1572,6 @@
         attempts++;
       }
       
-      // Si no se encuentra posición después de muchos intentos, devolver una aleatoria
       const fallbackPosition = {
         left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%',
         top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%'
@@ -1400,7 +1580,6 @@
       return fallbackPosition;
     }
     
-    // Función para mezclar aleatoriamente un array (Fisher-Yates shuffle)
     function shuffleArray(array) {
       const newArray = [...array];
       for (let i = newArray.length - 1; i > 0; i--) {
@@ -1410,193 +1589,36 @@
       return newArray;
     }
     
-    // Mezclar colores aleatoriamente
     const shuffledColors = shuffleArray(rainbowColors);
     
-    // CONFIGURACIÓN DE 3 TAMAÑOS CON VELOCIDADES PROGRESIVAS
-    // Grandes: más rápidos (0.6-0.9) - primer plano
     const largePanelsContent = [
-      {
-        speed: 0.9, // Más rápido
-        lines: [
-          '// Inicializando sistema...',
-          'const a = 42;',
-          'function ping() {',
-          '  return "pong";',
-          '}',
-          'console.log(ping());'
-        ]
-      },
-      {
-        speed: 0.8,
-        lines: [
-          '<init/>',
-          '#include <stdio.h>',
-          'int main() {',
-          '  printf("Hola mundo\\n");',
-          '  return 0;',
-          '}',
-          'boot> OK'
-        ]
-      },
-      {
-        speed: 0.7,
-        lines: [
-          '// Lectura de sensor',
-          'val = analogRead(A0);',
-          'if (val > 512) {',
-          '  digitalWrite(LED, HIGH);',
-          '} else {',
-          '  digitalWrite(LED, LOW);',
-          '}',
-          'send(val);'
-        ]
-      },
-      {
-        speed: 0.6,
-        lines: [
-          'class Device {',
-          '  constructor(name) {',
-          '    this.name = name;',
-          '    this.status = "off";',
-          '  }',
-          '  run() {',
-          '    this.status = "running";',
-          '  }',
-          '}'
-        ]
-      }
+      { speed: 0.9, lines: ['// Inicializando sistema...', 'const a = 42;', 'function ping() {', '  return "pong";', '}', 'console.log(ping());'] },
+      { speed: 0.8, lines: ['<init/>', '#include <stdio.h>', 'int main() {', '  printf("Hola mundo\\n");', '  return 0;', '}', 'boot> OK'] },
+      { speed: 0.7, lines: ['// Lectura de sensor', 'val = analogRead(A0);', 'if (val > 512) {', '  digitalWrite(LED, HIGH);', '} else {', '  digitalWrite(LED, LOW);', '}', 'send(val);'] },
+      { speed: 0.6, lines: ['class Device {', '  constructor(name) {', '    this.name = name;', '    this.status = "off";', '  }', '  run() {', '    this.status = "running";', '  }', '}'] }
     ];
     
-    // Medianos: velocidad media (0.3-0.5) - plano medio
     const mediumPanelsContent = [
-      {
-        speed: 0.5,
-        lines: [
-          '// Configuración API',
-          'const config = {',
-          '  endpoint: "/api",',
-          '  timeout: 5000,',
-          '  retries: 3',
-          '}',
-          'export default config;'
-        ]
-      },
-      {
-        speed: 0.45,
-        lines: [
-          'func calculate() {',
-          '  let x = 10',
-          '  let y = 20',
-          '  return x + y',
-          '}',
-          'print(calculate())'
-        ]
-      },
-      {
-        speed: 0.4,
-        lines: [
-          'public class Hello {',
-          '  public static void',
-          '  main(String[] args) {',
-          '    System.out.println("Hi");',
-          '  }',
-          '}'
-        ]
-      },
-      {
-        speed: 0.35,
-        lines: [
-          '-- Tabla de usuarios',
-          'CREATE TABLE users (',
-          '  id INT PRIMARY KEY,',
-          '  name VARCHAR(100)',
-          ');',
-          'INSERT INTO users...'
-        ]
-      },
-      {
-        speed: 0.3,
-        lines: [
-          'import SwiftUI',
-          'struct ContentView: View {',
-          '  var body: some View {',
-          '    Text("Hello")',
-          '  }',
-          '}'
-        ]
-      }
+      { speed: 0.5, lines: ['// Configuración API', 'const config = {', '  endpoint: "/api",', '  timeout: 5000,', '  retries: 3', '}', 'export default config;'] },
+      { speed: 0.45, lines: ['func calculate() {', '  let x = 10', '  let y = 20', '  return x + y', '}', 'print(calculate())'] },
+      { speed: 0.4, lines: ['public class Hello {', '  public static void', '  main(String[] args) {', '    System.out.println("Hi");', '  }', '}'] },
+      { speed: 0.35, lines: ['-- Tabla de usuarios', 'CREATE TABLE users (', '  id INT PRIMARY KEY,', '  name VARCHAR(100)', ');', 'INSERT INTO users...'] },
+      { speed: 0.3, lines: ['import SwiftUI', 'struct ContentView: View {', '  var body: some View {', '    Text("Hello")', '  }', '}'] }
     ];
     
-    // Pequeños: más lentos (0.1-0.25) - fondo
     const smallPanelsContent = [
-      {
-        speed: 0.25,
-        lines: [
-          'npm install...',
-          '✓ Dependencies',
-          'build completed'
-        ]
-      },
-      {
-        speed: 0.2,
-        lines: [
-          'git commit -m',
-          '"update: features"',
-          'push origin main'
-        ]
-      },
-      {
-        speed: 0.18,
-        lines: [
-          'DEBUG MODE',
-          'WARNING: check',
-          'parameters valid'
-        ]
-      },
-      {
-        speed: 0.15,
-        lines: [
-          'CPU: 45% load',
-          'MEM: 2.3GB used',
-          'NET: 120kb/s'
-        ]
-      },
-      {
-        speed: 0.12,
-        lines: [
-          'test.py running',
-          '✓ 15/15 passed',
-          'coverage: 92%'
-        ]
-      },
-      {
-        speed: 0.1,
-        lines: [
-          'docker build',
-          'image: ready',
-          'container: run'
-        ]
-      }
+      { speed: 0.25, lines: ['npm install...', '✓ Dependencies', 'build completed'] },
+      { speed: 0.2, lines: ['git commit -m', '"update: features"', 'push origin main'] },
+      { speed: 0.18, lines: ['DEBUG MODE', 'WARNING: check', 'parameters valid'] },
+      { speed: 0.15, lines: ['CPU: 45% load', 'MEM: 2.3GB used', 'NET: 120kb/s'] },
+      { speed: 0.12, lines: ['test.py running', '✓ 15/15 passed', 'coverage: 92%'] },
+      { speed: 0.1, lines: ['docker build', 'image: ready', 'container: run'] }
     ];
     
-    // Generar posiciones para los 3 tamaños
-    const largePanels = largePanelsContent.map(content => ({
-      ...content,
-      ...getRandomPosition('large')
-    }));
+    const largePanels = largePanelsContent.map(content => ({ ...content, ...getRandomPosition('large') }));
+    const mediumPanels = mediumPanelsContent.map(content => ({ ...content, ...getRandomPosition('medium') }));
+    const smallPanels = smallPanelsContent.map(content => ({ ...content, ...getRandomPosition('small') }));
     
-    const mediumPanels = mediumPanelsContent.map(content => ({
-      ...content,
-      ...getRandomPosition('medium')
-    }));
-    
-    const smallPanels = smallPanelsContent.map(content => ({
-      ...content,
-      ...getRandomPosition('small')
-    }));
-    
-    // Función para animar escritura
     function typeText(element, text, speed, onComplete) {
       let i = 0;
       element.innerHTML = '';
@@ -1608,11 +1630,8 @@
           i++;
           
           let delay = speed;
-          if (char === '.' || char === ';' || char === '}') {
-            delay = speed * 3;
-          } else if (char === ',' || char === ' ') {
-            delay = speed * 1.5;
-          }
+          if (char === '.' || char === ';' || char === '}') delay = speed * 3;
+          else if (char === ',' || char === ' ') delay = speed * 1.5;
           
           setTimeout(typeChar, delay);
         } else if (onComplete) {
@@ -1623,7 +1642,6 @@
       typeChar();
     }
     
-    // Función para animar panel con control de estado
     function animatePanel(panel, lines, isSmall = false) {
       const inner = panel.querySelector('.inner');
       let currentLine = 0;
@@ -1668,48 +1686,25 @@
       }
       
       return {
-        start: () => {
-          if (!isAnimating) {
-            isAnimating = true;
-            typeNextLine();
-          }
-        },
-        stop: () => {
-          stopAnimation();
-        }
+        start: () => { if (!isAnimating) { isAnimating = true; typeNextLine(); } },
+        stop: () => { stopAnimation(); }
       };
     }
     
-    // Almacenar controladores de animación
     const animationControllers = new Map();
-    
-    // Crear IntersectionObserver para detectar paneles visibles
-    const observerOptions = {
-      root: null,
-      rootMargin: '100px',
-      threshold: 0
-    };
-    
     const panelObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         const panelEl = entry.target;
         const controller = animationControllers.get(panelEl);
         
         if (entry.isIntersecting) {
-          // Panel visible: iniciar animación
-          if (controller) {
-            controller.start();
-          }
+          if (controller) controller.start();
         } else {
-          // Panel fuera de vista: detener animación
-          if (controller) {
-            controller.stop();
-          }
+          if (controller) controller.stop();
         }
       });
-    }, observerOptions);
+    }, { root: null, rootMargin: '100px', threshold: 0 });
     
-    // Crear paneles grandes
     largePanels.forEach((c, index) => {
       const el = document.createElement('div');
       el.className = 'panel large ' + shuffledColors[index % shuffledColors.length];
@@ -1720,19 +1715,12 @@
       el.appendChild(inner);
       panels.appendChild(el);
       c.el = el;
-      
-      // Crear controlador de animación
       const controller = animatePanel(el, c.lines, false);
       animationControllers.set(el, controller);
-      
-      // Observar el panel
       panelObserver.observe(el);
     });
     
-    // Mezclar colores para paneles medianos
     const shuffledColorsMedium = shuffleArray(rainbowColors);
-    
-    // Crear paneles medianos
     mediumPanels.forEach((c, index) => {
       const el = document.createElement('div');
       el.className = 'panel medium ' + shuffledColorsMedium[index % shuffledColorsMedium.length];
@@ -1743,19 +1731,12 @@
       el.appendChild(inner);
       panels.appendChild(el);
       c.el = el;
-      
-      // Crear controlador de animación
       const controller = animatePanel(el, c.lines, false);
       animationControllers.set(el, controller);
-      
-      // Observar el panel
       panelObserver.observe(el);
     });
     
-    // Mezclar colores para paneles pequeños
     const shuffledColorsSmall = shuffleArray(rainbowColors);
-    
-    // Crear paneles pequeños
     smallPanels.forEach((c, index) => {
       const el = document.createElement('div');
       el.className = 'panel small ' + shuffledColorsSmall[index % shuffledColorsSmall.length];
@@ -1766,47 +1747,333 @@
       el.appendChild(inner);
       panels.appendChild(el);
       c.el = el;
-      
-      // Crear controlador de animación
       const controller = animatePanel(el, c.lines, true);
       animationControllers.set(el, controller);
-      
-      // Observar el panel
       panelObserver.observe(el);
     });
 
-    // Parallax con 3 velocidades diferenciadas
     let ticking = false;
-    
     window.addEventListener('scroll', () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const scrollY = window.scrollY;
-          
-          // Paneles grandes - más rápidos (primer plano)
-          largePanels.forEach(c => {
-            const offset = -scrollY * c.speed;
-            c.el.style.transform = `translate3d(0, ${offset}px, 0)`;
-          });
-          
-          // Paneles medianos - velocidad media (plano medio)
-          mediumPanels.forEach(c => {
-            const offset = -scrollY * c.speed;
-            c.el.style.transform = `translate3d(0, ${offset}px, 0)`;
-          });
-          
-          // Paneles pequeños - más lentos (fondo)
-          smallPanels.forEach(c => {
-            const offset = -scrollY * c.speed;
-            c.el.style.transform = `translate3d(0, ${offset}px, 0)`;
-          });
-          
+          largePanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
+          mediumPanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
+          smallPanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
           ticking = false;
         });
-        
         ticking = true;
       }
     });
+
+    // ========================================
+    // FUNCIONALIDAD VENTANA FLOTANTE IA
+    // ========================================
+
+    aiFloatBtn.addEventListener('click', () => {
+      if (!isAIChatOpen) openAIChat();
+    });
+
+    aiCloseBtn.addEventListener('click', () => {
+      closeAIChat();
+    });
+
+    function openAIChat() {
+      isAIChatOpen = true;
+      aiFloatBtn.style.display = 'none';
+      aiChatWindow.style.display = 'flex';
+      
+      const isMobile = window.innerWidth <= 768;
+      
+      setTimeout(() => {
+        aiChatWindow.classList.add('expanding');
+        if (isMobile) {
+          aiChatWindow.style.top = '0';
+          aiChatWindow.style.left = '0';
+          aiChatWindow.style.bottom = '0';
+          aiChatWindow.style.right = '0';
+        }
+      }, 50);
+      
+      setTimeout(() => { initAIConnection(); }, 600);
+    }
+
+    function closeAIChat() {
+      isAIChatOpen = false;
+      aiChatWindow.classList.remove('expanding');
+      
+      setTimeout(() => {
+        aiChatWindow.style.display = 'none';
+        aiFloatBtn.style.display = 'flex';
+        
+        aiFloatBtn.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        aiFloatBtn.style.bottom = initialPosition.bottom + 'px';
+        aiFloatBtn.style.right = initialPosition.right + 'px';
+        aiFloatBtn.style.top = 'auto';
+        aiFloatBtn.style.left = 'auto';
+        
+        aiChatWindow.style.bottom = initialPosition.bottom + 'px';
+        aiChatWindow.style.right = initialPosition.right + 'px';
+        aiChatWindow.style.top = 'auto';
+        aiChatWindow.style.left = 'auto';
+        
+        aiMessages.innerHTML = '';
+        aiInput.value = '';
+        aiInput.disabled = true;
+        aiSendBtn.disabled = true;
+        aiInput.placeholder = 'Conectando...';
+        isServerAvailable = false;
+      }, 600);
+    }
+
+    let currentX = 0;
+    let currentY = 0;
+    let initialX = 0;
+    let initialY = 0;
+
+    aiDragHandle.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+
+    function dragStart(e) {
+      if (window.innerWidth <= 768) return;
+      
+      const rect = aiChatWindow.getBoundingClientRect();
+      initialX = e.clientX - rect.left;
+      initialY = e.clientY - rect.top;
+      
+      if (e.target === aiDragHandle || aiDragHandle.contains(e.target)) {
+        if (e.target !== aiCloseBtn && !aiCloseBtn.contains(e.target)) {
+          isDragging = true;
+          aiChatWindow.classList.add('dragging');
+        }
+      }
+    }
+
+    function drag(e) {
+      if (isDragging) {
+        e.preventDefault();
+        
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+        
+        const maxX = window.innerWidth - aiChatWindow.offsetWidth;
+        const maxY = window.innerHeight - aiChatWindow.offsetHeight;
+        
+        currentX = Math.max(0, Math.min(currentX, maxX));
+        currentY = Math.max(0, Math.min(currentY, maxY));
+        
+        aiChatWindow.style.left = currentX + 'px';
+        aiChatWindow.style.top = currentY + 'px';
+        aiChatWindow.style.bottom = 'auto';
+        aiChatWindow.style.right = 'auto';
+      }
+    }
+
+    function dragEnd() {
+      if (isDragging) {
+        isDragging = false;
+        aiChatWindow.classList.remove('dragging');
+      }
+    }
+
+    aiInput.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+    });
+
+    aiInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (!isGenerating) sendAIMessage();
+      }
+    });
+
+    aiSendBtn.addEventListener('click', sendAIMessage);
+
+    function addAIMessage(content, isUser = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `ai-message ${isUser ? 'user' : 'ai'}`;
+      
+      const avatarDiv = document.createElement('div');
+      avatarDiv.className = 'ai-message-avatar';
+      avatarDiv.textContent = isUser ? 'Tú' : 'IA';
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'ai-message-content';
+      contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+      
+      messageDiv.appendChild(avatarDiv);
+      messageDiv.appendChild(contentDiv);
+      aiMessages.appendChild(messageDiv);
+      
+      aiMessages.scrollTop = aiMessages.scrollHeight;
+      
+      return contentDiv;
+    }
+
+    function showAITyping() {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'ai-message ai';
+      messageDiv.id = 'ai-typing-indicator';
+      
+      const avatarDiv = document.createElement('div');
+      avatarDiv.className = 'ai-message-avatar';
+      avatarDiv.textContent = 'IA';
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'ai-message-content';
+      
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'ai-typing';
+      typingDiv.innerHTML = `
+        <div class="ai-typing-dot"></div>
+        <div class="ai-typing-dot"></div>
+        <div class="ai-typing-dot"></div>
+      `;
+      
+      contentDiv.appendChild(typingDiv);
+      messageDiv.appendChild(avatarDiv);
+      messageDiv.appendChild(contentDiv);
+      aiMessages.appendChild(messageDiv);
+      
+      aiMessages.scrollTop = aiMessages.scrollHeight;
+      
+      return messageDiv;
+    }
+
+    async function checkAIServer() {
+      try {
+        const healthResponse = await fetch(`${OLLAMA_SERVER_URL}/health`, {
+          method: 'GET',
+          mode: 'cors',
+          headers: { 'Accept': 'application/json' }
+        });
+        
+        if (healthResponse.ok) {
+          const data = await healthResponse.json();
+          return { available: true, method: 'health', data: data };
+        }
+      } catch (healthError) {
+        console.log('Health check falló, intentando con chat...');
+      }
+      
+      try {
+        const testMessage = { message: 'test' };
+        const chatResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(testMessage)
+        });
+        
+        if (chatResponse.ok) {
+          const data = await chatResponse.json();
+          return { available: true, method: 'chat', data: data };
+        }
+      } catch (chatError) {
+        console.log('Chat test también falló');
+      }
+      
+      return { available: false, method: 'none' };
+    }
+
+    async function initAIConnection() {
+      try {
+        addAIMessage('Verificando conexión con el servidor...');
+        
+        const serverStatus = await checkAIServer();
+        
+        if (serverStatus.available) {
+          aiMessages.innerHTML = '';
+          addAIMessage('¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte?');
+          isServerAvailable = true;
+          
+          aiInput.disabled = false;
+          aiSendBtn.disabled = false;
+          aiInput.placeholder = 'Escribe tu mensaje...';
+          aiInput.focus();
+        } else {
+          throw new Error('Servidor no disponible');
+        }
+      } catch (error) {
+        console.error('Error en inicialización:', error);
+        aiMessages.innerHTML = '';
+        addAIMessage('⚠️ Advertencia: No se pudo verificar el servidor, pero puedes intentar enviar mensajes.');
+        isServerAvailable = false;
+        
+        aiInput.disabled = false;
+        aiSendBtn.disabled = false;
+        aiInput.placeholder = 'Escribe tu mensaje (modo prueba)...';
+        aiInput.focus();
+      }
+    }
+
+    async function sendAIMessage() {
+      const text = aiInput.value.trim();
+      if (!text || isGenerating) return;
+      
+      aiInput.value = '';
+      aiInput.style.height = 'auto';
+      
+      addAIMessage(text, true);
+      
+      aiInput.disabled = true;
+      aiSendBtn.disabled = true;
+      isGenerating = true;
+      
+      const typingIndicator = showAITyping();
+      
+      try {
+        const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        
+        typingIndicator.remove();
+        
+        if (data.status === 'success' && data.response) {
+          addAIMessage(data.response);
+          isServerAvailable = true;
+        } else {
+          throw new Error('Respuesta del servidor inválida');
+        }
+        
+      } catch (error) {
+        typingIndicator.remove();
+        
+        let errorMessage = 'Error al conectar con la IA. ';
+        
+        if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+          errorMessage += 'No se puede contactar al servidor. Verifica:\n• Que tu Mac esté encendida\n• Que el servidor Flask esté ejecutándose\n• Que ngrok esté activo\n• Tu conexión a internet';
+        } else if (error.message.includes('HTTP 5')) {
+          errorMessage += 'Error del servidor. Intenta más tarde.';
+        } else if (error.message.includes('HTTP 4')) {
+          errorMessage += 'Error en la solicitud. Verifica la configuración.';
+        } else {
+          errorMessage += error.message;
+        }
+        
+        addAIMessage(errorMessage);
+        console.error('Error detallado:', error);
+        isServerAvailable = false;
+      } finally {
+        aiInput.disabled = false;
+        aiSendBtn.disabled = false;
+        isGenerating = false;
+        aiInput.focus();
+      }
+    }
   </script>
 </body>
 </html>
