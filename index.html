@@ -11,7 +11,7 @@
     :root{
       --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
       --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
-      --accent-dark:#e0e0e0; --max-width:1100px; 
+      --accent-dark:#e0e0f0; --max-width:1100px; 
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
       
       --card-bg-light: rgba(255, 255, 255, 0.01);
@@ -441,20 +441,11 @@
     .panel .inner{
       padding: 10px;
       color: var(--muted-light);
-      overflow: hidden;
-      word-wrap: break-word;
-      max-height: 100%;
     }
     @media (min-width: 768px) {
       .panel .inner {
         padding: 12px;
       }
-    }
-    
-    .panel .inner div {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
     
     .panel.large .inner {
@@ -775,7 +766,7 @@
       background: rgba(100, 180, 255, 0.2);
     }
     
-    /* Responsive móvil - Fullscreen */
+    /* Responsive móvil - Ventana ajustada */
     @media (max-width: 768px) {
       #ai-float-btn {
         bottom: 90px;
@@ -786,17 +777,21 @@
       }
       
       #ai-chat-window.expanding {
-        width: 100vw !important;
-        height: 100vh !important;
-        top: 0 !important;
-        left: 0 !important;
-        bottom: 0 !important;
-        right: 0 !important;
-        border-radius: 0;
+        width: 95vw !important;
+        height: 65vh !important;
+        max-height: 500px;
+        min-height: 300px;
+        top: auto !important;
+        left: 2.5vw !important;
+        bottom: 20px !important;
+        right: auto !important;
+        border-radius: 20px;
+        transform: translate3d(0, 0, 0);
       }
       
       .ai-chat-header {
         cursor: default;
+        padding: 12px 16px;
       }
       
       .ai-message-content {
@@ -806,6 +801,59 @@
       
       .ai-chat-input {
         font-size: 16px;
+        min-height: 44px; /* Tamaño mínimo para mejor usabilidad táctil */
+      }
+      
+      .ai-chat-input-container {
+        padding: 12px 16px;
+      }
+      
+      .ai-chat-body {
+        padding: 12px 16px;
+        flex: 1;
+        overflow-y: auto;
+      }
+      
+      /* Asegurar que el área de mensajes sea desplazable */
+      .ai-chat-body::-webkit-scrollbar {
+        width: 4px;
+      }
+      
+      .ai-chat-body::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 2px;
+      }
+    }
+    
+    /* Para pantallas muy pequeñas */
+    @media (max-width: 480px) {
+      #ai-chat-window.expanding {
+        height: 60vh !important;
+        min-height: 280px;
+        bottom: 15px !important;
+        left: 2.5vw !important;
+        width: 95vw !important;
+      }
+      
+      .ai-chat-header {
+        padding: 10px 14px;
+      }
+      
+      .ai-chat-body {
+        padding: 10px 14px;
+      }
+      
+      .ai-chat-input-container {
+        padding: 10px 14px;
+      }
+    }
+    
+    /* Ajustes adicionales para cuando el teclado está activo */
+    @media (max-height: 600px) and (max-width: 768px) {
+      #ai-chat-window.expanding {
+        height: 50vh !important;
+        min-height: 250px;
+        bottom: 10px !important;
       }
     }
 
@@ -1848,10 +1896,13 @@
       setTimeout(() => {
         aiChatWindow.classList.add('expanding');
         if (isMobile) {
-          aiChatWindow.style.top = '0';
-          aiChatWindow.style.left = '0';
-          aiChatWindow.style.bottom = '0';
-          aiChatWindow.style.right = '0';
+          // Usar la nueva posición centrada en la parte inferior
+          aiChatWindow.style.left = '2.5vw';
+          aiChatWindow.style.bottom = '20px';
+          aiChatWindow.style.right = 'auto';
+          aiChatWindow.style.top = 'auto';
+          aiChatWindow.style.width = '95vw';
+          aiChatWindow.style.height = '65vh';
         }
       }, 50);
       
@@ -1866,16 +1917,20 @@
         aiChatWindow.style.display = 'none';
         aiFloatBtn.style.display = 'flex';
         
+        // Restaurar posición del botón flotante
         aiFloatBtn.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
         aiFloatBtn.style.bottom = initialPosition.bottom + 'px';
         aiFloatBtn.style.right = initialPosition.right + 'px';
         aiFloatBtn.style.top = 'auto';
         aiFloatBtn.style.left = 'auto';
         
-        aiChatWindow.style.bottom = initialPosition.bottom + 'px';
-        aiChatWindow.style.right = initialPosition.right + 'px';
-        aiChatWindow.style.top = 'auto';
-        aiChatWindow.style.left = 'auto';
+        // Limpiar estilos de posición de la ventana
+        aiChatWindow.style.bottom = '';
+        aiChatWindow.style.right = '';
+        aiChatWindow.style.top = '';
+        aiChatWindow.style.left = '';
+        aiChatWindow.style.width = '';
+        aiChatWindow.style.height = '';
         
         aiMessages.innerHTML = '';
         aiInput.value = '';
