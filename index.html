@@ -11,7 +11,7 @@
     :root{
       --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
       --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
-      --accent-dark:#e0e0e0; --max-width:1100px; 
+      --accent-dark:#e0e0f0; --max-width:1100px; 
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
       
       --card-bg-light: rgba(255, 255, 255, 0.01);
@@ -362,6 +362,7 @@
       -webkit-backface-visibility: hidden;
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
+      overflow: hidden; /* Evita que el texto se salga */
     }
     
     .panel.color-red {
@@ -441,9 +442,11 @@
     .panel .inner{
       padding: 10px;
       color: var(--muted-light);
-      overflow: hidden;
-      word-wrap: break-word;
-      max-height: 100%;
+      overflow: hidden; /* Evita que el texto se salga */
+      height: 100%; /* Ocupa toda la altura del panel */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
     @media (min-width: 768px) {
       .panel .inner {
@@ -451,14 +454,9 @@
       }
     }
     
-    .panel .inner div {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    
     .panel.large .inner {
       font-size: 11px;
+      line-height: 1.3; /* Mejor espaciado entre líneas */
     }
     @media (min-width: 768px) {
       .panel.large .inner {
@@ -468,6 +466,7 @@
     
     .panel.medium .inner {
       font-size: 10px;
+      line-height: 1.3;
     }
     @media (min-width: 768px) {
       .panel.medium .inner {
@@ -477,11 +476,19 @@
     
     .panel.small .inner {
       font-size: 9px;
+      line-height: 1.2;
     }
     @media (min-width: 768px) {
       .panel.small .inner {
         font-size: 10px;
       }
+    }
+    
+    .code-line {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
     }
     
     .typing-cursor {
@@ -566,17 +573,6 @@
       transition: none;
     }
     
-    #ai-chat-window.mobile-mode {
-      width: 100vw !important;
-      height: 70vh !important;
-      max-height: 70vh !important;
-      top: auto !important;
-      left: 0 !important;
-      bottom: 0 !important;
-      right: 0 !important;
-      border-radius: 20px 20px 0 0 !important;
-    }
-    
     .ai-chat-header {
       padding: 16px 20px;
       background: rgba(255, 255, 255, 0.05);
@@ -586,6 +582,7 @@
       align-items: center;
       cursor: move;
       user-select: none;
+      flex-shrink: 0; /* Evita que se encoja */
     }
     
     .ai-chat-title {
@@ -617,29 +614,11 @@
     .ai-chat-body {
       flex: 1;
       overflow-y: auto;
-      overflow-x: hidden;
       padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      -webkit-overflow-scrolling: touch;
-    }
-    
-    .ai-chat-body::-webkit-scrollbar {
-      width: 6px;
-    }
-    
-    .ai-chat-body::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05);
-    }
-    
-    .ai-chat-body::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 3px;
-    }
-    
-    .ai-chat-body::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.3);
+      min-height: 0; /* Permite que se encoja correctamente */
     }
     
     .ai-message {
@@ -729,6 +708,7 @@
       display: flex;
       gap: 10px;
       align-items: flex-end;
+      flex-shrink: 0; /* Evita que se encoja */
     }
     
     .ai-chat-input {
@@ -805,7 +785,7 @@
       background: rgba(100, 180, 255, 0.2);
     }
     
-    /* Responsive móvil - Fullscreen */
+    /* Responsive móvil - Ventana ajustada y fija */
     @media (max-width: 768px) {
       #ai-float-btn {
         bottom: 90px;
@@ -816,18 +796,24 @@
       }
       
       #ai-chat-window.expanding {
-        width: 100vw !important;
-        height: 85vh !important;
-        max-height: 85vh !important;
+        width: 95vw !important;
+        height: 65vh !important;
+        max-height: 65vh !important; /* Fijo para evitar cambios */
+        min-height: 65vh !important; /* Fijo para evitar cambios */
         top: auto !important;
-        left: 0 !important;
-        bottom: 0 !important;
-        right: 0 !important;
-        border-radius: 20px 20px 0 0;
+        left: 2.5vw !important;
+        bottom: 20px !important;
+        right: auto !important;
+        border-radius: 20px;
+        transform: translate3d(0, 0, 0);
+        /* Prevenir cambios de tamaño cuando aparece el teclado */
+        resize: none;
+        overflow: hidden;
       }
       
       .ai-chat-header {
         cursor: default;
+        padding: 12px 16px;
       }
       
       .ai-message-content {
@@ -837,27 +823,68 @@
       
       .ai-chat-input {
         font-size: 16px;
+        min-height: 44px; /* Tamaño mínimo para mejor usabilidad táctil */
+      }
+      
+      .ai-chat-input-container {
+        padding: 12px 16px;
       }
       
       .ai-chat-body {
+        padding: 12px 16px;
         flex: 1;
         overflow-y: auto;
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        max-height: calc(85vh - 140px);
+        /* Asegurar altura fija para el cuerpo del chat */
+        max-height: calc(65vh - 120px); /* Altura total - (header + input) */
+      }
+      
+      /* Asegurar que el área de mensajes sea desplazable */
+      .ai-chat-body::-webkit-scrollbar {
+        width: 4px;
+      }
+      
+      .ai-chat-body::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 2px;
       }
     }
     
-    @media (max-width: 768px) and (max-height: 600px) {
+    /* Para pantallas muy pequeñas */
+    @media (max-width: 480px) {
       #ai-chat-window.expanding {
-        height: 80vh !important;
-        max-height: 80vh !important;
+        height: 60vh !important;
+        max-height: 60vh !important;
+        min-height: 60vh !important;
+        bottom: 15px !important;
+        left: 2.5vw !important;
+        width: 95vw !important;
+      }
+      
+      .ai-chat-header {
+        padding: 10px 14px;
       }
       
       .ai-chat-body {
-        max-height: calc(80vh - 140px);
+        padding: 10px 14px;
+        max-height: calc(60vh - 110px); /* Ajustar según nueva altura */
+      }
+      
+      .ai-chat-input-container {
+        padding: 10px 14px;
+      }
+    }
+    
+    /* Ajustes adicionales para cuando el teclado está activo */
+    @media (max-height: 600px) and (max-width: 768px) {
+      #ai-chat-window.expanding {
+        height: 50vh !important;
+        max-height: 50vh !important;
+        min-height: 50vh !important;
+        bottom: 10px !important;
+      }
+      
+      .ai-chat-body {
+        max-height: calc(50vh - 110px); /* Ajustar según nueva altura */
       }
     }
 
@@ -1621,7 +1648,7 @@
       }
     });
 
-    // === PARALLAX (código reducido por brevedad) ===
+    // === PARALLAX (código mejorado) ===
     const panels=document.getElementById('panels');
     
     const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
@@ -1703,18 +1730,19 @@
     
     const shuffledColors = shuffleArray(rainbowColors);
     
+    // Contenido mejorado para que quepa en los paneles
     const largePanelsContent = [
-      { speed: 0.9, lines: ['// Inicializando sistema...', 'const a = 42;', 'function ping() {', '  return "pong";', '}', 'console.log(ping());'] },
-      { speed: 0.8, lines: ['<init/>', '#include <stdio.h>', 'int main() {', '  printf("Hola mundo\\n");', '  return 0;', '}', 'boot> OK'] },
-      { speed: 0.7, lines: ['// Lectura de sensor', 'val = analogRead(A0);', 'if (val > 512) {', '  digitalWrite(LED, HIGH);', '} else {', '  digitalWrite(LED, LOW);', '}', 'send(val);'] },
-      { speed: 0.6, lines: ['class Device {', '  constructor(name) {', '    this.name = name;', '    this.status = "off";', '  }', '  run() {', '    this.status = "running";', '  }', '}'] }
+      { speed: 0.9, lines: ['// Inicializando...', 'const a = 42;', 'function ping() {', '  return "pong";', '}', 'console.log(ping());'] },
+      { speed: 0.8, lines: ['<init/>', '#include <stdio.h>', 'int main() {', '  printf("Hola");', '  return 0;', '}', 'boot> OK'] },
+      { speed: 0.7, lines: ['// Lectura sensor', 'val = analogRead(A0);', 'if (val > 512) {', '  digitalWrite(HIGH);', '} else {', '  digitalWrite(LOW);', '}', 'send(val);'] },
+      { speed: 0.6, lines: ['class Device {', '  constructor(name) {', '    this.name = name;', '    this.status = "off";', '  }', '  run() {', '    status="running";', '  }', '}'] }
     ];
     
     const mediumPanelsContent = [
-      { speed: 0.5, lines: ['// Configuración API', 'const config = {', '  endpoint: "/api",', '  timeout: 5000,', '  retries: 3', '}', 'export default config;'] },
-      { speed: 0.45, lines: ['func calculate() {', '  let x = 10', '  let y = 20', '  return x + y', '}', 'print(calculate())'] },
+      { speed: 0.5, lines: ['// Config API', 'const config = {', '  endpoint: "/api",', '  timeout: 5000,', '  retries: 3', '}', 'export config;'] },
+      { speed: 0.45, lines: ['func calculate() {', '  let x = 10', '  let y = 20', '  return x + y', '}', 'print(result)'] },
       { speed: 0.4, lines: ['public class Hello {', '  public static void', '  main(String[] args) {', '    System.out.println("Hi");', '  }', '}'] },
-      { speed: 0.35, lines: ['-- Tabla de usuarios', 'CREATE TABLE users (', '  id INT PRIMARY KEY,', '  name VARCHAR(100)', ');', 'INSERT INTO users...'] },
+      { speed: 0.35, lines: ['-- Tabla usuarios', 'CREATE TABLE users (', '  id INT PRIMARY KEY,', '  name VARCHAR(100)', ');', 'INSERT...'] },
       { speed: 0.3, lines: ['import SwiftUI', 'struct ContentView: View {', '  var body: some View {', '    Text("Hello")', '  }', '}'] }
     ];
     
@@ -1900,10 +1928,13 @@
       setTimeout(() => {
         aiChatWindow.classList.add('expanding');
         if (isMobile) {
+          // Usar la nueva posición centrada en la parte inferior
+          aiChatWindow.style.left = '2.5vw';
+          aiChatWindow.style.bottom = '20px';
+          aiChatWindow.style.right = 'auto';
           aiChatWindow.style.top = 'auto';
-          aiChatWindow.style.left = '0';
-          aiChatWindow.style.bottom = '0';
-          aiChatWindow.style.right = '0';
+          aiChatWindow.style.width = '95vw';
+          aiChatWindow.style.height = '65vh';
         }
       }, 50);
       
@@ -1918,16 +1949,20 @@
         aiChatWindow.style.display = 'none';
         aiFloatBtn.style.display = 'flex';
         
+        // Restaurar posición del botón flotante
         aiFloatBtn.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
         aiFloatBtn.style.bottom = initialPosition.bottom + 'px';
         aiFloatBtn.style.right = initialPosition.right + 'px';
         aiFloatBtn.style.top = 'auto';
         aiFloatBtn.style.left = 'auto';
         
-        aiChatWindow.style.bottom = initialPosition.bottom + 'px';
-        aiChatWindow.style.right = initialPosition.right + 'px';
-        aiChatWindow.style.top = 'auto';
-        aiChatWindow.style.left = 'auto';
+        // Limpiar estilos de posición de la ventana
+        aiChatWindow.style.bottom = '';
+        aiChatWindow.style.right = '';
+        aiChatWindow.style.top = '';
+        aiChatWindow.style.left = '';
+        aiChatWindow.style.width = '';
+        aiChatWindow.style.height = '';
         
         aiMessages.innerHTML = '';
         aiInput.value = '';
