@@ -2130,13 +2130,13 @@
 
     async function initAIConnection() {
       try {
-        addAIMessage('Verificando conexión con el servidor...');
+        addAIMessage('Conectándote con Rick');
         
         const serverStatus = await checkAIServer();
         
         if (serverStatus.available) {
           aiMessages.innerHTML = '';
-          addAIMessage('¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte?');
+          addAIMessage('¡Hola! mi nombre es Rick. ¿En qué puedo ayudarte?');
           isServerAvailable = true;
           
           aiInput.disabled = false;
