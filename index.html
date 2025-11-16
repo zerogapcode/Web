@@ -532,14 +532,33 @@
       font-size: 22px;
       color: rgba(0, 0, 0, 0.3);
       user-select: none;
+      /* Animación de palpito */
+      animation: pulse 3s infinite ease-in-out;
     }
     
     #ai-float-btn:hover {
       transform: scale(1.1);
+      animation-play-state: paused;
     }
     
     #ai-float-btn.expanding {
-      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: none;
+    }
+    
+    /* ANIMACIÓN DE PULSO PARA EL BOTÓN R */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 10px 36px rgba(0,0,0,0.2);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      }
     }
     
     #ai-chat-window {
