@@ -1,44 +1,127 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Símbolo Pi</title>
+    <title>Welcome to Mozart's Ghost</title>
     <style>
-        * {
+        /* Estilo auténtico de 1995 */
+        body {
+            background-color: #000000;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            padding: 20px;
         }
         
-        body {
-            background-color: #000;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+        #main-table {
+            border: 3px solid #00FFFF;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #000033;
+            cellpadding: 0;
+            cellspacing: 0;
+        }
+        
+        .neon-title {
+            color: #FF00FF;
+            font-size: 36px;
+            text-shadow: 0 0 10px #FF00FF;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to bottom, #330033, #000033);
+        }
+        
+        .nav-bar {
+            background-color: #FF00FF;
+            color: #000000;
+            font-weight: bold;
+            padding: 5px;
+            text-align: center;
+        }
+        
+        .content-box {
+            border: 2px dashed #00FFFF;
+            padding: 15px;
+            margin: 10px;
+            background-color: #001100;
         }
         
         .pi-symbol {
-            font-size: 200px;
-            text-shadow: 0 0 20px #0f0;
-            animation: glow 2s infinite alternate;
+            font-size: 72px;
+            color: #FFFF00;
+            text-align: center;
+            text-shadow: 0 0 20px #FFFF00;
+            margin: 20px 0;
         }
         
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
-            }
-            to {
-                text-shadow: 0 0 20px #0f0, 0 0 30px #0f0, 0 0 40px #0f0;
-            }
+        a {
+            color: #00FFFF;
+            text-decoration: underline;
+        }
+        
+        a:hover {
+            color: #FFFFFF;
+            background-color: #FF00FF;
+        }
+        
+        .status-bar {
+            background-color: #333333;
+            color: #00FF00;
+            font-size: 12px;
+            padding: 5px;
+            text-align: center;
+            border-top: 1px solid #00FFFF;
         }
     </style>
 </head>
 <body>
-    <div class="pi-symbol">π</div>
+
+<table id="main-table">
+    <tr>
+        <td class="neon-title">
+            [MOZART'S GHOST ONLINE]
+        </td>
+    </tr>
+    <tr>
+        <td class="nav-bar">
+            [HOME] | [GATEKEEPER ACCESS] | [FILES] | [SYSTEM] | [LOGOUT]
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="content-box">
+                <center>
+                    <h2>*** SECURE TERMINAL v2.1 ***</h2>
+                </center>
+                <p>> Welcome back, Angela_Bennett@Cybertronic.com</p>
+                <p>> System status: <font color="#00FF00">ONLINE</font></p>
+                <p>> Security level: <font color="#FFFF00">CLASSIFIED</font></p>
+                <p>> Last login: 10/13/1995 22:47:33</p>
+                <hr color="#00FFFF">
+                
+                <p>> Accessing backdoor protocols...</p>
+                <p>> Redirecting through Piper Maru gateway...</p>
+                
+                <div class="pi-symbol">
+                    Π
+                </div>
+                
+                <p><center>>> CLICK TO INITIATE SEQUENCE <<</center></p>
+                
+                <marquee behavior="scroll" direction="left" style="color: #FF00FF; font-size: 14px;">
+                    [GATEKEEPER OVERRIDE ACTIVE] [SYSTEMS VULNERABLE] [π PROTOCOL STANDBY] 
+                </marquee>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="status-bar">
+            <marquee behavior="scroll" direction="left">
+                Server: PIPERMARU.DOMAIN.NET | Session ID: 7A3B9C2E | Encryption: DES-56bit | WARNING: This system contains classified information
+            </marquee>
+        </td>
+    </tr>
+</table>
+
 </body>
 </html>
