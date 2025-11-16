@@ -1442,6 +1442,7 @@
     let dragOffsetX = 0;
     let dragOffsetY = 0;
     const initialPosition = { bottom: 20, right: 20 };
+    let currentSessionId = null; // ✅ NUEVA VARIABLE PARA CONTEXTO
 
     // === Elementos DOM ===
     const aiFloatBtn = document.getElementById('ai-float-btn');
@@ -1964,6 +1965,8 @@
         aiChatWindow.style.width = '';
         aiChatWindow.style.height = '';
         
+        // ✅ NUEVO: Resetear la sesión al cerrar
+        currentSessionId = null;
         aiMessages.innerHTML = '';
         aiInput.value = '';
         aiInput.disabled = true;
@@ -2106,7 +2109,7 @@
       }
       
       try {
-        const testMessage = { message: 'test' };
+        const testMessage = { message: 'test', session_id: currentSessionId }; // ✅ INCLUIR session_id
         const chatResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
           mode: 'cors',
@@ -2159,6 +2162,7 @@
       }
     }
 
+    // ✅ FUNCIÓN MODIFICADA: Ahora maneja session_id
     async function sendAIMessage() {
       const text = aiInput.value.trim();
       if (!text || isGenerating) return;
@@ -2175,10 +2179,16 @@
       const typingIndicator = showAITyping();
       
       try {
+        // ✅ INCLUIR session_id EN EL PAYLOAD
+        const payload = {
+          message: text,
+          session_id: currentSessionId
+        };
+        
         const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text })
+          body: JSON.stringify(payload)
         });
         
         if (!response.ok) {
@@ -2192,6 +2202,12 @@
         if (data.status === 'success' && data.response) {
           addAIMessage(data.response);
           isServerAvailable = true;
+          
+          // ✅ ACTUALIZAR session_id SI VIENE EN LA RESPUESTA
+          if (data.session_id && !currentSessionId) {
+            currentSessionId = data.session_id;
+            console.log("🆕 Nueva sesión iniciada:", currentSessionId);
+          }
         } else {
           throw new Error('Respuesta del servidor inválida');
         }
