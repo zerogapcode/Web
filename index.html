@@ -532,8 +532,8 @@
       font-size: 22px;
       color: rgba(0, 0, 0, 0.3);
       user-select: none;
-      /* Animación de palpito */
-      animation: pulse 3s infinite ease-in-out;
+      /* Animación de latidos del corazón */
+      animation: heartbeat 2s infinite ease-in-out;
     }
     
     #ai-float-btn:hover {
@@ -545,15 +545,27 @@
       animation: none;
     }
     
-    /* ANIMACIÓN DE PULSO PARA EL BOTÓN R */
-    @keyframes pulse {
+    /* ANIMACIÓN DE LATIDOS DEL CORAZÓN PARA EL BOTÓN R */
+    @keyframes heartbeat {
       0% {
         transform: scale(1);
         box-shadow: 0 8px 32px rgba(0,0,0,0.15);
       }
-      50% {
-        transform: scale(1.05);
+      14% {
+        transform: scale(1.1);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      }
+      28% {
+        transform: scale(1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      }
+      42% {
+        transform: scale(1.08);
         box-shadow: 0 10px 36px rgba(0,0,0,0.2);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
       }
       100% {
         transform: scale(1);
