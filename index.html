@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ProtonLab — Desarrollo de software y hardware</title>
-  <meta name="description" content="ProtonLab — Desarrollo web y apps iOS, integración software+hardware, impresión 3D y electrónica" />
+  <title>ProtonLab – Desarrollo de software y hardware</title>
+  <meta name="description" content="ProtonLab – Desarrollo web y apps iOS, integración software+hardware, impresión 3D y electrónica" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
 
   <style>
     :root{
@@ -349,174 +350,26 @@
       margin-top: 20px;
     }
 
-    .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
-    .panel{
-      position:absolute;
-      border-radius:8px;
-      opacity:.95;
-      box-shadow:0 18px 40px rgba(2,6,23,0.06);
-      border:1px solid rgba(255,255,255,0.2);
-      transform: translate3d(0, 0, 0);
-      will-change: transform;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      overflow: hidden; /* Evita que el texto se salga */
-    }
-    
-    .panel.color-red {
-      background: rgba(255, 100, 100, 0.18);
-      border-color: rgba(255, 100, 100, 0.5);
-      box-shadow: 0 18px 40px rgba(255, 100, 100, 0.25);
-    }
-    
-    .panel.color-orange {
-      background: rgba(255, 165, 80, 0.18);
-      border-color: rgba(255, 165, 80, 0.5);
-      box-shadow: 0 18px 40px rgba(255, 165, 80, 0.25);
-    }
-    
-    .panel.color-yellow {
-      background: rgba(255, 220, 100, 0.18);
-      border-color: rgba(255, 220, 100, 0.5);
-      box-shadow: 0 18px 40px rgba(255, 220, 100, 0.25);
-    }
-    
-    .panel.color-green {
-      background: rgba(100, 220, 150, 0.18);
-      border-color: rgba(100, 220, 150, 0.5);
-      box-shadow: 0 18px 40px rgba(100, 220, 150, 0.25);
-    }
-    
-    .panel.color-blue {
-      background: rgba(100, 180, 255, 0.18);
-      border-color: rgba(100, 180, 255, 0.5);
-      box-shadow: 0 18px 40px rgba(100, 180, 255, 0.25);
-    }
-    
-    .panel.color-violet {
-      background: rgba(180, 120, 255, 0.18);
-      border-color: rgba(180, 120, 255, 0.5);
-      box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
-    }
-    
-    .panel.large {
-      width: 280px;
-      height: 140px;
-      z-index: 3;
-    }
-    @media (min-width: 768px) {
-      .panel.large {
-        width: 320px;
-        height: 160px;
-      }
-    }
-    
-    .panel.medium {
-      width: 220px;
-      height: 110px;
-      z-index: 2;
-      opacity: 0.85;
-    }
-    @media (min-width: 768px) {
-      .panel.medium {
-        width: 250px;
-        height: 125px;
-      }
-    }
-    
-    .panel.small {
-      width: 150px;
-      height: 75px;
-      opacity: 0.7;
-      z-index: 1;
-    }
-    @media (min-width: 768px) {
-      .panel.small {
-        width: 180px;
-        height: 90px;
-      }
-    }
-    
-    .panel .inner{
-      padding: 10px;
-      color: var(--muted-light);
-      overflow: hidden; /* Evita que el texto se salga */
-      height: 100%; /* Ocupa toda la altura del panel */
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-    @media (min-width: 768px) {
-      .panel .inner {
-        padding: 12px;
-      }
-    }
-    
-    .panel.large .inner {
-      font-size: 11px;
-      line-height: 1.3; /* Mejor espaciado entre líneas */
-    }
-    @media (min-width: 768px) {
-      .panel.large .inner {
-        font-size: 12px;
-      }
-    }
-    
-    .panel.medium .inner {
-      font-size: 10px;
-      line-height: 1.3;
-    }
-    @media (min-width: 768px) {
-      .panel.medium .inner {
-        font-size: 11px;
-      }
-    }
-    
-    .panel.small .inner {
-      font-size: 9px;
-      line-height: 1.2;
-    }
-    @media (min-width: 768px) {
-      .panel.small .inner {
-        font-size: 10px;
-      }
-    }
-    
-    .code-line {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%;
-    }
-    
-    .typing-cursor {
-      display: inline-block;
-      width: 6px;
-      height: 1em;
-      background-color: currentColor;
-      margin-left: 1px;
-      animation: blink 1s infinite;
-      vertical-align: middle;
-    }
-    
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
-
-    a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
-    a.link-plain:hover{text-decoration:none;color:inherit}
-
-    /* ============================================
-       ESTILOS VENTANA FLOTANTE IA
-    ============================================ */
-    
-    #ai-float-btn {
+    /* BOTONES FLOTANTES - CONTENEDOR */
+    .float-buttons-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    @media (max-width: 768px) {
+      .float-buttons-container {
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+
+    /* BOTÓN DEBUG (arriba) - CAMBIADO A "D" */
+    #debug-float-btn {
       width: 60px;
       height: 60px;
       border-radius: 50%;
@@ -526,53 +379,314 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      z-index: 9999;
       transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       font-weight: 700;
       font-size: 22px;
       color: rgba(0, 0, 0, 0.3);
       user-select: none;
-      /* Animación de latidos del corazón */
-      animation: heartbeat 2s infinite ease-in-out;
+    }
+    
+    #debug-float-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* BOTÓN RICK (abajo) con ANIMACIÓN DE LATIDO MEJORADA */
+    #ai-float-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      font-weight: 700;
+      font-size: 22px;
+      color: rgba(0, 0, 0, 0.3);
+      user-select: none;
+      animation: heartbeat 2s infinite;
     }
     
     #ai-float-btn:hover {
       transform: scale(1.1);
-      animation-play-state: paused;
-    }
-    
-    #ai-float-btn.expanding {
       animation: none;
     }
     
-    /* ANIMACIÓN DE LATIDOS DEL CORAZÓN PARA EL BOTÓN R */
+    /* ANIMACIÓN DE LATIDO MEJORADA */
     @keyframes heartbeat {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      0%, 100% { 
+        transform: scale(1); 
       }
-      14% {
-        transform: scale(1.1);
-        box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      10% { 
+        transform: scale(1.05); 
       }
-      28% {
-        transform: scale(1);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      20% { 
+        transform: scale(1); 
       }
-      42% {
-        transform: scale(1.08);
-        box-shadow: 0 10px 36px rgba(0,0,0,0.2);
+      30% { 
+        transform: scale(1.08); 
       }
-      70% {
-        transform: scale(1);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      40% { 
+        transform: scale(1); 
       }
     }
     
+    body[data-theme='dark'] #debug-float-btn,
+    body[data-theme='dark'] #ai-float-btn {
+      color: rgba(255, 255, 255, 0.3);
+    }
+    
+    /* VENTANA DEBUG */
+    #debug-chat-window {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      z-index: 9998;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    #debug-chat-window.expanding {
+      display: flex;
+      opacity: 1;
+      width: 900px;
+      height: 600px;
+      border-radius: 20px;
+      bottom: 20px;
+      right: 20px;
+    }
+    
+    @media (max-width: 1024px) {
+      #debug-chat-window.expanding {
+        width: 95vw !important;
+        height: 70vh !important;
+        max-height: 70vh !important;
+        min-height: 70vh !important;
+        top: auto !important;
+        left: 2.5vw !important;
+        bottom: 20px !important;
+        right: auto !important;
+      }
+    }
+    
+    #debug-chat-window.dragging {
+      transition: none;
+    }
+    
+    .debug-chat-header {
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: move;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    
+    .debug-chat-title {
+      font-weight: 600;
+      font-size: 16px;
+      color: #000000;
+    }
+    
+    .debug-chat-close {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 100, 100, 0.2);
+      border: 1px solid rgba(255, 100, 100, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 18px;
+      color: #ff6464;
+    }
+    
+    .debug-chat-close:hover {
+      background: rgba(255, 100, 100, 0.3);
+      transform: scale(1.1);
+    }
+    
+    .debug-chat-body {
+      flex: 1;
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      overflow: hidden;
+      min-height: 0;
+    }
+    
+    @media (max-width: 1024px) {
+      .debug-chat-body {
+        flex-direction: column;
+      }
+    }
+    
+    .debug-editor-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .debug-editor-header {
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted-light);
+    }
+    
+    #debug-editor {
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      min-height: 300px;
+    }
+    
+    .debug-output-container {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    @media (max-width: 1024px) {
+      .debug-output-container {
+        width: 100%;
+        height: 300px;
+      }
+    }
+    
+    .debug-output-header {
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .debug-output-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #00ff88;
+    }
+    
+    .debug-status-indicator {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 8px;
+      font-weight: 500;
+    }
+    
+    .status-online {
+      background: rgba(0, 255, 136, 0.2);
+      color: #00cc66;
+      border: 1px solid rgba(0, 255, 136, 0.4);
+    }
+    
+    .status-offline {
+      background: rgba(255, 100, 100, 0.2);
+      color: #ff5555;
+      border: 1px solid rgba(255, 100, 100, 0.4);
+    }
+    
+    .status-checking {
+      background: rgba(255, 220, 100, 0.2);
+      color: #ffcc00;
+      border: 1px solid rgba(255, 220, 100, 0.4);
+    }
+    
+    .debug-btn-container {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .debug-action-btn {
+      background: rgba(0, 255, 136, 0.2);
+      color: #000000;
+      border: 1px solid rgba(0, 255, 136, 0.5);
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    .debug-action-btn:hover {
+      background: rgba(0, 255, 136, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    .debug-action-btn:disabled {
+      background: rgba(150, 150, 150, 0.2);
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    #debug-output {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 13px;
+      color: inherit;
+    }
+    
+    #debug-output .info {
+      color: #64b4ff;
+      background: rgba(100, 180, 255, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+      border-left: 3px solid #64b4ff;
+    }
+    
+    #debug-output .success {
+      color: #00cc66;
+      background: rgba(0, 204, 102, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+      border-left: 3px solid #00cc66;
+    }
+    
+    #debug-output .error {
+      color: #ff5555;
+      background: rgba(255, 0, 0, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+      border-left: 3px solid #ff5555;
+    }
+    
+    /* VENTANA IA (RickGPT) */
     #ai-chat-window {
       position: fixed;
       bottom: 20px;
@@ -600,6 +714,19 @@
       right: 20px;
     }
     
+    @media (max-width: 768px) {
+      #ai-chat-window.expanding {
+        width: 95vw !important;
+        height: 65vh !important;
+        max-height: 65vh !important;
+        min-height: 65vh !important;
+        top: auto !important;
+        left: 2.5vw !important;
+        bottom: 20px !important;
+        right: auto !important;
+      }
+    }
+    
     #ai-chat-window.dragging {
       transition: none;
     }
@@ -613,7 +740,7 @@
       align-items: center;
       cursor: move;
       user-select: none;
-      flex-shrink: 0; /* Evita que se encoja */
+      flex-shrink: 0;
     }
     
     .ai-chat-title {
@@ -649,7 +776,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      min-height: 0; /* Permite que se encoja correctamente */
+      min-height: 0;
     }
     
     .ai-message {
@@ -739,7 +866,7 @@
       display: flex;
       gap: 10px;
       align-items: flex-end;
-      flex-shrink: 0; /* Evita que se encoja */
+      flex-shrink: 0;
     }
     
     .ai-chat-input {
@@ -788,136 +915,9 @@
       cursor: not-allowed;
       transform: none;
     }
-    
-    /* Tema oscuro para ventana IA */
-    body[data-theme='dark'] #ai-float-btn {
-      color: rgba(255, 255, 255, 0.3);
-    }
-    
-    body[data-theme='dark'] #ai-chat-window {
-      background: rgba(0, 0, 0, 0.3);
-    }
-    
-    body[data-theme='dark'] .ai-chat-title {
-      color: #f0f0f0;
-    }
-    
-    body[data-theme='dark'] .ai-chat-input {
-      color: #f0f0f0;
-      background: rgba(255, 255, 255, 0.05);
-    }
-    
-    body[data-theme='dark'] .ai .ai-message-content {
-      background: rgba(0, 0, 0, 0.2);
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-    
-    body[data-theme='dark'] .user .ai-message-content {
-      background: rgba(100, 180, 255, 0.2);
-    }
-    
-    /* Responsive móvil - Ventana ajustada y fija */
-    @media (max-width: 768px) {
-      #ai-float-btn {
-        bottom: 90px;
-        right: 20px;
-        width: 55px;
-        height: 55px;
-        font-size: 20px;
-      }
-      
-      #ai-chat-window.expanding {
-        width: 95vw !important;
-        height: 65vh !important;
-        max-height: 65vh !important; /* Fijo para evitar cambios */
-        min-height: 65vh !important; /* Fijo para evitar cambios */
-        top: auto !important;
-        left: 2.5vw !important;
-        bottom: 20px !important;
-        right: auto !important;
-        border-radius: 20px;
-        transform: translate3d(0, 0, 0);
-        /* Prevenir cambios de tamaño cuando aparece el teclado */
-        resize: none;
-        overflow: hidden;
-      }
-      
-      .ai-chat-header {
-        cursor: default;
-        padding: 12px 16px;
-      }
-      
-      .ai-message-content {
-        max-width: 85%;
-        font-size: 14px;
-      }
-      
-      .ai-chat-input {
-        font-size: 16px;
-        min-height: 44px; /* Tamaño mínimo para mejor usabilidad táctil */
-      }
-      
-      .ai-chat-input-container {
-        padding: 12px 16px;
-      }
-      
-      .ai-chat-body {
-        padding: 12px 16px;
-        flex: 1;
-        overflow-y: auto;
-        /* Asegurar altura fija para el cuerpo del chat */
-        max-height: calc(65vh - 120px); /* Altura total - (header + input) */
-      }
-      
-      /* Asegurar que el área de mensajes sea desplazable */
-      .ai-chat-body::-webkit-scrollbar {
-        width: 4px;
-      }
-      
-      .ai-chat-body::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 2px;
-      }
-    }
-    
-    /* Para pantallas muy pequeñas */
-    @media (max-width: 480px) {
-      #ai-chat-window.expanding {
-        height: 60vh !important;
-        max-height: 60vh !important;
-        min-height: 60vh !important;
-        bottom: 15px !important;
-        left: 2.5vw !important;
-        width: 95vw !important;
-      }
-      
-      .ai-chat-header {
-        padding: 10px 14px;
-      }
-      
-      .ai-chat-body {
-        padding: 10px 14px;
-        max-height: calc(60vh - 110px); /* Ajustar según nueva altura */
-      }
-      
-      .ai-chat-input-container {
-        padding: 10px 14px;
-      }
-    }
-    
-    /* Ajustes adicionales para cuando el teclado está activo */
-    @media (max-height: 600px) and (max-width: 768px) {
-      #ai-chat-window.expanding {
-        height: 50vh !important;
-        max-height: 50vh !important;
-        min-height: 50vh !important;
-        bottom: 10px !important;
-      }
-      
-      .ai-chat-body {
-        max-height: calc(50vh - 110px); /* Ajustar según nueva altura */
-      }
-    }
+
+    a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
+    a.link-plain:hover{text-decoration:none;color:inherit}
 
     /* Modo oscuro general */
     body[data-theme='dark']{
@@ -964,49 +964,32 @@
       color: #ffffff;
     }
     
-    body[data-theme='dark'] .panel{
-      color:var(--text-dark);
-      box-shadow:0 18px 40px rgba(0,0,0,0.4);
+    body[data-theme='dark'] .hamburger span {
+      background-color: var(--text-dark);
     }
     
-    body[data-theme='dark'] .panel.color-red {
-      background: rgba(255, 100, 100, 0.12);
-      border-color: rgba(255, 100, 100, 0.4);
-      box-shadow: 0 18px 40px rgba(255, 100, 100, 0.25);
+    body[data-theme='dark'] .debug-chat-title,
+    body[data-theme='dark'] .ai-chat-title {
+      color: #f0f0f0;
     }
     
-    body[data-theme='dark'] .panel.color-orange {
-      background: rgba(255, 165, 80, 0.12);
-      border-color: rgba(255, 165, 80, 0.4);
-      box-shadow: 0 18px 40px rgba(255, 165, 80, 0.25);
+    body[data-theme='dark'] .ai-chat-input,
+    body[data-theme='dark'] .debug-editor-header,
+    body[data-theme='dark'] .debug-output-header {
+      color: #f0f0f0;
     }
     
-    body[data-theme='dark'] .panel.color-yellow {
-      background: rgba(255, 220, 100, 0.12);
-      border-color: rgba(255, 220, 100, 0.4);
-      box-shadow: 0 18px 40px rgba(255, 220, 100, 0.25);
+    body[data-theme='dark'] .ai .ai-message-content {
+      background: rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.15);
     }
     
-    body[data-theme='dark'] .panel.color-green {
-      background: rgba(100, 220, 150, 0.12);
-      border-color: rgba(100, 220, 150, 0.4);
-      box-shadow: 0 18px 40px rgba(100, 220, 150, 0.25);
+    body[data-theme='dark'] .user .ai-message-content {
+      background: rgba(100, 180, 255, 0.2);
     }
     
-    body[data-theme='dark'] .panel.color-blue {
-      background: rgba(100, 180, 255, 0.12);
-      border-color: rgba(100, 180, 255, 0.4);
-      box-shadow: 0 18px 40px rgba(100, 180, 255, 0.25);
-    }
-    
-    body[data-theme='dark'] .panel.color-violet {
-      background: rgba(180, 120, 255, 0.12);
-      border-color: rgba(180, 120, 255, 0.4);
-      box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
-    }
-    
-    body[data-theme='dark'] .panel .inner{
-      color:var(--muted-dark);
+    body[data-theme='dark'] .debug-action-btn {
+      color: var(--text-dark);
     }
     
     body[data-theme='dark'] section {
@@ -1018,8 +1001,6 @@
       background: var(--card-bg-dark);
       border: 1px solid var(--card-border-dark);
       box-shadow: var(--card-shadow-dark);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
     }
     
     body[data-theme='dark'] .card::before,
@@ -1035,92 +1016,7 @@
       box-shadow: 0 16px 40px rgba(0,0,0,0.5);
       border-color: rgba(255, 255, 255, 0.2);
     }
-    
-    body[data-theme='dark'] .code-title,
-    body[data-theme='dark'] h2,
-    body[data-theme='dark'] h3,
-    body[data-theme='dark'] p,
-    body[data-theme='dark'] .card,
-    body[data-theme='dark'] footer,
-    body[data-theme='dark'] .code-title small,
-    body[data-theme='dark'] .service-card {
-      color: var(--text-dark);
-    }
-    
-    body[data-theme='light'] .code-title,
-    body[data-theme='light'] h2,
-    body[data-theme='light'] h3,
-    body[data-theme='light'] p,
-    body[data-theme='light'] .card,
-    body[data-theme='light'] footer,
-    body[data-theme='light'] .brand .mini,
-    body[data-theme='light'] .code-title small,
-    body[data-theme='light'] .service-card {
-      color: #000000;
-    }
-    
-    body[data-theme='light'] a.link-plain {
-      color: #000000;
-    }
-    
-    body[data-theme='light'] a.link-plain:hover {
-      color: #333333;
-    }
-    
-    body[data-theme='light'] .code-title small.muted {
-      color: #000000;
-    }
-    
-    body[data-theme='dark'] .code-title small.muted {
-      color: var(--text-dark);
-    }
-    
-    body[data-theme='light'] .hero p {
-      color: #000000;
-    }
-    
-    body[data-theme='dark'] .hero p {
-      color: var(--text-dark);
-    }
-    
-    body[data-theme='dark'] .muted,
-    body[data-theme='dark'] p.lead {
-      color: var(--muted-dark);
-    }
-    
-    body[data-theme='dark'] a.link-plain:hover {
-      color: #ffffff;
-    }
-    
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-      
-      .panel {
-        transform: none !important;
-      }
-      
-      .typing-cursor {
-        animation: none;
-        opacity: 1;
-      }
-    }
-    
-    @media (max-width: 1024px) {
-      nav {
-        gap: 16px;
-      }
-      
-      .navlink {
-        font-size: 13px;
-      }
-    }
-    
+
     @media (max-width: 768px) {
       header {
         padding: 12px 16px;
@@ -1192,12 +1088,13 @@
         padding: 36px 16px;
       }
       
-      .panel:nth-child(n+4) {
-        display: none;
-      }
-      
       .card, .service-card {
         padding: 20px;
+      }
+      
+      .debug-chat-header,
+      .ai-chat-header {
+        cursor: default;
       }
     }
     
@@ -1209,28 +1106,6 @@
       .hero {
         min-height: 60vh;
       }
-      
-      .card, .service-card {
-        padding: 18px;
-        border-radius: 12px;
-      }
-      
-      .service-grid {
-        gap: 18px;
-      }
-      
-      nav {
-        padding: 15px;
-      }
-      
-      .navlink {
-        padding: 10px 0;
-        font-size: 15px;
-      }
-    }
-    
-    body[data-theme='dark'] .hamburger span {
-      background-color: var(--text-dark);
     }
     
     body[data-theme='dark'] nav {
@@ -1248,6 +1123,228 @@
     
     body[data-theme='dark'] .mode-toggle {
       border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    /* PARALLAX PANELS */
+    .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
+    .panel{
+      position:absolute;
+      border-radius:8px;
+      opacity:.95;
+      box-shadow:0 18px 40px rgba(2,6,23,0.06);
+      border:1px solid rgba(255,255,255,0.2);
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      overflow: hidden;
+    }
+    
+    .panel.color-red {
+      background: rgba(255, 100, 100, 0.18);
+      border-color: rgba(255, 100, 100, 0.5);
+      box-shadow: 0 18px 40px rgba(255, 100, 100, 0.25);
+    }
+    
+    .panel.color-orange {
+      background: rgba(255, 165, 80, 0.18);
+      border-color: rgba(255, 165, 80, 0.5);
+      box-shadow: 0 18px 40px rgba(255, 165, 80, 0.25);
+    }
+    
+    .panel.color-yellow {
+      background: rgba(255, 220, 100, 0.18);
+      border-color: rgba(255, 220, 100, 0.5);
+      box-shadow: 0 18px 40px rgba(255, 220, 100, 0.25);
+    }
+    
+    .panel.color-green {
+      background: rgba(100, 220, 150, 0.18);
+      border-color: rgba(100, 220, 150, 0.5);
+      box-shadow: 0 18px 40px rgba(100, 220, 150, 0.25);
+    }
+    
+    .panel.color-blue {
+      background: rgba(100, 180, 255, 0.18);
+      border-color: rgba(100, 180, 255, 0.5);
+      box-shadow: 0 18px 40px rgba(100, 180, 255, 0.25);
+    }
+    
+    .panel.color-violet {
+      background: rgba(180, 120, 255, 0.18);
+      border-color: rgba(180, 120, 255, 0.5);
+      box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
+    }
+    
+    .panel.large {
+      width: 280px;
+      height: 140px;
+      z-index: 3;
+    }
+    @media (min-width: 768px) {
+      .panel.large {
+        width: 320px;
+        height: 160px;
+      }
+    }
+    
+    .panel.medium {
+      width: 220px;
+      height: 110px;
+      z-index: 2;
+      opacity: 0.85;
+    }
+    @media (min-width: 768px) {
+      .panel.medium {
+        width: 250px;
+        height: 125px;
+      }
+    }
+    
+    .panel.small {
+      width: 150px;
+      height: 75px;
+      opacity: 0.7;
+      z-index: 1;
+    }
+    @media (min-width: 768px) {
+      .panel.small {
+        width: 180px;
+        height: 90px;
+      }
+    }
+    
+    .panel .inner{
+      padding: 10px;
+      color: var(--muted-light);
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    @media (min-width: 768px) {
+      .panel .inner {
+        padding: 12px;
+      }
+    }
+    
+    .panel.large .inner {
+      font-size: 11px;
+      line-height: 1.3;
+    }
+    @media (min-width: 768px) {
+      .panel.large .inner {
+        font-size: 12px;
+      }
+    }
+    
+    .panel.medium .inner {
+      font-size: 10px;
+      line-height: 1.3;
+    }
+    @media (min-width: 768px) {
+      .panel.medium .inner {
+        font-size: 11px;
+      }
+    }
+    
+    .panel.small .inner {
+      font-size: 9px;
+      line-height: 1.2;
+    }
+    @media (min-width: 768px) {
+      .panel.small .inner {
+        font-size: 10px;
+      }
+    }
+    
+    .code-line {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+    
+    .typing-cursor {
+      display: inline-block;
+      width: 6px;
+      height: 1em;
+      background-color: currentColor;
+      margin-left: 1px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    
+    body[data-theme='dark'] .panel{
+      color:var(--text-dark);
+      box-shadow:0 18px 40px rgba(0,0,0,0.4);
+    }
+    
+    body[data-theme='dark'] .panel.color-red {
+      background: rgba(255, 100, 100, 0.12);
+      border-color: rgba(255, 100, 100, 0.4);
+      box-shadow: 0 18px 40px rgba(255, 100, 100, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-orange {
+      background: rgba(255, 165, 80, 0.12);
+      border-color: rgba(255, 165, 80, 0.4);
+      box-shadow: 0 18px 40px rgba(255, 165, 80, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-yellow {
+      background: rgba(255, 220, 100, 0.12);
+      border-color: rgba(255, 220, 100, 0.4);
+      box-shadow: 0 18px 40px rgba(255, 220, 100, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-green {
+      background: rgba(100, 220, 150, 0.12);
+      border-color: rgba(100, 220, 150, 0.4);
+      box-shadow: 0 18px 40px rgba(100, 220, 150, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-blue {
+      background: rgba(100, 180, 255, 0.12);
+      border-color: rgba(100, 180, 255, 0.4);
+      box-shadow: 0 18px 40px rgba(100, 180, 255, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-violet {
+      background: rgba(180, 120, 255, 0.12);
+      border-color: rgba(180, 120, 255, 0.4);
+      box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel .inner{
+      color:var(--muted-dark);
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      
+      .panel {
+        transform: none !important;
+      }
+      
+      .typing-cursor {
+        animation: none;
+        opacity: 1;
+      }
     }
   </style>
 </head>
@@ -1427,7 +1524,7 @@
         
         <div class="service-card">
           <h3>Tecnologías</h3>
-          <p>Trabajamos con un stack tecnológico moderno y versátil, seleccionando siempre la herramienta adecuada para cada desafío específico. Mantenemosnos actualizados con las últimas tendencias y mejores prácticas de la industria.</p>
+          <p>Trabajamos con un stack tecnológico moderno y versátil, seleccionando siempre la herramienta adecuada para cada desafío específico. Mantenemos actualizados con las últimas tendencias y mejores prácticas de la industria.</p>
         </div>
       </div>
       
@@ -1438,17 +1535,47 @@
     </section>
 
     <footer>
-      <p>© 2023 ProtonLab — www.protonlab.site</p>
+      <p>© 2023 ProtonLab – www.protonlab.site</p>
       <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
         Innovación en cada línea de código, precisión en cada componente físico. <a href="pi.html" class="footer-pi">π</a>
       </p>
     </footer>
   </main>
 
-  <!-- BOTÓN FLOTANTE IA -->
-  <div id="ai-float-btn">R</div>
+  <!-- BOTONES FLOTANTES -->
+  <div class="float-buttons-container">
+    <div id="debug-float-btn">D</div>
+    <div id="ai-float-btn">R</div>
+  </div>
 
-  <!-- VENTANA FLOTANTE IA -->
+  <!-- VENTANA DEBUGBOT -->
+  <div id="debug-chat-window">
+    <div class="debug-chat-header" id="debug-drag-handle">
+      <div class="debug-chat-title">🐛 DebugBot</div>
+      <div class="debug-chat-close" id="debug-close-btn">×</div>
+    </div>
+    <div class="debug-chat-body">
+      <div class="debug-editor-container">
+        <div class="debug-editor-header">
+          <span>Editor de Código</span>
+        </div>
+        <div id="debug-editor"></div>
+      </div>
+      <div class="debug-output-container">
+        <div class="debug-output-header">
+          <div class="debug-output-title">Análisis<span id="debug-status" class="debug-status-indicator status-checking">verificando...</span></div>
+          <div class="debug-btn-container">
+            <button class="debug-action-btn" id="debug-analyze-btn">Analizar</button>
+          </div>
+        </div>
+        <div id="debug-output">
+          <div class="info">💡 Escribe tu código y presiona "Analizar"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VENTANA RICKGPT -->
   <div id="ai-chat-window">
     <div class="ai-chat-header" id="ai-drag-handle">
       <div class="ai-chat-title">RickGPT</div>
@@ -1457,7 +1584,7 @@
     <div class="ai-chat-body" id="ai-messages"></div>
     <div class="ai-chat-input-container">
       <textarea id="ai-input" class="ai-chat-input" placeholder="Conectando..." rows="1" disabled></textarea>
-      <button id="ai-send-btn" class="ai-chat-send" disabled>↑</button>
+      <button id="ai-send-btn" class="ai-chat-send" disabled>→</button>
     </div>
   </div>
 
@@ -1467,15 +1594,27 @@
 
     // === Variables globales ===
     let isAIChatOpen = false;
+    let isDebugChatOpen = false;
     let isGenerating = false;
+    let isDebugging = false;
     let isServerAvailable = false;
     let isDragging = false;
     let dragOffsetX = 0;
     let dragOffsetY = 0;
     const initialPosition = { bottom: 20, right: 20 };
-    let currentSessionId = null; // ✅ NUEVA VARIABLE PARA CONTEXTO
+    let currentSessionId = null;
+    let debugEditor = null;
+    let editorInitialized = false;
 
     // === Elementos DOM ===
+    const debugFloatBtn = document.getElementById('debug-float-btn');
+    const debugChatWindow = document.getElementById('debug-chat-window');
+    const debugCloseBtn = document.getElementById('debug-close-btn');
+    const debugAnalyzeBtn = document.getElementById('debug-analyze-btn');
+    const debugOutput = document.getElementById('debug-output');
+    const debugDragHandle = document.getElementById('debug-drag-handle');
+    const debugStatus = document.getElementById('debug-status');
+    
     const aiFloatBtn = document.getElementById('ai-float-btn');
     const aiChatWindow = document.getElementById('ai-chat-window');
     const aiCloseBtn = document.getElementById('ai-close-btn');
@@ -1485,7 +1624,7 @@
     const aiDragHandle = document.getElementById('ai-drag-handle');
     const contactBtn = document.getElementById('contact-btn');
     
-    // === COLORES LIQUID GLASS ALEATORIOS ===
+    // === COLORES LIQUID GLASS - MISMO COLOR PARA AMBOS BOTONES ===
     const aiColors = [
       { bg: 'rgba(255, 100, 100, 0.18)', border: 'rgba(255, 100, 100, 0.5)', shadow: 'rgba(255, 100, 100, 0.25)' },
       { bg: 'rgba(255, 165, 80, 0.18)', border: 'rgba(255, 165, 80, 0.5)', shadow: 'rgba(255, 165, 80, 0.25)' },
@@ -1495,43 +1634,58 @@
       { bg: 'rgba(180, 120, 255, 0.18)', border: 'rgba(180, 120, 255, 0.5)', shadow: 'rgba(180, 120, 255, 0.25)' }
     ];
     
-    // Seleccionar color aleatorio
-    const randomColor = aiColors[Math.floor(Math.random() * aiColors.length)];
-    const randomColorContact = aiColors[Math.floor(Math.random() * aiColors.length)];
+    // Seleccionar un color aleatorio para ambos botones
+    const floatButtonsColor = aiColors[Math.floor(Math.random() * aiColors.length)];
     
-    // Aplicar estilos al botón R
-    aiFloatBtn.style.background = randomColor.bg;
-    aiFloatBtn.style.border = `1px solid ${randomColor.border}`;
-    aiFloatBtn.style.boxShadow = `0 8px 32px ${randomColor.shadow}`;
+    // Aplicar MISMO estilo a ambos botones
+    debugFloatBtn.style.background = floatButtonsColor.bg;
+    debugFloatBtn.style.border = `1px solid ${floatButtonsColor.border}`;
+    debugFloatBtn.style.boxShadow = `0 8px 32px ${floatButtonsColor.shadow}`;
     
-    // Aplicar estilos a la ventana
-    aiChatWindow.style.background = randomColor.bg;
-    aiChatWindow.style.border = `1px solid ${randomColor.border}`;
-    aiChatWindow.style.boxShadow = `0 8px 32px ${randomColor.shadow}`;
+    aiFloatBtn.style.background = floatButtonsColor.bg;
+    aiFloatBtn.style.border = `1px solid ${floatButtonsColor.border}`;
+    aiFloatBtn.style.boxShadow = `0 8px 32px ${floatButtonsColor.shadow}`;
     
-    // Aplicar estilos al botón de contacto
-    contactBtn.style.background = randomColorContact.bg;
-    contactBtn.style.border = `1px solid ${randomColorContact.border}`;
-    contactBtn.style.boxShadow = `0 8px 32px ${randomColorContact.shadow}`;
+    // Colores aleatorios para las ventanas (mantener diferentes para distinguirlas)
+    const debugColor = aiColors[Math.floor(Math.random() * aiColors.length)];
+    const rickColor = aiColors[Math.floor(Math.random() * aiColors.length)];
+    const contactColor = aiColors[Math.floor(Math.random() * aiColors.length)];
     
-    // Hover para el botón R
+    // Aplicar estilos ventanas Debug
+    debugChatWindow.style.background = debugColor.bg;
+    debugChatWindow.style.border = `1px solid ${debugColor.border}`;
+    debugChatWindow.style.boxShadow = `0 8px 32px ${debugColor.shadow}`;
+    
+    // Aplicar estilos Rick
+    aiChatWindow.style.background = rickColor.bg;
+    aiChatWindow.style.border = `1px solid ${rickColor.border}`;
+    aiChatWindow.style.boxShadow = `0 8px 32px ${rickColor.shadow}`;
+    
+    // Aplicar estilos Contacto
+    contactBtn.style.background = contactColor.bg;
+    contactBtn.style.border = `1px solid ${contactColor.border}`;
+    contactBtn.style.boxShadow = `0 8px 32px ${contactColor.shadow}`;
+    
+    // Hovers - mismo color para ambos botones
+    debugFloatBtn.addEventListener('mouseenter', () => {
+        debugFloatBtn.style.boxShadow = `0 12px 40px ${floatButtonsColor.shadow}`;
+    });
+    debugFloatBtn.addEventListener('mouseleave', () => {
+        if (!isDebugChatOpen) debugFloatBtn.style.boxShadow = `0 8px 32px ${floatButtonsColor.shadow}`;
+    });
+    
     aiFloatBtn.addEventListener('mouseenter', () => {
-      aiFloatBtn.style.boxShadow = `0 12px 40px ${randomColor.shadow}`;
+        aiFloatBtn.style.boxShadow = `0 12px 40px ${floatButtonsColor.shadow}`;
     });
-    
     aiFloatBtn.addEventListener('mouseleave', () => {
-      if (!isAIChatOpen) {
-        aiFloatBtn.style.boxShadow = `0 8px 32px ${randomColor.shadow}`;
-      }
+        if (!isAIChatOpen) aiFloatBtn.style.boxShadow = `0 8px 32px ${floatButtonsColor.shadow}`;
     });
     
-    // Hover para el botón de contacto
     contactBtn.addEventListener('mouseenter', () => {
-      contactBtn.style.boxShadow = `0 12px 40px ${randomColorContact.shadow}`;
+        contactBtn.style.boxShadow = `0 12px 40px ${contactColor.shadow}`;
     });
-    
     contactBtn.addEventListener('mouseleave', () => {
-      contactBtn.style.boxShadow = `0 8px 32px ${randomColorContact.shadow}`;
+        contactBtn.style.boxShadow = `0 8px 32px ${contactColor.shadow}`;
     });
 
     // === Modo de color ===
@@ -1541,6 +1695,11 @@
         const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
         document.body.dataset.theme=prefersDark?'dark':'light';
       }else document.body.dataset.theme=mode;
+      
+      if (debugEditor && editorInitialized) {
+        const theme = document.body.dataset.theme === 'dark' ? 'vs-dark' : 'vs';
+        monaco.editor.setTheme(theme);
+      }
     }
     modeButtons.forEach(btn=>btn.addEventListener('click',()=>{
       modeButtons.forEach(b=>b.classList.remove('active'));
@@ -1570,9 +1729,7 @@
       animationPhase = 1;
       animationStartTime = Date.now();
       
-      if (animationInterval) {
-        clearInterval(animationInterval);
-      }
+      if (animationInterval) clearInterval(animationInterval);
       
       animationInterval = setInterval(updateAnimation, animationSpeed);
       
@@ -1581,16 +1738,11 @@
       
       for (let i = 0; i < phase1Steps; i++) {
         setTimeout(() => {
-          if (currentStep < 9) {
-            currentStep++;
-          }
+          if (currentStep < 9) currentStep++;
         }, i * phase1TimePerStep);
       }
       
-      setTimeout(() => {
-        animationPhase = 2;
-      }, 3000);
-      
+      setTimeout(() => { animationPhase = 2; }, 3000);
       setTimeout(() => {
         clearInterval(animationInterval);
         typed.textContent = finalText;
@@ -1627,61 +1779,10 @@
     }
     
     startTitleAnimation();
-    brandMini.addEventListener('click', () => {
-      startTitleAnimation();
-    });
+    brandMini.addEventListener('click', () => { startTitleAnimation(); });
 
-    // === Ocultar header ===
-    const topbar=document.getElementById('topbar'); 
-    let lastScroll=0;
-    window.addEventListener('scroll',()=>{
-      const y=window.scrollY;
-      if(y>lastScroll+10) topbar.classList.add('hidden');
-      else if(y<lastScroll-10) topbar.classList.remove('hidden');
-      lastScroll=y;
-    });
-
-    // === Menú hamburguesa ===
-    const hamburger = document.getElementById('hamburger');
-    const nav = document.getElementById('nav');
-    let isMenuOpen = false;
-    
-    function toggleMenu() {
-      isMenuOpen = !isMenuOpen;
-      hamburger.classList.toggle('active');
-      nav.classList.toggle('active');
-      
-      if (isMenuOpen) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
-    }
-    
-    hamburger.addEventListener('click', toggleMenu);
-    
-    document.querySelectorAll('.navlink').forEach(link => {
-      link.addEventListener('click', () => {
-        if (isMenuOpen) {
-          toggleMenu();
-        }
-      });
-    });
-    
-    document.addEventListener('click', (e) => {
-      if (isMenuOpen && !nav.contains(e.target) && !hamburger.contains(e.target)) {
-        toggleMenu();
-      }
-    });
-    
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 768 && isMenuOpen) {
-        toggleMenu();
-      }
-    });
-
-    // === PARALLAX (código mejorado) ===
-    const panels=document.getElementById('panels');
+    // === PARALLAX PANELS ===
+    const panels = document.getElementById('panels');
     
     const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
     const occupiedPositions = [];
@@ -1762,7 +1863,6 @@
     
     const shuffledColors = shuffleArray(rainbowColors);
     
-    // Contenido mejorado para que quepa en los paneles
     const largePanelsContent = [
       { speed: 0.9, lines: ['// Inicializando...', 'const a = 42;', 'function ping() {', '  return "pong";', '}', 'console.log(ping());'] },
       { speed: 0.8, lines: ['<init/>', '#include <stdio.h>', 'int main() {', '  printf("Hola");', '  return 0;', '}', 'boot> OK'] },
@@ -1938,8 +2038,360 @@
       }
     });
 
+    // === Ocultar header ===
+    const topbar=document.getElementById('topbar'); 
+    let lastScroll=0;
+    window.addEventListener('scroll',()=>{
+      const y=window.scrollY;
+      if(y>lastScroll+10) topbar.classList.add('hidden');
+      else if(y<lastScroll-10) topbar.classList.remove('hidden');
+      lastScroll=y;
+    });
+
+    // === Menú hamburguesa ===
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+    let isMenuOpen = false;
+    
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      hamburger.classList.toggle('active');
+      nav.classList.toggle('active');
+      
+      if (isMenuOpen) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+    
+    hamburger.addEventListener('click', toggleMenu);
+    
+    document.querySelectorAll('.navlink').forEach(link => {
+      link.addEventListener('click', () => {
+        if (isMenuOpen) {
+          toggleMenu();
+        }
+      });
+    });
+    
+    document.addEventListener('click', (e) => {
+      if (isMenuOpen && !nav.contains(e.target) && !hamburger.contains(e.target)) {
+        toggleMenu();
+      }
+    });
+    
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && isMenuOpen) {
+        toggleMenu();
+      }
+    });
+
     // ========================================
-    // FUNCIONALIDAD VENTANA FLOTANTE IA
+    // FUNCIONALIDAD DEBUGBOT
+    // ========================================
+    
+    // Inicializar Monaco Editor
+    require.config({ 
+      paths: { 
+        vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs' 
+      } 
+    });
+
+    debugFloatBtn.addEventListener('click', () => {
+      if (!isDebugChatOpen) openDebugChat();
+    });
+
+    debugCloseBtn.addEventListener('click', () => {
+      closeDebugChat();
+    });
+
+    function openDebugChat() {
+      isDebugChatOpen = true;
+      // Ocultar ambos botones cuando se abre Debug
+      debugFloatBtn.style.display = 'none';
+      aiFloatBtn.style.display = 'none';
+      debugChatWindow.style.display = 'flex';
+      
+      const isMobile = window.innerWidth <= 1024;
+      
+      setTimeout(() => {
+        debugChatWindow.classList.add('expanding');
+        if (isMobile) {
+          debugChatWindow.style.left = '2.5vw';
+          debugChatWindow.style.bottom = '20px';
+          debugChatWindow.style.right = 'auto';
+          debugChatWindow.style.top = 'auto';
+        }
+      }, 50);
+      
+      setTimeout(() => { 
+        if (!editorInitialized) {
+          initDebugEditor();
+        }
+        checkDebugServer();
+      }, 600);
+    }
+
+    function closeDebugChat() {
+      isDebugChatOpen = false;
+      debugChatWindow.classList.remove('expanding');
+      
+      setTimeout(() => {
+        debugChatWindow.style.display = 'none';
+        // Mostrar ambos botones al cerrar Debug
+        debugFloatBtn.style.display = 'flex';
+        // Solo mostrar Rick si no está abierto
+        if (!isAIChatOpen) {
+          aiFloatBtn.style.display = 'flex';
+        }
+        
+        debugChatWindow.style.bottom = '';
+        debugChatWindow.style.right = '';
+        debugChatWindow.style.top = '';
+        debugChatWindow.style.left = '';
+        debugChatWindow.style.width = '';
+        debugChatWindow.style.height = '';
+      }, 600);
+    }
+
+    function initDebugEditor() {
+      require(['vs/editor/editor.main'], () => {
+        const theme = document.body.dataset.theme === 'dark' ? 'vs-dark' : 'vs';
+        
+        debugEditor = monaco.editor.create(document.getElementById('debug-editor'), {
+          value: `// Escribe o pega tu código aquí\n// Ejemplo:\n\nfunction factorial(n) {\n  if (n = 1) {  // Error: = en vez de ===\n    return 1;\n  }\n  return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
+          language: 'javascript',
+          theme: theme,
+          fontSize: 13,
+          fontFamily: "'JetBrains Mono', monospace",
+          lineHeight: 1.5,
+          minimap: { enabled: false },
+          scrollBeyondLastLine: false,
+          automaticLayout: true,
+          readOnly: false,
+          wordWrap: 'on',
+          lineNumbers: 'on',
+          roundedSelection: true,
+          renderLineHighlight: 'all',
+          cursorBlinking: 'smooth',
+          selectOnLineNumbers: true,
+          mouseWheelZoom: false,
+          dragAndDrop: true,
+          folding: true,
+          links: true,
+          contextmenu: true,
+          quickSuggestions: true,
+          suggestOnTriggerCharacters: true,
+          acceptSuggestionOnEnter: 'on',
+          tabCompletion: 'on',
+          autoClosingBrackets: 'always',
+          autoClosingQuotes: 'always',
+          formatOnPaste: true,
+          formatOnType: true
+        });
+
+        editorInitialized = true;
+        
+        setTimeout(() => {
+          if (debugEditor) {
+            debugEditor.focus();
+          }
+        }, 300);
+        
+        // Atajo Ctrl+Enter para analizar
+        debugEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, analyzeCode);
+        
+        console.log('✅ Editor Debug inicializado');
+      });
+    }
+
+    function updateDebugStatus(status, message = '') {
+      debugStatus.className = 'debug-status-indicator';
+      
+      switch(status) {
+        case 'checking':
+          debugStatus.classList.add('status-checking');
+          debugStatus.textContent = 'verificando...';
+          break;
+        case 'online':
+          debugStatus.classList.add('status-online');
+          debugStatus.textContent = 'online';
+          break;
+        case 'offline':
+          debugStatus.classList.add('status-offline');
+          debugStatus.textContent = 'offline';
+          break;
+      }
+      
+      if (message) {
+        debugOutput.innerHTML = `<div class="info">${message}</div>`;
+      }
+    }
+
+    async function checkDebugServer() {
+      try {
+        updateDebugStatus('checking', '🔍 Verificando servidor...');
+        
+        const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            message: "ping",
+            session_id: "debug-test-" + Date.now()
+          })
+        });
+        
+        if (testResponse.ok) {
+          const data = await testResponse.json();
+          isServerAvailable = true;
+          
+          updateDebugStatus('online');
+          debugOutput.innerHTML = '<div class="info">💡 Escribe tu código y presiona "Analizar"</div>';
+        } else {
+          throw new Error(`HTTP ${testResponse.status}`);
+        }
+      } catch (error) {
+        console.error('❌ Error de conexión:', error);
+        isServerAvailable = false;
+        
+        updateDebugStatus('offline');
+        debugOutput.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+      }
+    }
+
+    debugAnalyzeBtn.addEventListener('click', analyzeCode);
+
+    async function analyzeCode() {
+      if (isDebugging) {
+        console.warn("Análisis en progreso");
+        return;
+      }
+      
+      if (!debugEditor || !editorInitialized) {
+        debugOutput.innerHTML = '<div class="error">❌ Editor no inicializado</div>';
+        return;
+      }
+      
+      if (!isServerAvailable) {
+        debugOutput.innerHTML = '<div class="error">❌ Servidor no disponible</div>';
+        return;
+      }
+      
+      const code = debugEditor.getValue().trim();
+      if (!code || code.length < 10) {
+        debugOutput.innerHTML = '<div class="warning">⚠️ Escribe código para analizar</div>';
+        return;
+      }
+      
+      debugOutput.innerHTML = '<div class="info">🔍 Analizando código...</div>';
+      debugAnalyzeBtn.disabled = true;
+      debugAnalyzeBtn.textContent = 'Analizando...';
+      isDebugging = true;
+
+      try {
+        console.log('📤 Enviando código para análisis...');
+        
+        const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            message: `Analiza este código JavaScript. Encuentra errores, explícalos claramente y sugiere soluciones:\n\n\`\`\`javascript\n${code}\n\`\`\``,
+            session_id: "debug-" + Date.now()
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.status === 'success' && data.response) {
+          debugOutput.innerHTML = '';
+          const responseDiv = document.createElement('div');
+          responseDiv.style.color = 'inherit';
+          responseDiv.style.fontSize = '13px';
+          responseDiv.style.lineHeight = '1.6';
+          responseDiv.innerHTML = data.response.replace(/\n/g, '<br>');
+          debugOutput.appendChild(responseDiv);
+          
+          isServerAvailable = true;
+          updateDebugStatus('online');
+        } else {
+          throw new Error('Respuesta inválida del servidor');
+        }
+        
+      } catch (err) {
+        console.error('Error:', err);
+        debugOutput.innerHTML = `<div class="error">❌ Error: ${err.message}</div>`;
+        isServerAvailable = false;
+        updateDebugStatus('offline');
+      } finally {
+        debugAnalyzeBtn.disabled = false;
+        debugAnalyzeBtn.textContent = 'Analizar';
+        isDebugging = false;
+      }
+    }
+
+    // Drag Debug Window (solo desktop)
+    let debugDragStartX = 0;
+    let debugDragStartY = 0;
+    let debugIsDragging = false;
+
+    debugDragHandle.addEventListener('mousedown', debugDragStart);
+    document.addEventListener('mousemove', debugDrag);
+    document.addEventListener('mouseup', debugDragEnd);
+
+    function debugDragStart(e) {
+      if (window.innerWidth <= 1024) return;
+      
+      const rect = debugChatWindow.getBoundingClientRect();
+      debugDragStartX = e.clientX - rect.left;
+      debugDragStartY = e.clientY - rect.top;
+      
+      if (e.target === debugDragHandle || debugDragHandle.contains(e.target)) {
+        if (e.target !== debugCloseBtn && !debugCloseBtn.contains(e.target)) {
+          debugIsDragging = true;
+          debugChatWindow.classList.add('dragging');
+        }
+      }
+    }
+
+    function debugDrag(e) {
+      if (debugIsDragging) {
+        e.preventDefault();
+        
+        let currentX = e.clientX - debugDragStartX;
+        let currentY = e.clientY - debugDragStartY;
+        
+        const maxX = window.innerWidth - debugChatWindow.offsetWidth;
+        const maxY = window.innerHeight - debugChatWindow.offsetHeight;
+        
+        currentX = Math.max(0, Math.min(currentX, maxX));
+        currentY = Math.max(0, Math.min(currentY, maxY));
+        
+        debugChatWindow.style.left = currentX + 'px';
+        debugChatWindow.style.top = currentY + 'px';
+        debugChatWindow.style.bottom = 'auto';
+        debugChatWindow.style.right = 'auto';
+      }
+    }
+
+    function debugDragEnd() {
+      if (debugIsDragging) {
+        debugIsDragging = false;
+        debugChatWindow.classList.remove('dragging');
+      }
+    }
+
+    // ========================================
+    // FUNCIONALIDAD RICKGPT (IA)
     // ========================================
 
     aiFloatBtn.addEventListener('click', () => {
@@ -1952,7 +2404,9 @@
 
     function openAIChat() {
       isAIChatOpen = true;
+      // Ocultar ambos botones cuando se abre Rick
       aiFloatBtn.style.display = 'none';
+      debugFloatBtn.style.display = 'none';
       aiChatWindow.style.display = 'flex';
       
       const isMobile = window.innerWidth <= 768;
@@ -1960,13 +2414,10 @@
       setTimeout(() => {
         aiChatWindow.classList.add('expanding');
         if (isMobile) {
-          // Usar la nueva posición centrada en la parte inferior
           aiChatWindow.style.left = '2.5vw';
           aiChatWindow.style.bottom = '20px';
           aiChatWindow.style.right = 'auto';
           aiChatWindow.style.top = 'auto';
-          aiChatWindow.style.width = '95vw';
-          aiChatWindow.style.height = '65vh';
         }
       }, 50);
       
@@ -1979,16 +2430,13 @@
       
       setTimeout(() => {
         aiChatWindow.style.display = 'none';
+        // Mostrar ambos botones al cerrar Rick
         aiFloatBtn.style.display = 'flex';
+        // Solo mostrar Debug si no está abierto
+        if (!isDebugChatOpen) {
+          debugFloatBtn.style.display = 'flex';
+        }
         
-        // Restaurar posición del botón flotante
-        aiFloatBtn.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        aiFloatBtn.style.bottom = initialPosition.bottom + 'px';
-        aiFloatBtn.style.right = initialPosition.right + 'px';
-        aiFloatBtn.style.top = 'auto';
-        aiFloatBtn.style.left = 'auto';
-        
-        // Limpiar estilos de posición de la ventana
         aiChatWindow.style.bottom = '';
         aiChatWindow.style.right = '';
         aiChatWindow.style.top = '';
@@ -1996,7 +2444,6 @@
         aiChatWindow.style.width = '';
         aiChatWindow.style.height = '';
         
-        // ✅ NUEVO: Resetear la sesión al cerrar
         currentSessionId = null;
         aiMessages.innerHTML = '';
         aiInput.value = '';
@@ -2007,36 +2454,36 @@
       }, 600);
     }
 
-    let currentX = 0;
-    let currentY = 0;
-    let initialX = 0;
-    let initialY = 0;
+    // Drag AI Window (solo desktop)
+    let aiDragStartX = 0;
+    let aiDragStartY = 0;
+    let aiIsDragging = false;
 
-    aiDragHandle.addEventListener('mousedown', dragStart);
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('mouseup', dragEnd);
+    aiDragHandle.addEventListener('mousedown', aiDragStart);
+    document.addEventListener('mousemove', aiDrag);
+    document.addEventListener('mouseup', aiDragEnd);
 
-    function dragStart(e) {
+    function aiDragStart(e) {
       if (window.innerWidth <= 768) return;
       
       const rect = aiChatWindow.getBoundingClientRect();
-      initialX = e.clientX - rect.left;
-      initialY = e.clientY - rect.top;
+      aiDragStartX = e.clientX - rect.left;
+      aiDragStartY = e.clientY - rect.top;
       
       if (e.target === aiDragHandle || aiDragHandle.contains(e.target)) {
         if (e.target !== aiCloseBtn && !aiCloseBtn.contains(e.target)) {
-          isDragging = true;
+          aiIsDragging = true;
           aiChatWindow.classList.add('dragging');
         }
       }
     }
 
-    function drag(e) {
-      if (isDragging) {
+    function aiDrag(e) {
+      if (aiIsDragging) {
         e.preventDefault();
         
-        currentX = e.clientX - initialX;
-        currentY = e.clientY - initialY;
+        let currentX = e.clientX - aiDragStartX;
+        let currentY = e.clientY - aiDragStartY;
         
         const maxX = window.innerWidth - aiChatWindow.offsetWidth;
         const maxY = window.innerHeight - aiChatWindow.offsetHeight;
@@ -2051,9 +2498,9 @@
       }
     }
 
-    function dragEnd() {
-      if (isDragging) {
-        isDragging = false;
+    function aiDragEnd() {
+      if (aiIsDragging) {
+        aiIsDragging = false;
         aiChatWindow.classList.remove('dragging');
       }
     }
@@ -2125,22 +2572,7 @@
 
     async function checkAIServer() {
       try {
-        const healthResponse = await fetch(`${OLLAMA_SERVER_URL}/health`, {
-          method: 'GET',
-          mode: 'cors',
-          headers: { 'Accept': 'application/json' }
-        });
-        
-        if (healthResponse.ok) {
-          const data = await healthResponse.json();
-          return { available: true, method: 'health', data: data };
-        }
-      } catch (healthError) {
-        console.log('Health check falló, intentando con chat...');
-      }
-      
-      try {
-        const testMessage = { message: 'test', session_id: currentSessionId }; // ✅ INCLUIR session_id
+        const testMessage = { message: 'test', session_id: currentSessionId };
         const chatResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
           mode: 'cors',
@@ -2153,18 +2585,18 @@
         
         if (chatResponse.ok) {
           const data = await chatResponse.json();
-          return { available: true, method: 'chat', data: data };
+          return { available: true, data: data };
         }
-      } catch (chatError) {
-        console.log('Chat test también falló');
+      } catch (error) {
+        console.log('Error verificando servidor');
       }
       
-      return { available: false, method: 'none' };
+      return { available: false };
     }
 
     async function initAIConnection() {
       try {
-        addAIMessage('Conectándote con Rick');
+        addAIMessage('Conectándote con Rick...');
         
         const serverStatus = await checkAIServer();
         
@@ -2193,7 +2625,6 @@
       }
     }
 
-    // ✅ FUNCIÓN MODIFICADA: Ahora maneja session_id
     async function sendAIMessage() {
       const text = aiInput.value.trim();
       if (!text || isGenerating) return;
@@ -2210,7 +2641,6 @@
       const typingIndicator = showAITyping();
       
       try {
-        // ✅ INCLUIR session_id EN EL PAYLOAD
         const payload = {
           message: text,
           session_id: currentSessionId
@@ -2234,7 +2664,6 @@
           addAIMessage(data.response);
           isServerAvailable = true;
           
-          // ✅ ACTUALIZAR session_id SI VIENE EN LA RESPUESTA
           if (data.session_id && !currentSessionId) {
             currentSessionId = data.session_id;
             console.log("🆕 Nueva sesión iniciada:", currentSessionId);
