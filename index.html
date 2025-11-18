@@ -558,6 +558,22 @@
       color: var(--muted-light);
     }
     
+    .language-selector {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 4px 8px;
+      color: inherit;
+      font-size: 11px;
+      font-family: var(--mono);
+      cursor: pointer;
+    }
+    
+    .language-selector:focus {
+      outline: none;
+      border-color: rgba(100, 180, 255, 0.5);
+    }
+    
     #debug-editor {
       width: 100%;
       height: 100%;
@@ -640,6 +656,31 @@
       transition: all 0.3s ease;
     }
     
+    /* ANIMACIONES MEJORADAS PARA EL BOTÓN DE ANÁLISIS */
+    .debug-action-btn.analyzing {
+      animation: analyzingPulse 1.5s infinite, colorBreathing 2s infinite;
+    }
+    
+    @keyframes analyzingPulse {
+      0%, 100% { 
+        transform: scale(1); 
+      }
+      50% { 
+        transform: scale(1.05); 
+      }
+    }
+    
+    @keyframes colorBreathing {
+      0%, 100% { 
+        background: rgba(0, 255, 136, 0.2);
+        border-color: rgba(0, 255, 136, 0.5);
+      }
+      50% { 
+        background: rgba(0, 255, 136, 0.4);
+        border-color: rgba(0, 255, 136, 0.8);
+      }
+    }
+    
     .debug-action-btn:hover {
       background: rgba(0, 255, 136, 0.3);
       transform: translateY(-2px);
@@ -660,6 +701,93 @@
       word-wrap: break-word;
       font-size: 13px;
       color: inherit;
+      position: relative;
+    }
+    
+    /* Animación de análisis */
+    .debug-loading {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 15px;
+    }
+    
+    .debug-loading.active {
+      display: flex;
+    }
+    
+    .debug-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid #00ff88;
+      border-radius: 50%;
+      animation: debugSpin 1s linear infinite;
+    }
+    
+    @keyframes debugSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .debug-loading-text {
+      text-align: center;
+      color: var(--muted-light);
+      font-size: 13px;
+    }
+    
+    .debug-loading-dots {
+      display: flex;
+      gap: 4px;
+    }
+    
+    .debug-loading-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #00ff88;
+      animation: debugPulse 1.4s ease-in-out infinite both;
+    }
+    
+    .debug-loading-dot:nth-child(1) { animation-delay: 0s; }
+    .debug-loading-dot:nth-child(2) { animation-delay: 0.2s; }
+    .debug-loading-dot:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes debugPulse {
+      0%, 80%, 100% { 
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+      40% { 
+        transform: scale(1.2);
+        opacity: 1;
+      }
+    }
+    
+    .debug-progress {
+      width: 200px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    
+    .debug-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #00ff88, #00cc66);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.3s ease;
+      animation: debugProgress 2s ease-in-out infinite;
+    }
+    
+    @keyframes debugProgress {
+      0% { width: 0%; }
+      50% { width: 70%; }
+      100% { width: 100%; }
     }
     
     #debug-output .info {
@@ -1345,6 +1473,12 @@
         animation: none;
         opacity: 1;
       }
+      
+      .debug-spinner,
+      .debug-loading-dot,
+      .debug-progress-bar {
+        animation: none;
+      }
     }
   </style>
 </head>
@@ -1558,6 +1692,25 @@
       <div class="debug-editor-container">
         <div class="debug-editor-header">
           <span>Editor de Código</span>
+          <select id="language-selector" class="language-selector">
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
+            <option value="csharp">C#</option>
+            <option value="php">PHP</option>
+            <option value="ruby">Ruby</option>
+            <option value="swift">Swift</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="typescript">TypeScript</option>
+            <option value="sql">SQL</option>
+            <option value="bash">Bash/Shell</option>
+            <option value="plaintext">Texto plano</option>
+          </select>
         </div>
         <div id="debug-editor"></div>
       </div>
@@ -1570,6 +1723,18 @@
         </div>
         <div id="debug-output">
           <div class="info">💡 Escribe tu código y presiona "Analizar"</div>
+          <div id="debug-loading" class="debug-loading">
+            <div class="debug-spinner"></div>
+            <div class="debug-loading-text">Analizando código...</div>
+            <div class="debug-loading-dots">
+              <div class="debug-loading-dot"></div>
+              <div class="debug-loading-dot"></div>
+              <div class="debug-loading-dot"></div>
+            </div>
+            <div class="debug-progress">
+              <div class="debug-progress-bar"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1614,6 +1779,8 @@
     const debugOutput = document.getElementById('debug-output');
     const debugDragHandle = document.getElementById('debug-drag-handle');
     const debugStatus = document.getElementById('debug-status');
+    const debugLoading = document.getElementById('debug-loading');
+    const languageSelector = document.getElementById('language-selector');
     
     const aiFloatBtn = document.getElementById('ai-float-btn');
     const aiChatWindow = document.getElementById('ai-chat-window');
@@ -2160,7 +2327,7 @@
         const theme = document.body.dataset.theme === 'dark' ? 'vs-dark' : 'vs';
         
         debugEditor = monaco.editor.create(document.getElementById('debug-editor'), {
-          value: `// Escribe o pega tu código aquí\n// Ejemplo:\n\nfunction factorial(n) {\n  if (n = 1) {  // Error: = en vez de ===\n    return 1;\n  }\n  return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
+          value: `// Escribe o pega tu código aquí\n// Ejemplo en JavaScript:\n\nfunction factorial(n) {\n  if (n === 1) {\n    return 1;\n  }\n  return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
           language: 'javascript',
           theme: theme,
           fontSize: 13,
@@ -2193,6 +2360,16 @@
 
         editorInitialized = true;
         
+        // Cambiar lenguaje cuando se selecciona uno diferente
+        languageSelector.addEventListener('change', function() {
+          const language = this.value;
+          const model = debugEditor.getModel();
+          monaco.editor.setModelLanguage(model, language);
+          
+          // Actualizar contenido de ejemplo según el lenguaje
+          updateExampleCode(language);
+        });
+        
         setTimeout(() => {
           if (debugEditor) {
             debugEditor.focus();
@@ -2204,6 +2381,31 @@
         
         console.log('✅ Editor Debug inicializado');
       });
+    }
+
+    function updateExampleCode(language) {
+      const examples = {
+        javascript: `// Ejemplo en JavaScript\nfunction factorial(n) {\n  if (n === 1) {\n    return 1;\n  }\n  return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
+        python: `# Ejemplo en Python\ndef factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))`,
+        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
+        cpp: `// Ejemplo en C++\n#include <iostream>\nusing namespace std;\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    cout << factorial(5) << endl;\n    return 0;\n}`,
+        c: `// Ejemplo en C\n#include <stdio.h>\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    printf("%d\\n", factorial(5));\n    return 0;\n}`,
+        csharp: `// Ejemplo en C#\nusing System;\n\nclass Program {\n    static int Factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * Factorial(n - 1);\n    }\n    \n    static void Main() {\n        Console.WriteLine(Factorial(5));\n    }\n}`,
+        php: `<?php\n// Ejemplo en PHP\nfunction factorial($n) {\n    if ($n == 1) {\n        return 1;\n    }\n    return $n * factorial($n - 1);\n}\n\necho factorial(5);\n?>`,
+        ruby: `# Ejemplo en Ruby\ndef factorial(n)\n  if n == 1\n    return 1\n  end\n  n * factorial(n - 1)\nend\n\nputs factorial(5)`,
+        swift: `// Ejemplo en Swift\nfunc factorial(_ n: Int) -> Int {\n    if n == 1 {\n        return 1\n    }\n    return n * factorial(n - 1)\n}\n\nprint(factorial(5))`,
+        go: `// Ejemplo en Go\npackage main\n\nimport "fmt"\n\nfunc factorial(n int) int {\n    if n == 1 {\n        return 1\n    }\n    return n * factorial(n - 1)\n}\n\nfunc main() {\n    fmt.Println(factorial(5))\n}`,
+        rust: `// Ejemplo en Rust\nfn factorial(n: u32) -> u32 {\n    if n == 1 {\n        return 1;\n    }\n    n * factorial(n - 1)\n}\n\nfn main() {\n    println!("{}", factorial(5));\n}`,
+        html: `<!-- Ejemplo en HTML -->\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Mi Página</title>\n</head>\n<body>\n    <h1>Hola Mundo</h1>\n    <p>Esta es una página web simple.</p>\n</body>\n</html>`,
+        css: `/* Ejemplo en CSS */\nbody {\n    font-family: Arial, sans-serif;\n    margin: 0;\n    padding: 20px;\n    background-color: #f0f0f0;\n}\n\nh1 {\n    color: #333;\n    text-align: center;\n}\n\n.container {\n    max-width: 800px;\n    margin: 0 auto;\n}`,
+        typescript: `// Ejemplo en TypeScript\nfunction factorial(n: number): number {\n    if (n === 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
+        sql: `-- Ejemplo en SQL\n-- Crear tabla\nCREATE TABLE usuarios (\n    id INT PRIMARY KEY,\n    nombre VARCHAR(50),\n    email VARCHAR(100)\n);\n\n-- Insertar datos\nINSERT INTO usuarios (id, nombre, email)\nVALUES (1, 'Juan', 'juan@email.com');\n\n-- Consultar datos\nSELECT * FROM usuarios;`,
+        bash: `#!/bin/bash\n# Ejemplo en Bash\nfactorial() {\n    if [ $1 -eq 1 ]; then\n        echo 1\n    else\n        prev=$(factorial $(($1 - 1)))\n        echo $(($1 * prev))\n    fi\n}\n\necho $(factorial 5)`,
+        plaintext: `Escribe o pega cualquier código aquí\nEl analizador intentará detectar el lenguaje automáticamente\ny proporcionar retroalimentación útil.`
+      };
+      
+      const example = examples[language] || examples['plaintext'];
+      debugEditor.setValue(example);
     }
 
     function updateDebugStatus(status, message = '') {
@@ -2227,6 +2429,15 @@
       if (message) {
         debugOutput.innerHTML = `<div class="info">${message}</div>`;
       }
+    }
+
+    function showDebugLoading() {
+      debugLoading.classList.add('active');
+      debugOutput.scrollTop = debugOutput.scrollHeight;
+    }
+
+    function hideDebugLoading() {
+      debugLoading.classList.remove('active');
     }
 
     async function checkDebugServer() {
@@ -2287,9 +2498,15 @@
         return;
       }
       
-      debugOutput.innerHTML = '<div class="info">🔍 Analizando código...</div>';
+      const selectedLanguage = languageSelector.value;
+      const languageName = languageSelector.options[languageSelector.selectedIndex].text;
+      
+      // Mostrar animación de carga
+      debugOutput.innerHTML = '';
+      showDebugLoading();
       debugAnalyzeBtn.disabled = true;
       debugAnalyzeBtn.textContent = 'Analizando...';
+      debugAnalyzeBtn.classList.add('analyzing'); // Agregar clase para animación
       isDebugging = true;
 
       try {
@@ -2301,7 +2518,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ 
-            message: `Analiza este código. Encuentra errores, explícalos claramente y sugiere soluciones:\n\n\`\`\`javascript\n${code}\n\`\`\``,
+            message: `Analiza este código en ${languageName}. Encuentra errores, problemas de estilo, posibles mejoras y explícalos claramente. Si es posible, sugiere soluciones:\n\n\`\`\`${selectedLanguage}\n${code}\n\`\`\``,
             session_id: "debug-" + Date.now()
           })
         });
@@ -2313,6 +2530,7 @@
         const data = await response.json();
         
         if (data.status === 'success' && data.response) {
+          hideDebugLoading();
           debugOutput.innerHTML = '';
           const responseDiv = document.createElement('div');
           responseDiv.style.color = 'inherit';
@@ -2329,12 +2547,14 @@
         
       } catch (err) {
         console.error('Error:', err);
+        hideDebugLoading();
         debugOutput.innerHTML = `<div class="error">❌ Error: ${err.message}</div>`;
         isServerAvailable = false;
         updateDebugStatus('offline');
       } finally {
         debugAnalyzeBtn.disabled = false;
         debugAnalyzeBtn.textContent = 'Analizar';
+        debugAnalyzeBtn.classList.remove('analyzing'); // Quitar clase de animación
         isDebugging = false;
       }
     }
