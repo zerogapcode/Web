@@ -2301,7 +2301,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ 
-            message: `Analiza este código JavaScript. Encuentra errores, explícalos claramente y sugiere soluciones:\n\n\`\`\`javascript\n${code}\n\`\`\``,
+            message: `Analiza este código. Encuentra errores, explícalos claramente y sugiere soluciones:\n\n\`\`\`javascript\n${code}\n\`\`\``,
             session_id: "debug-" + Date.now()
           })
         });
