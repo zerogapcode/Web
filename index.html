@@ -350,94 +350,156 @@
       margin-top: 20px;
     }
 
-    /* BOTONES FLOTANTES - CONTENEDOR */
+    /* ------------------------------------------------------------------ */
+    /* --- BOTONES FLOTANTES CON ICONOS CENTRADOS --- */
+    /* ------------------------------------------------------------------ */
     .float-buttons-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
       z-index: 9999;
       display: flex;
-      flex-direction: column;
+      flex-direction: column-reverse; /* Apila de abajo hacia arriba */
       gap: 15px;
+      align-items: flex-end;
     }
     
-    @media (max-width: 768px) {
-      .float-buttons-container {
-        bottom: 20px;
-        right: 20px;
-      }
+    /* Estilo base de botones (variables se asignan en JS) */
+    .float-btn {
+      /* Default vars */
+      --btn-accent: rgba(100, 220, 150, 1); 
+      --btn-accent-glow: rgba(100, 220, 150, 0.4);
+      --btn-bg: rgba(255, 255, 255, 0.1);
+
+      position: relative;
+      height: 60px;
+      width: 60px; /* Ancho cerrado */
+      background: var(--btn-bg);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 30px;
+      
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      cursor: pointer;
+      
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      
+      /* Animación "Muelle" (Spring Physics) */
+      transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  background 0.3s ease,
+                  box-shadow 0.3s ease,
+                  border-color 0.3s ease,
+                  transform 0.2s ease;
+      
+      color: #333;
+      user-select: none;
     }
 
-    /* BOTÓN DEBUG (arriba) - CAMBIADO A "D" */
-    #debug-float-btn {
-      width: 60px;
+    body[data-theme='dark'] .float-btn {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Hover Estado: Expandido */
+    .float-btn:hover {
+      width: 180px;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 25px var(--btn-accent-glow);
+      border-color: var(--btn-accent);
+    }
+
+    /* Contenedor del Icono SVG - CENTRADO */
+    .float-icon-wrapper {
+      min-width: 60px;
       height: 60px;
-      border-radius: 50%;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      font-weight: 700;
-      font-size: 22px;
-      color: rgba(0, 0, 0, 0.3);
-      user-select: none;
-    }
-    
-    #debug-float-btn:hover {
-      transform: scale(1.1);
+      z-index: 2;
+      position: relative;
     }
 
-    /* BOTÓN RICK (abajo) con ANIMACIÓN DE LATIDO MEJORADA */
-    #ai-float-btn {
-      width: 60px;
-      height: 60px;
+    .float-icon-wrapper svg {
+      width: 26px;
+      height: 26px;
+      stroke: currentColor;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Animación del icono al hover */
+    .float-btn:hover .float-icon-wrapper svg {
+      transform: scale(1.15) rotate(-10deg);
+      color: var(--btn-accent);
+    }
+
+    /* Texto (DebugBot / RickGPT) */
+    .btn-text {
+      position: absolute;
+      left: 60px;
+      white-space: nowrap;
+      opacity: 0;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+      transform: translateX(20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .float-btn:hover .btn-text {
+      opacity: 1;
+      transform: translateX(0);
+      transition-delay: 0.05s;
+    }
+
+    /* Punto de estado (solo para IA) */
+    .status-dot {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 7px;
+      height: 7px;
+      background-color: #00ff88;
       border-radius: 50%;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      font-weight: 700;
-      font-size: 22px;
-      color: rgba(0, 0, 0, 0.3);
-      user-select: none;
-      animation: heartbeat 2s infinite;
+      box-shadow: 0 0 8px #00ff88;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
     
-    #ai-float-btn:hover {
-      transform: scale(1.1);
-      animation: none;
+    /* Animación de latido para el botón de IA */
+    #ai-float-btn:not(:hover) .float-icon-wrapper svg {
+      animation: heartbeat 2s infinite ease-in-out;
     }
-    
-    /* ANIMACIÓN DE LATIDO MEJORADA */
+
     @keyframes heartbeat {
-      0%, 100% { 
-        transform: scale(1); 
-      }
-      10% { 
-        transform: scale(1.05); 
-      }
-      20% { 
-        transform: scale(1); 
-      }
-      30% { 
-        transform: scale(1.08); 
-      }
-      40% { 
-        transform: scale(1); 
-      }
+      0% { transform: scale(1); }
+      5% { transform: scale(1.1); }
+      10% { transform: scale(1); }
+      15% { transform: scale(1.1); }
+      20% { transform: scale(1); }
+      100% { transform: scale(1); }
     }
-    
-    body[data-theme='dark'] #debug-float-btn,
-    body[data-theme='dark'] #ai-float-btn {
-      color: rgba(255, 255, 255, 0.3);
+
+    /* Responsive para botones */
+    @media (max-width: 768px) {
+      .float-buttons-container { bottom: 15px; right: 15px; gap: 12px; }
+      .float-btn { height: 50px; width: 50px; }
+      .float-icon-wrapper { 
+        min-width: 50px; 
+        height: 50px; 
+      }
+      .float-icon-wrapper svg { 
+        width: 22px; 
+        height: 22px; 
+      }
+      .float-btn:hover { width: 160px; }
+      .btn-text { left: 50px; font-size: 14px; }
     }
-    
+
     /* VENTANA DEBUG */
     #debug-chat-window {
       position: fixed;
@@ -656,7 +718,6 @@
       transition: all 0.3s ease;
     }
     
-    /* ANIMACIONES MEJORADAS PARA EL BOTÓN DE ANÁLISIS */
     .debug-action-btn.analyzing {
       animation: analyzingPulse 1.5s infinite, colorBreathing 2s infinite;
     }
@@ -704,7 +765,6 @@
       position: relative;
     }
     
-    /* Animación de análisis */
     .debug-loading {
       display: none;
       flex-direction: column;
@@ -1479,6 +1539,14 @@
       .debug-progress-bar {
         animation: none;
       }
+      
+      .ai-typing-dot {
+        animation: none;
+      }
+      
+      #ai-float-btn {
+        animation: none !important;
+      }
     }
   </style>
 </head>
@@ -1520,7 +1588,7 @@
           <p style="margin-top:18px">
             Somos un laboratorio de desarrollo especializado en aplicaciones iOS nativas, soluciones web escalables, 
             integración de sistemas electrónicos y fabricación aditiva (impresión 3D). Combinamos tecnologías de vanguardia 
-            con metodologías ágiles para ofrecer productos innovadores que resuelven problemas complejos.</p>
+            con metodologías ágiles para ofrecer productos innovadores que resuelvan problemas complejos.</p>
           <p style="margin-top:18px">
             Nuestro enfoque multidisciplinario nos permite abordar proyectos desde la concepción hasta la implementación, 
             creando soluciones integrales que conectan el mundo digital con el físico.</p>
@@ -1676,13 +1744,38 @@
     </footer>
   </main>
 
-  <!-- BOTONES FLOTANTES -->
   <div class="float-buttons-container">
-    <div id="debug-float-btn">D</div>
-    <div id="ai-float-btn">R</div>
+    <!-- Botón RickGPT ahora primero -->
+    <div id="ai-float-btn" class="float-btn" role="button" aria-label="Abrir Asistente IA">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="10" rx="2" />
+          <circle cx="12" cy="16" r="2" />
+          <line x1="12" y1="6" x2="12" y2="11" />
+          <circle cx="12" cy="4" r="2" />
+        </svg>
+      </div>
+      <span class="btn-text">RickGPT</span>
+      <span class="status-dot"></span>
+    </div>
+
+    <!-- Botón DebugBot ahora segundo -->
+    <div id="debug-float-btn" class="float-btn" role="button" aria-label="Abrir Debugger">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="2" width="8" height="12" rx="4" />
+          <path d="M12 14v4" />
+          <path d="M16 18l-4-4-4 4" />
+          <path d="M20 10l-4 2" />
+          <path d="M4 10l4 2" />
+          <path d="M20 6l-4 2" />
+          <path d="M4 6l4 2" />
+        </svg>
+      </div>
+      <span class="btn-text">DebugBot</span>
+    </div>
   </div>
 
-  <!-- VENTANA DEBUGBOT -->
   <div id="debug-chat-window">
     <div class="debug-chat-header" id="debug-drag-handle">
       <div class="debug-chat-title">🐛 DebugBot</div>
@@ -1740,7 +1833,6 @@
     </div>
   </div>
 
-  <!-- VENTANA RICKGPT -->
   <div id="ai-chat-window">
     <div class="ai-chat-header" id="ai-drag-handle">
       <div class="ai-chat-title">RickGPT</div>
@@ -1763,15 +1855,12 @@
     let isGenerating = false;
     let isDebugging = false;
     let isServerAvailable = false;
-    let isDragging = false;
-    let dragOffsetX = 0;
-    let dragOffsetY = 0;
-    const initialPosition = { bottom: 20, right: 20 };
     let currentSessionId = null;
     let debugEditor = null;
     let editorInitialized = false;
 
     // === Elementos DOM ===
+    const floatButtonsContainer = document.querySelector('.float-buttons-container');
     const debugFloatBtn = document.getElementById('debug-float-btn');
     const debugChatWindow = document.getElementById('debug-chat-window');
     const debugCloseBtn = document.getElementById('debug-close-btn');
@@ -1791,69 +1880,60 @@
     const aiDragHandle = document.getElementById('ai-drag-handle');
     const contactBtn = document.getElementById('contact-btn');
     
-    // === COLORES LIQUID GLASS - MISMO COLOR PARA AMBOS BOTONES ===
-    const aiColors = [
-      { bg: 'rgba(255, 100, 100, 0.18)', border: 'rgba(255, 100, 100, 0.5)', shadow: 'rgba(255, 100, 100, 0.25)' },
-      { bg: 'rgba(255, 165, 80, 0.18)', border: 'rgba(255, 165, 80, 0.5)', shadow: 'rgba(255, 165, 80, 0.25)' },
-      { bg: 'rgba(255, 220, 100, 0.18)', border: 'rgba(255, 220, 100, 0.5)', shadow: 'rgba(255, 220, 100, 0.25)' },
-      { bg: 'rgba(100, 220, 150, 0.18)', border: 'rgba(100, 220, 150, 0.5)', shadow: 'rgba(100, 220, 150, 0.25)' },
-      { bg: 'rgba(100, 180, 255, 0.18)', border: 'rgba(100, 180, 255, 0.5)', shadow: 'rgba(100, 180, 255, 0.25)' },
-      { bg: 'rgba(180, 120, 255, 0.18)', border: 'rgba(180, 120, 255, 0.5)', shadow: 'rgba(180, 120, 255, 0.25)' }
+    // === CONFIGURACIÓN DE COLORES MEJORADA ===
+    const colorPalettes = [
+      { r: '255, 100, 100', hex: '#ff6464' }, // Rojo
+      { r: '255, 165, 80',  hex: '#ffa550' }, // Naranja
+      { r: '255, 220, 100', hex: '#ffdc64' }, // Amarillo
+      { r: '100, 220, 150', hex: '#64dc96' }, // Verde
+      { r: '100, 180, 255', hex: '#64b4ff' }, // Azul
+      { r: '180, 120, 255', hex: '#b478ff' }  // Violeta
     ];
     
-    // Seleccionar un color aleatorio para ambos botones
-    const floatButtonsColor = aiColors[Math.floor(Math.random() * aiColors.length)];
-    
-    // Aplicar MISMO estilo a ambos botones
-    debugFloatBtn.style.background = floatButtonsColor.bg;
-    debugFloatBtn.style.border = `1px solid ${floatButtonsColor.border}`;
-    debugFloatBtn.style.boxShadow = `0 8px 32px ${floatButtonsColor.shadow}`;
-    
-    aiFloatBtn.style.background = floatButtonsColor.bg;
-    aiFloatBtn.style.border = `1px solid ${floatButtonsColor.border}`;
-    aiFloatBtn.style.boxShadow = `0 8px 32px ${floatButtonsColor.shadow}`;
-    
-    // Colores aleatorios para las ventanas (mantener diferentes para distinguirlas)
-    const debugColor = aiColors[Math.floor(Math.random() * aiColors.length)];
-    const rickColor = aiColors[Math.floor(Math.random() * aiColors.length)];
-    const contactColor = aiColors[Math.floor(Math.random() * aiColors.length)];
-    
-    // Aplicar estilos ventanas Debug
-    debugChatWindow.style.background = debugColor.bg;
-    debugChatWindow.style.border = `1px solid ${debugColor.border}`;
-    debugChatWindow.style.boxShadow = `0 8px 32px ${debugColor.shadow}`;
-    
-    // Aplicar estilos Rick
-    aiChatWindow.style.background = rickColor.bg;
-    aiChatWindow.style.border = `1px solid ${rickColor.border}`;
-    aiChatWindow.style.boxShadow = `0 8px 32px ${rickColor.shadow}`;
-    
-    // Aplicar estilos Contacto
-    contactBtn.style.background = contactColor.bg;
-    contactBtn.style.border = `1px solid ${contactColor.border}`;
-    contactBtn.style.boxShadow = `0 8px 32px ${contactColor.shadow}`;
-    
-    // Hovers - mismo color para ambos botones
-    debugFloatBtn.addEventListener('mouseenter', () => {
-        debugFloatBtn.style.boxShadow = `0 12px 40px ${floatButtonsColor.shadow}`;
-    });
-    debugFloatBtn.addEventListener('mouseleave', () => {
-        if (!isDebugChatOpen) debugFloatBtn.style.boxShadow = `0 8px 32px ${floatButtonsColor.shadow}`;
-    });
-    
-    aiFloatBtn.addEventListener('mouseenter', () => {
-        aiFloatBtn.style.boxShadow = `0 12px 40px ${floatButtonsColor.shadow}`;
-    });
-    aiFloatBtn.addEventListener('mouseleave', () => {
-        if (!isAIChatOpen) aiFloatBtn.style.boxShadow = `0 8px 32px ${floatButtonsColor.shadow}`;
-    });
-    
-    contactBtn.addEventListener('mouseenter', () => {
-        contactBtn.style.boxShadow = `0 12px 40px ${contactColor.shadow}`;
-    });
-    contactBtn.addEventListener('mouseleave', () => {
-        contactBtn.style.boxShadow = `0 8px 32px ${contactColor.shadow}`;
-    });
+    function applyRandomColors() {
+      // Seleccionar color aleatorio
+      const theme = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+      
+      // Definir variables CSS dinámicas para los botones
+      const accentColor = `rgb(${theme.r})`;
+      const glowColor = `rgba(${theme.r}, 0.4)`;
+      const bgColor = `rgba(${theme.r}, 0.1)`;
+      
+      // Aplicar a los botones
+      const btns = document.querySelectorAll('.float-btn');
+      btns.forEach(btn => {
+        btn.style.setProperty('--btn-accent', accentColor);
+        btn.style.setProperty('--btn-accent-glow', glowColor);
+        btn.style.setProperty('--btn-bg', bgColor);
+      });
+
+      // Aplicar estilo al botón de contacto (manteniendo lo original pero con el color nuevo)
+      if(contactBtn) {
+        contactBtn.style.background = `rgba(${theme.r}, 0.15)`;
+        contactBtn.style.border = `1px solid rgba(${theme.r}, 0.3)`;
+        // Manejar hover mediante eventos JS ya que es inline style
+        contactBtn.onmouseenter = () => {
+           contactBtn.style.boxShadow = `0 12px 40px ${glowColor}`;
+           contactBtn.style.borderColor = accentColor;
+        };
+        contactBtn.onmouseleave = () => {
+           contactBtn.style.boxShadow = `0 8px 32px rgba(${theme.r}, 0.25)`;
+           contactBtn.style.borderColor = `rgba(${theme.r}, 0.3)`;
+        };
+      }
+      
+      // Aplicar a las ventanas modales (borde y sombra del color temático)
+      const modals = [debugChatWindow, aiChatWindow];
+      modals.forEach(modal => {
+        if(modal) {
+          modal.style.border = `1px solid rgba(${theme.r}, 0.3)`;
+          modal.style.boxShadow = `0 8px 32px rgba(${theme.r}, 0.2)`;
+          modal.style.background = document.body.dataset.theme === 'dark' 
+            ? `rgba(${theme.r}, 0.08)` 
+            : `rgba(${theme.r}, 0.1)`;
+        }
+      });
+    }
 
     // === Modo de color ===
     const modeButtons=document.querySelectorAll('.seg button');
@@ -1867,6 +1947,8 @@
         const theme = document.body.dataset.theme === 'dark' ? 'vs-dark' : 'vs';
         monaco.editor.setTheme(theme);
       }
+      // Re-aplicar colores al cambiar tema para asegurar contraste
+      setTimeout(applyRandomColors, 50);
     }
     modeButtons.forEach(btn=>btn.addEventListener('click',()=>{
       modeButtons.forEach(b=>b.classList.remove('active'));
@@ -1874,6 +1956,8 @@
       applyTheme(btn.dataset.mode);
     }));
     applyTheme('auto');
+    // Aplicar colores iniciales
+    applyRandomColors();
 
     // === ANIMACIÓN TÍTULO ===
     const typed = document.getElementById('typed');
@@ -2275,9 +2359,8 @@
 
     function openDebugChat() {
       isDebugChatOpen = true;
-      // Ocultar ambos botones cuando se abre Debug
-      debugFloatBtn.style.display = 'none';
-      aiFloatBtn.style.display = 'none';
+      // Ahora ocultamos el contenedor de botones completo
+      floatButtonsContainer.style.display = 'none';
       debugChatWindow.style.display = 'flex';
       
       const isMobile = window.innerWidth <= 1024;
@@ -2306,12 +2389,8 @@
       
       setTimeout(() => {
         debugChatWindow.style.display = 'none';
-        // Mostrar ambos botones al cerrar Debug
-        debugFloatBtn.style.display = 'flex';
-        // Solo mostrar Rick si no está abierto
-        if (!isAIChatOpen) {
-          aiFloatBtn.style.display = 'flex';
-        }
+        // Mostrar contenedor de botones de nuevo
+        floatButtonsContainer.style.display = 'flex';
         
         debugChatWindow.style.bottom = '';
         debugChatWindow.style.right = '';
@@ -2365,8 +2444,6 @@
           const language = this.value;
           const model = debugEditor.getModel();
           monaco.editor.setModelLanguage(model, language);
-          
-          // Actualizar contenido de ejemplo según el lenguaje
           updateExampleCode(language);
         });
         
@@ -2396,7 +2473,7 @@
         swift: `// Ejemplo en Swift\nfunc factorial(_ n: Int) -> Int {\n    if n == 1 {\n        return 1\n    }\n    return n * factorial(n - 1)\n}\n\nprint(factorial(5))`,
         go: `// Ejemplo en Go\npackage main\n\nimport "fmt"\n\nfunc factorial(n int) int {\n    if n == 1 {\n        return 1\n    }\n    return n * factorial(n - 1)\n}\n\nfunc main() {\n    fmt.Println(factorial(5))\n}`,
         rust: `// Ejemplo en Rust\nfn factorial(n: u32) -> u32 {\n    if n == 1 {\n        return 1;\n    }\n    n * factorial(n - 1)\n}\n\nfn main() {\n    println!("{}", factorial(5));\n}`,
-        html: `<!-- Ejemplo en HTML -->\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Mi Página</title>\n</head>\n<body>\n    <h1>Hola Mundo</h1>\n    <p>Esta es una página web simple.</p>\n</body>\n</html>`,
+        html: `\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Mi Página</title>\n</head>\n<body>\n    <h1>Hola Mundo</h1>\n    <p>Esta es una página web simple.</p>\n</body>\n</html>`,
         css: `/* Ejemplo en CSS */\nbody {\n    font-family: Arial, sans-serif;\n    margin: 0;\n    padding: 20px;\n    background-color: #f0f0f0;\n}\n\nh1 {\n    color: #333;\n    text-align: center;\n}\n\n.container {\n    max-width: 800px;\n    margin: 0 auto;\n}`,
         typescript: `// Ejemplo en TypeScript\nfunction factorial(n: number): number {\n    if (n === 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
         sql: `-- Ejemplo en SQL\n-- Crear tabla\nCREATE TABLE usuarios (\n    id INT PRIMARY KEY,\n    nombre VARCHAR(50),\n    email VARCHAR(100)\n);\n\n-- Insertar datos\nINSERT INTO usuarios (id, nombre, email)\nVALUES (1, 'Juan', 'juan@email.com');\n\n-- Consultar datos\nSELECT * FROM usuarios;`,
@@ -2624,9 +2701,8 @@
 
     function openAIChat() {
       isAIChatOpen = true;
-      // Ocultar ambos botones cuando se abre Rick
-      aiFloatBtn.style.display = 'none';
-      debugFloatBtn.style.display = 'none';
+      // Ocultar el contenedor de botones
+      floatButtonsContainer.style.display = 'none';
       aiChatWindow.style.display = 'flex';
       
       const isMobile = window.innerWidth <= 768;
@@ -2650,12 +2726,8 @@
       
       setTimeout(() => {
         aiChatWindow.style.display = 'none';
-        // Mostrar ambos botones al cerrar Rick
-        aiFloatBtn.style.display = 'flex';
-        // Solo mostrar Debug si no está abierto
-        if (!isDebugChatOpen) {
-          debugFloatBtn.style.display = 'flex';
-        }
+        // Mostrar botones al cerrar
+        floatButtonsContainer.style.display = 'flex';
         
         aiChatWindow.style.bottom = '';
         aiChatWindow.style.right = '';
