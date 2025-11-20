@@ -1,52 +1,33 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atari 2600 - P2LC</title>
-    <style>
-        body { margin: 0; padding: 20px; background: #000; color: #0f0; font-family: monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
-        #javatari-container { border: 3px solid #0f0; box-shadow: 0 0 20px rgba(0,255,0,0.7); }
-        #debug { margin-top: 15px; padding: 10px; background: #111; border: 1px solid #333; max-width: 640px; font-size: 12px; }
-        .error { color: #f00; }
-        .success { color: #0f0; }
-    </style>
-</head>
-<body>
-    <h1>Emulador Atari 2600</h1>
-    <div id="javatari-container"></div>
-    <div id="debug">Cargando...</div>
+<html>
 
-    <script src="https://cdn.jsdelivr.net/npm/javatari@latest/release/javatari.js"></script>
-    <script>
-        // VERIFICACIÓN DE ARCHIVO
-        const romFile = "p2lc.a26";
-        
-        // Intenta cargar el archivo para verificar que existe
-        fetch(romFile, { method: 'HEAD' })
-            .then(response => {
-                if (response.ok) {
-                    document.getElementById('debug').innerHTML = `<span class="success">✓ ROM encontrada: ${romFile}</span><br>Inicializando emulador...`;
-                    
-                    // INICIALIZAR EMULADOR
-                    window.javatari = Javatari({
-                        file: romFile,
-                        autoStart: true,
-                        display: "javatari-container",
-                        width: 640,
-                        height: 480,
-                        sound: true,
-                        onError: function(error) {
-                            document.getElementById('debug').innerHTML += `<br><span class="error">✗ Error: ${error.message}</span>`;
-                        }
-                    });
-                } else {
-                    document.getElementById('debug').innerHTML = `<span class="error">✗ Error: No se encontró ${romFile} (HTTP ${response.status})</span><br>Verifica que el archivo esté en la misma carpeta y el nombre sea exactamente igual.`;
-                }
-            })
-            .catch(error => {
-                document.getElementById('debug').innerHTML = `<span class="error">✗ Error de conexión: ${error.message}</span><br>Verifica la ruta del archivo.`;
+    <head lang="en">
+
+        <meta charset="UTF-8">
+        <title>Javatari</title>
+        <meta name="description" content="Javatari - The online Atari 2600 emulator">
+
+    </head>
+
+    <body>
+
+        <div id="javatari" style="text-align: center; margin: 20px auto 0; padding: 0 10px;">
+            <div id="javatari-screen" style="box-shadow: 2px 2px 10px rgba(0, 0, 0, .7);"></div>
+        </div>
+
+        <script src="javatari.js"></script>
+        <script>
+            // Cargar automáticamente el ROM cuando el emulador esté listo
+            window.addEventListener('load', function() {
+                // Pequeño retraso para asegurar la inicialización completa
+                setTimeout(function() {
+                    if(typeof Javatari !== 'undefined') {
+                        Javatari.loadROM("p2lc.a26");
+                    }
+                }, 100);
             });
-    </script>
-</body>
+        </script>
+
+    </body>
+
 </html>
