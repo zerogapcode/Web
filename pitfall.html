@@ -5,53 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atari 2600 - P2LC</title>
     <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            background-color: #000;
-            color: white;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        #javatari-container {
-            border: 3px solid #0f0;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-        }
-        .controles {
-            margin-top: 15px;
-            font-size: 13px;
-            color: #aaa;
-            text-align: center;
-        }
+        body { margin: 0; padding: 20px; background: #000; color: #0f0; font-family: monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+        #javatari-container { border: 3px solid #0f0; box-shadow: 0 0 20px rgba(0,255,0,0.7); }
+        #debug { margin-top: 15px; padding: 10px; background: #111; border: 1px solid #333; max-width: 640px; font-size: 12px; }
+        .error { color: #f00; }
+        .success { color: #0f0; }
     </style>
 </head>
 <body>
-    <h1>Emulador Atari 2600 - P2LC</h1>
+    <h1>Emulador Atari 2600</h1>
     <div id="javatari-container"></div>
-    <div class="controles">
-        Controles: F = Fire | ← → ↑ ↓ = Joystick | Espacio = Reset | Enter = Select
-    </div>
+    <div id="debug">Cargando...</div>
 
     <script src="https://cdn.jsdelivr.net/npm/javatari@latest/release/javatari.js"></script>
     <script>
-        // Inicializa el emulador automáticamente al cargar
-        window.javatari = Javatari({
-            file: "p2lc.a26",        // Archivo ROM (debe estar en la misma carpeta)
-            autoStart: true,         // Inicia sin interacción manual
-            display: "javatari-container",
-            width: 640,              // 2x escala para mejor visibilidad
-            height: 480,
-            sound: true              // Habilitar audio
-        });
+        // VERIFICACIÓN DE ARCHIVO
+        const romFile = "p2lc.a26";
+        
+        // Intenta cargar el archivo para verificar que existe
+        fetch(romFile, { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('debug').innerHTML = `<span class="success">✓ ROM encontrada: ${romFile}</span><br>Inicializando emulador...`;
+                    
+                    // INICIALIZAR EMULADOR
+                    window.javatari = Javatari({
+                        file: romFile,
+                        autoStart: true,
+                        display: "javatari-container",
+                        width: 640,
+                        height: 480,
+                        sound: true,
+                        onError: function(error) {
+                            document.getElementById('debug').innerHTML += `<br><span class="error">✗ Error: ${error.message}</span>`;
+                        }
+                    });
+                } else {
+                    document.getElementById('debug').innerHTML = `<span class="error">✗ Error: No se encontró ${romFile} (HTTP ${response.status})</span><br>Verifica que el archivo esté en la misma carpeta y el nombre sea exactamente igual.`;
+                }
+            })
+            .catch(error => {
+                document.getElementById('debug').innerHTML = `<span class="error">✗ Error de conexión: ${error.message}</span><br>Verifica la ruta del archivo.`;
+            });
     </script>
 </body>
 </html>
