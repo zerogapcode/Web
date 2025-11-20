@@ -1,9 +1,3 @@
-// Javatari version 5.0.4
-// Copyright 2015 by Paulo Augusto Peccin. See license.txt distributed with this file.
-
-// Main Emulator parameters.
-// May be overridden dynamically by URL query parameters, if ALLOW_URL_PARAMETERS = true.
-
 Javatari = {
 
     PRESETS:                        "",                         // Configuration Presets to apply. See Presets Configuration
