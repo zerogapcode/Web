@@ -111,6 +111,110 @@
         0%, 80%, 100% { transform: scale(0); }
         40% { transform: scale(1); }
       }
+
+      /* Estilos para el chat de IA integrado */
+      .ai-message {
+        display: flex;
+        gap: 10px;
+        animation: messageSlideIn 0.3s ease;
+      }
+      
+      @keyframes messageSlideIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      .ai-message.user {
+        justify-content: flex-end;
+      }
+      
+      .ai-message-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 12px;
+        flex-shrink: 0;
+      }
+      
+      .user .ai-message-avatar {
+        background: rgba(100, 180, 255, 0.3);
+        color: #64b4ff;
+      }
+      
+      .ai .ai-message-avatar {
+        background: rgba(100, 220, 150, 0.3);
+        color: #00cc88;
+      }
+      
+      .ai-message-content {
+        max-width: 75%;
+        padding: 10px 14px;
+        border-radius: 14px;
+        line-height: 1.5;
+        font-size: 13px;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      
+      .user .ai-message-content {
+        background: rgba(100, 180, 255, 0.15);
+        border-top-right-radius: 4px;
+      }
+      
+      .ai .ai-message-content {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-top-left-radius: 4px;
+      }
+      
+      .ai-typing {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      
+      .ai-typing-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: #64748B;
+        animation: aiTypingAnimation 1.4s infinite ease-in-out;
+      }
+      
+      .ai-typing-dot:nth-child(1) { animation-delay: 0s; }
+      .ai-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+      .ai-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+      
+      @keyframes aiTypingAnimation {
+        0%, 60%, 100% { transform: scale(1); opacity: 0.5; }
+        30% { transform: scale(1.2); opacity: 1; }
+      }
+
+      /* Estilos para el formulario de contacto */
+      .form-alert {
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-top: 16px;
+        font-size: 14px;
+        font-weight: 500;
+        display: none;
+      }
+
+      .form-alert.success {
+        background: rgba(100, 220, 150, 0.1);
+        border: 1px solid rgba(100, 220, 150, 0.3);
+        color: #2d5f3f;
+      }
+
+      .form-alert.error {
+        background: rgba(255, 100, 100, 0.1);
+        border: 1px solid rgba(255, 100, 100, 0.3);
+        color: #b91c1c;
+      }
     </style>
 </head>
 <body class="antialiased selection:bg-sky-200 selection:text-sky-900">
@@ -336,39 +440,43 @@
                                 <div>
                                     <h3 class="font-medium text-sm">PPF Assistant</h3>
                                     <p class="text-xs text-slate-400 flex items-center gap-1">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> En línea
+                                        <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> 
+                                        <span id="connection-status">Conectando...</span>
                                     </p>
                                 </div>
                             </div>
-                            <button onclick="clearChat()" class="text-slate-400 hover:text-white transition-colors" title="Reiniciar chat">
+                            <button onclick="clearAIChat()" class="text-slate-400 hover:text-white transition-colors" title="Reiniciar chat">
                                 <i data-lucide="refresh-cw" class="w-4 h-4"></i>
                             </button>
                         </div>
 
-                        <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/50 scroll-smooth">
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 flex-shrink-0">
-                                    <i data-lucide="bot" class="w-4 h-4"></i>
-                                </div>
-                                <div class="bg-white border border-slate-100 rounded-2xl rounded-tl-none p-4 shadow-sm max-w-[85%]">
-                                    <p class="text-sm text-slate-600">¡Hola! Soy el asistente virtual de la Dra. Patricia Padrón. ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre tratamientos faciales, corporales o agendar una cita.</p>
+                        <div id="ai-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/50 scroll-smooth">
+                            <div class="ai-message ai">
+                                <div class="ai-message-avatar">IA</div>
+                                <div class="ai-message-content">
+                                    ¡Hola! Soy el asistente virtual de la Dra. Patricia Padrón. ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre tratamientos faciales, corporales o agendar una cita.
                                 </div>
                             </div>
                         </div>
 
-                        <div id="typing-indicator" class="hidden px-6 pb-2">
-                            <div class="flex items-center gap-1 bg-white border border-slate-100 rounded-2xl rounded-tl-none px-4 py-3 w-fit shadow-sm">
-                                <div class="w-1.5 h-1.5 bg-sky-400 rounded-full typing-dot"></div>
-                                <div class="w-1.5 h-1.5 bg-sky-400 rounded-full typing-dot"></div>
-                                <div class="w-1.5 h-1.5 bg-sky-400 rounded-full typing-dot"></div>
+                        <div id="ai-typing-indicator" class="hidden px-6 pb-2">
+                            <div class="ai-message ai">
+                                <div class="ai-message-avatar">IA</div>
+                                <div class="ai-message-content">
+                                    <div class="ai-typing">
+                                        <div class="ai-typing-dot"></div>
+                                        <div class="ai-typing-dot"></div>
+                                        <div class="ai-typing-dot"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="p-4 bg-white border-t border-slate-100">
-                            <form id="chat-form" class="flex gap-2" onsubmit="handleChatSubmit(event)">
+                            <form id="ai-chat-form" class="flex gap-2">
                                 <input 
                                     type="text" 
-                                    id="chat-input"
+                                    id="ai-input"
                                     placeholder="Escribe tu pregunta aquí..." 
                                     class="flex-1 px-4 py-3 rounded-xl bg-slate-50 border-0 focus:ring-2 focus:ring-sky-500 text-sm text-slate-800 placeholder:text-slate-400"
                                     autocomplete="off"
@@ -376,7 +484,7 @@
                                 <button 
                                     type="submit" 
                                     class="p-3 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-colors shadow-lg shadow-sky-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                                    id="send-btn"
+                                    id="ai-send-btn"
                                 >
                                     <i data-lucide="send" class="w-5 h-5"></i>
                                 </button>
@@ -403,7 +511,7 @@
                                 </div>
                                 <div>
                                     <h4 class="text-lg font-serif mb-1">Ubicación</h4>
-                                    <p class="text-slate-400">Urb. Las Mercedes, Torre Nueva,<br>Piso 5, Consultorio 502, Caracas.</p>
+                                    <p class="text-slate-400">Torre Cavendes piso 13,<br>Av. Francisco de Miranda,<br>Caracas 1060, Venezuela.</p>
                                 </div>
                             </div>
 
@@ -413,7 +521,7 @@
                                 </div>
                                 <div>
                                     <h4 class="text-lg font-serif mb-1">Teléfono</h4>
-                                    <p class="text-slate-400 hover:text-sky-400 transition-colors cursor-pointer">+58 (212) 555-0123</p>
+                                    <p class="text-slate-400 hover:text-sky-400 transition-colors cursor-pointer">+584127336400</p>
                                     <p class="text-slate-400 text-sm mt-1">Lunes a Viernes: 9am - 6pm</p>
                                 </div>
                             </div>
@@ -424,49 +532,64 @@
                                 </div>
                                 <div>
                                     <h4 class="text-lg font-serif mb-1">Email</h4>
-                                    <p class="text-slate-400 hover:text-sky-400 transition-colors cursor-pointer">citas@ppfestetica.com</p>
+                                    <p class="text-slate-400 hover:text-sky-400 transition-colors cursor-pointer">ppadronf@hotmail.com</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-white rounded-3xl p-8 text-slate-800 reveal delay-200">
-                        <form class="space-y-6" onsubmit="event.preventDefault(); alert('¡Gracias! Nos pondremos en contacto pronto.');">
-                            <div class="grid grid-cols-2 gap-6">
-                                <div class="space-y-2">
-                                    <label class="text-sm font-medium text-slate-700">Nombre</label>
-                                    <input type="text" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all outline-none" placeholder="Tu nombre">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="text-sm font-medium text-slate-700">Apellido</label>
-                                    <input type="text" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all outline-none" placeholder="Tu apellido">
-                                </div>
-                            </div>
+                        <!-- FORMULARIO WEB3FORMS - MODIFICADO PARA ENVIAR AL CORREO DE LA DOCTORA -->
+                        <form id="contact-form">
+                            <!-- Configuración de Web3Forms -->
+                            <input type="hidden" name="access_key" value="93131d3e-c31f-4b1b-a06e-f62d1137eb4f">
+                            <input type="hidden" name="_subject" value="Nuevo mensaje de PPF Estética Médica">
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_template" value="table">
+                            <input type="hidden" name="from_name" value="Formulario PPF Estética Médica">
+                            <input type="hidden" name="to" value="ppadronf@hotmail.com">
                             
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-slate-700">Email</label>
-                                <input type="email" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all outline-none" placeholder="tu@email.com">
-                            </div>
+                            <!-- Campos del formulario -->
+                            <div class="space-y-6">
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="text-sm font-medium text-slate-700">Nombre</label>
+                                        <input type="text" name="name" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all outline-none" placeholder="Tu nombre" required>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-sm font-medium text-slate-700">Apellido</label>
+                                        <input type="text" name="lastname" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all outline-none" placeholder="Tu apellido" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-2">
+                                    <label class="text-sm font-medium text-slate-700">Email</label>
+                                    <input type="email" name="email" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all outline-none" placeholder="tu@email.com" required>
+                                </div>
 
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-slate-700">Interés</label>
-                                <select class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all outline-none text-slate-600">
-                                    <option>Valoración General</option>
-                                    <option>Tratamientos Faciales</option>
-                                    <option>Tratamientos Corporales</option>
-                                    <option>Consulta Online</option>
-                                </select>
-                            </div>
+                                <div class="space-y-2">
+                                    <label class="text-sm font-medium text-slate-700">Interés</label>
+                                    <select name="interest" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all outline-none text-slate-600">
+                                        <option>Valoración General</option>
+                                        <option>Tratamientos Faciales</option>
+                                        <option>Tratamientos Corporales</option>
+                                        <option>Consulta Online</option>
+                                    </select>
+                                </div>
 
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-slate-700">Mensaje</label>
-                                <textarea rows="4" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all outline-none resize-none" placeholder="¿Cómo podemos ayudarte?"></textarea>
-                            </div>
+                                <div class="space-y-2">
+                                    <label class="text-sm font-medium text-slate-700">Mensaje</label>
+                                    <textarea name="message" rows="4" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all outline-none resize-none" placeholder="¿Cómo podemos ayudarte?" required></textarea>
+                                </div>
 
-                            <button class="w-full py-4 bg-sky-600 text-white font-medium rounded-xl hover:bg-sky-700 transition-all shadow-lg hover:shadow-sky-200 transform hover:-translate-y-0.5">
-                                Enviar Mensaje
-                            </button>
+                                <button type="submit" class="w-full py-4 bg-sky-600 text-white font-medium rounded-xl hover:bg-sky-700 transition-all shadow-lg hover:shadow-sky-200 transform hover:-translate-y-0.5">
+                                    Enviar Mensaje
+                                </button>
+                            </div>
                         </form>
+                        
+                        <!-- Alerta de éxito/error -->
+                        <div id="form-alert" class="form-alert"></div>
                     </div>
                 </div>
             </div>
@@ -489,6 +612,26 @@
     </footer>
 
     <script>
+        // === CONFIGURACIÓN ===
+        const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+
+        // === Variables globales ===
+        let isGenerating = false;
+        let isServerAvailable = false;
+        let currentSessionId = null;
+        let messageCount = 0;
+
+        // === Elementos DOM ===
+        const aiMessages = document.getElementById('ai-messages');
+        const aiInput = document.getElementById('ai-input');
+        const aiSendBtn = document.getElementById('ai-send-btn');
+        const aiChatForm = document.getElementById('ai-chat-form');
+        const aiTypingIndicator = document.getElementById('ai-typing-indicator');
+        const connectionStatus = document.getElementById('connection-status');
+        
+        const contactForm = document.getElementById('contact-form');
+        const formAlert = document.getElementById('form-alert');
+
         // Initialize Icons
         lucide.createIcons();
 
@@ -587,73 +730,348 @@
             observer.observe(el);
         });
 
-        /** * AI ADVISOR CHAT LOGIC (SIMULATION)
-         */
-        const chatMessages = document.getElementById('chat-messages');
-        const chatInput = document.getElementById('chat-input');
-        const typingIndicator = document.getElementById('typing-indicator');
-        const sendBtn = document.getElementById('send-btn');
+        // ========================================
+        // FUNCIONALIDAD PPF ASSISTANT CON IA
+        // ========================================
 
-        // Mock responses to simulate AI
-        const mockResponses = [
-            "¡Excelente pregunta! Para ese tipo de inquietud, la Dra. Padrón suele recomendar un enfoque combinado. ¿Te gustaría saber más sobre el tiempo de recuperación?",
-            "Entiendo. La toxina botulínica es ideal para eso. El procedimiento dura apenas 20 minutos y los resultados son visibles en pocos días.",
-            "Podemos agendar una valoración para analizar tu piel en detalle. ¿Prefieres horarios de mañana o de tarde?",
-            "En nuestro consultorio utilizamos tecnología láser de última generación para minimizar molestias y maximizar resultados."
-        ];
+        // Inicializar conexión cuando se carga la página
+        document.addEventListener('DOMContentLoaded', function() {
+            initAIConnection();
+        });
 
-        function addMessage(text, isUser = false) {
-            const div = document.createElement('div');
-            div.className = `flex items-start gap-3 ${isUser ? 'flex-row-reverse' : ''} animate-fade-in-up`;
-            
-            const avatar = isUser 
-                ? `<div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 flex-shrink-0"><i data-lucide="user" class="w-4 h-4"></i></div>`
-                : `<div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 flex-shrink-0"><i data-lucide="bot" class="w-4 h-4"></i></div>`;
-            
-            const bubbleClass = isUser 
-                ? 'bg-sky-500 text-white rounded-tr-none' 
-                : 'bg-white border border-slate-100 text-slate-600 rounded-tl-none';
-
-            div.innerHTML = `
-                ${avatar}
-                <div class="${bubbleClass} rounded-2xl p-4 shadow-sm max-w-[85%] text-sm">
-                    <p>${text}</p>
-                </div>
-            `;
-            
-            chatMessages.appendChild(div);
-            lucide.createIcons(); // Re-render icons for new elements
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        async function handleChatSubmit(e) {
+        aiChatForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const text = chatInput.value.trim();
-            if (!text) return;
+            sendAIMessage();
+        });
 
-            // 1. Add User Message
-            addMessage(text, true);
-            chatInput.value = '';
-            sendBtn.disabled = true;
+        aiInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!isGenerating) sendAIMessage();
+            }
+        });
 
-            // 2. Show Typing Indicator
-            typingIndicator.classList.remove('hidden');
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            // 3. Simulate AI Delay & Response
-            setTimeout(() => {
-                typingIndicator.classList.add('hidden');
-                // Pick random response or default
-                const randomResponse = mockResponses[Math.floor(Math.random() * mockResponses.length)];
-                addMessage(randomResponse, false);
-                sendBtn.disabled = false;
-            }, 1500 + Math.random() * 1000);
+        function addAIMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-message ${isUser ? 'user' : 'ai'}`;
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'ai-message-avatar';
+            avatarDiv.textContent = isUser ? 'Tú' : 'IA';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'ai-message-content';
+            contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+            
+            messageDiv.appendChild(avatarDiv);
+            messageDiv.appendChild(contentDiv);
+            aiMessages.appendChild(messageDiv);
+            
+            aiMessages.scrollTop = aiMessages.scrollHeight;
+            
+            return contentDiv;
         }
 
-        function clearChat() {
-            chatMessages.innerHTML = '';
-            addMessage("¡Hola! Soy el asistente virtual de la Dra. Patricia Padrón. ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre tratamientos faciales, corporales o agendar una cita.", false);
+        function showAITyping() {
+            aiTypingIndicator.classList.remove('hidden');
+            aiMessages.scrollTop = aiMessages.scrollHeight;
         }
+
+        function hideAITyping() {
+            aiTypingIndicator.classList.add('hidden');
+        }
+
+        function ensureSessionId() {
+            if (!currentSessionId) {
+                currentSessionId = 'ppf-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            }
+            return currentSessionId;
+        }
+
+        async function sendWithRetry(payload, retries = 2) {
+            for (let attempt = 0; attempt <= retries; attempt++) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 15000); // Aumentar a 15s
+                    
+                    const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(payload),
+                        signal: controller.signal
+                    });
+                    
+                    clearTimeout(timeoutId);
+                    
+                    if (response.ok) {
+                        return await response.json();
+                    }
+                    
+                    if (attempt < retries) {
+                        await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+                    }
+                } catch (error) {
+                    if (attempt === retries) throw error;
+                    await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+                }
+            }
+        }
+
+        async function checkAndUpdateConnection() {
+            try {
+                const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'ping', session_id: 'test' })
+                });
+                
+                isServerAvailable = testResponse.ok;
+                connectionStatus.textContent = isServerAvailable ? 'Conectado' : 'Modo simulación';
+                connectionStatus.style.color = isServerAvailable ? '#00cc66' : '#ffcc00';
+                
+                return isServerAvailable;
+            } catch (error) {
+                isServerAvailable = false;
+                connectionStatus.textContent = 'Modo simulación';
+                connectionStatus.style.color = '#ffcc00';
+                return false;
+            }
+        }
+
+        function resetAISession() {
+            currentSessionId = null;
+            // Opcional: limpiar mensajes antiguos
+            if (aiMessages.children.length > 20) {
+                const firstMessages = Array.from(aiMessages.children).slice(0, 5);
+                const otherMessages = Array.from(aiMessages.children).slice(5);
+                aiMessages.innerHTML = '';
+                firstMessages.forEach(msg => aiMessages.appendChild(msg));
+                otherMessages.forEach(msg => aiMessages.appendChild(msg));
+            }
+        }
+
+        function incrementMessageCount() {
+            messageCount++;
+            if (messageCount >= 15) {
+                resetAISession();
+                messageCount = 0;
+            }
+        }
+
+        async function initAIConnection() {
+            try {
+                connectionStatus.textContent = 'Conectando...';
+                
+                const serverStatus = await checkAndUpdateConnection();
+                
+                if (serverStatus) {
+                    aiInput.disabled = false;
+                    aiSendBtn.disabled = false;
+                    aiInput.placeholder = 'Escribe tu pregunta sobre estética médica...';
+                } else {
+                    throw new Error('Servidor no disponible');
+                }
+            } catch (error) {
+                console.error('Error en inicialización:', error);
+                isServerAvailable = false;
+                connectionStatus.textContent = 'Modo simulación';
+                connectionStatus.style.color = '#ffcc00';
+                
+                aiInput.disabled = false;
+                aiSendBtn.disabled = false;
+                aiInput.placeholder = 'Escribe tu mensaje (modo simulación)...';
+            }
+        }
+
+        async function sendAIMessage() {
+            const text = aiInput.value.trim();
+            if (!text || isGenerating) return;
+            
+            aiInput.value = '';
+            aiInput.style.height = 'auto';
+            
+            addAIMessage(text, true);
+            incrementMessageCount();
+            
+            aiInput.disabled = true;
+            aiSendBtn.disabled = true;
+            isGenerating = true;
+            
+            showAITyping();
+            
+            try {
+                // Verificar conexión antes de enviar
+                await checkAndUpdateConnection();
+                
+                let responseText;
+                
+                if (isServerAvailable) {
+                    const payload = {
+                        message: `Eres un asistente especializado en estética médica que trabaja para la Dra. Patricia Padrón Fernández. Responde de manera profesional, educada y precisa a esta consulta: "${text}". 
+                        
+                        Información sobre la Dra.:
+                        - Especialista en armonización facial y corporal
+                        - Más de 10 años de experiencia
+                        - Consultorio en Torre Cavendes, Caracas
+                        - Teléfono: +584127336400
+                        - Email: ppadronf@hotmail.com
+                        
+                        Si la consulta es sobre tratamientos, proporciona información general pero recomienda una cita para evaluación personalizada.`,
+                        session_id: ensureSessionId()
+                    };
+                    
+                    const data = await sendWithRetry(payload);
+                    
+                    if (data.status === 'success' && data.response) {
+                        responseText = data.response;
+                        
+                        if (data.session_id && !currentSessionId) {
+                            currentSessionId = data.session_id;
+                        }
+                    } else {
+                        throw new Error('Respuesta del servidor inválida');
+                    }
+                } else {
+                    // Modo simulación
+                    await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
+                    
+                    // Respuesta inteligente basada en palabras clave
+                    responseText = generateSmartResponse(text);
+                }
+                
+                hideAITyping();
+                addAIMessage(responseText);
+                
+            } catch (error) {
+                hideAITyping();
+                
+                console.error('Error enviando mensaje:', error);
+                
+                // En caso de error, usar respuesta simulada
+                const fallbackResponse = generateSmartResponse(text);
+                addAIMessage(fallbackResponse);
+                
+                // No cambiar permanentemente a simulación, solo marcar como no disponible
+                isServerAvailable = false;
+                connectionStatus.textContent = 'Reconectando...';
+                connectionStatus.style.color = '#ff9900';
+                
+                // Intentar reconexión en background
+                setTimeout(checkAndUpdateConnection, 3000);
+            } finally {
+                aiInput.disabled = false;
+                aiSendBtn.disabled = false;
+                isGenerating = false;
+                aiInput.focus();
+            }
+        }
+
+        // Función para generar respuestas inteligentes basadas en palabras clave
+        function generateSmartResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            
+            // Palabras clave y respuestas asociadas
+            if (lowerMessage.includes('precio') || lowerMessage.includes('costo') || lowerMessage.includes('cuánto')) {
+                return "Los precios varían según el tratamiento y las necesidades individuales. Para una cotización precisa, recomiendo agendar una valoración con la Dra. Padrón donde evaluará tu caso específico y te proporcionará un plan de tratamiento detallado con los costos.";
+            }
+            
+            if (lowerMessage.includes('tiempo') || lowerMessage.includes('dura') || lowerMessage.includes('recuperación')) {
+                return "Los tiempos de recuperación dependen del tratamiento:\n\n• Armonización facial: 24-48 horas\n• Bioestimulación: 2-3 días\n• Toxina botulínica: 3-5 días\n\nLa Dra. Padrón te dará instrucciones específicas post-tratamiento para optimizar tu recuperación.";
+            }
+            
+            if (lowerMessage.includes('riesgo') || lowerMessage.includes('efecto') || lowerMessage.includes('seguro')) {
+                return "Todos los procedimientos en PPF Estética Médica son realizados por la Dra. Patricia Padrón con más de 10 años de experiencia. Utilizamos productos certificados y técnicas seguras. Los efectos secundarios son mínimos y temporales cuando se siguen las indicaciones post-tratamiento.";
+            }
+            
+            if (lowerMessage.includes('cita') || lowerMessage.includes('agendar') || lowerMessage.includes('consultar')) {
+                return "¡Excelente! Para agendar tu cita puedes:\n\n📞 Llamar al: +584127336400\n✉️ Email: ppadronf@hotmail.com\n📍 Dirección: Torre Cavendes piso 13, Av. Francisco de Miranda, Caracas\n\nLa Dra. Padrón te atenderá personalmente para evaluar tus objetivos y crear un plan de tratamiento personalizado.";
+            }
+            
+            if (lowerMessage.includes('horario') || lowerMessage.includes('disponible') || lowerMessage.includes('cuándo')) {
+                return "El horario de atención es:\n\n🕘 Lunes a Viernes: 9:00 AM - 6:00 PM\n🕙 Sábados: 9:00 AM - 1:00 PM\n\nTe recomendamos agendar con anticipación para garantizar tu preferencia horaria.";
+            }
+            
+            // Respuestas generales sobre estética médica
+            const medicalResponses = [
+                "¡Hola! Soy tu asistente especializado en estética médica. La Dra. Patricia Padrón se especializa en tratamientos faciales y corporales mínimamente invasivos. ¿En qué puedo ayudarte hoy?",
+                "Para armonización facial, la Dra. Padrón utiliza técnicas avanzadas con ácido hialurónico para lograr resultados naturales. El procedimiento es ambulatorio y tiene una recuperación rápida.",
+                "La bioestimulación con inductores de colágeno es excelente para mejorar la calidad de la piel. Los resultados comienzan a verse a las 2-3 semanas y continúan mejorando hasta por 6 meses.",
+                "La toxina botulínica es ideal para suavizar líneas de expresión. Los efectos duran aproximadamente 4-6 meses. La Dra. Padrón aplica técnicas que preservan la expresividad natural.",
+                "Para una valoración personalizada, recomiendo agendar una cita en el consultorio. La Dra. Padrón evaluará tus necesidades específicas y creará un plan de tratamiento individualizado.",
+                "Los tratamientos de mantenimiento son importantes para mantener los resultados. Generalmente se recomiendan sesiones cada 6-12 meses dependiendo del procedimiento.",
+                "En PPF Estética Médica utilizamos tecnología de última generación y productos de la más alta calidad para garantizar tu seguridad y satisfacción.",
+                "La Dra. Padrón tiene más de 10 años de experiencia en medicina estética y se mantiene actualizada con las últimas técnicas y procedimientos."
+            ];
+            
+            // Respuesta aleatoria de las respuestas médicas
+            return medicalResponses[Math.floor(Math.random() * medicalResponses.length)];
+        }
+
+        function clearAIChat() {
+            aiMessages.innerHTML = '';
+            addAIMessage("¡Hola! Soy el asistente virtual de la Dra. Patricia Padrón. ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre tratamientos faciales, corporales o agendar una cita.", false);
+            messageCount = 0;
+            resetAISession();
+        }
+
+        // === WEB3FORMS - MANEJO DEL FORMULARIO ===
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Desactivar botón y mostrar estado de carga
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
+            formAlert.style.display = 'none';
+            
+            // Preparar datos
+            const formData = new FormData(contactForm);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    // Éxito
+                    formAlert.textContent = '¡Mensaje enviado con éxito! La Dra. Patricia Padrón te responderá pronto.';
+                    formAlert.className = 'form-alert success';
+                    formAlert.style.display = 'block';
+                    contactForm.reset(); // Limpiar formulario
+                } else {
+                    // Error de validación
+                    formAlert.textContent = 'Error: ' + (result.message || 'No se pudo enviar el mensaje');
+                    formAlert.className = 'form-alert error';
+                    formAlert.style.display = 'block';
+                }
+            } catch (error) {
+                // Error de red
+                formAlert.textContent = 'Error de conexión. Por favor, inténtalo de nuevo.';
+                formAlert.className = 'form-alert error';
+                formAlert.style.display = 'block';
+            } finally {
+                // Restaurar botón
+                submitBtn.textContent = 'Enviar Mensaje';
+                submitBtn.disabled = false;
+                
+                // Ocultar alerta después de 5 segundos
+                setTimeout(() => {
+                    formAlert.style.display = 'none';
+                }, 5000);
+            }
+        });
 
     </script>
 </body>
