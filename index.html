@@ -1745,18 +1745,14 @@
   </main>
 
   <div class="float-buttons-container">
-    <!-- Botón RickGPT ahora primero -->
-    <div id="ai-float-btn" class="float-btn" role="button" aria-label="Abrir Asistente IA">
+    <!-- Botón Pitfall ahora primero -->
+    <div id="pitfall-float-btn" class="float-btn" role="button" aria-label="Abrir Pitfall">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="10" rx="2" />
-          <circle cx="12" cy="16" r="2" />
-          <line x1="12" y1="6" x2="12" y2="11" />
-          <circle cx="12" cy="4" r="2" />
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
         </svg>
       </div>
-      <span class="btn-text">RickGPT</span>
-      <span class="status-dot"></span>
+      <span class="btn-text">Pitfall</span>
     </div>
 
     <!-- Botón DebugBot ahora segundo -->
@@ -1773,6 +1769,20 @@
         </svg>
       </div>
       <span class="btn-text">DebugBot</span>
+    </div>
+
+    <!-- Botón RickGPT ahora tercero -->
+    <div id="ai-float-btn" class="float-btn" role="button" aria-label="Abrir Asistente IA">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="10" rx="2" />
+          <circle cx="12" cy="16" r="2" />
+          <line x1="12" y1="6" x2="12" y2="11" />
+          <circle cx="12" cy="4" r="2" />
+        </svg>
+      </div>
+      <span class="btn-text">RickGPT</span>
+      <span class="status-dot"></span>
     </div>
   </div>
 
@@ -1861,6 +1871,7 @@
 
     // === Elementos DOM ===
     const floatButtonsContainer = document.querySelector('.float-buttons-container');
+    const pitfallFloatBtn = document.getElementById('pitfall-float-btn');
     const debugFloatBtn = document.getElementById('debug-float-btn');
     const debugChatWindow = document.getElementById('debug-chat-window');
     const debugCloseBtn = document.getElementById('debug-close-btn');
@@ -2032,7 +2043,7 @@
     startTitleAnimation();
     brandMini.addEventListener('click', () => { startTitleAnimation(); });
 
-    // === PARALLAX PANELS - MODIFICADO PARA MÓVILES ===
+    // === PARALLAX PANELS ===
     const panels = document.getElementById('panels');
     
     const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
@@ -2114,9 +2125,6 @@
     
     const shuffledColors = shuffleArray(rainbowColors);
     
-    // MODIFICADO: Reducir cantidad de paneles en móviles
-    const isMobile = window.innerWidth <= 768;
-    
     const largePanelsContent = [
       { speed: 0.9, lines: ['// Inicializando...', 'const a = 42;', 'function ping() {', '  return "pong";', '}', 'console.log(ping());'] },
       { speed: 0.8, lines: ['<init/>', '#include <stdio.h>', 'int main() {', '  printf("Hola");', '  return 0;', '}', 'boot> OK'] },
@@ -2141,14 +2149,9 @@
       { speed: 0.1, lines: ['docker build', 'image: ready', 'container: run'] }
     ];
     
-    // MODIFICADO: Reducir cantidad de paneles en móviles
-    const largePanelsCount = isMobile ? 2 : 4;
-    const mediumPanelsCount = isMobile ? 3 : 5;
-    const smallPanelsCount = isMobile ? 4 : 6;
-    
-    const largePanels = largePanelsContent.slice(0, largePanelsCount).map(content => ({ ...content, ...getRandomPosition('large') }));
-    const mediumPanels = mediumPanelsContent.slice(0, mediumPanelsCount).map(content => ({ ...content, ...getRandomPosition('medium') }));
-    const smallPanels = smallPanelsContent.slice(0, smallPanelsCount).map(content => ({ ...content, ...getRandomPosition('small') }));
+    const largePanels = largePanelsContent.map(content => ({ ...content, ...getRandomPosition('large') }));
+    const mediumPanels = mediumPanelsContent.map(content => ({ ...content, ...getRandomPosition('medium') }));
+    const smallPanels = smallPanelsContent.map(content => ({ ...content, ...getRandomPosition('small') }));
     
     function typeText(element, text, speed, onComplete) {
       let i = 0;
@@ -2347,6 +2350,14 @@
     });
 
     // ========================================
+    // FUNCIONALIDAD PITFALL
+    // ========================================
+
+    pitfallFloatBtn.addEventListener('click', () => {
+      window.location.href = 'pitfall.html';
+    });
+
+    // ========================================
     // FUNCIONALIDAD DEBUGBOT
     // ========================================
     
@@ -2357,12 +2368,11 @@
       } 
     });
 
-    // MODIFICADO: Cambiar de click a mouseup
-    debugFloatBtn.addEventListener('mouseup', () => {
+    debugFloatBtn.addEventListener('click', () => {
       if (!isDebugChatOpen) openDebugChat();
     });
 
-    debugCloseBtn.addEventListener('mouseup', () => {
+    debugCloseBtn.addEventListener('click', () => {
       closeDebugChat();
     });
 
@@ -2560,7 +2570,7 @@
       }
     }
 
-    debugAnalyzeBtn.addEventListener('mouseup', analyzeCode);
+    debugAnalyzeBtn.addEventListener('click', analyzeCode);
 
     async function analyzeCode() {
       if (isDebugging) {
@@ -2700,12 +2710,11 @@
     // FUNCIONALIDAD RICKGPT (IA)
     // ========================================
 
-    // MODIFICADO: Cambiar de click a mouseup
-    aiFloatBtn.addEventListener('mouseup', () => {
+    aiFloatBtn.addEventListener('click', () => {
       if (!isAIChatOpen) openAIChat();
     });
 
-    aiCloseBtn.addEventListener('mouseup', () => {
+    aiCloseBtn.addEventListener('click', () => {
       closeAIChat();
     });
 
@@ -2819,7 +2828,7 @@
       }
     });
 
-    aiSendBtn.addEventListener('mouseup', sendAIMessage);
+    aiSendBtn.addEventListener('click', sendAIMessage);
 
     function addAIMessage(content, isUser = false) {
       const messageDiv = document.createElement('div');
