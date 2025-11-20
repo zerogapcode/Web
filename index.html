@@ -1745,17 +1745,7 @@
   </main>
 
   <div class="float-buttons-container">
-    <!-- Botón PPF nuevo -->
-    <div id="ppf-float-btn" class="float-btn" role="button" aria-label="Abrir PPF">
-      <div class="float-icon-wrapper">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-        </svg>
-      </div>
-      <span class="btn-text">PPF</span>
-    </div>
-
-    <!-- Botón RickGPT -->
+    <!-- Botón RickGPT ahora primero -->
     <div id="ai-float-btn" class="float-btn" role="button" aria-label="Abrir Asistente IA">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1769,7 +1759,7 @@
       <span class="status-dot"></span>
     </div>
 
-    <!-- Botón DebugBot -->
+    <!-- Botón DebugBot ahora segundo -->
     <div id="debug-float-btn" class="float-btn" role="button" aria-label="Abrir Debugger">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1889,13 +1879,6 @@
     const aiSendBtn = document.getElementById('ai-send-btn');
     const aiDragHandle = document.getElementById('ai-drag-handle');
     const contactBtn = document.getElementById('contact-btn');
-    
-    // === BOTÓN PPF ===
-    const ppfFloatBtn = document.getElementById('ppf-float-btn');
-    
-    ppfFloatBtn.addEventListener('click', () => {
-      window.location.href = 'ppf.html';
-    });
     
     // === CONFIGURACIÓN DE COLORES MEJORADA ===
     const colorPalettes = [
@@ -2049,7 +2032,7 @@
     startTitleAnimation();
     brandMini.addEventListener('click', () => { startTitleAnimation(); });
 
-    // === PARALLAX PANELS ===
+    // === PARALLAX PANELS - MODIFICADO PARA MÓVILES ===
     const panels = document.getElementById('panels');
     
     const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
@@ -2131,6 +2114,9 @@
     
     const shuffledColors = shuffleArray(rainbowColors);
     
+    // MODIFICADO: Reducir cantidad de paneles en móviles
+    const isMobile = window.innerWidth <= 768;
+    
     const largePanelsContent = [
       { speed: 0.9, lines: ['// Inicializando...', 'const a = 42;', 'function ping() {', '  return "pong";', '}', 'console.log(ping());'] },
       { speed: 0.8, lines: ['<init/>', '#include <stdio.h>', 'int main() {', '  printf("Hola");', '  return 0;', '}', 'boot> OK'] },
@@ -2155,9 +2141,14 @@
       { speed: 0.1, lines: ['docker build', 'image: ready', 'container: run'] }
     ];
     
-    const largePanels = largePanelsContent.map(content => ({ ...content, ...getRandomPosition('large') }));
-    const mediumPanels = mediumPanelsContent.map(content => ({ ...content, ...getRandomPosition('medium') }));
-    const smallPanels = smallPanelsContent.map(content => ({ ...content, ...getRandomPosition('small') }));
+    // MODIFICADO: Reducir cantidad de paneles en móviles
+    const largePanelsCount = isMobile ? 2 : 4;
+    const mediumPanelsCount = isMobile ? 3 : 5;
+    const smallPanelsCount = isMobile ? 4 : 6;
+    
+    const largePanels = largePanelsContent.slice(0, largePanelsCount).map(content => ({ ...content, ...getRandomPosition('large') }));
+    const mediumPanels = mediumPanelsContent.slice(0, mediumPanelsCount).map(content => ({ ...content, ...getRandomPosition('medium') }));
+    const smallPanels = smallPanelsContent.slice(0, smallPanelsCount).map(content => ({ ...content, ...getRandomPosition('small') }));
     
     function typeText(element, text, speed, onComplete) {
       let i = 0;
@@ -2366,11 +2357,12 @@
       } 
     });
 
-    debugFloatBtn.addEventListener('click', () => {
+    // MODIFICADO: Cambiar de click a mouseup
+    debugFloatBtn.addEventListener('mouseup', () => {
       if (!isDebugChatOpen) openDebugChat();
     });
 
-    debugCloseBtn.addEventListener('click', () => {
+    debugCloseBtn.addEventListener('mouseup', () => {
       closeDebugChat();
     });
 
@@ -2481,7 +2473,7 @@
       const examples = {
         javascript: `// Ejemplo en JavaScript\nfunction factorial(n) {\n  if (n === 1) {\n    return 1;\n  }\n  return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
         python: `# Ejemplo en Python\ndef factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))`,
-        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
+        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
         cpp: `// Ejemplo en C++\n#include <iostream>\nusing namespace std;\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    cout << factorial(5) << endl;\n    return 0;\n}`,
         c: `// Ejemplo en C\n#include <stdio.h>\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    printf("%d\\n", factorial(5));\n    return 0;\n}`,
         csharp: `// Ejemplo en C#\nusing System;\n\nclass Program {\n    static int Factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * Factorial(n - 1);\n    }\n    \n    static void Main() {\n        Console.WriteLine(Factorial(5));\n    }\n}`,
@@ -2568,7 +2560,7 @@
       }
     }
 
-    debugAnalyzeBtn.addEventListener('click', analyzeCode);
+    debugAnalyzeBtn.addEventListener('mouseup', analyzeCode);
 
     async function analyzeCode() {
       if (isDebugging) {
@@ -2708,11 +2700,12 @@
     // FUNCIONALIDAD RICKGPT (IA)
     // ========================================
 
-    aiFloatBtn.addEventListener('click', () => {
+    // MODIFICADO: Cambiar de click a mouseup
+    aiFloatBtn.addEventListener('mouseup', () => {
       if (!isAIChatOpen) openAIChat();
     });
 
-    aiCloseBtn.addEventListener('click', () => {
+    aiCloseBtn.addEventListener('mouseup', () => {
       closeAIChat();
     });
 
@@ -2826,7 +2819,7 @@
       }
     });
 
-    aiSendBtn.addEventListener('click', sendAIMessage);
+    aiSendBtn.addEventListener('mouseup', sendAIMessage);
 
     function addAIMessage(content, isUser = false) {
       const messageDiv = document.createElement('div');
