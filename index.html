@@ -1745,7 +1745,19 @@
   </main>
 
   <div class="float-buttons-container">
-    <!-- Botón Pitfall ahora primero -->
+    <!-- Botón Simulación ahora primero -->
+    <div id="simulation-float-btn" class="float-btn" role="button" aria-label="Abrir Simulación">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+      </div>
+      <span class="btn-text">Simulación</span>
+    </div>
+
+    <!-- Botón Pitfall ahora segundo -->
     <div id="pitfall-float-btn" class="float-btn" role="button" aria-label="Abrir Pitfall">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1755,7 +1767,7 @@
       <span class="btn-text">Pitfall</span>
     </div>
 
-    <!-- Botón DebugBot ahora segundo -->
+    <!-- Botón DebugBot ahora tercero -->
     <div id="debug-float-btn" class="float-btn" role="button" aria-label="Abrir Debugger">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1771,7 +1783,7 @@
       <span class="btn-text">DebugBot</span>
     </div>
 
-    <!-- Botón RickGPT ahora tercero -->
+    <!-- Botón RickGPT ahora cuarto -->
     <div id="ai-float-btn" class="float-btn" role="button" aria-label="Abrir Asistente IA">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1871,6 +1883,7 @@
 
     // === Elementos DOM ===
     const floatButtonsContainer = document.querySelector('.float-buttons-container');
+    const simulationFloatBtn = document.getElementById('simulation-float-btn');
     const pitfallFloatBtn = document.getElementById('pitfall-float-btn');
     const debugFloatBtn = document.getElementById('debug-float-btn');
     const debugChatWindow = document.getElementById('debug-chat-window');
@@ -2350,6 +2363,14 @@
     });
 
     // ========================================
+    // FUNCIONALIDAD SIMULACIÓN
+    // ========================================
+
+    simulationFloatBtn.addEventListener('click', () => {
+      window.location.href = 'simulation.html';
+    });
+
+    // ========================================
     // FUNCIONALIDAD PITFALL
     // ========================================
 
@@ -2483,7 +2504,7 @@
       const examples = {
         javascript: `// Ejemplo en JavaScript\nfunction factorial(n) {\n  if (n === 1) {\n    return 1;\n  }\n  return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
         python: `# Ejemplo en Python\ndef factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))`,
-        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
+        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if n == 1:\n            return 1\n        return n * factorial(n - 1)\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
         cpp: `// Ejemplo en C++\n#include <iostream>\nusing namespace std;\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    cout << factorial(5) << endl;\n    return 0;\n}`,
         c: `// Ejemplo en C\n#include <stdio.h>\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    printf("%d\\n", factorial(5));\n    return 0;\n}`,
         csharp: `// Ejemplo en C#\nusing System;\n\nclass Program {\n    static int Factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * Factorial(n - 1);\n    }\n    \n    static void Main() {\n        Console.WriteLine(Factorial(5));\n    }\n}`,
