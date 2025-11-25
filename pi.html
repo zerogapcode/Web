@@ -52,6 +52,7 @@
             text-align: center;
             text-shadow: 0 0 20px #FFFF00;
             margin: 20px 0;
+            cursor: pointer;
         }
         
         a {
@@ -71,6 +72,90 @@
             padding: 5px;
             text-align: center;
             border-top: 1px solid #00FFFF;
+        }
+        
+        /* Estilos para el juego */
+        .game-container {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .code-display {
+            font-family: "Courier New", monospace;
+            font-size: 24px;
+            letter-spacing: 5px;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #000000;
+            border: 1px solid #00FFFF;
+        }
+        
+        .input-code {
+            background-color: #000000;
+            color: #00FF00;
+            border: 1px solid #00FFFF;
+            padding: 10px;
+            font-family: "Courier New", monospace;
+            font-size: 18px;
+            width: 200px;
+            text-align: center;
+        }
+        
+        .game-button {
+            background-color: #000000;
+            color: #00FF00;
+            border: 1px solid #00FFFF;
+            padding: 10px 20px;
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        
+        .game-button:hover {
+            background-color: #00FF00;
+            color: #000000;
+        }
+        
+        .message {
+            margin: 15px 0;
+            min-height: 24px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #000000;
+            border: 1px solid #00FFFF;
+            margin: 10px 0;
+        }
+        
+        .progress {
+            height: 100%;
+            width: 0%;
+            background-color: #00FF00;
+            transition: width 0.3s;
+        }
+        
+        .attempts {
+            color: #FFFF00;
+            margin: 10px 0;
+        }
+        
+        .success-message {
+            display: none;
+            color: #00FF00;
+            font-size: 24px;
+            text-align: center;
+            margin: 20px 0;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { text-shadow: 0 0 5px #00FF00; }
+            50% { text-shadow: 0 0 20px #00FF00, 0 0 30px #00FF00; }
+            100% { text-shadow: 0 0 5px #00FF00; }
         }
     </style>
 </head>
@@ -102,11 +187,36 @@
                 <p>> Accessing backdoor protocols...</p>
                 <p>> Redirecting through Piper Maru gateway...</p>
                 
-                <div class="pi-symbol">
+                <div class="pi-symbol" id="pi-symbol">
                     Π
                 </div>
                 
-                <p><center>>> CLICK TO INITIATE SEQUENCE <<</center></p>
+                <p><center><span id="initiate-text">>> CLICK TO INITIATE SEQUENCE <<</span></center></p>
+                
+                <!-- Área del juego -->
+                <div class="game-container" id="game-container">
+                    <p>> DECRYPTION PROTOCOL ACTIVATED</p>
+                    <p>> BYPASSING SECURITY MATRIX...</p>
+                    
+                    <div class="code-display" id="code-display"></div>
+                    
+                    <div class="message" id="message"></div>
+                    
+                    <input type="text" class="input-code" id="input-code" maxlength="6" placeholder="ENTER CODE">
+                    <br>
+                    <button class="game-button" id="submit-button">SUBMIT</button>
+                    <button class="game-button" id="reset-button">RESET</button>
+                    
+                    <div class="progress-bar">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                    
+                    <div class="attempts" id="attempts">ATTEMPTS REMAINING: 3</div>
+                </div>
+                
+                <div class="success-message" id="success-message">
+                    >> ACCESS GRANTED <<
+                </div>
                 
                 <marquee behavior="scroll" direction="left" style="color: #FF00FF; font-size: 14px;">
                     [GATEKEEPER OVERRIDE ACTIVE] [SYSTEMS VULNERABLE] [π PROTOCOL STANDBY] 
@@ -122,6 +232,131 @@
         </td>
     </tr>
 </table>
+
+<script>
+    // Variables del juego
+    let currentCode = "";
+    let attempts = 3;
+    let timer;
+    let codeDisplayTime = 3; // Tiempo en segundos para mostrar el código
+    
+    // Elementos del DOM
+    const piSymbol = document.getElementById('pi-symbol');
+    const initiateText = document.getElementById('initiate-text');
+    const gameContainer = document.getElementById('game-container');
+    const codeDisplay = document.getElementById('code-display');
+    const inputCode = document.getElementById('input-code');
+    const submitButton = document.getElementById('submit-button');
+    const resetButton = document.getElementById('reset-button');
+    const message = document.getElementById('message');
+    const progress = document.getElementById('progress');
+    const attemptsDisplay = document.getElementById('attempts');
+    const successMessage = document.getElementById('success-message');
+    
+    // Función para generar un código aleatorio de 6 dígitos
+    function generateCode() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+    
+    // Función para iniciar el juego
+    function startGame() {
+        // Ocultar elementos iniciales
+        piSymbol.style.display = 'none';
+        initiateText.style.display = 'none';
+        
+        // Mostrar el juego
+        gameContainer.style.display = 'block';
+        
+        // Generar un nuevo código
+        currentCode = generateCode();
+        
+        // Mostrar el código por un tiempo limitado
+        codeDisplay.textContent = currentCode;
+        codeDisplay.style.color = '#00FF00';
+        
+        // Iniciar temporizador para ocultar el código
+        let timeLeft = codeDisplayTime;
+        updateProgressBar(timeLeft, codeDisplayTime);
+        
+        timer = setInterval(() => {
+            timeLeft--;
+            updateProgressBar(timeLeft, codeDisplayTime);
+            
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                codeDisplay.textContent = '******';
+                codeDisplay.style.color = '#FF0000';
+                inputCode.focus();
+            }
+        }, 1000);
+        
+        // Reiniciar contadores
+        attempts = 3;
+        attemptsDisplay.textContent = `ATTEMPTS REMAINING: ${attempts}`;
+        message.textContent = '';
+        successMessage.style.display = 'none';
+    }
+    
+    // Función para actualizar la barra de progreso
+    function updateProgressBar(current, total) {
+        const percentage = (current / total) * 100;
+        progress.style.width = `${percentage}%`;
+    }
+    
+    // Función para verificar el código ingresado
+    function checkCode() {
+        const userCode = inputCode.value;
+        
+        if (userCode === currentCode) {
+            // Código correcto
+            message.textContent = '>> CODE ACCEPTED - ACCESS GRANTED <<';
+            message.style.color = '#00FF00';
+            gameContainer.style.display = 'none';
+            successMessage.style.display = 'block';
+            
+            // Cambiar el mensaje del marquee
+            document.querySelector('marquee').innerHTML = 
+                '[SECURITY BREACHED] [FULL SYSTEM ACCESS GRANTED] [π PROTOCOL COMPLETE]';
+        } else {
+            // Código incorrecto
+            attempts--;
+            attemptsDisplay.textContent = `ATTEMPTS REMAINING: ${attempts}`;
+            
+            if (attempts <= 0) {
+                message.textContent = '>> TOO MANY FAILED ATTEMPTS - SYSTEM LOCKED <<';
+                message.style.color = '#FF0000';
+                submitButton.disabled = true;
+                inputCode.disabled = true;
+            } else {
+                message.textContent = '>> CODE REJECTED - TRY AGAIN <<';
+                message.style.color = '#FF0000';
+                inputCode.value = '';
+                inputCode.focus();
+            }
+        }
+    }
+    
+    // Función para reiniciar el juego
+    function resetGame() {
+        clearInterval(timer);
+        startGame();
+        inputCode.value = '';
+        message.textContent = '';
+    }
+    
+    // Event Listeners
+    piSymbol.addEventListener('click', startGame);
+    initiateText.addEventListener('click', startGame);
+    submitButton.addEventListener('click', checkCode);
+    resetButton.addEventListener('click', resetGame);
+    
+    // Permitir enviar con Enter
+    inputCode.addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            checkCode();
+        }
+    });
+</script>
 
 </body>
 </html>
