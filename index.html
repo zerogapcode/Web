@@ -1521,6 +1521,19 @@
       color:var(--muted-dark);
     }
     
+    /* OPTIMIZACIÓN PARA MÓVILES: Reducir cantidad de paneles */
+    @media (max-width: 768px) {
+      .panel.large:nth-child(n+3) {
+        display: none;
+      }
+      .panel.medium:nth-child(n+4) {
+        display: none;
+      }
+      .panel.small:nth-child(n+4) {
+        display: none;
+      }
+    }
+    
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -2061,7 +2074,7 @@
     startTitleAnimation();
     brandMini.addEventListener('click', () => { startTitleAnimation(); });
 
-    // === PARALLAX PANELS ===
+    // === PARALLAX PANELS (OPTIMIZADO PARA MÓVILES) ===
     const panels = document.getElementById('panels');
     
     const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
@@ -2143,6 +2156,7 @@
     
     const shuffledColors = shuffleArray(rainbowColors);
     
+    // CONTENIDO ORIGINAL (para desktop)
     const largePanelsContent = [
       { speed: 0.9, lines: ['// Inicializando...', 'const a = 42;', 'function ping() {', '  return "pong";', '}', 'console.log(ping());'] },
       { speed: 0.8, lines: ['<init/>', '#include <stdio.h>', 'int main() {', '  printf("Hola");', '  return 0;', '}', 'boot> OK'] },
@@ -2167,9 +2181,17 @@
       { speed: 0.1, lines: ['docker build', 'image: ready', 'container: run'] }
     ];
     
-    const largePanels = largePanelsContent.map(content => ({ ...content, ...getRandomPosition('large') }));
-    const mediumPanels = mediumPanelsContent.map(content => ({ ...content, ...getRandomPosition('medium') }));
-    const smallPanels = smallPanelsContent.map(content => ({ ...content, ...getRandomPosition('small') }));
+    // DETERMINAR SI ES MÓVIL PARA REDUCIR PANELES
+    const isMobile = window.innerWidth <= 768;
+    
+    // REDUCIR CANTIDAD DE PANELES EN MÓVIL
+    const largePanelsToUse = isMobile ? largePanelsContent.slice(0, 2) : largePanelsContent;
+    const mediumPanelsToUse = isMobile ? mediumPanelsContent.slice(0, 3) : mediumPanelsContent;
+    const smallPanelsToUse = isMobile ? smallPanelsContent.slice(0, 3) : smallPanelsContent;
+    
+    const largePanels = largePanelsToUse.map(content => ({ ...content, ...getRandomPosition('large') }));
+    const mediumPanels = mediumPanelsToUse.map(content => ({ ...content, ...getRandomPosition('medium') }));
+    const smallPanels = smallPanelsToUse.map(content => ({ ...content, ...getRandomPosition('small') }));
     
     function typeText(element, text, speed, onComplete) {
       let i = 0;
