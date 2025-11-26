@@ -9,6 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
 
   <style>
+    /* Todos los estilos CSS permanecen iguales */
     :root{
       --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
       --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
@@ -2814,7 +2815,7 @@
       const examples = {
         javascript: `// Ejemplo en JavaScript\nfunction factorial(n) {\n  if (n === 1) {\n    return 1;\n  }\n  return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
         python: `# Ejemplo en Python\ndef factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))`,
-        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
+        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
         cpp: `// Ejemplo en C++\n#include <iostream>\nusing namespace std;\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    cout << factorial(5) << endl;\n    return 0;\n}`,
         c: `// Ejemplo en C\n#include <stdio.h>\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    printf("%d\\n", factorial(5));\n    return 0;\n}`,
         csharp: `// Ejemplo en C#\nusing System;\n\nclass Program {\n    static int Factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * Factorial(n - 1);\n    }\n    \n    static void Main() {\n        Console.WriteLine(Factorial(5));\n    }\n}`,
@@ -2987,7 +2988,7 @@
     }
 
     // ========================================
-    // FUNCIONALIDAD RICKGPT (IA)
+    // FUNCIONALIDAD RICKGPT (IA) - CORREGIDA
     // ========================================
 
     aiFloatBtn.addEventListener('click', () => {
@@ -3045,32 +3046,46 @@
       }, 600);
     }
 
-    function initAIConnection() {
+    async function initAIConnection() {
       try {
-        addAIMessage('Conectándote con Rick...');
+        addAIMessage('Conectando con RickGPT...', false);
         
-        // Simular conexión exitosa por ahora
-        setTimeout(() => {
+        // Verificar servidor con una petición real
+        const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            message: "ping",
+            session_id: "ai-test-" + Date.now()
+          })
+        });
+        
+        if (testResponse.ok) {
+          const data = await testResponse.json();
           aiMessages.innerHTML = '';
-          addAIMessage('¡Hola! mi nombre es Rick. ¿En qué puedo ayudarte?');
+          addAIMessage('¡Hola! Soy RickGPT, tu asistente de IA especializado en desarrollo de software y hardware. ¿En qué puedo ayudarte hoy?', false);
           isServerAvailable = true;
           
           aiInput.disabled = false;
           aiSendBtn.disabled = false;
           aiInput.placeholder = 'Escribe tu mensaje...';
           aiInput.focus();
-        }, 1000);
+        } else {
+          throw new Error(`HTTP ${testResponse.status}`);
+        }
         
       } catch (error) {
         console.error('Error en inicialización:', error);
         aiMessages.innerHTML = '';
-        addAIMessage('⚠️ Advertencia: No se pudo verificar el servidor, pero puedes intentar enviar mensajes.');
+        addAIMessage('⚠️ No se pudo conectar con el servidor de IA. Por favor, verifica tu conexión o intenta más tarde.', false);
         isServerAvailable = false;
         
-        aiInput.disabled = false;
-        aiSendBtn.disabled = false;
-        aiInput.placeholder = 'Escribe tu mensaje (modo prueba)...';
-        aiInput.focus();
+        aiInput.disabled = true;
+        aiSendBtn.disabled = true;
+        aiInput.placeholder = 'Servidor no disponible';
       }
     }
 
@@ -3155,28 +3170,41 @@
       const typingIndicator = showAITyping();
       
       try {
-        // Simular respuesta de IA por ahora
-        setTimeout(() => {
-          typingIndicator.remove();
-          
-          const responses = [
-            "¡Interesante pregunta! Como IA especializada en desarrollo, te recomiendo revisar la documentación oficial para abordar ese problema.",
-            "Basándome en mi conocimiento, esa implementación podría optimizarse usando patrones de diseño más eficientes.",
-            "Excelente consulta. Desde mi perspectiva técnica, consideraría implementar una solución escalable que permita crecimiento futuro.",
-            "Ese es un desafío común en desarrollo. Te sugiero explorar enfoques alternativos que mejoren el rendimiento.",
-            "Como RickGPT, mi análisis indica que hay varias formas de abordar ese problema. ¿Te gustaría que profundice en alguna en particular?"
-          ];
-          
-          const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-          addAIMessage(randomResponse);
+        // Generar una session_id para la conversación si no existe
+        if (!currentSessionId) {
+          currentSessionId = "ai-session-" + Date.now();
+        }
+        
+        const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            message: text,
+            session_id: currentSessionId
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        typingIndicator.remove();
+        
+        if (data.status === 'success' && data.response) {
+          addAIMessage(data.response);
           isServerAvailable = true;
-          
-        }, 2000);
+        } else {
+          throw new Error('Respuesta inválida del servidor');
+        }
         
       } catch (error) {
         typingIndicator.remove();
         
-        let errorMessage = 'Error al conectar con la IA. ';
+        let errorMessage = '❌ Error al conectar con la IA. ';
         errorMessage += 'Por favor, intenta nuevamente más tarde.';
         
         addAIMessage(errorMessage);
