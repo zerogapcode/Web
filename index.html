@@ -26,7 +26,7 @@
     }
 
     *{box-sizing:border-box; font-family: var(--mono);}
-    body{margin:0;background:var(--bg-light);color:var(--text-light);}
+    body{margin:0;background:var(--bg-light);color:var(--text-light); overflow-x: hidden;}
     .wrap{max-width:var(--max-width);margin:0 auto;padding:36px 24px}
     
     header{
@@ -352,7 +352,7 @@
     }
 
     /* ------------------------------------------------------------------ */
-    /* --- BOTONES FLOTANTES CON ICONOS CENTRADOS --- */
+    /* --- BOTONES FLOTANTES CON ANIMACIÓN TRANSFORM (Sin Layout Shift) --- */
     /* ------------------------------------------------------------------ */
     .float-buttons-container {
       position: fixed;
@@ -388,15 +388,63 @@
       -webkit-backdrop-filter: blur(16px) saturate(180%);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
       
-      /* Animación "Muelle" (Spring Physics) */
-      transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+      /* TRANSICIÓN: CLAVE PARA EL EFECTO */
+      /* Usamos transform para el movimiento y opacity para aparecer */
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  opacity 0.6s ease,
+                  width 0.3s ease,
                   background 0.3s ease,
-                  box-shadow 0.3s ease,
-                  border-color 0.3s ease,
-                  transform 0.2s ease;
+                  box-shadow 0.3s ease;
+                  
+      /* Optimizaciones de renderizado */
+      will-change: transform, opacity;
+      transform: translate3d(0,0,0); /* Forzar aceleración GPU */
       
       color: #333;
       user-select: none;
+    }
+
+    /* ESTADO INICIAL: OCULTO */
+    .float-btn.init-hidden {
+      opacity: 0;
+      /* Opcional: Pequeño scale inicial */
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+
+    /* ESTADO "POP": CENTRADO MEDIANTE TRANSFORM */
+    .float-btn.intro-pop {
+      /* IMPORTANTE: Usamos CSS Vars calculadas en JS para moverlo al centro */
+      /* --tx y --ty son las distancias desde la esquina al centro */
+      /* --s es el factor de escala */
+      transform: translate(var(--tx), var(--ty)) scale(var(--s)) !important;
+      
+      /* Estilos visuales durante el Pop */
+      width: 60px !important; /* Mantener width base, el scale lo agranda */
+      height: 60px !important;
+      border-radius: 50% !important; /* Círculo perfecto */
+      
+      z-index: 20000 !important;
+      opacity: 1 !important;
+      pointer-events: none; /* No interactuable durante animación */
+      
+      /* Fondo más solido para destacar */
+      background: var(--btn-accent) !important;
+      box-shadow: 0 0 60px var(--btn-accent-glow), 0 0 100px rgba(0,0,0,0.1) !important;
+      border: 4px solid rgba(255,255,255,0.5) !important;
+    }
+
+    /* Ocultar elementos internos durante el Pop */
+    .float-btn.intro-pop .btn-text,
+    .float-btn.intro-pop .status-dot {
+      display: none !important;
+      opacity: 0 !important;
+    }
+
+    /* Ajustar icono durante POP */
+    .float-btn.intro-pop .float-icon-wrapper svg {
+      color: #fff !important; /* Icono blanco sobre fondo accent */
+      /* Compensar si es necesario, pero el scale general ya agranda todo */
     }
 
     body[data-theme='dark'] .float-btn {
@@ -404,7 +452,7 @@
       border-color: rgba(255, 255, 255, 0.15);
     }
 
-    /* Hover Estado: Expandido */
+    /* Hover Estado: Expandido (Normal) */
     .float-btn:hover {
       width: 180px;
       background: rgba(255, 255, 255, 0.2);
@@ -3228,6 +3276,63 @@
       matrixCanvas.height = window.innerHeight;
       
       console.log("✅ ProtonLab cargado correctamente");
+
+      // === ANIMACIÓN FLIP (First Last Invert Play) INICIAL BOTONES ===
+      // Esta técnica evita el layout thrashing y asegura suavidad en navegadores
+      const floatBtns = document.querySelectorAll('.float-btn');
+      
+      // 1. Ocultar inicialmente
+      floatBtns.forEach(btn => btn.classList.add('init-hidden'));
+
+      // 2. Esperar 1 segundo tras cargar
+      setTimeout(() => {
+        // Medir el centro de la pantalla
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        // Escala objetivo (ajustable)
+        const targetScale = 6; 
+
+        floatBtns.forEach((btn, index) => {
+          // Delay escalonado para cada botón
+          setTimeout(() => {
+            // 3. Calcular posición final (donde está el botón ahora mismo)
+            const rect = btn.getBoundingClientRect();
+            const btnCenterX = rect.left + rect.width / 2;
+            const btnCenterY = rect.top + rect.height / 2;
+
+            // 4. Calcular distancia (Delta) necesaria para moverlo AL CENTRO
+            // Queremos que el botón se mueva A (centerX, centerY) DESDE (btnCenterX, btnCenterY)
+            // Transform translate mueve relativo a la posición actual.
+            const moveX = centerX - btnCenterX;
+            const moveY = centerY - btnCenterY;
+
+            // 5. Aplicar variables CSS para que la clase .intro-pop sepa dónde ir
+            btn.style.setProperty('--tx', `${moveX}px`);
+            btn.style.setProperty('--ty', `${moveY}px`);
+            btn.style.setProperty('--s', targetScale);
+
+            // 6. Aplicar estado inicial de animación (Centro, Grande)
+            // Hacemos esto ANTES de quitar el hidden para que aparezca ya transformado
+            btn.classList.add('intro-pop');
+            
+            // Forzar reflow para que el navegador aplique los estilos inmediatamente
+            void btn.offsetWidth; 
+
+            // 7. Revelar botón (aparece en el centro gracias a intro-pop)
+            btn.classList.remove('init-hidden');
+
+            // 8. Esperar para que el usuario lo vea grande
+            setTimeout(() => {
+              // 9. Quitar la clase intro-pop.
+              // El CSS tiene `transition: transform 1.2s ...`.
+              // Al quitar la clase, el transform vuelve a `translate(0,0) scale(1)`.
+              // Esto hace que el botón viaje desde el centro a su posición original.
+              btn.classList.remove('intro-pop');
+            }, 500); // Tiempo visible en el centro
+
+          }, index * 400); // Intervalo entre botones
+        });
+      }, 1000); // Retraso inicial
     });
 
     // También detectar eventos de wheel para capturar mejor el overscroll
