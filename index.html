@@ -1946,7 +1946,17 @@
       <span class="btn-text">Pitfall</span>
     </div>
 
-    <!-- Botón DebugBot ahora tercero -->
+    <!-- NUEVO: Botón Tráfico Aéreo ahora tercero -->
+    <div id="traffic-float-btn" class="float-btn" role="button" aria-label="Abrir Tráfico Aéreo">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
+        </svg>
+      </div>
+      <span class="btn-text">Tráfico</span>
+    </div>
+
+    <!-- Botón DebugBot ahora cuarto -->
     <div id="debug-float-btn" class="float-btn" role="button" aria-label="Abrir Debugger">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1962,7 +1972,7 @@
       <span class="btn-text">DebugBot</span>
     </div>
 
-    <!-- Botón RickGPT ahora cuarto -->
+    <!-- Botón RickGPT ahora quinto -->
     <div id="ai-float-btn" class="float-btn" role="button" aria-label="Abrir Asistente IA">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2064,6 +2074,7 @@
     const floatButtonsContainer = document.querySelector('.float-buttons-container');
     const simulationFloatBtn = document.getElementById('simulation-float-btn');
     const pitfallFloatBtn = document.getElementById('pitfall-float-btn');
+    const trafficFloatBtn = document.getElementById('traffic-float-btn'); // <-- NUEVO
     const debugFloatBtn = document.getElementById('debug-float-btn');
     const debugChatWindow = document.getElementById('debug-chat-window');
     const debugCloseBtn = document.getElementById('debug-close-btn');
@@ -2735,6 +2746,14 @@
 
     pitfallFloatBtn.addEventListener('click', () => {
       window.location.href = 'pitfall.html';
+    });
+
+    // ========================================
+    // FUNCIONALIDAD TRÁFICO AÉREO - NUEVO
+    // ========================================
+
+    trafficFloatBtn.addEventListener('click', () => {
+      window.location.href = 'traficoaereo.html';
     });
 
     // ========================================
