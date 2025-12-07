@@ -2100,6 +2100,104 @@
     const tearContainer = document.querySelector('.tear-container');
     const tear = document.querySelector('.tear');
     
+    // === FUNCIÓN PARA HACER VENTANAS ARRASTRABLES ===
+    function makeDraggable(element, handle) {
+      let isDragging = false;
+      let currentX;
+      let currentY;
+      let initialX;
+      let initialY;
+      let xOffset = 0;
+      let yOffset = 0;
+      let startX, startY;
+
+      // Eventos para mouse
+      handle.addEventListener('mousedown', dragStart);
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', dragEnd);
+
+      // Eventos para touch
+      handle.addEventListener('touchstart', dragStart);
+      document.addEventListener('touchmove', drag);
+      document.addEventListener('touchend', dragEnd);
+
+      function dragStart(e) {
+        if (e.type === 'touchstart') {
+          initialX = e.touches[0].clientX - xOffset;
+          initialY = e.touches[0].clientY - yOffset;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+        } else {
+          initialX = e.clientX - xOffset;
+          initialY = e.clientY - yOffset;
+          startX = e.clientX;
+          startY = e.clientY;
+        }
+
+        if (e.target === handle || handle.contains(e.target)) {
+          isDragging = true;
+          element.classList.add('dragging');
+          
+          // Guardar posición inicial
+          const rect = element.getBoundingClientRect();
+          element._initialPosition = {
+            top: rect.top,
+            left: rect.left
+          };
+        }
+        
+        e.preventDefault();
+      }
+
+      function drag(e) {
+        if (isDragging) {
+          e.preventDefault();
+
+          if (e.type === 'touchmove') {
+            currentX = e.touches[0].clientX - initialX;
+            currentY = e.touches[0].clientY - initialY;
+          } else {
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+          }
+
+          xOffset = currentX;
+          yOffset = currentY;
+
+          setTranslate(currentX, currentY, element);
+        }
+      }
+
+      function setTranslate(xPos, yPos, el) {
+        el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+      }
+
+      function dragEnd(e) {
+        isDragging = false;
+        element.classList.remove('dragging');
+        
+        // Guardar posición final
+        const rect = element.getBoundingClientRect();
+        element._currentPosition = {
+          top: rect.top,
+          left: rect.left
+        };
+      }
+    }
+
+    // Aplicar funcionalidad de arrastre a ambas ventanas
+    document.addEventListener('DOMContentLoaded', function() {
+      // Inicializar arrastre después de que las ventanas estén creadas
+      setTimeout(() => {
+        if (debugChatWindow && debugDragHandle) {
+          makeDraggable(debugChatWindow, debugDragHandle);
+        }
+        if (aiChatWindow && aiDragHandle) {
+          makeDraggable(aiChatWindow, aiDragHandle);
+        }
+      }, 1000);
+    });
+    
     // === EFECTO MATRIX ===
     let matrixCtx = matrixCanvas.getContext('2d');
     let matrixChars = [];
