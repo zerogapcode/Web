@@ -2057,9 +2057,25 @@
   </div>
 
   <script>
-    // === CONFIGURACIÓN ===
-    // CORREGIDO: Cambiado de URL de ngrok a localhost (puerto 5001)
-    const OLLAMA_SERVER_URL = 'http://localhost:5001';
+    // ========================================
+    // CONFIGURACIÓN PRINCIPAL - MODIFICADA
+    // ========================================
+    
+    // URL CORREGIDA: Usando tu dominio de ngrok
+    const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+    
+    console.log('🚀 Configuración de producción activada');
+    console.log('🌐 URL del backend:', OLLAMA_SERVER_URL);
+    console.log('🔗 Verificando conexión...');
+
+    // Función de utilidad para añadir headers de ngrok
+    function getNgrokHeaders() {
+      return {
+        'ngrok-skip-browser-warning': 'true', // Header para evitar la advertencia de ngrok
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
+    }
 
     // === Variables globales ===
     let isAIChatOpen = false;
@@ -2112,12 +2128,10 @@
       let yOffset = 0;
       let startX, startY;
 
-      // Eventos para mouse
       handle.addEventListener('mousedown', dragStart);
       document.addEventListener('mousemove', drag);
       document.addEventListener('mouseup', dragEnd);
 
-      // Eventos para touch
       handle.addEventListener('touchstart', dragStart);
       document.addEventListener('touchmove', drag);
       document.addEventListener('touchend', dragEnd);
@@ -2139,7 +2153,6 @@
           isDragging = true;
           element.classList.add('dragging');
           
-          // Guardar posición inicial
           const rect = element.getBoundingClientRect();
           element._initialPosition = {
             top: rect.top,
@@ -2177,7 +2190,6 @@
         isDragging = false;
         element.classList.remove('dragging');
         
-        // Guardar posición final
         const rect = element.getBoundingClientRect();
         element._currentPosition = {
           top: rect.top,
@@ -2186,9 +2198,7 @@
       }
     }
 
-    // Aplicar funcionalidad de arrastre a ambas ventanas
     document.addEventListener('DOMContentLoaded', function() {
-      // Inicializar arrastre después de que las ventanas estén creadas
       setTimeout(() => {
         if (debugChatWindow && debugDragHandle) {
           makeDraggable(debugChatWindow, debugDragHandle);
@@ -2207,7 +2217,6 @@
     let tearForce = 0;
     const MAX_TEAR_FORCE = 100;
     
-    // Configuración del efecto Matrix
     const MATRIX_CONFIG = {
       fontSize: 14,
       columns: 0,
@@ -2215,18 +2224,14 @@
       colors: ['#0f0', '#0c0', '#090', '#060', '#0f0']
     };
     
-    // Inicializar el efecto Matrix
     function initMatrixEffect() {
       console.log("🟢 Inicializando efecto Matrix...");
       
-      // Ajustar tamaño del canvas
       matrixCanvas.width = window.innerWidth;
       matrixCanvas.height = window.innerHeight;
       
-      // Calcular número de columnas
       MATRIX_CONFIG.columns = Math.floor(window.innerWidth / MATRIX_CONFIG.fontSize);
       
-      // Inicializar caracteres
       matrixChars = [];
       for (let i = 0; i < MATRIX_CONFIG.columns; i++) {
         matrixChars.push({
@@ -2238,34 +2243,26 @@
         });
       }
       
-      // Iniciar animación
       if (matrixAnimationId) {
         cancelAnimationFrame(matrixAnimationId);
       }
       drawMatrix();
     }
     
-    // Dibujar el efecto Matrix
     function drawMatrix() {
-      // Limpiar canvas con transparencia
       matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
       matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
       
-      // Configurar fuente
       matrixCtx.font = `bold ${MATRIX_CONFIG.fontSize}px 'JetBrains Mono', monospace`;
       
-      // Dibujar caracteres
       matrixChars.forEach(column => {
-        // Actualizar posición
         column.y += column.speed;
         
-        // Si la columna sale de la pantalla, reiniciarla
         if (column.y > window.innerHeight) {
           column.y = Math.random() * -100;
           column.chars = [];
         }
         
-        // Generar nuevos caracteres si es necesario
         if (column.chars.length < column.charCount) {
           const newChar = {
             char: MATRIX_CONFIG.charSet[Math.floor(Math.random() * MATRIX_CONFIG.charSet.length)],
@@ -2274,64 +2271,50 @@
           column.chars.push(newChar);
         }
         
-        // Dibujar caracteres
         column.chars.forEach((charObj, index) => {
           const yPos = column.y - (index * MATRIX_CONFIG.fontSize);
           
-          // Solo dibujar si está dentro de la pantalla
           if (yPos > -MATRIX_CONFIG.fontSize && yPos < window.innerHeight) {
             matrixCtx.fillStyle = charObj.color;
             matrixCtx.fillText(charObj.char, column.x, yPos);
           }
         });
         
-        // Eliminar caracteres antiguos
         if (column.chars.length > column.charCount) {
           column.chars.shift();
         }
       });
       
-      // Continuar animación si está activa
       if (matrixOverlay.classList.contains('active')) {
         matrixAnimationId = requestAnimationFrame(drawMatrix);
       }
     }
     
-    // Control del efecto de rasgado
     function handleTearEffect() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const scrollHeight = document.documentElement.scrollHeight;
       const clientHeight = document.documentElement.clientHeight;
       
-      // Verificar si estamos en el fondo de la página
       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
-      
-      // Detectar overscroll (scroll forzado más allá del límite)
       const overscroll = Math.max(0, (scrollTop + clientHeight) - scrollHeight);
       
       if (isAtBottom && overscroll > 0) {
-        // Calcular fuerza basada en el overscroll
         tearForce = Math.min(MAX_TEAR_FORCE, overscroll * 2);
         
-        // Activar efecto si hay suficiente fuerza
         if (tearForce > 5 && !isTearing) {
           isTearing = true;
           matrixOverlay.classList.add('active');
           tearContainer.classList.add('active');
           tear.classList.add('active');
           initMatrixEffect();
-          console.log("🔵 Activando efecto Matrix con fuerza:", tearForce);
         }
         
-        // Ajustar posición del rasgado basado en la fuerza
         const tearPosition = 70 - (tearForce / MAX_TEAR_FORCE) * 25;
         tear.style.top = `${tearPosition}%`;
         
       } else {
-        // Reducir fuerza gradualmente cuando no hay overscroll
         tearForce = Math.max(0, tearForce - 8);
         
-        // Si la fuerza es muy baja, desactivar efecto
         if (tearForce <= 0 && isTearing) {
           isTearing = false;
           tear.classList.remove('active');
@@ -2340,16 +2323,12 @@
             matrixOverlay.classList.remove('active');
             tearContainer.classList.remove('active');
             
-            // Detener animación Matrix
             if (matrixAnimationId) {
               cancelAnimationFrame(matrixAnimationId);
               matrixAnimationId = null;
             }
           }, 600);
-          
-          console.log("🔴 Desactivando efecto Matrix");
         } else if (isTearing) {
-          // Ajustar posición del rasgado mientras se reduce la fuerza
           const tearPosition = 70 - (tearForce / MAX_TEAR_FORCE) * 25;
           tear.style.top = `${tearPosition}%`;
         }
@@ -2358,24 +2337,21 @@
     
     // === CONFIGURACIÓN DE COLORES MEJORADA ===
     const colorPalettes = [
-      { r: '255, 100, 100', hex: '#ff6464' }, // Rojo
-      { r: '255, 165, 80',  hex: '#ffa550' }, // Naranja
-      { r: '255, 220, 100', hex: '#ffdc64' }, // Amarillo
-      { r: '100, 220, 150', hex: '#64dc96' }, // Verde
-      { r: '100, 180, 255', hex: '#64b4ff' }, // Azul
-      { r: '180, 120, 255', hex: '#b478ff' }  // Violeta
+      { r: '255, 100, 100', hex: '#ff6464' },
+      { r: '255, 165, 80',  hex: '#ffa550' },
+      { r: '255, 220, 100', hex: '#ffdc64' },
+      { r: '100, 220, 150', hex: '#64dc96' },
+      { r: '100, 180, 255', hex: '#64b4ff' },
+      { r: '180, 120, 255', hex: '#b478ff' }
     ];
     
     function applyRandomColors() {
-      // Seleccionar color aleatorio
       const theme = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
       
-      // Definir variables CSS dinámicas para los botones
       const accentColor = `rgb(${theme.r})`;
       const glowColor = `rgba(${theme.r}, 0.4)`;
       const bgColor = `rgba(${theme.r}, 0.1)`;
       
-      // Aplicar a los botones
       const btns = document.querySelectorAll('.float-btn');
       btns.forEach(btn => {
         btn.style.setProperty('--btn-accent', accentColor);
@@ -2383,11 +2359,9 @@
         btn.style.setProperty('--btn-bg', bgColor);
       });
 
-      // Aplicar estilo al botón de contacto (manteniendo lo original pero con el color nuevo)
       if(contactBtn) {
         contactBtn.style.background = `rgba(${theme.r}, 0.15)`;
         contactBtn.style.border = `1px solid rgba(${theme.r}, 0.3)`;
-        // Manejar hover mediante eventos JS ya que es inline style
         contactBtn.onmouseenter = () => {
            contactBtn.style.boxShadow = `0 12px 40px ${glowColor}`;
            contactBtn.style.borderColor = accentColor;
@@ -2398,7 +2372,6 @@
         };
       }
       
-      // Aplicar a las ventanas modales (borde y sombra del color temático)
       const modals = [debugChatWindow, aiChatWindow];
       modals.forEach(modal => {
         if(modal) {
@@ -2423,7 +2396,6 @@
         const theme = document.body.dataset.theme === 'dark' ? 'vs-dark' : 'vs';
         monaco.editor.setTheme(theme);
       }
-      // Re-aplicar colores al cambiar tema para asegurar contraste
       setTimeout(applyRandomColors, 50);
     }
     modeButtons.forEach(btn=>btn.addEventListener('click',()=>{
@@ -2432,7 +2404,6 @@
       applyTheme(btn.dataset.mode);
     }));
     applyTheme('auto');
-    // Aplicar colores iniciales
     applyRandomColors();
 
     // === ANIMACIÓN TÍTULO ===
@@ -2590,7 +2561,6 @@
     
     const shuffledColors = shuffleArray(rainbowColors);
     
-    // CONTENIDO ORIGINAL (para desktop)
     const largePanelsContent = [
       { speed: 0.9, lines: ['// Inicializando...', 'const a = 42;', 'function ping() {', '  return "pong";', '}', 'console.log(ping());'] },
       { speed: 0.8, lines: ['<init/>', '#include <stdio.h>', 'int main() {', '  printf("Hola");', '  return 0;', '}', 'boot> OK'] },
@@ -2615,10 +2585,8 @@
       { speed: 0.1, lines: ['docker build', 'image: ready', 'container: run'] }
     ];
     
-    // DETERMINAR SI ES MÓVIL PARA REDUCIR PANELES
     const isMobile = window.innerWidth <= 768;
     
-    // REDUCIR CANTIDAD DE PANELES EN MÓVIL
     const largePanelsToUse = isMobile ? largePanelsContent.slice(0, 2) : largePanelsContent;
     const mediumPanelsToUse = isMobile ? mediumPanelsContent.slice(0, 3) : mediumPanelsContent;
     const smallPanelsToUse = isMobile ? smallPanelsContent.slice(0, 3) : smallPanelsContent;
@@ -2773,7 +2741,6 @@
         ticking = true;
       }
       
-      // Manejar efecto Matrix
       handleTearEffect();
     });
 
@@ -2825,7 +2792,6 @@
         toggleMenu();
       }
       
-      // Reajustar efecto Matrix al redimensionar
       if (matrixOverlay.classList.contains('active')) {
         initMatrixEffect();
       }
@@ -2848,7 +2814,7 @@
     });
 
     // ========================================
-    // FUNCIONALIDAD TRÁFICO AÉREO - NUEVO
+    // FUNCIONALIDAD TRÁFICO AÉREO
     // ========================================
 
     trafficFloatBtn.addEventListener('click', () => {
@@ -2856,10 +2822,9 @@
     });
 
     // ========================================
-    // FUNCIONALIDAD DEBUGBOT - CORREGIDO
+    // FUNCIONALIDAD DEBUGBOT - CON HEADERS NGrok
     // ========================================
     
-    // Inicializar Monaco Editor
     require.config({ 
       paths: { 
         vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs' 
@@ -3034,8 +2999,10 @@
       try {
         updateDebugStatus('checking', '🔍 Verificando servidor...');
         
-        // CORREGIDO: Usamos el endpoint /health para verificar el estado
-        const response = await fetch(`${OLLAMA_SERVER_URL}/health`);
+        // Usando headers específicos para ngrok
+        const response = await fetch(`${OLLAMA_SERVER_URL}/health`, {
+          headers: getNgrokHeaders()
+        });
         
         if (response.ok) {
           const data = await response.json();
@@ -3043,6 +3010,7 @@
           
           updateDebugStatus('online');
           debugOutput.innerHTML = `<div class="success">✅ Servidor funcionando. Modelos: ${data.chat}, ${data.debug}</div>`;
+          console.log('✅ Backend conectado correctamente:', data);
         } else {
           throw new Error(`HTTP ${response.status}`);
         }
@@ -3050,8 +3018,16 @@
         console.error('❌ Error de conexión:', error);
         isServerAvailable = false;
         
+        let errorMsg = `❌ No se pudo conectar al servidor<br>`;
+        errorMsg += `URL: ${OLLAMA_SERVER_URL}<br>`;
+        errorMsg += `Error: ${error.message}<br><br>`;
+        errorMsg += `Posibles soluciones:<br>`;
+        errorMsg += `1. Verifica que el backend OllamaServer.py esté corriendo<br>`;
+        errorMsg += `2. Revisa que ngrok esté activo<br>`;
+        errorMsg += `3. Verifica tu conexión a internet<br>`;
+        
         updateDebugStatus('offline');
-        debugOutput.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+        debugOutput.innerHTML = `<div class="error">${errorMsg}</div>`;
       }
     }
 
@@ -3092,12 +3068,10 @@
       try {
         console.log('📤 Enviando código para análisis...');
         
-        // CORREGIDO: Usamos el endpoint /debug en lugar de /chat
+        // MODIFICADO: Usando headers para ngrok
         const response = await fetch(`${OLLAMA_SERVER_URL}/debug`, {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json'
-          },
+          headers: getNgrokHeaders(),
           body: JSON.stringify({ 
             code: code,
             language: selectedLanguage
@@ -3153,7 +3127,7 @@
     }
 
     // ========================================
-    // FUNCIONALIDAD RICKGPT (IA) - CORREGIDO
+    // FUNCIONALIDAD RICKGPT (IA) - CON HEADERS NGrok
     // ========================================
 
     aiFloatBtn.addEventListener('click', () => {
@@ -3213,16 +3187,12 @@
       try {
         addAIMessage('Conectando con RickGPT...', false);
         
-        // CORREGIDO: Usamos el endpoint /chat con los parámetros correctos
-        // Generamos un session_id para mantener la conversación
         currentSessionId = "ai-session-" + Date.now();
         
+        // MODIFICADO: Usando headers para ngrok
         const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
+          headers: getNgrokHeaders(),
           body: JSON.stringify({
             message: "ping",
             session_id: currentSessionId
@@ -3336,12 +3306,10 @@
       const typingIndicator = showAITyping();
       
       try {
-        // CORREGIDO: Usamos el endpoint /chat con session_id para mantener contexto
+        // MODIFICADO: Usando headers para ngrok
         const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json'
-          },
+          headers: getNgrokHeaders(),
           body: JSON.stringify({ 
             message: text,
             session_id: currentSessionId
@@ -3389,6 +3357,7 @@
       matrixCanvas.height = window.innerHeight;
       
       console.log("✅ ProtonLab cargado correctamente");
+      console.log("🌐 URL del backend configurada:", OLLAMA_SERVER_URL);
 
       const floatBtns = document.querySelectorAll('.float-btn');
       floatBtns.forEach(btn => btn.classList.add('init-hidden'));
