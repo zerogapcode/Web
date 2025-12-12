@@ -9,7 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
 
   <style>
-    /* Todos los estilos CSS permanecen iguales */
+    /* Todos los estilos CSS permanecen iguales - sin cambios */
     :root{
       --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
       --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
@@ -2058,7 +2058,8 @@
 
   <script>
     // === CONFIGURACIÓN ===
-    const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+    // CORREGIDO: Cambiado de URL de ngrok a localhost (puerto 5001)
+    const OLLAMA_SERVER_URL = 'http://localhost:5001';
 
     // === Variables globales ===
     let isAIChatOpen = false;
@@ -2074,7 +2075,7 @@
     const floatButtonsContainer = document.querySelector('.float-buttons-container');
     const simulationFloatBtn = document.getElementById('simulation-float-btn');
     const pitfallFloatBtn = document.getElementById('pitfall-float-btn');
-    const trafficFloatBtn = document.getElementById('traffic-float-btn'); // <-- NUEVO
+    const trafficFloatBtn = document.getElementById('traffic-float-btn');
     const debugFloatBtn = document.getElementById('debug-float-btn');
     const debugChatWindow = document.getElementById('debug-chat-window');
     const debugCloseBtn = document.getElementById('debug-close-btn');
@@ -2855,7 +2856,7 @@
     });
 
     // ========================================
-    // FUNCIONALIDAD DEBUGBOT
+    // FUNCIONALIDAD DEBUGBOT - CORREGIDO
     // ========================================
     
     // Inicializar Monaco Editor
@@ -2875,7 +2876,6 @@
 
     function openDebugChat() {
       isDebugChatOpen = true;
-      // Ahora ocultamos el contenedor de botones completo
       floatButtonsContainer.style.display = 'none';
       debugChatWindow.style.display = 'flex';
       
@@ -2905,7 +2905,6 @@
       
       setTimeout(() => {
         debugChatWindow.style.display = 'none';
-        // Mostrar contenedor de botones de nuevo
         floatButtonsContainer.style.display = 'flex';
         
         debugChatWindow.style.bottom = '';
@@ -2955,7 +2954,6 @@
 
         editorInitialized = true;
         
-        // Cambiar lenguaje cuando se selecciona uno diferente
         languageSelector.addEventListener('change', function() {
           const language = this.value;
           const model = debugEditor.getModel();
@@ -2969,7 +2967,6 @@
           }
         }, 300);
         
-        // Atajo Ctrl+Enter para analizar
         debugEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, analyzeCode);
         
         console.log('✅ Editor Debug inicializado');
@@ -2980,7 +2977,7 @@
       const examples = {
         javascript: `// Ejemplo en JavaScript\nfunction factorial(n) {\n  if (n === 1) {\n    return 1;\n  }\n  return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
         python: `# Ejemplo en Python\ndef factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))`,
-        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
+        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
         cpp: `// Ejemplo en C++\n#include <iostream>\nusing namespace std;\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    cout << factorial(5) << endl;\n    return 0;\n}`,
         c: `// Ejemplo en C\n#include <stdio.h>\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    printf("%d\\n", factorial(5));\n    return 0;\n}`,
         csharp: `// Ejemplo en C#\nusing System;\n\nclass Program {\n    static int Factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * Factorial(n - 1);\n    }\n    \n    static void Main() {\n        Console.WriteLine(Factorial(5));\n    }\n}`,
@@ -3037,26 +3034,17 @@
       try {
         updateDebugStatus('checking', '🔍 Verificando servidor...');
         
-        const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            message: "ping",
-            session_id: "debug-test-" + Date.now()
-          })
-        });
+        // CORREGIDO: Usamos el endpoint /health para verificar el estado
+        const response = await fetch(`${OLLAMA_SERVER_URL}/health`);
         
-        if (testResponse.ok) {
-          const data = await testResponse.json();
+        if (response.ok) {
+          const data = await response.json();
           isServerAvailable = true;
           
           updateDebugStatus('online');
-          debugOutput.innerHTML = '<div class="info">💡 Escribe tu código y presiona "Analizar"</div>';
+          debugOutput.innerHTML = `<div class="success">✅ Servidor funcionando. Modelos: ${data.chat}, ${data.debug}</div>`;
         } else {
-          throw new Error(`HTTP ${testResponse.status}`);
+          throw new Error(`HTTP ${response.status}`);
         }
       } catch (error) {
         console.error('❌ Error de conexión:', error);
@@ -3094,25 +3082,25 @@
       const selectedLanguage = languageSelector.value;
       const languageName = languageSelector.options[languageSelector.selectedIndex].text;
       
-      // Mostrar animación de carga
       debugOutput.innerHTML = '';
       showDebugLoading();
       debugAnalyzeBtn.disabled = true;
       debugAnalyzeBtn.textContent = 'Analizando...';
-      debugAnalyzeBtn.classList.add('analyzing'); // Agregar clase para animación
+      debugAnalyzeBtn.classList.add('analyzing');
       isDebugging = true;
 
       try {
         console.log('📤 Enviando código para análisis...');
         
-        const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+        // CORREGIDO: Usamos el endpoint /debug en lugar de /chat
+        const response = await fetch(`${OLLAMA_SERVER_URL}/debug`, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ 
-            message: `Analiza este código en ${languageName}. Encuentra errores, problemas de estilo, posibles mejoras y explícalos claramente. Si es posible, sugiere soluciones:\n\n\`\`\`${selectedLanguage}\n${code}\n\`\`\``,
-            session_id: "debug-" + Date.now()
+            code: code,
+            language: selectedLanguage
           })
         });
         
@@ -3120,40 +3108,52 @@
           throw new Error(`HTTP ${response.status}`);
         }
         
-        const data = await response.json();
+        hideDebugLoading();
+        debugOutput.innerHTML = '';
         
-        if (data.status === 'success' && data.response) {
-          hideDebugLoading();
-          debugOutput.innerHTML = '';
-          const responseDiv = document.createElement('div');
-          responseDiv.style.color = 'inherit';
-          responseDiv.style.fontSize = '13px';
-          responseDiv.style.lineHeight = '1.6';
-          responseDiv.innerHTML = data.response.replace(/\n/g, '<br>');
-          debugOutput.appendChild(responseDiv);
+        // Leer el stream (Server-Sent Events)
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
           
-          isServerAvailable = true;
-          updateDebugStatus('online');
-        } else {
-          throw new Error('Respuesta inválida del servidor');
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n\n');
+          
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              try {
+                const data = JSON.parse(line.slice(6));
+                if (data.token) {
+                  debugOutput.innerHTML += data.token;
+                  debugOutput.scrollTop = debugOutput.scrollHeight;
+                }
+              } catch (e) {
+                console.warn('Línea no JSON:', line);
+              }
+            }
+          }
         }
+        
+        updateDebugStatus('online');
         
       } catch (err) {
         console.error('Error:', err);
         hideDebugLoading();
         debugOutput.innerHTML = `<div class="error">❌ Error: ${err.message}</div>`;
-        isServerAvailable = false;
         updateDebugStatus('offline');
       } finally {
         debugAnalyzeBtn.disabled = false;
         debugAnalyzeBtn.textContent = 'Analizar';
-        debugAnalyzeBtn.classList.remove('analyzing'); // Quitar clase de animación
+        debugAnalyzeBtn.classList.remove('analyzing');
         isDebugging = false;
       }
     }
 
     // ========================================
-    // FUNCIONALIDAD RICKGPT (IA) - CORREGIDA
+    // FUNCIONALIDAD RICKGPT (IA) - CORREGIDO
     // ========================================
 
     aiFloatBtn.addEventListener('click', () => {
@@ -3166,7 +3166,6 @@
 
     function openAIChat() {
       isAIChatOpen = true;
-      // Ocultar el contenedor de botones
       floatButtonsContainer.style.display = 'none';
       aiChatWindow.style.display = 'flex';
       
@@ -3191,7 +3190,6 @@
       
       setTimeout(() => {
         aiChatWindow.style.display = 'none';
-        // Mostrar botones al cerrar
         floatButtonsContainer.style.display = 'flex';
         
         aiChatWindow.style.bottom = '';
@@ -3215,7 +3213,10 @@
       try {
         addAIMessage('Conectando con RickGPT...', false);
         
-        // Verificar servidor con una petición real
+        // CORREGIDO: Usamos el endpoint /chat con los parámetros correctos
+        // Generamos un session_id para mantener la conversación
+        currentSessionId = "ai-session-" + Date.now();
+        
         const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
           headers: { 
@@ -3224,7 +3225,7 @@
           },
           body: JSON.stringify({
             message: "ping",
-            session_id: "ai-test-" + Date.now()
+            session_id: currentSessionId
           })
         });
         
@@ -3335,11 +3336,7 @@
       const typingIndicator = showAITyping();
       
       try {
-        // Generar una session_id para la conversación si no existe
-        if (!currentSessionId) {
-          currentSessionId = "ai-session-" + Date.now();
-        }
-        
+        // CORREGIDO: Usamos el endpoint /chat con session_id para mantener contexto
         const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
           headers: { 
@@ -3388,81 +3385,55 @@
     // ========================================
     
     document.addEventListener('DOMContentLoaded', function() {
-      // Inicializar el canvas Matrix
       matrixCanvas.width = window.innerWidth;
       matrixCanvas.height = window.innerHeight;
       
       console.log("✅ ProtonLab cargado correctamente");
 
-      // === ANIMACIÓN FLIP (First Last Invert Play) INICIAL BOTONES ===
-      // Esta técnica evita el layout thrashing y asegura suavidad en navegadores
       const floatBtns = document.querySelectorAll('.float-btn');
-      
-      // 1. Ocultar inicialmente
       floatBtns.forEach(btn => btn.classList.add('init-hidden'));
 
-      // 2. Esperar 1 segundo tras cargar
       setTimeout(() => {
-        // Medir el centro de la pantalla
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
-        // Escala objetivo (ajustable)
-        const targetScale = 6; 
+        const targetScale = 6;
 
         floatBtns.forEach((btn, index) => {
-          // Delay escalonado para cada botón
           setTimeout(() => {
-            // 3. Calcular posición final (donde está el botón ahora mismo)
             const rect = btn.getBoundingClientRect();
             const btnCenterX = rect.left + rect.width / 2;
             const btnCenterY = rect.top + rect.height / 2;
 
-            // 4. Calcular distancia (Delta) necesaria para moverlo AL CENTRO
-            // Queremos que el botón se mueva A (centerX, centerY) DESDE (btnCenterX, btnCenterY)
-            // Transform translate mueve relativo a la posición actual.
             const moveX = centerX - btnCenterX;
             const moveY = centerY - btnCenterY;
 
-            // 5. Aplicar variables CSS para que la clase .intro-pop sepa dónde ir
             btn.style.setProperty('--tx', `${moveX}px`);
             btn.style.setProperty('--ty', `${moveY}px`);
             btn.style.setProperty('--s', targetScale);
 
-            // 6. Aplicar estado inicial de animación (Centro, Grande)
-            // Hacemos esto ANTES de quitar el hidden para que aparezca ya transformado
             btn.classList.add('intro-pop');
             
-            // Forzar reflow para que el navegador aplique los estilos inmediatamente
-            void btn.offsetWidth; 
+            void btn.offsetWidth;
 
-            // 7. Revelar botón (aparece en el centro gracias a intro-pop)
             btn.classList.remove('init-hidden');
 
-            // 8. Esperar para que el usuario lo vea grande
             setTimeout(() => {
-              // 9. Quitar la clase intro-pop.
-              // El CSS tiene `transition: transform 1.2s ...`.
-              // Al quitar la clase, el transform vuelve a `translate(0,0) scale(1)`.
-              // Esto hace que el botón viaje desde el centro a su posición original.
               btn.classList.remove('intro-pop');
-            }, 500); // Tiempo visible en el centro
+            }, 500);
 
-          }, index * 300); // Intervalo entre botones
+          }, index * 300);
         });
-      }, 1000); // Retraso inicial
+      }, 1000);
     });
 
-    // También detectar eventos de wheel para capturar mejor el overscroll
     window.addEventListener('wheel', function(e) {
       handleTearEffect();
     }, { passive: true });
 
-    // Para dispositivos táctiles
     window.addEventListener('touchmove', function() {
       handleTearEffect();
     }, { passive: true });
 
-    // Redimensionar ventana
     window.addEventListener('resize', function() {
       if (matrixOverlay.classList.contains('active')) {
         initMatrixEffect();
