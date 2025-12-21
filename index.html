@@ -1259,7 +1259,15 @@
       color: var(--muted-dark);
     }
 
+    /* MODIFICADO: Aumentar área táctil para botones de cerrar en móviles */
     @media (max-width: 768px) {
+      .ai-chat-close, .debug-chat-close {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+        z-index: 10001;
+      }
+      
       header {
         padding: 12px 16px;
       }
@@ -2137,6 +2145,11 @@
       document.addEventListener('touchend', dragEnd);
 
       function dragStart(e) {
+        // MODIFICADO: Si el usuario toca el botón de cerrar, NO iniciar el arrastre
+        if (e.target.closest('.ai-chat-close') || e.target.closest('.debug-chat-close')) {
+          return; 
+        }
+
         if (e.type === 'touchstart') {
           initialX = e.touches[0].clientX - xOffset;
           initialY = e.touches[0].clientY - yOffset;
@@ -2835,7 +2848,9 @@
       if (!isDebugChatOpen) openDebugChat();
     });
 
-    debugCloseBtn.addEventListener('click', () => {
+    // MODIFICADO: Añadir stopPropagation al evento de cierre de DebugBot
+    debugCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Evita que el clic llegue al manejador de arrastre
       closeDebugChat();
     });
 
@@ -3134,7 +3149,9 @@
       if (!isAIChatOpen) openAIChat();
     });
 
-    aiCloseBtn.addEventListener('click', () => {
+    // MODIFICADO: Añadir stopPropagation al evento de cierre de RickGPT
+    aiCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Evita que el clic llegue al manejador de arrastre
       closeAIChat();
     });
 
