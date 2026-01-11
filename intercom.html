@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Control de Pagos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f5f7fa; color: #333; line-height: 1.6; padding: 20px; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { background-color: var(--primary-color); color: white; padding: 1.5rem; border-radius: var(--border-radius); margin-bottom: 2rem; box-shadow: var(--box-shadow); text-align: center; }
+        h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .subtitle { font-size: 1rem; opacity: 0.9; font-weight: 300; }
+        .panel { background-color: white; border-radius: var(--border-radius); padding: 1.5rem; margin-bottom: 2rem; box-shadow: var(--box-shadow); }
+        .password-section { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee; }
+        .password-input { flex-grow: 1; padding: 0.75rem 1rem; border: 1px solid #ddd; border-radius: var(--border-radius); font-size: 1rem; min-width: 200px; }
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: var(--border-radius); font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .btn-primary { background-color: var(--secondary-color); color: white; }
+        .btn-primary:hover { background-color: #2980b9; }
+        .btn-success { background-color: var(--success-color); color: white; }
+        .btn-success:hover { background-color: #219653; }
+        .btn-warning { background-color: var(--warning-color); color: white; }
+        .btn-warning:hover { background-color: #e67e22; }
+        .btn-danger { background-color: var(--danger-color); color: white; }
+        .btn-danger:hover { background-color: #c0392b; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .status-indicator { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; padding: 0.75rem; border-radius: var(--border-radius); background-color: #f8f9fa; }
+        .online { color: var(--success-color); }
+        .offline { color: var(--danger-color); }
+        .editor-badge { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            padding: 0.25rem 0.75rem; 
+            border-radius: 20px; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            margin-left: 1rem;
+        }
+        .editor-padron { background-color: #e8f4fd; color: #2980b9; border: 1px solid #b3d9ff; }
+        .editor-villarreal { background-color: #f0f7e8; color: #27ae60; border: 1px solid #c8e6c9; }
+        .table-container { overflow-x: auto; margin-bottom: 1.5rem; }
+        table { width: 100%; border-collapse: collapse; min-width: 850px; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
+        th { background-color: var(--primary-color); color: white; font-weight: 600; position: sticky; top: 0; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: #f1f7fd; }
+        .month-cell { text-align: center; width: 60px; }
+        .paid { background-color: #d5f4e6; color: var(--success-color); font-weight: 600; border-radius: 4px; }
+        .unpaid { background-color: #fde8e8; color: var(--danger-color); font-weight: 600; border-radius: 4px; }
+        .payment-checkbox { width: 24px; height: 24px; cursor: pointer; }
+        .payment-checkbox:disabled { cursor: not-allowed; opacity: 0.7; }
+        .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        .stat-card { background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--box-shadow); text-align: center; }
+        .stat-value { font-size: 2rem; font-weight: 700; color: var(--secondary-color); }
+        .stat-label { font-size: 1rem; color: #666; margin-top: 0.5rem; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background-color: white; border-radius: var(--border-radius); padding: 2rem; max-width: 500px; width: 90%; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
+        .alert { background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: var(--border-radius); padding: 1rem; margin-bottom: 1.5rem; color: #856404; }
+        .editor-info {
+            background-color: #e8f4fd;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .editor-info.hidden { display: none; }
+        .editor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+        }
+        .avatar-padron { background-color: #2980b9; }
+        .avatar-villarreal { background-color: #27ae60; }
+        @media (max-width: 768px) {
+            .password-section { flex-direction: column; align-items: stretch; }
+            .password-input { min-width: 100%; }
+            .actions { flex-direction: column; }
+            .btn { width: 100%; }
+            .editor-badge { margin-left: 0.5rem; font-size: 0.75rem; }
+        }
+        @media (max-width: 480px) {
+            table { min-width: 700px; }
+            .month-cell { width: 50px; padding: 0.5rem; }
+            .editor-badge { display: none; }
+            .editor-info .editor-badge { display: inline-flex; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-money-check-alt"></i> Sistema de Control de Pagos</h1>
+            <p class="subtitle">Gestión de pagos mensuales compartida - Acceso restringido</p>
+        </header>
+        
+        <div id="firebaseAlert" class="alert" style="display: none;">
+            <strong><i class="fas fa-exclamation-triangle"></i> Atención:</strong> 
+            <span id="alertMessage"></span>
+        </div>
+        
+        <div class="panel">
+            <div class="status-indicator">
+                <i id="statusIcon" class="fas fa-circle offline"></i>
+                <span id="statusText">Conectando a la base de datos...</span>
+                <span id="editorBadge" class="editor-badge hidden"></span>
+            </div>
+            
+            <div class="password-section">
+                <div>
+                    <h2>Panel de Control</h2>
+                    <p>Acceso autorizado requerido para editar</p>
+                </div>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <input type="password" id="passwordInput" class="password-input" placeholder="Clave de acceso (doble clic para mostrar)">
+                    <button id="toggleEditBtn" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Habilitar Edición
+                    </button>
+                    <button id="lockBtn" class="btn btn-danger" style="display: none;">
+                        <i class="fas fa-lock"></i> Bloquear
+                    </button>
+                </div>
+            </div>
+            
+            <div id="editorInfo" class="editor-info hidden">
+                <div id="editorAvatar" class="editor-avatar">?</div>
+                <div>
+                    <strong id="editorName">Usuario</strong>
+                    <p style="font-size: 0.9rem; margin-top: 0.25rem;">Modo edición activo. Todos los cambios quedarán registrados con tu nombre.</p>
+                </div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalUsers">0</div>
+                    <div class="stat-label">Total Usuarios</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="paidThisMonth">0%</div>
+                    <div class="stat-label">Pagados este mes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalPaid">0</div>
+                    <div class="stat-label">Pagos totales</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingPayments">0</div>
+                    <div class="stat-label">Pendientes</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2><i class="fas fa-users"></i> Lista de Usuarios y Pagos</h2>
+            <p>Los cambios se sincronizan en tiempo real entre todos los usuarios autorizados.</p>
+            
+            <div class="table-container">
+                <table id="paymentsTable">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th class="month-cell">Ene</th>
+                            <th class="month-cell">Feb</th>
+                            <th class="month-cell">Mar</th>
+                            <th class="month-cell">Abr</th>
+                            <th class="month-cell">May</th>
+                            <th class="month-cell">Jun</th>
+                            <th class="month-cell">Jul</th>
+                            <th class="month-cell">Ago</th>
+                            <th class="month-cell">Sep</th>
+                            <th class="month-cell">Oct</th>
+                            <th class="month-cell">Nov</th>
+                            <th class="month-cell">Dic</th>
+                            <th>Última Modificación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentsTableBody">
+                        <!-- Los datos se cargarán aquí -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="actions">
+                <button id="addUserBtn" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Agregar Usuario
+                </button>
+                <button id="saveAllBtn" class="btn btn-success" disabled>
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+                <button id="testConnectionBtn" class="btn">
+                    <i class="fas fa-sync-alt"></i> Probar Conexión
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para agregar usuario -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <h2>Agregar Nuevo Usuario</h2>
+            <form id="addUserForm" style="margin-top: 1.5rem;">
+                <div style="margin-bottom: 1rem;">
+                    <label for="newUserName" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Nombre del Usuario</label>
+                    <input type="text" id="newUserName" class="password-input" placeholder="Ej: Juan Pérez" required style="width: 100%;">
+                </div>
+                <div class="actions">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i> Agregar
+                    </button>
+                    <button type="button" id="cancelAddBtn" class="btn btn-primary">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ======================================================
+        // CONFIGURACIÓN FIREBASE - REEMPLAZA CON TUS CREDENCIALES
+        // ======================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYXsHfiGXu3syENF0vK_j3UNgZc-izBMQ",
+            authDomain: "intercom-ccdf6.firebaseapp.com",
+            projectId: "intercom-ccdf6",
+            storageBucket: "intercom-ccdf6.firebasestorage.app",
+            messagingSenderId: "257443038168",
+            appId: "1:257443038168:web:efc1b1101d0ba1d4e4a8ad",
+            measurementId: "G-QB9X3PH2F1"
+        };
+        
+        // ======================================================
+        // CONFIGURACIÓN DE ACCESO - CONTRASEÑAS SECRETAS
+        // ======================================================
+        // Estas contraseñas NO se muestran en la interfaz
+        const PASSWORDS = {
+            "comanche": {
+                name: "Padron",
+                color: "editor-padron",
+                avatar: "P",
+                avatarColor: "avatar-padron"
+            },
+            "cherokee": {
+                name: "Villarreal", 
+                color: "editor-villarreal",
+                avatar: "V",
+                avatarColor: "avatar-villarreal"
+            }
+        };
+        
+        // Token para seguridad adicional en Firestore
+        const ADMIN_TOKEN = "sistema-pagos-seguro-2024";
+        
+        // ======================================================
+        // INICIALIZACIÓN
+        // ======================================================
+        
+        // Verificar credenciales
+        if (firebaseConfig.apiKey.includes("TU_API_KEY")) {
+            showAlert("Por favor, configura tus credenciales de Firebase en el código.", "danger");
+        }
+        
+        // Inicializar Firebase
+        let db;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            console.log("Firebase inicializado correctamente");
+        } catch (error) {
+            console.error("Error inicializando Firebase:", error);
+            showAlert("Error en la configuración de Firebase: " + error.message, "danger");
+        }
+        
+        // Configuración de la aplicación
+        const MONTHS = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+        
+        // Estado de la aplicación
+        let users = [];
+        let editMode = false;
+        let pendingChanges = {};
+        let isConnected = false;
+        let currentEditor = null; // Almacena el editor actual (Padron o Villarreal)
+        
+        // Referencias a elementos del DOM
+        const elements = {
+            passwordInput: document.getElementById('passwordInput'),
+            toggleEditBtn: document.getElementById('toggleEditBtn'),
+            lockBtn: document.getElementById('lockBtn'),
+            statusIcon: document.getElementById('statusIcon'),
+            statusText: document.getElementById('statusText'),
+            editorBadge: document.getElementById('editorBadge'),
+            editorInfo: document.getElementById('editorInfo'),
+            editorAvatar: document.getElementById('editorAvatar'),
+            editorName: document.getElementById('editorName'),
+            paymentsTableBody: document.getElementById('paymentsTableBody'),
+            addUserBtn: document.getElementById('addUserBtn'),
+            addUserModal: document.getElementById('addUserModal'),
+            addUserForm: document.getElementById('addUserForm'),
+            newUserName: document.getElementById('newUserName'),
+            cancelAddBtn: document.getElementById('cancelAddBtn'),
+            saveAllBtn: document.getElementById('saveAllBtn'),
+            testConnectionBtn: document.getElementById('testConnectionBtn'),
+            totalUsers: document.getElementById('totalUsers'),
+            paidThisMonth: document.getElementById('paidThisMonth'),
+            totalPaid: document.getElementById('totalPaid'),
+            pendingPayments: document.getElementById('pendingPayments'),
+            firebaseAlert: document.getElementById('firebaseAlert'),
+            alertMessage: document.getElementById('alertMessage')
+        };
+        
+        // ================= INICIALIZACIÓN =================
+        document.addEventListener('DOMContentLoaded', () => {
+            setupEventListeners();
+            initializeFirebase();
+            testFirebaseConnection();
+        });
+        
+        // ================= EVENT LISTENERS =================
+        function setupEventListeners() {
+            elements.toggleEditBtn.addEventListener('click', toggleEditMode);
+            elements.lockBtn.addEventListener('click', lockEditMode);
+            elements.addUserBtn.addEventListener('click', () => showModal(true));
+            elements.cancelAddBtn.addEventListener('click', () => showModal(false));
+            elements.addUserForm.addEventListener('submit', handleAddUser);
+            elements.saveAllBtn.addEventListener('click', saveAllChanges);
+            elements.testConnectionBtn.addEventListener('click', testFirebaseConnection);
+            
+            // Mostrar/ocultar contraseña al hacer doble clic
+            elements.passwordInput.addEventListener('dblclick', function() {
+                this.type = this.type === 'password' ? 'text' : 'password';
+                // Ocultar después de 3 segundos
+                setTimeout(() => {
+                    if (this.type === 'text') {
+                        this.type = 'password';
+                    }
+                }, 3000);
+            });
+        }
+        
+        // ================= FIREBASE =================
+        function initializeFirebase() {
+            updateStatus('Conectando a Firebase...', 'offline');
+            
+            // Escuchar cambios en la colección de usuarios
+            db.collection('users').onSnapshot((snapshot) => {
+                users = [];
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    users.push({
+                        id: doc.id,
+                        name: data.name,
+                        payments: data.payments || Array(12).fill(false),
+                        lastEditedBy: data.lastEditedBy || "Sin modificar",
+                        lastEditedAt: data.lastEditedAt || null,
+                        createdAt: data.createdAt || new Date()
+                    });
+                });
+                
+                isConnected = true;
+                updateStatus('Conectado - Sincronizado', 'online');
+                renderUsersTable();
+                updateStats();
+                
+                // Ocultar alerta si existe
+                hideAlert();
+            }, (error) => {
+                console.error('Error conectando a Firebase:', error);
+                isConnected = false;
+                
+                // Verificar si es error de permisos
+                if (error.code === 'permission-denied') {
+                    showAlert(
+                        "ERROR: Las reglas de seguridad de Firebase han expirado. " +
+                        "Por favor, actualiza las reglas en Firebase Console.",
+                        "danger"
+                    );
+                    updateStatus('Error: Permisos denegados', 'offline');
+                } else {
+                    updateStatus('Error de conexión: ' + error.message, 'offline');
+                }
+                
+                // Cargar datos de ejemplo si no hay conexión
+                loadSampleData();
+            });
+        }
+        
+        // ================= FUNCIONES DE INTERFAZ =================
+        function toggleEditMode() {
+            const enteredPassword = elements.passwordInput.value.trim();
+            
+            // Verificar si la contraseña es válida
+            if (PASSWORDS[enteredPassword]) {
+                // Contraseña válida
+                currentEditor = PASSWORDS[enteredPassword];
+                editMode = true;
+                
+                // Actualizar interfaz
+                elements.toggleEditBtn.style.display = 'none';
+                elements.lockBtn.style.display = 'flex';
+                elements.passwordInput.value = ''; // Limpiar campo
+                elements.passwordInput.disabled = true;
+                elements.passwordInput.placeholder = `Modo edición activo como ${currentEditor.name}`;
+                
+                // Mostrar información del editor
+                elements.editorBadge.textContent = currentEditor.name;
+                elements.editorBadge.className = `editor-badge ${currentEditor.color}`;
+                elements.editorBadge.classList.remove('hidden');
+                
+                elements.editorInfo.classList.remove('hidden');
+                elements.editorName.textContent = currentEditor.name;
+                elements.editorAvatar.textContent = currentEditor.avatar;
+                elements.editorAvatar.className = `editor-avatar ${currentEditor.avatarColor}`;
+                
+                updateStatus('Modo edición activado', 'online');
+                renderUsersTable();
+                
+            } else {
+                // Contraseña inválida
+                alert('Acceso denegado. Clave incorrecta.');
+                elements.passwordInput.value = '';
+                elements.passwordInput.focus();
+            }
+        }
+        
+        function lockEditMode() {
+            editMode = false;
+            currentEditor = null;
+            pendingChanges = {};
+            
+            // Restaurar interfaz
+            elements.toggleEditBtn.style.display = 'flex';
+            elements.lockBtn.style.display = 'none';
+            elements.passwordInput.disabled = false;
+            elements.passwordInput.value = '';
+            elements.passwordInput.placeholder = 'Clave de acceso (doble clic para mostrar)';
+            elements.passwordInput.focus();
+            
+            // Ocultar información del editor
+            elements.editorBadge.classList.add('hidden');
+            elements.editorInfo.classList.add('hidden');
+            
+            // Deshabilitar botón de guardar
+            elements.saveAllBtn.disabled = true;
+            
+            updateStatus(isConnected ? 'Conectado - Sincronizado' : 'Modo offline', isConnected ? 'online' : 'offline');
+            renderUsersTable();
+        }
+        
+        function renderUsersTable() {
+            elements.paymentsTableBody.innerHTML = '';
+            
+            users.forEach((user) => {
+                const row = document.createElement('tr');
+                
+                // Celda de nombre
+                const nameCell = document.createElement('td');
+                nameCell.textContent = user.name;
+                nameCell.style.fontWeight = '600';
+                row.appendChild(nameCell);
+                
+                // Celdas de meses
+                for (let i = 0; i < 12; i++) {
+                    const monthCell = document.createElement('td');
+                    monthCell.className = 'month-cell';
+                    
+                    const isPaid = user.payments && user.payments[i];
+                    
+                    if (editMode && currentEditor) {
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.className = 'payment-checkbox';
+                        checkbox.checked = isPaid;
+                        checkbox.disabled = !isConnected; // Deshabilitar si no hay conexión
+                        checkbox.addEventListener('change', () => {
+                            if (!pendingChanges[user.id]) {
+                                pendingChanges[user.id] = { 
+                                    payments: [...user.payments],
+                                    lastEditedBy: user.lastEditedBy
+                                };
+                            }
+                            pendingChanges[user.id].payments[i] = checkbox.checked;
+                            elements.saveAllBtn.disabled = false;
+                        });
+                        monthCell.appendChild(checkbox);
+                    } else {
+                        const statusDiv = document.createElement('div');
+                        statusDiv.textContent = isPaid ? '✓' : '✗';
+                        statusDiv.className = isPaid ? 'paid' : 'unpaid';
+                        statusDiv.style.padding = '0.25rem';
+                        monthCell.appendChild(statusDiv);
+                    }
+                    
+                    row.appendChild(monthCell);
+                }
+                
+                // Celda de última modificación
+                const lastEditCell = document.createElement('td');
+                lastEditCell.style.fontSize = '0.9rem';
+                
+                if (user.lastEditedBy) {
+                    lastEditCell.textContent = user.lastEditedBy;
+                    
+                    // Resaltar según quién hizo la modificación
+                    if (user.lastEditedBy === "Padron") {
+                        lastEditCell.style.color = "#2980b9";
+                        lastEditCell.style.fontWeight = "600";
+                    } else if (user.lastEditedBy === "Villarreal") {
+                        lastEditCell.style.color = "#27ae60";
+                        lastEditCell.style.fontWeight = "600";
+                    }
+                    
+                    // Mostrar fecha si está disponible
+                    if (user.lastEditedAt) {
+                        const date = user.lastEditedAt.toDate ? user.lastEditedAt.toDate() : new Date(user.lastEditedAt);
+                        const timeText = document.createElement('div');
+                        timeText.textContent = formatDate(date);
+                        timeText.style.fontSize = '0.8rem';
+                        timeText.style.color = '#666';
+                        lastEditCell.appendChild(timeText);
+                    }
+                } else {
+                    lastEditCell.textContent = "Sin modificar";
+                    lastEditCell.style.color = "#999";
+                }
+                
+                row.appendChild(lastEditCell);
+                
+                // Celda de acciones
+                const actionCell = document.createElement('td');
+                if (editMode && currentEditor && isConnected) {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                    deleteBtn.className = 'btn btn-danger';
+                    deleteBtn.style.padding = '0.5rem 0.75rem';
+                    deleteBtn.title = 'Eliminar usuario';
+                    deleteBtn.addEventListener('click', () => deleteUser(user.id));
+                    actionCell.appendChild(deleteBtn);
+                } else if (editMode && !isConnected) {
+                    actionCell.textContent = "Sin conexión";
+                    actionCell.style.color = "#999";
+                }
+                row.appendChild(actionCell);
+                
+                elements.paymentsTableBody.appendChild(row);
+            });
+        }
+        
+        function formatDate(date) {
+            if (!date) return "";
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            
+            if (diffMins < 1) return "hace un momento";
+            if (diffMins < 60) return `hace ${diffMins} min`;
+            if (diffHours < 24) return `hace ${diffHours} h`;
+            if (diffDays === 1) return "ayer";
+            if (diffDays < 7) return `hace ${diffDays} días`;
+            
+            // Formato completo para fechas más antiguas
+            return date.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        function updateStats() {
+            elements.totalUsers.textContent = users.length;
+            
+            const currentMonth = new Date().getMonth();
+            let paidCount = 0;
+            let totalPaidCount = 0;
+            let totalPending = 0;
+            
+            users.forEach(user => {
+                if (user.payments && user.payments[currentMonth]) {
+                    paidCount++;
+                }
+                
+                if (user.payments) {
+                    user.payments.forEach(payment => {
+                        if (payment) totalPaidCount++;
+                        else totalPending++;
+                    });
+                }
+            });
+            
+            const percentage = users.length > 0 ? Math.round((paidCount / users.length) * 100) : 0;
+            elements.paidThisMonth.textContent = `${percentage}%`;
+            elements.totalPaid.textContent = totalPaidCount;
+            elements.pendingPayments.textContent = totalPending;
+        }
+        
+        function updateStatus(message, status) {
+            elements.statusText.textContent = message;
+            elements.statusIcon.className = `fas fa-circle ${status}`;
+            elements.statusIcon.classList.add(status);
+        }
+        
+        function showModal(show) {
+            elements.addUserModal.style.display = show ? 'flex' : 'none';
+            if (!show) elements.newUserName.value = '';
+        }
+        
+        function showAlert(message, type = 'warning') {
+            elements.alertMessage.textContent = message;
+            elements.firebaseAlert.style.display = 'block';
+            elements.firebaseAlert.style.backgroundColor = type === 'danger' ? '#f8d7da' : '#fff3cd';
+            elements.firebaseAlert.style.borderColor = type === 'danger' ? '#f5c6cb' : '#ffeaa7';
+            elements.firebaseAlert.style.color = type === 'danger' ? '#721c24' : '#856404';
+        }
+        
+        function hideAlert() {
+            elements.firebaseAlert.style.display = 'none';
+        }
+        
+        // ================= OPERACIONES BASE DE DATOS =================
+        async function handleAddUser(e) {
+            e.preventDefault();
+            const userName = elements.newUserName.value.trim();
+            
+            if (!userName) {
+                alert('Por favor ingresa un nombre');
+                return;
+            }
+            
+            if (!isConnected) {
+                alert('No hay conexión a la base de datos');
+                return;
+            }
+            
+            if (!currentEditor) {
+                alert('Primero debes habilitar el modo edición con una clave válida');
+                return;
+            }
+            
+            try {
+                await db.collection('users').add({
+                    name: userName,
+                    payments: Array(12).fill(false),
+                    lastEditedBy: currentEditor.name,
+                    lastEditedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    adminToken: ADMIN_TOKEN
+                });
+                
+                showModal(false);
+                elements.newUserName.value = '';
+            } catch (error) {
+                console.error('Error agregando usuario:', error);
+                alert('Error al agregar usuario: ' + error.message);
+            }
+        }
+        
+        async function saveAllChanges() {
+            if (!editMode || !currentEditor) {
+                alert('Primero habilita el modo edición con una clave válida');
+                return;
+            }
+            
+            if (!isConnected) {
+                alert('No hay conexión a la base de datos');
+                return;
+            }
+            
+            const updates = Object.entries(pendingChanges).map(([userId, userData]) => {
+                return db.collection('users').doc(userId).update({ 
+                    payments: userData.payments,
+                    lastEditedBy: currentEditor.name,
+                    lastEditedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    adminToken: ADMIN_TOKEN
+                });
+            });
+            
+            try {
+                await Promise.all(updates);
+                pendingChanges = {};
+                elements.saveAllBtn.disabled = true;
+                alert(`Cambios guardados exitosamente. Registrado como ${currentEditor.name}`);
+            } catch (error) {
+                console.error('Error guardando cambios:', error);
+                alert('Error al guardar cambios: ' + error.message);
+                
+                // Si es error de permisos, mostrar ayuda
+                if (error.code === 'permission-denied') {
+                    showAlert(
+                        "Error de permisos. Por favor, verifica las reglas de seguridad de Firebase.",
+                        "danger"
+                    );
+                }
+            }
+        }
+        
+        async function deleteUser(userId) {
+            if (!confirm('¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.')) return;
+            
+            try {
+                await db.collection('users').doc(userId).delete();
+                alert('Usuario eliminado');
+            } catch (error) {
+                console.error('Error eliminando usuario:', error);
+                alert('Error al eliminar usuario: ' + error.message);
+            }
+        }
+        
+        async function testFirebaseConnection() {
+            elements.testConnectionBtn.disabled = true;
+            elements.testConnectionBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Probando...';
+            
+            try {
+                // Intentar escribir un documento de prueba
+                const testRef = db.collection('_tests').doc('connection');
+                await testRef.set({
+                    test: true,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Leerlo para verificar
+                await testRef.get();
+                
+                // Eliminarlo
+                await testRef.delete();
+                
+                alert('✅ Conexión a Firebase funcionando correctamente');
+                updateStatus('Conexión verificada', 'online');
+                isConnected = true;
+            } catch (error) {
+                console.error('Error en prueba de conexión:', error);
+                alert('❌ Error de conexión: ' + error.message);
+                updateStatus('Error en conexión', 'offline');
+                isConnected = false;
+                
+                if (error.code === 'permission-denied') {
+                    showAlert(
+                        "Las reglas de seguridad de Firebase están bloqueando el acceso.",
+                        "danger"
+                    );
+                }
+            } finally {
+                elements.testConnectionBtn.disabled = false;
+                elements.testConnectionBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Probar Conexión';
+            }
+        }
+        
+        // ================= DATOS DE EJEMPLO =================
+        function loadSampleData() {
+            users = [
+                { 
+                    id: '1', 
+                    name: 'Ana García', 
+                    payments: [true, true, true, true, true, false, false, false, false, false, false, false],
+                    lastEditedBy: 'Padron',
+                    lastEditedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000) // 2 días atrás
+                },
+                { 
+                    id: '2', 
+                    name: 'Carlos Rodríguez', 
+                    payments: [true, true, true, true, false, false, false, false, false, false, false, false],
+                    lastEditedBy: 'Villarreal',
+                    lastEditedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000) // 1 día atrás
+                },
+                { 
+                    id: '3', 
+                    name: 'María López', 
+                    payments: [true, true, true, true, true, true, false, false, false, false, false, false],
+                    lastEditedBy: 'Padron',
+                    lastEditedAt: new Date(Date.now() - 5 * 60 * 60 * 1000) // 5 horas atrás
+                }
+            ];
+            
+            updateStatus('Modo offline - Datos de ejemplo', 'offline');
+            renderUsersTable();
+            updateStats();
+        }
+        
+        // ================= REGLAS DE FIREBASE (para pegar en Firebase Console) =================
+        // Copia y pega esto en Firebase Console > Firestore Database > Reglas:
+        /*
+        rules_version = '2';
+        service cloud.firestore {
+          match /databases/{database}/documents {
+            match /{document=**} {
+              allow read, write: if true;
+            }
+          }
+        }
+        */
+    </script>
+</body>
+</html>
