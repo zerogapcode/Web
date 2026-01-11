@@ -1993,6 +1993,20 @@
       <span class="btn-text">RickGPT</span>
       <span class="status-dot"></span>
     </div>
+
+    <!-- NUEVO BOTÓN PAGOS agregado aquí -->
+    <div id="pagos-float-btn" class="float-btn" role="button" aria-label="Abrir Pagos">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+          <line x1="1" y1="10" x2="23" y2="10"></line>
+          <line x1="6" y1="8" x2="6" y2="8"></line>
+          <line x1="10" y1="8" x2="10" y2="8"></line>
+          <line x1="14" y1="8" x2="14" y2="8"></line>
+        </svg>
+      </div>
+      <span class="btn-text">Pagos</span>
+    </div>
   </div>
 
   <div id="debug-chat-window">
@@ -2101,6 +2115,9 @@
     const pitfallFloatBtn = document.getElementById('pitfall-float-btn');
     const trafficFloatBtn = document.getElementById('traffic-float-btn');
     const debugFloatBtn = document.getElementById('debug-float-btn');
+    const aiFloatBtn = document.getElementById('ai-float-btn');
+    const pagosFloatBtn = document.getElementById('pagos-float-btn'); // NUEVO
+    
     const debugChatWindow = document.getElementById('debug-chat-window');
     const debugCloseBtn = document.getElementById('debug-close-btn');
     const debugAnalyzeBtn = document.getElementById('debug-analyze-btn');
@@ -2110,7 +2127,6 @@
     const debugLoading = document.getElementById('debug-loading');
     const languageSelector = document.getElementById('language-selector');
     
-    const aiFloatBtn = document.getElementById('ai-float-btn');
     const aiChatWindow = document.getElementById('ai-chat-window');
     const aiCloseBtn = document.getElementById('ai-close-btn');
     const aiMessages = document.getElementById('ai-messages');
@@ -2835,6 +2851,14 @@
     });
 
     // ========================================
+    // NUEVA FUNCIONALIDAD PAGOS
+    // ========================================
+
+    pagosFloatBtn.addEventListener('click', () => {
+      window.location.href = 'intercom.html';
+    });
+
+    // ========================================
     // FUNCIONALIDAD DEBUGBOT - CON HEADERS NGrok
     // ========================================
     
@@ -2957,13 +2981,13 @@
       const examples = {
         javascript: `// Ejemplo en JavaScript\nfunction factorial(n) {\n  if (n === 1) {\n    return 1;\n  }\n  return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
         python: `# Ejemplo en Python\ndef factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))`,
-        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
+        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
         cpp: `// Ejemplo en C++\n#include <iostream>\nusing namespace std;\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    cout << factorial(5) << endl;\n    return 0;\n}`,
         c: `// Ejemplo en C\n#include <stdio.h>\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    printf("%d\\n", factorial(5));\n    return 0;\n}`,
         csharp: `// Ejemplo en C#\nusing System;\n\nclass Program {\n    static int Factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * Factorial(n - 1);\n    }\n    \n    static void Main() {\n        Console.WriteLine(Factorial(5));\n    }\n}`,
         php: `<?php\n// Ejemplo en PHP\nfunction factorial($n) {\n    if ($n == 1) {\n        return 1;\n    }\n    return $n * factorial($n - 1);\n}\n\necho factorial(5);\n?>`,
         ruby: `# Ejemplo en Ruby\ndef factorial(n)\n  if n == 1\n    return 1\n  end\n  n * factorial(n - 1)\nend\n\nputs factorial(5)`,
-        swift: `// Ejemplo en Swift\nfunc factorial(_ n: Int) -> Int {\n    if n == 1 {\n        return 1\n    }\n    return n * factorial(n - 1)\n}\n\nprint(factorial(5))`,
+        swift: `// Ejemplo en Swift\nfunc factorial(_ n: Int) -> Int {\n    if n == 1 {\n        return 1\n    }\n    return n * factorial(n - 1)\n\nprint(factorial(5))`,
         go: `// Ejemplo en Go\npackage main\n\nimport "fmt"\n\nfunc factorial(n int) int {\n    if n == 1 {\n        return 1\n    }\n    return n * factorial(n - 1)\n}\n\nfunc main() {\n    fmt.Println(factorial(5))\n}`,
         rust: `// Ejemplo en Rust\nfn factorial(n: u32) -> u32 {\n    if n == 1 {\n        return 1;\n    }\n    n * factorial(n - 1)\n}\n\nfn main() {\n    println!("{}", factorial(5));\n}`,
         html: `\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Mi Página</title>\n</head>\n<body>\n    <h1>Hola Mundo</h1>\n    <p>Esta es una página web simple.</p>\n</body>\n</html>`,
