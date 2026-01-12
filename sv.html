@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Catálogo Digital | StarVenezuela</title>
+    <meta name="description" content="Catálogo de productos StarVenezuela. Precios Tasa BCV. Envíos nacionales e internacionales.">
+    
+    <!-- PWA Config (Manifest Data URI para archivo único) -->
+    <link rel="icon" href="https://i.postimg.cc/cCMwk30r/LOGO-SOLO.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/cCMwk30r/LOGO-SOLO.png">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiU3RhclZlbmV6dWVsYSIs" />
+    <script>
+        // Inyectar manifiesto dinámicamente para asegurar compatibilidad PWA en un solo archivo
+        const manifest = {
+            "name": "StarVenezuela",
+            "short_name": "StarVzla",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#ffffff",
+            "theme_color": "#2563eb",
+            "icons": [{ "src": "https://i.postimg.cc/cCMwk30r/LOGO-SOLO.png", "sizes": "192x192", "type": "image/png" }]
+        };
+        const stringManifest = JSON.stringify(manifest);
+        const blob = new Blob([stringManifest], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blob);
+        document.querySelector('link[rel="manifest"]').setAttribute('href', manifestURL);
+    </script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 500: '#2563eb', 600: '#1d4ed8' },
+                        gold: { 400: '#fbbf24', 500: '#f59e0b' },
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                        'shine': 'shine 2s infinite',
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        shine: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' },
+                        },
+                        width: {
+                            '0%': { width: '0%' },
+                            '100%': { width: '100%' },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- React y ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Fuse.js para Búsqueda Inteligente -->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+    <!-- jsPDF para generar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- Firebase SDKs -->
+    <script type="importmap">
+      {
+        "imports": {
+          "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+          "firebase/auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js",
+          "firebase/firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"
+        }
+      }
+    </script>
+
+    <!-- Fuente JetBrains Mono para el chat Carlitos -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+        
+        .animate-enter { animation: enter 0.4s ease-out; }
+        @keyframes enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .grayscale-image { filter: grayscale(100%); opacity: 0.6; }
+        
+        .shine-effect { position: relative; overflow: hidden; }
+        .shine-effect::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-20deg); animation: shine 3s infinite;
+        }
+
+        .bg-offer-pattern {
+            background-color: #ef4444;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, #dc2626 10px, #dc2626 20px);
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .animate-pop { animation: pop 0.3s ease-out; }
+    </style>
+
+    <!-- Estilos para Carlitos Chat -->
+    <style>
+        .carlitos-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        .carlitos-btn {
+            height: 60px;
+            width: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            color: #333;
+            user-select: none;
+            overflow: hidden;
+        }
+        
+        .dark .carlitos-btn {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .carlitos-btn:hover {
+            width: 180px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.4); /* Cambiado a azul */
+            border-color: rgba(37, 99, 235, 1); /* Cambiado a azul */
+        }
+        
+        .carlitos-icon {
+            min-width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .carlitos-icon svg {
+            width: 26px;
+            height: 26px;
+            stroke: currentColor;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .carlitos-btn:hover .carlitos-icon svg {
+            transform: scale(1.15) rotate(-10deg);
+            color: rgba(37, 99, 235, 1); /* Cambiado a azul */
+        }
+        
+        .carlitos-text {
+            position: absolute;
+            left: 60px;
+            white-space: nowrap;
+            opacity: 0;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            transform: translateX(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .carlitos-btn:hover .carlitos-text {
+            opacity: 1;
+            transform: translateX(0);
+            transition-delay: 0.05s;
+        }
+        
+        .status-dot {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 7px;
+            height: 7px;
+            background-color: #2563eb; /* Cambiado a azul */
+            border-radius: 50%;
+            box-shadow: 0 0 8px #2563eb; /* Cambiado a azul */
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        /* Ventana de chat Carlitos */
+        #carlitos-chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            z-index: 9998;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        #carlitos-chat-window.expanding {
+            display: flex;
+            opacity: 1;
+            width: 400px;
+            height: 600px;
+            border-radius: 20px;
+            bottom: 90px;
+            right: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            #carlitos-chat-window.expanding {
+                width: 95vw !important;
+                height: 65vh !important;
+                max-height: 65vh !important;
+                min-height: 65vh !important;
+                top: auto !important;
+                left: 2.5vw !important;
+                bottom: 90px !important;
+                right: auto !important;
+            }
+        }
+        
+        .carlitos-header {
+            padding: 16px 20px;
+            background: rgba(37, 99, 235, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        
+        .carlitos-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: #ffffff;
+        }
+        
+        .carlitos-close {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 100, 100, 0.2);
+            border: 1px solid rgba(255, 100, 100, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            color: #ff6464;
+        }
+        
+        .carlitos-close:hover {
+            background: rgba(255, 100, 100, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .carlitos-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-height: 0;
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .dark .carlitos-body {
+            background: rgba(15, 23, 42, 0.95);
+        }
+        
+        .carlitos-message {
+            display: flex;
+            gap: 10px;
+            animation: messageSlideIn 0.3s ease;
+        }
+        
+        @keyframes messageSlideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .carlitos-message.user {
+            justify-content: flex-end;
+        }
+        
+        .carlitos-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        
+        .user .carlitos-avatar {
+            background: rgba(37, 99, 235, 0.3);
+            color: #2563eb;
+        }
+        
+        .ai .carlitos-avatar {
+            background: rgba(37, 99, 235, 0.3); /* Cambiado a azul */
+            color: #2563eb; /* Cambiado a azul */
+        }
+        
+        .carlitos-message-content {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            line-height: 1.5;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .user .carlitos-message-content {
+            background: rgba(37, 99, 235, 0.15);
+            border-top-right-radius: 4px;
+            color: #1e40af;
+        }
+        
+        .dark .user .carlitos-message-content {
+            color: #93c5fd;
+        }
+        
+        .ai .carlitos-message-content {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top-left-radius: 4px;
+            color: #374151;
+        }
+        
+        .dark .ai .carlitos-message-content {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #e5e7eb;
+        }
+        
+        .carlitos-typing {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .carlitos-typing-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #6b7280;
+            animation: carlitosTypingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .dark .carlitos-typing-dot {
+            background-color: #9ca3af;
+        }
+        
+        .carlitos-typing-dot:nth-child(1) { animation-delay: 0s; }
+        .carlitos-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .carlitos-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes carlitosTypingAnimation {
+            0%, 60%, 100% { transform: scale(1); opacity: 0.5; }
+            30% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        .carlitos-input-container {
+            padding: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .dark .carlitos-input-container {
+            background: rgba(15, 23, 42, 0.95);
+        }
+        
+        .carlitos-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 10px 14px;
+            color: #000000;
+            font-size: 13px;
+            resize: none;
+            min-height: 40px;
+            max-height: 100px;
+            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .dark .carlitos-input {
+            color: #ffffff;
+        }
+        
+        .carlitos-input:focus {
+            outline: none;
+            border-color: rgba(37, 99, 235, 0.5); /* Cambiado a azul */
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1); /* Cambiado a azul */
+        }
+        
+        .carlitos-send {
+            background: rgba(37, 99, 235, 0.3); /* Cambiado a azul */
+            color: #000000;
+            border: 1px solid rgba(37, 99, 235, 0.5); /* Cambiado a azul */
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .dark .carlitos-send {
+            color: #ffffff;
+        }
+        
+        .carlitos-send:hover {
+            background: rgba(37, 99, 235, 0.4); /* Cambiado a azul */
+            transform: translateY(-2px);
+        }
+        
+        .carlitos-send:disabled {
+            background: rgba(150, 150, 150, 0.2);
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
+    <div id="root"></div>
+
+    <!-- Contenedor Carlitos (añadido fuera del root de React) -->
+    <div class="carlitos-container">
+        <div id="carlitos-float-btn" class="carlitos-btn" role="button" aria-label="Abrir Asistente de Vendedor">
+            <div class="carlitos-icon">
+                <!-- Icono de vendedor - C con estilo profesional -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+                    <path d="M9 12h6" />
+                </svg>
+            </div>
+            <span class="carlitos-text">Carlitos</span>
+            <span class="status-dot"></span>
+        </div>
+    </div>
+
+    <!-- Ventana de chat Carlitos -->
+    <div id="carlitos-chat-window">
+        <div class="carlitos-header" id="carlitos-drag-handle">
+            <div class="carlitos-title">Carlitos - Asistente</div>
+            <div class="carlitos-close" id="carlitos-close-btn">×</div>
+        </div>
+        <div class="carlitos-body" id="carlitos-messages"></div>
+        <div class="carlitos-input-container">
+            <textarea id="carlitos-input" class="carlitos-input" placeholder="Conectando..." rows="1" disabled></textarea>
+            <button id="carlitos-send-btn" class="carlitos-send" disabled>→</button>
+        </div>
+    </div>
+
+    <script type="text/babel" data-type="module">
+        import { initializeApp } from 'firebase/app';
+        import { getAuth, signInAnonymously } from 'firebase/auth';
+        import { getFirestore, collection, onSnapshot, query, enableIndexedDbPersistence } from 'firebase/firestore';
+
+        // --- CONFIGURACIÓN FIREBASE ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGtO3NQqOmfZCAuZx1S_K7f2MH1D5Whp8",
+            authDomain: "sosa-inventory.firebaseapp.com",
+            projectId: "sosa-inventory",
+            storageBucket: "sosa-inventory.firebasestorage.app",
+            messagingSenderId: "375089881222",
+            appId: "1:375089881222:web:d4ec5260275cfd5e6ff107"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        enableIndexedDbPersistence(db).catch((err) => console.log('Persistencia offline no habilitada/necesaria'));
+
+        // --- ICONOS ---
+        const Icons = {
+            Search: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+            Box: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>,
+            X: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+            Moon: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>,
+            Sun: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>,
+            Whatsapp: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="currentColor" {...props}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>,
+            Lightning: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="currentColor" {...props}><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>,
+            Star: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="#fbbf24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+            Flame: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>,
+            ChevronDown: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m6 9 6 6 6-6"/></svg>,
+            Cart: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>,
+            Plus: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+            Minus: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+            Trash: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>,
+            ArrowUp: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>,
+            Grid: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" {...props}><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>,
+            List: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" {...props}><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>,
+            Share: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>,
+            Heart: ({size=20, filled, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill={filled ? "#ef4444" : "none"} stroke={filled ? "#ef4444" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>,
+            Clock: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>,
+            Truck: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>,
+            Download: ({size=20, ...props}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        };
+
+        // --- CONFIGURACIÓN CARLITOS ---
+        const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        
+        function getNgrokHeaders() {
+            return {
+                'ngrok-skip-browser-warning': 'true',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            };
+        }
+
+        // --- FUNCIONALIDAD CARLITOS ---
+        let isCarlitosChatOpen = false;
+        let isGenerating = false;
+        let isServerAvailable = false;
+        let currentSessionId = null;
+        
+        // Elementos DOM para Carlitos
+        const carlitosFloatBtn = document.getElementById('carlitos-float-btn');
+        const carlitosChatWindow = document.getElementById('carlitos-chat-window');
+        const carlitosCloseBtn = document.getElementById('carlitos-close-btn');
+        const carlitosMessages = document.getElementById('carlitos-messages');
+        const carlitosInput = document.getElementById('carlitos-input');
+        const carlitosSendBtn = document.getElementById('carlitos-send-btn');
+        const carlitosDragHandle = document.getElementById('carlitos-drag-handle');
+        
+        // Función para hacer ventana arrastrable
+        function makeDraggable(element, handle) {
+            let isDragging = false;
+            let currentX, currentY, initialX, initialY, xOffset = 0, yOffset = 0;
+            
+            handle.addEventListener('mousedown', dragStart);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', dragEnd);
+            
+            handle.addEventListener('touchstart', dragStart);
+            document.addEventListener('touchmove', drag);
+            document.addEventListener('touchend', dragEnd);
+            
+            function dragStart(e) {
+                if (e.target.closest('.carlitos-close')) return;
+                
+                if (e.type === 'touchstart') {
+                    initialX = e.touches[0].clientX - xOffset;
+                    initialY = e.touches[0].clientY - yOffset;
+                } else {
+                    initialX = e.clientX - xOffset;
+                    initialY = e.clientY - yOffset;
+                }
+                
+                if (e.target === handle || handle.contains(e.target)) {
+                    isDragging = true;
+                    element.classList.add('dragging');
+                }
+                
+                e.preventDefault();
+            }
+            
+            function drag(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    
+                    if (e.type === 'touchmove') {
+                        currentX = e.touches[0].clientX - initialX;
+                        currentY = e.touches[0].clientY - initialY;
+                    } else {
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                    }
+                    
+                    xOffset = currentX;
+                    yOffset = currentY;
+                    
+                    setTranslate(currentX, currentY, element);
+                }
+            }
+            
+            function setTranslate(xPos, yPos, el) {
+                el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+            }
+            
+            function dragEnd() {
+                isDragging = false;
+                element.classList.remove('dragging');
+            }
+        }
+        
+        // Inicializar arrastre
+        if (carlitosChatWindow && carlitosDragHandle) {
+            makeDraggable(carlitosChatWindow, carlitosDragHandle);
+        }
+        
+        // Event listeners para Carlitos
+        carlitosFloatBtn.addEventListener('click', () => {
+            if (!isCarlitosChatOpen) openCarlitosChat();
+        });
+        
+        carlitosCloseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeCarlitosChat();
+        });
+        
+        function openCarlitosChat() {
+            isCarlitosChatOpen = true;
+            carlitosFloatBtn.style.display = 'none';
+            carlitosChatWindow.style.display = 'flex';
+            
+            const isMobile = window.innerWidth <= 768;
+            
+            setTimeout(() => {
+                carlitosChatWindow.classList.add('expanding');
+                if (isMobile) {
+                    carlitosChatWindow.style.left = '2.5vw';
+                    carlitosChatWindow.style.bottom = '90px';
+                    carlitosChatWindow.style.right = 'auto';
+                    carlitosChatWindow.style.top = 'auto';
+                }
+            }, 50);
+            
+            setTimeout(() => { initCarlitosConnection(); }, 600);
+        }
+        
+        function closeCarlitosChat() {
+            isCarlitosChatOpen = false;
+            carlitosChatWindow.classList.remove('expanding');
+            
+            setTimeout(() => {
+                carlitosChatWindow.style.display = 'none';
+                carlitosFloatBtn.style.display = 'flex';
+                
+                carlitosChatWindow.style.bottom = '';
+                carlitosChatWindow.style.right = '';
+                carlitosChatWindow.style.top = '';
+                carlitosChatWindow.style.left = '';
+                carlitosChatWindow.style.width = '';
+                carlitosChatWindow.style.height = '';
+                
+                currentSessionId = null;
+                carlitosMessages.innerHTML = '';
+                carlitosInput.value = '';
+                carlitosInput.disabled = true;
+                carlitosSendBtn.disabled = true;
+                carlitosInput.placeholder = 'Conectando...';
+                isServerAvailable = false;
+            }, 600);
+        }
+        
+        async function initCarlitosConnection() {
+            try {
+                addCarlitosMessage('Conectando con Carlitos...', false);
+                
+                currentSessionId = "carlitos-session-" + Date.now();
+                
+                const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                    method: 'POST',
+                    headers: getNgrokHeaders(),
+                    body: JSON.stringify({
+                        message: "ping",
+                        session_id: currentSessionId
+                    })
+                });
+                
+                if (testResponse.ok) {
+                    const data = await testResponse.json();
+                    carlitosMessages.innerHTML = '';
+                    addCarlitosMessage('¡Hola! Soy Carlitos, tu asistente especializado en el catálogo de StarVenezuela. Puedo ayudarte a encontrar productos, ver precios, stock y más. ¿En qué puedo asistirte hoy?', false);
+                    isServerAvailable = true;
+                    
+                    carlitosInput.disabled = false;
+                    carlitosSendBtn.disabled = false;
+                    carlitosInput.placeholder = 'Escribe tu mensaje...';
+                    carlitosInput.focus();
+                } else {
+                    throw new Error(`HTTP ${testResponse.status}`);
+                }
+                
+            } catch (error) {
+                console.error('Error en inicialización:', error);
+                carlitosMessages.innerHTML = '';
+                addCarlitosMessage('⚠️ No se pudo conectar con el servidor. Por favor, verifica tu conexión o intenta más tarde.', false);
+                isServerAvailable = false;
+                
+                carlitosInput.disabled = true;
+                carlitosSendBtn.disabled = true;
+                carlitosInput.placeholder = 'Servidor no disponible';
+            }
+        }
+        
+        function addCarlitosMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `carlitos-message ${isUser ? 'user' : 'ai'}`;
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'carlitos-avatar';
+            avatarDiv.textContent = isUser ? 'Tú' : 'C';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'carlitos-message-content';
+            contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+            
+            messageDiv.appendChild(avatarDiv);
+            messageDiv.appendChild(contentDiv);
+            carlitosMessages.appendChild(messageDiv);
+            
+            carlitosMessages.scrollTop = carlitosMessages.scrollHeight;
+            
+            return contentDiv;
+        }
+        
+        function showCarlitosTyping() {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'carlitos-message ai';
+            messageDiv.id = 'carlitos-typing-indicator';
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'carlitos-avatar';
+            avatarDiv.textContent = 'C';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'carlitos-message-content';
+            
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'carlitos-typing';
+            typingDiv.innerHTML = `
+                <div class="carlitos-typing-dot"></div>
+                <div class="carlitos-typing-dot"></div>
+                <div class="carlitos-typing-dot"></div>
+            `;
+            
+            contentDiv.appendChild(typingDiv);
+            messageDiv.appendChild(avatarDiv);
+            messageDiv.appendChild(contentDiv);
+            carlitosMessages.appendChild(messageDiv);
+            
+            carlitosMessages.scrollTop = carlitosMessages.scrollHeight;
+            
+            return messageDiv;
+        }
+        
+        carlitosInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+        
+        carlitosInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!isGenerating) sendCarlitosMessage();
+            }
+        });
+        
+        carlitosSendBtn.addEventListener('click', sendCarlitosMessage);
+        
+        async function sendCarlitosMessage() {
+            const text = carlitosInput.value.trim();
+            if (!text || isGenerating) return;
+            
+            carlitosInput.value = '';
+            carlitosInput.style.height = 'auto';
+            
+            addCarlitosMessage(text, true);
+            
+            carlitosInput.disabled = true;
+            carlitosSendBtn.disabled = true;
+            isGenerating = true;
+            
+            const typingIndicator = showCarlitosTyping();
+            
+            try {
+                const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                    method: 'POST',
+                    headers: getNgrokHeaders(),
+                    body: JSON.stringify({ 
+                        message: text,
+                        session_id: currentSessionId
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                typingIndicator.remove();
+                
+                if (data.status === 'success' && data.response) {
+                    addCarlitosMessage(data.response);
+                    isServerAvailable = true;
+                } else {
+                    throw new Error('Respuesta inválida del servidor');
+                }
+                
+            } catch (error) {
+                typingIndicator.remove();
+                
+                let errorMessage = '❌ Error al conectar con el asistente. ';
+                errorMessage += 'Por favor, intenta nuevamente más tarde.';
+                
+                addCarlitosMessage(errorMessage);
+                console.error('Error detallado:', error);
+                isServerAvailable = false;
+            } finally {
+                carlitosInput.disabled = false;
+                carlitosSendBtn.disabled = false;
+                isGenerating = false;
+                carlitosInput.focus();
+            }
+        }
+
+        // --- COMPONENTE SCROLL TO TOP ---
+        function ScrollToTop() {
+            const [visible, setVisible] = React.useState(false);
+            React.useEffect(() => {
+                const toggleVisibility = () => setVisible(window.pageYOffset > 300);
+                window.addEventListener('scroll', toggleVisibility);
+                return () => window.removeEventListener('scroll', toggleVisibility);
+            }, []);
+            const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (!visible) return null;
+            return <button onClick={scrollToTop} className="fixed bottom-20 right-4 z-40 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900 p-3 rounded-full shadow-lg opacity-80 hover:opacity-100 transition-all transform hover:-translate-y-1"><Icons.ArrowUp size={24} /></button>;
+        }
+
+        // --- COUNTDOWN TIMER ---
+        function CountdownTimer({ hours, productId }) {
+            const [timeLeft, setTimeLeft] = React.useState(null);
+
+            React.useEffect(() => {
+                const storageKey = `timer_${productId}_${hours}`;
+                let storedEndTime = localStorage.getItem(storageKey);
+                // Parseamos explícitamente a entero para evitar problemas de string
+                let endTime = storedEndTime ? parseInt(storedEndTime, 10) : null;
+
+                if (!endTime || isNaN(endTime)) {
+                    const now = new Date().getTime();
+                    endTime = now + (hours * 60 * 60 * 1000);
+                    localStorage.setItem(storageKey, endTime);
+                }
+
+                const interval = setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = endTime - now;
+
+                    if (distance < 0) {
+                        // Reiniciar si expira para mantener viva la oferta (loop)
+                        const newEnd = new Date().getTime() + (hours * 60 * 60 * 1000);
+                        localStorage.setItem(storageKey, newEnd);
+                        endTime = newEnd;
+                    } else {
+                        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        const s = Math.floor((distance % (1000 * 60)) / 1000);
+                        setTimeLeft(`${h}h ${m}m ${s}s`);
+                    }
+                }, 1000);
+
+                return () => clearInterval(interval);
+            }, [hours, productId]);
+
+            if (!timeLeft) return <span className="text-[10px] font-bold">Calculando...</span>;
+
+            return (
+                <div className="flex items-center gap-1 bg-red-100 text-red-600 px-2 py-0.5 rounded text-[10px] font-bold animate-pulse">
+                    <Icons.Clock size={10} /> {timeLeft}
+                </div>
+            );
+        }
+
+        // --- COMPONENTE INFORMACIÓN DE ENVÍOS ---
+        function ShippingInfo() {
+            return (
+                <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-blue-100 dark:border-slate-700 p-4 mb-6 animate-enter">
+                    <div className="flex justify-center">
+                        {/* Envíos Nacionales */}
+                        <div className="flex flex-col items-center justify-center bg-gray-50 dark:bg-slate-700/50 p-3 rounded-lg border border-gray-100 dark:border-slate-600 w-full max-w-md">
+                            <span className="text-xs font-bold text-gray-500 dark:text-gray-400 mb-2">ENVÍOS NACIONALES (Cobro Destino)</span>
+                            <div className="flex items-center gap-4">
+                                <img src="https://i.postimg.cc/R047fXmM/Logo-Zoom-Registrado.png" className="h-6 object-contain transition-all hover:scale-105" alt="Zoom" />
+                                <img src="https://i.postimg.cc/Qt5fsSpB/DOMESA-COLOR.png" className="h-6 object-contain transition-all hover:scale-105" alt="Domesa" />
+                                <img src="https://i.postimg.cc/0NnpCD5y/images.png" className="h-8 object-contain transition-all hover:scale-105" alt="LAE" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+
+        // --- COMPONENTE BANNER OFERTA ---
+        function PromoBanner({ offers, onClose }) {
+            React.useEffect(() => { const timer = setTimeout(() => onClose(), 1500); return () => clearTimeout(timer); }, [onClose]);
+            return (
+                <div className="fixed inset-0 z-[110] bg-black/80 flex items-center justify-center p-4 animate-enter backdrop-blur-sm" onClick={onClose}>
+                    <div className="bg-white dark:bg-slate-800 w-full max-w-md rounded-3xl overflow-hidden shadow-2xl relative flex flex-col transform transition-all scale-100" onClick={e => e.stopPropagation()}>
+                        <div className="bg-offer-pattern p-6 text-center text-white relative overflow-hidden">
+                            <h2 className="text-3xl font-black italic tracking-tighter uppercase relative z-10 drop-shadow-md animate-pulse-fast">¡OFERTA RELÁMPAGO!</h2>
+                            <button onClick={onClose} className="absolute top-2 right-2 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 rounded-full p-1 transition-colors z-20"><Icons.X size={24}/></button>
+                        </div>
+                        <div className="p-6 bg-white dark:bg-slate-800">
+                             <div className="flex items-center gap-4 border border-red-100 dark:border-red-900/30 p-3 rounded-xl bg-red-50 dark:bg-red-900/10">
+                                <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center shrink-0 border border-red-100">
+                                    {offers[0].imageUrl ? <img src={offers[0].imageUrl} className="w-full h-full object-contain p-1"/> : <Icons.Box className="text-red-300"/>}
+                                </div>
+                                <div className="flex-1">
+                                    <h4 className="font-bold text-gray-800 dark:text-white text-sm line-clamp-1">{offers[0].name.replace("OFERTA*", "").replace(/#\d+|\d+#/g, "")}</h4>
+                                    <span className="text-xl font-black text-red-600 dark:text-red-400">${offers[0].wholesale}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="h-1 bg-gray-200 w-full"><div className="h-full bg-red-500 w-full animate-[width_1.5s_linear_reverse_forwards]"></div></div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- COMPONENTE DETALLE DE PRODUCTO (MODAL) ---
+        function ProductDetailModal({ product, onClose, onAddToCart, allProducts, onSelectRelated, favorites, toggleFavorite }) {
+            if (!product) return null;
+            
+            const totalStock = (product.stock || 0) + (product.stock_pzo || 0);
+            const isOffer = product.name.includes("OFERTA*");
+            const cleanName = product.name.replace("TOP*", "").replace("OFERTA*", "").replace(/#\d+|\d+#/g, "").trim();
+            const hasStock = totalStock > 0 || product.isConsult;
+            const isFav = favorites.includes(product.id);
+            const durationMatch = product.name.match(/#(\d+)|(\d+)#/);
+            const offerDuration = durationMatch ? parseInt(durationMatch[1] || durationMatch[2]) : null;
+            const relatedProducts = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
+
+            const handleBuyNow = () => {
+                const message = `*HOLA STARVENEZUELA, QUIERO COMPRAR ESTE PRODUCTO:*%0A%0A▪ ${cleanName}%0A`;
+                window.open(`https://wa.me/584129415713?text=${message}`, '_blank');
+            };
+
+            const handleShare = async () => {
+                 const shareData = { title: 'StarVenezuela', text: `Mira este producto: ${cleanName}`, url: window.location.href };
+                 try { await navigator.share(shareData); } catch (err) {}
+            };
+
+            return (
+                <div className="fixed inset-0 z-[120] bg-black/90 flex items-center justify-center p-4 animate-enter" onClick={onClose}>
+                     <div className={`bg-white dark:bg-slate-800 w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl relative flex flex-col max-h-[95vh] ${isOffer ? 'ring-4 ring-red-500 shadow-red-500/50' : ''}`} onClick={e => e.stopPropagation()}>
+                        
+                        {/* Encabezado especial para ofertas */}
+                        {isOffer && (
+                            <div className="bg-red-600 text-white text-center py-2 font-black tracking-widest text-xs uppercase animate-pulse shadow-md relative z-20">
+                                ⚡ ¡OFERTA POR TIEMPO LIMITADO! ⚡
+                            </div>
+                        )}
+
+                        <div className="absolute top-3 right-3 z-10 flex gap-2">
+                             <button onClick={() => toggleFavorite(product.id)} className="bg-white/90 dark:bg-black/50 text-red-500 p-2 rounded-full hover:bg-red-50 transition-colors shadow-sm backdrop-blur-sm">
+                                <Icons.Heart size={20} filled={isFav} />
+                             </button>
+                             <button onClick={handleShare} className="bg-white/90 dark:bg-black/50 text-blue-600 dark:text-blue-400 p-2 rounded-full hover:bg-blue-50 transition-colors shadow-sm backdrop-blur-sm"><Icons.Share size={20}/></button>
+                             <button onClick={onClose} className="bg-black/50 text-white p-2 rounded-full hover:bg-red-500 transition-colors shadow-sm backdrop-blur-sm"><Icons.X size={20}/></button>
+                        </div>
+
+                        <div className="w-full h-72 bg-white flex items-center justify-center p-6 shrink-0 relative">
+                             {product.imageUrl ? <img src={product.imageUrl} className="w-full h-full object-contain" /> : <div className="text-gray-300"><Icons.Box size={80}/></div>}
+                        </div>
+
+                        <div className={`p-6 overflow-y-auto flex-1 flex flex-col no-scrollbar ${isOffer ? 'bg-red-50/50 dark:bg-red-900/10' : ''}`}>
+                            <div className="flex justify-between items-start mb-2">
+                                <span className="text-xs font-bold text-blue-500 dark:text-blue-400 uppercase tracking-widest">{product.category}</span>
+                                {offerDuration && <CountdownTimer hours={offerDuration} productId={product.id} />}
+                            </div>
+                            
+                            <h2 className="text-2xl font-black text-gray-800 dark:text-white leading-tight mb-4">{cleanName}</h2>
+                            
+                            <div className={`p-4 rounded-xl border mb-6 space-y-2 ${isOffer ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' : 'bg-gray-50 dark:bg-slate-700/50 border-gray-100 dark:border-slate-700'}`}>
+                                {product.isConsult ? (
+                                    <div className="flex justify-between items-center"><span className="font-bold text-gray-500 dark:text-slate-400">PRECIO:</span><span className="text-xl font-black text-purple-600 dark:text-purple-400 uppercase">A CONSULTAR</span></div>
+                                ) : (
+                                    <>
+                                        <div className="flex justify-between items-center">
+                                            <span className="font-bold text-gray-500 dark:text-slate-400">DETAL:</span>
+                                            <span className={`text-xl font-black ${isOffer ? 'text-gray-400 line-through decoration-red-500 decoration-2' : 'text-blue-600 dark:text-blue-400'}`}>${product.price}</span>
+                                        </div>
+                                        {(product.wholesale > 0 || isOffer) && (
+                                            <div className={`flex justify-between items-center border-t pt-2 mt-1 ${isOffer ? 'border-red-200 dark:border-red-800' : 'border-gray-200 dark:border-slate-600'}`}>
+                                                <span className={`font-black uppercase ${isOffer ? 'text-red-600 dark:text-red-400 text-lg' : 'text-amber-600 dark:text-amber-500 font-bold'}`}>{isOffer ? 'PRECIO OFERTA:' : 'MAYOR:'}</span>
+                                                <span className={`font-black ${isOffer ? 'text-4xl text-red-600 dark:text-red-500' : 'text-2xl text-amber-600 dark:text-amber-400'}`}>${product.wholesale}</span>
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+
+                            {/* Mostrar productos relacionados solo si NO es una oferta relámpago */}
+                            {!isOffer && relatedProducts.length > 0 && (
+                                <div className="mb-6">
+                                    <h3 className="text-sm font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider mb-3">También te puede interesar</h3>
+                                    <div className="flex gap-3 overflow-x-auto pb-2 snap-x">
+                                        {relatedProducts.map(rp => (
+                                            <div key={rp.id} onClick={() => onSelectRelated(rp)} className="min-w-[100px] w-[100px] bg-white dark:bg-slate-700 rounded-lg p-2 border border-gray-100 dark:border-slate-600 cursor-pointer snap-start hover:shadow-md transition-shadow">
+                                                <div className="h-20 w-full mb-2 bg-white rounded flex items-center justify-center">
+                                                    {rp.imageUrl ? <img src={rp.imageUrl} className="h-full object-contain"/> : <Icons.Box size={20} className="text-gray-300"/>}
+                                                </div>
+                                                <p className="text-[10px] font-bold text-gray-800 dark:text-white line-clamp-2 leading-tight">{rp.name.replace("TOP*","").replace("OFERTA*","").replace(/#\d+|\d+#/g, "").trim()}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="mt-auto grid grid-cols-2 gap-3">
+                                <button onClick={() => { onAddToCart(product); onClose(); }} disabled={!hasStock} className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-bold py-3 rounded-xl hover:bg-blue-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm">AGREGAR CARRITO</button>
+                                <button 
+                                    onClick={handleBuyNow} 
+                                    disabled={!hasStock} 
+                                    className={`bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-green-500/30 transition-transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-xs sm:text-sm ${isOffer ? 'animate-wiggle' : ''}`}
+                                >
+                                    <Icons.Whatsapp /> COMPRAR YA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- COMPONENTE TARJETA DE PRODUCTO ---
+        function ProductCard({ p, onSelect, onAddToCart, compact = false, viewMode = 'grid', isFavorite, toggleFavorite }) {
+            const isOffer = p.name.includes("OFERTA*");
+            const isTop = p.name.includes("TOP*");
+            const displayName = p.name.replace("TOP*", "").replace("OFERTA*", "").replace(/#\d+|\d+#/g, "").trim();
+            const totalStock = (p.stock || 0) + (p.stock_pzo || 0);
+            const hasStock = totalStock > 0 || p.isConsult;
+            const hasWholesale = p.wholesale > 0;
+            const durationMatch = p.name.match(/#(\d+)|(\d+)#/);
+            const offerDuration = durationMatch ? parseInt(durationMatch[1] || durationMatch[2]) : null;
+
+            if (viewMode === 'list') {
+                return (
+                    <div onClick={() => onSelect(p)} className={`bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 p-2 flex items-center gap-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors ${!hasStock ? 'opacity-60' : ''}`}>
+                        <div className="w-16 h-16 shrink-0 bg-white rounded-lg border border-gray-100 p-1 flex items-center justify-center overflow-hidden relative">
+                            {isOffer && <span className="absolute top-0 left-0 w-full h-full bg-red-500/10 z-0"></span>}
+                            {p.imageUrl ? <img src={p.imageUrl} className="w-full h-full object-contain z-10"/> : <Icons.Box className="text-gray-300 z-10"/>}
+                        </div>
+                        <div className="flex-1 min-w-0 flex flex-col justify-center">
+                            <div className="flex justify-between items-start">
+                                <h3 className="text-sm font-bold text-gray-800 dark:text-white line-clamp-1 leading-tight mb-1">{displayName}</h3>
+                                {offerDuration && <CountdownTimer hours={offerDuration} productId={p.id} />}
+                            </div>
+                            <div className="flex items-center flex-wrap gap-x-3 gap-y-1">
+                                {p.isConsult ? (<span className="text-xs font-bold text-purple-600">CONSULTAR</span>) : (<><span className={`text-xs font-bold ${isOffer ? 'text-gray-400 line-through' : 'text-blue-600 dark:text-blue-400'}`}>Det: ${p.price}</span>{(hasWholesale || isOffer) && (<span className={`text-xs font-black ${isOffer ? 'text-red-600' : 'text-amber-600 dark:text-amber-500'}`}>{isOffer ? 'Oferta' : 'Mayor'}: ${p.wholesale}</span>)}</>)}
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center gap-2">
+                             <button onClick={(e) => { e.stopPropagation(); toggleFavorite(p.id); }} className="text-gray-400 hover:text-red-500"><Icons.Heart size={18} filled={isFavorite} /></button>
+                             {hasStock && !p.isConsult && (<button onClick={(e) => { e.stopPropagation(); onAddToCart(p); }} className="w-8 h-8 flex items-center justify-center bg-blue-50 dark:bg-slate-700 text-blue-600 dark:text-blue-400 rounded-full hover:bg-blue-100 transition-colors"><Icons.Plus size={16} /></button>)}
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className={`bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-slate-700 flex flex-col group h-full cursor-pointer relative ${!hasStock ? 'opacity-75 grayscale-[0.5]' : ''}`} onClick={() => onSelect(p)}>
+                    {isOffer && <span className="absolute top-0 left-0 bg-red-600 text-white text-[10px] font-black px-3 py-1 rounded-br-lg shadow-md z-20 flex items-center gap-1"><Icons.Lightning size={10} className="fill-white"/> OFERTA</span>}
+                    {isTop && !isOffer && <span className="absolute top-0 left-0 bg-gold-500 text-white text-[10px] font-black px-3 py-1 rounded-br-lg shadow-md z-20 flex items-center gap-1"><Icons.Star size={10} className="fill-white"/> TOP</span>}
+                    
+                    <button onClick={(e) => { e.stopPropagation(); toggleFavorite(p.id); }} className="absolute top-2 right-2 z-20 bg-white/80 dark:bg-black/40 p-1.5 rounded-full hover:bg-white text-gray-400 hover:text-red-500 transition-colors shadow-sm"><Icons.Heart size={16} filled={isFavorite} /></button>
+
+                    <div className="aspect-square bg-white relative overflow-hidden p-4">
+                        {p.imageUrl ? (<img src={p.imageUrl} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110" />) : (<div className="flex items-center justify-center h-full text-gray-300"><Icons.Box size={40}/></div>)}
+                        
+                        {/* Stock movido a la esquina inferior izquierda (bottom-2 left-2) para no chocar con OFERTA */}
+                        {!compact && !p.isConsult && (totalStock > 0 ? (
+                            <span className="absolute bottom-2 left-2 bg-green-500 text-white text-[9px] font-black px-2 py-1 rounded-lg shadow-md z-10">
+                                {totalStock} DISP.
+                            </span>
+                        ) : (
+                            <span className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px] text-gray-800 font-black tracking-widest bg-white/50">AGOTADO</span>
+                        ))}
+                        
+                        {hasStock && !p.isConsult && !compact && (<button onClick={(e) => { e.stopPropagation(); onAddToCart(p); }} className="absolute bottom-2 right-2 w-9 h-9 flex items-center justify-center bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors shadow-lg z-10 hover:scale-110 transform duration-200 border-2 border-white dark:border-slate-800" title="Agregar al carrito"><Icons.Plus size={18} strokeWidth={3} /></button>)}
+                    </div>
+                    
+                    <div className="p-3 flex flex-col flex-1">
+                        <div className="flex justify-between items-start mb-1 gap-1">
+                            <h3 className={`font-bold text-gray-800 dark:text-white leading-tight ${compact ? 'text-xs line-clamp-2' : 'text-sm'}`} title={displayName}>{displayName}</h3>
+                        </div>
+                        {offerDuration && <div className="mb-2"><CountdownTimer hours={offerDuration} productId={p.id} /></div>}
+                        
+                        <div className="mt-auto pt-2 border-t border-gray-100 dark:border-slate-700 flex flex-col gap-1">
+                             {p.isConsult ? (<div className="text-center font-black text-purple-600 dark:text-purple-400 text-sm py-1">CONSULTAR</div>) : (<>
+                                <div className="flex justify-between items-center"><span className="text-[10px] text-gray-400 font-bold">DETAL</span><span className={`font-bold text-sm ${isOffer ? 'text-gray-400 line-through' : 'text-blue-600 dark:text-blue-400'}`}>${p.price}</span></div>
+                                {(hasWholesale || isOffer) && (<div className="flex justify-between items-center"><span className={`text-[10px] font-bold ${isOffer ? 'text-red-500' : 'text-amber-500'}`}>{isOffer ? 'OFERTA' : 'MAYOR'}</span><span className={`font-black text-base ${isOffer ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400'}`}>${p.wholesale}</span></div>)}
+                             </>)}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- COMPONENTE CARRITO ---
+        function CartSystem({ cart, updateQty, removeFromCart }) {
+            const [isOpen, setIsOpen] = React.useState(false);
+            const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+            const totalPrice = cart.reduce((acc, item) => {
+                const price = item.product.name.includes("OFERTA*") ? item.product.wholesale : (item.product.isConsult ? 0 : item.product.price);
+                return acc + (price * item.qty);
+            }, 0);
+            
+            // Umbral Delivery Gratis
+            const freeDeliveryThreshold = 60;
+            const qualifiesForFreeDelivery = totalPrice >= freeDeliveryThreshold;
+
+            const handleCheckout = () => {
+                let message = `*HOLA STARVENEZUELA, QUIERO HACER EL SIGUIENTE PEDIDO:*%0A%0A`;
+                cart.forEach(item => {
+                    const cleanName = item.product.name.replace("TOP*", "").replace("OFERTA*", "").replace(/#\d+|\d+#/g, "").trim();
+                    const price = item.product.name.includes("OFERTA*") ? item.product.wholesale : item.product.price;
+                    message += `▪ ${item.qty}x ${cleanName} - $${price}%0A`;
+                });
+                if(totalPrice > 0) message += `%0A*TOTAL ESTIMADO: $${totalPrice.toFixed(2)}*`;
+                
+                // Agregar nota de delivery gratis al mensaje si aplica
+                if(qualifiesForFreeDelivery) {
+                    message += `%0A%0A🎉 *Aplica Delivery GRATIS (Cd. Guayana/Bolívar)*`;
+                }
+
+                window.open(`https://wa.me/584129415713?text=${message}`, '_blank');
+            };
+
+            if (totalItems === 0 && !isOpen) return null;
+
+            return (
+                <>
+                    {!isOpen && totalItems > 0 && (
+                        <button onClick={() => setIsOpen(true)} className="fixed bottom-6 right-6 z-50 bg-blue-600 text-white p-4 rounded-full shadow-2xl shadow-blue-600/40 hover:scale-110 transition-transform flex items-center justify-center animate-enter">
+                            <Icons.Cart size={28} /><span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900 animate-pop">{totalItems}</span>
+                        </button>
+                    )}
+                    {isOpen && (
+                        <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-4 animate-enter" onClick={() => setIsOpen(false)}>
+                            <div className="bg-white dark:bg-slate-800 w-full max-w-lg sm:rounded-2xl rounded-t-2xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]" onClick={e => e.stopPropagation()}>
+                                <div className="p-4 border-b border-gray-100 dark:border-slate-700 flex justify-between items-center bg-gray-50 dark:bg-slate-800/50">
+                                    <div className="flex items-center gap-2"><Icons.Cart className="text-blue-600"/><h2 className="font-bold text-lg dark:text-white">Mi Carrito ({totalItems})</h2></div>
+                                    <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-full dark:text-gray-300"><Icons.X /></button>
+                                </div>
+                                
+                                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                                    {cart.length === 0 ? (<div className="text-center py-10 text-gray-400"><Icons.Cart size={48} className="mx-auto mb-2 opacity-50"/><p>Tu carrito está vacío</p></div>) : (
+                                        cart.map(item => {
+                                            const p = item.product;
+                                            const cleanName = p.name.replace("TOP*", "").replace("OFERTA*", "").replace(/#\d+|\d+#/g, "").trim();
+                                            const isOffer = p.name.includes("OFERTA*");
+                                            const price = isOffer ? p.wholesale : p.price;
+                                            return (
+                                                <div key={p.id} className="flex gap-3 bg-white dark:bg-slate-700/30 p-3 rounded-xl border border-gray-100 dark:border-slate-700">
+                                                    <div className="w-16 h-16 bg-white rounded-lg p-1 flex items-center justify-center border border-gray-100 shrink-0">{p.imageUrl ? <img src={p.imageUrl} className="w-full h-full object-contain"/> : <Icons.Box className="text-gray-300"/>}</div>
+                                                    <div className="flex-1 min-w-0"><h4 className="font-bold text-sm text-gray-800 dark:text-white line-clamp-1">{cleanName}</h4><div className="text-blue-600 dark:text-blue-400 font-bold text-sm mt-1">{p.isConsult ? "Consultar" : `$${price}`}</div></div>
+                                                    <div className="flex flex-col items-end justify-between"><button onClick={() => removeFromCart(p.id)} className="text-gray-400 hover:text-red-500"><Icons.Trash size={16}/></button><div className="flex items-center gap-2 bg-gray-100 dark:bg-slate-800 rounded-lg p-1"><button onClick={() => updateQty(p.id, -1)} className="p-1 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-colors"><Icons.Minus size={14}/></button><span className="text-xs font-bold w-4 text-center dark:text-white">{item.qty}</span><button onClick={() => updateQty(p.id, 1)} className="p-1 hover:bg-white dark:hover:bg-slate-700 rounded-md transition-colors"><Icons.Plus size={14}/></button></div></div>
+                                                </div>
+                                            )
+                                        })
+                                    )}
+                                </div>
+                                <div className="p-4 border-t border-gray-100 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50">
+                                    
+                                    {/* Notificación Delivery Gratis - Solo si supera el umbral */}
+                                    {qualifiesForFreeDelivery && (
+                                        <div className="mb-3 bg-green-50 dark:bg-green-900/20 p-2 rounded-lg border border-green-100 dark:border-green-900/30 text-center animate-enter">
+                                            <p className="text-xs font-bold text-green-700 dark:text-green-400 flex items-center justify-center gap-1">
+                                                <Icons.Truck size={14} /> ¡Aplica para DELIVERY GRATIS!
+                                            </p>
+                                            <p className="text-[9px] text-green-600 dark:text-green-500">(Cd. Guayana y Bolívar - Previo Pago)</p>
+                                        </div>
+                                    )}
+
+                                    <div className="flex justify-between items-center mb-4"><span className="text-gray-500 dark:text-gray-400 font-medium">Total Estimado:</span><span className="text-2xl font-black text-gray-800 dark:text-white">${totalPrice.toFixed(2)}</span></div>
+                                    <button onClick={handleCheckout} disabled={cart.length === 0} className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-green-500/30 transition-transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"><Icons.Whatsapp size={22} /> PEDIR POR WHATSAPP</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </>
+            );
+        }
+
+        // --- COMPONENTE PRINCIPAL (VISTA) ---
+        function CatalogView() {
+            const [products, setProducts] = React.useState([]);
+            const [filteredProducts, setFilteredProducts] = React.useState([]);
+            const [topProducts, setTopProducts] = React.useState([]);
+            const [recentProducts, setRecentProducts] = React.useState([]);
+            const [offerProducts, setOfferProducts] = React.useState([]);
+            const [search, setSearch] = React.useState('');
+            const [categories, setCategories] = React.useState([]);
+            const [selectedCategory, setSelectedCategory] = React.useState('TODOS');
+            const [darkMode, setDarkMode] = React.useState(false);
+            const [viewMode, setViewMode] = React.useState('grid');
+            const [cart, setCart] = React.useState([]);
+            const [showPromo, setShowPromo] = React.useState(false);
+            const [isTopExpanded, setIsTopExpanded] = React.useState(true);
+            // Nuevo estado para controlar si las ofertas están expandidas (True por defecto)
+            const [isOffersExpanded, setIsOffersExpanded] = React.useState(true);
+            const [selectedProductForModal, setSelectedProductForModal] = React.useState(null);
+            const [favorites, setFavorites] = React.useState(() => JSON.parse(localStorage.getItem('favs') || '[]'));
+            const [showFavoritesOnly, setShowFavoritesOnly] = React.useState(false);
+
+            React.useEffect(() => { if (darkMode) document.body.classList.add('dark'); else document.body.classList.remove('dark'); }, [darkMode]);
+
+            // Guardar Favoritos
+            React.useEffect(() => { localStorage.setItem('favs', JSON.stringify(favorites)); }, [favorites]);
+            const toggleFavorite = (id) => {
+                setFavorites(prev => prev.includes(id) ? prev.filter(fid => fid !== id) : [...prev, id]);
+            };
+
+            // Cargar datos
+            React.useEffect(() => {
+                const q = query(collection(db, 'inventario_sosa'));
+                const unsub = onSnapshot(q, snap => {
+                    const prods = snap.docs.map(d => ({ id: d.id, ...d.data(), timestamp: d.data().lastUpdated ? d.data().lastUpdated.toMillis() : 0 }));
+                    prods.sort((a, b) => {
+                        const stockA = (a.stock || 0) + (a.stock_pzo || 0);
+                        const stockB = (b.stock || 0) + (b.stock_pzo || 0);
+                        const hasStockA = stockA > 0 || a.isConsult;
+                        const hasStockB = stockB > 0 || b.isConsult;
+                        if (hasStockA && !hasStockB) return -1;
+                        if (!hasStockA && hasStockB) return 1;
+                        return a.name.localeCompare(b.name);
+                    });
+                    setProducts(prods);
+                    setCategories(['TODOS', ...new Set(prods.map(p => p.category).filter(Boolean))]);
+                    const tops = prods.filter(p => p.name.includes("TOP*") && ((p.stock || 0) + (p.stock_pzo || 0) > 0));
+                    setTopProducts(tops);
+                    const offers = prods.filter(p => p.name.includes("OFERTA*"));
+                    setOfferProducts(offers);
+                    if(offers.length > 0) { setShowPromo(true); setIsTopExpanded(false); }
+                    setRecentProducts([...prods].sort((a,b) => b.timestamp - a.timestamp).slice(0, 5));
+                });
+                return () => unsub();
+            }, []);
+
+            // Lógica Fuse.js (Buscador Inteligente)
+            React.useEffect(() => {
+                let result = products;
+                
+                // 1. Filtro por Categoría
+                if (selectedCategory !== 'TODOS') {
+                    result = result.filter(p => p.category === selectedCategory);
+                }
+
+                // 2. Filtro por Búsqueda (Fuse.js)
+                if (search.trim() !== '') {
+                    const fuse = new Fuse(result, { keys: ['name', 'category'], threshold: 0.3 });
+                    result = fuse.search(search).map(r => r.item);
+                }
+
+                // 3. Filtro de Favoritos
+                if (showFavoritesOnly) {
+                    result = result.filter(p => favorites.includes(p.id));
+                }
+
+                setFilteredProducts(result);
+            }, [products, search, selectedCategory, showFavoritesOnly, favorites]);
+
+            const addToCart = (product) => {
+                setCart(prev => {
+                    const exists = prev.find(item => item.product.id === product.id);
+                    if (exists) return prev.map(item => item.product.id === product.id ? { ...item, qty: item.qty + 1 } : item);
+                    return [...prev, { product, qty: 1 }];
+                });
+            };
+            const updateQty = (id, delta) => setCart(prev => prev.map(item => item.product.id === id ? { ...item, qty: Math.max(1, item.qty + delta) } : item));
+            const removeFromCart = (id) => setCart(prev => prev.filter(item => item.product.id !== id));
+
+            const handleDownloadPDF = () => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Configurar título y fecha
+                doc.setFontSize(18);
+                doc.text("Catálogo de Productos - StarVenezuela", 14, 22);
+                doc.setFontSize(11);
+                doc.text("Fecha: " + new Date().toLocaleDateString(), 14, 30);
+                doc.text("Precios en USD", 14, 36);
+                
+                // Columnas de la tabla
+                const tableColumn = ["Categoría", "Producto", "Precio Detal", "Precio Mayor", "Stock"];
+                const tableRows = [];
+
+                // 1. Crear una copia y ORDENAR por Categoría (A-Z) y luego por Nombre
+                const sortedProducts = [...products].sort((a, b) => {
+                    // Comparar categorías (asegurando mayúsculas para orden correcto)
+                    const catA = (a.category || "").toUpperCase();
+                    const catB = (b.category || "").toUpperCase();
+                    
+                    if (catA < catB) return -1;
+                    if (catA > catB) return 1;
+                    
+                    // Si la categoría es la misma, ordenar por nombre
+                    return a.name.localeCompare(b.name);
+                });
+
+                // 2. Generar filas con la lista ordenada
+                sortedProducts.forEach(p => {
+                    const isOffer = p.name.includes("OFERTA*");
+                    const cleanName = p.name.replace("TOP*", "").replace("OFERTA*", "").replace(/#\d+|\d+#/g, "").trim();
+                    const price = p.isConsult ? "Consultar" : `$${p.price}`;
+                    const wholesale = p.wholesale > 0 ? `$${p.wholesale}` : "-";
+                    const stock = (p.stock || 0) + (p.stock_pzo || 0);
+                    const stockMsg = stock > 0 ? "Disponible" : "Agotado";
+
+                    const productData = [
+                        p.category,
+                        cleanName + (isOffer ? " (OFERTA)" : ""),
+                        price,
+                        wholesale,
+                        stockMsg
+                    ];
+                    tableRows.push(productData);
+                });
+
+                doc.autoTable({
+                    head: [tableColumn],
+                    body: tableRows,
+                    startY: 40,
+                    theme: 'striped',
+                    styles: { fontSize: 8 },
+                    headStyles: { fillColor: [37, 99, 235] } // Azul StarVenezuela
+                });
+
+                // Nota profesional al final de la tabla
+                const finalY = doc.lastAutoTable.finalY || 40;
+                doc.setFontSize(8);
+                doc.setTextColor(100);
+                const footerText = "NOTA: La información contenida en este catálogo es válida por 48 horas a partir de su fecha de emisión. Los precios y la disponibilidad del inventario están sujetos a cambios sin previo aviso.";
+                doc.text(footerText, 14, finalY + 10, { maxWidth: 180 });
+
+                doc.save("Catalogo_StarVenezuela.pdf");
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex flex-col transition-colors duration-300 pb-20">
+                    {showPromo && offerProducts.length > 0 && <PromoBanner offers={offerProducts} onClose={() => setShowPromo(false)} />}
+                    <ScrollToTop />
+                    <CartSystem cart={cart} updateQty={updateQty} removeFromCart={removeFromCart} />
+                    
+                    <ProductDetailModal 
+                        product={selectedProductForModal} 
+                        allProducts={products}
+                        onClose={() => setSelectedProductForModal(null)} 
+                        onAddToCart={addToCart}
+                        onSelectRelated={setSelectedProductForModal}
+                        favorites={favorites}
+                        toggleFavorite={toggleFavorite}
+                    />
+
+                    <div className="bg-white dark:bg-slate-800 shadow-md p-4 sticky top-0 z-30">
+                        <div className="max-w-7xl mx-auto flex flex-col gap-4">
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center gap-3">
+                                    <img src="https://i.postimg.cc/c4hvYtj9/STAR-PNG-diapo-oscuro.png" className="h-12 w-auto object-contain" alt="Logo" />
+                                    <div><h1 className="text-xl font-black text-gray-800 dark:text-white leading-none">STARVENEZUELA</h1><p className="text-[10px] text-blue-600 dark:text-blue-400 font-bold tracking-[0.2em]">CATÁLOGO DIGITAL</p></div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                     <button onClick={() => setShowFavoritesOnly(!showFavoritesOnly)} className={`p-2 rounded-full transition-colors ${showFavoritesOnly ? 'bg-red-100 text-red-500' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-700'}`}><Icons.Heart filled={showFavoritesOnly} /></button>
+                                     <button onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')} className="p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-full transition-colors hidden sm:block">{viewMode === 'grid' ? <Icons.List /> : <Icons.Grid />}</button>
+                                    <button onClick={() => setDarkMode(!darkMode)} className="p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-full transition-colors">{darkMode ? <Icons.Sun/> : <Icons.Moon/>}</button>
+                                </div>
+                            </div>
+                            <div className="flex gap-2">
+                                <div className="flex-1 relative">
+                                    <input className="w-full bg-gray-100 dark:bg-slate-700 p-3 pl-10 rounded-xl border-none focus:ring-2 ring-blue-500 text-gray-800 dark:text-white uppercase text-sm font-bold shadow-inner placeholder-gray-400" placeholder="¿QUÉ BUSCAS HOY?" value={search} onChange={e => setSearch(e.target.value)} />
+                                    <div className="absolute left-3 top-3 text-gray-400"><Icons.Search size={18}/></div>
+                                </div>
+                                <button onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')} className="sm:hidden bg-gray-100 dark:bg-slate-700 p-3 rounded-xl text-gray-600 dark:text-gray-300">{viewMode === 'grid' ? <Icons.List /> : <Icons.Grid />}</button>
+                            </div>
+                            <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">{categories.map(cat => (<button key={cat} onClick={() => {setSelectedCategory(cat); setShowFavoritesOnly(false);}} className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${selectedCategory === cat && !showFavoritesOnly ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300'}`}>{cat}</button>))}</div>
+                        </div>
+                    </div>
+
+                    <div className="flex-1 max-w-7xl mx-auto w-full p-4 space-y-6">
+                        
+                        {/* BANNER INFORMACIÓN DE ENVÍOS */}
+                        {!showFavoritesOnly && search === '' && selectedCategory === 'TODOS' && (
+                            <>
+                                <ShippingInfo />
+                            </>
+                        )}
+
+                        {selectedCategory === 'TODOS' && search === '' && !showFavoritesOnly && offerProducts.length > 0 && (
+                            <section className="animate-enter">
+                                {/* Encabezado ahora es un botón plegable */}
+                                <button onClick={() => setIsOffersExpanded(!isOffersExpanded)} className="w-full flex justify-between items-center mb-3 group px-1">
+                                    <div className="flex items-center gap-2">
+                                        <Icons.Lightning className="text-red-500 animate-bounce" />
+                                        <h2 className="text-lg font-black uppercase tracking-wider italic text-gray-800 dark:text-white">OFERTAS RELÁMPAGO</h2>
+                                    </div>
+                                    <Icons.ChevronDown className={`transition-transform text-gray-400 ${isOffersExpanded ? 'rotate-180' : ''}`}/>
+                                </button>
+                                
+                                {isOffersExpanded && (
+                                    <div className="flex gap-3 overflow-x-auto pb-4 snap-x">
+                                        {offerProducts.map(p => (
+                                            <div key={p.id} className="min-w-[180px] w-[180px] snap-center">
+                                                <ProductCard p={p} onSelect={setSelectedProductForModal} onAddToCart={addToCart} viewMode="grid" isFavorite={favorites.includes(p.id)} toggleFavorite={toggleFavorite} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </section>
+                        )}
+
+                        {selectedCategory === 'TODOS' && search === '' && !showFavoritesOnly && topProducts.length > 0 && (
+                            <section className="animate-enter">
+                                <button onClick={() => setIsTopExpanded(!isTopExpanded)} className="w-full flex justify-between items-center mb-3 group"><div className="flex items-center gap-2"><Icons.Star className="text-gold-500 fill-gold-500"/><h2 className="text-lg font-black uppercase tracking-wider italic text-gray-800 dark:text-white">PRODUCTOS ESTRELLA</h2></div><Icons.ChevronDown className={`transition-transform text-gray-400 ${isTopExpanded ? 'rotate-180' : ''}`}/></button>
+                                {isTopExpanded && (<div className="flex gap-3 overflow-x-auto pb-4 snap-x">{topProducts.map(p => (<div key={p.id} className="min-w-[150px] w-[150px] snap-center"><ProductCard p={p} onSelect={setSelectedProductForModal} onAddToCart={addToCart} compact={true} viewMode="grid" isFavorite={favorites.includes(p.id)} toggleFavorite={toggleFavorite} /></div>))}</div>)}
+                            </section>
+                        )}
+
+                        <section>
+                            <div className="mb-4 flex items-center justify-between gap-2">
+                                <h2 className="text-lg font-bold text-gray-800 dark:text-white uppercase tracking-wider flex items-center gap-2 truncate">
+                                    {showFavoritesOnly ? (
+                                        <>
+                                            <Icons.Heart filled={true} className="shrink-0" /> Tus Favoritos
+                                        </>
+                                    ) : (
+                                        <>
+                                            {/* Icono Box eliminado aquí */}
+                                            {selectedCategory === 'TODOS' ? 'Catálogo Completo' : selectedCategory}
+                                        </>
+                                    )}
+                                </h2>
+                                
+                                <div className="flex items-center gap-2 shrink-0">
+                                    <button 
+                                        onClick={handleDownloadPDF}
+                                        className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg shadow-md flex items-center justify-center transition-transform active:scale-95"
+                                        title="Descargar Catálogo PDF"
+                                    >
+                                        <Icons.Download size={20} />
+                                    </button>
+                                    <span className="text-xs font-bold bg-gray-200 dark:bg-slate-800 px-2 py-2 rounded-lg dark:text-gray-300 min-w-[35px] text-center">
+                                        {filteredProducts.length}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div className={`${viewMode === 'grid' ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4' : 'flex flex-col gap-3'}`}>
+                                {filteredProducts.map(p => (<ProductCard key={p.id} p={p} onSelect={setSelectedProductForModal} onAddToCart={addToCart} viewMode={viewMode} isFavorite={favorites.includes(p.id)} toggleFavorite={toggleFavorite} />))}
+                            </div>
+                            {filteredProducts.length === 0 && (<div className="text-center py-20 opacity-50"><Icons.Search size={40} className="mx-auto mb-2"/><p>No se encontraron productos</p></div>)}
+                        </section>
+                    </div>
+                    <footer className="mt-auto py-8 text-center text-gray-400 dark:text-slate-600 text-xs"><p>© 2025 StarVenezuela - Catálogo en Línea</p></footer>
+                </div>
+            );
+        }
+
+        function App() {
+            const [ready, setReady] = React.useState(false);
+            React.useEffect(() => { signInAnonymously(auth).then(() => setReady(true)); }, []);
+            if (!ready) return (<div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-slate-900"><div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4"></div><p className="text-xs font-bold tracking-widest text-blue-600 animate-pulse">CARGANDO...</p></div>);
+            return <CatalogView />;
+        }
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+
+    <!-- Script para inicializar Carlitos con animación de entrada -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animación de entrada para el botón Carlitos
+            const carlitosBtn = document.getElementById('carlitos-float-btn');
+            if (carlitosBtn) {
+                // Esperar un momento antes de mostrar la animación
+                setTimeout(() => {
+                    carlitosBtn.style.opacity = '0';
+                    carlitosBtn.style.transform = 'scale(0.8) translateY(20px)';
+                    carlitosBtn.style.display = 'flex';
+                    
+                    // Animar la entrada
+                    setTimeout(() => {
+                        carlitosBtn.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                        carlitosBtn.style.opacity = '1';
+                        carlitosBtn.style.transform = 'scale(1) translateY(0)';
+                    }, 300);
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
