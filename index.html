@@ -3230,13 +3230,14 @@
         
         currentSessionId = "ai-session-" + Date.now();
         
-        // MODIFICADO: Usando headers para ngrok
+        // MODIFICADO: Usando headers para ngrok y especificando el asistente "rickgpt"
         const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
           headers: getNgrokHeaders(),
           body: JSON.stringify({
             message: "ping",
-            session_id: currentSessionId
+            session_id: currentSessionId,
+            assistant: "rickgpt"  // <-- ÚNICO CAMBIO ESENCIAL: Especificar el asistente RickGPT
           })
         });
         
@@ -3347,13 +3348,14 @@
       const typingIndicator = showAITyping();
       
       try {
-        // MODIFICADO: Usando headers para ngrok
+        // MODIFICADO: Usando headers para ngrok y especificando el asistente "rickgpt"
         const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
           headers: getNgrokHeaders(),
           body: JSON.stringify({ 
             message: text,
-            session_id: currentSessionId
+            session_id: currentSessionId,
+            assistant: "rickgpt"  // <-- ÚNICO CAMBIO ESENCIAL: Especificar el asistente RickGPT
           })
         });
         
