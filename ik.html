@@ -317,21 +317,15 @@
             border: 2px solid #FFD700;
             opacity: 0;
             transform: translateY(30px) scale(0.9);
-            animation: fadeInUp 0.8s ease 3.5s forwards, pulse 2s infinite 4s;
+            animation: fadeInUp 0.8s ease 3.5s forwards;
         }
         
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
-        }
-        
+        /* CORREGIDO: Eliminada la animación pulse que causaba problemas en hover */
         .cta-button:hover {
             background: transparent;
             color: #FFD700;
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.02);
             box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
-            animation: none;
         }
         
         /* Secciones de contenido */
@@ -1080,7 +1074,7 @@
             animation: attentionBounce 2s infinite ease-in-out;
             width: 250px;
             opacity: 0;
-            animation: fadeIn 0.5s ease 3.9s forwards, attentionBounce 2s infinite 4.4s ease-in-out;
+            animation: fadeIn 0.5s ease 3.9s forwards;
         }
         
         .rey-attention-text {
@@ -2068,22 +2062,26 @@
                 });
             });
             
-            // NUEVO: Configurar el indicador de atención para desaparecer después de 30 segundos
+            // CORREGIDO: Configurar el indicador de atención para desaparecer después de 30 segundos
             setTimeout(() => {
                 if (reyAttentionIndicator && attentionIndicatorVisible) {
+                    console.log("Ocultando indicador de atención después de 30 segundos");
                     reyAttentionIndicator.style.opacity = '0';
                     reyAttentionIndicator.style.pointerEvents = 'none';
+                    reyAttentionIndicator.style.transition = 'opacity 0.5s ease';
                     attentionIndicatorVisible = false;
                 }
             }, 30000); // 30 segundos
             
-            // NUEVO: Ocultar indicador al hacer clic en cualquier parte
+            // CORREGIDO: Ocultar indicador al hacer clic en cualquier parte
             document.addEventListener('click', function(e) {
                 if (reyAttentionIndicator && attentionIndicatorVisible && 
                     !reyFloatBtn.contains(e.target) && 
                     !reyAttentionIndicator.contains(e.target)) {
+                    console.log("Ocultando indicador por click fuera");
                     reyAttentionIndicator.style.opacity = '0';
                     reyAttentionIndicator.style.pointerEvents = 'none';
+                    reyAttentionIndicator.style.transition = 'opacity 0.3s ease';
                     attentionIndicatorVisible = false;
                 }
             });
@@ -2129,7 +2127,7 @@
                 chatPosition.y = newY;
             }
             
-            // NUEVO: Ajustar posición del indicador de atención
+            // Ajustar posición del indicador de atención
             if (reyAttentionIndicator && attentionIndicatorVisible) {
                 const isMobile = window.innerWidth <= 768;
                 if (isMobile) {
