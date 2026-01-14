@@ -352,6 +352,70 @@
             transform: none;
         }
         
+        /* NUEVO: Indicador de atención para el botón Rey - CON DEDO EN INFERIOR DERECHA */
+        .rey-attention-indicator {
+            position: fixed;
+            bottom: 90px; /* Posicionado encima del botón */
+            right: 10px; /* Alineado con el botón */
+            z-index: 9997;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            animation: attentionBounce 2s infinite ease-in-out;
+            width: 250px;
+        }
+        
+        .rey-attention-text {
+            background: rgba(255, 255, 255, 0.95);
+            color: #292966;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 5px 20px rgba(41, 41, 102, 0.2);
+            border: 2px solid #FFD700;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            width: 100%;
+            margin-bottom: 5px; /* Espacio reducido para el dedo */
+        }
+        
+        /* Dedo posicionado en la parte inferior derecha del cuadro de texto */
+        .rey-attention-finger {
+            font-size: 36px;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            animation: fingerPulse 1.5s infinite alternate;
+            position: relative;
+            right: 28px; /* CAMBIADO: De 10px a 5px (5 píxeles a la izquierda) */
+            margin-top: -5px; /* Superposición con el cuadro */
+        }
+        
+        @keyframes attentionBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes fingerPulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.3); opacity: 1; }
+        }
+        
+        /* NUEVO: Animación de latido para el icono de Rey (similar a RickGPT) */
+        #rey-float-btn:not(:hover) .rey-icon-wrapper svg {
+            animation: reyHeartbeat 2s infinite ease-in-out;
+        }
+        
+        @keyframes reyHeartbeat {
+            0% { transform: scale(1); }
+            5% { transform: scale(1.1); }
+            10% { transform: scale(1); }
+            15% { transform: scale(1.1); }
+            20% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .rey-button-container { bottom: 15px; right: 15px; }
@@ -374,6 +438,40 @@
             #rey-chat-window,
             .rey-chat-header {
                 cursor: default;
+            }
+            
+            /* Ajustes para el indicador de atención en móviles */
+            .rey-attention-indicator {
+                bottom: 70px;
+                right: 5px;
+                width: 200px;
+            }
+            
+            .rey-attention-text {
+                font-size: 16px;
+                padding: 10px 14px;
+            }
+            
+            .rey-attention-finger {
+                font-size: 28px;
+                right: 2px; /* CAMBIADO: De 5px a 2px para mantener proporción */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .rey-attention-indicator {
+                bottom: 65px;
+                right: 0;
+                width: 180px;
+            }
+            
+            .rey-attention-text {
+                font-size: 14px;
+            }
+            
+            .rey-attention-finger {
+                font-size: 24px;
+                right: 0; /* CAMBIADO: De 3px a 0px para mantener proporción */
             }
         }
     </style>
@@ -413,6 +511,14 @@
     <br>
     <br>
     <img src="https://interking.net/assets/logo-5e9a2a98.svg" style="display:block; margin:auto;">
+
+    <!-- NUEVO: Indicador de atención para el botón Rey - CON DEDO EN INFERIOR DERECHA -->
+    <div class="rey-attention-indicator" id="rey-attention-indicator">
+        <div class="rey-attention-text">
+            ¡Pulsa aquí para hablar<br>con nuestro asistente Rey!
+        </div>
+        <div class="rey-attention-finger">👇</div>
+    </div>
 
     <!-- Botón flotante Rey -->
     <div class="rey-button-container">
@@ -507,11 +613,13 @@
         const reyInput = document.getElementById('rey-input');
         const reySendBtn = document.getElementById('rey-send-btn');
         const reyDragHandle = document.getElementById('rey-drag-handle');
+        const reyAttentionIndicator = document.getElementById('rey-attention-indicator'); // NUEVO
         
         let isReyChatOpen = false;
         let isGenerating = false;
         let currentSessionId = null;
         let chatPosition = { x: 0, y: 0 }; // Para guardar la posición del chat
+        let attentionIndicatorVisible = true; // NUEVO: Controlar visibilidad del indicador
         
         // ========================================
         // FUNCIÓN PARA HACER VENTANAS ARRASTRABLES - MEJORADA
@@ -621,6 +729,13 @@
                 
                 // Ocultar el botón cuando la ventana esté activa
                 reyButtonContainer.classList.add('hidden');
+                
+                // NUEVO: Ocultar el indicador de atención cuando se abre el chat
+                if (reyAttentionIndicator && attentionIndicatorVisible) {
+                    reyAttentionIndicator.style.opacity = '0';
+                    reyAttentionIndicator.style.pointerEvents = 'none';
+                    attentionIndicatorVisible = false;
+                }
                 
                 // Para la primera vez o cuando no hay posición guardada, posicionar abajo a la derecha
                 if (chatPosition.x === 0 && chatPosition.y === 0) {
@@ -872,6 +987,26 @@
                 }
             }, 100);
             
+            // NUEVO: Configurar el indicador de atención para desaparecer después de 30 segundos
+            setTimeout(() => {
+                if (reyAttentionIndicator && attentionIndicatorVisible) {
+                    reyAttentionIndicator.style.opacity = '0';
+                    reyAttentionIndicator.style.pointerEvents = 'none';
+                    attentionIndicatorVisible = false;
+                }
+            }, 30000); // 30 segundos
+            
+            // NUEVO: Ocultar indicador al hacer clic en cualquier parte
+            document.addEventListener('click', function(e) {
+                if (reyAttentionIndicator && attentionIndicatorVisible && 
+                    !reyFloatBtn.contains(e.target) && 
+                    !reyAttentionIndicator.contains(e.target)) {
+                    reyAttentionIndicator.style.opacity = '0';
+                    reyAttentionIndicator.style.pointerEvents = 'none';
+                    attentionIndicatorVisible = false;
+                }
+            });
+            
             // Cerrar ventana al hacer clic fuera en móviles
             if (window.innerWidth <= 768) {
                 document.addEventListener('click', function(e) {
@@ -911,6 +1046,20 @@
                 reyChatWindow.style.top = newY + 'px';
                 chatPosition.x = newX;
                 chatPosition.y = newY;
+            }
+            
+            // NUEVO: Ajustar posición del indicador de atención
+            if (reyAttentionIndicator && attentionIndicatorVisible) {
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    reyAttentionIndicator.style.bottom = '70px';
+                    reyAttentionIndicator.style.right = '5px';
+                    reyAttentionIndicator.style.width = '200px';
+                } else {
+                    reyAttentionIndicator.style.bottom = '90px';
+                    reyAttentionIndicator.style.right = '10px';
+                    reyAttentionIndicator.style.width = '250px';
+                }
             }
         });
     </script>
