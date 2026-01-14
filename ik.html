@@ -22,6 +22,159 @@
     
     <!-- Estilos para la página informativa -->
     <style>
+        /* Animaciones generales */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* Clases para animaciones */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stagger-animate > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .stagger-animate.animated > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stagger-animate.animated > *:nth-child(1) { transition-delay: 0.1s; }
+        .stagger-animate.animated > *:nth-child(2) { transition-delay: 0.2s; }
+        .stagger-animate.animated > *:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-animate.animated > *:nth-child(4) { transition-delay: 0.4s; }
+        .stagger-animate.animated > *:nth-child(5) { transition-delay: 0.5s; }
+        .stagger-animate.animated > *:nth-child(6) { transition-delay: 0.6s; }
+        
+        /* Logo inicial centrado */
+        .initial-logo-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #292966 0%, #1a1a4d 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: logoScreenExit 1s ease 2s forwards;
+        }
+        
+        .initial-logo {
+            animation: logoEntrance 1.5s ease-out;
+            transform-origin: center;
+        }
+        
+        .initial-logo img {
+            width: 300px;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(255, 215, 0, 0.3));
+        }
+        
+        @keyframes logoEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-10deg);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.1) rotate(5deg);
+            }
+            100% {
+                transform: scale(1) rotate(0);
+            }
+        }
+        
+        @keyframes logoScreenExit {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100%);
+                visibility: hidden;
+            }
+        }
+        
         /* Estilos generales para el contenido informativo */
         .main-content {
             font-family: 'Lato', sans-serif;
@@ -30,6 +183,8 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 2.2s forwards;
         }
         
         /* Header y navegación */
@@ -40,6 +195,14 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            transform: translateY(-100%);
+            animation: slideDown 0.8s ease 2.2s forwards;
+        }
+        
+        @keyframes slideDown {
+            to {
+                transform: translateY(0);
+            }
         }
         
         .header-container {
@@ -55,6 +218,9 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: slideInFromLeft 0.8s ease 2.4s forwards;
         }
         
         .logo-container img {
@@ -82,11 +248,26 @@
             padding: 8px 15px;
             border-radius: 6px;
             transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        
+        .nav-link:nth-child(1) { animation: navItemFade 0.6s ease 2.5s forwards; }
+        .nav-link:nth-child(2) { animation: navItemFade 0.6s ease 2.6s forwards; }
+        .nav-link:nth-child(3) { animation: navItemFade 0.6s ease 2.7s forwards; }
+        .nav-link:nth-child(4) { animation: navItemFade 0.6s ease 2.8s forwards; }
+        
+        @keyframes navItemFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .nav-link:hover {
             background: rgba(255, 215, 0, 0.2);
             color: #FFD700;
+            transform: translateY(-2px);
         }
         
         /* Hero Section */
@@ -99,6 +280,9 @@
             text-align: center;
             border-radius: 0 0 20px 20px;
             margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: floatUp 1s ease 2.9s forwards;
         }
         
         .hero-title {
@@ -106,13 +290,18 @@
             font-weight: 900;
             margin-bottom: 20px;
             font-family: 'Inter', sans-serif;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 3.1s forwards;
         }
         
         .hero-subtitle {
             font-size: 20px;
             max-width: 700px;
             margin: 0 auto 40px;
-            opacity: 0.9;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 3.3s forwards;
         }
         
         .cta-button {
@@ -126,6 +315,15 @@
             display: inline-block;
             transition: all 0.3s ease;
             border: 2px solid #FFD700;
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+            animation: fadeInUp 0.8s ease 3.5s forwards, pulse 2s infinite 4s;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
         }
         
         .cta-button:hover {
@@ -133,6 +331,7 @@
             color: #FFD700;
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+            animation: none;
         }
         
         /* Secciones de contenido */
@@ -155,6 +354,19 @@
             bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
+            opacity: 0;
+            animation: lineExpand 0.8s ease 0.2s forwards;
+        }
+        
+        @keyframes lineExpand {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+            to {
+                width: 100px;
+                opacity: 1;
+            }
         }
         
         .features-grid {
@@ -187,6 +399,27 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
+            transform: scale(0);
+            animation: iconBounce 0.6s ease forwards;
+        }
+        
+        .feature-card:nth-child(1) .feature-icon { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) .feature-icon { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) .feature-icon { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) .feature-icon { animation-delay: 0.4s; }
+        .feature-card:nth-child(5) .feature-icon { animation-delay: 0.5s; }
+        .feature-card:nth-child(6) .feature-icon { animation-delay: 0.6s; }
+        
+        @keyframes iconBounce {
+            0% {
+                transform: scale(0);
+            }
+            60% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
         
         .feature-icon svg {
@@ -231,11 +464,23 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            transform: translateY(30px);
+            opacity: 0;
+        }
+        
+        .plan-card.animated {
+            animation: cardPopUp 0.6s ease forwards;
+        }
+        
+        @keyframes cardPopUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .plan-card.popular {
             border: 2px solid #FFD700;
-            transform: scale(1.05);
         }
         
         .plan-card.popular:before {
@@ -434,6 +679,10 @@
         
         /* Responsive */
         @media (max-width: 768px) {
+            .initial-logo img {
+                width: 200px;
+            }
+            
             .header-container {
                 flex-direction: column;
                 gap: 20px;
@@ -494,6 +743,8 @@
             right: 20px;
             z-index: 9999;
             transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 0.5s ease 3.8s forwards;
         }
         
         .rey-button-container.hidden {
@@ -828,6 +1079,8 @@
             align-items: flex-end;
             animation: attentionBounce 2s infinite ease-in-out;
             width: 250px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease 3.9s forwards, attentionBounce 2s infinite 4.4s ease-in-out;
         }
         
         .rey-attention-text {
@@ -970,6 +1223,13 @@
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
 
+    <!-- Pantalla inicial con logo centrado -->
+    <div class="initial-logo-screen" id="initialLogo">
+        <div class="initial-logo">
+            <img src="https://interking.net/assets/logo-5e9a2a98.svg" alt="Interking Logo">
+        </div>
+    </div>
+
     <!-- Header con navegación -->
     <header class="site-header">
         <div class="header-container">
@@ -996,9 +1256,9 @@
         </section>
 
         <!-- Sección de características -->
-        <section id="features">
+        <section id="features" class="animate-on-scroll">
             <h2 class="section-title">¿Por qué elegir Interking?</h2>
-            <div class="features-grid">
+            <div class="features-grid stagger-animate">
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -1070,9 +1330,9 @@
         </section>
 
         <!-- Sección de planes -->
-        <section class="plans-section" id="plans">
+        <section class="plans-section animate-on-scroll" id="plans">
             <h2 class="section-title">Planes de Internet</h2>
-            <div class="plans-grid">
+            <div class="plans-grid stagger-animate">
                 <div class="plan-card">
                     <h3 class="plan-name">Básico</h3>
                     <div class="plan-price">$29<span>/mes</span></div>
@@ -1133,9 +1393,9 @@
         </section>
 
         <!-- Sección de contacto -->
-        <section class="contact-section" id="contact">
+        <section class="contact-section animate-on-scroll" id="contact">
             <h2 class="section-title" style="color: white;">Contáctanos</h2>
-            <div class="contact-grid">
+            <div class="contact-grid stagger-animate">
                 <div class="contact-info">
                     <h3>¿Listo para conectarte?</h3>
                     <p>Nuestro equipo está listo para ayudarte a elegir el mejor plan para tus necesidades. Contáctanos por cualquier medio:</p>
@@ -1232,8 +1492,8 @@
     </main>
 
     <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-content">
+    <footer class="site-footer animate-on-scroll">
+        <div class="footer-content stagger-animate">
             <div class="footer-column">
                 <h3>Interking</h3>
                 <p>Tu proveedor de internet confiable desde 2010. Conectamos comunidades con tecnología de vanguardia y servicio excepcional.</p>
@@ -1747,6 +2007,29 @@
         }
         
         // ========================================
+        // ANIMACIONES DE SCROLL
+        // ========================================
+        
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('animated');
+                    
+                    // Animación escalonada para elementos hijos
+                    const staggerElements = element.querySelectorAll('.stagger-animate');
+                    staggerElements.forEach(staggerEl => {
+                        staggerEl.classList.add('animated');
+                    });
+                }
+            });
+        }
+        
+        // ========================================
         // INICIALIZACIÓN
         // ========================================
         
@@ -1760,6 +2043,30 @@
                     makeDraggable(reyChatWindow, reyDragHandle);
                 }
             }, 100);
+            
+            // Animar en scroll
+            window.addEventListener('scroll', animateOnScroll);
+            
+            // Ejecutar una vez al cargar para elementos visibles
+            setTimeout(animateOnScroll, 3100);
+            
+            // Suavizar scroll a anclas
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
             
             // NUEVO: Configurar el indicador de atención para desaparecer después de 30 segundos
             setTimeout(() => {
