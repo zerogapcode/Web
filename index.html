@@ -1725,6 +1725,175 @@
       position: relative;
       z-index: 1;
     }
+    
+    /* ============================== */
+    /* MODAL DE CONTRASEÑA PARA PAGOS */
+    /* ============================== */
+    #password-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100000;
+    }
+    
+    #password-modal.active {
+      display: flex;
+    }
+    
+    .password-modal-content {
+      background: var(--card-bg-light);
+      border-radius: 20px;
+      border: 1px solid var(--card-border-light);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: var(--card-shadow-light);
+      width: 90%;
+      max-width: 400px;
+      overflow: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    
+    #password-modal.active .password-modal-content {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .password-modal-header {
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .password-modal-title {
+      font-weight: 600;
+      font-size: 18px;
+      color: #000000;
+    }
+    
+    .password-modal-close {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 100, 100, 0.2);
+      border: 1px solid rgba(255, 100, 100, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 20px;
+      color: #ff6464;
+    }
+    
+    .password-modal-close:hover {
+      background: rgba(255, 100, 100, 0.3);
+      transform: scale(1.1);
+    }
+    
+    .password-modal-body {
+      padding: 30px 20px;
+    }
+    
+    .password-input-container {
+      margin-bottom: 20px;
+    }
+    
+    .password-input-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: var(--muted-light);
+      font-weight: 500;
+    }
+    
+    #password-input-field {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: #000000;
+      font-family: var(--mono);
+      font-size: 16px;
+      text-align: center;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+    
+    #password-input-field:focus {
+      outline: none;
+      border-color: rgba(100, 220, 150, 0.5);
+      box-shadow: 0 0 0 2px rgba(100, 220, 150, 0.1);
+    }
+    
+    .password-error {
+      color: #ff5555;
+      font-size: 13px;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+    
+    .password-error.show {
+      display: block;
+    }
+    
+    .password-modal-footer {
+      padding: 0 20px 20px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    #password-submit-btn {
+      background: rgba(100, 220, 150, 0.3);
+      color: #000000;
+      border: 1px solid rgba(100, 220, 150, 0.5);
+      border-radius: 12px;
+      padding: 12px 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    #password-submit-btn:hover {
+      background: rgba(100, 220, 150, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    /* Modo oscuro para el modal */
+    body[data-theme='dark'] .password-modal-title,
+    body[data-theme='dark'] #password-input-field {
+      color: #f0f0f0;
+    }
+    
+    body[data-theme='dark'] .password-modal-content {
+      background: var(--card-bg-dark);
+      border: 1px solid var(--card-border-dark);
+      box-shadow: var(--card-shadow-dark);
+    }
+    
+    body[data-theme='dark'] #password-input-field {
+      background: rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    body[data-theme='dark'] #password-submit-btn {
+      color: var(--text-dark);
+    }
   </style>
 </head>
 
@@ -1931,6 +2100,26 @@
     <div class="tear-edge"></div>
   </div>
 
+  <!-- Modal de contraseña para Pagos -->
+  <div id="password-modal">
+    <div class="password-modal-content">
+      <div class="password-modal-header">
+        <div class="password-modal-title">Acceso a Pagos</div>
+        <div class="password-modal-close" id="password-close-btn">×</div>
+      </div>
+      <div class="password-modal-body">
+        <div class="password-input-container">
+          <label for="password-input-field" class="password-input-label">Password</label>
+          <input type="password" id="password-input-field" placeholder="Ingrese la contraseña" autocomplete="off" />
+          <div id="password-error" class="password-error">Contraseña incorrecta. Intente nuevamente.</div>
+        </div>
+      </div>
+      <div class="password-modal-footer">
+        <button id="password-submit-btn" class="password-submit-btn">Acceder</button>
+      </div>
+    </div>
+  </div>
+
   <div class="float-buttons-container">
     <!-- Botón Simulación ahora primero -->
     <div id="simulation-float-btn" class="float-btn" role="button" aria-label="Abrir Simulación">
@@ -2117,6 +2306,13 @@
     const debugFloatBtn = document.getElementById('debug-float-btn');
     const aiFloatBtn = document.getElementById('ai-float-btn');
     const pagosFloatBtn = document.getElementById('pagos-float-btn'); // NUEVO
+    
+    // Elementos del modal de contraseña
+    const passwordModal = document.getElementById('password-modal');
+    const passwordInputField = document.getElementById('password-input-field');
+    const passwordSubmitBtn = document.getElementById('password-submit-btn');
+    const passwordCloseBtn = document.getElementById('password-close-btn');
+    const passwordError = document.getElementById('password-error');
     
     const debugChatWindow = document.getElementById('debug-chat-window');
     const debugCloseBtn = document.getElementById('debug-close-btn');
@@ -2851,11 +3047,78 @@
     });
 
     // ========================================
-    // NUEVA FUNCIONALIDAD PAGOS
+    // FUNCIONALIDAD PAGOS CON CONTRASEÑA
     // ========================================
 
+    // NUEVO: Evento para abrir el modal de contraseña
     pagosFloatBtn.addEventListener('click', () => {
-      window.location.href = 'intercom.html';
+      openPasswordModal();
+    });
+
+    // NUEVO: Funciones para el modal de contraseña
+    function openPasswordModal() {
+      passwordModal.classList.add('active');
+      passwordInputField.value = '';
+      passwordError.classList.remove('show');
+      setTimeout(() => {
+        passwordInputField.focus();
+      }, 300);
+    }
+
+    function closePasswordModal() {
+      passwordModal.classList.remove('active');
+      passwordInputField.value = '';
+      passwordError.classList.remove('show');
+    }
+
+    function validatePassword() {
+      const password = passwordInputField.value.trim();
+      
+      if (password === 'swordfish') {
+        // Contraseña correcta, redirigir a intercom.html
+        closePasswordModal();
+        window.location.href = 'intercom.html';
+      } else {
+        // Contraseña incorrecta, mostrar error
+        passwordError.classList.add('show');
+        passwordInputField.value = '';
+        passwordInputField.focus();
+        
+        // Agregar animación de sacudida al input
+        passwordInputField.style.animation = 'none';
+        setTimeout(() => {
+          passwordInputField.style.animation = 'shake 0.5s ease-in-out';
+        }, 10);
+      }
+    }
+
+    // NUEVO: Estilos para animación de sacudida
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Eventos para el modal de contraseña
+    passwordSubmitBtn.addEventListener('click', validatePassword);
+    
+    passwordInputField.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        validatePassword();
+      }
+    });
+    
+    passwordCloseBtn.addEventListener('click', closePasswordModal);
+    
+    // Cerrar modal al hacer clic fuera del contenido
+    passwordModal.addEventListener('click', (e) => {
+      if (e.target === passwordModal) {
+        closePasswordModal();
+      }
     });
 
     // ========================================
@@ -2979,20 +3242,20 @@
 
     function updateExampleCode(language) {
       const examples = {
-        javascript: `// Ejemplo en JavaScript\nfunction factorial(n) {\n  if (n === 1) {\n    return 1;\n  }\n  return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
+        javascript: `// Ejemplo en JavaScript\nfunction factorial(n) {\n  if (n === 1) {\n    return 1;\n  }\n  return n * factorial(n - 1);\n\nconsole.log(factorial(5));`,
         python: `# Ejemplo en Python\ndef factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))`,
-        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
-        cpp: `// Ejemplo en C++\n#include <iostream>\nusing namespace std;\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    cout << factorial(5) << endl;\n    return 0;\n}`,
-        c: `// Ejemplo en C\n#include <stdio.h>\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nint main() {\n    printf("%d\\n", factorial(5));\n    return 0;\n}`,
+        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
+        cpp: `// Ejemplo en C++\n#include <iostream>\nusing namespace std;\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n\nint main() {\n    cout << factorial(5) << endl;\n    return 0;\n}`,
+        c: `// Ejemplo en C\n#include <stdio.h>\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n\nint main() {\n    printf("%d\\n", factorial(5));\n    return 0;\n}`,
         csharp: `// Ejemplo en C#\nusing System;\n\nclass Program {\n    static int Factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * Factorial(n - 1);\n    }\n    \n    static void Main() {\n        Console.WriteLine(Factorial(5));\n    }\n}`,
-        php: `<?php\n// Ejemplo en PHP\nfunction factorial($n) {\n    if ($n == 1) {\n        return 1;\n    }\n    return $n * factorial($n - 1);\n}\n\necho factorial(5);\n?>`,
+        php: `<?php\n// Ejemplo en PHP\nfunction factorial($n) {\n    if ($n == 1) {\n        return 1;\n    }\n    return $n * factorial($n - 1);\n\necho factorial(5);\n?>`,
         ruby: `# Ejemplo en Ruby\ndef factorial(n)\n  if n == 1\n    return 1\n  end\n  n * factorial(n - 1)\nend\n\nputs factorial(5)`,
         swift: `// Ejemplo en Swift\nfunc factorial(_ n: Int) -> Int {\n    if n == 1 {\n        return 1\n    }\n    return n * factorial(n - 1)\n\nprint(factorial(5))`,
-        go: `// Ejemplo en Go\npackage main\n\nimport "fmt"\n\nfunc factorial(n int) int {\n    if n == 1 {\n        return 1\n    }\n    return n * factorial(n - 1)\n}\n\nfunc main() {\n    fmt.Println(factorial(5))\n}`,
-        rust: `// Ejemplo en Rust\nfn factorial(n: u32) -> u32 {\n    if n == 1 {\n        return 1;\n    }\n    n * factorial(n - 1)\n}\n\nfn main() {\n    println!("{}", factorial(5));\n}`,
+        go: `// Ejemplo en Go\npackage main\n\nimport "fmt"\n\nfunc factorial(n int) int {\n    if n == 1 {\n        return 1\n    }\n    return n * factorial(n - 1)\n\nfunc main() {\n    fmt.Println(factorial(5))\n}`,
+        rust: `// Ejemplo en Rust\nfn factorial(n: u32) -> u32 {\n    if n == 1 {\n        return 1;\n    }\n    n * factorial(n - 1)\n\nfn main() {\n    println!("{}", factorial(5));\n}`,
         html: `\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Mi Página</title>\n</head>\n<body>\n    <h1>Hola Mundo</h1>\n    <p>Esta es una página web simple.</p>\n</body>\n</html>`,
         css: `/* Ejemplo en CSS */\nbody {\n    font-family: Arial, sans-serif;\n    margin: 0;\n    padding: 20px;\n    background-color: #f0f0f0;\n}\n\nh1 {\n    color: #333;\n    text-align: center;\n}\n\n.container {\n    max-width: 800px;\n    margin: 0 auto;\n}`,
-        typescript: `// Ejemplo en TypeScript\nfunction factorial(n: number): number {\n    if (n === 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n}\n\nconsole.log(factorial(5));`,
+        typescript: `// Ejemplo en TypeScript\nfunction factorial(n: number): number {\n    if (n === 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n\nconsole.log(factorial(5));`,
         sql: `-- Ejemplo en SQL\n-- Crear tabla\nCREATE TABLE usuarios (\n    id INT PRIMARY KEY,\n    nombre VARCHAR(50),\n    email VARCHAR(100)\n);\n\n-- Insertar datos\nINSERT INTO usuarios (id, nombre, email)\nVALUES (1, 'Juan', 'juan@email.com');\n\n-- Consultar datos\nSELECT * FROM usuarios;`,
         bash: `#!/bin/bash\n# Ejemplo en Bash\nfactorial() {\n    if [ $1 -eq 1 ]; then\n        echo 1\n    else\n        prev=$(factorial $(($1 - 1)))\n        echo $(($1 * prev))\n    fi\n}\n\necho $(factorial 5)`,
         plaintext: `Escribe o pega cualquier código aquí\nEl analizador intentará detectar el lenguaje automáticamente\ny proporcionar retroalimentación útil.`
