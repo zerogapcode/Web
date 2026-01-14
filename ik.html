@@ -18,9 +18,474 @@
     <noscript>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Lato:wght@300;400;700;900&family=Zilla+Slab:wght@400;700&display=swap" rel="preload" as="style">
     </noscript>
-    <title>Interking</title>
+    <title>Interking - Tu Proveedor de Internet Confiable</title>
     
-    <!-- Estilos para el botón Rey -->
+    <!-- Estilos para la página informativa -->
+    <style>
+        /* Estilos generales para el contenido informativo */
+        .main-content {
+            font-family: 'Lato', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header y navegación */
+        .site-header {
+            background: linear-gradient(135deg, #292966 0%, #1a1a4d 100%);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-container img {
+            height: 50px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .company-name {
+            color: white;
+            font-size: 24px;
+            font-weight: 900;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(41, 41, 102, 0.9), rgba(26, 26, 77, 0.9)), url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 60px;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            background: #FFD700;
+            color: #292966;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: 2px solid #FFD700;
+        }
+        
+        .cta-button:hover {
+            background: transparent;
+            color: #FFD700;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+        }
+        
+        /* Secciones de contenido */
+        .section-title {
+            color: #292966;
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: #FFD700;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(41, 41, 102, 0.1);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #292966;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .feature-icon svg {
+            width: 30px;
+            height: 30px;
+            stroke: #FFD700;
+            stroke-width: 1.5;
+        }
+        
+        .feature-title {
+            color: #292966;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .feature-desc {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        /* Planes de Internet */
+        .plans-section {
+            background: #f8f9fa;
+            padding: 80px 20px;
+            border-radius: 20px;
+            margin-bottom: 80px;
+        }
+        
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .plan-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .plan-card.popular {
+            border: 2px solid #FFD700;
+            transform: scale(1.05);
+        }
+        
+        .plan-card.popular:before {
+            content: 'MÁS POPULAR';
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: #FFD700;
+            color: #292966;
+            padding: 5px 40px;
+            font-weight: 700;
+            font-size: 12px;
+            transform: rotate(45deg);
+        }
+        
+        .plan-name {
+            color: #292966;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .plan-price {
+            font-size: 48px;
+            font-weight: 900;
+            color: #292966;
+            margin-bottom: 30px;
+        }
+        
+        .plan-price span {
+            font-size: 24px;
+            font-weight: 400;
+        }
+        
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+        
+        .plan-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+            color: #666;
+        }
+        
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .plan-button {
+            background: #292966;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .plan-button:hover {
+            background: #1a1a4d;
+            transform: translateY(-3px);
+        }
+        
+        /* Sección de contacto */
+        .contact-section {
+            padding: 80px 20px;
+            background: #292966;
+            color: white;
+            border-radius: 20px;
+            margin-bottom: 80px;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .contact-info h3 {
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .contact-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: #FFD700;
+        }
+        
+        .contact-details h4 {
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        
+        .contact-details p {
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        .site-footer {
+            background: #1a1a4d;
+            color: white;
+            padding: 60px 20px 30px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 25px;
+            color: #FFD700;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #FFD700;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: #FFD700;
+            color: #292966;
+            transform: translateY(-3px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .plan-card.popular {
+                transform: none;
+            }
+            
+            .contact-grid {
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 28px;
+            }
+            
+            .hero-section {
+                padding: 60px 20px;
+            }
+            
+            .feature-card, .plan-card {
+                padding: 25px 20px;
+            }
+            
+            .plan-price {
+                font-size: 36px;
+            }
+        }
+    </style>
+    
+    <!-- Estilos para el botón Rey (NO MODIFICADO) -->
     <style>
         /* Contenedor del botón flotante */
         .rey-button-container {
@@ -505,12 +970,321 @@
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <img src="https://interking.net/assets/logo-5e9a2a98.svg" style="display:block; margin:auto;">
+    <!-- Header con navegación -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="https://interking.net/assets/logo-5e9a2a98.svg" alt="Interking Logo">
+                <div class="company-name">INTERKING</div>
+            </div>
+            <nav class="nav-menu">
+                <a href="#home" class="nav-link">Inicio</a>
+                <a href="#plans" class="nav-link">Planes</a>
+                <a href="#features" class="nav-link">Características</a>
+                <a href="#contact" class="nav-link">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Sección Hero -->
+        <section class="hero-section" id="home">
+            <h1 class="hero-title">Internet de Alta Velocidad para tu Hogar y Negocio</h1>
+            <p class="hero-subtitle">Conectamos tu vida digital con la mejor infraestructura de fibra óptica. Velocidades simétricas, estabilidad garantizada y soporte técnico 24/7.</p>
+            <a href="#plans" class="cta-button">Ver Planes Disponibles</a>
+        </section>
+
+        <!-- Sección de características -->
+        <section id="features">
+            <h2 class="section-title">¿Por qué elegir Interking?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Velocidad Simétrica</h3>
+                    <p class="feature-desc">Subida y bajada a la misma velocidad. Perfecto para streaming, gaming y teletrabajo.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">99.9% Uptime</h3>
+                    <p class="feature-desc">Conectividad garantizada con nuestra red redundante y monitoreo constante.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                            <line x1="6" y1="1" x2="6" y2="4"/>
+                            <line x1="10" y1="1" x2="10" y2="4"/>
+                            <line x1="14" y1="1" x2="14" y2="4"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Sin Contratos Forzosos</h3>
+                    <p class="feature-desc">Flexibilidad total. Cambia o cancela tu plan cuando lo necesites sin penalizaciones.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Soporte 24/7</h3>
+                    <p class="feature-desc">Asistencia técnica humana disponible todo el día, todos los días del año.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Equipo Incluido</h3>
+                    <p class="feature-desc">Router Wi-Fi 6 de última generación incluido sin costo adicional.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 20h9"/>
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Instalación Gratuita</h3>
+                    <p class="feature-desc">Nuestros técnicos instalan y configuran todo sin costo de instalación.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de planes -->
+        <section class="plans-section" id="plans">
+            <h2 class="section-title">Planes de Internet</h2>
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <h3 class="plan-name">Básico</h3>
+                    <div class="plan-price">$29<span>/mes</span></div>
+                    <ul class="plan-features">
+                        <li>100 Mbps simétricos</li>
+                        <li>Wi-Fi 6 incluido</li>
+                        <li>1 dispositivo conectado</li>
+                        <li>Soporte básico</li>
+                        <li>Sin contrato</li>
+                    </ul>
+                    <a href="#contact" class="plan-button">Contratar</a>
+                </div>
+                
+                <div class="plan-card popular">
+                    <h3 class="plan-name">Familia</h3>
+                    <div class="plan-price">$49<span>/mes</span></div>
+                    <ul class="plan-features">
+                        <li>300 Mbps simétricos</li>
+                        <li>Wi-Fi 6 Mesh incluido</li>
+                        <li>Hasta 10 dispositivos</li>
+                        <li>Soporte prioritario</li>
+                        <li>Netflix 1 pantalla</li>
+                        <li>Sin contrato</li>
+                    </ul>
+                    <a href="#contact" class="plan-button">Contratar</a>
+                </div>
+                
+                <div class="plan-card">
+                    <h3 class="plan-name">Gamer/Pro</h3>
+                    <div class="plan-price">$79<span>/mes</span></div>
+                    <ul class="plan-features">
+                        <li>1 Gbps simétricos</li>
+                        <li>Wi-Fi 6 Pro Mesh</li>
+                        <li>Dispositivos ilimitados</li>
+                        <li>Soporte 24/7 VIP</li>
+                        <li>VPN incluida</li>
+                        <li>Cloud Storage 100GB</li>
+                        <li>Sin contrato</li>
+                    </ul>
+                    <a href="#contact" class="plan-button">Contratar</a>
+                </div>
+                
+                <div class="plan-card">
+                    <h3 class="plan-name">Empresas</h3>
+                    <div class="plan-price">$199<span>/mes</span></div>
+                    <ul class="plan-features">
+                        <li>2 Gbps simétricos</li>
+                        <li>Red dedicada</li>
+                        <li>IP fija incluida</li>
+                        <li>SLA 99.99%</li>
+                        <li>Soporte técnico onsite</li>
+                        <li>Firewall empresarial</li>
+                        <li>Backup automático</li>
+                    </ul>
+                    <a href="#contact" class="plan-button">Contactar Ventas</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de contacto -->
+        <section class="contact-section" id="contact">
+            <h2 class="section-title" style="color: white;">Contáctanos</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>¿Listo para conectarte?</h3>
+                    <p>Nuestro equipo está listo para ayudarte a elegir el mejor plan para tus necesidades. Contáctanos por cualquier medio:</p>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Teléfono</h4>
+                            <p>+1 (800) 555-INTER</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>info@interking.net</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Oficina Central</h4>
+                            <p>Av. Tecnología 1234, Zona Digital</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-info">
+                    <h3>Horarios de Atención</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Soporte Técnico</h4>
+                            <p>24 horas / 7 días a la semana</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Ventas y Atención</h4>
+                            <p>Lunes a Viernes: 8:00 - 20:00<br>Sábados: 9:00 - 14:00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Redes Sociales</h4>
+                            <p>Síguenos para noticias y promociones</p>
+                            <div class="social-links">
+                                <a href="#" class="social-link">f</a>
+                                <a href="#" class="social-link">in</a>
+                                <a href="#" class="social-link">tw</a>
+                                <a href="#" class="social-link">ig</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Interking</h3>
+                <p>Tu proveedor de internet confiable desde 2010. Conectamos comunidades con tecnología de vanguardia y servicio excepcional.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">f</a>
+                    <a href="#" class="social-link">in</a>
+                    <a href="#" class="social-link">tw</a>
+                    <a href="#" class="social-link">ig</a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Inicio</a></li>
+                    <li><a href="#plans">Planes</a></li>
+                    <li><a href="#features">Características</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                    <li><a href="#">Área de Clientes</a></li>
+                    <li><a href="#">Soporte Técnico</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Términos y Condiciones</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                    <li><a href="#">Aviso Legal</a></li>
+                    <li><a href="#">Contrato de Servicio</a></li>
+                    <li><a href="#">Política de Cookies</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Recursos</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Blog de Tecnología</a></li>
+                    <li><a href="#">Guías de Instalación</a></li>
+                    <li><a href="#">Preguntas Frecuentes</a></li>
+                    <li><a href="#">Mapa de Cobertura</a></li>
+                    <li><a href="#">Trabaja con Nosotros</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Interking Networks. Todos los derechos reservados.</p>
+            <p>Conexión a internet de alta velocidad para hogares y negocios.</p>
+        </div>
+    </footer>
 
     <!-- NUEVO: Indicador de atención para el botón Rey - CON DEDO EN INFERIOR DERECHA -->
     <div class="rey-attention-indicator" id="rey-attention-indicator">
