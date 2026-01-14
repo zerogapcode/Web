@@ -175,7 +175,7 @@
             }
         }
         
-        /* Estilos generales para el contenido informativo */
+        /* Estilos generales para el contenido informativa */
         .main-content {
             font-family: 'Lato', sans-serif;
             color: #333;
@@ -320,7 +320,6 @@
             animation: fadeInUp 0.8s ease 3.5s forwards;
         }
         
-        /* CORREGIDO: Eliminada la animación pulse que causaba problemas en hover */
         .cta-button:hover {
             background: transparent;
             color: #FFD700;
@@ -1077,6 +1076,10 @@
             animation: fadeIn 0.5s ease 3.9s forwards;
         }
         
+        .rey-attention-indicator.hidden {
+            display: none !important;
+        }
+        
         .rey-attention-text {
             background: rgba(255, 255, 255, 0.95);
             color: #292966;
@@ -1641,13 +1644,14 @@
         const reyInput = document.getElementById('rey-input');
         const reySendBtn = document.getElementById('rey-send-btn');
         const reyDragHandle = document.getElementById('rey-drag-handle');
-        const reyAttentionIndicator = document.getElementById('rey-attention-indicator'); // NUEVO
+        const reyAttentionIndicator = document.getElementById('rey-attention-indicator');
         
         let isReyChatOpen = false;
         let isGenerating = false;
         let currentSessionId = null;
-        let chatPosition = { x: 0, y: 0 }; // Para guardar la posición del chat
-        let attentionIndicatorVisible = true; // NUEVO: Controlar visibilidad del indicador
+        let chatPosition = { x: 0, y: 0 };
+        let attentionIndicatorVisible = true;
+        let attentionIndicatorTimeout = null;
         
         // ========================================
         // FUNCIÓN PARA HACER VENTANAS ARRASTRABLES - MEJORADA
@@ -1746,6 +1750,29 @@
         }
         
         // ========================================
+        // FUNCIONALIDAD PARA OCULTAR INDICADOR
+        // ========================================
+        function hideAttentionIndicator() {
+            if (reyAttentionIndicator && attentionIndicatorVisible) {
+                console.log("Ocultando indicador de atención");
+                reyAttentionIndicator.style.opacity = '0';
+                reyAttentionIndicator.style.pointerEvents = 'none';
+                reyAttentionIndicator.style.transition = 'opacity 0.5s ease';
+                // Esperar a que termine la transición y luego ocultar completamente
+                setTimeout(() => {
+                    reyAttentionIndicator.classList.add('hidden');
+                }, 500);
+                attentionIndicatorVisible = false;
+                
+                // Cancelar el timeout si aún está pendiente
+                if (attentionIndicatorTimeout) {
+                    clearTimeout(attentionIndicatorTimeout);
+                    attentionIndicatorTimeout = null;
+                }
+            }
+        }
+        
+        // ========================================
         // FUNCIONALIDAD DE CHAT
         // ========================================
         
@@ -1758,12 +1785,8 @@
                 // Ocultar el botón cuando la ventana esté activa
                 reyButtonContainer.classList.add('hidden');
                 
-                // NUEVO: Ocultar el indicador de atención cuando se abre el chat
-                if (reyAttentionIndicator && attentionIndicatorVisible) {
-                    reyAttentionIndicator.style.opacity = '0';
-                    reyAttentionIndicator.style.pointerEvents = 'none';
-                    attentionIndicatorVisible = false;
-                }
+                // Ocultar el indicador de atención cuando se abre el chat
+                hideAttentionIndicator();
                 
                 // Para la primera vez o cuando no hay posición guardada, posicionar abajo a la derecha
                 if (chatPosition.x === 0 && chatPosition.y === 0) {
@@ -1775,8 +1798,6 @@
                     
                     // Posicionar cerca del botón (abajo derecha)
                     const buttonRect = reyFloatBtn.getBoundingClientRect();
-                    const buttonBottom = buttonRect.bottom;
-                    const buttonRight = buttonRect.right;
                     
                     // Calcular posición para que quede sobre el botón
                     const newLeft = windowWidth - chatWidth - 20;
@@ -2062,27 +2083,23 @@
                 });
             });
             
-            // CORREGIDO: Configurar el indicador de atención para desaparecer después de 30 segundos
-            setTimeout(() => {
-                if (reyAttentionIndicator && attentionIndicatorVisible) {
-                    console.log("Ocultando indicador de atención después de 30 segundos");
-                    reyAttentionIndicator.style.opacity = '0';
-                    reyAttentionIndicator.style.pointerEvents = 'none';
-                    reyAttentionIndicator.style.transition = 'opacity 0.5s ease';
-                    attentionIndicatorVisible = false;
-                }
+            // Configurar el indicador de atención para desaparecer después de 30 segundos
+            attentionIndicatorTimeout = setTimeout(() => {
+                hideAttentionIndicator();
             }, 30000); // 30 segundos
             
-            // CORREGIDO: Ocultar indicador al hacer clic en cualquier parte
+            // Ocultar indicador al hacer clic en cualquier parte de la página
             document.addEventListener('click', function(e) {
-                if (reyAttentionIndicator && attentionIndicatorVisible && 
-                    !reyFloatBtn.contains(e.target) && 
-                    !reyAttentionIndicator.contains(e.target)) {
-                    console.log("Ocultando indicador por click fuera");
-                    reyAttentionIndicator.style.opacity = '0';
-                    reyAttentionIndicator.style.pointerEvents = 'none';
-                    reyAttentionIndicator.style.transition = 'opacity 0.3s ease';
-                    attentionIndicatorVisible = false;
+                // Si el indicador está visible y el usuario hace clic en cualquier parte
+                if (reyAttentionIndicator && attentionIndicatorVisible) {
+                    hideAttentionIndicator();
+                }
+            });
+            
+            // También ocultar al hacer clic en el botón Rey (ya está manejado, pero por si acaso)
+            reyFloatBtn.addEventListener('click', function() {
+                if (reyAttentionIndicator && attentionIndicatorVisible) {
+                    hideAttentionIndicator();
                 }
             });
             
