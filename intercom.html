@@ -95,13 +95,245 @@
         }
         .avatar-padron { background-color: #2980b9; }
         .avatar-villarreal { background-color: #27ae60; }
+        
+        /* Estilos para el botón flotante Sofi */
+        .sofi-float-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #e84393;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(232, 67, 147, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .sofi-float-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(232, 67, 147, 0.4);
+            background-color: #d6306c;
+        }
+        
+        .sofi-float-btn .tooltip {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #2c3e50;
+            color: white;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sofi-float-btn:hover .tooltip {
+            opacity: 1;
+        }
+        
+        /* Ventana de chat Sofi */
+        #sofi-chat-window {
+            position: fixed;
+            bottom: 170px;
+            right: 30px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e0e0e0;
+            display: none;
+            flex-direction: column;
+            z-index: 1001;
+            overflow: hidden;
+        }
+        
+        #sofi-chat-window.active {
+            display: flex;
+        }
+        
+        .sofi-chat-header {
+            background-color: #e84393;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+        }
+        
+        .sofi-chat-header h3 {
+            margin: 0;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .sofi-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .sofi-close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .sofi-chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: #fafafa;
+        }
+        
+        .sofi-message {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 18px;
+            line-height: 1.4;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+        
+        .sofi-message.user {
+            align-self: flex-end;
+            background-color: #3498db;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .sofi-message.bot {
+            align-self: flex-start;
+            background-color: #f1f1f1;
+            color: #333;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .sofi-typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 10px 14px;
+            background-color: #f1f1f1;
+            border-radius: 18px;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .sofi-typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #888;
+            animation: sofiTyping 1.4s infinite ease-in-out;
+        }
+        
+        .sofi-typing-dot:nth-child(1) { animation-delay: 0s; }
+        .sofi-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .sofi-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes sofiTyping {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+        
+        .sofi-chat-input-container {
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            background-color: white;
+        }
+        
+        .sofi-chat-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+            resize: none;
+            max-height: 100px;
+            min-height: 40px;
+            font-family: inherit;
+        }
+        
+        .sofi-chat-input:focus {
+            outline: none;
+            border-color: #e84393;
+        }
+        
+        .sofi-send-btn {
+            background-color: #e84393;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .sofi-send-btn:hover {
+            background-color: #d6306c;
+        }
+        
+        .sofi-send-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
         @media (max-width: 768px) {
             .password-section { flex-direction: column; align-items: stretch; }
             .password-input { min-width: 100%; }
             .actions { flex-direction: column; }
             .btn { width: 100%; }
             .editor-badge { margin-left: 0.5rem; font-size: 0.75rem; }
+            
+            .sofi-float-btn {
+                bottom: 90px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            #sofi-chat-window {
+                width: calc(100vw - 40px);
+                height: 400px;
+                right: 20px;
+                bottom: 150px;
+            }
         }
+        
         @media (max-width: 480px) {
             table { min-width: 700px; }
             .month-cell { width: 50px; padding: 0.5rem; }
@@ -238,6 +470,31 @@
             </form>
         </div>
     </div>
+    
+    <!-- Botón flotante Sofi -->
+    <button class="sofi-float-btn" id="sofiFloatBtn">
+        <i class="fas fa-spa"></i>
+        <span class="tooltip">Asistente Sofi - Cobranzas</span>
+    </button>
+    
+    <!-- Ventana de chat Sofi -->
+    <div id="sofi-chat-window">
+        <div class="sofi-chat-header">
+            <h3><i class="fas fa-spa"></i> Asistente Sofi</h3>
+            <button class="sofi-close-btn" id="sofiCloseBtn">×</button>
+        </div>
+        <div class="sofi-chat-body" id="sofiChatBody">
+            <div class="sofi-message bot">
+                ¡Hola! Soy Sofi, tu asistente de cobranza. ¿En qué puedo ayudarte hoy?
+            </div>
+        </div>
+        <div class="sofi-chat-input-container">
+            <textarea class="sofi-chat-input" id="sofiInput" placeholder="Escribe tu mensaje..." rows="1"></textarea>
+            <button class="sofi-send-btn" id="sofiSendBtn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
 
     <script>
         // ======================================================
@@ -329,7 +586,14 @@
             totalPaid: document.getElementById('totalPaid'),
             pendingPayments: document.getElementById('pendingPayments'),
             firebaseAlert: document.getElementById('firebaseAlert'),
-            alertMessage: document.getElementById('alertMessage')
+            alertMessage: document.getElementById('alertMessage'),
+            // Elementos Sofi
+            sofiFloatBtn: document.getElementById('sofiFloatBtn'),
+            sofiChatWindow: document.getElementById('sofi-chat-window'),
+            sofiCloseBtn: document.getElementById('sofiCloseBtn'),
+            sofiChatBody: document.getElementById('sofiChatBody'),
+            sofiInput: document.getElementById('sofiInput'),
+            sofiSendBtn: document.getElementById('sofiSendBtn')
         };
         
         // ================= INICIALIZACIÓN =================
@@ -337,6 +601,7 @@
             setupEventListeners();
             initializeFirebase();
             testFirebaseConnection();
+            initializeSofiChat();
         });
         
         // ================= EVENT LISTENERS =================
@@ -358,6 +623,23 @@
                         this.type = 'password';
                     }
                 }, 3000);
+            });
+            
+            // Event listeners para Sofi
+            elements.sofiFloatBtn.addEventListener('click', toggleSofiChat);
+            elements.sofiCloseBtn.addEventListener('click', closeSofiChat);
+            elements.sofiSendBtn.addEventListener('click', sendSofiMessage);
+            
+            elements.sofiInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendSofiMessage();
+                }
+            });
+            
+            elements.sofiInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
             });
         }
         
@@ -801,6 +1083,128 @@
             updateStatus('Modo offline - Datos de ejemplo', 'offline');
             renderUsersTable();
             updateStats();
+        }
+        
+        // ================= FUNCIONALIDAD SOFI =================
+        let sofiChatOpen = false;
+        let sofiSessionId = null;
+        let sofiGenerating = false;
+        const SOFI_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        
+        function initializeSofiChat() {
+            sofiSessionId = "sofi-session-" + Date.now();
+            console.log("Sofi chat inicializado con sesión:", sofiSessionId);
+        }
+        
+        function toggleSofiChat() {
+            if (sofiChatOpen) {
+                closeSofiChat();
+            } else {
+                openSofiChat();
+            }
+        }
+        
+        function openSofiChat() {
+            sofiChatOpen = true;
+            elements.sofiChatWindow.classList.add('active');
+            elements.sofiInput.focus();
+        }
+        
+        function closeSofiChat() {
+            sofiChatOpen = false;
+            elements.sofiChatWindow.classList.remove('active');
+        }
+        
+        function addSofiMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `sofi-message ${isUser ? 'user' : 'bot'}`;
+            messageDiv.textContent = content;
+            elements.sofiChatBody.appendChild(messageDiv);
+            elements.sofiChatBody.scrollTop = elements.sofiChatBody.scrollHeight;
+        }
+        
+        function showSofiTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'sofi-typing-indicator';
+            typingDiv.id = 'sofiTypingIndicator';
+            
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'sofi-typing-dot';
+                typingDiv.appendChild(dot);
+            }
+            
+            elements.sofiChatBody.appendChild(typingDiv);
+            elements.sofiChatBody.scrollTop = elements.sofiChatBody.scrollHeight;
+        }
+        
+        function hideSofiTyping() {
+            const typingIndicator = document.getElementById('sofiTypingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+        
+        async function sendSofiMessage() {
+            const text = elements.sofiInput.value.trim();
+            if (!text || sofiGenerating) return;
+            
+            // Limpiar input
+            elements.sofiInput.value = '';
+            elements.sofiInput.style.height = 'auto';
+            
+            // Agregar mensaje del usuario
+            addSofiMessage(text, true);
+            
+            // Deshabilitar entrada mientras se genera
+            elements.sofiInput.disabled = true;
+            elements.sofiSendBtn.disabled = true;
+            sofiGenerating = true;
+            
+            // Mostrar indicador de typing
+            showSofiTyping();
+            
+            try {
+                const response = await fetch(`${SOFI_SERVER_URL}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
+                    body: JSON.stringify({
+                        message: text,
+                        session_id: sofiSessionId,
+                        assistant: "sofi"
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                // Ocultar indicador de typing
+                hideSofiTyping();
+                
+                // Agregar respuesta de Sofi
+                if (data.response) {
+                    addSofiMessage(data.response);
+                } else {
+                    addSofiMessage("Lo siento, no pude procesar tu mensaje. Por favor, inténtalo de nuevo.");
+                }
+                
+            } catch (error) {
+                console.error("Error en chat Sofi:", error);
+                hideSofiTyping();
+                addSofiMessage("Lo siento, hubo un error al conectar con el servidor. Por favor, inténtalo más tarde.");
+            } finally {
+                // Rehabilitar entrada
+                elements.sofiInput.disabled = false;
+                elements.sofiSendBtn.disabled = false;
+                sofiGenerating = false;
+                elements.sofiInput.focus();
+            }
         }
         
         // ================= REGLAS DE FIREBASE (para pegar en Firebase Console) =================
