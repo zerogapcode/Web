@@ -60,8 +60,43 @@
         tr:nth-child(even) { background-color: #f9f9f9; }
         tr:hover { background-color: #f1f7fd; }
         .month-cell { text-align: center; width: 60px; }
-        .paid { background-color: #d5f4e6; color: var(--success-color); font-weight: 600; border-radius: 4px; }
-        .unpaid { background-color: #fde8e8; color: var(--danger-color); font-weight: 600; border-radius: 4px; }
+        .month-cell .month-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+        }
+        .month-cell .month-name {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .month-cell .month-stats {
+            font-size: 0.75rem;
+            font-weight: normal;
+            opacity: 0.9;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 1px 4px;
+            border-radius: 3px;
+            margin-top: 2px;
+        }
+        .paid { font-weight: 600; border-radius: 4px; }
+        .paid.padron { 
+            background-color: #d4e6f1; 
+            color: #21618c; 
+            border: 1px solid #85c1e9;
+        }
+        .paid.villarreal { 
+            background-color: #d5f4e6; 
+            color: #196f3d; 
+            border: 1px solid #7dcea0;
+        }
+        .unpaid { 
+            background-color: #fde8e8; 
+            color: var(--danger-color); 
+            font-weight: 600; 
+            border-radius: 4px; 
+        }
         .payment-checkbox { width: 24px; height: 24px; cursor: pointer; }
         .payment-checkbox:disabled { cursor: not-allowed; opacity: 0.7; }
         .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
@@ -414,18 +449,78 @@
                     <thead>
                         <tr>
                             <th>Usuario</th>
-                            <th class="month-cell">Ene</th>
-                            <th class="month-cell">Feb</th>
-                            <th class="month-cell">Mar</th>
-                            <th class="month-cell">Abr</th>
-                            <th class="month-cell">May</th>
-                            <th class="month-cell">Jun</th>
-                            <th class="month-cell">Jul</th>
-                            <th class="month-cell">Ago</th>
-                            <th class="month-cell">Sep</th>
-                            <th class="month-cell">Oct</th>
-                            <th class="month-cell">Nov</th>
-                            <th class="month-cell">Dic</th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">Ene</div>
+                                    <div class="month-stats" id="monthStats-0">0/0</div>
+                                </div>
+                            </th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">Feb</div>
+                                    <div class="month-stats" id="monthStats-1">0/0</div>
+                                </div>
+                            </th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">Mar</div>
+                                    <div class="month-stats" id="monthStats-2">0/0</div>
+                                </div>
+                            </th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">Abr</div>
+                                    <div class="month-stats" id="monthStats-3">0/0</div>
+                                </div>
+                            </th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">May</div>
+                                    <div class="month-stats" id="monthStats-4">0/0</div>
+                                </div>
+                            </th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">Jun</div>
+                                    <div class="month-stats" id="monthStats-5">0/0</div>
+                                </div>
+                            </th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">Jul</div>
+                                    <div class="month-stats" id="monthStats-6">0/0</div>
+                                </div>
+                            </th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">Ago</div>
+                                    <div class="month-stats" id="monthStats-7">0/0</div>
+                                </div>
+                            </th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">Sep</div>
+                                    <div class="month-stats" id="monthStats-8">0/0</div>
+                                </div>
+                            </th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">Oct</div>
+                                    <div class="month-stats" id="monthStats-9">0/0</div>
+                                </div>
+                            </th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">Nov</div>
+                                    <div class="month-stats" id="monthStats-10">0/0</div>
+                                </div>
+                            </th>
+                            <th class="month-cell">
+                                <div class="month-header">
+                                    <div class="month-name">Dic</div>
+                                    <div class="month-stats" id="monthStats-11">0/0</div>
+                                </div>
+                            </th>
                             <th>Última Modificación</th>
                             <th>Acciones</th>
                         </tr>
@@ -666,6 +761,7 @@
                 updateStatus('Conectado - Sincronizado', 'online');
                 renderUsersTable();
                 updateStats();
+                updateMonthStats();
                 
                 // Ocultar alerta si existe
                 hideAlert();
@@ -687,6 +783,7 @@
                 
                 // Cargar datos de ejemplo si no hay conexión
                 loadSampleData();
+                updateMonthStats();
             });
         }
         
@@ -791,7 +888,20 @@
                     } else {
                         const statusDiv = document.createElement('div');
                         statusDiv.textContent = isPaid ? '✓' : '✗';
-                        statusDiv.className = isPaid ? 'paid' : 'unpaid';
+                        
+                        // Determinar el color según quién hizo la última modificación
+                        if (isPaid) {
+                            if (user.lastEditedBy === "Padron") {
+                                statusDiv.className = 'paid padron';
+                            } else if (user.lastEditedBy === "Villarreal") {
+                                statusDiv.className = 'paid villarreal';
+                            } else {
+                                statusDiv.className = 'paid';
+                            }
+                        } else {
+                            statusDiv.className = 'unpaid';
+                        }
+                        
                         statusDiv.style.padding = '0.25rem';
                         monthCell.appendChild(statusDiv);
                     }
@@ -849,6 +959,47 @@
                 
                 elements.paymentsTableBody.appendChild(row);
             });
+        }
+        
+        // Función para actualizar estadísticas de cada mes
+        function updateMonthStats() {
+            // Inicializar contadores para cada mes
+            const monthCounts = Array(12).fill(0);
+            const totalUsers = users.length;
+            
+            // Contar pagados por mes
+            users.forEach(user => {
+                if (user.payments) {
+                    user.payments.forEach((paid, monthIndex) => {
+                        if (paid) {
+                            monthCounts[monthIndex]++;
+                        }
+                    });
+                }
+            });
+            
+            // Actualizar estadísticas en los encabezados
+            for (let i = 0; i < 12; i++) {
+                const monthStatElement = document.getElementById(`monthStats-${i}`);
+                if (monthStatElement) {
+                    const paidCount = monthCounts[i];
+                    const unpaidCount = totalUsers - paidCount;
+                    monthStatElement.textContent = `${paidCount}/${totalUsers}`;
+                    
+                    // Opcional: cambiar color según el porcentaje de pagos
+                    if (totalUsers > 0) {
+                        const percentage = (paidCount / totalUsers) * 100;
+                        if (percentage === 100) {
+                            monthStatElement.style.color = "#27ae60";
+                            monthStatElement.style.fontWeight = "bold";
+                        } else if (percentage >= 50) {
+                            monthStatElement.style.color = "#f39c12";
+                        } else {
+                            monthStatElement.style.color = "#e74c3c";
+                        }
+                    }
+                }
+            }
         }
         
         function formatDate(date) {
@@ -989,6 +1140,7 @@
                 pendingChanges = {};
                 elements.saveAllBtn.disabled = true;
                 alert(`Cambios guardados exitosamente. Registrado como ${currentEditor.name}`);
+                updateMonthStats();
             } catch (error) {
                 console.error('Error guardando cambios:', error);
                 alert('Error al guardar cambios: ' + error.message);
@@ -1009,6 +1161,7 @@
             try {
                 await db.collection('users').doc(userId).delete();
                 alert('Usuario eliminado');
+                updateMonthStats();
             } catch (error) {
                 console.error('Error eliminando usuario:', error);
                 alert('Error al eliminar usuario: ' + error.message);
