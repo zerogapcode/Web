@@ -80,7 +80,16 @@
             border-radius: 3px;
             margin-top: 2px;
         }
-        .paid { font-weight: 600; border-radius: 4px; }
+        .paid { 
+            font-weight: 600; 
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            width: 32px;
+            margin: 0 auto;
+        }
         .paid.padron { 
             background-color: #d4e6f1; 
             color: #21618c; 
@@ -91,14 +100,78 @@
             color: #196f3d; 
             border: 1px solid #7dcea0;
         }
+        .paid.unknown { 
+            background-color: #e8f4fd; 
+            color: #2980b9; 
+            border: 1px solid #b3d9ff;
+        }
         .unpaid { 
             background-color: #fde8e8; 
             color: var(--danger-color); 
             font-weight: 600; 
-            border-radius: 4px; 
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            width: 32px;
+            margin: 0 auto;
+            border: 1px solid #f5c6cb;
         }
-        .payment-checkbox { width: 24px; height: 24px; cursor: pointer; }
+        .payment-checkbox { 
+            width: 32px; 
+            height: 32px; 
+            cursor: pointer;
+            opacity: 0;
+            position: absolute;
+            z-index: 2;
+        }
         .payment-checkbox:disabled { cursor: not-allowed; opacity: 0.7; }
+        .checkbox-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            width: 32px;
+            height: 32px;
+        }
+        .checkbox-visual {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            z-index: 1;
+            transition: all 0.2s ease;
+        }
+        .checkbox-visual.checked.padron {
+            background-color: #d4e6f1;
+            color: #21618c;
+            border: 1px solid #85c1e9;
+        }
+        .checkbox-visual.checked.villarreal {
+            background-color: #d5f4e6;
+            color: #196f3d;
+            border: 1px solid #7dcea0;
+        }
+        .checkbox-visual.checked.unknown {
+            background-color: #e8f4fd;
+            color: #2980b9;
+            border: 1px solid #b3d9ff;
+        }
+        .checkbox-visual.unchecked {
+            background-color: #fde8e8;
+            color: #e74c3c;
+            border: 1px solid #f5c6cb;
+        }
+        .checkbox-visual:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
         .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
         .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
         .stat-card { background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--box-shadow); text-align: center; }
@@ -751,6 +824,9 @@
                         id: doc.id,
                         name: data.name,
                         payments: data.payments || Array(12).fill(false),
+                        // Nuevos campos para almacenar quién marcó cada pago
+                        paidBy: data.paidBy || Array(12).fill(null),
+                        monthEditedBy: data.monthEditedBy || Array(12).fill(null),
                         lastEditedBy: data.lastEditedBy || "Sin modificar",
                         lastEditedAt: data.lastEditedAt || null,
                         createdAt: data.createdAt || new Date()
@@ -867,42 +943,102 @@
                     monthCell.className = 'month-cell';
                     
                     const isPaid = user.payments && user.payments[i];
+                    const monthEditedBy = user.monthEditedBy && user.monthEditedBy[i];
+                    const paidBy = user.paidBy && user.paidBy[i];
                     
-                    if (editMode && currentEditor) {
+                    // Determinar quién marcó este pago específico
+                    const editorName = monthEditedBy || paidBy || user.lastEditedBy;
+                    
+                    if (editMode && currentEditor && isConnected) {
+                        // Modo edición: checkbox personalizado con colores visibles
+                        const container = document.createElement('div');
+                        container.className = 'checkbox-container';
+                        
                         const checkbox = document.createElement('input');
                         checkbox.type = 'checkbox';
                         checkbox.className = 'payment-checkbox';
                         checkbox.checked = isPaid;
-                        checkbox.disabled = !isConnected; // Deshabilitar si no hay conexión
+                        checkbox.disabled = !isConnected;
+                        
+                        const visual = document.createElement('div');
+                        visual.className = 'checkbox-visual';
+                        visual.textContent = isPaid ? '✓' : '✗';
+                        
+                        if (isPaid) {
+                            visual.classList.add('checked');
+                            // Determinar color según quién marcó este mes
+                            if (editorName === "Padron") {
+                                visual.classList.add('padron');
+                            } else if (editorName === "Villarreal") {
+                                visual.classList.add('villarreal');
+                            } else {
+                                visual.classList.add('unknown');
+                            }
+                        } else {
+                            visual.classList.add('unchecked');
+                        }
+                        
                         checkbox.addEventListener('change', () => {
                             if (!pendingChanges[user.id]) {
                                 pendingChanges[user.id] = { 
                                     payments: [...user.payments],
+                                    monthEditedBy: [...(user.monthEditedBy || Array(12).fill(null))],
                                     lastEditedBy: user.lastEditedBy
                                 };
                             }
-                            pendingChanges[user.id].payments[i] = checkbox.checked;
+                            
+                            const newPaidState = checkbox.checked;
+                            pendingChanges[user.id].payments[i] = newPaidState;
+                            
+                            // Guardar quién marcó este mes específico
+                            if (newPaidState) {
+                                pendingChanges[user.id].monthEditedBy[i] = currentEditor.name;
+                            } else {
+                                pendingChanges[user.id].monthEditedBy[i] = null;
+                            }
+                            
                             elements.saveAllBtn.disabled = false;
+                            
+                            // Actualizar visualización inmediatamente
+                            visual.textContent = newPaidState ? '✓' : '✗';
+                            visual.className = 'checkbox-visual';
+                            
+                            if (newPaidState) {
+                                visual.classList.add('checked');
+                                if (currentEditor.name === "Padron") {
+                                    visual.classList.add('padron');
+                                } else if (currentEditor.name === "Villarreal") {
+                                    visual.classList.add('villarreal');
+                                } else {
+                                    visual.classList.add('unknown');
+                                }
+                            } else {
+                                visual.classList.add('unchecked');
+                            }
                         });
-                        monthCell.appendChild(checkbox);
+                        
+                        container.appendChild(checkbox);
+                        container.appendChild(visual);
+                        monthCell.appendChild(container);
                     } else {
+                        // Modo solo lectura: mostrar con colores
                         const statusDiv = document.createElement('div');
                         statusDiv.textContent = isPaid ? '✓' : '✗';
                         
-                        // Determinar el color según quién hizo la última modificación
                         if (isPaid) {
-                            if (user.lastEditedBy === "Padron") {
-                                statusDiv.className = 'paid padron';
-                            } else if (user.lastEditedBy === "Villarreal") {
-                                statusDiv.className = 'paid villarreal';
+                            statusDiv.className = 'paid';
+                            // Determinar color según quién marcó este mes específico
+                            if (editorName === "Padron") {
+                                statusDiv.classList.add('padron');
+                            } else if (editorName === "Villarreal") {
+                                statusDiv.classList.add('villarreal');
                             } else {
-                                statusDiv.className = 'paid';
+                                statusDiv.classList.add('unknown');
                             }
                         } else {
                             statusDiv.className = 'unpaid';
                         }
                         
-                        statusDiv.style.padding = '0.25rem';
                         monthCell.appendChild(statusDiv);
                     }
                     
@@ -916,7 +1052,7 @@
                 if (user.lastEditedBy) {
                     lastEditCell.textContent = user.lastEditedBy;
                     
-                    // Resaltar según quién hizo la modificación
+                    // Resaltar según quién hizo la última modificación
                     if (user.lastEditedBy === "Padron") {
                         lastEditCell.style.color = "#2980b9";
                         lastEditCell.style.fontWeight = "600";
@@ -1100,6 +1236,8 @@
                 await db.collection('users').add({
                     name: userName,
                     payments: Array(12).fill(false),
+                    paidBy: Array(12).fill(null),
+                    monthEditedBy: Array(12).fill(null),
                     lastEditedBy: currentEditor.name,
                     lastEditedAt: firebase.firestore.FieldValue.serverTimestamp(),
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -1128,6 +1266,7 @@
             const updates = Object.entries(pendingChanges).map(([userId, userData]) => {
                 return db.collection('users').doc(userId).update({ 
                     payments: userData.payments,
+                    monthEditedBy: userData.monthEditedBy,
                     lastEditedBy: currentEditor.name,
                     lastEditedAt: firebase.firestore.FieldValue.serverTimestamp(),
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -1214,6 +1353,8 @@
                     id: '1', 
                     name: 'Ana García', 
                     payments: [true, true, true, true, true, false, false, false, false, false, false, false],
+                    paidBy: Array(12).fill(null),
+                    monthEditedBy: ['Padron', 'Padron', 'Padron', 'Padron', 'Padron', null, null, null, null, null, null, null],
                     lastEditedBy: 'Padron',
                     lastEditedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000) // 2 días atrás
                 },
@@ -1221,6 +1362,8 @@
                     id: '2', 
                     name: 'Carlos Rodríguez', 
                     payments: [true, true, true, true, false, false, false, false, false, false, false, false],
+                    paidBy: Array(12).fill(null),
+                    monthEditedBy: ['Villarreal', 'Villarreal', 'Villarreal', 'Villarreal', null, null, null, null, null, null, null, null],
                     lastEditedBy: 'Villarreal',
                     lastEditedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000) // 1 día atrás
                 },
@@ -1228,6 +1371,8 @@
                     id: '3', 
                     name: 'María López', 
                     payments: [true, true, true, true, true, true, false, false, false, false, false, false],
+                    paidBy: Array(12).fill(null),
+                    monthEditedBy: ['Padron', 'Padron', 'Padron', 'Padron', 'Padron', 'Padron', null, null, null, null, null, null],
                     lastEditedBy: 'Padron',
                     lastEditedAt: new Date(Date.now() - 5 * 60 * 60 * 1000) // 5 horas atrás
                 }
