@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Menú Digital | Restaurante Balú Charallave</title>
     <style>
-        /* --- RESET Y VARIABLES --- */
         * { box-sizing: border-box; }
         :root {
             --color-rojo: #D32F2F;      
@@ -15,7 +14,6 @@
             --color-fondo: #FAFAFA;     
             --color-texto: #222;
         }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--color-fondo);
@@ -26,15 +24,11 @@
             overflow-x: hidden;
             padding-bottom: 40px;
         }
-
-        /* --- ANIMACIÓN TÍTULO BALÚ --- */
         @keyframes baluVibe {
             0% { text-shadow: 4px 4px 0px var(--color-verde-sombra); transform: scale(1) rotate(0deg); }
             50% { text-shadow: 7px 7px 0px var(--color-verde-sombra); transform: scale(1.05) rotate(-2deg); }
             100% { text-shadow: 4px 4px 0px var(--color-verde-sombra); transform: scale(1) rotate(0deg); }
         }
-
-        /* --- ANIMACIÓN SCROLL --- */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -44,33 +38,62 @@
             opacity: 1;
             transform: translateY(0);
         }
-
-        /* --- HEADER --- */
+        /* --- HEADER (AJUSTADO) --- */
         header {
             background-color: var(--color-amarillo);
             color: var(--color-rojo);
             text-align: center;
-            padding: 2.5rem 1rem;
+            padding: 0.5rem 1rem 0;
             border-bottom: 5px solid var(--color-rojo);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: relative;
         }
-
+        .header-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 0;
+            flex-wrap: nowrap;
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 90px;
+        }
+        .header-title {
+            flex-shrink: 0;
+            padding-bottom: 8px;
+            margin-right: 0px;
+        }
         header h1 {
-            font-size: 4.5rem;
+            font-size: 3.5rem;
             margin: 0;
             font-weight: 900;
             text-transform: uppercase;
-            animation: baluVibe 3s infinite ease-in-out; 
+            animation: baluVibe 3s infinite ease-in-out;
+            line-height: 1;
+            letter-spacing: -2px;
+            padding-bottom: 2px;
         }
-
-        header p {
-            margin-top: 10px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #333;
-            letter-spacing: 1px;
+        .header-logo {
+            flex-shrink: 0;
+            align-self: flex-end; /* Mantiene la imagen en la parte inferior */
+            margin-bottom: 0;
+            z-index: 2;
         }
-
+        .header-logo img {
+            width: 95px;
+            height: auto;
+            max-height: 120px;
+            object-fit: contain;
+            object-position: bottom;
+            display: block;
+            margin-bottom: 0;
+            margin-left: 5px;
+            vertical-align: bottom;
+        }
+        @media (max-width: 400px) {
+            .header-container { min-height: 80px; }
+            header h1 { font-size: 2.8rem; letter-spacing: -1px; padding-bottom: 1px; }
+            .header-logo img { width: 75px; max-height: 100px; margin-left: 5px; }
+        }
         /* --- NAVEGACIÓN --- */
         nav {
             background: var(--color-rojo);
@@ -84,7 +107,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             overflow-x: auto;
         }
-
         nav a {
             color: white;
             text-decoration: none;
@@ -95,14 +117,12 @@
             background: rgba(255,255,255,0.15);
             white-space: nowrap;
         }
-
         /* --- CONTENEDOR --- */
         .container {
             max-width: 500px; 
             margin: 0 auto;
             padding: 10px 15px;
         }
-
         .section-title {
             text-align: center;
             color: var(--color-rojo);
@@ -115,7 +135,6 @@
             width: 100%;
             padding-bottom: 8px;
         }
-
         /* --- TARJETAS --- */
         .card {
             background: white;
@@ -125,32 +144,27 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.06);
             border: 1px solid #eee;
         }
-
         .card-img-top {
             width: 100%;
             height: 250px;
             object-fit: cover;
             display: block;
         }
-
         .card-body {
             padding: 1.2rem;
         }
-
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 8px;
         }
-
         .card-title {
             font-size: 1.4rem;
             font-weight: 800;
             margin: 0;
             color: #111;
         }
-
         .card-price {
             background: var(--color-verde-precio);
             color: white;
@@ -159,50 +173,58 @@
             font-weight: 800;
             font-size: 1.1rem;
         }
-
         .card-desc {
             color: #555;
             font-size: 1rem;
             margin: 0;
         }
-
-        /* --- FOOTER --- */
+        /* --- FOOTER (AJUSTADO) --- */
         footer {
             background: #111;
             color: #fff;
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 2.5rem 1rem;
             margin-top: 2rem;
             border-top: 6px solid var(--color-rojo);
         }
-        
         .address {
             color: var(--color-amarillo);
             font-weight: bold;
             font-size: 1.3rem;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
         }
-
+        .footer-text {
+            color: var(--color-amarillo);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+        .copyright {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
-
     <header>
-        <h1>BALÚ</h1>
-        <p>Sabor • Charallave • Tradición</p>
+        <div class="header-container">
+            <div class="header-title">
+                <h1>BALÚ</h1>
+            </div>
+            <div class="header-logo">
+                <img src="balu.png" alt="Logo Restaurante Balú">
+            </div>
+        </div>
     </header>
-
     <nav>
         <a href="#hamburguesas">Hamburguesas</a>
         <a href="#almuerzos">Almuerzos</a>
         <a href="#postres">Postres</a>
         <a href="#bebidas">Bebidas</a>
     </nav>
-
     <div class="container">
-
         <h2 id="hamburguesas" class="section-title reveal">Hamburguesas</h2>
-
         <div class="card reveal">
             <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Hamburguesa" class="card-img-top">
             <div class="card-body">
@@ -213,9 +235,8 @@
                 <p class="card-desc">Carne de res premium, queso, vegetales frescos y salsa Balú.</p>
             </div>
         </div>
-
         <div class="card reveal">
-            <img src="https://cdn.pixabay.com/photo/2016/03/05/19/37/hotdog-1238467_1280.jpg" alt="Perro Caliente" class="card-img-top">
+            <img src="https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=600&q=80" alt="Perro Caliente" class="card-img-top">
             <div class="card-body">
                 <div class="card-header">
                     <h3 class="card-title">Perro Balú Especial</h3>
@@ -224,9 +245,7 @@
                 <p class="card-desc">Salchicha jumbo, lluvia de papitas crujientes y triple salsa.</p>
             </div>
         </div>
-
         <h2 id="almuerzos" class="section-title reveal">Almuerzos & Pastas</h2>
-
         <div class="card reveal">
             <img src="https://images.unsplash.com/photo-1626844131082-256783844137?auto=format&fit=crop&w=600&q=80" alt="Pollo Frito" class="card-img-top">
             <div class="card-body">
@@ -237,7 +256,6 @@
                 <p class="card-desc">Pollo broaster super crujiente con papas fritas y ensalada.</p>
             </div>
         </div>
-
         <div class="card reveal">
             <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" alt="Pasta" class="card-img-top">
             <div class="card-body">
@@ -248,11 +266,9 @@
                 <p class="card-desc">Spaghetti con salsa de carne artesanal y queso parmesano.</p>
             </div>
         </div>
-
         <h2 id="postres" class="section-title reveal">Postres</h2>
-
         <div class="card reveal">
-            <img src="https://cdn.pixabay.com/photo/2017/05/30/11/13/dessert-2356619_1280.jpg" alt="Brownie con Helado" class="card-img-top">
+            <img src="https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=600&q=80" alt="Postre de chocolate" class="card-img-top">
             <div class="card-body">
                 <div class="card-header">
                     <h3 class="card-title">Brownie Explosión</h3>
@@ -261,7 +277,6 @@
                 <p class="card-desc">Brownie de chocolate caliente con helado de vainilla y fudge.</p>
             </div>
         </div>
-
         <div class="card reveal">
             <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=600&q=80" alt="Helado" class="card-img-top">
             <div class="card-body">
@@ -272,9 +287,7 @@
                 <p class="card-desc">Tres porciones de helado con topping de maní y caramelo.</p>
             </div>
         </div>
-
         <h2 id="bebidas" class="section-title reveal">Bebidas</h2>
-
         <div class="card reveal">
             <img src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=600&q=80" alt="Merengada" class="card-img-top">
             <div class="card-body">
@@ -285,15 +298,24 @@
                 <p class="card-desc">Batido cremoso de galleta oreo con crema chantilly.</p>
             </div>
         </div>
-
+        <div class="card reveal">
+            <img src="https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=80" alt="Limonada" class="card-img-top">
+            <div class="card-body">
+                <div class="card-header">
+                    <h3 class="card-title">Limonada Natural</h3>
+                    <span class="card-price">$3.50</span>
+                </div>
+                <p class="card-desc">Refrescante limonada natural con hielo y menta.</p>
+            </div>
+        </div>
     </div>
-
     <footer>
         <div class="address">📍 Charallave, Edo. Miranda</div>
         <p>Restaurante Balú</p>
-        <small>© 2023 Todos los derechos reservados</small>
+        <!-- Hipervínculo reemplazado por texto -->
+        <p class="footer-text">Venezuela 2026</p>
+        <div class="copyright">Menú Digital Balú</div>
     </footer>
-
     <script>
         function revealOnScroll() {
             var reveals = document.querySelectorAll(".reveal");
@@ -308,6 +330,5 @@
         window.addEventListener("scroll", revealOnScroll);
         revealOnScroll();
     </script>
-
 </body>
 </html>
