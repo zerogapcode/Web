@@ -205,25 +205,29 @@
             margin-top: 15px;
         }
         
-        /* --- BOTÓN MESERA (NUEVO) - LADO DERECHO, MÁS GRANDE CON IMAGEN --- */
-        .mesera-button-container {
+        /* --- BOTÓN BALÚ (AJUSTADO) - LADO DERECHO, MÁS ABAJO --- */
+        .balu-button-container {
             position: fixed;
-            bottom: 40px;
+            bottom: 40px; /* Aproximadamente 1cm del fondo */
             right: 30px;
             z-index: 10000;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
         
-        .mesera-float-btn {
+        .balu-button-container.hidden {
+            display: none;
+        }
+        
+        .balu-float-btn {
             --btn-accent: #FF6B6B; /* Color rojo acorde al menú */
             --btn-accent-glow: rgba(255, 107, 107, 0.4);
-            --btn-bg: rgba(255, 255, 255, 0.2); /* Fondo más transparente */
+            --btn-bg: rgba(255, 255, 255, 0.25); /* Fondo más transparente */
             
             position: relative;
-            height: 120px; /* Más grande que antes */
-            width: 120px; /* Más grande que antes */
+            height: 140px; /* Más grande que antes */
+            width: 140px; /* Más grande que antes */
             background: var(--btn-bg);
-            border: 2px solid rgba(255, 255, 255, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             
             display: flex;
@@ -231,12 +235,12 @@
             justify-content: center;
             cursor: pointer;
             
-            backdrop-filter: blur(25px) saturate(200%);
-            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
             box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.25),
-                0 0 0 2px rgba(255, 255, 255, 0.2),
-                inset 0 0 30px rgba(255, 255, 255, 0.15);
+                0 20px 50px rgba(0, 0, 0, 0.3),
+                0 0 0 3px rgba(255, 255, 255, 0.3),
+                inset 0 0 40px rgba(255, 255, 255, 0.2);
             
             transition: transform 0.3s ease, 
                         background 0.3s ease,
@@ -248,16 +252,16 @@
             overflow: hidden;
         }
         
-        .mesera-float-btn:hover {
-            transform: scale(1.15);
-            background: rgba(255, 255, 255, 0.3);
+        .balu-float-btn:hover {
+            transform: scale(1.2);
+            background: rgba(255, 255, 255, 0.35);
             box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.35),
-                0 0 0 2px rgba(255, 255, 255, 0.3),
-                inset 0 0 40px rgba(255, 255, 255, 0.25);
+                0 25px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 3px rgba(255, 255, 255, 0.4),
+                inset 0 0 50px rgba(255, 255, 255, 0.3);
         }
         
-        .mesera-icon-wrapper {
+        .balu-icon-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -265,70 +269,51 @@
             height: 100%;
             border-radius: 50%;
             overflow: hidden;
-            padding: 5px;
+            padding: 8px;
         }
         
-        .mesera-icon-wrapper img {
+        .balu-icon-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             border-radius: 50%;
             transition: transform 0.3s ease;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.25));
         }
         
-        .mesera-float-btn:hover .mesera-icon-wrapper img {
-            transform: scale(1.1);
+        .balu-float-btn:hover .balu-icon-wrapper img {
+            transform: scale(1.15);
         }
         
         /* Indicador de pulsación */
-        .mesera-pulse {
+        .balu-pulse {
             position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: rgba(255, 107, 107, 0.3);
-            animation: meseraPulse 2s infinite ease-in-out;
+            background: rgba(255, 107, 107, 0.4);
+            animation: baluPulse 2s infinite ease-in-out;
             z-index: -1;
         }
         
-        @keyframes meseraPulse {
-            0% { transform: scale(1); opacity: 0.7; }
-            70% { transform: scale(1.2); opacity: 0; }
-            100% { transform: scale(1.2); opacity: 0; }
+        @keyframes baluPulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            70% { transform: scale(1.3); opacity: 0; }
+            100% { transform: scale(1.3); opacity: 0; }
         }
         
-        /* Etiqueta de texto */
-        .mesera-label {
-            position: absolute;
-            bottom: -35px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-weight: 800;
-            font-size: 14px;
-            color: var(--color-rojo);
-            background: rgba(255, 255, 255, 0.9);
-            padding: 5px 10px;
-            border-radius: 15px;
-            white-space: nowrap;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-        
-        /* Ventana de chat de la mesera */
-        #mesera-chat-window {
+        /* Ventana de chat de Balú */
+        #balu-chat-window {
             position: fixed;
-            bottom: 170px;
+            bottom: 180px; /* Aparece encima del botón */
             right: 30px;
             width: 90%;
-            max-width: 400px;
-            height: 500px;
+            max-width: 450px; /* Un poco más ancho */
+            height: 550px; /* Un poco más alto */
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            border: 3px solid var(--color-rojo);
+            border-radius: 25px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+            border: 4px solid var(--color-rojo);
             z-index: 9999;
             display: none;
             flex-direction: column;
@@ -339,14 +324,14 @@
                         transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
-        #mesera-chat-window.active {
+        #balu-chat-window.active {
             display: flex;
             opacity: 1;
             transform: translateY(0) scale(1);
         }
         
-        .mesera-chat-header {
-            padding: 18px 20px;
+        .balu-chat-header {
+            padding: 20px 25px;
             background: var(--color-rojo);
             color: white;
             display: flex;
@@ -356,55 +341,48 @@
             flex-shrink: 0;
         }
         
-        .mesera-chat-title {
-            font-weight: 800;
-            font-size: 18px;
+        .balu-chat-title {
+            font-weight: 900;
+            font-size: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         
-        .mesera-chat-title img {
-            width: 30px;
-            height: 30px;
+        .balu-chat-close {
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .mesera-chat-close {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 22px;
+            font-size: 26px;
             color: white;
             font-weight: 300;
         }
         
-        .mesera-chat-close:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
+        .balu-chat-close:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.15);
         }
         
-        .mesera-chat-body {
+        .balu-chat-body {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 25px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
             background: #f8f9fa;
         }
         
-        .mesera-message {
+        .balu-message {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             animation: messageSlideIn 0.3s ease;
         }
         
@@ -413,186 +391,179 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .mesera-message.user {
+        .balu-message.user {
             justify-content: flex-end;
         }
         
-        .mesera-message-avatar {
-            width: 36px;
-            height: 36px;
+        .balu-message-avatar {
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
+            font-weight: 800;
+            font-size: 16px;
             flex-shrink: 0;
             background: var(--color-rojo);
             color: white;
             overflow: hidden;
+            border: 2px solid var(--color-rojo);
         }
         
-        .mesera-message-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .balu-message-avatar img {
+            width: 70%; /* Imagen más pequeña dentro del círculo */
+            height: 70%; /* Imagen más pequeña dentro del círculo */
+            object-fit: contain; /* Asegura que la imagen se ajuste sin distorsión */
+            border-radius: 50%;
         }
         
-        .user .mesera-message-avatar {
+        .user .balu-message-avatar {
             background: var(--color-amarillo);
             color: var(--color-rojo);
+            border-color: var(--color-amarillo);
         }
         
-        .mesera-message-content {
+        .balu-message-content {
             max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
+            padding: 14px 18px;
+            border-radius: 20px;
             line-height: 1.5;
-            font-size: 15px;
+            font-size: 16px;
             white-space: pre-wrap;
             word-break: break-word;
             background: white;
-            border: 1px solid #e9ecef;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 2px solid #e9ecef;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
         
-        .ai .mesera-message-content {
+        .ai .balu-message-content {
             color: #222;
             font-weight: 500;
         }
         
-        .user .mesera-message-content {
+        .user .balu-message-content {
             background: var(--color-rojo);
             color: white;
             border-color: var(--color-rojo);
         }
         
-        .mesera-typing {
+        .balu-typing {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
         }
         
-        .mesera-typing-dot {
-            width: 7px;
-            height: 7px;
+        .balu-typing-dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background-color: var(--color-rojo);
-            animation: meseraTypingAnimation 1.4s infinite ease-in-out;
+            animation: baluTypingAnimation 1.4s infinite ease-in-out;
         }
         
-        .mesera-typing-dot:nth-child(1) { animation-delay: 0s; }
-        .mesera-typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .mesera-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        .balu-typing-dot:nth-child(1) { animation-delay: 0s; }
+        .balu-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .balu-typing-dot:nth-child(3) { animation-delay: 0.4s; }
         
-        @keyframes meseraTypingAnimation {
+        @keyframes baluTypingAnimation {
             0%, 60%, 100% { transform: scale(1); opacity: 0.5; }
             30% { transform: scale(1.2); opacity: 1; }
         }
         
-        .mesera-chat-input-container {
-            padding: 16px;
-            border-top: 1px solid #e9ecef;
+        .balu-chat-input-container {
+            padding: 20px;
+            border-top: 2px solid #e9ecef;
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: flex-end;
             flex-shrink: 0;
             background: white;
         }
         
-        .mesera-chat-input {
+        .balu-chat-input {
             flex: 1;
             background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 12px;
-            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 14px 18px;
             color: #222;
-            font-size: 15px;
+            font-size: 16px;
             resize: none;
-            min-height: 44px;
-            max-height: 100px;
+            min-height: 50px;
+            max-height: 120px;
             transition: all 0.3s ease;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
         
-        .mesera-chat-input:focus {
+        .balu-chat-input:focus {
             outline: none;
             border-color: var(--color-rojo);
-            box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+            box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.15);
         }
         
-        .mesera-chat-send {
+        .balu-chat-send {
             background: var(--color-rojo);
             color: white;
             border: none;
-            border-radius: 12px;
-            width: 44px;
-            height: 44px;
+            border-radius: 15px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 20px;
             flex-shrink: 0;
         }
         
-        .mesera-chat-send:hover {
+        .balu-chat-send:hover {
             background: #b71c1c;
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
         }
         
-        .mesera-chat-send:disabled {
+        .balu-chat-send:disabled {
             background: #cccccc;
             cursor: not-allowed;
             transform: none;
         }
         
         @media (max-width: 768px) {
-            .mesera-button-container {
-                bottom: 25px;
+            .balu-button-container {
+                bottom: 30px;
                 right: 20px;
             }
             
-            .mesera-float-btn {
-                height: 100px;
-                width: 100px;
+            .balu-float-btn {
+                height: 120px;
+                width: 120px;
             }
             
-            .mesera-label {
-                font-size: 13px;
-                bottom: -30px;
-                padding: 4px 8px;
-            }
-            
-            #mesera-chat-window {
+            #balu-chat-window {
                 width: calc(100vw - 40px);
-                height: 65vh;
-                bottom: 140px;
+                height: 60vh;
+                bottom: 150px;
                 right: 20px;
                 max-width: none;
             }
         }
         
         @media (max-width: 480px) {
-            .mesera-button-container {
+            .balu-button-container {
                 bottom: 20px;
                 right: 15px;
             }
             
-            .mesera-float-btn {
-                height: 90px;
-                width: 90px;
+            .balu-float-btn {
+                height: 110px;
+                width: 110px;
             }
             
-            .mesera-label {
-                font-size: 12px;
-                bottom: -28px;
-            }
-            
-            #mesera-chat-window {
-                height: 60vh;
-                bottom: 130px;
+            #balu-chat-window {
+                height: 55vh;
+                bottom: 140px;
                 right: 10px;
                 width: calc(100vw - 20px);
             }
@@ -703,30 +674,28 @@
         </div>
     </div>
     
-    <!-- Botón flotante de la mesera - LADO DERECHO, GRANDE CON IMAGEN -->
-    <div class="mesera-button-container">
-        <div class="mesera-pulse"></div>
-        <div id="mesera-float-btn" class="mesera-float-btn" role="button" aria-label="Abrir Asistente Mesera" title="Hablar con la mesera">
-            <div class="mesera-icon-wrapper">
-                <img src="balu.png" alt="Mesera Balú">
+    <!-- Botón flotante de Balú - LADO DERECHO, MÁS ABAJO -->
+    <div class="balu-button-container" id="balu-button-container">
+        <div class="balu-pulse"></div>
+        <div id="balu-float-btn" class="balu-float-btn" role="button" aria-label="Abrir Asistente Balú" title="Hablar con Balú">
+            <div class="balu-icon-wrapper">
+                <img src="balu.png" alt="Balú">
             </div>
         </div>
-        <div class="mesera-label">Habla con la Mesera</div>
     </div>
 
-    <!-- Ventana de chat de la mesera -->
-    <div id="mesera-chat-window">
-        <div class="mesera-chat-header">
-            <div class="mesera-chat-title">
-                <img src="balu.png" alt="Logo Mesera">
-                Mesera - Restaurante Balú
+    <!-- Ventana de chat de Balú -->
+    <div id="balu-chat-window">
+        <div class="balu-chat-header">
+            <div class="balu-chat-title">
+                Balú - Asistente del Restaurante
             </div>
-            <div class="mesera-chat-close" id="mesera-close-btn">×</div>
+            <div class="balu-chat-close" id="balu-close-btn">×</div>
         </div>
-        <div class="mesera-chat-body" id="mesera-messages"></div>
-        <div class="mesera-chat-input-container">
-            <textarea id="mesera-input" class="mesera-chat-input" placeholder="Pregunta sobre el menú, pedidos, recomendaciones..." rows="1"></textarea>
-            <button id="mesera-send-btn" class="mesera-chat-send">→</button>
+        <div class="balu-chat-body" id="balu-messages"></div>
+        <div class="balu-chat-input-container">
+            <textarea id="balu-input" class="balu-chat-input" placeholder="" rows="1"></textarea>
+            <button id="balu-send-btn" class="balu-chat-send">→</button>
         </div>
     </div>
 
@@ -738,59 +707,67 @@
     </footer>
     
     <script>
-        // Script para funcionalidad del botón de la mesera
+        // Script para funcionalidad del botón de Balú
         const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
         
         // Elementos DOM
-        const meseraFloatBtn = document.getElementById('mesera-float-btn');
-        const meseraButtonContainer = document.querySelector('.mesera-button-container');
-        const meseraChatWindow = document.getElementById('mesera-chat-window');
-        const meseraCloseBtn = document.getElementById('mesera-close-btn');
-        const meseraMessages = document.getElementById('mesera-messages');
-        const meseraInput = document.getElementById('mesera-input');
-        const meseraSendBtn = document.getElementById('mesera-send-btn');
+        const baluFloatBtn = document.getElementById('balu-float-btn');
+        const baluButtonContainer = document.getElementById('balu-button-container');
+        const baluChatWindow = document.getElementById('balu-chat-window');
+        const baluCloseBtn = document.getElementById('balu-close-btn');
+        const baluMessages = document.getElementById('balu-messages');
+        const baluInput = document.getElementById('balu-input');
+        const baluSendBtn = document.getElementById('balu-send-btn');
         
-        let isMeseraChatOpen = false;
+        let isBaluChatOpen = false;
         let isGenerating = false;
         let currentSessionId = null;
         
+        // Función para mostrar/ocultar el botón
+        function toggleBaluButton(show) {
+            if (show) {
+                baluButtonContainer.classList.remove('hidden');
+            } else {
+                baluButtonContainer.classList.add('hidden');
+            }
+        }
+        
         // Abrir ventana de chat
-        meseraFloatBtn.addEventListener('click', () => {
-            if (!isMeseraChatOpen) {
-                isMeseraChatOpen = true;
-                meseraChatWindow.classList.add('active');
+        baluFloatBtn.addEventListener('click', () => {
+            if (!isBaluChatOpen) {
+                isBaluChatOpen = true;
+                baluChatWindow.classList.add('active');
+                toggleBaluButton(false); // Ocultar botón al abrir chat
                 
                 // Inicializar conexión
                 if (!currentSessionId) {
-                    initMeseraConnection();
+                    initBaluConnection();
                 }
                 
-                meseraInput.focus();
-            } else {
-                // Si ya está abierto, cerrarlo
-                closeMeseraChat();
+                baluInput.focus();
             }
         });
         
         // Cerrar ventana de chat
-        meseraCloseBtn.addEventListener('click', () => {
-            closeMeseraChat();
+        baluCloseBtn.addEventListener('click', () => {
+            closeBaluChat();
         });
         
         // Función para cerrar el chat
-        function closeMeseraChat() {
-            isMeseraChatOpen = false;
-            meseraChatWindow.classList.remove('active');
+        function closeBaluChat() {
+            isBaluChatOpen = false;
+            baluChatWindow.classList.remove('active');
+            toggleBaluButton(true); // Mostrar botón al cerrar chat
         }
         
-        // Inicializar conexión con el servidor (usando el asistente "sofi" como mesera)
-        async function initMeseraConnection() {
+        // Inicializar conexión con el servidor (usando el asistente "balu")
+        async function initBaluConnection() {
             try {
-                addMeseraMessage('Conectando con la mesera...', false);
+                addBaluMessage('Conectando con Balú...', false);
                 
-                currentSessionId = "mesera-session-" + Date.now();
+                currentSessionId = "balu-session-" + Date.now();
                 
-                // Enviar petición de inicialización al asistente "sofi" (que actuará como mesera)
+                // Enviar petición de inicialización al asistente "balu"
                 const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
                     method: 'POST',
                     headers: {
@@ -800,134 +777,132 @@
                     },
                     body: JSON.stringify({
                         message: "Hola",
-                        assistant: "sofi", // Usando el asistente "sofi" como mesera
+                        assistant: "balu", // Usando el asistente "balu"
                         session_id: currentSessionId
                     })
                 });
                 
                 if (testResponse.ok) {
                     const data = await testResponse.json();
-                    meseraMessages.innerHTML = '';
-                    addMeseraMessage('¡Hola! Soy la mesera del Restaurante Balú. ¿En qué puedo ayudarte hoy? ¿Quieres hacer un pedido, necesitas recomendaciones o tienes alguna pregunta sobre nuestro menú?', false);
+                    baluMessages.innerHTML = '';
+                    addBaluMessage('¡Hola! Soy Balú, tu asistente en el Restaurante Balú. ¿En qué puedo ayudarte hoy? ¿Quieres hacer un pedido, necesitas recomendaciones o tienes alguna pregunta sobre nuestro menú?', false);
                     
-                    meseraInput.disabled = false;
-                    meseraSendBtn.disabled = false;
-                    meseraInput.placeholder = 'Pregunta sobre el menú, pedidos, recomendaciones...';
+                    baluInput.disabled = false;
+                    baluSendBtn.disabled = false;
                 } else {
                     throw new Error(`HTTP ${testResponse.status}`);
                 }
                 
             } catch (error) {
                 console.error('Error en inicialización:', error);
-                meseraMessages.innerHTML = '';
-                addMeseraMessage('⚠️ No se pudo conectar con el servidor. Por favor, intenta más tarde.', false);
+                baluMessages.innerHTML = '';
+                addBaluMessage('⚠️ No se pudo conectar con el servidor. Por favor, intenta más tarde.', false);
                 
-                meseraInput.disabled = true;
-                meseraSendBtn.disabled = true;
-                meseraInput.placeholder = 'Servidor no disponible';
+                baluInput.disabled = true;
+                baluSendBtn.disabled = true;
             }
         }
         
         // Añadir mensaje al chat
-        function addMeseraMessage(content, isUser = false) {
+        function addBaluMessage(content, isUser = false) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = `mesera-message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.className = `balu-message ${isUser ? 'user' : 'ai'}`;
             
             const avatarDiv = document.createElement('div');
-            avatarDiv.className = 'mesera-message-avatar';
+            avatarDiv.className = 'balu-message-avatar';
             
             // Si es el asistente, usar la imagen balu.png
             if (!isUser) {
                 const img = document.createElement('img');
                 img.src = 'balu.png';
-                img.alt = 'Mesera';
+                img.alt = 'Balú';
                 avatarDiv.appendChild(img);
             } else {
                 avatarDiv.textContent = 'Tú';
             }
             
             const contentDiv = document.createElement('div');
-            contentDiv.className = 'mesera-message-content';
+            contentDiv.className = 'balu-message-content';
             contentDiv.innerHTML = content.replace(/\n/g, '<br>');
             
             messageDiv.appendChild(avatarDiv);
             messageDiv.appendChild(contentDiv);
-            meseraMessages.appendChild(messageDiv);
+            baluMessages.appendChild(messageDiv);
             
-            meseraMessages.scrollTop = meseraMessages.scrollHeight;
+            baluMessages.scrollTop = baluMessages.scrollHeight;
             
             return contentDiv;
         }
         
         // Mostrar indicador de escritura
-        function showMeseraTyping() {
+        function showBaluTyping() {
             const messageDiv = document.createElement('div');
-            messageDiv.className = 'mesera-message ai';
-            messageDiv.id = 'mesera-typing-indicator';
+            messageDiv.className = 'balu-message ai';
+            messageDiv.id = 'balu-typing-indicator';
             
             const avatarDiv = document.createElement('div');
-            avatarDiv.className = 'mesera-message-avatar';
+            avatarDiv.className = 'balu-message-avatar';
             const img = document.createElement('img');
             img.src = 'balu.png';
-            img.alt = 'Mesera';
+            img.alt = 'Balú';
             avatarDiv.appendChild(img);
             
             const contentDiv = document.createElement('div');
-            contentDiv.className = 'mesera-message-content';
+            contentDiv.className = 'balu-message-content';
             
             const typingDiv = document.createElement('div');
-            typingDiv.className = 'mesera-typing';
+            typingDiv.className = 'balu-typing';
             typingDiv.innerHTML = `
-                <div class="mesera-typing-dot"></div>
-                <div class="mesera-typing-dot"></div>
-                <div class="mesera-typing-dot"></div>
+                <div class="balu-typing-dot"></div>
+                <div class="balu-typing-dot"></div>
+                <div class="balu-typing-dot"></div>
             `;
             
             contentDiv.appendChild(typingDiv);
             messageDiv.appendChild(avatarDiv);
             messageDiv.appendChild(contentDiv);
-            meseraMessages.appendChild(messageDiv);
+            baluMessages.appendChild(messageDiv);
             
-            meseraMessages.scrollTop = meseraMessages.scrollHeight;
+            baluMessages.scrollTop = baluMessages.scrollHeight;
             
             return messageDiv;
         }
         
         // Ajustar altura del textarea
-        meseraInput.addEventListener('input', function() {
+        baluInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
         });
         
         // Enviar con Enter (sin Shift)
-        meseraInput.addEventListener('keydown', function(e) {
+        baluInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                if (!isGenerating) sendMeseraMessage();
+                if (!isGenerating) sendBaluMessage();
             }
         });
         
         // Enviar mensaje al hacer clic
-        meseraSendBtn.addEventListener('click', sendMeseraMessage);
+        baluSendBtn.addEventListener('click', sendBaluMessage);
         
         // Función para enviar mensaje
-        async function sendMeseraMessage() {
-            const text = meseraInput.value.trim();
+        async function sendBaluMessage() {
+            const text = baluInput.value.trim();
             if (!text || isGenerating) return;
             
-            meseraInput.value = '';
-            meseraInput.style.height = 'auto';
+            baluInput.value = '';
+            baluInput.style.height = 'auto';
             
-            addMeseraMessage(text, true);
+            addBaluMessage(text, true);
             
-            meseraInput.disabled = true;
-            meseraSendBtn.disabled = true;
+            baluInput.disabled = true;
+            baluSendBtn.disabled = true;
             isGenerating = true;
             
-            const typingIndicator = showMeseraTyping();
+            const typingIndicator = showBaluTyping();
             
             try {
-                // Enviar mensaje especificando que es para el asistente "sofi" (que actuará como mesera)
+                // Enviar mensaje especificando que es para el asistente "balu"
                 const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
                     method: 'POST',
                     headers: {
@@ -937,7 +912,7 @@
                     },
                     body: JSON.stringify({ 
                         message: text,
-                        assistant: "sofi", // Usando el asistente "sofi" como mesera
+                        assistant: "balu", // Usando el asistente "balu"
                         session_id: currentSessionId
                     })
                 });
@@ -951,34 +926,37 @@
                 typingIndicator.remove();
                 
                 if (data.status === 'success' && data.response) {
-                    addMeseraMessage(data.response);
+                    addBaluMessage(data.response);
                 } else {
                     throw new Error('Respuesta inválida del servidor');
                 }
                 
             } catch (error) {
                 typingIndicator.remove();
-                addMeseraMessage('❌ Error al conectar con el servidor. Por favor, intenta nuevamente.', false);
+                addBaluMessage('❌ Error al conectar con el servidor. Por favor, intenta nuevamente.', false);
                 console.error('Error detallado:', error);
             } finally {
-                meseraInput.disabled = false;
-                meseraSendBtn.disabled = false;
+                baluInput.disabled = false;
+                baluSendBtn.disabled = false;
                 isGenerating = false;
-                meseraInput.focus();
+                baluInput.focus();
             }
         }
         
         // Inicializar al cargar la página
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("✅ Botón de la mesera cargado correctamente");
+            console.log("✅ Botón de Balú cargado correctamente");
+            
+            // Mostrar el botón inicialmente
+            toggleBaluButton(true);
             
             // Cerrar ventana al hacer clic fuera en móviles
             if (window.innerWidth <= 768) {
                 document.addEventListener('click', function(e) {
-                    if (isMeseraChatOpen && 
-                        !meseraChatWindow.contains(e.target) && 
-                        !meseraFloatBtn.contains(e.target)) {
-                        closeMeseraChat();
+                    if (isBaluChatOpen && 
+                        !baluChatWindow.contains(e.target) && 
+                        !baluFloatBtn.contains(e.target)) {
+                        closeBaluChat();
                     }
                 });
             }
