@@ -205,7 +205,7 @@
             margin-top: 15px;
         }
         
-        /* --- BOTÓN BALÚ (AJUSTADO) - LADO DERECHO, MÁS ABAJO --- */
+        /* --- BOTÓN BALÚ (AJUSTADO) - LADO DERECHO, MÁS GRANDE Y ABAJO --- */
         .balu-button-container {
             position: fixed;
             bottom: 40px; /* Aproximadamente 1cm del fondo */
@@ -224,10 +224,10 @@
             --btn-bg: rgba(255, 255, 255, 0.25); /* Fondo más transparente */
             
             position: relative;
-            height: 140px; /* Más grande que antes */
-            width: 140px; /* Más grande que antes */
+            height: 160px; /* MÁS GRANDE (antes 140px) */
+            width: 160px; /* MÁS GRANDE (antes 140px) */
             background: var(--btn-bg);
-            border: 3px solid rgba(255, 255, 255, 0.5);
+            border: 4px solid rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             
             display: flex;
@@ -238,8 +238,8 @@
             backdrop-filter: blur(30px) saturate(200%);
             -webkit-backdrop-filter: blur(30px) saturate(200%);
             box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.3),
-                0 0 0 3px rgba(255, 255, 255, 0.3),
+                0 25px 60px rgba(0, 0, 0, 0.35),
+                0 0 0 4px rgba(255, 255, 255, 0.4),
                 inset 0 0 40px rgba(255, 255, 255, 0.2);
             
             transition: transform 0.3s ease, 
@@ -256,8 +256,8 @@
             transform: scale(1.2);
             background: rgba(255, 255, 255, 0.35);
             box-shadow: 
-                0 25px 60px rgba(0, 0, 0, 0.4),
-                0 0 0 3px rgba(255, 255, 255, 0.4),
+                0 30px 70px rgba(0, 0, 0, 0.45),
+                0 0 0 4px rgba(255, 255, 255, 0.5),
                 inset 0 0 50px rgba(255, 255, 255, 0.3);
         }
         
@@ -405,23 +405,29 @@
             font-weight: 800;
             font-size: 16px;
             flex-shrink: 0;
-            background: var(--color-rojo);
+            background: var(--color-rojo); /* Rojo por defecto (para usuario) */
             color: white;
             overflow: hidden;
             border: 2px solid var(--color-rojo);
         }
         
+        /* Avatar de la IA (Balú) - FONDO AMARILLO Y IMAGEN MÁS GRANDE */
+        .ai .balu-message-avatar {
+            background: var(--color-amarillo); /* Fondo amarillo para la IA */
+            border-color: var(--color-amarillo);
+        }
+        
         .balu-message-avatar img {
-            width: 70%; /* Imagen más pequeña dentro del círculo */
-            height: 70%; /* Imagen más pequeña dentro del círculo */
+            width: 85%; /* IMAGEN MÁS GRANDE (antes 70%) */
+            height: 85%; /* IMAGEN MÁS GRANDE (antes 70%) */
             object-fit: contain; /* Asegura que la imagen se ajuste sin distorsión */
             border-radius: 50%;
         }
         
         .user .balu-message-avatar {
-            background: var(--color-amarillo);
-            color: var(--color-rojo);
-            border-color: var(--color-amarillo);
+            background: var(--color-rojo); /* Fondo rojo para el usuario */
+            color: var(--color-amarillo); /* Texto amarillo para contraste */
+            border-color: var(--color-rojo);
         }
         
         .balu-message-content {
@@ -537,8 +543,8 @@
             }
             
             .balu-float-btn {
-                height: 120px;
-                width: 120px;
+                height: 140px; /* MÁS GRANDE para móvil también */
+                width: 140px; /* MÁS GRANDE para móvil también */
             }
             
             #balu-chat-window {
@@ -557,8 +563,8 @@
             }
             
             .balu-float-btn {
-                height: 110px;
-                width: 110px;
+                height: 130px; /* MÁS GRANDE para móvil pequeño */
+                width: 130px; /* MÁS GRANDE para móvil pequeño */
             }
             
             #balu-chat-window {
@@ -674,7 +680,7 @@
         </div>
     </div>
     
-    <!-- Botón flotante de Balú - LADO DERECHO, MÁS ABAJO -->
+    <!-- Botón flotante de Balú - LADO DERECHO, MÁS GRANDE Y ABAJO -->
     <div class="balu-button-container" id="balu-button-container">
         <div class="balu-pulse"></div>
         <div id="balu-float-btn" class="balu-float-btn" role="button" aria-label="Abrir Asistente Balú" title="Hablar con Balú">
