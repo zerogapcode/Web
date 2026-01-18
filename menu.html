@@ -97,34 +97,188 @@
             header h1 { font-size: 7rem; letter-spacing: -3px; padding-bottom: 15px; }
             .header-logo img { width: 200px; max-height: 260px; margin-left: 5px; }
         }
-        /* --- NAVEGACIÓN --- */
+        /* --- NAVEGACIÓN MEJORADA PARA RESPONSIVE --- */
         nav {
             background: var(--color-rojo);
             position: sticky;
             top: 0;
             z-index: 999;
-            padding: 16px 0;
+            padding: 12px 0;
             display: flex;
-            justify-content: center;
-            gap: 12px;
+            justify-content: flex-start;
+            align-items: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            white-space: nowrap;
+            width: 100%;
         }
+        
+        nav::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+        
+        .nav-container {
+            display: flex;
+            gap: 8px;
+            padding: 0 10px;
+            min-width: min-content;
+        }
+        
         nav a {
             color: white;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.4rem;
-            padding: 18px 28px;
+            font-size: 1.2rem;
+            padding: 14px 20px;
             border-radius: 25px;
             background: rgba(255,255,255,0.15);
-            white-space: nowrap;
             transition: all 0.3s ease;
+            flex-shrink: 0;
+            display: inline-block;
+            text-align: center;
+            min-width: max-content;
         }
+        
         nav a:hover {
             background: rgba(255,255,255,0.25);
             transform: translateY(-2px);
         }
+        
+        /* Ajustes para diferentes tamaños de pantalla */
+        @media (max-width: 1200px) {
+            nav a {
+                font-size: 1.1rem;
+                padding: 12px 18px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            nav a {
+                font-size: 1rem;
+                padding: 10px 16px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                padding: 10px 0;
+            }
+            
+            .nav-container {
+                gap: 6px;
+                padding: 0 8px;
+            }
+            
+            nav a {
+                font-size: 0.95rem;
+                padding: 10px 14px;
+                border-radius: 20px;
+            }
+            
+            header h1 {
+                font-size: 6rem;
+                letter-spacing: -2px;
+                padding-bottom: 15px;
+            }
+            
+            .header-logo img {
+                width: 180px;
+                max-height: 240px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            nav {
+                padding: 8px 0;
+            }
+            
+            .nav-container {
+                gap: 4px;
+                padding: 0 6px;
+            }
+            
+            nav a {
+                font-size: 0.85rem;
+                padding: 8px 12px;
+                border-radius: 18px;
+            }
+            
+            header h1 {
+                font-size: 4.5rem;
+                letter-spacing: -1px;
+                padding-bottom: 10px;
+            }
+            
+            .header-logo img {
+                width: 150px;
+                max-height: 200px;
+            }
+            
+            .header-container {
+                min-height: 180px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            nav a {
+                font-size: 0.8rem;
+                padding: 7px 10px;
+                border-radius: 16px;
+            }
+            
+            .nav-container {
+                gap: 3px;
+                padding: 0 5px;
+            }
+            
+            header h1 {
+                font-size: 4rem;
+                letter-spacing: -1px;
+            }
+            
+            .header-logo img {
+                width: 130px;
+                max-height: 180px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            nav a {
+                font-size: 0.75rem;
+                padding: 6px 9px;
+                border-radius: 15px;
+            }
+            
+            header h1 {
+                font-size: 3.5rem;
+            }
+            
+            .header-logo img {
+                width: 110px;
+                max-height: 160px;
+            }
+        }
+        
+        /* Para pantallas muy pequeñas, mostrar menos botones o cambiar diseño */
+        @media (max-width: 320px) {
+            nav a {
+                font-size: 0.7rem;
+                padding: 5px 8px;
+            }
+            
+            header h1 {
+                font-size: 3rem;
+            }
+            
+            .header-logo img {
+                width: 100px;
+                max-height: 140px;
+            }
+        }
+        
         /* --- CONTENEDOR --- */
         .container {
             max-width: 100%; 
@@ -144,6 +298,22 @@
             padding-bottom: 8px;
             scroll-margin-top: 100px; /* Espacio para que no quede detrás del nav fijo */
         }
+        
+        /* Ajustes responsivos para títulos de sección */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.8rem;
+                margin: 2.5rem 15px 1.2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 1.5rem;
+                margin: 2rem 15px 1rem;
+            }
+        }
+        
         /* --- TARJETAS --- */
         .card {
             background: white;
@@ -187,6 +357,46 @@
             font-size: 1.3rem;
             margin: 0;
         }
+        
+        /* Ajustes responsivos para tarjetas */
+        @media (max-width: 768px) {
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .card-price {
+                font-size: 1.3rem;
+                padding: 6px 16px;
+            }
+            
+            .card-desc {
+                font-size: 1.1rem;
+            }
+            
+            .card-body {
+                padding: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .card-title {
+                font-size: 1.3rem;
+            }
+            
+            .card-price {
+                font-size: 1.1rem;
+                padding: 5px 14px;
+            }
+            
+            .card-desc {
+                font-size: 1rem;
+            }
+            
+            .card-body {
+                padding: 1rem;
+            }
+        }
+        
         /* --- FOOTER (AJUSTADO) --- */
         footer {
             background: #111;
@@ -212,6 +422,35 @@
             font-size: 0.8rem;
             opacity: 0.8;
             margin-top: 15px;
+        }
+        
+        /* Ajustes responsivos para footer */
+        @media (max-width: 768px) {
+            footer {
+                padding: 2rem 1rem;
+            }
+            
+            .address {
+                font-size: 1.1rem;
+            }
+            
+            .footer-text {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            footer {
+                padding: 1.5rem 1rem;
+            }
+            
+            .address {
+                font-size: 1rem;
+            }
+            
+            .footer-text {
+                font-size: 0.9rem;
+            }
         }
         
         /* --- BOTÓN BALÚ (AJUSTADO) - LADO DERECHO, MÁS GRANDE Y ABAJO CON EFECTO LIQUIDGLASS --- */
@@ -698,6 +937,23 @@
         }
         
         @media (max-width: 360px) {
+            .balu-button-container {
+                bottom: 15px;
+                right: 10px;
+            }
+            
+            .balu-float-btn {
+                height: 100px;
+                width: 100px;
+            }
+            
+            #balu-chat-window {
+                height: 60vh;
+                bottom: 120px;
+                right: 5px;
+                width: calc(100vw - 10px);
+            }
+            
             .card-img-top {
                 height: 450px; /* Ajustado para pantallas muy pequeñas */
             }
@@ -716,10 +972,12 @@
         </div>
     </header>
     <nav>
-        <a href="#hamburguesas">Hamburguesas</a>
-        <a href="#almuerzos">Almuerzos</a>
-        <a href="#postres">Postres</a>
-        <a href="#bebidas">Bebidas</a>
+        <div class="nav-container">
+            <a href="#hamburguesas">Hamburguesas</a>
+            <a href="#almuerzos">Almuerzos</a>
+            <a href="#postres">Postres</a>
+            <a href="#bebidas">Bebidas</a>
+        </div>
     </nav>
     <div class="container">
         <h2 id="hamburguesas" class="section-title reveal">Hamburguesas</h2>
