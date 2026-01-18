@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Menú Digital | Restaurante Balú Charallave</title>
+    <style>
+        /* --- RESET Y VARIABLES --- */
+        * { box-sizing: border-box; }
+        :root {
+            --color-rojo: #D32F2F;      
+            --color-amarillo: #FFEB3B;  
+            --color-verde-sombra: #1B5E20; 
+            --color-verde-precio: #43A047; 
+            --color-fondo: #FAFAFA;     
+            --color-texto: #222;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            margin: 0;
+            padding: 0;
+            line-height: 1.4;
+            overflow-x: hidden;
+            padding-bottom: 40px;
+        }
+
+        /* --- ANIMACIÓN TÍTULO BALÚ --- */
+        @keyframes baluVibe {
+            0% { text-shadow: 4px 4px 0px var(--color-verde-sombra); transform: scale(1) rotate(0deg); }
+            50% { text-shadow: 7px 7px 0px var(--color-verde-sombra); transform: scale(1.05) rotate(-2deg); }
+            100% { text-shadow: 4px 4px 0px var(--color-verde-sombra); transform: scale(1) rotate(0deg); }
+        }
+
+        /* --- ANIMACIÓN SCROLL --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--color-amarillo);
+            color: var(--color-rojo);
+            text-align: center;
+            padding: 2.5rem 1rem;
+            border-bottom: 5px solid var(--color-rojo);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 4.5rem;
+            margin: 0;
+            font-weight: 900;
+            text-transform: uppercase;
+            animation: baluVibe 3s infinite ease-in-out; 
+        }
+
+        header p {
+            margin-top: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        nav {
+            background: var(--color-rojo);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            overflow-x: auto;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.15);
+            white-space: nowrap;
+        }
+
+        /* --- CONTENEDOR --- */
+        .container {
+            max-width: 500px; 
+            margin: 0 auto;
+            padding: 10px 15px;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--color-rojo);
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-bottom: 3px dashed var(--color-amarillo);
+            display: inline-block;
+            width: 100%;
+            padding-bottom: 8px;
+        }
+
+        /* --- TARJETAS --- */
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 1px solid #eee;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-body {
+            padding: 1.2rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin: 0;
+            color: #111;
+        }
+
+        .card-price {
+            background: var(--color-verde-precio);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .card-desc {
+            color: #555;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #111;
+            color: #fff;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 2rem;
+            border-top: 6px solid var(--color-rojo);
+        }
+        
+        .address {
+            color: var(--color-amarillo);
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BALÚ</h1>
+        <p>Sabor • Charallave • Tradición</p>
+    </header>
+
+    <nav>
+        <a href="#hamburguesas">Hamburguesas</a>
+        <a href="#almuerzos">Almuerzos</a>
+        <a href="#postres">Postres</a>
+        <a href="#bebidas">Bebidas</a>
+    </nav>
+
+    <div class="container">
+
+        <h2 id="hamburguesas" class="section-title reveal">Hamburguesas</h2>
+
+        <div class="card reveal">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Hamburguesa" class="card-img-top">
+            <div class="card-body">
+                <div class="card-header">
+                    <h3 class="card-title">Balú Clásica</h3>
+                    <span class="card-price">$8.50</span>
+                </div>
+                <p class="card-desc">Carne de res premium, queso, vegetales frescos y salsa Balú.</p>
+            </div>
+        </div>
+
+        <div class="card reveal">
+            <img src="https://cdn.pixabay.com/photo/2016/03/05/19/37/hotdog-1238467_1280.jpg" alt="Perro Caliente" class="card-img-top">
+            <div class="card-body">
+                <div class="card-header">
+                    <h3 class="card-title">Perro Balú Especial</h3>
+                    <span class="card-price">$5.00</span>
+                </div>
+                <p class="card-desc">Salchicha jumbo, lluvia de papitas crujientes y triple salsa.</p>
+            </div>
+        </div>
+
+        <h2 id="almuerzos" class="section-title reveal">Almuerzos & Pastas</h2>
+
+        <div class="card reveal">
+            <img src="https://images.unsplash.com/photo-1626844131082-256783844137?auto=format&fit=crop&w=600&q=80" alt="Pollo Frito" class="card-img-top">
+            <div class="card-body">
+                <div class="card-header">
+                    <h3 class="card-title">Pollo a la Canasta</h3>
+                    <span class="card-price">$10.00</span>
+                </div>
+                <p class="card-desc">Pollo broaster super crujiente con papas fritas y ensalada.</p>
+            </div>
+        </div>
+
+        <div class="card reveal">
+            <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" alt="Pasta" class="card-img-top">
+            <div class="card-body">
+                <div class="card-header">
+                    <h3 class="card-title">Pasta Boloñesa</h3>
+                    <span class="card-price">$9.00</span>
+                </div>
+                <p class="card-desc">Spaghetti con salsa de carne artesanal y queso parmesano.</p>
+            </div>
+        </div>
+
+        <h2 id="postres" class="section-title reveal">Postres</h2>
+
+        <div class="card reveal">
+            <img src="https://cdn.pixabay.com/photo/2017/05/30/11/13/dessert-2356619_1280.jpg" alt="Brownie con Helado" class="card-img-top">
+            <div class="card-body">
+                <div class="card-header">
+                    <h3 class="card-title">Brownie Explosión</h3>
+                    <span class="card-price">$6.00</span>
+                </div>
+                <p class="card-desc">Brownie de chocolate caliente con helado de vainilla y fudge.</p>
+            </div>
+        </div>
+
+        <div class="card reveal">
+            <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=600&q=80" alt="Helado" class="card-img-top">
+            <div class="card-body">
+                <div class="card-header">
+                    <h3 class="card-title">Copa Sundae</h3>
+                    <span class="card-price">$5.50</span>
+                </div>
+                <p class="card-desc">Tres porciones de helado con topping de maní y caramelo.</p>
+            </div>
+        </div>
+
+        <h2 id="bebidas" class="section-title reveal">Bebidas</h2>
+
+        <div class="card reveal">
+            <img src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=600&q=80" alt="Merengada" class="card-img-top">
+            <div class="card-body">
+                <div class="card-header">
+                    <h3 class="card-title">Merengada Oreo</h3>
+                    <span class="card-price">$5.00</span>
+                </div>
+                <p class="card-desc">Batido cremoso de galleta oreo con crema chantilly.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="address">📍 Charallave, Edo. Miranda</div>
+        <p>Restaurante Balú</p>
+        <small>© 2023 Todos los derechos reservados</small>
+    </footer>
+
+    <script>
+        function revealOnScroll() {
+            var reveals = document.querySelectorAll(".reveal");
+            var windowHeight = window.innerHeight;
+            for (var i = 0; i < reveals.length; i++) {
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 80) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", revealOnScroll);
+        revealOnScroll();
+    </script>
+
+</body>
+</html>
