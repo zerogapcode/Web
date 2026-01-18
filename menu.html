@@ -119,20 +119,20 @@
         }
         /* --- CONTENEDOR --- */
         .container {
-            max-width: 500px; 
-            margin: 0 auto;
-            padding: 10px 15px;
+            max-width: 100%; 
+            margin: 0;
+            padding: 10px 0;
         }
         .section-title {
             text-align: center;
             color: var(--color-rojo);
             font-size: 1.8rem;
-            margin: 3rem 0 1.5rem;
+            margin: 3rem 15px 1.5rem;
             font-weight: 800;
             text-transform: uppercase;
             border-bottom: 3px dashed var(--color-amarillo);
             display: inline-block;
-            width: 100%;
+            width: calc(100% - 30px);
             padding-bottom: 8px;
         }
         /* --- TARJETAS --- */
@@ -140,7 +140,7 @@
             background: white;
             border-radius: 20px;
             overflow: hidden;
-            margin-bottom: 30px;
+            margin: 0 15px 30px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.06);
             border: 1px solid #eee;
         }
