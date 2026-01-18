@@ -45,7 +45,9 @@
             text-align: center;
             padding: 0.5rem 1rem 0;
             border-bottom: 5px solid var(--color-rojo);
-            position: relative;
+            position: sticky;
+            top: 0;
+            z-index: 1001;
         }
         .header-container {
             display: flex;
@@ -93,12 +95,13 @@
             .header-container { min-height: 80px; }
             header h1 { font-size: 2.8rem; letter-spacing: -1px; padding-bottom: 1px; }
             .header-logo img { width: 75px; max-height: 100px; margin-left: 5px; }
+            nav { top: 86px; }
         }
         /* --- NAVEGACIÓN --- */
         nav {
             background: var(--color-rojo);
             position: sticky;
-            top: 0;
+            top: 96px;
             z-index: 1000;
             padding: 12px 0;
             display: flex;
@@ -111,8 +114,8 @@
             color: white;
             text-decoration: none;
             font-weight: bold;
-            font-size: 0.85rem;
-            padding: 6px 12px;
+            font-size: 1.1rem;
+            padding: 14px 20px;
             border-radius: 20px;
             background: rgba(255,255,255,0.15);
             white-space: nowrap;
@@ -146,7 +149,7 @@
         }
         .card-img-top {
             width: 100%;
-            height: 250px;
+            height: 500px;
             object-fit: cover;
             display: block;
         }
