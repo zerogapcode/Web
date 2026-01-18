@@ -45,9 +45,7 @@
             text-align: center;
             padding: 0.5rem 1rem 0;
             border-bottom: 5px solid var(--color-rojo);
-            position: sticky;
-            top: 0;
-            z-index: 1001;
+            position: relative;
         }
         .header-container {
             display: flex;
@@ -95,14 +93,13 @@
             .header-container { min-height: 80px; }
             header h1 { font-size: 2.8rem; letter-spacing: -1px; padding-bottom: 1px; }
             .header-logo img { width: 75px; max-height: 100px; margin-left: 5px; }
-            nav { top: 86px; }
         }
         /* --- NAVEGACIÓN --- */
         nav {
             background: var(--color-rojo);
             position: sticky;
-            top: 96px;
-            z-index: 1000;
+            top: 0;
+            z-index: 999;
             padding: 12px 0;
             display: flex;
             justify-content: center;
@@ -129,7 +126,7 @@
         .section-title {
             text-align: center;
             color: var(--color-rojo);
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             margin: 3rem 15px 1.5rem;
             font-weight: 800;
             text-transform: uppercase;
@@ -154,7 +151,7 @@
             display: block;
         }
         .card-body {
-            padding: 1.2rem;
+            padding: 1.5rem;
         }
         .card-header {
             display: flex;
@@ -163,7 +160,7 @@
             margin-bottom: 8px;
         }
         .card-title {
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             font-weight: 800;
             margin: 0;
             color: #111;
@@ -171,14 +168,14 @@
         .card-price {
             background: var(--color-verde-precio);
             color: white;
-            padding: 4px 14px;
+            padding: 8px 20px;
             border-radius: 50px;
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1.6rem;
         }
         .card-desc {
             color: #555;
-            font-size: 1rem;
+            font-size: 1.3rem;
             margin: 0;
         }
         /* --- FOOTER (AJUSTADO) --- */
