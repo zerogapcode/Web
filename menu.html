@@ -1,3 +1,5 @@
+[file name]: menu.html
+[file content begin]
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -944,6 +946,136 @@
                 height: 450px; /* Ajustado para pantallas muy pequeñas */
             }
         }
+
+        /* === NUEVO: ANUNCIO TEMPORAL PARA BALÚ === */
+        .balu-attention-indicator {
+            position: fixed;
+            bottom: 240px; /* Posicionado encima del botón Balú */
+            right: 10px; /* Alineado con el botón */
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            animation: baluAttentionBounce 2s infinite ease-in-out;
+            width: 250px;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        .balu-attention-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .balu-attention-text {
+            background: white;
+            color: #D32F2F; /* Color rojo de Balú */
+            padding: 14px 20px;
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: 900;
+            box-shadow: 0 8px 25px rgba(211, 47, 47, 0.25);
+            border: 3px solid #FFEB3B; /* Borde amarillo de Balú */
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            position: relative;
+            width: 100%;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+        
+        /* Dedo posicionado en la parte inferior y CENTRADO debajo del cuadro de texto */
+        .balu-attention-finger {
+            font-size: 40px;
+            color: #FFEB3B; /* Amarillo de Balú */
+            text-shadow: 0 0 12px rgba(255, 235, 59, 0.7);
+            animation: baluFingerPulse 1.5s infinite alternate;
+            position: relative;
+            margin-top: 0; /* Sin margen superior */
+            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+            align-self: center; /* Centra el dedo horizontalmente */
+            transform: none; /* Sin rotación */
+        }
+        
+        @keyframes baluAttentionBounce {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        
+        @keyframes baluFingerPulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.3); opacity: 1; }
+        }
+        
+        /* Ajustes responsivos para el anuncio */
+        @media (max-width: 1024px) {
+            .balu-attention-indicator {
+                bottom: 200px;
+                right: 10px;
+                width: 220px;
+            }
+            
+            .balu-attention-text {
+                font-size: 18px;
+                padding: 12px 16px;
+            }
+            
+            .balu-attention-finger {
+                font-size: 36px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .balu-attention-indicator {
+                bottom: 180px;
+                right: 5px;
+                width: 200px;
+            }
+            
+            .balu-attention-text {
+                font-size: 16px;
+                padding: 10px 14px;
+                border-width: 2px;
+            }
+            
+            .balu-attention-finger {
+                font-size: 32px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .balu-attention-indicator {
+                bottom: 150px;
+                right: 0;
+                width: 180px;
+            }
+            
+            .balu-attention-text {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            
+            .balu-attention-finger {
+                font-size: 28px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .balu-attention-indicator {
+                bottom: 130px;
+                width: 160px;
+            }
+            
+            .balu-attention-text {
+                font-size: 12px;
+                padding: 7px 10px;
+            }
+            
+            .balu-attention-finger {
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1048,6 +1180,14 @@
                 <p class="card-desc">Refrescante limonada natural con hielo y menta.</p>
             </div>
         </div>
+    </div>
+    
+    <!-- === NUEVO: ANUNCIO TEMPORAL PARA BALÚ === -->
+    <div class="balu-attention-indicator" id="balu-attention-indicator">
+        <div class="balu-attention-text">
+            Pulsa aquí para hablar con Balú
+        </div>
+        <div class="balu-attention-finger">👇</div>
     </div>
     
     <!-- Botón flotante de Balú - LADO DERECHO, MÁS GRANDE Y ABAJO CON EFECTO LIQUIDGLASS -->
@@ -1354,6 +1494,36 @@
                     }
                 });
             }
+
+            // === NUEVO: Funcionalidad del anuncio temporal ===
+            const baluAttentionIndicator = document.getElementById('balu-attention-indicator');
+            let attentionIndicatorVisible = true;
+
+            // Ocultar el anuncio después de 30 segundos
+            setTimeout(() => {
+                if (baluAttentionIndicator && attentionIndicatorVisible) {
+                    baluAttentionIndicator.classList.add('hidden');
+                    attentionIndicatorVisible = false;
+                }
+            }, 30000); // 30 segundos
+
+            // Ocultar anuncio al hacer clic en cualquier parte
+            document.addEventListener('click', function(e) {
+                if (baluAttentionIndicator && attentionIndicatorVisible && 
+                    !baluFloatBtn.contains(e.target) && 
+                    !baluAttentionIndicator.contains(e.target)) {
+                    baluAttentionIndicator.classList.add('hidden');
+                    attentionIndicatorVisible = false;
+                }
+            });
+
+            // Ocultar anuncio al abrir el chat de Balú
+            baluFloatBtn.addEventListener('click', function() {
+                if (baluAttentionIndicator && attentionIndicatorVisible) {
+                    baluAttentionIndicator.classList.add('hidden');
+                    attentionIndicatorVisible = false;
+                }
+            });
         });
     </script>
     
@@ -1374,3 +1544,4 @@
     </script>
 </body>
 </html>
+[file content end]
