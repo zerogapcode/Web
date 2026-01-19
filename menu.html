@@ -97,15 +97,15 @@
             header h1 { font-size: 7rem; letter-spacing: -3px; padding-bottom: 15px; }
             .header-logo img { width: 200px; max-height: 260px; margin-left: 5px; }
         }
-        /* --- NAVEGACIÓN MEJORADA CON BOTONES CENTRADOS --- */
+        /* --- NAVEGACIÓN MEJORADA CON BOTONES CENTRADOS Y MÁS GRANDES --- */
         nav {
             background: var(--color-rojo);
             position: sticky;
             top: 0;
             z-index: 999;
-            padding: 12px 0;
+            padding: 15px 0; /* Aumentado de 12px */
             display: flex;
-            justify-content: center; /* CENTRADO */
+            justify-content: center;
             align-items: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             overflow-x: auto;
@@ -124,16 +124,16 @@
             color: white;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.2rem;
-            padding: 14px 24px; /* Aumentado padding horizontal para mejor centrado */
-            border-radius: 25px;
+            font-size: 1.4rem; /* Aumentado de 1.2rem */
+            padding: 16px 28px; /* Aumentado de 14px 24px */
+            border-radius: 28px; /* Aumentado ligeramente */
             background: rgba(255,255,255,0.15);
             transition: all 0.3s ease;
             flex-shrink: 0;
             display: inline-block;
             text-align: center;
             min-width: max-content;
-            margin: 0 6px; /* Margen horizontal para separación */
+            margin: 0 8px; /* Aumentado de 6px */
         }
         
         nav a:hover {
@@ -144,30 +144,30 @@
         /* Ajustes para diferentes tamaños de pantalla */
         @media (max-width: 1200px) {
             nav a {
-                font-size: 1.1rem;
-                padding: 12px 20px;
-                margin: 0 5px;
+                font-size: 1.3rem; /* Aumentado de 1.1rem */
+                padding: 14px 24px; /* Aumentado de 12px 20px */
+                margin: 0 7px; /* Aumentado de 5px */
             }
         }
         
         @media (max-width: 992px) {
             nav a {
-                font-size: 1rem;
-                padding: 10px 18px;
-                margin: 0 4px;
+                font-size: 1.2rem; /* Aumentado de 1rem */
+                padding: 12px 20px; /* Aumentado de 10px 18px */
+                margin: 0 6px; /* Aumentado de 4px */
             }
         }
         
         @media (max-width: 768px) {
             nav {
-                padding: 10px 0;
+                padding: 12px 0; /* Aumentado de 10px */
             }
             
             nav a {
-                font-size: 0.95rem;
-                padding: 10px 16px;
-                border-radius: 20px;
-                margin: 0 3px;
+                font-size: 1.1rem; /* Aumentado de 0.95rem */
+                padding: 11px 18px; /* Aumentado de 10px 16px */
+                border-radius: 24px; /* Aumentado de 20px */
+                margin: 0 4px; /* Aumentado de 3px */
             }
             
             header h1 {
@@ -184,14 +184,14 @@
         
         @media (max-width: 576px) {
             nav {
-                padding: 8px 0;
+                padding: 10px 0; /* Aumentado de 8px */
             }
             
             nav a {
-                font-size: 0.85rem;
-                padding: 8px 14px;
-                border-radius: 18px;
-                margin: 0 2px;
+                font-size: 1rem; /* Aumentado de 0.85rem */
+                padding: 10px 16px; /* Aumentado de 8px 14px */
+                border-radius: 22px; /* Aumentado de 18px */
+                margin: 0 3px; /* Aumentado de 2px */
             }
             
             header h1 {
@@ -212,10 +212,10 @@
         
         @media (max-width: 400px) {
             nav a {
-                font-size: 0.8rem;
-                padding: 7px 12px;
-                border-radius: 16px;
-                margin: 0 1px;
+                font-size: 0.95rem; /* Aumentado de 0.8rem */
+                padding: 9px 15px; /* Aumentado de 7px 12px */
+                border-radius: 20px; /* Aumentado de 16px */
+                margin: 0 2px; /* Aumentado de 1px */
             }
             
             header h1 {
@@ -231,10 +231,10 @@
         
         @media (max-width: 360px) {
             nav a {
-                font-size: 0.75rem;
-                padding: 6px 10px;
-                border-radius: 15px;
-                margin: 0 1px;
+                font-size: 0.9rem; /* Aumentado de 0.75rem */
+                padding: 8px 13px; /* Aumentado de 6px 10px */
+                border-radius: 19px; /* Aumentado de 15px */
+                margin: 0 2px; /* Aumentado de 1px */
             }
             
             header h1 {
@@ -249,10 +249,10 @@
         
         @media (max-width: 320px) {
             nav a {
-                font-size: 0.7rem;
-                padding: 5px 9px;
-                border-radius: 14px;
-                margin: 0 1px;
+                font-size: 0.85rem; /* Aumentado de 0.7rem */
+                padding: 7px 12px; /* Aumentado de 5px 9px */
+                border-radius: 18px; /* Aumentado de 14px */
+                margin: 0 1px; /* Mantenido */
             }
             
             header h1 {
