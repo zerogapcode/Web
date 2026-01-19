@@ -97,7 +97,7 @@
             header h1 { font-size: 7rem; letter-spacing: -3px; padding-bottom: 15px; }
             .header-logo img { width: 200px; max-height: 260px; margin-left: 5px; }
         }
-        /* --- NAVEGACIÓN MEJORADA PARA RESPONSIVE --- */
+        /* --- NAVEGACIÓN MEJORADA CON BOTONES CENTRADOS --- */
         nav {
             background: var(--color-rojo);
             position: sticky;
@@ -105,7 +105,7 @@
             z-index: 999;
             padding: 12px 0;
             display: flex;
-            justify-content: flex-start;
+            justify-content: center; /* CENTRADO */
             align-items: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             overflow-x: auto;
@@ -120,19 +120,12 @@
             display: none; /* Chrome, Safari, Edge */
         }
         
-        .nav-container {
-            display: flex;
-            gap: 8px;
-            padding: 0 10px;
-            min-width: min-content;
-        }
-        
         nav a {
             color: white;
             text-decoration: none;
             font-weight: bold;
             font-size: 1.2rem;
-            padding: 14px 20px;
+            padding: 14px 24px; /* Aumentado padding horizontal para mejor centrado */
             border-radius: 25px;
             background: rgba(255,255,255,0.15);
             transition: all 0.3s ease;
@@ -140,6 +133,7 @@
             display: inline-block;
             text-align: center;
             min-width: max-content;
+            margin: 0 6px; /* Margen horizontal para separación */
         }
         
         nav a:hover {
@@ -151,14 +145,16 @@
         @media (max-width: 1200px) {
             nav a {
                 font-size: 1.1rem;
-                padding: 12px 18px;
+                padding: 12px 20px;
+                margin: 0 5px;
             }
         }
         
         @media (max-width: 992px) {
             nav a {
                 font-size: 1rem;
-                padding: 10px 16px;
+                padding: 10px 18px;
+                margin: 0 4px;
             }
         }
         
@@ -167,15 +163,11 @@
                 padding: 10px 0;
             }
             
-            .nav-container {
-                gap: 6px;
-                padding: 0 8px;
-            }
-            
             nav a {
                 font-size: 0.95rem;
-                padding: 10px 14px;
+                padding: 10px 16px;
                 border-radius: 20px;
+                margin: 0 3px;
             }
             
             header h1 {
@@ -195,15 +187,11 @@
                 padding: 8px 0;
             }
             
-            .nav-container {
-                gap: 4px;
-                padding: 0 6px;
-            }
-            
             nav a {
                 font-size: 0.85rem;
-                padding: 8px 12px;
+                padding: 8px 14px;
                 border-radius: 18px;
+                margin: 0 2px;
             }
             
             header h1 {
@@ -225,13 +213,9 @@
         @media (max-width: 400px) {
             nav a {
                 font-size: 0.8rem;
-                padding: 7px 10px;
+                padding: 7px 12px;
                 border-radius: 16px;
-            }
-            
-            .nav-container {
-                gap: 3px;
-                padding: 0 5px;
+                margin: 0 1px;
             }
             
             header h1 {
@@ -248,8 +232,9 @@
         @media (max-width: 360px) {
             nav a {
                 font-size: 0.75rem;
-                padding: 6px 9px;
+                padding: 6px 10px;
                 border-radius: 15px;
+                margin: 0 1px;
             }
             
             header h1 {
@@ -262,11 +247,12 @@
             }
         }
         
-        /* Para pantallas muy pequeñas, mostrar menos botones o cambiar diseño */
         @media (max-width: 320px) {
             nav a {
                 font-size: 0.7rem;
-                padding: 5px 8px;
+                padding: 5px 9px;
+                border-radius: 14px;
+                margin: 0 1px;
             }
             
             header h1 {
@@ -972,12 +958,10 @@
         </div>
     </header>
     <nav>
-        <div class="nav-container">
-            <a href="#hamburguesas">Hamburguesas</a>
-            <a href="#almuerzos">Almuerzos</a>
-            <a href="#postres">Postres</a>
-            <a href="#bebidas">Bebidas</a>
-        </div>
+        <a href="#hamburguesas">Hamburguesas</a>
+        <a href="#almuerzos">Almuerzos</a>
+        <a href="#postres">Postres</a>
+        <a href="#bebidas">Bebidas</a>
     </nav>
     <div class="container">
         <h2 id="hamburguesas" class="section-title reveal">Hamburguesas</h2>
