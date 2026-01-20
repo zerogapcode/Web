@@ -2143,7 +2143,7 @@
       <span class="btn-text">Pitfall</span>
     </div>
 
-    <!-- NUEVO: Botón Tráfico Aéreo ahora tercero -->
+    <!-- Botón Tráfico Aéreo ahora tercero -->
     <div id="traffic-float-btn" class="float-btn" role="button" aria-label="Abrir Tráfico Aéreo">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2183,7 +2183,7 @@
       <span class="status-dot"></span>
     </div>
 
-    <!-- NUEVO BOTÓN PAGOS agregado aquí -->
+    <!-- Botón Pagos -->
     <div id="pagos-float-btn" class="float-btn" role="button" aria-label="Abrir Pagos">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2195,6 +2195,22 @@
         </svg>
       </div>
       <span class="btn-text">Pagos</span>
+    </div>
+
+    <!-- NUEVO: Botón Alex BETA -->
+    <div id="alex-float-btn" class="float-btn" role="button" aria-label="Abrir Alex BETA">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+          <path d="M16 11h4"></path>
+          <path d="M20 15h-4"></path>
+          <path d="M8 11H4"></path>
+          <path d="M4 15h4"></path>
+        </svg>
+      </div>
+      <span class="btn-text">Alex BETA</span>
+      <span class="status-dot" style="background-color: #ffaa00; box-shadow: 0 0 8px #ffaa00;"></span>
     </div>
   </div>
 
@@ -2305,7 +2321,8 @@
     const trafficFloatBtn = document.getElementById('traffic-float-btn');
     const debugFloatBtn = document.getElementById('debug-float-btn');
     const aiFloatBtn = document.getElementById('ai-float-btn');
-    const pagosFloatBtn = document.getElementById('pagos-float-btn'); // NUEVO
+    const pagosFloatBtn = document.getElementById('pagos-float-btn');
+    const alexFloatBtn = document.getElementById('alex-float-btn'); // NUEVO
     
     // Elementos del modal de contraseña
     const passwordModal = document.getElementById('password-modal');
@@ -3047,6 +3064,14 @@
     });
 
     // ========================================
+    // FUNCIONALIDAD ALEX BETA
+    // ========================================
+
+    alexFloatBtn.addEventListener('click', () => {
+      window.location.href = 'friendbot.html';
+    });
+
+    // ========================================
     // FUNCIONALIDAD PAGOS CON CONTRASEÑA
     // ========================================
 
@@ -3244,7 +3269,7 @@
       const examples = {
         javascript: `// Ejemplo en JavaScript\nfunction factorial(n) {\n  if (n === 1) {\n    return 1;\n  }\n  return n * factorial(n - 1);\n\nconsole.log(factorial(5));`,
         python: `# Ejemplo en Python\ndef factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))`,
-        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
+        java: `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
         cpp: `// Ejemplo en C++\n#include <iostream>\nusing namespace std;\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n\nint main() {\n    cout << factorial(5) << endl;\n    return 0;\n}`,
         c: `// Ejemplo en C\n#include <stdio.h>\n\nint factorial(int n) {\n    if (n == 1) {\n        return 1;\n    }\n    return n * factorial(n - 1);\n\nint main() {\n    printf("%d\\n", factorial(5));\n    return 0;\n}`,
         csharp: `// Ejemplo en C#\nusing System;\n\nclass Program {\n    static int Factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * Factorial(n - 1);\n    }\n    \n    static void Main() {\n        Console.WriteLine(Factorial(5));\n    }\n}`,
