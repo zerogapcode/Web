@@ -190,6 +190,7 @@
             flex-direction: column;
             gap: 16px;
             background: transparent;
+            max-height: calc(100vh - 200px);
         }
 
         .message {
@@ -548,6 +549,7 @@
             
             .chat-messages {
                 padding: 16px;
+                max-height: calc(100vh - 180px);
             }
             
             .message {
@@ -669,48 +671,18 @@
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
-        }
-        @media (min-width: 768px) {
-          .panel .inner {
-            padding: 12px;
-          }
-        }
-        
-        .panel.large .inner {
+          font-family: var(--mono);
           font-size: 11px;
           line-height: 1.3;
         }
-        @media (min-width: 768px) {
-          .panel.large .inner {
-            font-size: 12px;
-          }
-        }
         
-        .panel.medium .inner {
-          font-size: 10px;
-          line-height: 1.3;
-        }
-        @media (min-width: 768px) {
-          .panel.medium .inner {
-            font-size: 11px;
-          }
-        }
-        
-        .panel.small .inner {
-          font-size: 9px;
-          line-height: 1.2;
-        }
-        @media (min-width: 768px) {
-          .panel.small .inner {
-            font-size: 10px;
-          }
-        }
-        
-        .code-line {
+        .panel .inner .code-line {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           width: 100%;
+          font-family: var(--mono);
+          font-size: 10px;
         }
         
         .typing-cursor {
@@ -895,6 +867,7 @@
 
         // === Variables para parallax infinito ===
         let allPanels = [];
+        let lastScrollY = window.scrollY || document.documentElement.scrollTop;
 
         // === Inicialización ===
         document.addEventListener('DOMContentLoaded', () => {
@@ -955,210 +928,214 @@
             }
         });
 
-        // === SISTEMA PARALLAX INFINITO ===
+        // === SISTEMA PARALLAX INFINITO MEJORADO ===
         function initInfiniteParallaxPanels() {
             const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
             
-            const largePanelsContent = [
-                { speed: 0.5, lines: ['// Inicializando...', 'const a = 42;', 'function ping() {', '  return "pong";', '}', 'console.log(ping());'] },
-                { speed: 0.4, lines: ['<init/>', '#include <stdio.h>', 'int main() {', '  printf("Hola");', '  return 0;', '}', 'boot> OK'] },
-                { speed: 0.3, lines: ['// Lectura sensor', 'val = analogRead(A0);', 'if (val > 512) {', '  digitalWrite(HIGH);', '} else {', '  digitalWrite(LOW);', '}', 'send(val);'] },
-                { speed: 0.2, lines: ['class Device {', '  constructor(name) {', '    this.name = name;', '    this.status = "off";', '  }', '  run() {', '    status="running";', '  }', '}'] }
-            ];
-            
-            const mediumPanelsContent = [
-                { speed: 0.6, lines: ['// Config API', 'const config = {', '  endpoint: "/api",', '  timeout: 5000,', '  retries: 3', '}', 'export config;'] },
-                { speed: 0.55, lines: ['func calculate() {', '  let x = 10', '  let y = 20', '  return x + y', '}', 'print(result)'] },
-                { speed: 0.45, lines: ['public class Hello {', '  public static void', '  main(String[] args) {', '    System.out.println("Hi");', '  }', '}'] },
-                { speed: 0.35, lines: ['-- Tabla usuarios', 'CREATE TABLE users (', '  id INT PRIMARY KEY,', '  name VARCHAR(100)', ');', 'INSERT...'] },
-                { speed: 0.25, lines: ['import SwiftUI', 'struct ContentView: View {', '  var body: some View {', '    Text("Hello")', '  }', '}'] }
-            ];
-            
-            const smallPanelsContent = [
-                { speed: 0.7, lines: ['npm install...', '✓ Dependencies', 'build completed'] },
-                { speed: 0.65, lines: ['git commit -m', '"update: features"', 'push origin main'] },
-                { speed: 0.6, lines: ['DEBUG MODE', 'WARNING: check', 'parameters valid'] },
-                { speed: 0.55, lines: ['CPU: 45% load', 'MEM: 2.3GB used', 'NET: 120kb/s'] },
-                { speed: 0.5, lines: ['test.py running', '✓ 15/15 passed', 'coverage: 92%'] },
-                { speed: 0.45, lines: ['docker build', 'image: ready', 'container: run'] }
-            ];
-            
-            // Crear un conjunto inicial de paneles
-            const panelCounts = {
-                large: 4,
-                medium: 5,
-                small: 6
+            // Contenido mejorado para los paneles
+            const panelContents = {
+                large: [
+                    { lines: ['// Inicializando sistema...', 'const user = "tú";', 'const assistant = "Alex";', 'function startChat() {', '  return "Hola, ¿cómo estás?";', '}', 'console.log(startChat());'] },
+                    { lines: ['<system_init/>', 'LOADING emotional_support.ai', 'MODEL: llama3.2:3b', 'STATUS: online', 'READY: listening...', 'boot> COMPLETE'] },
+                    { lines: ['// Conexión establecida', 'const session = new Session();', 'session.user = getUser();', 'session.assistant = "Alex";', 'session.startTime = now();', 'log("Session started");'] },
+                    { lines: ['class EmotionalSupport {', '  constructor() {', '    this.empathy = true;', '    this.active = true;', '    this.listening = true;', '  }', '  respond(query) {', '    return generateResponse(query);', '  }', '}'] }
+                ],
+                medium: [
+                    { lines: ['// Configuración API', 'const config = {', '  endpoint: "/chat",', '  model: "llama3.2:3b",', '  stream: true,', '  temperature: 0.7', '}', 'export default config;'] },
+                    { lines: ['func analyzeMood() {', '  let emotions = ["happy", "sad", "anxious"]', '  let intensity = 0.7', '  return processEmotions(emotions)', '}', 'result = analyzeMood()'] },
+                    { lines: ['public class SupportBot {', '  private String name = "Alex";', '  public String respondTo(String message) {', '    return generateEmpatheticResponse(message);', '  }', '  public boolean isAvailable() {', '    return true;', '  }', '}'] },
+                    { lines: ['-- Base de datos emociones', 'CREATE TABLE conversations (', '  id INT PRIMARY KEY,', '  message TEXT,', '  emotion VARCHAR(50),', '  timestamp DATETIME', ');', 'INSERT INTO conversations VALUES (1, "Hola", "neutral", NOW());'] },
+                    { lines: ['import SwiftUI', 'struct ChatView: View {', '  @State var messages: [Message]', '  var body: some View {', '    List(messages) { message in', '      MessageRow(message: message)', '    }', '  }', '}'] }
+                ],
+                small: [
+                    { lines: ['npm install empathy-engine', '✓ Dependencies installed', 'build: successful'] },
+                    { lines: ['git commit -m', '"feat: emotional support"', 'push origin main'] },
+                    { lines: ['DEBUG MODE', 'Processing: user_input', 'Generating: response'] },
+                    { lines: ['CPU: 12% load', 'MEM: 1.2GB used', 'NET: 85kb/s'] },
+                    { lines: ['test_response.py running', '✓ 18/18 tests passed', 'coverage: 95%'] },
+                    { lines: ['docker build -t alex', 'image: alex:latest', 'container: running'] }
+                ]
             };
             
-            // Función para crear un panel
-            function createPanel(type, content, index) {
-                const panel = document.createElement('div');
-                const colorClass = rainbowColors[index % rainbowColors.length];
-                
-                panel.className = `panel ${type} ${colorClass}`;
-                
-                // Posición inicial aleatoria
-                const viewportWidth = window.innerWidth;
-                const viewportHeight = window.innerHeight * 3; // Triple altura para cubrir más área
-                
-                let width, height;
-                switch(type) {
-                    case 'large': width = 280; height = 140; break;
-                    case 'medium': width = 220; height = 110; break;
-                    case 'small': width = 150; height = 75; break;
-                }
-                
-                // Posición aleatoria en un área más grande
-                const left = Math.random() * (viewportWidth - width);
-                const top = Math.random() * (viewportHeight - height);
-                
-                panel.style.left = `${left}px`;
-                panel.style.top = `${top}px`;
-                
-                // Crear contenido interno
-                const inner = document.createElement('div');
-                inner.className = 'inner';
-                panel.appendChild(inner);
-                
-                // Agregar al contenedor
-                panelsContainer.appendChild(panel);
-                
-                // Crear objeto panel para control
-                const panelObj = {
-                    el: panel,
-                    type: type,
-                    speed: content.speed,
-                    lines: content.lines,
-                    width: width,
-                    height: height,
-                    currentLine: 0,
-                    isAnimating: false,
-                    timeoutId: null
-                };
-                
-                // Iniciar animación de texto
-                startPanelAnimation(panelObj);
-                
-                return panelObj;
-            }
-            
-            // Crear todos los paneles
-            for (let i = 0; i < panelCounts.large; i++) {
-                const content = largePanelsContent[i % largePanelsContent.length];
-                allPanels.push(createPanel('large', content, i));
-            }
-            
-            for (let i = 0; i < panelCounts.medium; i++) {
-                const content = mediumPanelsContent[i % mediumPanelsContent.length];
-                allPanels.push(createPanel('medium', content, i + panelCounts.large));
-            }
-            
-            for (let i = 0; i < panelCounts.small; i++) {
-                const content = smallPanelsContent[i % smallPanelsContent.length];
-                allPanels.push(createPanel('small', content, i + panelCounts.large + panelCounts.medium));
-            }
+            // Crear paneles iniciales
+            createInitialPanels(panelContents, rainbowColors);
             
             // Configurar el sistema de reciclaje infinito
             setupInfiniteParallax();
         }
         
-        // === ANIMACIÓN DE TEXTO PARA PANELES ===
-        function typeText(element, text, speed, onComplete) {
-            let i = 0;
-            element.innerHTML = '';
+        function createInitialPanels(panelContents, rainbowColors) {
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
             
-            function typeChar() {
-                if (i < text.length) {
-                    const char = text.charAt(i);
-                    element.innerHTML += char === ' ' ? '&nbsp;' : char;
-                    i++;
-                    
-                    let delay = speed;
-                    if (char === '.' || char === ';' || char === '}') delay = speed * 3;
-                    else if (char === ',' || char === ' ') delay = speed * 1.5;
-                    
-                    setTimeout(typeChar, delay);
-                } else if (onComplete) {
-                    setTimeout(onComplete, 1000);
-                }
+            // Crear paneles grandes (2)
+            for (let i = 0; i < 2; i++) {
+                const content = panelContents.large[i % panelContents.large.length];
+                const panel = createPanel('large', content, rainbowColors[i % rainbowColors.length], viewportWidth, viewportHeight);
+                allPanels.push(panel);
             }
             
-            typeChar();
+            // Crear paneles medianos (3)
+            for (let i = 0; i < 3; i++) {
+                const content = panelContents.medium[i % panelContents.medium.length];
+                const panel = createPanel('medium', content, rainbowColors[(i + 2) % rainbowColors.length], viewportWidth, viewportHeight);
+                allPanels.push(panel);
+            }
+            
+            // Crear paneles pequeños (4)
+            for (let i = 0; i < 4; i++) {
+                const content = panelContents.small[i % panelContents.small.length];
+                const panel = createPanel('small', content, rainbowColors[(i + 5) % rainbowColors.length], viewportWidth, viewportHeight);
+                allPanels.push(panel);
+            }
         }
         
-        function startPanelAnimation(panelObj) {
+        function createPanel(type, content, colorClass, viewportWidth, viewportHeight) {
+            const panel = document.createElement('div');
+            
+            // Determinar dimensiones según tipo
+            let width, height;
+            switch(type) {
+                case 'large': width = 280; height = 140; break;
+                case 'medium': width = 220; height = 110; break;
+                case 'small': width = 150; height = 75; break;
+            }
+            
+            // Ajustar para móviles
+            if (window.innerWidth <= 768) {
+                width *= 0.8;
+                height *= 0.8;
+            }
+            
+            panel.className = `panel ${type} ${colorClass}`;
+            panel.style.width = `${width}px`;
+            panel.style.height = `${height}px`;
+            
+            // Posición inicial aleatoria
+            const left = Math.random() * (viewportWidth - width);
+            const top = Math.random() * (viewportHeight - height);
+            
+            panel.style.left = `${left}px`;
+            panel.style.top = `${top}px`;
+            
+            // Crear contenido interno
+            const inner = document.createElement('div');
+            inner.className = 'inner';
+            panel.appendChild(inner);
+            
+            // Agregar al contenedor
+            panelsContainer.appendChild(panel);
+            
+            // Crear objeto panel para control
+            const panelObj = {
+                el: panel,
+                type: type,
+                content: content,
+                width: width,
+                height: height,
+                speed: getSpeedForType(type),
+                animationId: null,
+                currentLine: 0
+            };
+            
+            // Iniciar animación de texto
+            startPanelTextAnimation(panelObj);
+            
+            return panelObj;
+        }
+        
+        function getSpeedForType(type) {
+            switch(type) {
+                case 'large': return 0.3;
+                case 'medium': return 0.5;
+                case 'small': return 0.7;
+                default: return 0.5;
+            }
+        }
+        
+        function startPanelTextAnimation(panelObj) {
             const inner = panelObj.el.querySelector('.inner');
+            let lineIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let currentText = '';
             
-            function typeNextLine() {
-                if (!panelObj.isAnimating) return;
-                
-                if (panelObj.currentLine < panelObj.lines.length) {
-                    const lineElement = document.createElement('div');
-                    lineElement.className = 'code-line';
-                    inner.appendChild(lineElement);
-                    
-                    const baseSpeed = panelObj.type === 'small' ? 25 + Math.random() * 20 : 40 + Math.random() * 30;
-                    
-                    typeText(lineElement, panelObj.lines[panelObj.currentLine], baseSpeed, () => {
-                        if (!panelObj.isAnimating) return;
-                        
-                        panelObj.currentLine++;
-                        if (panelObj.currentLine < panelObj.lines.length) {
-                            const pauseTime = panelObj.type === 'small' ? 200 : 300;
-                            panelObj.timeoutId = setTimeout(typeNextLine, pauseTime);
-                        } else {
-                            panelObj.timeoutId = setTimeout(() => {
-                                if (!panelObj.isAnimating) return;
-                                inner.innerHTML = '';
-                                panelObj.currentLine = 0;
-                                panelObj.timeoutId = setTimeout(typeNextLine, panelObj.type === 'small' ? 500 : 800);
-                            }, panelObj.type === 'small' ? 1500 : 2000);
-                        }
-                    });
+            function type() {
+                if (!panelObj.content || !panelObj.content.lines || panelObj.content.lines.length === 0) {
+                    // Contenido vacío, mostrar placeholder
+                    inner.innerHTML = '<div class="code-line">// Cargando...</div>';
+                    return;
                 }
+                
+                const fullText = panelObj.content.lines[lineIndex];
+                
+                if (isDeleting) {
+                    currentText = fullText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    currentText = fullText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                
+                inner.innerHTML = `<div class="code-line">${currentText}<span class="typing-cursor"></span></div>`;
+                
+                let typeSpeed = isDeleting ? 50 : 100;
+                
+                // Si completamos una línea
+                if (!isDeleting && charIndex === fullText.length) {
+                    typeSpeed = 2000; // Pausa al final de la línea
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    lineIndex = (lineIndex + 1) % panelObj.content.lines.length;
+                }
+                
+                panelObj.animationId = setTimeout(type, typeSpeed);
             }
             
-            panelObj.isAnimating = true;
-            typeNextLine();
+            // Limpiar animación previa si existe
+            if (panelObj.animationId) {
+                clearTimeout(panelObj.animationId);
+            }
+            
+            type();
         }
         
-        // === SISTEMA DE RECICLAJE INFINITO ===
+        // === SISTEMA DE RECICLAJE INFINITO MEJORADO ===
         function setupInfiniteParallax() {
-            let lastScrollY = window.pageYOffset;
-            let parallaxDirection = -1; // -1 para arriba, 1 para abajo
-            let animationId = null;
+            let ticking = false;
             
             // Función para actualizar posiciones y reciclar paneles
             function updateParallax() {
-                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollY = window.scrollY || document.documentElement.scrollTop;
                 const viewportHeight = window.innerHeight;
                 const viewportWidth = window.innerWidth;
                 
-                // Determinar dirección del scroll
-                if (scrollY > lastScrollY) {
-                    // Scroll hacia abajo, los paneles deben ir hacia arriba
-                    parallaxDirection = -1;
-                } else if (scrollY < lastScrollY) {
-                    // Scroll hacia arriba, los paneles deben ir hacia abajo
-                    parallaxDirection = 1;
-                }
+                // Calcular dirección del scroll
+                const scrollDirection = scrollY > lastScrollY ? 'down' : 'up';
                 lastScrollY = scrollY;
                 
                 allPanels.forEach(panel => {
+                    if (!panel.el) return;
+                    
+                    const rect = panel.el.getBoundingClientRect();
                     const currentTop = parseFloat(panel.el.style.top) || 0;
-                    const currentLeft = parseFloat(panel.el.style.left) || 0;
                     
-                    // Velocidad base del panel (ajustable)
-                    const panelSpeed = panel.speed * 2; // Aumentamos la velocidad
+                    // Aplicar efecto parallax basado en la dirección
+                    let newTop = currentTop;
+                    const speedMultiplier = 0.5; // Reducir velocidad para mejor control
                     
-                    // Mover el panel en la dirección actual
-                    let newTop = currentTop + (parallaxDirection * panelSpeed);
+                    if (scrollDirection === 'down') {
+                        newTop = currentTop - (panel.speed * speedMultiplier);
+                    } else {
+                        newTop = currentTop + (panel.speed * speedMultiplier);
+                    }
                     
                     panel.el.style.top = `${newTop}px`;
                     
                     // Verificar si el panel está fuera de la pantalla
-                    const isAboveViewport = newTop + panel.height < 0;
-                    const isBelowViewport = newTop > viewportHeight;
+                    const isAboveViewport = rect.bottom < -50;
+                    const isBelowViewport = rect.top > viewportHeight + 50;
                     
                     // Reciclar panel si está fuera de la pantalla
                     if (isAboveViewport || isBelowViewport) {
@@ -1166,16 +1143,15 @@
                     }
                 });
                 
-                // Continuar la animación
-                animationId = requestAnimationFrame(updateParallax);
+                ticking = false;
             }
             
             // Función para reciclar un panel
             function recyclePanel(panel, isAboveViewport, viewportWidth, viewportHeight) {
-                // Detener animación actual (si la hay)
-                if (panel.timeoutId) {
-                    clearTimeout(panel.timeoutId);
-                    panel.timeoutId = null;
+                // Detener animación actual
+                if (panel.animationId) {
+                    clearTimeout(panel.animationId);
+                    panel.animationId = null;
                 }
                 
                 // Determinar nueva posición
@@ -1183,10 +1159,10 @@
                 
                 if (isAboveViewport) {
                     // Si está arriba, moverlo abajo
-                    newTop = viewportHeight + Math.random() * 100;
+                    newTop = viewportHeight + 50;
                 } else {
                     // Si está abajo, moverlo arriba
-                    newTop = -panel.height - Math.random() * 100;
+                    newTop = -panel.height - 50;
                 }
                 
                 // Nueva posición horizontal aleatoria
@@ -1196,47 +1172,79 @@
                 panel.el.style.top = `${newTop}px`;
                 panel.el.style.left = `${newLeft}px`;
                 
-                // Reiniciar animación de texto
-                const inner = panel.el.querySelector('.inner');
-                if (inner) {
-                    inner.innerHTML = '';
-                }
-                panel.currentLine = 0;
-                
-                // Reiniciar animación después de un breve retraso
+                // Reiniciar animación de texto después de un breve retraso
                 setTimeout(() => {
-                    if (panel.isAnimating) {
-                        startPanelAnimation(panel);
-                    }
+                    startPanelTextAnimation(panel);
                 }, 100);
             }
             
-            // Iniciar la animación
-            animationId = requestAnimationFrame(updateParallax);
+            // Event listener para scroll - optimizado
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            });
             
             // Event listener para resize
             window.addEventListener('resize', () => {
                 // Ajustar paneles al nuevo tamaño de ventana
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                
                 allPanels.forEach(panel => {
-                    const viewportWidth = window.innerWidth;
-                    const viewportHeight = window.innerHeight;
-                    const currentTop = parseFloat(panel.el.style.top) || 0;
-                    const currentLeft = parseFloat(panel.el.style.left) || 0;
+                    if (!panel.el) return;
                     
-                    // Asegurarse de que los paneles no estén demasiado lejos
-                    if (currentLeft > viewportWidth || currentTop > viewportHeight * 2) {
+                    const currentLeft = parseFloat(panel.el.style.left) || 0;
+                    const currentTop = parseFloat(panel.el.style.top) || 0;
+                    
+                    // Asegurarse de que los paneles estén dentro de los límites
+                    if (currentLeft > viewportWidth || currentLeft < -panel.width) {
                         panel.el.style.left = `${Math.random() * (viewportWidth - panel.width)}px`;
+                    }
+                    
+                    if (currentTop > viewportHeight * 2 || currentTop < -panel.height * 2) {
                         panel.el.style.top = `${Math.random() * viewportHeight}px`;
                     }
                 });
             });
             
-            // Detener la animación al salir de la página (opcional)
-            window.addEventListener('beforeunload', () => {
+            // Iniciar movimiento continuo suave
+            let animationId = null;
+            
+            function smoothParallax() {
+                const scrollY = window.scrollY || document.documentElement.scrollTop;
+                
+                allPanels.forEach(panel => {
+                    if (!panel.el) return;
+                    
+                    const currentTop = parseFloat(panel.el.style.top) || 0;
+                    // Movimiento suave continuo (más lento que con scroll)
+                    const newTop = currentTop - (panel.speed * 0.1);
+                    panel.el.style.top = `${newTop}px`;
+                    
+                    // Reciclar si es necesario
+                    const rect = panel.el.getBoundingClientRect();
+                    const viewportHeight = window.innerHeight;
+                    
+                    if (rect.bottom < -100 || rect.top > viewportHeight + 100) {
+                        const viewportWidth = window.innerWidth;
+                        recyclePanel(panel, rect.bottom < -100, viewportWidth, viewportHeight);
+                    }
+                });
+                
+                animationId = requestAnimationFrame(smoothParallax);
+            }
+            
+            // Iniciar animación continua
+            smoothParallax();
+            
+            // Limpiar al desmontar
+            return () => {
                 if (animationId) {
                     cancelAnimationFrame(animationId);
                 }
-            });
+            };
         }
 
         // === Verificación del servidor ===
@@ -1265,7 +1273,7 @@
             }
         }
 
-        // === ENVÍO DE MENSAJES CON STREAMING (CORREGIDO) ===
+        // === ENVÍO DE MENSAJES CON STREAMING MEJORADO ===
         async function sendMessage() {
             const message = messageInput.value.trim();
             if (!message || isProcessing) {
@@ -1321,14 +1329,13 @@
                 // Usar streaming con fetch y ReadableStream
                 console.log('🌐 Iniciando stream al servidor...');
                 
-                // IMPORTANTE: Enviar EXACTAMENTE los mismos parámetros que RickGPT
                 const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
                     method: 'POST',
                     headers: getNgrokHeaders(),
                     body: JSON.stringify({
                         message: message,
                         assistant: ASSISTANT_TYPE,
-                        session_id: sessionId,  // ← Mismo session_id siempre
+                        session_id: sessionId,
                         stream: true
                     })
                 });
@@ -1341,7 +1348,6 @@
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
                 
-                // Variable para rastrear si ya finalizamos
                 let hasFinished = false;
                 
                 try {
@@ -1364,25 +1370,21 @@
                                 try {
                                     const data = JSON.parse(line.slice(6));
                                     
-                                    // Manejar errores del servidor
                                     if (data.error) {
                                         throw new Error(data.error);
                                     }
                                     
-                                    // Acumular tokens
                                     if (data.token) {
                                         currentStreamResponse += data.token;
                                         updateStreamingMessage(currentMessageId, currentStreamResponse, false);
                                     }
                                     
-                                    // Cuando termina el stream
                                     if (data.done) {
                                         console.log('✅ Recibido evento done del servidor');
                                         if (!hasFinished) {
                                             finishStreamingSuccessfully(currentMessageId, currentStreamResponse, message);
                                             hasFinished = true;
                                         }
-                                        // Abortar el reader para liberar recursos
                                         reader.cancel();
                                         return;
                                     }
@@ -1399,14 +1401,12 @@
                         hasFinished = true;
                     }
                 } finally {
-                    // Asegurarnos de que el reader se cancele
                     reader.cancel().catch(() => {});
                 }
                 
             } catch (error) {
                 console.error('❌ Error en fetch:', error);
                 if (currentStreamResponse && currentStreamResponse.trim()) {
-                    // Si tenemos algo de respuesta, guardarlo
                     finishStreamingSuccessfully(currentMessageId, currentStreamResponse, message);
                 } else {
                     finishStreamingWithError(currentMessageId, `Error: ${error.message}`);
@@ -1435,7 +1435,7 @@
             `;
             
             chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            scrollChatToBottom();
         }
 
         function updateStreamingMessage(messageId, content, isComplete = false) {
@@ -1447,23 +1447,20 @@
                     contentElement.innerHTML += '<span class="streaming-cursor"></span>';
                 }
                 
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                scrollChatToBottom();
             }
         }
 
         function finishStreamingSuccessfully(messageId, fullResponse, originalMessage) {
             console.log('✅ Finalizando stream exitosamente');
             
-            // Asegurarnos de que el stream se detenga
             isStreaming = false;
             
-            // Remover cursor de streaming
             const contentElement = document.getElementById(`${messageId}_content`);
             if (contentElement) {
                 contentElement.innerHTML = formatMessage(fullResponse);
             }
             
-            // Agregar al historial local para persistencia
             conversationHistory.push({
                 role: 'user',
                 content: originalMessage,
@@ -1476,26 +1473,21 @@
                 timestamp: new Date().toISOString()
             });
             
-            // Mantener solo los últimos 20 mensajes
             if (conversationHistory.length > 20) {
                 conversationHistory = conversationHistory.slice(-20);
             }
             
             saveToLocalStorage();
-            
-            // Restaurar interfaz
             restoreInterface();
-            
             updateStatus('online', '✅ Conectado');
             
-            // Debug
-            console.log('💾 Historial guardado:', conversationHistory.length, 'mensajes');
+            // Scroll final después de que todo esté completo
+            setTimeout(scrollChatToBottom, 100);
         }
 
         function finishStreamingWithError(messageId, errorMessage) {
             console.log('❌ Finalizando stream con error:', errorMessage);
             
-            // Asegurarnos de que el stream se detenga
             isStreaming = false;
             
             const contentElement = document.getElementById(`${messageId}_content`);
@@ -1503,10 +1495,20 @@
                 contentElement.innerHTML = `<span style="color: #ff5555;">${errorMessage}</span>`;
             }
             
-            // Restaurar interfaz
             restoreInterface();
-            
             updateStatus('offline', '⚠️ Error de conexión');
+            scrollChatToBottom();
+        }
+
+        // === Función para hacer scroll automático en el chat ===
+        function scrollChatToBottom() {
+            // Usar setTimeout para asegurar que el DOM se haya actualizado
+            setTimeout(() => {
+                chatMessages.scrollTo({
+                    top: chatMessages.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 10);
         }
 
         // === Función para restaurar la interfaz ===
@@ -1518,7 +1520,6 @@
             messageInput.placeholder = '';
             messageInput.focus();
             
-            // Forzar un repaint del botón
             sendBtn.style.opacity = '1';
         }
 
@@ -1545,13 +1546,13 @@
             `;
             
             chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
             
-            // Actualizar historial en memoria (se guardará en saveToLocalStorage)
             const welcomeMessage = document.querySelector('.welcome-message');
             if (welcomeMessage) {
                 welcomeMessage.remove();
             }
+            
+            scrollChatToBottom();
         }
 
         // === Actualizar estado ===
@@ -1578,27 +1579,19 @@
             
             let formatted = text;
             
-            // Convertir URLs en enlaces
             formatted = formatted.replace(
                 /(https?:\/\/[^\s]+)/g, 
                 '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none; border-bottom: 1px dotted;">$1</a>'
             );
             
-            // Convertir código en línea
             formatted = formatted.replace(/`([^`]+)`/g, '<code style="background: rgba(0,0,0,0.1); padding: 2px 4px; border-radius: 3px; font-family: var(--mono); font-size: 0.9em;">$1</code>');
             
-            // Convertir bloques de código (simple)
             formatted = formatted.replace(/```(\w+)?\n([\s\S]*?)```/g, function(match, lang, code) {
                 return `<pre style="background: rgba(0,0,0,0.1); padding: 8px; border-radius: 6px; overflow-x: auto; margin: 8px 0; border: 1px solid rgba(255,255,255,0.1);"><code>${code.trim()}</code></pre>`;
             });
             
-            // Convertir saltos de línea
             formatted = formatted.replace(/\n/g, '<br>');
-            
-            // Negrita
             formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-            
-            // Cursiva
             formatted = formatted.replace(/\*([^*]+)\*/g, '<em>$1</em>');
             
             return formatted;
@@ -1621,7 +1614,6 @@
                 try {
                     const data = JSON.parse(saved);
                     
-                    // Cargar solo si es la misma sesión o datos recientes
                     if (data.sessionId === sessionId || 
                         (new Date() - new Date(data.lastUpdated)) < 86400000) {
                         
@@ -1632,9 +1624,7 @@
                             welcomeMessage.remove();
                         }
                         
-                        // Mostrar mensajes en la UI
                         conversationHistory.forEach(msg => {
-                            // Solo agregar visualmente, no duplicar en historial
                             const messageDiv = document.createElement('div');
                             messageDiv.className = `message ${msg.role}-message`;
                             
@@ -1657,7 +1647,7 @@
                             chatMessages.appendChild(messageDiv);
                         });
                         
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                        scrollChatToBottom();
                     }
                 } catch (e) {
                     console.error('❌ Error cargando datos:', e);
@@ -1690,20 +1680,16 @@
             // Limpiar historial con doble click en el título
             document.querySelector('.chat-title').addEventListener('dblclick', () => {
                 if (confirm('¿Deseas limpiar todo el historial de conversación?\n\nEsto eliminará todos los mensajes visuales y reiniciará la sesión.')) {
-                    // Limpiar localStorage
                     localStorage.removeItem('chatData_alex');
                     localStorage.removeItem('alex_session_id');
                     localStorage.removeItem('alex_session_created');
                     
-                    // Reiniciar variables
                     conversationHistory = [];
-                    generateSessionId(); // Crear nueva sesión
+                    generateSessionId();
                     
-                    // Limpiar UI
                     const messages = chatMessages.querySelectorAll('.message');
                     messages.forEach(msg => msg.remove());
                     
-                    // Restaurar mensaje de bienvenida
                     if (!document.querySelector('.welcome-message')) {
                         const welcomeDiv = document.createElement('div');
                         welcomeDiv.className = 'welcome-message';
@@ -1745,7 +1731,7 @@
                 if (!isServerAvailable && !isProcessing) {
                     checkServerOnce();
                 }
-            }, 30000); // Cada 30 segundos
+            }, 30000);
         }
 
         // === Función para forzar restauración de interfaz ===
