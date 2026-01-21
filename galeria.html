@@ -1,2152 +1,1997 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería de Proyectos - ProtonLab</title>
-    <meta name="description" content="Galería de proyectos web desarrollados por ProtonLab - Menús digitales, catálogos interactivos y soluciones web innovadoras" />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Todos los estilos de index.html copiados y adaptados */
-        :root{
-            --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
-            --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
-            --accent-dark:#e0e0f0; --max-width:1100px; 
-            --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
-            
-            --card-bg-light: rgba(255, 255, 255, 0.01);
-            --card-border-light: rgba(255, 255, 255, 0.1);
-            --card-shadow-light: 0 8px 32px rgba(0, 0, 0, 0.03);
-            
-            --card-bg-dark: rgba(0, 0, 0, 0.08);
-            --card-border-dark: rgba(255, 255, 255, 0.1);
-            --card-shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
-            
-            /* Colores para proyectos */
-            --color-restaurant: rgba(255, 165, 80, 0.18);
-            --color-technology: rgba(100, 180, 255, 0.18);
-            --color-ecommerce: rgba(100, 220, 150, 0.18);
-            --color-restaurant-border: rgba(255, 165, 80, 0.5);
-            --color-technology-border: rgba(100, 180, 255, 0.5);
-            --color-ecommerce-border: rgba(100, 220, 150, 0.5);
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ProtonLab – Desarrollo de software y hardware</title>
+  <meta name="description" content="ProtonLab – Desarrollo web y apps iOS, integración software+hardware, impresión 3D y electrónica" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
 
-        *{box-sizing:border-box; font-family: var(--mono);}
-        body{margin:0;background:var(--bg-light);color:var(--text-light); overflow-x: hidden;}
-        .wrap{max-width:var(--max-width);margin:0 auto;padding:36px 24px}
-        
-        header{
-            position:fixed;
-            left:0;
-            right:0;
-            top:0;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            padding:14px 20px;
-            background:rgba(255,255,255,0.95);
-            backdrop-filter:blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom:1px solid rgba(0,0,0,0.08);
-            transition:transform .35s ease,opacity .35s ease;
-            z-index:60;
-            height: 70px;
-            transform: translateZ(0);
-            will-change: transform;
-        }
-        
-        header.hidden{transform:translate3d(0, -110%, 0);opacity:0}
-        
-        .brand{display:flex;align-items:center;gap:12px}
-        .brand .mini{
-            font-weight:700;
-            font-size:20px;
-            letter-spacing:0.12em;
-            color:#000000;
-            cursor: pointer;
-            transition: transform 0.3s ease, color 0.3s ease;
-            user-select: none;
-        }
-        
-        .brand .mini:hover{
-            transform: scale(1.1);
-            color: #333333;
-        }
-        
-        .brand .mini:active{
-            transform: scale(0.95);
-        }
+  <style>
+    /* Todos los estilos CSS permanecen iguales - sin cambios */
+    :root{
+      --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
+      --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
+      --accent-dark:#e0e0f0; --max-width:1100px; 
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      
+      --card-bg-light: rgba(255, 255, 255, 0.01);
+      --card-border-light: rgba(255, 255, 255, 0.1);
+      --card-shadow-light: 0 8px 32px rgba(0, 0, 0, 0.03);
+      
+      --card-bg-dark: rgba(0, 0, 0, 0.08);
+      --card-border-dark: rgba(255, 255, 255, 0.1);
+      --card-shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
 
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .navlink {
-            text-decoration: none;
-            color: #000000;
-            font-weight: 500;
-            font-size: 14px;
-            letter-spacing: 0.02em;
-            transition: color 0.2s ease, transform 0.2s ease;
-            position: relative;
-            padding: 8px 0;
-            white-space: nowrap;
-        }
-        
-        .navlink:hover {
-            color: #333333;
-            transform: translateY(-1px);
-        }
-        
-        .navlink::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #000000;
-            transition: width 0.3s ease;
-        }
-        
-        .navlink:hover::after {
-            width: 100%;
-        }
-
-        .mode-toggle{display:flex;align-items:center;gap:6px}
-        .seg{
-            display:inline-flex;
-            border-radius:999px;
-            overflow:hidden;
-            border:2px solid #000;
-            background: rgba(0,0,0,0.03);
-        }
-        .seg button{
-            padding:6px 10px;
-            border:0;
-            background:transparent;
-            font-size: 11px;
-            cursor:pointer;
-            transition:background .2s,color .2s;
-            border-radius:0;
-            color:inherit;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-        .seg button.active{background:rgba(0,0,0,0.08)}
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 24px;
-            height: 18px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            z-index: 70;
-        }
-        
-        .hamburger span {
-            display: block;
-            height: 2px;
-            width: 100%;
-            background-color: #000000;
-            transition: all 0.3s ease;
-            transform-origin: center;
-        }
-        
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-            transform: translateX(-10px);
-        }
-        
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-
-        main{padding-top:100px}
-        .hero{min-height:60vh;display:flex;align-items:center}
-        .hero-inner{
-            width:100%;
-            display:flex;
-            flex-direction: column;
-            align-items:flex-start;
-            gap:36px;
-        }
-        @media (min-width: 768px) {
-            .hero-inner {
-                flex-direction: row;
-            }
-        }
-        .hero-left{flex:1}
-        .code-title{font-size:36px;line-height:1;letter-spacing:0.02em;color:inherit}
-        @media (min-width: 768px) {
-            .code-title {
-                font-size: 44px;
-            }
-        }
-        .code-title small{
-            display:block;
-            font-size:14px;
-            margin-top:8px;
-            color: var(--muted-light);
-        }
-
-        section{padding:60px 0;border-top:1px solid rgba(11,11,11,0.04)}
-        @media (min-width: 768px) {
-            section {
-                padding: 80px 0;
-            }
-        }
-        h2{font-size:20px;margin:0 0 12px; font-weight: 600;}
-        p.lead{color:var(--muted-light);margin:0 0 18px; font-weight: 400;}
-        
-        .card{
-            background: var(--card-bg-light);
-            border-radius:16px;
-            padding:24px;
-            border:1px solid var(--card-border-light);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: var(--card-shadow-light);
-            position: relative;
-            overflow: hidden;
-            transform: translateZ(0);
-            will-change: transform;
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, 
-                rgba(255,255,255,0) 0%, 
-                rgba(255,255,255,0.4) 50%, 
-                rgba(255,255,255,0) 100%);
-            z-index: 1;
-        }
-        
-        .card:hover {
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-            transform: translate3d(0, -5px, 0);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-        
-        p {
-            text-align: justify;
-            text-justify: inter-word;
-            line-height: 1.6;
-        }
-        
-        /* Grid de proyectos (similar a service-grid) */
-        .project-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            margin-top: 40px;
-        }
-        @media (min-width: 768px) {
-            .project-grid {
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            }
-        }
-        
-        .project-card {
-            background: var(--card-bg-light);
-            border-radius: 16px;
-            padding: 0;
-            border: 1px solid var(--card-border-light);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--card-shadow-light);
-            transform: translateZ(0);
-            will-change: transform;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, 
-                rgba(255,255,255,0) 0%, 
-                rgba(255,255,255,0.4) 50%, 
-                rgba(255,255,255,0) 100%);
-            z-index: 1;
-        }
-        
-        .project-card:hover {
-            transform: translate3d(0, -8px, 0);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .project-image {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .project-card:hover .project-image img {
-            transform: scale(1.08);
-        }
-        
-        .project-content {
-            padding: 24px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .project-content h3 {
-            margin-top: 0;
-            font-size: 18px;
-            color: inherit;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        
-        .project-content p {
-            text-align: justify;
-            text-justify: inter-word;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-        
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .project-tag {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .tag-restaurant {
-            background: rgba(255, 165, 80, 0.2);
-            color: #ffa550;
-            border: 1px solid rgba(255, 165, 80, 0.3);
-        }
-        
-        .tag-technology {
-            background: rgba(100, 180, 255, 0.2);
-            color: #64b4ff;
-            border: 1px solid rgba(100, 180, 255, 0.3);
-        }
-        
-        .tag-ecommerce {
-            background: rgba(100, 220, 150, 0.2);
-            color: #64dc96;
-            border: 1px solid rgba(100, 220, 150, 0.3);
-        }
-        
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            text-decoration: none;
-            color: inherit;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.3s ease;
-            justify-content: center;
-            text-align: center;
-        }
-        
-        .project-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px);
-        }
-        
-        footer{padding:80px 0;text-align:center;color:var(--muted-light);font-size:13px}
-        
-        .footer-pi {
-            color: inherit;
-            text-decoration: none;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-            font-style: normal;
-            margin-left: 4px;
-        }
-        
-        .footer-pi:hover {
-            opacity: 1;
-        }
-        
-        /* Botón de contacto */
-        .back-button {
-            display: inline-block;
-            padding: 12px 32px;
-            margin-top: 16px;
-            border-radius: 999px;
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            letter-spacing: 0.05em;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: pointer;
-            text-align: center;
-            color: rgba(0, 0, 0, 0.3);
-            user-select: none;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .back-button:hover {
-            transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-        
-        .back-button-wrapper {
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        /* Botones flotantes (copiados de index.html) */
-        .float-buttons-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 15px;
-            align-items: flex-end;
-        }
-        
-        .float-btn {
-            --btn-accent: rgba(100, 220, 150, 1); 
-            --btn-accent-glow: rgba(100, 220, 150, 0.4);
-            --btn-bg: rgba(255, 255, 255, 0.1);
-
-            position: relative;
-            height: 60px;
-            width: 60px;
-            background: var(--btn-bg);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            cursor: pointer;
-            
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            
-            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                        opacity 0.6s ease,
-                        width 0.3s ease,
-                        background 0.3s ease,
-                        box-shadow 0.3s ease;
-                        
-            will-change: transform, opacity;
-            transform: translate3d(0,0,0);
-            
-            color: #333;
-            user-select: none;
-        }
-
-        .float-btn.init-hidden {
-            opacity: 0;
-            transform: scale(0.8);
-            pointer-events: none;
-        }
-
-        .float-btn.intro-pop {
-            transform: translate(var(--tx), var(--ty)) scale(var(--s)) !important;
-            width: 60px !important;
-            height: 60px !important;
-            border-radius: 50% !important;
-            z-index: 20000 !important;
-            opacity: 1 !important;
-            pointer-events: none;
-            background: var(--btn-accent) !important;
-            box-shadow: 0 0 60px var(--btn-accent-glow), 0 0 100px rgba(0,0,0,0.1) !important;
-            border: 4px solid rgba(255,255,255,0.5) !important;
-        }
-
-        .float-btn.intro-pop .btn-text,
-        .float-btn.intro-pop .status-dot {
-            display: none !important;
-            opacity: 0 !important;
-        }
-
-        .float-btn.intro-pop .float-icon-wrapper svg {
-            color: #fff !important;
-        }
-
-        body[data-theme='dark'] .float-btn {
-            color: #fff;
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .float-btn:hover {
-            width: 180px;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 25px var(--btn-accent-glow);
-            border-color: var(--btn-accent);
-        }
-
-        .float-icon-wrapper {
-            min-width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-            position: relative;
-        }
-
-        .float-icon-wrapper svg {
-            width: 26px;
-            height: 26px;
-            stroke: currentColor;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .float-btn:hover .float-icon-wrapper svg {
-            transform: scale(1.15) rotate(-10deg);
-            color: var(--btn-accent);
-        }
-
-        .btn-text {
-            position: absolute;
-            left: 60px;
-            white-space: nowrap;
-            opacity: 0;
-            font-weight: 600;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-            transform: translateX(20px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .float-btn:hover .btn-text {
-            opacity: 1;
-            transform: translateX(0);
-            transition-delay: 0.05s;
-        }
-
-        .status-dot {
-            position: absolute;
-            top: 18px;
-            right: 18px;
-            width: 7px;
-            height: 7px;
-            background-color: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #00ff88;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        /* Animación de latido para el botón de IA */
-        #ai-float-btn:not(:hover) .float-icon-wrapper svg {
-            animation: heartbeat 2s infinite ease-in-out;
-        }
-
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            5% { transform: scale(1.1); }
-            10% { transform: scale(1); }
-            15% { transform: scale(1.1); }
-            20% { transform: scale(1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Responsive para botones */
-        @media (max-width: 768px) {
-            .float-buttons-container { bottom: 15px; right: 15px; gap: 12px; }
-            .float-btn { height: 50px; width: 50px; }
-            .float-icon-wrapper { 
-                min-width: 50px; 
-                height: 50px; 
-            }
-            .float-icon-wrapper svg { 
-                width: 22px; 
-                height: 22px; 
-            }
-            .float-btn:hover { width: 160px; }
-            .btn-text { left: 50px; font-size: 14px; }
-        }
-
-        a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
-        a.link-plain:hover{text-decoration:none;color:inherit}
-
-        /* Modo oscuro general */
-        body[data-theme='dark']{
-            background:var(--bg-dark);
-            color:var(--text-dark);
-        }
-        
-        body[data-theme='dark'] header{
-            background:rgba(0,0,0,0.95);
-            border-bottom:1px solid rgba(255,255,255,0.1);
-        }
-        
-        body[data-theme='dark'] .brand .mini {
-            color: var(--text-dark);
-        }
-        
-        body[data-theme='dark'] .brand .mini:hover {
-            color: #ffffff;
-        }
-        
-        body[data-theme='dark'] .navlink {
-            color: var(--text-dark);
-        }
-        
-        body[data-theme='dark'] .navlink:hover {
-            color: #ffffff;
-        }
-        
-        body[data-theme='dark'] .navlink::after {
-            background-color: var(--text-dark);
-        }
-        
-        body[data-theme='dark'] .seg{
-            border-color: var(--accent-dark);
-            background: rgba(255,255,255,0.05);
-        }
-        
-        body[data-theme='dark'] .seg button{
-            color: var(--text-dark);
-        }
-        
-        body[data-theme='dark'] .seg button.active{
-            background: rgba(255,255,255,0.15);
-            color: #ffffff;
-        }
-        
-        body[data-theme='dark'] .hamburger span {
-            background-color: var(--text-dark);
-        }
-        
-        body[data-theme='dark'] section {
-            border-top: 1px solid rgba(255,255,255,0.08);
-        }
-        
-        body[data-theme='dark'] .card,
-        body[data-theme='dark'] .project-card {
-            background: var(--card-bg-dark);
-            border: 1px solid var(--card-border-dark);
-            box-shadow: var(--card-shadow-dark);
-        }
-        
-        body[data-theme='dark'] .card::before,
-        body[data-theme='dark'] .project-card::before {
-            background: linear-gradient(90deg, 
-                rgba(255,255,255,0) 0%, 
-                rgba(255,255,255,0.1) 50%, 
-                rgba(255,255,255,0) 100%);
-        }
-        
-        body[data-theme='dark'] .card:hover,
-        body[data-theme='dark'] .project-card:hover {
-            box-shadow: 0 16px 40px rgba(0,0,0,0.5);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        body[data-theme='dark'] .code-title small {
-            color: var(--muted-dark);
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            header {
-                padding: 12px 16px;
-            }
-            
-            .hamburger {
-                display: flex;
-            }
-            
-            nav {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                right: 0;
-                background: rgba(255,255,255,0.98);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                flex-direction: column;
-                padding: 20px;
-                gap: 16px;
-                transform: translateY(-100%);
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-                border-bottom: 1px solid rgba(0,0,0,0.1);
-                z-index: 50;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            }
-            
-            nav.active {
-                transform: translateY(0);
-                opacity: 1;
-                visibility: visible;
-            }
-            
-            .navlink {
-                padding: 12px 0;
-                font-size: 16px;
-                width: 100%;
-                text-align: center;
-                border-bottom: 1px solid rgba(0,0,0,0.05);
-            }
-            
-            .navlink:last-child {
-                border-bottom: none;
-            }
-            
-            .mode-toggle {
-                justify-content: center;
-                width: 100%;
-                margin-top: 10px;
-                padding-top: 15px;
-                border-top: 1px solid rgba(0,0,0,0.1);
-            }
-            
-            .hero-inner {
-                gap: 24px;
-            }
-            
-            .code-title {
-                font-size: 32px;
-            }
-            
-            section {
-                padding: 50px 0;
-            }
-            
-            .wrap {
-                padding: 36px 16px;
-            }
-            
-            .card, .project-card {
-                padding: 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .code-title {
-                font-size: 28px;
-            }
-            
-            .hero {
-                min-height: 50vh;
-            }
-        }
-        
-        body[data-theme='dark'] nav {
-            background: rgba(0,0,0,0.98);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        body[data-theme='dark'] .navlink {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        body[data-theme='dark'] .navlink:last-child {
-            border-bottom: none;
-        }
-        
-        body[data-theme='dark'] .mode-toggle {
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* PARALLAX PANELS */
-        .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
-        .panel{
-            position:absolute;
-            border-radius:8px;
-            opacity:.95;
-            box-shadow:0 18px 40px rgba(2,6,23,0.06);
-            border:1px solid rgba(255,255,255,0.2);
-            transform: translate3d(0, 0, 0);
-            will-change: transform;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            overflow: hidden;
-        }
-        
-        .panel.color-red {
-            background: rgba(255, 100, 100, 0.18);
-            border-color: rgba(255, 100, 100, 0.5);
-            box-shadow: 0 18px 40px rgba(255, 100, 100, 0.25);
-        }
-        
-        .panel.color-orange {
-            background: rgba(255, 165, 80, 0.18);
-            border-color: rgba(255, 165, 80, 0.5);
-            box-shadow: 0 18px 40px rgba(255, 165, 80, 0.25);
-        }
-        
-        .panel.color-yellow {
-            background: rgba(255, 220, 100, 0.18);
-            border-color: rgba(255, 220, 100, 0.5);
-            box-shadow: 0 18px 40px rgba(255, 220, 100, 0.25);
-        }
-        
-        .panel.color-green {
-            background: rgba(100, 220, 150, 0.18);
-            border-color: rgba(100, 220, 150, 0.5);
-            box-shadow: 0 18px 40px rgba(100, 220, 150, 0.25);
-        }
-        
-        .panel.color-blue {
-            background: rgba(100, 180, 255, 0.18);
-            border-color: rgba(100, 180, 255, 0.5);
-            box-shadow: 0 18px 40px rgba(100, 180, 255, 0.25);
-        }
-        
-        .panel.color-violet {
-            background: rgba(180, 120, 255, 0.18);
-            border-color: rgba(180, 120, 255, 0.5);
-            box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
-        }
-        
-        .panel.large {
-            width: 280px;
-            height: 140px;
-            z-index: 3;
-        }
-        @media (min-width: 768px) {
-            .panel.large {
-                width: 320px;
-                height: 160px;
-            }
-        }
-        
-        .panel.medium {
-            width: 220px;
-            height: 110px;
-            z-index: 2;
-            opacity: 0.85;
-        }
-        @media (min-width: 768px) {
-            .panel.medium {
-                width: 250px;
-                height: 125px;
-            }
-        }
-        
-        .panel.small {
-            width: 150px;
-            height: 75px;
-            opacity: 0.7;
-            z-index: 1;
-        }
-        @media (min-width: 768px) {
-            .panel.small {
-                width: 180px;
-                height: 90px;
-            }
-        }
-        
-        .panel .inner{
-            padding: 10px;
-            color: var(--muted-light);
-            overflow: hidden;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-        @media (min-width: 768px) {
-            .panel .inner {
-                padding: 12px;
-            }
-        }
-        
-        .panel.large .inner {
-            font-size: 11px;
-            line-height: 1.3;
-        }
-        @media (min-width: 768px) {
-            .panel.large .inner {
-                font-size: 12px;
-            }
-        }
-        
-        .panel.medium .inner {
-            font-size: 10px;
-            line-height: 1.3;
-        }
-        @media (min-width: 768px) {
-            .panel.medium .inner {
-                font-size: 11px;
-            }
-        }
-        
-        .panel.small .inner {
-            font-size: 9px;
-            line-height: 1.2;
-        }
-        @media (min-width: 768px) {
-            .panel.small .inner {
-                font-size: 10px;
-            }
-        }
-        
-        .code-line {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-        }
-        
-        .typing-cursor {
-            display: inline-block;
-            width: 6px;
-            height: 1em;
-            background-color: currentColor;
-            margin-left: 1px;
-            animation: blink 1s infinite;
-            vertical-align: middle;
-        }
-        
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-        
-        body[data-theme='dark'] .panel{
-            color:var(--text-dark);
-            box-shadow:0 18px 40px rgba(0,0,0,0.4);
-        }
-        
-        body[data-theme='dark'] .panel.color-red {
-            background: rgba(255, 100, 100, 0.12);
-            border-color: rgba(255, 100, 100, 0.4);
-            box-shadow: 0 18px 40px rgba(255, 100, 100, 0.25);
-        }
-        
-        body[data-theme='dark'] .panel.color-orange {
-            background: rgba(255, 165, 80, 0.12);
-            border-color: rgba(255, 165, 80, 0.4);
-            box-shadow: 0 18px 40px rgba(255, 165, 80, 0.25);
-        }
-        
-        body[data-theme='dark'] .panel.color-yellow {
-            background: rgba(255, 220, 100, 0.12);
-            border-color: rgba(255, 220, 100, 0.4);
-            box-shadow: 0 18px 40px rgba(255, 220, 100, 0.25);
-        }
-        
-        body[data-theme='dark'] .panel.color-green {
-            background: rgba(100, 220, 150, 0.12);
-            border-color: rgba(100, 220, 150, 0.4);
-            box-shadow: 0 18px 40px rgba(100, 220, 150, 0.25);
-        }
-        
-        body[data-theme='dark'] .panel.color-blue {
-            background: rgba(100, 180, 255, 0.12);
-            border-color: rgba(100, 180, 255, 0.4);
-            box-shadow: 0 18px 40px rgba(100, 180, 255, 0.25);
-        }
-        
-        body[data-theme='dark'] .panel.color-violet {
-            background: rgba(180, 120, 255, 0.12);
-            border-color: rgba(180, 120, 255, 0.4);
-            box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
-        }
-        
-        body[data-theme='dark'] .panel .inner{
-            color:var(--muted-dark);
-        }
-        
-        /* OPTIMIZACIÓN PARA MÓVILES: Reducir cantidad de paneles */
-        @media (max-width: 768px) {
-            .panel.large:nth-child(n+3) {
-                display: none;
-            }
-            .panel.medium:nth-child(n+4) {
-                display: none;
-            }
-            .panel.small:nth-child(n+4) {
-                display: none;
-            }
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-            
-            .panel {
-                transform: none !important;
-            }
-            
-            .typing-cursor {
-                animation: none;
-                opacity: 1;
-            }
-        }
-
-        /* === EFECTO MATRIX MEJORADO === */
-        #matrix-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10000;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            background: rgba(0, 0, 0, 0.9);
-        }
-        
-        #matrix-overlay.active {
-            opacity: 1;
-        }
-        
-        #matrix-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10001;
-        }
-        
-        .tear-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10002;
-            pointer-events: none;
-            overflow: hidden;
-            display: none;
-        }
-        
-        .tear-container.active {
-            display: block;
-        }
-        
-        .tear {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 100%;
-            background: inherit;
-            transition: top 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            clip-path: polygon(
-                0% 0%,
-                100% 0%,
-                100% 85%,
-                95% 87%,
-                90% 85%,
-                85% 90%,
-                80% 85%,
-                75% 88%,
-                70% 85%,
-                65% 89%,
-                60% 85%,
-                55% 87%,
-                50% 85%,
-                45% 88%,
-                40% 85%,
-                35% 86%,
-                30% 85%,
-                25% 87%,
-                20% 85%,
-                15% 89%,
-                10% 85%,
-                5% 86%,
-                0% 85%
-            );
-        }
-        
-        .tear.active {
-            top: 70%;
-        }
-        
-        .tear-edge {
-            position: absolute;
-            bottom: 15%;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(0, 255, 100, 0.8) 50%, 
-                transparent 100%);
-            z-index: 10003;
-            box-shadow: 0 0 20px rgba(0, 255, 100, 0.5);
-        }
-
-        /* Añadir más altura al footer para permitir scroll */
-        footer {
-            min-height: 200px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Animación de entrada para las tarjetas */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .project-card {
-            animation: fadeInUp 0.6s ease forwards;
-            opacity: 0;
-        }
-
-        .project-card:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .project-card:nth-child(2) {
-            animation-delay: 0.3s;
-        }
-
-        .project-card:nth-child(3) {
-            animation-delay: 0.5s;
-        }
-
-        /* Mejoras visuales para secciones */
-        .section-intro {
-            margin-bottom: 50px;
-            text-align: center;
-        }
-
-        .section-intro h2 {
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-
-        .section-intro p {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        /* Info de tecnología */
-        .tech-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .tech-item {
-            padding: 15px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .tech-item h4 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        .tech-item ul {
-            list-style-type: none;
-            padding-left: 0;
-            margin: 0;
-        }
-
-        .tech-item li {
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-    </style>
-</head>
-<body>
-    <header id="topbar">
-        <div class="brand">
-            <div class="mini" id="brandMini">&lt;/&gt;</div>
-        </div>
-        <button class="hamburger" id="hamburger" aria-label="Menú principal">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <nav id="nav">
-            <a class="navlink" href="#inicio">Inicio</a>
-            <a class="navlink" href="#proyectos">Proyectos</a>
-            <a class="navlink" href="#tecnologias">Tecnologías</a>
-            <a class="navlink" href="#contacto">Contacto</a>
-            <div class="mode-toggle">
-                <div class="seg">
-                    <button data-mode="auto" class="active">Auto</button>
-                    <button data-mode="light">Claro</button>
-                    <button data-mode="dark">Oscuro</button>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <div class="panels" id="panels"></div>
-
-    <main class="wrap">
-        <section id="inicio" class="hero">
-            <div class="hero-inner">
-                <div class="hero-left">
-                    <div class="code-title"><span id="typedWrap">&lt;<span id="typed"></span>&gt;</span>
-                        <small class="muted">Galería de proyectos web innovadores y funcionales.</small></div>
-                    <p style="margin-top:18px">
-                        Una colección de proyectos web desarrollados con las últimas tecnologías y diseño responsivo. 
-                        Desde menús digitales hasta catálogos interactivos, cada proyecto tiene su propio estilo y propósito único.
-                    </p>
-                    <p style="margin-top:18px">
-                        Explora nuestros trabajos más recientes y descubre cómo combinamos creatividad, tecnología 
-                        y funcionalidad para crear experiencias digitales excepcionales.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section id="proyectos">
-            <div class="section-intro">
-                <h2>Nuestros Proyectos</h2>
-                <p class="lead">Una selección de proyectos web desarrollados con las últimas tecnologías y diseño responsivo.</p>
-            </div>
-            
-            <div class="project-grid">
-                <!-- Proyecto 1: Menú Digital Balú -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1081&q=80" alt="Restaurante Balú">
-                    </div>
-                    <div class="project-content">
-                        <h3>Menú Digital Balú</h3>
-                        <p>Un menú digital interactivo para el Restaurante Balú Charallave con diseño moderno, navegación suave y asistente virtual integrado. Perfecto para mostrar platillos y facilitar pedidos.</p>
-                        <div class="project-tags">
-                            <span class="project-tag tag-restaurant">Restaurante</span>
-                            <span class="project-tag tag-technology">Digital</span>
-                            <span class="project-tag tag-restaurant">Interactivo</span>
-                        </div>
-                        <a href="menu.html" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> Ver Proyecto
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Proyecto 2: Interking -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Interking">
-                    </div>
-                    <div class="project-content">
-                        <h3>Interking - Proveedor de Internet</h3>
-                        <p>Plataforma web para Interking, proveedor de servicios de internet con diseño profesional, información de planes y asistente virtual "Rey" para atención al cliente.</p>
-                        <div class="project-tags">
-                            <span class="project-tag tag-technology">Tecnología</span>
-                            <span class="project-tag tag-technology">Servicios</span>
-                            <span class="project-tag tag-technology">Asistente IA</span>
-                        </div>
-                        <a href="ik.html" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> Ver Proyecto
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Proyecto 3: StarVenezuela -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="StarVenezuela">
-                    </div>
-                    <div class="project-content">
-                        <h3>StarVenezuela - Catálogo Digital</h3>
-                        <p>Catálogo digital completo para StarVenezuela con sistema de inventario en tiempo real, filtros avanzados, carrito de compras y asistente virtual "Carlitos".</p>
-                        <div class="project-tags">
-                            <span class="project-tag tag-ecommerce">E-commerce</span>
-                            <span class="project-tag tag-ecommerce">Catálogo</span>
-                            <span class="project-tag tag-technology">Inventario</span>
-                        </div>
-                        <a href="sv.html" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> Ver Proyecto
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="tecnologias">
-            <div class="section-intro">
-                <h2>Tecnologías Utilizadas</h2>
-                <p class="lead">Estos proyectos implementan las siguientes tecnologías y características:</p>
-            </div>
-            
-            <div class="card">
-                <div class="tech-info">
-                    <div class="tech-item">
-                        <h4><i class="fas fa-code" style="color: #64b4ff; margin-right: 10px;"></i> Frontend</h4>
-                        <ul>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> HTML5, CSS3, JavaScript</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Diseño Responsivo</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Efectos Parallax</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Animaciones CSS</li>
-                        </ul>
-                    </div>
-                    <div class="tech-item">
-                        <h4><i class="fas fa-robot" style="color: #ffa550; margin-right: 10px;"></i> Asistentes IA</h4>
-                        <ul>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Balú - Asistente de Restaurante</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Rey - Asistente de Interking</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Carlitos - Asistente de Catálogo</li>
-                        </ul>
-                    </div>
-                    <div class="tech-item">
-                        <h4><i class="fas fa-mobile-alt" style="color: #64dc96; margin-right: 10px;"></i> Experiencia</h4>
-                        <ul>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Optimizado para móviles</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Navegación intuitiva</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Interfaces modernas</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Performance optimizada</li>
-                        </ul>
-                    </div>
-                </div>
-                <p style="margin-top: 1.5rem;">Cada proyecto está optimizado para una experiencia de usuario excepcional en dispositivos móviles y desktop, implementando las mejores prácticas de desarrollo web moderno.</p>
-            </div>
-        </section>
-
-        <section id="contacto">
-            <div class="section-intro">
-                <h2>Más Proyectos</h2>
-                <p class="lead">¿Interesado en ver más de nuestro trabajo o desarrollar un proyecto similar?</p>
-            </div>
-            
-            <div class="card">
-                <h3>Contacto</h3>
-                <p>
-                    Si tienes un proyecto en mente o quieres saber más sobre nuestros servicios, no dudes en contactarnos. 
-                    Estamos especializados en desarrollo web a medida, aplicaciones interactivas y soluciones digitales innovadoras.
-                </p>
-                <div class="back-button-wrapper">
-                    <a href="index.html" class="back-button">
-                        <i class="fas fa-arrow-left"></i> Volver a Inicio
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-            <p>© 2023 ProtonLab – Galería de Proyectos</p>
-            <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
-                Innovación en cada línea de código, creatividad en cada proyecto. <a href="index.html" class="footer-pi">←</a>
-            </p>
-        </footer>
-    </main>
-
-    <!-- Elementos para el efecto Matrix -->
-    <div id="matrix-overlay">
-        <canvas id="matrix-canvas"></canvas>
-    </div>
+    *{box-sizing:border-box; font-family: var(--mono);}
+    body{margin:0;background:var(--bg-light);color:var(--text-light); overflow-x: hidden;}
+    .wrap{max-width:var(--max-width);margin:0 auto;padding:36px 24px}
     
-    <div class="tear-container">
-        <div class="tear"></div>
-        <div class="tear-edge"></div>
+    header{
+      position:fixed;
+      left:0;
+      right:0;
+      top:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 20px;
+      background:rgba(255,255,255,0.95);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom:1px solid rgba(0,0,0,0.08);
+      transition:transform .35s ease,opacity .35s ease;
+      z-index:60;
+      height: 70px;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+    
+    header.hidden{transform:translate3d(0, -110%, 0);opacity:0}
+    
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .mini{
+      font-weight:700;
+      font-size:20px;
+      letter-spacing:0.12em;
+      color:#000000;
+      cursor: pointer;
+      transition: transform 0.3s ease, color 0.3s ease;
+      user-select: none;
+    }
+    
+    .brand .mini:hover{
+      transform: scale(1.1);
+      color: #333333;
+    }
+    
+    .brand .mini:active{
+      transform: scale(0.95);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .navlink {
+      text-decoration: none;
+      color: #000000;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      transition: color 0.2s ease, transform 0.2s ease;
+      position: relative;
+      padding: 8px 0;
+      white-space: nowrap;
+    }
+    
+    .navlink:hover {
+      color: #333333;
+      transform: translateY(-1px);
+    }
+    
+    .navlink::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #000000;
+      transition: width 0.3s ease;
+    }
+    
+    .navlink:hover::after {
+      width: 100%;
+    }
+
+    .mode-toggle{display:flex;align-items:center;gap:6px}
+    .seg{
+      display:inline-flex;
+      border-radius:999px;
+      overflow:hidden;
+      border:2px solid #000;
+      background: rgba(0,0,0,0.03);
+    }
+    .seg button{
+      padding:6px 10px;
+      border:0;
+      background:transparent;
+      font-size: 11px;
+      cursor:pointer;
+      transition:background .2s,color .2s;
+      border-radius:0;
+      color:inherit;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .seg button.active{background:rgba(0,0,0,0.08)}
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 70;
+    }
+    
+    .hamburger span {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background-color: #000000;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    main{padding-top:100px}
+    .hero{min-height:70vh;display:flex;align-items:center}
+    .hero-inner{
+      width:100%;
+      display:flex;
+      flex-direction: column;
+      align-items:flex-start;
+      gap:36px;
+    }
+    @media (min-width: 768px) {
+      .hero-inner {
+        flex-direction: row;
+      }
+    }
+    .hero-left{flex:1}
+    .code-title{font-size:36px;line-height:1;letter-spacing:0.02em;color:inherit}
+    @media (min-width: 768px) {
+      .code-title {
+        font-size: 44px;
+      }
+    }
+    .code-title small{
+      display:block;
+      font-size:14px;
+      margin-top:8px;
+      color: var(--muted-light);
+    }
+
+    section{padding:60px 0;border-top:1px solid rgba(11,11,11,0.04)}
+    @media (min-width: 768px) {
+      section {
+        padding: 80px 0;
+      }
+    }
+    h2{font-size:20px;margin:0 0 12px; font-weight: 600;}
+    p.lead{color:var(--muted-light);margin:0 0 18px; font-weight: 400;}
+    
+    .card{
+      background: var(--card-bg-light);
+      border-radius:16px;
+      padding:24px;
+      border:1px solid var(--card-border-light);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: var(--card-shadow-light);
+      position: relative;
+      overflow: hidden;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.4) 50%, 
+        rgba(255,255,255,0) 100%);
+      z-index: 1;
+    }
+    
+    .card:hover {
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+      transform: translate3d(0, -5px, 0);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    
+    p {
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.6;
+    }
+    
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-top: 30px;
+    }
+    @media (min-width: 640px) {
+      .service-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+    }
+    
+    .service-card {
+      background: var(--card-bg-light);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--card-border-light);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--card-shadow-light);
+      transform: translateZ(0);
+      will-change: transform;
+    }
+    
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.4) 50%, 
+        rgba(255,255,255,0) 100%);
+      z-index: 1;
+    }
+    
+    .service-card:hover {
+      transform: translate3d(0, -8px, 0);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .service-card h3 {
+      margin-top: 0;
+      font-size: 16px;
+      color: inherit;
+      font-weight: 600;
+    }
+    
+    .service-card p {
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    footer{padding:80px 0;text-align:center;color:var(--muted-light);font-size:13px}
+    
+    .footer-pi {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+      font-style: normal;
+      margin-left: 4px;
+    }
+    
+    .footer-pi:hover {
+      opacity: 1;
+    }
+    
+    /* Botón de contacto con color verde fijo */
+    .contact-button {
+      display: inline-block;
+      padding: 12px 32px;
+      margin-top: 16px;
+      border-radius: 999px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: pointer;
+      text-align: center;
+      color: #000000 !important;
+      user-select: none;
+      background: rgba(100, 220, 150, 0.7) !important;
+      border: 1px solid rgba(100, 220, 150, 0.9) !important;
+    }
+    
+    .contact-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(100, 220, 150, 0.4);
+    }
+    
+    body[data-theme='dark'] .contact-button {
+      color: #ffffff !important;
+      background: rgba(100, 220, 150, 0.5) !important;
+      border: 1px solid rgba(100, 220, 150, 0.7) !important;
+    }
+    
+    .contact-button-wrapper {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    /* Se eliminaron todos los estilos de botones flotantes */
+
+    a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
+    a.link-plain:hover{text-decoration:none;color:inherit}
+
+    /* Modo oscuro general */
+    body[data-theme='dark']{
+      background:var(--bg-dark);
+      color:var(--text-dark);
+    }
+    
+    body[data-theme='dark'] header{
+      background:rgba(0,0,0,0.95);
+      border-bottom:1px solid rgba(255,255,255,0.1);
+    }
+    
+    body[data-theme='dark'] .brand .mini {
+      color: var(--text-dark);
+    }
+    
+    body[data-theme='dark'] .brand .mini:hover {
+      color: #ffffff;
+    }
+    
+    body[data-theme='dark'] .navlink {
+      color: var(--text-dark);
+    }
+    
+    body[data-theme='dark'] .navlink:hover {
+      color: #ffffff;
+    }
+    
+    body[data-theme='dark'] .navlink::after {
+      background-color: var(--text-dark);
+    }
+    
+    body[data-theme='dark'] .seg{
+      border-color: var(--accent-dark);
+      background: rgba(255,255,255,0.05);
+    }
+    
+    body[data-theme='dark'] .seg button{
+      color: var(--text-dark);
+    }
+    
+    body[data-theme='dark'] .seg button.active{
+      background: rgba(255,255,255,0.15);
+      color: #ffffff;
+    }
+    
+    body[data-theme='dark'] .hamburger span {
+      background-color: var(--text-dark);
+    }
+    
+    body[data-theme='dark'] section {
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    
+    body[data-theme='dark'] .card,
+    body[data-theme='dark'] .service-card {
+      background: var(--card-bg-dark);
+      border: 1px solid var(--card-border-dark);
+      box-shadow: var(--card-shadow-dark);
+    }
+    
+    body[data-theme='dark'] .card::before,
+    body[data-theme='dark'] .service-card::before {
+      background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.1) 50%, 
+        rgba(255,255,255,0) 100%);
+    }
+    
+    body[data-theme='dark'] .card:hover,
+    body[data-theme='dark'] .service-card:hover {
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* CORREGIDO: Añadida regla para el modo oscuro del texto pequeño del título */
+    body[data-theme='dark'] .code-title small {
+      color: var(--muted-dark);
+    }
+
+    /* MODIFICADO: Aumentar área táctil para botones de cerrar en móviles */
+    @media (max-width: 768px) {
+      header {
+        padding: 12px 16px;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      nav {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(255,255,255,0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 20px;
+        gap: 16px;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        z-index: 50;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      }
+      
+      nav.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .navlink {
+        padding: 12px 0;
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+      }
+      
+      .navlink:last-child {
+        border-bottom: none;
+      }
+      
+      .mode-toggle {
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(0,0,0,0.1);
+      }
+      
+      .hero-inner {
+        gap: 24px;
+      }
+      
+      .code-title {
+        font-size: 32px;
+      }
+      
+      section {
+        padding: 50px 0;
+      }
+      
+      .wrap {
+        padding: 36px 16px;
+      }
+      
+      .card, .service-card {
+        padding: 20px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .code-title {
+        font-size: 28px;
+      }
+      
+      .hero {
+        min-height: 60vh;
+      }
+    }
+    
+    body[data-theme='dark'] nav {
+      background: rgba(0,0,0,0.98);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    body[data-theme='dark'] .navlink {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    body[data-theme='dark'] .navlink:last-child {
+      border-bottom: none;
+    }
+    
+    body[data-theme='dark'] .mode-toggle {
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    /* PARALLAX PANELS */
+    .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
+    .panel{
+      position:absolute;
+      border-radius:8px;
+      opacity:.95;
+      box-shadow:0 18px 40px rgba(2,6,23,0.06);
+      border:1px solid rgba(255,255,255,0.2);
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      overflow: hidden;
+    }
+    
+    .panel.color-red {
+      background: rgba(255, 100, 100, 0.18);
+      border-color: rgba(255, 100, 100, 0.5);
+      box-shadow: 0 18px 40px rgba(255, 100, 100, 0.25);
+    }
+    
+    .panel.color-orange {
+      background: rgba(255, 165, 80, 0.18);
+      border-color: rgba(255, 165, 80, 0.5);
+      box-shadow: 0 18px 40px rgba(255, 165, 80, 0.25);
+    }
+    
+    .panel.color-yellow {
+      background: rgba(255, 220, 100, 0.18);
+      border-color: rgba(255, 220, 100, 0.5);
+      box-shadow: 0 18px 40px rgba(255, 220, 100, 0.25);
+    }
+    
+    .panel.color-green {
+      background: rgba(100, 220, 150, 0.18);
+      border-color: rgba(100, 220, 150, 0.5);
+      box-shadow: 0 18px 40px rgba(100, 220, 150, 0.25);
+    }
+    
+    .panel.color-blue {
+      background: rgba(100, 180, 255, 0.18);
+      border-color: rgba(100, 180, 255, 0.5);
+      box-shadow: 0 18px 40px rgba(100, 180, 255, 0.25);
+    }
+    
+    .panel.color-violet {
+      background: rgba(180, 120, 255, 0.18);
+      border-color: rgba(180, 120, 255, 0.5);
+      box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
+    }
+    
+    .panel.large {
+      width: 280px;
+      height: 140px;
+      z-index: 3;
+    }
+    @media (min-width: 768px) {
+      .panel.large {
+        width: 320px;
+        height: 160px;
+      }
+    }
+    
+    .panel.medium {
+      width: 220px;
+      height: 110px;
+      z-index: 2;
+      opacity: 0.85;
+    }
+    @media (min-width: 768px) {
+      .panel.medium {
+        width: 250px;
+        height: 125px;
+      }
+    }
+    
+    .panel.small {
+      width: 150px;
+      height: 75px;
+      opacity: 0.7;
+      z-index: 1;
+    }
+    @media (min-width: 768px) {
+      .panel.small {
+        width: 180px;
+        height: 90px;
+      }
+    }
+    
+    .panel .inner{
+      padding: 10px;
+      color: var(--muted-light);
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    @media (min-width: 768px) {
+      .panel .inner {
+        padding: 12px;
+      }
+    }
+    
+    .panel.large .inner {
+      font-size: 11px;
+      line-height: 1.3;
+    }
+    @media (min-width: 768px) {
+      .panel.large .inner {
+        font-size: 12px;
+      }
+    }
+    
+    .panel.medium .inner {
+      font-size: 10px;
+      line-height: 1.3;
+    }
+    @media (min-width: 768px) {
+      .panel.medium .inner {
+        font-size: 11px;
+      }
+    }
+    
+    .panel.small .inner {
+      font-size: 9px;
+      line-height: 1.2;
+    }
+    @media (min-width: 768px) {
+      .panel.small .inner {
+        font-size: 10px;
+      }
+    }
+    
+    .code-line {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+    
+    .typing-cursor {
+      display: inline-block;
+      width: 6px;
+      height: 1em;
+      background-color: currentColor;
+      margin-left: 1px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    
+    body[data-theme='dark'] .panel{
+      color:var(--text-dark);
+      box-shadow:0 18px 40px rgba(0,0,0,0.4);
+    }
+    
+    body[data-theme='dark'] .panel.color-red {
+      background: rgba(255, 100, 100, 0.12);
+      border-color: rgba(255, 100, 100, 0.4);
+      box-shadow: 0 18px 40px rgba(255, 100, 100, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-orange {
+      background: rgba(255, 165, 80, 0.12);
+      border-color: rgba(255, 165, 80, 0.4);
+      box-shadow: 0 18px 40px rgba(255, 165, 80, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-yellow {
+      background: rgba(255, 220, 100, 0.12);
+      border-color: rgba(255, 220, 100, 0.4);
+      box-shadow: 0 18px 40px rgba(255, 220, 100, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-green {
+      background: rgba(100, 220, 150, 0.12);
+      border-color: rgba(100, 220, 150, 0.4);
+      box-shadow: 0 18px 40px rgba(100, 220, 150, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-blue {
+      background: rgba(100, 180, 255, 0.12);
+      border-color: rgba(100, 180, 255, 0.4);
+      box-shadow: 0 18px 40px rgba(100, 180, 255, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel.color-violet {
+      background: rgba(180, 120, 255, 0.12);
+      border-color: rgba(180, 120, 255, 0.4);
+      box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
+    }
+    
+    body[data-theme='dark'] .panel .inner{
+      color:var(--muted-dark);
+    }
+    
+    /* OPTIMIZACIÓN PARA MÓVILES: Reducir cantidad de paneles */
+    @media (max-width: 768px) {
+      .panel.large:nth-child(n+3) {
+        display: none;
+      }
+      .panel.medium:nth-child(n+4) {
+        display: none;
+      }
+      .panel.small:nth-child(n+4) {
+        display: none;
+      }
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      
+      .panel {
+        transform: none !important;
+      }
+      
+      .typing-cursor {
+        animation: none;
+        opacity: 1;
+      }
+      
+      .debug-spinner,
+      .debug-loading-dot,
+      .debug-progress-bar {
+        animation: none;
+      }
+      
+      .ai-typing-dot {
+        animation: none;
+      }
+    }
+
+    /* === EFECTO MATRIX MEJORADO === */
+    #matrix-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      background: rgba(0, 0, 0, 0.9);
+    }
+    
+    #matrix-overlay.active {
+      opacity: 1;
+    }
+    
+    #matrix-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10001;
+    }
+    
+    .tear-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10002;
+      pointer-events: none;
+      overflow: hidden;
+      display: none;
+    }
+    
+    .tear-container.active {
+      display: block;
+    }
+    
+    .tear {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 100%;
+      background: inherit;
+      transition: top 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      clip-path: polygon(
+        0% 0%,
+        100% 0%,
+        100% 85%,
+        95% 87%,
+        90% 85%,
+        85% 90%,
+        80% 85%,
+        75% 88%,
+        70% 85%,
+        65% 89%,
+        60% 85%,
+        55% 87%,
+        50% 85%,
+        45% 88%,
+        40% 85%,
+        35% 86%,
+        30% 85%,
+        25% 87%,
+        20% 85%,
+        15% 89%,
+        10% 85%,
+        5% 86%,
+        0% 85%
+      );
+    }
+    
+    .tear.active {
+      top: 70%;
+    }
+    
+    .tear-edge {
+      position: absolute;
+      bottom: 15%;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(0, 255, 100, 0.8) 50%, 
+        transparent 100%);
+      z-index: 10003;
+      box-shadow: 0 0 20px rgba(0, 255, 100, 0.5);
+    }
+
+    /* Añadir más altura al footer para permitir scroll */
+    footer {
+      min-height: 300px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* ============================== */
+    /* MODAL DE CONTRASEÑA PARA PAGOS */
+    /* ============================== */
+    #password-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100000;
+    }
+    
+    #password-modal.active {
+      display: flex;
+    }
+    
+    .password-modal-content {
+      background: var(--card-bg-light);
+      border-radius: 20px;
+      border: 1px solid var(--card-border-light);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: var(--card-shadow-light);
+      width: 90%;
+      max-width: 400px;
+      overflow: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    
+    #password-modal.active .password-modal-content {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .password-modal-header {
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .password-modal-title {
+      font-weight: 600;
+      font-size: 18px;
+      color: #000000;
+    }
+    
+    .password-modal-close {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 100, 100, 0.2);
+      border: 1px solid rgba(255, 100, 100, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 20px;
+      color: #ff6464;
+    }
+    
+    .password-modal-close:hover {
+      background: rgba(255, 100, 100, 0.3);
+      transform: scale(1.1);
+    }
+    
+    .password-modal-body {
+      padding: 30px 20px;
+    }
+    
+    .password-input-container {
+      margin-bottom: 20px;
+    }
+    
+    .password-input-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: var(--muted-light);
+      font-weight: 500;
+    }
+    
+    #password-input-field {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: #000000;
+      font-family: var(--mono);
+      font-size: 16px;
+      text-align: center;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+    
+    #password-input-field:focus {
+      outline: none;
+      border-color: rgba(100, 220, 150, 0.5);
+      box-shadow: 0 0 0 2px rgba(100, 220, 150, 0.1);
+    }
+    
+    .password-error {
+      color: #ff5555;
+      font-size: 13px;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+    
+    .password-error.show {
+      display: block;
+    }
+    
+    .password-modal-footer {
+      padding: 0 20px 20px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    #password-submit-btn {
+      background: rgba(100, 220, 150, 0.3);
+      color: #000000;
+      border: 1px solid rgba(100, 220, 150, 0.5);
+      border-radius: 12px;
+      padding: 12px 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    #password-submit-btn:hover {
+      background: rgba(100, 220, 150, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    /* Modo oscuro para el modal */
+    body[data-theme='dark'] .password-modal-title,
+    body[data-theme='dark'] #password-input-field {
+      color: #f0f0f0;
+    }
+    
+    body[data-theme='dark'] .password-modal-content {
+      background: var(--card-bg-dark);
+      border: 1px solid var(--card-border-dark);
+      box-shadow: var(--card-shadow-dark);
+    }
+    
+    body[data-theme='dark'] #password-input-field {
+      background: rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    body[data-theme='dark'] #password-submit-btn {
+      color: var(--text-dark);
+    }
+  </style>
+</head>
+
+<body>
+  <header id="topbar">
+    <div class="brand">
+      <div class="mini" id="brandMini">&lt;/&gt;</div>
     </div>
-
-    <!-- Botones flotantes -->
-    <div class="float-buttons-container">
-        <!-- Botón Inicio -->
-        <div id="home-float-btn" class="float-btn" role="button" aria-label="Volver al Inicio">
-            <div class="float-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-            </div>
-            <span class="btn-text">Inicio</span>
+    <button class="hamburger" id="hamburger" aria-label="Menú principal">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="nav">
+      <a class="navlink" href="#inicio">Inicio</a>
+      <a class="navlink" href="#servicios">Servicios</a>
+      <a class="navlink" href="#departamentos">Departamentos</a>
+      <a class="navlink" href="#contacto">Contacto</a>
+      <a class="navlink" href="#acerca">Acerca</a>
+      <div class="mode-toggle">
+        <div class="seg">
+          <button data-mode="auto" class="active">Auto</button>
+          <button data-mode="light">Claro</button>
+          <button data-mode="dark">Oscuro</button>
         </div>
+      </div>
+    </nav>
+  </header>
 
-        <!-- Botón Galería -->
-        <div id="gallery-float-btn" class="float-btn" role="button" aria-label="Ver Galería">
-            <div class="float-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                    <polyline points="21 15 16 10 5 21"></polyline>
-                </svg>
-            </div>
-            <span class="btn-text">Galería</span>
-        </div>
+  <div class="panels" id="panels"></div>
 
-        <!-- Botón Contacto -->
-        <div id="contact-float-btn" class="float-btn" role="button" aria-label="Contacto">
-            <div class="float-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-            </div>
-            <span class="btn-text">Contacto</span>
+  <main class="wrap">
+    <section id="inicio" class="hero">
+      <div class="hero-inner">
+        <div class="hero-left">
+          <div class="code-title"><span id="typedWrap">&lt;<span id="typed"></span>&gt;</span>
+            <small class="muted">Software y hardware al alcance de todos.</small></div>
+          <p style="margin-top:18px">
+            Somos un laboratorio de desarrollo especializado en aplicaciones iOS nativas, soluciones web escalables, 
+            integración de sistemas electrónicos y fabricación aditiva (impresión 3D). Combinamos tecnologías de vanguardia 
+            con metodologías ágiles para ofrecer productos innovadores que resuelvan problemas complejos.</p>
+          <p style="margin-top:18px">
+            Nuestro enfoque multidisciplinario nos permite abordar proyectos desde la concepción hasta la implementación, 
+            creando soluciones integrales que conectan el mundo digital con el físico.</p>
         </div>
+      </div>
+    </section>
+
+    <section id="servicios">
+      <h2>Servicios</h2>
+      <p class="lead">Desarrollo a medida, consultoría técnica y prototipado rápido. Transformamos ideas en productos funcionales.</p>
+      
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>Desarrollo iOS</h3>
+          <p>Aplicaciones nativas para iPhone y iPad usando Swift y SwiftUI. Interfaces optimizadas y experiencia de usuario excepcional con integración completa del ecosistema Apple.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Soluciones Web</h3>
+          <p>Desarrollo de aplicaciones web modernas, APIs RESTful y sistemas backend escalables con las últimas tecnologías. Arquitecturas robustas y mantenibles.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Integración Hardware/Software</h3>
+          <p>Sistemas embebidos, IoT, automatización y control de dispositivos físicos mediante software personalizado. Conexión perfecta entre mundo digital y físico.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Fabricación Aditiva</h3>
+          <p>Prototipado rápido, piezas personalizadas y soluciones de impresión 3D para proyectos de hardware y productos físicos. Desde concepto hasta producto final.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Consultoría Técnica</h3>
+          <p>Asesoramiento especializado en arquitectura de software, optimización de procesos y estrategias tecnológicas. Maximizamos el valor de tu inversión tecnológica.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Mantenimiento & Soporte</h3>
+          <p>Servicios continuos de mantenimiento, actualizaciones y soporte técnico para garantizar el funcionamiento óptimo de tus sistemas a largo plazo.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="departamentos">
+      <h2>Departamentos</h2>
+      <p class="lead">Equipos especializados trabajando en sinergia para ofrecer soluciones completas e innovadoras.</p>
+      
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>Desarrollo iOS</h3>
+          <p>Especialistas en Swift, SwiftUI y el ecosistema Apple. Creación de aplicaciones nativas de alto rendimiento con interfaces fluidas y experiencias de usuario excepcionales.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Ingeniería de Software</h3>
+          <p>Arquitectura de sistemas, desarrollo backend, bases de datos y APIs. Tecnologías modernas y escalables para construir soluciones robustas y mantenibles.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Electrónica & IoT</h3>
+          <p>Diseño de circuitos, sistemas embebidos, sensores y conectividad. Puente entre el mundo digital y físico, creando soluciones tangibles e innovadoras.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Diseño & UX/UI</h3>
+          <p>Interfaces intuitivas, experiencia de usuario optimizada y diseño visual atractivo para todos nuestros productos. Centrados en la usabilidad y estética.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Fabricación & Prototipado</h3>
+          <p>Impresión 3D, mecanizado CNC y fabricación de prototipos funcionales para validación de conceptos. Materialización de ideas en productos físicos.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Control de Calidad</h3>
+          <p>Testing exhaustivo, automatización de pruebas y garantía de calidad en cada etapa del desarrollo. Comprometidos con la excelencia y fiabilidad.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <p class="lead">¿Tienes un proyecto en mente? Hablemos sobre cómo podemos hacerlo realidad.</p>
+      
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>Información de Contacto</h3>
+          <p>
+            <strong>Email:</strong> <a class="link-plain" href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a><br>
+            <strong>Teléfono:</strong> <a class="link-plain" href="tel:+17542313968">+1 754 231 3968</a><br>
+            <strong>WhatsApp:</strong> <a class="link-plain" href="https://wa.me/17542313968">Enviar mensaje</a>
+          </p>
+          <div class="contact-button-wrapper">
+            <a href="contacto.html" class="contact-button" id="contact-btn">CONTACTO</a>
+          </div>
+        </div>
+        
+        <div class="service-card">
+          <h3>Horario de Atención</h3>
+          <p>
+            Lunes a Viernes: 9:00 - 18:00<br>
+            Sábados: 10:00 - 14:00<br>
+            <em>Horario EST (Este de EE. UU.)</em>
+          </p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Proceso de Trabajo</h3>
+          <p>
+            1. Consulta inicial<br>
+            2. Análisis y planificación<br>
+            3. Propuesta detallada<br>
+            4. Desarrollo iterativo<br>
+            5. Entrega y soporte
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="acerca">
+      <h2>Acerca de ProtonLab</h2>
+      <p class="lead">Más que una empresa de desarrollo, somos un laboratorio de innovación donde las ideas toman forma.</p>
+      
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>Nuestra Filosofía</h3>
+          <p>Creemos en la intersección entre software y hardware como el futuro de la tecnología. Cada proyecto es una oportunidad para crear algo único y significativo que resuelva problemas reales y mejore la experiencia del usuario.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Metodología</h3>
+          <p>Combinamos desarrollo ágil con principios de ingeniería sólidos. Priorizamos la comunicación transparente y la entrega iterativa de valor, asegurando que cada etapa del proyecto esté alineada con los objetivos del cliente.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3>Tecnologías</h3>
+          <p>Trabajamos con un stack tecnológico moderno y versátil, seleccionando siempre la herramienta adecuada para cada desafío específico. Mantenemos actualizados con las últimas tendencias y mejores prácticas de la industria.</p>
+        </div>
+      </div>
+      
+      <div class="card" style="margin-top: 30px;">
+        <h3>Compromiso con la Calidad</h3>
+        <p>En ProtonLab, no entregamos solo código; entregamos soluciones que funcionan, escalan y perduran. Nuestro compromiso es con la excelencia técnica y la satisfacción del cliente en cada proyecto que emprendemos, asegurando que cada línea de código y cada componente físico cumplan con los más altos estándares de calidad.</p>
+      </div>
+    </section>
+
+    <footer>
+  <p>© 2023 ProtonLab – www.protonlab.site</p>
+  <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
+    Innovación en cada línea de código, precisión en cada componente físico. <a href="pi.html" class="footer-pi">π</a>
+  </p>
+</footer>
+  </main>
+
+  <!-- Elementos para el efecto Matrix -->
+  <div id="matrix-overlay">
+    <canvas id="matrix-canvas"></canvas>
+  </div>
+  
+  <div class="tear-container">
+    <div class="tear"></div>
+    <div class="tear-edge"></div>
+  </div>
+
+  <!-- Modal de contraseña para Pagos -->
+  <div id="password-modal">
+    <div class="password-modal-content">
+      <div class="password-modal-header">
+        <div class="password-modal-title">Acceso a Pagos</div>
+        <div class="password-modal-close" id="password-close-btn">×</div>
+      </div>
+      <div class="password-modal-body">
+        <div class="password-input-container">
+          <label for="password-input-field" class="password-input-label">Password</label>
+          <input type="password" id="password-input-field" placeholder="Ingrese la contraseña" autocomplete="off" />
+          <div id="password-error" class="password-error">Contraseña incorrecta. Intente nuevamente.</div>
+        </div>
+      </div>
+      <div class="password-modal-footer">
+        <button id="password-submit-btn" class="password-submit-btn">Acceder</button>
+      </div>
     </div>
+  </div>
 
-    <script>
-        // ========================================
-        // INICIALIZACIÓN PRINCIPAL
-        // ========================================
-        
-        // === Variables globales ===
-        let isTearing = false;
-        let tearForce = 0;
-        const MAX_TEAR_FORCE = 100;
-        
-        // === Elementos DOM ===
-        const floatButtonsContainer = document.querySelector('.float-buttons-container');
-        const homeFloatBtn = document.getElementById('home-float-btn');
-        const galleryFloatBtn = document.getElementById('gallery-float-btn');
-        const contactFloatBtn = document.getElementById('contact-float-btn');
-        
-        // === Elementos Matrix ===
-        const matrixOverlay = document.getElementById('matrix-overlay');
-        const matrixCanvas = document.getElementById('matrix-canvas');
-        const tearContainer = document.querySelector('.tear-container');
-        const tear = document.querySelector('.tear');
-        
-        // === Modo de color ===
-        const modeButtons = document.querySelectorAll('.seg button');
-        function applyTheme(mode){
-            if(mode==='auto'){
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.body.dataset.theme = prefersDark ? 'dark' : 'light';
-            } else {
-                document.body.dataset.theme = mode;
-            }
-            
-            // Aplicar colores aleatorios después de cambiar el tema
-            setTimeout(applyRandomColors, 50);
-        }
-        
-        modeButtons.forEach(btn => btn.addEventListener('click', () => {
-            modeButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            applyTheme(btn.dataset.mode);
-        }));
-        
-        // Aplicar tema automático por defecto
-        applyTheme('auto');
-        
-        // === CONFIGURACIÓN DE COLORES MEJORADA ===
-        const colorPalettes = [
-            { r: '255, 100, 100', hex: '#ff6464' },
-            { r: '255, 165, 80',  hex: '#ffa550' },
-            { r: '255, 220, 100', hex: '#ffdc64' },
-            { r: '100, 220, 150', hex: '#64dc96' },
-            { r: '100, 180, 255', hex: '#64b4ff' },
-            { r: '180, 120, 255', hex: '#b478ff' }
-        ];
-        
-        function applyRandomColors() {
-            const theme = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
-            
-            const accentColor = `rgb(${theme.r})`;
-            const glowColor = `rgba(${theme.r}, 0.4)`;
-            const bgColor = `rgba(${theme.r}, 0.1)`;
-            
-            const btns = document.querySelectorAll('.float-btn');
-            btns.forEach(btn => {
-                btn.style.setProperty('--btn-accent', accentColor);
-                btn.style.setProperty('--btn-accent-glow', glowColor);
-                btn.style.setProperty('--btn-bg', bgColor);
-            });
-            
-            // Aplicar color a los botones de proyecto
-            const projectLinks = document.querySelectorAll('.project-link');
-            projectLinks.forEach(link => {
-                link.style.background = `rgba(${theme.r}, 0.15)`;
-                link.style.border = `1px solid rgba(${theme.r}, 0.3)`;
-                link.onmouseenter = () => {
-                    link.style.boxShadow = `0 8px 20px ${glowColor}`;
-                    link.style.borderColor = accentColor;
-                };
-                link.onmouseleave = () => {
-                    link.style.boxShadow = 'none';
-                    link.style.borderColor = `rgba(${theme.r}, 0.3)`;
-                };
-            });
-            
-            // Aplicar color al botón de volver
-            const backButton = document.querySelector('.back-button');
-            if(backButton) {
-                backButton.style.background = `rgba(${theme.r}, 0.15)`;
-                backButton.style.border = `1px solid rgba(${theme.r}, 0.3)`;
-                backButton.onmouseenter = () => {
-                    backButton.style.boxShadow = `0 8px 20px ${glowColor}`;
-                    backButton.style.borderColor = accentColor;
-                };
-                backButton.onmouseleave = () => {
-                    backButton.style.boxShadow = 'none';
-                    backButton.style.borderColor = `rgba(${theme.r}, 0.3)`;
-                };
-            }
-        }
-        
-        // Aplicar colores al cargar
-        applyRandomColors();
-        
-        // === ANIMACIÓN TÍTULO ===
-        const typed = document.getElementById('typed');
-        const brandMini = document.getElementById('brandMini');
-        const finalText = 'GaleríaDev';
-        const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-        
-        const revealOrder = [0, 6, 3, 7, 2, 5, 8, 1, 4, 9];
-        
-        let currentText = Array(10).fill('');
-        let currentStep = 0;
-        let animationPhase = 1;
-        let animationInterval;
-        let animationStartTime;
-        const animationSpeed = 100;
-        
-        function startTitleAnimation() {
-            currentText = Array(10).fill('');
-            currentStep = 0;
-            animationPhase = 1;
-            animationStartTime = Date.now();
-            
-            if (animationInterval) clearInterval(animationInterval);
-            
-            animationInterval = setInterval(updateAnimation, animationSpeed);
-            
-            const phase1Steps = 10;
-            const phase1TimePerStep = 3000 / phase1Steps;
-            
-            for (let i = 0; i < phase1Steps; i++) {
-                setTimeout(() => {
-                    if (currentStep < 10) currentStep++;
-                }, i * phase1TimePerStep);
-            }
-            
-            setTimeout(() => { animationPhase = 2; }, 3000);
-            setTimeout(() => {
-                clearInterval(animationInterval);
-                typed.textContent = finalText;
-            }, 5000);
-        }
-        
-        function updateAnimation() {
-            if (animationPhase === 1) {
-                for (let i = 0; i < 10; i++) {
-                    if (i < currentStep) {
-                        const pos = revealOrder[i];
-                        if (pos < 10) {
-                            currentText[pos] = randomChars[Math.floor(Math.random() * randomChars.length)];
-                        }
-                    } else {
-                        const pos = revealOrder[i];
-                        if (pos < 10) {
-                            currentText[pos] = '';
-                        }
-                    }
-                }
-            } else if (animationPhase === 2) {
-                const progress = (Date.now() - animationStartTime - 3000) / 2000;
-                const charsToReveal = Math.min(10, Math.floor(progress * 10));
-                
-                for (let i = 0; i < 10; i++) {
-                    if (i < charsToReveal) {
-                        const pos = revealOrder[i];
-                        if (pos < finalText.length) {
-                            currentText[pos] = finalText[pos];
-                        }
-                    } else {
-                        const pos = revealOrder[i];
-                        if (pos < 10) {
-                            currentText[pos] = randomChars[Math.floor(Math.random() * randomChars.length)];
-                        }
-                    }
-                }
-            }
-            
-            typed.textContent = currentText.join('');
-        }
-        
-        startTitleAnimation();
-        brandMini.addEventListener('click', () => { startTitleAnimation(); });
-        
-        // === PARALLAX PANELS (OPTIMIZADO PARA MÓVILES) ===
-        const panels = document.getElementById('panels');
-        
-        const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
-        const occupiedPositions = [];
-        
-        function isOverlapping(pos1, pos2, size1, size2, margin = 5) {
-            const left1 = parseFloat(pos1.left);
-            const top1 = parseFloat(pos1.top);
-            const left2 = parseFloat(pos2.left);
-            const top2 = parseFloat(pos2.top);
-            
-            const right1 = left1 + size1.width + margin;
-            const bottom1 = top1 + size1.height + margin;
-            const right2 = left2 + size2.width + margin;
-            const bottom2 = top2 + size2.height + margin;
-            
-            return !(right1 < left2 || left1 > right2 || bottom1 < top2 || top1 > bottom2);
-        }
-        
-        function getRandomPosition(sizeType) {
-            let leftMin, leftMax, topMin, topMax, size;
-            
-            switch(sizeType) {
-                case 'large':
-                    leftMin = 2; leftMax = 70; topMin = 15; topMax = 70;
-                    size = { width: 20, height: 15 };
-                    break;
-                case 'medium':
-                    leftMin = 5; leftMax = 75; topMin = 10; topMax = 75;
-                    size = { width: 16, height: 12 };
-                    break;
-                case 'small':
-                    leftMin = 8; leftMax = 82; topMin = 5; topMax = 80;
-                    size = { width: 12, height: 8 };
-                    break;
-            }
-            
-            let attempts = 0;
-            const maxAttempts = 50;
-            
-            while (attempts < maxAttempts) {
-                const position = {
-                    left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%',
-                    top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%'
-                };
-                
-                let hasOverlap = false;
-                for (const occupied of occupiedPositions) {
-                    if (isOverlapping(position, occupied.position, size, occupied.size)) {
-                        hasOverlap = true;
-                        break;
-                    }
-                }
-                
-                if (!hasOverlap) {
-                    occupiedPositions.push({ position, size });
-                    return position;
-                }
-                
-                attempts++;
-            }
-            
-            const fallbackPosition = {
-                left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%',
-                top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%'
-            };
-            occupiedPositions.push({ position: fallbackPosition, size });
-            return fallbackPosition;
-        }
-        
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-            }
-            return newArray;
-        }
-        
-        const shuffledColors = shuffleArray(rainbowColors);
-        
-        const largePanelsContent = [
-            { speed: 0.9, lines: ['// Galería de Proyectos', 'function initGallery() {', '  loadProjects();', '  animateCards();', '  return "ready";', '}', 'status: online'] },
-            { speed: 0.8, lines: ['<gallery/>', 'const projects = [', '  "Menú Digital Balú",', '  "Interking",', '  "StarVenezuela"', '];', 'export { projects };'] }
-        ];
-        
-        const mediumPanelsContent = [
-            { speed: 0.5, lines: ['// Tecnologías usadas', 'tech: ["HTML5", "CSS3", "JS"]', 'frameworks: []', 'features: ["responsive", "parallax"]', 'status: "deployed"'] },
-            { speed: 0.45, lines: ['func loadImage(url) {', '  let img = new Image()', '  img.src = url', '  return img', '}', 'preload: complete'] },
-            { speed: 0.4, lines: ['public class Project {', '  private String name;', '  private String desc;', '  private String[] tags;', '  public void display() {}', '}'] }
-        ];
-        
-        const smallPanelsContent = [
-            { speed: 0.25, lines: ['images loaded', 'optimized', 'compressed'] },
-            { speed: 0.2, lines: ['CSS: animated', 'transition: smooth', 'effects: parallax'] },
-            { speed: 0.18, lines: ['mobile first', 'responsive', 'touch friendly'] }
-        ];
-        
-        const isMobile = window.innerWidth <= 768;
-        
-        const largePanelsToUse = isMobile ? largePanelsContent.slice(0, 2) : largePanelsContent;
-        const mediumPanelsToUse = isMobile ? mediumPanelsContent.slice(0, 3) : mediumPanelsContent;
-        const smallPanelsToUse = isMobile ? smallPanelsContent.slice(0, 3) : smallPanelsContent;
-        
-        const largePanels = largePanelsToUse.map(content => ({ ...content, ...getRandomPosition('large') }));
-        const mediumPanels = mediumPanelsToUse.map(content => ({ ...content, ...getRandomPosition('medium') }));
-        const smallPanels = smallPanelsToUse.map(content => ({ ...content, ...getRandomPosition('small') }));
-        
-        function typeText(element, text, speed, onComplete) {
-            let i = 0;
-            element.innerHTML = '';
-            
-            function typeChar() {
-                if (i < text.length) {
-                    const char = text.charAt(i);
-                    element.innerHTML += char === ' ' ? '&nbsp;' : char;
-                    i++;
-                    
-                    let delay = speed;
-                    if (char === '.' || char === ';' || char === '}') delay = speed * 3;
-                    else if (char === ',' || char === ' ') delay = speed * 1.5;
-                    
-                    setTimeout(typeChar, delay);
-                } else if (onComplete) {
-                    setTimeout(onComplete, 1000);
-                }
-            }
-            
-            typeChar();
-        }
-        
-        function animatePanel(panel, lines, isSmall = false) {
-            const inner = panel.querySelector('.inner');
-            let currentLine = 0;
-            let isAnimating = false;
-            let timeoutId = null;
-            
-            function stopAnimation() {
-                isAnimating = false;
-                if (timeoutId) {
-                    clearTimeout(timeoutId);
-                    timeoutId = null;
-                }
-            }
-            
-            function typeNextLine() {
-                if (!isAnimating) return;
-                
-                if (currentLine < lines.length) {
-                    const lineElement = document.createElement('div');
-                    lineElement.className = 'code-line';
-                    inner.appendChild(lineElement);
-                    
-                    const baseSpeed = isSmall ? 25 + Math.random() * 20 : 40 + Math.random() * 30;
-                    
-                    typeText(lineElement, lines[currentLine], baseSpeed, () => {
-                        if (!isAnimating) return;
-                        
-                        currentLine++;
-                        if (currentLine < lines.length) {
-                            const pauseTime = isSmall ? 200 : 300;
-                            timeoutId = setTimeout(typeNextLine, pauseTime);
-                        } else {
-                            timeoutId = setTimeout(() => {
-                                if (!isAnimating) return;
-                                inner.innerHTML = '';
-                                currentLine = 0;
-                                timeoutId = setTimeout(typeNextLine, isSmall ? 500 : 800);
-                            }, isSmall ? 1500 : 2000);
-                        }
-                    });
-                }
-            }
-            
-            return {
-                start: () => { if (!isAnimating) { isAnimating = true; typeNextLine(); } },
-                stop: () => { stopAnimation(); }
-            };
-        }
-        
-        const animationControllers = new Map();
-        const panelObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const panelEl = entry.target;
-                const controller = animationControllers.get(panelEl);
-                
-                if (entry.isIntersecting) {
-                    if (controller) controller.start();
-                } else {
-                    if (controller) controller.stop();
-                }
-            });
-        }, { root: null, rootMargin: '100px', threshold: 0 });
-        
-        largePanels.forEach((c, index) => {
-            const el = document.createElement('div');
-            el.className = 'panel large ' + shuffledColors[index % shuffledColors.length];
-            el.style.left = c.left;
-            el.style.top = c.top;
-            const inner = document.createElement('div');
-            inner.className = 'inner';
-            el.appendChild(inner);
-            panels.appendChild(el);
-            c.el = el;
-            const controller = animatePanel(el, c.lines, false);
-            animationControllers.set(el, controller);
-            panelObserver.observe(el);
-        });
-        
-        const shuffledColorsMedium = shuffleArray(rainbowColors);
-        mediumPanels.forEach((c, index) => {
-            const el = document.createElement('div');
-            el.className = 'panel medium ' + shuffledColorsMedium[index % shuffledColorsMedium.length];
-            el.style.left = c.left;
-            el.style.top = c.top;
-            const inner = document.createElement('div');
-            inner.className = 'inner';
-            el.appendChild(inner);
-            panels.appendChild(el);
-            c.el = el;
-            const controller = animatePanel(el, c.lines, false);
-            animationControllers.set(el, controller);
-            panelObserver.observe(el);
-        });
-        
-        const shuffledColorsSmall = shuffleArray(rainbowColors);
-        smallPanels.forEach((c, index) => {
-            const el = document.createElement('div');
-            el.className = 'panel small ' + shuffledColorsSmall[index % shuffledColorsSmall.length];
-            el.style.left = c.left;
-            el.style.top = c.top;
-            const inner = document.createElement('div');
-            inner.className = 'inner';
-            el.appendChild(inner);
-            panels.appendChild(el);
-            c.el = el;
-            const controller = animatePanel(el, c.lines, true);
-            animationControllers.set(el, controller);
-            panelObserver.observe(el);
-        });
+  <script>
+    // ========================================
+    // CONFIGURACIÓN PRINCIPAL - MODIFICADA
+    // ========================================
+    
+    // URL CORREGIDA: Usando tu dominio de ngrok
+    const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+    
+    console.log('🚀 Configuración de producción activada');
+    console.log('🌐 URL del backend:', OLLAMA_SERVER_URL);
+    console.log('🔗 Verificando conexión...');
 
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scrollY = window.scrollY;
-                    largePanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
-                    mediumPanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
-                    smallPanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
-                    ticking = false;
-                });
-                ticking = true;
-            }
-            
-            handleTearEffect();
-        });
-        
-        // === Ocultar header ===
-        const topbar = document.getElementById('topbar'); 
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const y = window.scrollY;
-            if(y > lastScroll + 10) topbar.classList.add('hidden');
-            else if(y < lastScroll - 10) topbar.classList.remove('hidden');
-            lastScroll = y;
-        });
+    // Función de utilidad para añadir headers de ngrok
+    function getNgrokHeaders() {
+      return {
+        'ngrok-skip-browser-warning': 'true', // Header para evitar la advertencia de ngrok
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
+    }
 
-        // === Menú hamburguesa ===
-        const hamburger = document.getElementById('hamburger');
-        const nav = document.getElementById('nav');
-        let isMenuOpen = false;
-        
-        function toggleMenu() {
-            isMenuOpen = !isMenuOpen;
-            hamburger.classList.toggle('active');
-            nav.classList.toggle('active');
-            
-            if (isMenuOpen) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
+    // === Variables globales ===
+    let isAIChatOpen = false;
+    let isDebugChatOpen = false;
+    let isGenerating = false;
+    let isDebugging = false;
+    let isServerAvailable = false;
+    let currentSessionId = null;
+    let debugEditor = null;
+    let editorInitialized = false;
+
+    // === Elementos DOM ===
+    // Se eliminaron todas las referencias a botones flotantes
+    
+    // Elementos del modal de contraseña
+    const passwordModal = document.getElementById('password-modal');
+    const passwordInputField = document.getElementById('password-input-field');
+    const passwordSubmitBtn = document.getElementById('password-submit-btn');
+    const passwordCloseBtn = document.getElementById('password-close-btn');
+    const passwordError = document.getElementById('password-error');
+    
+    const contactBtn = document.getElementById('contact-btn');
+    
+    // === Elementos Matrix ===
+    const matrixOverlay = document.getElementById('matrix-overlay');
+    const matrixCanvas = document.getElementById('matrix-canvas');
+    const tearContainer = document.querySelector('.tear-container');
+    const tear = document.querySelector('.tear');
+    
+    // === CONFIGURACIÓN DE COLORES MEJORADA ===
+    const colorPalettes = [
+      { r: '255, 100, 100', hex: '#ff6464' },
+      { r: '255, 165, 80',  hex: '#ffa550' },
+      { r: '255, 220, 100', hex: '#ffdc64' },
+      { r: '100, 220, 150', hex: '#64dc96' },
+      { r: '100, 180, 255', hex: '#64b4ff' },
+      { r: '180, 120, 255', hex: '#b478ff' }
+    ];
+    
+    function applyRandomColors() {
+      const theme = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+      
+      const accentColor = `rgb(${theme.r})`;
+      const glowColor = `rgba(${theme.r}, 0.4)`;
+      const bgColor = `rgba(${theme.r}, 0.1)`;
+      
+      // Se eliminó la aplicación de colores a botones flotantes
+      // El botón de contacto ahora tiene color fijo verde
+    }
+
+    // === Modo de color ===
+    const modeButtons=document.querySelectorAll('.seg button');
+    function applyTheme(mode){
+      if(mode==='auto'){
+        const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.body.dataset.theme=prefersDark?'dark':'light';
+      }else document.body.dataset.theme=mode;
+      
+      if (debugEditor && editorInitialized) {
+        const theme = document.body.dataset.theme === 'dark' ? 'vs-dark' : 'vs';
+        monaco.editor.setTheme(theme);
+      }
+      setTimeout(applyRandomColors, 50);
+    }
+    modeButtons.forEach(btn=>btn.addEventListener('click',()=>{
+      modeButtons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      applyTheme(btn.dataset.mode);
+    }));
+    applyTheme('auto');
+    applyRandomColors();
+
+    // === ANIMACIÓN TÍTULO ===
+    const typed = document.getElementById('typed');
+    const brandMini = document.getElementById('brandMini');
+    const finalText = 'ProtonLab';
+    const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+    
+    const revealOrder = [0, 6, 3, 7, 2, 5, 8, 1, 4];
+    
+    let currentText = Array(9).fill('');
+    let currentStep = 0;
+    let animationPhase = 1;
+    let animationInterval;
+    let animationStartTime;
+    const animationSpeed = 100;
+    
+    function startTitleAnimation() {
+      currentText = Array(9).fill('');
+      currentStep = 0;
+      animationPhase = 1;
+      animationStartTime = Date.now();
+      
+      if (animationInterval) clearInterval(animationInterval);
+      
+      animationInterval = setInterval(updateAnimation, animationSpeed);
+      
+      const phase1Steps = 9;
+      const phase1TimePerStep = 3000 / phase1Steps;
+      
+      for (let i = 0; i < phase1Steps; i++) {
+        setTimeout(() => {
+          if (currentStep < 9) currentStep++;
+        }, i * phase1TimePerStep);
+      }
+      
+      setTimeout(() => { animationPhase = 2; }, 3000);
+      setTimeout(() => {
+        clearInterval(animationInterval);
+        typed.textContent = finalText;
+      }, 5000);
+    }
+    
+    function updateAnimation() {
+      if (animationPhase === 1) {
+        for (let i = 0; i < 9; i++) {
+          if (i < currentStep) {
+            const pos = revealOrder[i];
+            currentText[pos] = randomChars[Math.floor(Math.random() * randomChars.length)];
+          } else {
+            const pos = revealOrder[i];
+            currentText[pos] = '';
+          }
         }
+      } else if (animationPhase === 2) {
+        const progress = (Date.now() - animationStartTime - 3000) / 2000;
+        const charsToReveal = Math.min(9, Math.floor(progress * 9));
         
-        hamburger.addEventListener('click', toggleMenu);
-        
-        document.querySelectorAll('.navlink').forEach(link => {
-            link.addEventListener('click', () => {
-                if (isMenuOpen) {
-                    toggleMenu();
-                }
-            });
-        });
-        
-        document.addEventListener('click', (e) => {
-            if (isMenuOpen && !nav.contains(e.target) && !hamburger.contains(e.target)) {
-                toggleMenu();
-            }
-        });
-        
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768 && isMenuOpen) {
-                toggleMenu();
-            }
-        });
+        for (let i = 0; i < 9; i++) {
+          if (i < charsToReveal) {
+            const pos = revealOrder[i];
+            currentText[pos] = finalText[pos];
+          } else {
+            const pos = revealOrder[i];
+            currentText[pos] = randomChars[Math.floor(Math.random() * randomChars.length)];
+          }
+        }
+      }
+      
+      typed.textContent = currentText.join('');
+    }
+    
+    startTitleAnimation();
+    brandMini.addEventListener('click', () => { startTitleAnimation(); });
 
-        // === EFECTO MATRIX ===
-        let matrixCtx = matrixCanvas.getContext('2d');
-        let matrixChars = [];
-        let matrixAnimationId = null;
-        
-        const MATRIX_CONFIG = {
-            fontSize: 14,
-            columns: 0,
-            charSet: "01",
-            colors: ['#0f0', '#0c0', '#090', '#060', '#0f0']
+    // === PARALLAX PANELS (OPTIMIZADO PARA MÓVILES) ===
+    const panels = document.getElementById('panels');
+    
+    const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
+    const occupiedPositions = [];
+    
+    function isOverlapping(pos1, pos2, size1, size2, margin = 5) {
+      const left1 = parseFloat(pos1.left);
+      const top1 = parseFloat(pos1.top);
+      const left2 = parseFloat(pos2.left);
+      const top2 = parseFloat(pos2.top);
+      
+      const right1 = left1 + size1.width + margin;
+      const bottom1 = top1 + size1.height + margin;
+      const right2 = left2 + size2.width + margin;
+      const bottom2 = top2 + size2.height + margin;
+      
+      return !(right1 < left2 || left1 > right2 || bottom1 < top2 || top1 > bottom2);
+    }
+    
+    function getRandomPosition(sizeType) {
+      let leftMin, leftMax, topMin, topMax, size;
+      
+      switch(sizeType) {
+        case 'large':
+          leftMin = 2; leftMax = 70; topMin = 15; topMax = 70;
+          size = { width: 20, height: 15 };
+          break;
+        case 'medium':
+          leftMin = 5; leftMax = 75; topMin = 10; topMax = 75;
+          size = { width: 16, height: 12 };
+          break;
+        case 'small':
+          leftMin = 8; leftMax = 82; topMin = 5; topMax = 80;
+          size = { width: 12, height: 8 };
+          break;
+      }
+      
+      let attempts = 0;
+      const maxAttempts = 50;
+      
+      while (attempts < maxAttempts) {
+        const position = {
+          left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%',
+          top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%'
         };
         
-        function initMatrixEffect() {
-            matrixCanvas.width = window.innerWidth;
-            matrixCanvas.height = window.innerHeight;
+        let hasOverlap = false;
+        for (const occupied of occupiedPositions) {
+          if (isOverlapping(position, occupied.position, size, occupied.size)) {
+            hasOverlap = true;
+            break;
+          }
+        }
+        
+        if (!hasOverlap) {
+          occupiedPositions.push({ position, size });
+          return position;
+        }
+        
+        attempts++;
+      }
+      
+      const fallbackPosition = {
+        left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%',
+        top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%'
+      };
+      occupiedPositions.push({ position: fallbackPosition, size });
+      return fallbackPosition;
+    }
+    
+    function shuffleArray(array) {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    }
+    
+    const shuffledColors = shuffleArray(rainbowColors);
+    
+    const largePanelsContent = [
+      { speed: 0.9, lines: ['// Inicializando...', 'const a = 42;', 'function ping() {', '  return "pong";', '}', 'console.log(ping());'] },
+      { speed: 0.8, lines: ['<init/>', '#include <stdio.h>', 'int main() {', '  printf("Hola");', '  return 0;', '}', 'boot> OK'] },
+      { speed: 0.7, lines: ['// Lectura sensor', 'val = analogRead(A0);', 'if (val > 512) {', '  digitalWrite(HIGH);', '} else {', '  digitalWrite(LOW);', '}', 'send(val);'] },
+      { speed: 0.6, lines: ['class Device {', '  constructor(name) {', '    this.name = name;', '    this.status = "off";', '  }', '  run() {', '    status="running";', '  }', '}'] }
+    ];
+    
+    const mediumPanelsContent = [
+      { speed: 0.5, lines: ['// Config API', 'const config = {', '  endpoint: "/api",', '  timeout: 5000,', '  retries: 3', '}', 'export config;'] },
+      { speed: 0.45, lines: ['func calculate() {', '  let x = 10', '  let y = 20', '  return x + y', '}', 'print(result)'] },
+      { speed: 0.4, lines: ['public class Hello {', '  public static void', '  main(String[] args) {', '    System.out.println("Hi");', '  }', '}'] },
+      { speed: 0.35, lines: ['-- Tabla usuarios', 'CREATE TABLE users (', '  id INT PRIMARY KEY,', '  name VARCHAR(100)', ');', 'INSERT...'] },
+      { speed: 0.3, lines: ['import SwiftUI', 'struct ContentView: View {', '  var body: some View {', '    Text("Hello")', '  }', '}'] }
+    ];
+    
+    const smallPanelsContent = [
+      { speed: 0.25, lines: ['npm install...', '✓ Dependencies', 'build completed'] },
+      { speed: 0.2, lines: ['git commit -m', '"update: features"', 'push origin main'] },
+      { speed: 0.18, lines: ['DEBUG MODE', 'WARNING: check', 'parameters valid'] },
+      { speed: 0.15, lines: ['CPU: 45% load', 'MEM: 2.3GB used', 'NET: 120kb/s'] },
+      { speed: 0.12, lines: ['test.py running', '✓ 15/15 passed', 'coverage: 92%'] },
+      { speed: 0.1, lines: ['docker build', 'image: ready', 'container: run'] }
+    ];
+    
+    const isMobile = window.innerWidth <= 768;
+    
+    const largePanelsToUse = isMobile ? largePanelsContent.slice(0, 2) : largePanelsContent;
+    const mediumPanelsToUse = isMobile ? mediumPanelsContent.slice(0, 3) : mediumPanelsContent;
+    const smallPanelsToUse = isMobile ? smallPanelsContent.slice(0, 3) : smallPanelsContent;
+    
+    const largePanels = largePanelsToUse.map(content => ({ ...content, ...getRandomPosition('large') }));
+    const mediumPanels = mediumPanelsToUse.map(content => ({ ...content, ...getRandomPosition('medium') }));
+    const smallPanels = smallPanelsToUse.map(content => ({ ...content, ...getRandomPosition('small') }));
+    
+    function typeText(element, text, speed, onComplete) {
+      let i = 0;
+      element.innerHTML = '';
+      
+      function typeChar() {
+        if (i < text.length) {
+          const char = text.charAt(i);
+          element.innerHTML += char === ' ' ? '&nbsp;' : char;
+          i++;
+          
+          let delay = speed;
+          if (char === '.' || char === ';' || char === '}') delay = speed * 3;
+          else if (char === ',' || char === ' ') delay = speed * 1.5;
+          
+          setTimeout(typeChar, delay);
+        } else if (onComplete) {
+          setTimeout(onComplete, 1000);
+        }
+      }
+      
+      typeChar();
+    }
+    
+    function animatePanel(panel, lines, isSmall = false) {
+      const inner = panel.querySelector('.inner');
+      let currentLine = 0;
+      let isAnimating = false;
+      let timeoutId = null;
+      
+      function stopAnimation() {
+        isAnimating = false;
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+      }
+      
+      function typeNextLine() {
+        if (!isAnimating) return;
+        
+        if (currentLine < lines.length) {
+          const lineElement = document.createElement('div');
+          lineElement.className = 'code-line';
+          inner.appendChild(lineElement);
+          
+          const baseSpeed = isSmall ? 25 + Math.random() * 20 : 40 + Math.random() * 30;
+          
+          typeText(lineElement, lines[currentLine], baseSpeed, () => {
+            if (!isAnimating) return;
             
-            MATRIX_CONFIG.columns = Math.floor(window.innerWidth / MATRIX_CONFIG.fontSize);
-            
-            matrixChars = [];
-            for (let i = 0; i < MATRIX_CONFIG.columns; i++) {
-                matrixChars.push({
-                    x: i * MATRIX_CONFIG.fontSize,
-                    y: Math.random() * -window.innerHeight,
-                    speed: 2 + Math.random() * 5,
-                    chars: [],
-                    charCount: 10 + Math.floor(Math.random() * 20)
-                });
+            currentLine++;
+            if (currentLine < lines.length) {
+              const pauseTime = isSmall ? 200 : 300;
+              timeoutId = setTimeout(typeNextLine, pauseTime);
+            } else {
+              timeoutId = setTimeout(() => {
+                if (!isAnimating) return;
+                inner.innerHTML = '';
+                currentLine = 0;
+                timeoutId = setTimeout(typeNextLine, isSmall ? 500 : 800);
+              }, isSmall ? 1500 : 2000);
             }
+          });
+        }
+      }
+      
+      return {
+        start: () => { if (!isAnimating) { isAnimating = true; typeNextLine(); } },
+        stop: () => { stopAnimation(); }
+      };
+    }
+    
+    const animationControllers = new Map();
+    const panelObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const panelEl = entry.target;
+        const controller = animationControllers.get(panelEl);
+        
+        if (entry.isIntersecting) {
+          if (controller) controller.start();
+        } else {
+          if (controller) controller.stop();
+        }
+      });
+    }, { root: null, rootMargin: '100px', threshold: 0 });
+    
+    largePanels.forEach((c, index) => {
+      const el = document.createElement('div');
+      el.className = 'panel large ' + shuffledColors[index % shuffledColors.length];
+      el.style.left = c.left;
+      el.style.top = c.top;
+      const inner = document.createElement('div');
+      inner.className = 'inner';
+      el.appendChild(inner);
+      panels.appendChild(el);
+      c.el = el;
+      const controller = animatePanel(el, c.lines, false);
+      animationControllers.set(el, controller);
+      panelObserver.observe(el);
+    });
+    
+    const shuffledColorsMedium = shuffleArray(rainbowColors);
+    mediumPanels.forEach((c, index) => {
+      const el = document.createElement('div');
+      el.className = 'panel medium ' + shuffledColorsMedium[index % shuffledColorsMedium.length];
+      el.style.left = c.left;
+      el.style.top = c.top;
+      const inner = document.createElement('div');
+      inner.className = 'inner';
+      el.appendChild(inner);
+      panels.appendChild(el);
+      c.el = el;
+      const controller = animatePanel(el, c.lines, false);
+      animationControllers.set(el, controller);
+      panelObserver.observe(el);
+    });
+    
+    const shuffledColorsSmall = shuffleArray(rainbowColors);
+    smallPanels.forEach((c, index) => {
+      const el = document.createElement('div');
+      el.className = 'panel small ' + shuffledColorsSmall[index % shuffledColorsSmall.length];
+      el.style.left = c.left;
+      el.style.top = c.top;
+      const inner = document.createElement('div');
+      inner.className = 'inner';
+      el.appendChild(inner);
+      panels.appendChild(el);
+      c.el = el;
+      const controller = animatePanel(el, c.lines, true);
+      animationControllers.set(el, controller);
+      panelObserver.observe(el);
+    });
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          largePanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
+          mediumPanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
+          smallPanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
+          ticking = false;
+        });
+        ticking = true;
+      }
+      
+      handleTearEffect();
+    });
+
+    // === Ocultar header ===
+    const topbar=document.getElementById('topbar'); 
+    let lastScroll=0;
+    window.addEventListener('scroll',()=>{
+      const y=window.scrollY;
+      if(y>lastScroll+10) topbar.classList.add('hidden');
+      else if(y<lastScroll-10) topbar.classList.remove('hidden');
+      lastScroll=y;
+    });
+
+    // === Menú hamburguesa ===
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+    let isMenuOpen = false;
+    
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      hamburger.classList.toggle('active');
+      nav.classList.toggle('active');
+      
+      if (isMenuOpen) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+    
+    hamburger.addEventListener('click', toggleMenu);
+    
+    document.querySelectorAll('.navlink').forEach(link => {
+      link.addEventListener('click', () => {
+        if (isMenuOpen) {
+          toggleMenu();
+        }
+      });
+    });
+    
+    document.addEventListener('click', (e) => {
+      if (isMenuOpen && !nav.contains(e.target) && !hamburger.contains(e.target)) {
+        toggleMenu();
+      }
+    });
+    
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && isMenuOpen) {
+        toggleMenu();
+      }
+      
+      if (matrixOverlay.classList.contains('active')) {
+        initMatrixEffect();
+      }
+    });
+
+    // ========================================
+    // FUNCIONALIDAD PAGOS CON CONTRASEÑA
+    // ========================================
+
+    // Evento para abrir el modal de contraseña (ahora no hay botón, pero se mantiene la funcionalidad)
+    // Se eliminó el evento click del botón de pagos
+
+    // Funciones para el modal de contraseña
+    function openPasswordModal() {
+      passwordModal.classList.add('active');
+      passwordInputField.value = '';
+      passwordError.classList.remove('show');
+      setTimeout(() => {
+        passwordInputField.focus();
+      }, 300);
+    }
+
+    function closePasswordModal() {
+      passwordModal.classList.remove('active');
+      passwordInputField.value = '';
+      passwordError.classList.remove('show');
+    }
+
+    function validatePassword() {
+      const password = passwordInputField.value.trim();
+      
+      if (password === 'swordfish') {
+        // Contraseña correcta, redirigir a intercom.html
+        closePasswordModal();
+        window.location.href = 'intercom.html';
+      } else {
+        // Contraseña incorrecta, mostrar error
+        passwordError.classList.add('show');
+        passwordInputField.value = '';
+        passwordInputField.focus();
+        
+        // Agregar animación de sacudida al input
+        passwordInputField.style.animation = 'none';
+        setTimeout(() => {
+          passwordInputField.style.animation = 'shake 0.5s ease-in-out';
+        }, 10);
+      }
+    }
+
+    // Estilos para animación de sacudida
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Eventos para el modal de contraseña
+    passwordSubmitBtn.addEventListener('click', validatePassword);
+    
+    passwordInputField.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        validatePassword();
+      }
+    });
+    
+    passwordCloseBtn.addEventListener('click', closePasswordModal);
+    
+    // Cerrar modal al hacer clic fuera del contenido
+    passwordModal.addEventListener('click', (e) => {
+      if (e.target === passwordModal) {
+        closePasswordModal();
+      }
+    });
+
+    // ========================================
+    // INICIALIZACIÓN FINAL
+    // ========================================
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      matrixCanvas.width = window.innerWidth;
+      matrixCanvas.height = window.innerHeight;
+      
+      console.log("✅ ProtonLab cargado correctamente");
+      console.log("🌐 URL del backend configurada:", OLLAMA_SERVER_URL);
+    });
+
+    // === EFECTO MATRIX ===
+    let matrixCtx = matrixCanvas.getContext('2d');
+    let matrixChars = [];
+    let matrixAnimationId = null;
+    let isTearing = false;
+    let tearForce = 0;
+    const MAX_TEAR_FORCE = 100;
+    
+    const MATRIX_CONFIG = {
+      fontSize: 14,
+      columns: 0,
+      charSet: "01",
+      colors: ['#0f0', '#0c0', '#090', '#060', '#0f0']
+    };
+    
+    function initMatrixEffect() {
+      console.log("🟢 Inicializando efecto Matrix...");
+      
+      matrixCanvas.width = window.innerWidth;
+      matrixCanvas.height = window.innerHeight;
+      
+      MATRIX_CONFIG.columns = Math.floor(window.innerWidth / MATRIX_CONFIG.fontSize);
+      
+      matrixChars = [];
+      for (let i = 0; i < MATRIX_CONFIG.columns; i++) {
+        matrixChars.push({
+          x: i * MATRIX_CONFIG.fontSize,
+          y: Math.random() * -window.innerHeight,
+          speed: 2 + Math.random() * 5,
+          chars: [],
+          charCount: 10 + Math.floor(Math.random() * 20)
+        });
+      }
+      
+      if (matrixAnimationId) {
+        cancelAnimationFrame(matrixAnimationId);
+      }
+      drawMatrix();
+    }
+    
+    function drawMatrix() {
+      matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+      
+      matrixCtx.font = `bold ${MATRIX_CONFIG.fontSize}px 'JetBrains Mono', monospace`;
+      
+      matrixChars.forEach(column => {
+        column.y += column.speed;
+        
+        if (column.y > window.innerHeight) {
+          column.y = Math.random() * -100;
+          column.chars = [];
+        }
+        
+        if (column.chars.length < column.charCount) {
+          const newChar = {
+            char: MATRIX_CONFIG.charSet[Math.floor(Math.random() * MATRIX_CONFIG.charSet.length)],
+            color: MATRIX_CONFIG.colors[Math.floor(Math.random() * MATRIX_CONFIG.colors.length)]
+          };
+          column.chars.push(newChar);
+        }
+        
+        column.chars.forEach((charObj, index) => {
+          const yPos = column.y - (index * MATRIX_CONFIG.fontSize);
+          
+          if (yPos > -MATRIX_CONFIG.fontSize && yPos < window.innerHeight) {
+            matrixCtx.fillStyle = charObj.color;
+            matrixCtx.fillText(charObj.char, column.x, yPos);
+          }
+        });
+        
+        if (column.chars.length > column.charCount) {
+          column.chars.shift();
+        }
+      });
+      
+      if (matrixOverlay.classList.contains('active')) {
+        matrixAnimationId = requestAnimationFrame(drawMatrix);
+      }
+    }
+    
+    function handleTearEffect() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight;
+      
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
+      const overscroll = Math.max(0, (scrollTop + clientHeight) - scrollHeight);
+      
+      if (isAtBottom && overscroll > 0) {
+        tearForce = Math.min(MAX_TEAR_FORCE, overscroll * 2);
+        
+        if (tearForce > 5 && !isTearing) {
+          isTearing = true;
+          matrixOverlay.classList.add('active');
+          tearContainer.classList.add('active');
+          tear.classList.add('active');
+          initMatrixEffect();
+        }
+        
+        const tearPosition = 70 - (tearForce / MAX_TEAR_FORCE) * 25;
+        tear.style.top = `${tearPosition}%`;
+        
+      } else {
+        tearForce = Math.max(0, tearForce - 8);
+        
+        if (tearForce <= 0 && isTearing) {
+          isTearing = false;
+          tear.classList.remove('active');
+          
+          setTimeout(() => {
+            matrixOverlay.classList.remove('active');
+            tearContainer.classList.remove('active');
             
             if (matrixAnimationId) {
-                cancelAnimationFrame(matrixAnimationId);
+              cancelAnimationFrame(matrixAnimationId);
+              matrixAnimationId = null;
             }
-            drawMatrix();
+          }, 600);
+        } else if (isTearing) {
+          const tearPosition = 70 - (tearForce / MAX_TEAR_FORCE) * 25;
+          tear.style.top = `${tearPosition}%`;
         }
-        
-        function drawMatrix() {
-            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-            
-            matrixCtx.font = `bold ${MATRIX_CONFIG.fontSize}px 'JetBrains Mono', monospace`;
-            
-            matrixChars.forEach(column => {
-                column.y += column.speed;
-                
-                if (column.y > window.innerHeight) {
-                    column.y = Math.random() * -100;
-                    column.chars = [];
-                }
-                
-                if (column.chars.length < column.charCount) {
-                    const newChar = {
-                        char: MATRIX_CONFIG.charSet[Math.floor(Math.random() * MATRIX_CONFIG.charSet.length)],
-                        color: MATRIX_CONFIG.colors[Math.floor(Math.random() * MATRIX_CONFIG.colors.length)]
-                    };
-                    column.chars.push(newChar);
-                }
-                
-                column.chars.forEach((charObj, index) => {
-                    const yPos = column.y - (index * MATRIX_CONFIG.fontSize);
-                    
-                    if (yPos > -MATRIX_CONFIG.fontSize && yPos < window.innerHeight) {
-                        matrixCtx.fillStyle = charObj.color;
-                        matrixCtx.fillText(charObj.char, column.x, yPos);
-                    }
-                });
-                
-                if (column.chars.length > column.charCount) {
-                    column.chars.shift();
-                }
-            });
-            
-            if (matrixOverlay.classList.contains('active')) {
-                matrixAnimationId = requestAnimationFrame(drawMatrix);
-            }
-        }
-        
-        function handleTearEffect() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight;
-            const clientHeight = document.documentElement.clientHeight;
-            
-            const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
-            const overscroll = Math.max(0, (scrollTop + clientHeight) - scrollHeight);
-            
-            if (isAtBottom && overscroll > 0) {
-                tearForce = Math.min(MAX_TEAR_FORCE, overscroll * 2);
-                
-                if (tearForce > 5 && !isTearing) {
-                    isTearing = true;
-                    matrixOverlay.classList.add('active');
-                    tearContainer.classList.add('active');
-                    tear.classList.add('active');
-                    initMatrixEffect();
-                }
-                
-                const tearPosition = 70 - (tearForce / MAX_TEAR_FORCE) * 25;
-                tear.style.top = `${tearPosition}%`;
-                
-            } else {
-                tearForce = Math.max(0, tearForce - 8);
-                
-                if (tearForce <= 0 && isTearing) {
-                    isTearing = false;
-                    tear.classList.remove('active');
-                    
-                    setTimeout(() => {
-                        matrixOverlay.classList.remove('active');
-                        tearContainer.classList.remove('active');
-                        
-                        if (matrixAnimationId) {
-                            cancelAnimationFrame(matrixAnimationId);
-                            matrixAnimationId = null;
-                        }
-                    }, 600);
-                } else if (isTearing) {
-                    const tearPosition = 70 - (tearForce / MAX_TEAR_FORCE) * 25;
-                    tear.style.top = `${tearPosition}%`;
-                }
-            }
-        }
-        
-        // === Funcionalidad de botones flotantes ===
-        homeFloatBtn.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-        
-        galleryFloatBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: document.getElementById('proyectos').offsetTop - 80,
-                behavior: 'smooth'
-            });
-        });
-        
-        contactFloatBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: document.getElementById('contacto').offsetTop - 80,
-                behavior: 'smooth'
-            });
-        });
-        
-        // === INICIALIZACIÓN FINAL ===
-        document.addEventListener('DOMContentLoaded', function() {
-            matrixCanvas.width = window.innerWidth;
-            matrixCanvas.height = window.innerHeight;
-            
-            console.log("✅ Galería de Proyectos cargada correctamente");
+      }
+    }
 
-            // Animación de entrada para botones flotantes
-            const floatBtns = document.querySelectorAll('.float-btn');
-            floatBtns.forEach(btn => btn.classList.add('init-hidden'));
+    window.addEventListener('wheel', function(e) {
+      handleTearEffect();
+    }, { passive: true });
 
-            setTimeout(() => {
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
-                const targetScale = 6;
+    window.addEventListener('touchmove', function() {
+      handleTearEffect();
+    }, { passive: true });
 
-                floatBtns.forEach((btn, index) => {
-                    setTimeout(() => {
-                        const rect = btn.getBoundingClientRect();
-                        const btnCenterX = rect.left + rect.width / 2;
-                        const btnCenterY = rect.top + rect.height / 2;
-
-                        const moveX = centerX - btnCenterX;
-                        const moveY = centerY - btnCenterY;
-
-                        btn.style.setProperty('--tx', `${moveX}px`);
-                        btn.style.setProperty('--ty', `${moveY}px`);
-                        btn.style.setProperty('--s', targetScale);
-
-                        btn.classList.add('intro-pop');
-                        
-                        void btn.offsetWidth;
-
-                        btn.classList.remove('init-hidden');
-
-                        setTimeout(() => {
-                            btn.classList.remove('intro-pop');
-                        }, 500);
-
-                    }, index * 300);
-                });
-            }, 1000);
-        });
-
-        window.addEventListener('wheel', function(e) {
-            handleTearEffect();
-        }, { passive: true });
-
-        window.addEventListener('touchmove', function() {
-            handleTearEffect();
-        }, { passive: true });
-
-        window.addEventListener('resize', function() {
-            if (matrixOverlay.classList.contains('active')) {
-                initMatrixEffect();
-            }
-        });
-        
-        // Smooth scrolling para enlaces internos
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
+    window.addEventListener('resize', function() {
+      if (matrixOverlay.classList.contains('active')) {
+        initMatrixEffect();
+      }
+    });
+  </script>
 </body>
 </html>
