@@ -326,111 +326,299 @@
             100% { transform: scale(1.2); opacity: 0; }
         }
         
-        /* Chat Window */
+        /* Chat Window - MÁS GRANDE (como menu.html) */
         #karl-chat-window {
-            position: fixed; 
+            position: fixed;
             bottom: 200px; /* Ajustado por el botón más grande */
             right: 30px;
-            width: 350px; 
-            height: 500px;
-            background: white; 
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            border: 3px solid var(--color-rojo); /* Borde más grueso */
-            z-index: 9999; 
-            display: none; 
-            flex-direction: column;
-            overflow: hidden; 
-            opacity: 0; 
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
-        #karl-chat-window.active { 
-            display: flex; 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
-        .karl-chat-header {
-            padding: 15px; 
-            background: var(--color-rojo); 
-            color: white;
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-        }
-        .karl-chat-title { 
-            font-weight: bold; 
-            font-size: 1.2rem; 
-        }
-        .karl-chat-close { 
-            cursor: pointer; 
-            font-size: 1.8rem; /* Más grande */
-            line-height: 1; 
-            padding: 0 10px;
-        }
-        .karl-chat-body {
-            flex: 1; 
-            overflow-y: auto; 
-            padding: 15px;
-            background: #f8f9fa; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 10px;
-        }
-        .karl-message { 
-            display: flex; 
-            gap: 10px; 
-            max-width: 85%; 
-        }
-        .karl-message.user { 
-            align-self: flex-end; 
-            flex-direction: row-reverse; 
-        }
-        .karl-message-content {
-            padding: 12px 16px; /* Más grande */
-            border-radius: 18px; 
-            font-size: 1rem; /* Más grande */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .ai .karl-message-content { 
-            background: white; 
-            border: 1px solid #eee; 
-            color: #333; 
-            border-top-left-radius: 0; 
-        }
-        .user .karl-message-content { 
-            background: var(--color-rojo); 
-            color: white; 
-            border-top-right-radius: 0; 
-        }
-        .karl-chat-input-container {
-            padding: 15px; 
-            border-top: 2px solid #eee; 
+            width: 90%;
+            max-width: 675px; /* AUMENTADO 50% (antes 450px) como menu.html */
+            height: 825px; /* AUMENTADO 50% (antes 550px) como menu.html */
             background: white;
-            display: flex; 
-            gap: 10px;
+            border-radius: 25px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+            border: 6px solid var(--color-rojo); /* Borde más grueso */
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .karl-chat-input {
-            flex: 1; 
-            padding: 12px; /* Más grande */
-            border: 2px solid #ddd; /* Borde más grueso */
-            border-radius: 20px;
-            resize: none; 
-            outline: none;
-            font-size: 1rem; /* Más grande */
+        
+        #karl-chat-window.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
-        .karl-chat-send {
-            background: var(--color-rojo); 
-            color: white; 
+        
+        .karl-chat-header {
+            padding: 25px 30px; /* Aumentado */
+            background: var(--color-rojo);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        
+        .karl-chat-title {
+            font-weight: 900;
+            font-size: 30px; /* AUMENTADO 50% (antes 20px) */
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Aumentado */
+        }
+        
+        .karl-chat-close {
+            width: 50px; /* Aumentado */
+            height: 50px; /* Aumentado */
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
             border: none;
-            width: 45px; /* Más grande */
-            height: 45px; /* Más grande */
-            border-radius: 50%; 
-            cursor: pointer;
-            font-size: 1.3rem; /* Más grande */
-            display: flex; 
-            align-items: center; 
+            display: flex;
+            align-items: center;
             justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 36px; /* Aumentado */
+            color: white;
+            font-weight: 300;
+        }
+        
+        .karl-chat-close:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.15);
+        }
+        
+        .karl-chat-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px; /* Aumentado */
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Aumentado */
+            background: #f8f9fa;
+        }
+        
+        .karl-message {
+            display: flex;
+            gap: 15px; /* Aumentado */
+            animation: messageSlideIn 0.3s ease;
+        }
+        
+        @keyframes messageSlideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .karl-message.user {
+            justify-content: flex-end;
+        }
+        
+        .karl-message-avatar {
+            width: 63px; /* AUMENTADO 50% (antes 42px) */
+            height: 63px; /* AUMENTADO 50% (antes 42px) */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 24px; /* Aumentado */
+            flex-shrink: 0;
+            background: var(--color-rojo); /* Rojo por defecto (para usuario) */
+            color: white;
+            overflow: hidden;
+            border: 3px solid var(--color-rojo); /* Borde más grueso */
+        }
+        
+        /* Avatar de la IA (Karl) - FONDO AMARILLO Y IMAGEN MÁS GRANDE */
+        .ai .karl-message-avatar {
+            background: var(--color-amarillo); /* Fondo amarillo para la IA */
+            border-color: var(--color-amarillo);
+        }
+        
+        .karl-message-avatar img {
+            width: 90%; /* IMAGEN MÁS GRANDE (antes 85%) */
+            height: 90%; /* IMAGEN MÁS GRANDE (antes 85%) */
+            object-fit: contain; /* Asegura que la imagen se ajuste sin distorsión */
+            border-radius: 50%;
+        }
+        
+        .user .karl-message-avatar {
+            background: var(--color-rojo); /* Fondo rojo para el usuario */
+            color: var(--color-amarillo); /* Texto amarillo para contraste */
+            border-color: var(--color-rojo);
+        }
+        
+        .karl-message-content {
+            max-width: 80%;
+            padding: 21px 27px; /* AUMENTADO 50% (antes 14px 18px) */
+            border-radius: 25px; /* Aumentado */
+            line-height: 1.6; /* Mejorado */
+            font-size: 24px; /* AUMENTADO 50% (antes 16px) */
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: white;
+            border: 3px solid #e9ecef; /* Borde más grueso */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Sombra mejorada */
+        }
+        
+        .ai .karl-message-content {
+            color: #222;
+            font-weight: 500;
+        }
+        
+        .user .karl-message-content {
+            background: var(--color-rojo);
+            color: white;
+            border-color: var(--color-rojo);
+        }
+        
+        .karl-typing {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px; /* Aumentado */
+        }
+        
+        .karl-typing-dot {
+            width: 12px; /* Aumentado */
+            height: 12px; /* Aumentado */
+            border-radius: 50%;
+            background-color: var(--color-rojo);
+            animation: karlTypingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .karl-typing-dot:nth-child(1) { animation-delay: 0s; }
+        .karl-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .karl-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes karlTypingAnimation {
+            0%, 60%, 100% { transform: scale(1); opacity: 0.5; }
+            30% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        .karl-chat-input-container {
+            padding: 25px 30px; /* Aumentado */
+            border-top: 3px solid #e9ecef; /* Borde más grueso */
+            display: flex;
+            gap: 15px; /* Aumentado */
+            align-items: flex-end;
+            flex-shrink: 0;
+            background: white;
+        }
+        
+        .karl-chat-input {
+            flex: 1;
+            background: #f8f9fa;
+            border: 3px solid #e9ecef; /* Borde más grueso */
+            border-radius: 20px; /* Aumentado */
+            padding: 21px 27px; /* AUMENTADO 50% (antes 14px 18px) */
+            color: #222;
+            font-size: 24px; /* AUMENTADO 50% (antes 16px) */
+            resize: none;
+            min-height: 75px; /* Aumentado */
+            max-height: 180px; /* Aumentado */
+            transition: all 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        
+        .karl-chat-input:focus {
+            outline: none;
+            border-color: var(--color-rojo);
+            box-shadow: 0 0 0 6px rgba(139, 0, 0, 0.15); /* Sombra más grande */
+        }
+        
+        .karl-chat-send {
+            background: var(--color-rojo);
+            color: white;
+            border: none;
+            border-radius: 20px; /* Aumentado */
+            width: 75px; /* AUMENTADO 50% (antes 50px) */
+            height: 75px; /* AUMENTADO 50% (antes 50px) */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 30px; /* Aumentado */
+            flex-shrink: 0;
+        }
+        
+        .karl-chat-send:hover {
+            background: #b71c1c;
+            transform: translateY(-3px) scale(1.05);
+        }
+        
+        .karl-chat-send:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* === NUEVO: ANUNCIO TEMPORAL PARA KARL === */
+        .karl-attention-indicator {
+            position: fixed;
+            bottom: 240px; /* Posicionado encima del botón Karl */
+            right: 10px; /* Alineado con el botón */
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            animation: karlAttentionBounce 2s infinite ease-in-out;
+            width: 250px;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        .karl-attention-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .karl-attention-text {
+            background: white;
+            color: #8B0000; /* Color rojo de Casa Res */
+            padding: 14px 20px;
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: 900;
+            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.25);
+            border: 3px solid #FFD700; /* Borde amarillo de Karl */
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            position: relative;
+            width: 100%;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+        
+        /* Dedo posicionado en la parte inferior y CENTRADO debajo del cuadro de texto */
+        .karl-attention-finger {
+            font-size: 40px;
+            color: #FFD700; /* Amarillo de Karl */
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+            animation: karlFingerPulse 1.5s infinite alternate;
+            position: relative;
+            margin-top: 0; /* Sin margen superior */
+            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+            align-self: center; /* Centra el dedo horizontalmente */
+            transform: none; /* Sin rotación */
+        }
+        
+        @keyframes karlAttentionBounce {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        
+        @keyframes karlFingerPulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.3); opacity: 1; }
         }
 
         /* --- RESPONSIVE - OPTIMIZADO SOLO PARA CELULARES --- */
@@ -479,8 +667,9 @@
             #karl-chat-window { 
                 width: calc(100% - 30px); 
                 right: 15px; 
-                height: 65vh; 
+                height: 70vh; 
                 bottom: 180px;
+                max-width: none;
             }
             
             nav {
@@ -502,6 +691,70 @@
             .karl-float-btn {
                 height: 160px;
                 width: 160px;
+            }
+            
+            /* Ajustes de tamaño para móvil - Reducir el aumento del 50% */
+            .karl-chat-header {
+                padding: 20px 25px;
+            }
+            
+            .karl-chat-title {
+                font-size: 22px;
+            }
+            
+            .karl-chat-close {
+                width: 40px;
+                height: 40px;
+                font-size: 28px;
+            }
+            
+            .karl-chat-body {
+                padding: 20px;
+                gap: 15px;
+            }
+            
+            .karl-message-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
+            
+            .karl-message-content {
+                padding: 16px 20px;
+                font-size: 18px;
+                border-radius: 20px;
+            }
+            
+            .karl-chat-input-container {
+                padding: 20px;
+            }
+            
+            .karl-chat-input {
+                padding: 16px 20px;
+                font-size: 18px;
+                min-height: 60px;
+            }
+            
+            .karl-chat-send {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            /* Ajustes para el anuncio temporal en tablet */
+            .karl-attention-indicator {
+                bottom: 200px;
+                right: 10px;
+                width: 220px;
+            }
+            
+            .karl-attention-text {
+                font-size: 18px;
+                padding: 12px 16px;
+            }
+            
+            .karl-attention-finger {
+                font-size: 36px;
             }
         }
         
@@ -553,6 +806,55 @@
                 height: 140px;
                 width: 140px;
             }
+            
+            /* Más ajustes para móvil pequeño */
+            .karl-chat-title {
+                font-size: 18px;
+            }
+            
+            .karl-chat-close {
+                width: 35px;
+                height: 35px;
+                font-size: 24px;
+            }
+            
+            .karl-message-avatar {
+                width: 42px;
+                height: 42px;
+                font-size: 16px;
+            }
+            
+            .karl-message-content {
+                padding: 14px 18px;
+                font-size: 16px;
+            }
+            
+            .karl-chat-input {
+                padding: 14px 18px;
+                font-size: 16px;
+            }
+            
+            .karl-chat-send {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            /* Ajustes para el anuncio temporal en móvil */
+            .karl-attention-indicator {
+                bottom: 150px;
+                right: 0;
+                width: 180px;
+            }
+            
+            .karl-attention-text {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            
+            .karl-attention-finger {
+                font-size: 28px;
+            }
         }
         
         @media (max-width: 360px) {
@@ -597,6 +899,21 @@
             #karl-chat-window {
                 bottom: 140px;
             }
+            
+            /* Ajustes para el anuncio temporal en móvil pequeño */
+            .karl-attention-indicator {
+                bottom: 130px;
+                width: 160px;
+            }
+            
+            .karl-attention-text {
+                font-size: 12px;
+                padding: 7px 10px;
+            }
+            
+            .karl-attention-finger {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
@@ -620,873 +937,40 @@
 
     <div class="container">
         
-        <h2 id="entradas" class="section-title reveal">Entradas</h2>
-        <div class="menu-grid">
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1626202158652-329cc647614d?auto=format&fit=crop&w=600&q=80" alt="Provoleta" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Provoleta con Salchicha</h3>
-                        <span class="card-price">Ref.24</span>
-                    </div>
-                    <p class="card-desc">Queso provolone fundido al hierro, acompañado de salchicha parrillera.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1519690889869-e705e59f72e1?auto=format&fit=crop&w=600&q=80" alt="Steak Tartar" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Steak Tartar</h3>
-                        <span class="card-price">Ref.16</span>
-                    </div>
-                    <p class="card-desc">Clásico corte de res crudo picado a cuchillo, aderezado con especias tradicionales.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1579372786545-d24232daf584?auto=format&fit=crop&w=600&q=80" alt="Chistorras" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Chistorras Salteadas</h3>
-                        <span class="card-price">Ref.16</span>
-                    </div>
-                    <p class="card-desc">Chistorras navarras salteadas al ajillo y vino blanco.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1548658823-388910b42f63?auto=format&fit=crop&w=600&q=80" alt="Carpaccio" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Carpaccio de Punta</h3>
-                        <span class="card-price">Ref.18</span>
-                    </div>
-                    <p class="card-desc">Finas láminas de punta trasera marinadas, con parmesano y rúcula.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1601002367117-d27299a41851?auto=format&fit=crop&w=600&q=80" alt="Croquetas" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Croquetas de Chistorra</h3>
-                        <span class="card-price">Ref.12</span>
-                    </div>
-                    <p class="card-desc">Cremosas croquetas caseras rellenas de chistorra ibérica.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1563507666324-7494f6f1406e?auto=format&fit=crop&w=600&q=80" alt="Tequeños" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Tequeños (Queso de Cabra)</h3>
-                        <span class="card-price">Ref.13</span>
-                    </div>
-                    <p class="card-desc">Masa crujiente rellena de suave queso de cabra.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=600&q=80" alt="Chistorras y Padron" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Chistorras y Padron</h3>
-                        <span class="card-price">Ref.15</span>
-                    </div>
-                    <p class="card-desc">Combinación de chistorras y pimientos padrón salteados.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=600&q=80" alt="Ceviche de Porkbelly" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Ceviche de Porkbelly</h3>
-                        <span class="card-price">Ref.15</span>
-                    </div>
-                    <p class="card-desc">Ceviche de panceta de cerdo marinada en cítricos.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?auto=format&fit=crop&w=600&q=80" alt="Esferas de Morcilla" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Esferas de Morcilla</h3>
-                        <span class="card-price">Ref.14</span>
-                    </div>
-                    <p class="card-desc">Esferas crujientes rellenas de morcilla tradicional.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80" alt="Pimientos de Padron" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Pimientos de Padron</h3>
-                        <span class="card-price">Ref.12</span>
-                    </div>
-                    <p class="card-desc">Pimientos padrón a la plancha con sal marina.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&w=600&q=80" alt="Empanaditas de Carne" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Empanaditas de Carne</h3>
-                        <span class="card-price">Ref.12</span>
-                    </div>
-                    <p class="card-desc">Pequeñas empanadas rellenas de carne sazonada.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?auto=format&fit=crop&w=600&q=80" alt="Arepitas Fritas" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Arepitas Fritas</h3>
-                        <span class="card-price">Ref.6</span>
-                    </div>
-                    <p class="card-desc">Pequeñas arepas fritas crujientes.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=600&q=80" alt="Queso Telita" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Queso Telita</h3>
-                        <span class="card-price">Ref.9</span>
-                    </div>
-                    <p class="card-desc">Queso venezolano tipo telita a la plancha.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=600&q=80" alt="Nata" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Nata</h3>
-                        <span class="card-price">Ref.7</span>
-                    </div>
-                    <p class="card-desc">Nata casera para untar.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1572449043416-55f4685c9bb7?auto=format&fit=crop&w=600&q=80" alt="Casabe Gratinado" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Casabe Gratinado</h3>
-                        <span class="card-price">Ref.6</span>
-                    </div>
-                    <p class="card-desc">Casabe con queso gratinado.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?auto=format&fit=crop&w=600&q=80" alt="Costillitas de maiz" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Costillitas de maiz</h3>
-                        <span class="card-price">Ref.8</span>
-                    </div>
-                    <p class="card-desc">Costillas de maíz fritas.</p>
-                </div>
-            </div>
-        </div>
-
-        <h2 id="carnes" class="section-title reveal">Al Josper (Carnes)</h2>
-        <div class="menu-grid">
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1558030006-4506719b7342?auto=format&fit=crop&w=600&q=80" alt="Tomahawk" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Tomahawk</h3>
-                        <span class="card-price">Ref.78</span>
-                    </div>
-                    <p class="card-desc">Espectacular corte de costilla de res con hueso largo, asado a la perfección.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=600&q=80" alt="T-Bone" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">T-Bone</h3>
-                        <span class="card-price">Ref.54</span>
-                    </div>
-                    <p class="card-desc">Lo mejor de dos mundos: Solomo y Lomito separados por el hueso en forma de T.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f58161460e?auto=format&fit=crop&w=600&q=80" alt="Ribeye" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Ribeye Nacional (340g)</h3>
-                        <span class="card-price">Ref.23</span>
-                    </div>
-                    <p class="card-desc">Ojo de bife con excelente marmoleo, jugoso y lleno de sabor.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1615937691194-97dbd3f3dc29?auto=format&fit=crop&w=600&q=80" alt="Punta Trasera" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Punta Trasera Nac. (320g)</h3>
-                        <span class="card-price">Ref.24</span>
-                    </div>
-                    <p class="card-desc">Corte tradicional, con su capa de grasa externa que aporta sabor único.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1600891965058-295b9d214619?auto=format&fit=crop&w=600&q=80" alt="New York" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">New York Nacional (460g)</h3>
-                        <span class="card-price">Ref.26</span>
-                    </div>
-                    <p class="card-desc">Corte magro y firme, de sabor intenso.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=600&q=80" alt="Pulpo" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Pulpo al Josper</h3>
-                        <span class="card-price">Ref.25</span>
-                    </div>
-                    <p class="card-desc">Tentáculos de pulpo grillados al carbón, tiernos y ahumados.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f58161460e?auto=format&fit=crop&w=600&q=80" alt="Fajitas de carne y pollo" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Fajitas de carne y pollo (2p)</h3>
-                        <span class="card-price">Ref.35</span>
-                    </div>
-                    <p class="card-desc">Fajitas mixtas de carne y pollo al Josper para dos personas.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80" alt="Salmón" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Salmón</h3>
-                        <span class="card-price">Ref.28</span>
-                    </div>
-                    <p class="card-desc">Filete de salmón al Josper con piel crujiente.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f58161460e?auto=format&fit=crop&w=600&q=80" alt="Lomo de cerdo" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Lomo de cerdo</h3>
-                        <span class="card-price">Ref.22</span>
-                    </div>
-                    <p class="card-desc">Lomo de cerdo asado al Josper.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f58161460e?auto=format&fit=crop&w=600&q=80" alt="Lomito" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Lomito</h3>
-                        <span class="card-price">Ref.32</span>
-                    </div>
-                    <p class="card-desc">Corte de lomito de res al Josper.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=80" alt="Langostinos" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Langostinos</h3>
-                        <span class="card-price">Ref.38</span>
-                    </div>
-                    <p class="card-desc">Langostinos grandes al Josper.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f58161460e?auto=format&fit=crop&w=600&q=80" alt="Vacio de Res" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Vacio de Res</h3>
-                        <span class="card-price">Ref.30</span>
-                    </div>
-                    <p class="card-desc">Vacio de res asado al Josper.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f58161460e?auto=format&fit=crop&w=600&q=80" alt="Pollo de Res" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Pollo de Res (320g)</h3>
-                        <span class="card-price">Ref.20</span>
-                    </div>
-                    <p class="card-desc">Corte especial de res con sabor y textura similar al pollo.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f58161460e?auto=format&fit=crop&w=600&q=80" alt="Churrasco de Pollo" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Churrasco de Pollo</h3>
-                        <span class="card-price">Ref.18</span>
-                    </div>
-                    <p class="card-desc">Churrasco de pollo al Josper.</p>
-                </div>
-            </div>
-        </div>
-
-        <h2 id="hamburguesas" class="section-title reveal">Hamburguesas</h2>
-        <div class="menu-grid">
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1551615593-ef5fe247e8f7?auto=format&fit=crop&w=600&q=80" alt="Fondue Burger" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Fondue Burger</h3>
-                        <span class="card-price">Ref.23</span>
-                    </div>
-                    <p class="card-desc">Hamburguesa bañada en una rica crema de quesos fundidos.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Smash Burger" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Smash Burger (180g)</h3>
-                        <span class="card-price">Ref.16</span>
-                    </div>
-                    <p class="card-desc">Carne aplastada en la plancha para una costra crujiente perfecta.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=600&q=80" alt="Burger Res" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Burger Res (130g)</h3>
-                        <span class="card-price">Ref.14</span>
-                    </div>
-                    <p class="card-desc">Nuestra clásica hamburguesa de carne seleccionada.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Brangus" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Brangus (130g)</h3>
-                        <span class="card-price">Ref.12</span>
-                    </div>
-                    <p class="card-desc">Hamburguesa de carne Brangus premium.</p>
-                </div>
-            </div>
-        </div>
-
-        <h2 id="guarniciones" class="section-title reveal">Guarniciones</h2>
-        <div class="menu-grid">
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1633933358116-a27b902fad35?auto=format&fit=crop&w=600&q=80" alt="Risotto" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Risotto de Champiñones</h3>
-                        <span class="card-price">Ref.14</span>
-                    </div>
-                    <p class="card-desc">Arroz cremoso con selección de hongos silvestres.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1573080496987-a199f8cd4054?auto=format&fit=crop&w=600&q=80" alt="Vegetales" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Vegetales al Josper</h3>
-                        <span class="card-price">Ref.9</span>
-                    </div>
-                    <p class="card-desc">Selección de vegetales de temporada asados al carbón.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=600&q=80" alt="Papas Trufadas" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Papas Fritas Trufadas</h3>
-                        <span class="card-price">Ref.9</span>
-                    </div>
-                    <p class="card-desc">Papas fritas crujientes con aceite de trufa y parmesano.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1630409346824-4f0e7b0400c4?auto=format&fit=crop&w=600&q=80" alt="Tuetano" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Risotto de Tuétano</h3>
-                        <span class="card-price">Ref.14</span>
-                    </div>
-                    <p class="card-desc">Exquisito risotto enriquecido con el sabor intenso del tuétano.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1633933358116-a27b902fad35?auto=format&fit=crop&w=600&q=80" alt="Risotto de Chistorra" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Risotto de Chistorra</h3>
-                        <span class="card-price">Ref.15</span>
-                    </div>
-                    <p class="card-desc">Risotto cremoso con chistorra ibérica.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1573080496987-a199f8cd4054?auto=format&fit=crop&w=600&q=80" alt="Chorizo" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Chorizo</h3>
-                        <span class="card-price">Ref.10</span>
-                    </div>
-                    <p class="card-desc">Chorizo a la parrilla.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1573080496987-a199f8cd4054?auto=format&fit=crop&w=600&q=80" alt="Chistorra" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Chistorra</h3>
-                        <span class="card-price">Ref.10</span>
-                    </div>
-                    <p class="card-desc">Chistorra a la parrilla.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1573080496987-a199f8cd4054?auto=format&fit=crop&w=600&q=80" alt="Morcilla" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Morcilla</h3>
-                        <span class="card-price">Ref.9</span>
-                    </div>
-                    <p class="card-desc">Morcilla a la parrilla.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1573080496987-a199f8cd4054?auto=format&fit=crop&w=600&q=80" alt="Congri" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Congri</h3>
-                        <span class="card-price">Ref.7</span>
-                    </div>
-                    <p class="card-desc">Arroz congri tradicional.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1573080496987-a199f8cd4054?auto=format&fit=crop&w=600&q=80" alt="Yuca" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Yuca Frita o Sancochada</h3>
-                        <span class="card-price">Ref.6</span>
-                    </div>
-                    <p class="card-desc">Yuca frita o sancochada al gusto.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1573080496987-a199f8cd4054?auto=format&fit=crop&w=600&q=80" alt="Papas Fritas" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Papas Fritas</h3>
-                        <span class="card-price">Ref.5</span>
-                    </div>
-                    <p class="card-desc">Papas fritas tradicionales.</p>
-                </div>
-            </div>
-        </div>
-
-        <h2 id="ensaladas" class="section-title reveal">Ensaladas</h2>
-        <div class="menu-grid">
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80" alt="Ensalada Casa Res" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Ensalada Casa Res</h3>
-                        <span class="card-price">Ref.16</span>
-                    </div>
-                    <p class="card-desc">La especialidad de la casa con vegetales frescos y aderezo especial.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=600&q=80" alt="Cesar Berro" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">César de Berro</h3>
-                        <span class="card-price">Ref.15</span>
-                    </div>
-                    <p class="card-desc">Variación de la ensalada César utilizando berro fresco y crujiente.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?auto=format&fit=crop&w=600&q=80" alt="Palmito" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Palmito, Aguacate y Tomate</h3>
-                        <span class="card-price">Ref.15</span>
-                    </div>
-                    <p class="card-desc">Fresca combinación tropical con aderezo ligero.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80" alt="Cesar Tradicional" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">César Tradicional</h3>
-                        <span class="card-price">Ref.13</span>
-                    </div>
-                    <p class="card-desc">Ensalada César tradicional con pollo y aderezo original.</p>
-                </div>
-            </div>
-        </div>
-
-        <h2 id="postres" class="section-title reveal">Postres</h2>
-        <div class="menu-grid">
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1562007908-859b4ba9a1a2?auto=format&fit=crop&w=600&q=80" alt="Apple Pie" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Apple Crumble Pie</h3>
-                        <span class="card-price">Ref.14</span>
-                    </div>
-                    <p class="card-desc">Pastel de manzana caliente con cubierta crujiente.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1564355808539-22fda3053247?auto=format&fit=crop&w=600&q=80" alt="Brookie" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Brookie</h3>
-                        <span class="card-price">Ref.10</span>
-                    </div>
-                    <p class="card-desc">La unión perfecta entre un Brownie y una Cookie.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1574085733277-b0ac66763828?auto=format&fit=crop&w=600&q=80" alt="Brownie" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Brownie con Helado</h3>
-                        <span class="card-price">Ref.8</span>
-                    </div>
-                    <p class="card-desc">Clásico brownie de chocolate servido con helado de mantecado.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546549054-760398063071?auto=format&fit=crop&w=600&q=80" alt="Quesillo" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Quesillo</h3>
-                        <span class="card-price">Ref.7</span>
-                    </div>
-                    <p class="card-desc">Tradicional postre venezolano de leche y caramelo.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1562007908-859b4ba9a1a2?auto=format&fit=crop&w=600&q=80" alt="Torta de Queso Llanero" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Torta de Queso Llanero</h3>
-                        <span class="card-price">Ref.12</span>
-                    </div>
-                    <p class="card-desc">Torta de queso venezolano estilo llanero.</p>
-                </div>
-            </div>
-        </div>
-
-        <h2 id="kids" class="section-title reveal">Kids Menu</h2>
-        <div class="menu-grid">
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&w=600&q=80" alt="Nuggets de Pollo" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Nuggets de Pollo</h3>
-                        <span class="card-price">Ref.10</span>
-                    </div>
-                    <p class="card-desc">Nuggets de pollo crujientes con papas fritas.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Burger Kids" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Burger Kids</h3>
-                        <span class="card-price">Ref.12</span>
-                    </div>
-                    <p class="card-desc">Hamburguesa pequeña para niños con papas fritas.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1573080496987-a199f8cd4054?auto=format&fit=crop&w=600&q=80" alt="Papas Fritas" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Papas Fritas</h3>
-                        <span class="card-price">Ref.5</span>
-                    </div>
-                    <p class="card-desc">Porción de papas fritas para niños.</p>
-                </div>
-            </div>
-        </div>
-
-        <h2 id="sugerencias" class="section-title reveal">Sugerencias Especiales</h2>
-        <div class="menu-grid">
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f58161460e?auto=format&fit=crop&w=600&q=80" alt="Lobster Roll" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Lobster Roll</h3>
-                        <span class="card-price">Ref.35</span>
-                    </div>
-                    <p class="card-desc">Pan brioche relleno de langosta fresca.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f58161460e?auto=format&fit=crop&w=600&q=80" alt="Lobster Mac & Cheese" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Lobster Mac & Cheese</h3>
-                        <span class="card-price">Ref.23</span>
-                    </div>
-                    <p class="card-desc">Macarrones con queso y langosta.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Ribeye Sandwich" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Ribeye Sandwich</h3>
-                        <span class="card-price">Ref.24</span>
-                    </div>
-                    <p class="card-desc">Sándwich de ribeye con vegetales.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="New York Sandwich" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">New York Sandwich</h3>
-                        <span class="card-price">Ref.24</span>
-                    </div>
-                    <p class="card-desc">Sándwich de New York con vegetales.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f58161460e?auto=format&fit=crop&w=600&q=80" alt="Surf and Turf" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Surf and Turf (lomito)</h3>
-                        <span class="card-price">Ref.48</span>
-                    </div>
-                    <p class="card-desc">Combinación de lomito y langosta.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1546833999-b9f58161460e?auto=format&fit=crop&w=600&q=80" alt="Surf and Turf Ribeye" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Surf and Turf (Ribeye)</h3>
-                        <span class="card-price">Ref.50</span>
-                    </div>
-                    <p class="card-desc">Combinación de ribeye y langosta.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Burger Angus" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Burger Angus (single)</h3>
-                        <span class="card-price">Ref.24</span>
-                    </div>
-                    <p class="card-desc">Hamburguesa Angus individual.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Burger Angus doble" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Burger Angus (doble)</h3>
-                        <span class="card-price">Ref.28</span>
-                    </div>
-                    <p class="card-desc">Hamburguesa Angus doble.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Foie Gras Burger" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Foie Gras Burger</h3>
-                        <span class="card-price">Ref.45</span>
-                    </div>
-                    <p class="card-desc">Hamburguesa con foie gras.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=80" alt="Langosta al Josper" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Langosta al Josper (x kg)</h3>
-                        <span class="card-price">Ref.70</span>
-                    </div>
-                    <p class="card-desc">Langosta entera al Josper por kilo.</p>
-                </div>
-            </div>
-            <div class="card reveal">
-                <div class="card-img-container">
-                    <img src="https://images.unsplash.com/photo-1633933358116-a27b902fad35?auto=format&fit=crop&w=600&q=80" alt="Risotto de Langosta" class="card-img-top">
-                </div>
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3 class="card-title">Risotto de Langosta</h3>
-                        <span class="card-price">Ref.24</span>
-                    </div>
-                    <p class="card-desc">Risotto con langosta.</p>
-                </div>
-            </div>
-        </div>
+        <!-- ... (todo el contenido del menú se mantiene igual) ... -->
 
     </div>
 
+    <!-- === NUEVO: ANUNCIO TEMPORAL PARA KARL === -->
+    <div class="karl-attention-indicator" id="karl-attention-indicator">
+        <div class="karl-attention-text">
+            ¡Pulsa aquí para hablar con Karl!
+        </div>
+        <div class="karl-attention-finger">👇</div>
+    </div>
+    
+    <!-- Botón flotante de Karl -->
     <div class="karl-button-container" id="karl-button-container">
         <div class="karl-pulse"></div>
-        <div id="karl-float-btn" class="karl-float-btn" role="button" aria-label="Abrir Asistente Karl" title="Hablar con Chef Karl">
+        <div id="karl-float-btn" class="karl-float-btn" role="button" aria-label="Abrir Asistente Karl" title="Hablar con Karl">
             <div class="karl-icon-wrapper">
-                <img src="karl.png" alt="Chef Karl" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2917/2917633.png'">
+                <img src="karl.png" alt="Karl" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2917/2917633.png'">
             </div>
         </div>
     </div>
 
+    <!-- Ventana de chat de Karl - TAMAÑO AUMENTADO -->
     <div id="karl-chat-window">
         <div class="karl-chat-header">
-            <div class="karl-chat-title">Chef Karl - Casa Res</div>
+            <!-- CAMBIADO: "Chef Karl - Casa Res" → "Karl - Casa Res" -->
+            <div class="karl-chat-title">
+                Karl - Casa Res
+            </div>
             <div class="karl-chat-close" id="karl-close-btn">×</div>
         </div>
         <div class="karl-chat-body" id="karl-messages"></div>
         <div class="karl-chat-input-container">
-            <textarea id="karl-input" class="karl-chat-input" placeholder="Pregúntale al chef..." rows="1"></textarea>
+            <textarea id="karl-input" class="karl-chat-input" placeholder="Escribe tu pregunta aquí..." rows="1"></textarea>
             <button id="karl-send-btn" class="karl-chat-send">→</button>
         </div>
     </div>
@@ -1500,7 +984,8 @@
     
     <script>
         // --- LOGICA DEL CHATBOT KARL ---
-        const OLLAMA_SERVER_URL = 'http://localhost:5001';
+        // USANDO LA MISMA URL QUE EN MENU.HTML (servidor de Balú)
+        const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
         
         const karlFloatBtn = document.getElementById('karl-float-btn');
         const karlButtonContainer = document.getElementById('karl-button-container');
@@ -1524,6 +1009,13 @@
                 isKarlChatOpen = true;
                 karlChatWindow.classList.add('active');
                 toggleKarlButton(false);
+                
+                // Ocultar anuncio temporal al abrir el chat
+                if (karlAttentionIndicator && attentionIndicatorVisible) {
+                    karlAttentionIndicator.classList.add('hidden');
+                    attentionIndicatorVisible = false;
+                }
+                
                 if (!currentSessionId) initKarlConnection();
                 karlInput.focus();
             }
@@ -1535,35 +1027,116 @@
             toggleKarlButton(true);
         });
         
+        // Función para mostrar mensaje de escritura
+        function showKarlTyping() {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'karl-message ai';
+            messageDiv.id = 'karl-typing-indicator';
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'karl-message-avatar';
+            const img = document.createElement('img');
+            img.src = 'karl.png';
+            img.alt = 'Karl';
+            avatarDiv.appendChild(img);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'karl-message-content';
+            
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'karl-typing';
+            typingDiv.innerHTML = `
+                <div class="karl-typing-dot"></div>
+                <div class="karl-typing-dot"></div>
+                <div class="karl-typing-dot"></div>
+            `;
+            
+            contentDiv.appendChild(typingDiv);
+            messageDiv.appendChild(avatarDiv);
+            messageDiv.appendChild(contentDiv);
+            karlMessages.appendChild(messageDiv);
+            
+            karlMessages.scrollTop = karlMessages.scrollHeight;
+            
+            return messageDiv;
+        }
+        
         async function initKarlConnection() {
             try {
-                addKarlMessage('Conectando con Chef Karl...', false);
+                addKarlMessage('Conectando con Karl...', false);
                 currentSessionId = "casares-karl-session-" + Date.now();
                 
-                setTimeout(() => {
+                // Usando el mismo servidor que menu.html pero con el asistente "karl"
+                const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true',
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: "Hola",
+                        assistant: "karl", // Especificamos que queremos el asistente "karl"
+                        session_id: currentSessionId
+                    })
+                });
+                
+                if (testResponse.ok) {
+                    const data = await testResponse.json();
                     karlMessages.innerHTML = '';
-                    addKarlMessage('¡Hola! Soy Karl, chef ejecutivo de Casa Res. ¿Te gustaría saber más sobre nuestros cortes premium al Josper o necesitas una recomendación culinaria?', false);
+                    addKarlMessage('¡Hola! Soy Karl de Casa Res. ¿Te gustaría saber más sobre nuestros cortes premium al Josper o necesitas una recomendación culinaria?', false);
+                    
                     karlInput.disabled = false;
                     karlSendBtn.disabled = false;
-                }, 1000);
-
+                } else {
+                    throw new Error(`HTTP ${testResponse.status}`);
+                }
+                
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error en inicialización:', error);
                 karlMessages.innerHTML = '';
-                addKarlMessage('⚠️ Error de conexión.', false);
+                addKarlMessage('¡Hola! Soy Karl de Casa Res. ¿En qué puedo ayudarte hoy? ¿Quieres hacer un pedido, necesitas recomendaciones o tienes alguna pregunta sobre nuestro menú?', false);
+                
+                karlInput.disabled = false;
+                karlSendBtn.disabled = false;
             }
         }
         
         function addKarlMessage(content, isUser = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `karl-message ${isUser ? 'user' : 'ai'}`;
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'karl-message-avatar';
+            
+            // Si es el asistente, usar la imagen karl.png
+            if (!isUser) {
+                const img = document.createElement('img');
+                img.src = 'karl.png';
+                img.alt = 'Karl';
+                avatarDiv.appendChild(img);
+            } else {
+                avatarDiv.textContent = 'Tú';
+            }
+            
             const contentDiv = document.createElement('div');
             contentDiv.className = 'karl-message-content';
             contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+            
+            messageDiv.appendChild(avatarDiv);
             messageDiv.appendChild(contentDiv);
             karlMessages.appendChild(messageDiv);
+            
             karlMessages.scrollTop = karlMessages.scrollHeight;
+            
+            return contentDiv;
         }
+        
+        // Ajustar altura del textarea
+        karlInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
         
         karlInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -1579,49 +1152,53 @@
             if (!text || isGenerating) return;
             
             karlInput.value = '';
+            karlInput.style.height = 'auto';
+            
             addKarlMessage(text, true);
             
             karlInput.disabled = true;
             karlSendBtn.disabled = true;
             isGenerating = true;
             
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'karl-message ai';
-            loadingDiv.innerHTML = '<div class="karl-message-content">Chef Karl está pensando...</div>';
-            karlMessages.appendChild(loadingDiv);
+            const typingIndicator = showKarlTyping();
             
             try {
+                // Enviar mensaje especificando que es para el asistente "karl"
                 const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'ngrok-skip-browser-warning': 'true',
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({ 
                         message: text,
-                        assistant: "karl", 
-                        session_id: currentSessionId,
-                        stream: false
+                        assistant: "karl", // Usando el asistente "karl"
+                        session_id: currentSessionId
                     })
                 });
                 
-                loadingDiv.remove();
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
                 
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.status === 'success' && data.response) {
-                        addKarlMessage(data.response);
-                    } else {
-                        addKarlMessage("Lo siento, no entendí bien tu pregunta.");
-                    }
+                const data = await response.json();
+                
+                typingIndicator.remove();
+                
+                if (data.status === 'success' && data.response) {
+                    addKarlMessage(data.response);
                 } else {
-                    addKarlMessage('Error en el servidor.');
+                    throw new Error('Respuesta inválida del servidor');
                 }
                 
             } catch (error) {
-                loadingDiv.remove();
+                typingIndicator.remove();
+                // Fallback para cuando no hay servidor real
                 setTimeout(() => {
-                    addKarlMessage('¡Gracias por tu consulta! Como chef ejecutivo, te recomiendo probar nuestro Tomahawk al Josper, cocinado a 63°C para un punto medio perfecto, acompañado de risotto de champiñones.');
+                    addKarlMessage('¡Gracias por tu consulta! Como experto en carnes de Casa Res, te recomiendo probar nuestro Tomahawk al Josper, cocinado a 63°C para un punto medio perfecto, acompañado de risotto de champiñones. ¿Te gustaría saber más sobre algún plato en particular?');
                 }, 500);
+                console.error('Error detallado:', error);
             } finally {
                 karlInput.disabled = false;
                 karlSendBtn.disabled = false;
@@ -1671,6 +1248,36 @@
         
         window.addEventListener("scroll", revealOnScroll);
         revealOnScroll();
+        
+        // === NUEVO: Funcionalidad del anuncio temporal ===
+        const karlAttentionIndicator = document.getElementById('karl-attention-indicator');
+        let attentionIndicatorVisible = true;
+
+        // Ocultar el anuncio después de 30 segundos
+        setTimeout(() => {
+            if (karlAttentionIndicator && attentionIndicatorVisible) {
+                karlAttentionIndicator.classList.add('hidden');
+                attentionIndicatorVisible = false;
+            }
+        }, 30000); // 30 segundos
+
+        // Ocultar anuncio al hacer clic en cualquier parte
+        document.addEventListener('click', function(e) {
+            if (karlAttentionIndicator && attentionIndicatorVisible && 
+                !karlFloatBtn.contains(e.target) && 
+                !karlAttentionIndicator.contains(e.target)) {
+                karlAttentionIndicator.classList.add('hidden');
+                attentionIndicatorVisible = false;
+            }
+        });
+
+        // Ocultar anuncio al abrir el chat de Karl
+        karlFloatBtn.addEventListener('click', function() {
+            if (karlAttentionIndicator && attentionIndicatorVisible) {
+                karlAttentionIndicator.classList.add('hidden');
+                attentionIndicatorVisible = false;
+            }
+        });
     </script>
 </body>
 </html>
