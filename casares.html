@@ -125,7 +125,9 @@
             display: inline-block;
             width: calc(100% - 30px);
             padding-bottom: 8px;
-            scroll-margin-top: 120px; /* Ajustado para que el título sea visible */
+            scroll-margin-top: 150px; /* AUMENTADO para que el título sea visible */
+            padding-top: 20px; /* Espacio adicional arriba */
+            margin-top: 2rem; /* Reducido para compensar el padding */
         }
 
         /* --- GRID DE TARJETAS CONVERTIDO A COLUMNA ÚNICA PARA CELULARES --- */
@@ -239,6 +241,41 @@
         .address a:hover {
             color: white;
             text-decoration: underline;
+        }
+        
+        /* NUEVO: Estilos para reservaciones */
+        .reservations {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .reservations a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #25D366; /* Color de WhatsApp */
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.3rem;
+            padding: 12px 25px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            border: 2px solid #25D366;
+        }
+        
+        .reservations a:hover {
+            background-color: #128C7E; /* Color de WhatsApp más oscuro */
+            border-color: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+        
+        .reservations a:before {
+            content: "📱";
+            font-size: 1.5rem;
         }
         
         /* --- ESTILOS DEL CHAT KARL - SIMILAR A MENU.HTML --- */
@@ -638,8 +675,9 @@
         @media (max-width: 768px) {
             .section-title { 
                 font-size: 1.9rem; 
-                scroll-margin-top: 100px; /* Ajustado */
-                margin: 2.5rem 15px 1.2rem;
+                scroll-margin-top: 130px; /* Aumentado */
+                margin: 2rem 15px 1.2rem;
+                padding-top: 15px; /* Espacio adicional arriba */
             }
             
             .header-logo {
@@ -769,6 +807,12 @@
             .karl-attention-finger {
                 font-size: 36px;
             }
+            
+            /* Ajustes para reservaciones en tablet */
+            .reservations a {
+                font-size: 1.2rem;
+                padding: 10px 20px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -783,7 +827,8 @@
             
             .section-title {
                 font-size: 1.7rem;
-                scroll-margin-top: 90px; /* Ajustado */
+                scroll-margin-top: 120px; /* Aumentado */
+                padding-top: 10px; /* Espacio adicional arriba */
             }
             
             .card-img-container {
@@ -873,6 +918,12 @@
             .karl-attention-finger {
                 font-size: 28px;
             }
+            
+            /* Ajustes para reservaciones en móvil */
+            .reservations a {
+                font-size: 1.1rem;
+                padding: 8px 18px;
+            }
         }
         
         @media (max-width: 360px) {
@@ -883,7 +934,8 @@
             
             .section-title {
                 font-size: 1.5rem;
-                scroll-margin-top: 80px; /* Ajustado */
+                scroll-margin-top: 110px; /* Aumentado */
+                padding-top: 8px; /* Espacio adicional arriba */
             }
             
             .card-img-container {
@@ -936,6 +988,12 @@
             
             .karl-attention-finger {
                 font-size: 24px;
+            }
+            
+            /* Ajustes para reservaciones en móvil pequeño */
+            .reservations a {
+                font-size: 1rem;
+                padding: 7px 15px;
             }
         }
     </style>
@@ -1885,6 +1943,14 @@
                 📍 Ubicación Principal
             </a>
         </div>
+        
+        <!-- NUEVO: Opción de reservaciones por WhatsApp -->
+        <div class="reservations">
+            <a href="https://wa.me/584241602068?text=Hola,%20me%20gustaría%20hacer%20una%20reservación%20en%20Casa%20Res" target="_blank" rel="noopener noreferrer">
+                Reservar por WhatsApp
+            </a>
+        </div>
+        
         <p>CASA RES</p>
         <p>Venezuela 2026</p>
         <div class="copyright">Nuestros precios incluyen IVA y no cobramos el 10% del servicio.</div>
