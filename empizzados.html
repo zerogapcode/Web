@@ -22,27 +22,83 @@
             padding: 0;
             line-height: 1.6;
             overflow-x: hidden;
+            scroll-behavior: smooth; /* Para navegación suave */
+        }
+
+        /* --- BARRA DE NAVEGACIÓN FIJA --- */
+        .nav-bar {
+            position: fixed;
+            top: -80px; /* Inicialmente oculta */
+            left: 0;
+            width: 100%;
+            background-color: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 0;
+            transition: top 0.4s ease;
+            border-bottom: 3px solid var(--primary-orange);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-bar.visible {
+            top: 0;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid var(--primary-orange);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-button:hover {
+            background-color: var(--primary-orange);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.4);
+        }
+
+        .nav-button.active {
+            background-color: var(--primary-orange);
+            box-shadow: 0 0 15px rgba(255, 102, 0, 0.6);
         }
 
         /* --- HEADER CON CURVA CIRCULAR PRONUNCIADA Y PARALLAX --- */
         header {
             background-color: #000;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
+            /* IMAGEN DE FONDO MÁS BRILLANTE: reducido el oscurecimiento */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
             background-size: cover;
             background-position: center center;
             /* EFECTO PARALLAX */
             background-attachment: fixed;
             
             /* Altura aumentada para efecto más pronunciado */
-            height: 500px;
-            padding: 100px 20px 150px 20px;
+            height: 550px;
+            padding: 120px 20px 180px 20px;
             
             text-align: center;
             position: relative;
             
             /* CURVA CIRCULAR MUY PRONUNCIADA */
-            border-bottom-left-radius: 100% 40%;
-            border-bottom-right-radius: 100% 40%;
+            border-bottom-left-radius: 100% 45%;
+            border-bottom-right-radius: 100% 45%;
             
             overflow: hidden;
             display: flex;
@@ -50,19 +106,20 @@
             justify-content: center;
         }
 
-        /* Logo como imagen */
+        /* Logo como imagen - MÁS GRANDE */
         .logo-image {
-            max-width: 400px;
-            width: 80%;
+            max-width: 550px; /* Aumentado de 400px */
+            width: 85%; /* Aumentado de 80% */
             height: auto;
             z-index: 2;
             position: relative;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.7));
-            transition: transform 0.3s ease;
+            filter: drop-shadow(0 8px 25px rgba(0,0,0,0.9));
+            transition: transform 0.4s ease, filter 0.4s ease;
         }
 
         .logo-image:hover {
-            transform: scale(1.02);
+            transform: scale(1.05);
+            filter: drop-shadow(0 12px 30px rgba(0,0,0,1));
         }
 
         /* Info de Tamaños - Ajustado para la curva más pronunciada */
@@ -70,190 +127,222 @@
             background-color: var(--primary-orange);
             color: #000;
             text-align: center;
-            padding: 15px;
+            padding: 18px; /* Aumentado padding */
             font-weight: 800;
             position: relative;
             z-index: 100;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
             /* Margen negativo mayor para curva más pronunciada */
-            margin-top: -80px; 
-            width: 90%;
-            max-width: 650px;
+            margin-top: -90px; 
+            width: 92%;
+            max-width: 700px; /* Aumentado */
             margin-left: auto;
             margin-right: auto;
-            border-radius: 35px;
-            font-size: 1.1rem;
-            border: 3px solid #fff;
+            border-radius: 40px; /* Más redondeado */
+            font-size: 1.2rem; /* Texto más grande */
+            border: 4px solid #fff; /* Borde más grueso */
         }
 
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            padding: 60px 20px 40px;
+            padding: 70px 20px 50px; /* Más padding superior */
         }
 
         /* Secciones del Menú */
         .menu-section {
-            margin-bottom: 60px;
+            margin-bottom: 70px; /* Más espacio */
+            scroll-margin-top: 100px; /* Para que al navegar no quede tapado por la barra fija */
         }
 
         .section-title {
             color: var(--primary-orange);
             text-transform: uppercase;
-            font-size: 2.2rem;
-            border-bottom: 3px solid var(--primary-orange);
-            padding-bottom: 12px;
-            margin-bottom: 35px;
+            font-size: 2.4rem; /* Más grande */
+            border-bottom: 4px solid var(--primary-orange); /* Más grueso */
+            padding-bottom: 15px;
+            margin-bottom: 40px;
             font-weight: 900;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+            letter-spacing: 1px;
         }
 
         /* Grid de Pizzas */
         .pizza-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Tarjetas más anchas */
+            gap: 35px; /* Más espacio */
         }
 
         .pizza-card {
             background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            border-left: 6px solid var(--primary-orange);
+            padding: 30px; /* Más padding */
+            border-radius: 15px; /* Más redondeado */
+            border-left: 8px solid var(--primary-orange); /* Borde más grueso */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.4s, box-shadow 0.4s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
         
         .pizza-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
 
         .pizza-name {
             color: var(--primary-orange);
-            font-size: 1.5rem;
-            margin: 0 0 12px 0;
+            font-size: 1.7rem; /* Más grande */
+            margin: 0 0 15px 0;
             font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .pizza-ingredients {
-            font-size: 1rem;
-            color: #ccc;
-            margin-bottom: 18px;
+            font-size: 1.1rem; /* Más grande */
+            color: #ddd; /* Más claro */
+            margin-bottom: 20px;
             flex-grow: 1;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         /* Precios */
         .price-container {
             display: flex;
             justify-content: flex-end;
-            gap: 15px;
-            margin-top: 15px;
-            border-top: 2px solid #444;
-            padding-top: 15px;
+            gap: 20px; /* Más espacio */
+            margin-top: 20px;
+            border-top: 3px solid #444; /* Más grueso */
+            padding-top: 20px;
         }
 
         .price-box {
             background-color: var(--price-bg);
             color: var(--price-text);
-            padding: 8px 15px;
-            border-radius: 6px;
+            padding: 10px 18px; /* Más padding */
+            border-radius: 8px; /* Más redondeado */
             font-weight: bold;
             text-align: center;
-            min-width: 90px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            min-width: 100px; /* Más ancho */
+            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
         }
 
         .price-label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.85rem; /* Más grande */
             text-transform: uppercase;
             color: #666;
         }
 
         .price-val {
-            font-size: 1.3rem;
+            font-size: 1.5rem; /* Más grande */
         }
 
         /* Extras y Bebidas */
         .extras-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 25px; /* Más espacio */
         }
 
         .extra-item {
             background-color: #262626;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px; /* Más padding */
+            border-radius: 12px; /* Más redondeado */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 6px solid var(--primary-orange);
-            transition: transform 0.2s;
+            border-left: 8px solid var(--primary-orange); /* Más grueso */
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .extra-item:hover {
-            transform: translateX(5px);
+            transform: translateX(8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
 
-        /* Botón de acción */
+        /* Botón de acción - MODIFICADO PARA MÁS ESPACIO */
+        .cta-container {
+            margin: 100px 0; /* Espaciadores antes y después */
+            text-align: center;
+        }
+
         .cta-button {
-            display: block;
-            width: 100%;
+            display: inline-block;
             background-color: var(--primary-orange);
             color: white;
             text-align: center;
-            padding: 25px;
-            font-size: 1.6rem;
+            padding: 30px 60px; /* Más padding */
+            font-size: 1.8rem; /* Más grande */
             text-decoration: none;
             font-weight: bold;
-            margin-top: 50px;
-            border-radius: 12px;
+            border-radius: 15px; /* Más redondeado */
             text-transform: uppercase;
             transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 8px 20px rgba(255, 102, 0, 0.4);
+            box-shadow: 0 10px 25px rgba(255, 102, 0, 0.5);
             border: none;
             cursor: pointer;
+            letter-spacing: 1px;
         }
         
         .cta-button:hover {
             background-color: #e55c00;
-            transform: scale(1.03);
-            box-shadow: 0 12px 25px rgba(255, 102, 0, 0.6);
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 102, 0, 0.7);
+        }
+
+        /* Decoración para el botón CTA */
+        .cta-decoration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .cta-line {
+            height: 3px;
+            background-color: var(--primary-orange);
+            flex-grow: 1;
+            max-width: 200px;
+            opacity: 0.5;
+        }
+
+        .cta-icon {
+            color: var(--primary-orange);
+            font-size: 2rem;
         }
 
         @media (max-width: 768px) {
             header { 
-                height: 400px;
-                padding: 60px 20px 120px 20px;
+                height: 450px;
+                padding: 80px 20px 140px 20px;
                 /* Curva ajustada para móviles pero aún pronunciada */
-                border-bottom-left-radius: 100% 30%;
-                border-bottom-right-radius: 100% 30%;
+                border-bottom-left-radius: 100% 35%;
+                border-bottom-right-radius: 100% 35%;
                 /* Desactivar parallax en móviles para mejor rendimiento */
                 background-attachment: scroll;
             }
             
             .logo-image {
-                max-width: 300px;
-                width: 85%;
+                max-width: 400px; /* Ajustado para móvil */
+                width: 90%;
             }
             
             .sizes-info { 
                 width: 95%; 
-                margin-top: -60px; 
-                font-size: 1rem;
-                padding: 12px;
+                margin-top: -70px; 
+                font-size: 1.1rem;
+                padding: 15px;
+                border-radius: 35px;
             }
             
             .price-container { 
                 flex-direction: column;
-                gap: 10px;
+                gap: 15px;
             }
             
             .price-box {
@@ -263,35 +352,99 @@
             
             .pizza-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 25px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
             }
             
             .cta-button {
-                padding: 20px;
-                font-size: 1.3rem;
+                padding: 25px 40px;
+                font-size: 1.5rem;
+            }
+            
+            .nav-bar {
+                padding: 10px 0;
+            }
+            
+            .nav-container {
+                gap: 10px;
+                padding: 0 10px;
+            }
+            
+            .nav-button {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+            
+            .menu-section {
+                scroll-margin-top: 80px;
+            }
+            
+            .cta-container {
+                margin: 70px 0;
+            }
+            
+            .cta-line {
+                max-width: 100px;
             }
         }
         
         @media (max-width: 480px) {
             header {
-                height: 350px;
-                padding: 50px 15px 100px 15px;
-                border-bottom-left-radius: 100% 25%;
-                border-bottom-right-radius: 100% 25%;
+                height: 400px;
+                padding: 70px 15px 120px 15px;
+                border-bottom-left-radius: 100% 30%;
+                border-bottom-right-radius: 100% 30%;
             }
             
             .logo-image {
-                max-width: 250px;
-                width: 90%;
+                max-width: 320px;
+                width: 95%;
             }
             
             .sizes-info { 
-                margin-top: -50px; 
-                font-size: 0.9rem;
+                margin-top: -60px; 
+                font-size: 1rem;
+                padding: 12px;
+                border-radius: 30px;
+                border-width: 3px;
             }
             
             .section-title {
                 font-size: 1.8rem;
+            }
+            
+            .pizza-card {
+                padding: 25px;
+            }
+            
+            .pizza-name {
+                font-size: 1.5rem;
+            }
+            
+            .nav-container {
+                gap: 5px;
+            }
+            
+            .nav-button {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+                margin: 2px;
+            }
+            
+            .cta-container {
+                margin: 50px 0;
+            }
+            
+            .cta-button {
+                padding: 20px 30px;
+                font-size: 1.3rem;
+            }
+            
+            .cta-line {
+                max-width: 60px;
             }
         }
     </style>
@@ -306,9 +459,20 @@
         Grande: 33cm (8 Slices) &nbsp;|&nbsp; Familiar: 50cm (16 Slices)
     </div>
 
+    <!-- Barra de navegación fija -->
+    <nav class="nav-bar" id="navBar">
+        <div class="nav-container">
+            <button class="nav-button" onclick="scrollToSection('classico')">Menú Clásico</button>
+            <button class="nav-button" onclick="scrollToSection('especial')">Menú Especial</button>
+            <button class="nav-button" onclick="scrollToSection('premium')">Menú Premium</button>
+            <button class="nav-button" onclick="scrollToSection('extras')">Extras y Bebidas</button>
+            <button class="nav-button" onclick="scrollToTop()">Volver Arriba</button>
+        </div>
+    </nav>
+
     <div class="container">
 
-        <div class="menu-section">
+        <div class="menu-section" id="classico">
             <h2 class="section-title">Menú Clásico</h2>
             <div class="pizza-grid">
                 
@@ -394,7 +558,7 @@
             </div>
         </div>
 
-        <div class="menu-section">
+        <div class="menu-section" id="especial">
             <h2 class="section-title">Menú Especial</h2>
             <div class="pizza-grid">
                 <div class="pizza-card">
@@ -489,7 +653,7 @@
             </div>
         </div>
 
-        <div class="menu-section">
+        <div class="menu-section" id="premium">
             <h2 class="section-title">Menú Premium</h2>
             <div class="pizza-grid">
                 
@@ -558,52 +722,176 @@
             </div>
         </div>
 
-        <div class="menu-section">
+        <div class="menu-section" id="extras">
             <h2 class="section-title">Extras y Bebidas</h2>
             <div class="extras-grid">
                 
                 <div class="extra-item">
                     <div>
-                        <h3 class="pizza-name" style="font-size: 1.2rem;">Ingredientes Extra</h3>
+                        <h3 class="pizza-name" style="font-size: 1.3rem;">Ingredientes Extra</h3>
                         <p class="pizza-ingredients" style="margin:0;">Pepperoni, Queso, Champiñones, Jamón, Cebolla, Pimientos, Maíz, Tocineta, Aceitunas, Jalapeño, Piña, Anchoas.</p>
                     </div>
                     <div style="text-align: right;">
-                         <div style="color:var(--primary-orange); font-weight:bold;">G: 1.5$</div>
-                         <div style="color:var(--primary-orange); font-weight:bold;">F: 2$</div>
+                         <div style="color:var(--primary-orange); font-weight:bold; font-size: 1.1rem;">G: 1.5$</div>
+                         <div style="color:var(--primary-orange); font-weight:bold; font-size: 1.1rem;">F: 2$</div>
                     </div>
                 </div>
 
                 <div class="extra-item">
                     <div>
-                        <h3 class="pizza-name" style="font-size: 1.2rem;">Masa Gruesa</h3>
+                        <h3 class="pizza-name" style="font-size: 1.3rem;">Masa Gruesa</h3>
                     </div>
                     <div style="text-align: right;">
-                         <div style="color:var(--primary-orange); font-weight:bold;">G: 0.5$</div>
-                         <div style="color:var(--primary-orange); font-weight:bold;">F: 1$</div>
+                         <div style="color:var(--primary-orange); font-weight:bold; font-size: 1.1rem;">G: 0.5$</div>
+                         <div style="color:var(--primary-orange); font-weight:bold; font-size: 1.1rem;">F: 1$</div>
                     </div>
                 </div>
 
                 <div class="extra-item">
                     <div>
-                        <h3 class="pizza-name" style="font-size: 1.2rem;">Refresco 2 Litros</h3>
+                        <h3 class="pizza-name" style="font-size: 1.3rem;">Refresco 2 Litros</h3>
                         <p class="pizza-ingredients" style="margin:0;">Coca cola, Pepsi, Chinotto</p>
                     </div>
-                    <div class="price-box" style="align-self: center;">
-                        <span class="price-val">3$</span>
+                    <div class="price-box" style="align-self: center; min-width: 80px;">
+                        <span class="price-val" style="font-size: 1.4rem;">3$</span>
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <a href="#" class="cta-button">¡Empízzate Hoy con Nosotros!</a>
+        <!-- Contenedor con espaciadores para el botón CTA -->
+        <div class="cta-container">
+            <div class="cta-decoration">
+                <div class="cta-line"></div>
+                <div class="cta-icon">🍕</div>
+                <div class="cta-line"></div>
+            </div>
+            
+            <a href="https://wa.me/584129815657?text=¡Hola!%20Me%20gustaría%20hacer%20un%20pedido%20de%20Empizzados." target="_blank" class="cta-button">
+                ¡Empízzate Hoy con Nosotros!
+            </a>
+            
+            <div class="cta-decoration" style="margin-top: 30px;">
+                <div class="cta-line"></div>
+                <div class="cta-icon">🍕</div>
+                <div class="cta-line"></div>
+            </div>
+        </div>
 
-        <footer style="margin-top: 70px; text-align: center; color: #666; font-size: 0.9rem; padding-bottom: 30px;">
+        <footer style="margin-top: 80px; text-align: center; color: #666; font-size: 1rem; padding-bottom: 40px;">
             <p>&copy; 2026 Empizzados</p>
-            <p style="margin-top: 5px; font-size: 0.8rem; color: #888;">Diseñado con pasión por la pizza</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; color: #888;">Diseñado con pasión por la pizza</p>
         </footer>
 
     </div>
+
+    <script>
+        // Función para mostrar/ocultar la barra de navegación al hacer scroll
+        window.addEventListener('scroll', function() {
+            const navBar = document.getElementById('navBar');
+            const scrollPosition = window.scrollY;
+            
+            // Mostrar barra cuando se haya hecho scroll más allá del header
+            if (scrollPosition > 200) {
+                navBar.classList.add('visible');
+            } else {
+                navBar.classList.remove('visible');
+            }
+            
+            // Resaltar el botón activo según la sección visible
+            highlightActiveSection();
+        });
+
+        // Función para navegar a una sección específica
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                window.scrollTo({
+                    top: element.offsetTop - 80, // Ajuste para la barra fija
+                    behavior: 'smooth'
+                });
+                
+                // Resaltar el botón activo
+                const buttons = document.querySelectorAll('.nav-button');
+                buttons.forEach(btn => btn.classList.remove('active'));
+                
+                // Encontrar el botón correspondiente
+                const activeButton = Array.from(buttons).find(btn => 
+                    btn.textContent.includes(getButtonText(sectionId))
+                );
+                if (activeButton) {
+                    activeButton.classList.add('active');
+                }
+            }
+        }
+
+        // Función para volver al inicio
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Quitar resaltado de todos los botones
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+        }
+
+        // Función para resaltar la sección activa
+        function highlightActiveSection() {
+            const sections = document.querySelectorAll('.menu-section');
+            const scrollPosition = window.scrollY + 100; // Ajuste para la barra
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    const sectionId = section.id;
+                    const buttons = document.querySelectorAll('.nav-button');
+                    
+                    // Quitar clase activa de todos los botones
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Encontrar y activar el botón correspondiente
+                    const activeButton = Array.from(buttons).find(btn => 
+                        btn.textContent.includes(getButtonText(sectionId))
+                    );
+                    if (activeButton) {
+                        activeButton.classList.add('active');
+                    }
+                }
+            });
+        }
+
+        // Función auxiliar para obtener el texto del botón según la sección
+        function getButtonText(sectionId) {
+            const map = {
+                'classico': 'Menú Clásico',
+                'especial': 'Menú Especial',
+                'premium': 'Menú Premium',
+                'extras': 'Extras y Bebidas'
+            };
+            return map[sectionId] || '';
+        }
+
+        // Inicializar al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar IDs a las secciones si no los tienen
+            const sections = document.querySelectorAll('.menu-section');
+            const sectionIds = ['classico', 'especial', 'premium', 'extras'];
+            
+            sections.forEach((section, index) => {
+                if (!section.id && index < sectionIds.length) {
+                    section.id = sectionIds[index];
+                }
+            });
+            
+            // Inicializar el resaltado de la sección activa
+            highlightActiveSection();
+        });
+    </script>
 
 </body>
 </html>
