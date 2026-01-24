@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Empizzados</title>
+    <style>
+        :root {
+            --primary-orange: #ff6600;
+            --dark-bg: #1a1a1a;
+            --card-bg: #262626;
+            --text-color: #ffffff;
+            --price-bg: #ffffff;
+            --price-text: #000000;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER CON CURVA CIRCULAR PRONUNCIADA Y PARALLAX --- */
+        header {
+            background-color: #000;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center center;
+            /* EFECTO PARALLAX */
+            background-attachment: fixed;
+            
+            /* Altura aumentada para efecto más pronunciado */
+            height: 500px;
+            padding: 100px 20px 150px 20px;
+            
+            text-align: center;
+            position: relative;
+            
+            /* CURVA CIRCULAR MUY PRONUNCIADA */
+            border-bottom-left-radius: 100% 40%;
+            border-bottom-right-radius: 100% 40%;
+            
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Logo como imagen */
+        .logo-image {
+            max-width: 400px;
+            width: 80%;
+            height: auto;
+            z-index: 2;
+            position: relative;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.7));
+            transition: transform 0.3s ease;
+        }
+
+        .logo-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* Info de Tamaños - Ajustado para la curva más pronunciada */
+        .sizes-info {
+            background-color: var(--primary-orange);
+            color: #000;
+            text-align: center;
+            padding: 15px;
+            font-weight: 800;
+            position: relative;
+            z-index: 100;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            /* Margen negativo mayor para curva más pronunciada */
+            margin-top: -80px; 
+            width: 90%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 35px;
+            font-size: 1.1rem;
+            border: 3px solid #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px 40px;
+        }
+
+        /* Secciones del Menú */
+        .menu-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            color: var(--primary-orange);
+            text-transform: uppercase;
+            font-size: 2.2rem;
+            border-bottom: 3px solid var(--primary-orange);
+            padding-bottom: 12px;
+            margin-bottom: 35px;
+            font-weight: 900;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Grid de Pizzas */
+        .pizza-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .pizza-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 6px solid var(--primary-orange);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .pizza-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        .pizza-name {
+            color: var(--primary-orange);
+            font-size: 1.5rem;
+            margin: 0 0 12px 0;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .pizza-ingredients {
+            font-size: 1rem;
+            color: #ccc;
+            margin-bottom: 18px;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+
+        /* Precios */
+        .price-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 15px;
+            border-top: 2px solid #444;
+            padding-top: 15px;
+        }
+
+        .price-box {
+            background-color: var(--price-bg);
+            color: var(--price-text);
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+            min-width: 90px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .price-label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #666;
+        }
+
+        .price-val {
+            font-size: 1.3rem;
+        }
+
+        /* Extras y Bebidas */
+        .extras-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .extra-item {
+            background-color: #262626;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 6px solid var(--primary-orange);
+            transition: transform 0.2s;
+        }
+
+        .extra-item:hover {
+            transform: translateX(5px);
+        }
+
+        /* Botón de acción */
+        .cta-button {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-orange);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 1.6rem;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 50px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 8px 20px rgba(255, 102, 0, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .cta-button:hover {
+            background-color: #e55c00;
+            transform: scale(1.03);
+            box-shadow: 0 12px 25px rgba(255, 102, 0, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            header { 
+                height: 400px;
+                padding: 60px 20px 120px 20px;
+                /* Curva ajustada para móviles pero aún pronunciada */
+                border-bottom-left-radius: 100% 30%;
+                border-bottom-right-radius: 100% 30%;
+                /* Desactivar parallax en móviles para mejor rendimiento */
+                background-attachment: scroll;
+            }
+            
+            .logo-image {
+                max-width: 300px;
+                width: 85%;
+            }
+            
+            .sizes-info { 
+                width: 95%; 
+                margin-top: -60px; 
+                font-size: 1rem;
+                padding: 12px;
+            }
+            
+            .price-container { 
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .price-box {
+                width: 100%;
+                min-width: auto;
+            }
+            
+            .pizza-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .cta-button {
+                padding: 20px;
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                height: 350px;
+                padding: 50px 15px 100px 15px;
+                border-bottom-left-radius: 100% 25%;
+                border-bottom-right-radius: 100% 25%;
+            }
+            
+            .logo-image {
+                max-width: 250px;
+                width: 90%;
+            }
+            
+            .sizes-info { 
+                margin-top: -50px; 
+                font-size: 0.9rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="empi.png" alt="Empizzados" class="logo-image">
+    </header>
+
+    <div class="sizes-info">
+        Grande: 33cm (8 Slices) &nbsp;|&nbsp; Familiar: 50cm (16 Slices)
+    </div>
+
+    <div class="container">
+
+        <div class="menu-section">
+            <h2 class="section-title">Menú Clásico</h2>
+            <div class="pizza-grid">
+                
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Margarita</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Albahaca.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">9$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">13$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Maíz</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Maíz.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">14$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Jalapeño</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Jalapeño.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">14$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Jamón / Ahumado</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Jamón (o Jamón ahumado).</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">14$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Tocineta</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Tocineta.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">14$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Pepperoni</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Pepperoni.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">14$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Funghi</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Champiñones.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">14$</span></div>
+                    </div>
+                </div>
+
+                 <div class="pizza-card">
+                    <h3 class="pizza-name">Chistorra</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Chistorra.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">14$</span></div>
+                    </div>
+                </div>
+                 <div class="pizza-card">
+                    <h3 class="pizza-name">Piña / Anchoas</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Piña o Anchoas.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">14$</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2 class="section-title">Menú Especial</h2>
+            <div class="pizza-grid">
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Primavera</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Tocineta, Maíz.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Tocironi</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Tocineta, Pepperoni.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Black Pepper</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Pepperoni, Aceitunas negras.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Florencia</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Champiñones, Tocineta.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Tres Quesos</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Parmigiano reggiano, Bocconcini.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Vera</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Jamón, Maíz.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Siciliana</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Chorizo monserratina, Maíz.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Dos Estaciones</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Champiñones, Maíz.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+                
+                 <div class="pizza-card">
+                    <h3 class="pizza-name">Roma / Torino</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Maíz/Pimientos/Cebolla o Anchoas/Jamón.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+                
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Pollo BBQ / Hawaiana</h3>
+                    <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Pollo BBQ o Jamón/Piña.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2 class="section-title">Menú Premium</h2>
+            <div class="pizza-grid">
+                
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Vegetariana</h3>
+                    <p class="pizza-ingredients">Cebolla morada, Maíz, Pimientos, Aceitunas negras, Champiñones.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">13$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Cuatro Estaciones</h3>
+                    <p class="pizza-ingredients">Jamón, Maíz, Pimientos, Champiñones.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">13$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Pizza Rellena</h3>
+                    <p class="pizza-ingredients">Pizza tradicional, Mozzarella, Dos (2) ingredientes internos, cubierta con pizza de un (1) ingrediente.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">14$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">16$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Suprema Margarita</h3>
+                    <p class="pizza-ingredients">Salsa napolitana y Un (1) KILO de queso mozzarella.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">14$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">17$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Americana</h3>
+                    <p class="pizza-ingredients">Papas fritas, Trozos de tocineta, Queso cheddar.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">15$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">18$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Pizzarella</h3>
+                    <p class="pizza-ingredients">Jamón, Tocineta, Pimientos, Maíz, Champiñones.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">14$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">18$</span></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card">
+                    <h3 class="pizza-name">Empizzada</h3>
+                    <p class="pizza-ingredients">Tocineta, Jamón, Pepperoni, Aceitunas negras, Cebolla morada, Maíz, Pimientos, Champiñones.</p>
+                    <div class="price-container">
+                        <div class="price-box"><span class="price-label">Grande</span><span class="price-val">15$</span></div>
+                        <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">19$</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2 class="section-title">Extras y Bebidas</h2>
+            <div class="extras-grid">
+                
+                <div class="extra-item">
+                    <div>
+                        <h3 class="pizza-name" style="font-size: 1.2rem;">Ingredientes Extra</h3>
+                        <p class="pizza-ingredients" style="margin:0;">Pepperoni, Queso, Champiñones, Jamón, Cebolla, Pimientos, Maíz, Tocineta, Aceitunas, Jalapeño, Piña, Anchoas.</p>
+                    </div>
+                    <div style="text-align: right;">
+                         <div style="color:var(--primary-orange); font-weight:bold;">G: 1.5$</div>
+                         <div style="color:var(--primary-orange); font-weight:bold;">F: 2$</div>
+                    </div>
+                </div>
+
+                <div class="extra-item">
+                    <div>
+                        <h3 class="pizza-name" style="font-size: 1.2rem;">Masa Gruesa</h3>
+                    </div>
+                    <div style="text-align: right;">
+                         <div style="color:var(--primary-orange); font-weight:bold;">G: 0.5$</div>
+                         <div style="color:var(--primary-orange); font-weight:bold;">F: 1$</div>
+                    </div>
+                </div>
+
+                <div class="extra-item">
+                    <div>
+                        <h3 class="pizza-name" style="font-size: 1.2rem;">Refresco 2 Litros</h3>
+                        <p class="pizza-ingredients" style="margin:0;">Coca cola, Pepsi, Chinotto</p>
+                    </div>
+                    <div class="price-box" style="align-self: center;">
+                        <span class="price-val">3$</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <a href="#" class="cta-button">¡Empízzate Hoy con Nosotros!</a>
+
+        <footer style="margin-top: 70px; text-align: center; color: #666; font-size: 0.9rem; padding-bottom: 30px;">
+            <p>&copy; 2026 Empizzados</p>
+            <p style="margin-top: 5px; font-size: 0.8rem; color: #888;">Diseñado con pasión por la pizza</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
