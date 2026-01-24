@@ -153,10 +153,10 @@
             box-shadow: 0 12px 30px rgba(0,0,0,0.15);
         }
         
-        /* Contenedor para imagen - SIN PARALLAX */
+        /* Contenedor para imagen - ALTURA DUPLICADA */
         .card-img-container {
             width: 100%;
-            height: 280px; /* Restaurado a altura normal */
+            height: 560px; /* DUPLICADO: Antes 280px, ahora 560px */
             overflow: hidden;
             position: relative;
         }
@@ -166,7 +166,14 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.3s ease; /* Solo para hover */
+            opacity: 0; /* Inicialmente invisible */
+            transform: scale(1.05); /* Inicialmente ligeramente ampliada */
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .card.reveal.active .card-img-top {
+            opacity: 1;
+            transform: scale(1);
         }
         
         .card:hover .card-img-top {
@@ -204,7 +211,7 @@
         }
         .card-desc {
             color: #666;
-            font-size: 1.1rem; /* Más grande */
+            font-size: 1.3rem; /* AUMENTADO: Antes 1.1rem, ahora 1.3rem */
             margin: 0;
             line-height: 1.6;
         }
@@ -650,7 +657,7 @@
             }
             
             .card-img-container { 
-                height: 250px; /* Restaurado */
+                height: 500px; /* DUPLICADO: Antes 250px, ahora 500px */
             }
             
             .card-title {
@@ -663,7 +670,7 @@
             }
             
             .card-desc {
-                font-size: 1.05rem;
+                font-size: 1.2rem; /* Aumentado en responsive */
             }
             
             .card-body {
@@ -780,7 +787,7 @@
             }
             
             .card-img-container {
-                height: 220px; /* Restaurado */
+                height: 440px; /* DUPLICADO: Antes 220px, ahora 440px */
             }
             
             .card-title {
@@ -789,6 +796,10 @@
             
             .card-price {
                 font-size: 1.2rem;
+            }
+            
+            .card-desc {
+                font-size: 1.1rem; /* Aumentado en responsive */
             }
             
             nav a {
@@ -876,7 +887,7 @@
             }
             
             .card-img-container {
-                height: 200px; /* Restaurado */
+                height: 400px; /* DUPLICADO: Antes 200px, ahora 400px */
             }
             
             .card-title {
@@ -886,6 +897,10 @@
             .card-price {
                 font-size: 1.1rem;
                 padding: 5px 12px;
+            }
+            
+            .card-desc {
+                font-size: 1rem; /* Aumentado en responsive */
             }
             
             nav a {
@@ -957,7 +972,7 @@
                         <h3 class="card-title">Provoleta con Salchicha</h3>
                         <span class="card-price">Ref.24</span>
                     </div>
-                    <p class="card-desc">Queso provolone fundido al hierro, acompañado de salchicha parrillera.</p>
+                    <p class="card-desc">Queso provolone fundido al hierro, acompañado de salchicha parrillera. Una deliciosa combinación de sabores ahumados y cremosos que te preparará para una experiencia culinaria excepcional.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -969,7 +984,7 @@
                         <h3 class="card-title">Steak Tartar</h3>
                         <span class="card-price">Ref.16</span>
                     </div>
-                    <p class="card-desc">Clásico corte de res crudo picado a cuchillo, aderezado con especias tradicionales.</p>
+                    <p class="card-desc">Clásico corte de res crudo picado a cuchillo, aderezado con especias tradicionales. Una preparación francesa exquisita que resalta la calidad y frescura de nuestra carne premium.</p>
                 </div>
             </div>
             <!-- Chistorras Salteadas - IMAGEN REEMPLAZADA -->
@@ -982,7 +997,7 @@
                         <h3 class="card-title">Chistorras Salteadas</h3>
                         <span class="card-price">Ref.16</span>
                     </div>
-                    <p class="card-desc">Chistorras navarras salteadas al ajillo y vino blanco.</p>
+                    <p class="card-desc">Chistorras navarras salteadas al ajillo y vino blanco. Un plato tradicional español con el toque perfecto de ajo y el aroma del vino que realza el sabor de estas exquisitas salchichas.</p>
                 </div>
             </div>
             <!-- Carpaccio de Punta - IMAGEN REEMPLAZADA -->
@@ -995,7 +1010,7 @@
                         <h3 class="card-title">Carpaccio de Punta</h3>
                         <span class="card-price">Ref.18</span>
                     </div>
-                    <p class="card-desc">Finas láminas de punta trasera marinadas, con parmesano y rúcula.</p>
+                    <p class="card-desc">Finas láminas de punta trasera marinadas, con parmesano y rúcula. Una presentación elegante que combina la ternura de la carne con el sabor intenso del queso parmesano y la frescura de la rúcula.</p>
                 </div>
             </div>
             <!-- Croquetas de Chistorra - IMAGEN REEMPLAZADA -->
@@ -1008,7 +1023,7 @@
                         <h3 class="card-title">Croquetas de Chistorra</h3>
                         <span class="card-price">Ref.12</span>
                     </div>
-                    <p class="card-desc">Cremosas croquetas caseras rellenas de chistorra ibérica.</p>
+                    <p class="card-desc">Cremosas croquetas caseras rellenas de chistorra ibérica. Elaboradas con nuestra receta tradicional, ofrecen una textura cremosa en el interior y crujiente por fuera, con el sabor ahumado de la chistorra.</p>
                 </div>
             </div>
             <!-- Tequeños (Queso de Cabra) - IMAGEN REEMPLAZADA -->
@@ -1021,7 +1036,7 @@
                         <h3 class="card-title">Tequeños (Queso de Cabra)</h3>
                         <span class="card-price">Ref.13</span>
                     </div>
-                    <p class="card-desc">Masa crujiente rellena de suave queso de cabra.</p>
+                    <p class="card-desc">Masa crujiente rellena de suave queso de cabra. Una reinterpretación venezolana con queso de cabra que funde en tu boca, perfecto para compartir o disfrutar como entrada principal.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1033,7 +1048,7 @@
                         <h3 class="card-title">Chistorras y Padron</h3>
                         <span class="card-price">Ref.15</span>
                     </div>
-                    <p class="card-desc">Combinación de chistorras y pimientos padrón salteados.</p>
+                    <p class="card-desc">Combinación de chistorras y pimientos padrón salteados. Un plato vasco tradicional que combina el sabor intenso de la chistorra con la frescura y el toque picante ocasional de los pimientos padrón.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1045,7 +1060,7 @@
                         <h3 class="card-title">Ceviche de Porkbelly</h3>
                         <span class="card-price">Ref.15</span>
                     </div>
-                    <p class="card-desc">Ceviche de panceta de cerdo marinada en cítricos.</p>
+                    <p class="card-desc">Ceviche de panceta de cerdo marinada en cítricos. Una innovadora fusión que aplica la técnica peruana del ceviche a la panceta de cerdo, resultando en un plato refrescante y lleno de sabor.</p>
                 </div>
             </div>
             <!-- Esferas de Morcilla - IMAGEN REEMPLAZADA -->
@@ -1058,7 +1073,7 @@
                         <h3 class="card-title">Esferas de Morcilla</h3>
                         <span class="card-price">Ref.14</span>
                     </div>
-                    <p class="card-desc">Esferas crujientes rellenas de morcilla tradicional.</p>
+                    <p class="card-desc">Esferas crujientes rellenas de morcilla tradicional. Una presentación moderna de un clásico español, con una cobertura crujiente que contrasta perfectamente con el suave relleno de morcilla.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1070,7 +1085,7 @@
                         <h3 class="card-title">Pimientos de Padron</h3>
                         <span class="card-price">Ref.12</span>
                     </div>
-                    <p class="card-desc">Pimientos padrón a la plancha con sal marina.</p>
+                    <p class="card-desc">Pimientos padrón a la plancha con sal marina. Un plato sencillo pero delicioso donde la calidad del ingrediente es protagonista. La sorpresa de encontrar uno picante hace de esta opción una experiencia divertida.</p>
                 </div>
             </div>
             <!-- Empanaditas de Carne - IMAGEN REEMPLAZADA -->
@@ -1083,7 +1098,7 @@
                         <h3 class="card-title">Empanaditas de Carne</h3>
                         <span class="card-price">Ref.12</span>
                     </div>
-                    <p class="card-desc">Pequeñas empanadas rellenas de carne sazonada.</p>
+                    <p class="card-desc">Pequeñas empanadas rellenas de carne sazonada. Perfectas para picar, cada bocado ofrece una masa dorada y crujiente que envuelve un jugoso relleno de carne con especias tradicionales.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1095,7 +1110,7 @@
                         <h3 class="card-title">Arepitas Fritas</h3>
                         <span class="card-price">Ref.6</span>
                     </div>
-                    <p class="card-desc">Pequeñas arepas fritas crujientes.</p>
+                    <p class="card-desc">Pequeñas arepas fritas crujientes. Un acompañamiento venezolano tradicional, perfecto para compartir o acompañar otras entradas. Su textura crujiente por fuera y suave por dentro las hace irresistibles.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1107,7 +1122,7 @@
                         <h3 class="card-title">Queso Telita</h3>
                         <span class="card-price">Ref.9</span>
                     </div>
-                    <p class="card-desc">Queso venezolano tipo telita a la plancha.</p>
+                    <p class="card-desc">Queso venezolano tipo telita a la plancha. Un queso suave y elástico que se derrite perfectamente, ofreciendo una experiencia cremosa con el toque ahumado de la plancha.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1119,7 +1134,7 @@
                         <h3 class="card-title">Nata</h3>
                         <span class="card-price">Ref.7</span>
                     </div>
-                    <p class="card-desc">Nata casera para untar.</p>
+                    <p class="card-desc">Nata casera para untar. Elaborada con nuestra receta tradicional, esta nata es perfecta para acompañar pan o como base para otros ingredientes. Su textura cremosa y sabor suave la hacen versátil.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1131,7 +1146,7 @@
                         <h3 class="card-title">Casabe Gratinado</h3>
                         <span class="card-price">Ref.6</span>
                     </div>
-                    <p class="card-desc">Casabe con queso gratinado.</p>
+                    <p class="card-desc">Casabe con queso gratinado. Una fusión de tradición venezolana y técnica italiana, donde la crujiente base de casabe se combina con queso gratinado para un resultado sorprendente.</p>
                 </div>
             </div>
             <!-- Costillitas de maiz - IMAGEN REEMPLAZADA -->
@@ -1144,7 +1159,7 @@
                         <h3 class="card-title">Costillitas de maiz</h3>
                         <span class="card-price">Ref.8</span>
                     </div>
-                    <p class="card-desc">Costillas de maíz fritas.</p>
+                    <p class="card-desc">Costillas de maíz fritas. Un snack crujiente y adictivo, perfecto para acompañar bebidas o como entrada ligera. Su sabor natural a maíz y textura crujiente las hacen populares.</p>
                 </div>
             </div>
         </div>
@@ -1161,7 +1176,7 @@
                         <h3 class="card-title">Tomahawk</h3>
                         <span class="card-price">Ref.78</span>
                     </div>
-                    <p class="card-desc">Espectacular corte de costilla de res con hueso largo, asado a la perfección.</p>
+                    <p class="card-desc">Espectacular corte de costilla de res con hueso largo, asado a la perfección en nuestro Josper. Con más de 1kg de peso, este corte premium ofrece una jugosidad incomparable y un sabor ahumado intenso gracias a la cocción a carbón. Perfecto para compartir entre 2-3 personas.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1173,7 +1188,7 @@
                         <h3 class="card-title">T-Bone</h3>
                         <span class="card-price">Ref.54</span>
                     </div>
-                    <p class="card-desc">Lo mejor de dos mundos: Solomo y Lomito separados por el hueso en forma de T.</p>
+                    <p class="card-desc">Lo mejor de dos mundos: Solomo y Lomito separados por el hueso en forma de T. Este corte emblemático combina la ternura del lomito con el sabor intenso del solomo, todo en una misma pieza. Asado a la perfección en nuestro Josper para sellar sus jugos naturales.</p>
                 </div>
             </div>
             <!-- Ribeye Nacional (340g) - IMAGEN REEMPLAZADA -->
@@ -1186,7 +1201,7 @@
                         <h3 class="card-title">Ribeye Nacional (340g)</h3>
                         <span class="card-price">Ref.23</span>
                     </div>
-                    <p class="card-desc">Ojo de bife con excelente marmoleo, jugoso y lleno de sabor.</p>
+                    <p class="card-desc">Ojo de bife con excelente marmoleo, jugoso y lleno de sabor. Este corte se caracteriza por su veteado de grasa intramuscular que se derrite durante la cocción, aportando una jugosidad y sabor incomparables. Perfecto para quienes buscan la máxima expresión del sabor a carne.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1198,7 +1213,7 @@
                         <h3 class="card-title">Punta Trasera Nac. (320g)</h3>
                         <span class="card-price">Ref.24</span>
                     </div>
-                    <p class="card-desc">Corte tradicional, con su capa de grasa externa que aporta sabor único.</p>
+                    <p class="card-desc">Corte tradicional, con su capa de grasa externa que aporta sabor único durante la cocción en el Josper. Esta grasa se funde lentamente, aromatizando la carne y manteniéndola jugosa. Un corte popular por su equilibrio entre sabor y textura.</p>
                 </div>
             </div>
             <!-- New York Nacional (460g) - IMAGEN REEMPLAZADA -->
@@ -1211,7 +1226,7 @@
                         <h3 class="card-title">New York Nacional (460g)</h3>
                         <span class="card-price">Ref.26</span>
                     </div>
-                    <p class="card-desc">Corte magro y firme, de sabor intenso.</p>
+                    <p class="card-desc">Corte magro y firme, de sabor intenso y textura consistente. Perfecto para quienes prefieren una carne con menos grasa pero igualmente sabrosa. Su cocción en el Josper crea una costra exterior deliciosa mientras mantiene el interior jugoso.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1223,7 +1238,7 @@
                         <h3 class="card-title">Pulpo al Josper</h3>
                         <span class="card-price">Ref.25</span>
                     </div>
-                    <p class="card-desc">Tentáculos de pulpo grillados al carbón, tiernos y ahumados.</p>
+                    <p class="card-desc">Tentáculos de pulpo grillados al carbón, tiernos y ahumados. Nuestra técnica de cocción lenta asegura que el pulpo quede perfectamente tierno, mientras que el carbón del Josper aporta un sabor ahumado incomparable. Servido con aceite de oliva y pimentón.</p>
                 </div>
             </div>
             <!-- Fajitas de carne y pollo (2p) - IMAGEN REEMPLAZADA -->
@@ -1236,7 +1251,7 @@
                         <h3 class="card-title">Fajitas de carne y pollo (2p)</h3>
                         <span class="card-price">Ref.35</span>
                     </div>
-                    <p class="card-desc">Fajitas mixtas de carne y pollo al Josper para dos personas.</p>
+                    <p class="card-desc">Fajitas mixtas de carne y pollo al Josper para dos personas. Una combinación perfecta de tiras de res y pollo marinadas en especias, asadas a la perfección y servidas con pimientos y cebollas caramelizadas. Acompañadas de tortillas de harina recién hechas.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1248,7 +1263,7 @@
                         <h3 class="card-title">Salmón</h3>
                         <span class="card-price">Ref.28</span>
                     </div>
-                    <p class="card-desc">Filete de salmón al Josper con piel crujiente.</p>
+                    <p class="card-desc">Filete de salmón al Josper con piel crujiente. Seleccionamos los mejores filetes de salmón noruego, que cocinamos a la perfección en el Josper para lograr una piel crujiente y un interior jugoso y tierno. Acompañado de nuestra salsa de eneldo.</p>
                 </div>
             </div>
             <!-- Lomo de cerdo - IMAGEN REEMPLAZADA -->
@@ -1261,7 +1276,7 @@
                         <h3 class="card-title">Lomo de cerdo</h3>
                         <span class="card-price">Ref.22</span>
                     </div>
-                    <p class="card-desc">Lomo de cerdo asado al Josper.</p>
+                    <p class="card-desc">Lomo de cerdo asado al Josper. Un corte magro y tierno que adquiere un sabor ahumado espectacular en nuestro horno de carbón. Marinado previamente con hierbas aromáticas para realzar su satural natural. Perfecto para quienes prefieren carnes blancas.</p>
                 </div>
             </div>
             <!-- Lomito - IMAGEN REEMPLAZADA -->
@@ -1274,7 +1289,7 @@
                         <h3 class="card-title">Lomito</h3>
                         <span class="card-price">Ref.32</span>
                     </div>
-                    <p class="card-desc">Corte de lomito de res al Josper.</p>
+                    <p class="card-desc">Corte de lomito de res al Josper. Considerado el corte más tierno de la res, nuestro lomito se cocina a la perfección en el Josper para mantener toda su jugosidad. Un plato sencillo pero exquisito donde la calidad de la carne es la protagonista absoluta.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1286,7 +1301,7 @@
                         <h3 class="card-title">Langostinos</h3>
                         <span class="card-price">Ref.38</span>
                     </div>
-                    <p class="card-desc">Langostinos grandes al Josper.</p>
+                    <p class="card-desc">Langostinos grandes al Josper. Seleccionamos los langostinos más grandes y frescos, que cocinamos rápidamente en el Josper para preservar su dulzura natural y textura firme. Servidos con mantequilla de ajo y perejil, son una delicia del mar.</p>
                 </div>
             </div>
             <!-- Vacio de Res - IMAGEN REEMPLAZADA -->
@@ -1299,7 +1314,7 @@
                         <h3 class="card-title">Vacio de Res</h3>
                         <span class="card-price">Ref.30</span>
                     </div>
-                    <p class="card-desc">Vacio de res asado al Josper.</p>
+                    <p class="card-desc">Vacio de res asado al Josper. Este corte argentino por excelencia se caracteriza por su sabor intenso y textura fibrosa pero tierna. La cocción lenta en el Josper permite que sus fibras se ablanden mientras desarrolla un sabor ahumado profundo.</p>
                 </div>
             </div>
             <!-- Pollo de Res (320g) - IMAGEN REEMPLAZADA -->
@@ -1312,7 +1327,7 @@
                         <h3 class="card-title">Pollo de Res (320g)</h3>
                         <span class="card-price">Ref.20</span>
                     </div>
-                    <p class="card-desc">Corte especial de res con sabor y textura similar al pollo.</p>
+                    <p class="card-desc">Corte especial de res con sabor y textura similar al pollo. Una opción curiosa y deliciosa para quienes buscan algo diferente. Su nombre viene de su ternura excepcional y sabor suave que recuerda a la carne de ave de calidad.</p>
                 </div>
             </div>
             <!-- Churrasco de Pollo - IMAGEN REEMPLAZADA -->
@@ -1325,7 +1340,7 @@
                         <h3 class="card-title">Churrasco de Pollo</h3>
                         <span class="card-price">Ref.18</span>
                     </div>
-                    <p class="card-desc">Churrasco de pollo al Josper.</p>
+                    <p class="card-desc">Churrasco de pollo al Josper. Pechuga de pollo marinada en hierbas y especias, cocinada a la perfección en el Josper para lograr un exterior ligeramente ahumado y un interior jugoso. Una opción más ligera pero igualmente sabrosa.</p>
                 </div>
             </div>
         </div>
@@ -1341,7 +1356,7 @@
                         <h3 class="card-title">Fondue Burger</h3>
                         <span class="card-price">Ref.23</span>
                     </div>
-                    <p class="card-desc">Hamburguesa bañada en una rica crema de quesos fundidos.</p>
+                    <p class="card-desc">Hamburguesa bañada en una rica crema de quesos fundidos. Nuestra hamburguesa premium de 180g se combina con una fondue de tres quesos que se derrite sobre la carne, creando una experiencia cremosa e indulgente. Acompañada de tocino crujiente y cebolla caramelizada.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1353,7 +1368,7 @@
                         <h3 class="card-title">Smash Burger (180g)</h3>
                         <span class="card-price">Ref.16</span>
                     </div>
-                    <p class="card-desc">Carne aplastada en la plancha para una costra crujiente perfecta.</p>
+                    <p class="card-desc">Carne aplastada en la plancha para una costra crujiente perfecta. Esta técnica tradicional crea una superficie caramelizada deliciosa mientras mantiene el interior jugoso. Servida con queso cheddar, cebolla y nuestra salsa especial en pan brioche tostado.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1365,7 +1380,7 @@
                         <h3 class="card-title">Burger Res (130g)</h3>
                         <span class="card-price">Ref.14</span>
                     </div>
-                    <p class="card-desc">Nuestra clásica hamburguesa de carne seleccionada.</p>
+                    <p class="card-desc">Nuestra clásica hamburguesa de carne seleccionada. Elaborada con nuestra mezcla secreta de cortes de res, ofrece el sabor tradicional que todos aman. Simple pero perfecta, con lechuga, tomate, cebolla y nuestra mayonesa especial. La elección segura para los puristas.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1377,7 +1392,7 @@
                         <h3 class="card-title">Brangus (130g)</h3>
                         <span class="card-price">Ref.12</span>
                     </div>
-                    <p class="card-desc">Hamburguesa de carne Brangus premium.</p>
+                    <p class="card-desc">Hamburguesa de carne Brangus premium. Esta raza especial, cruce entre Angus y Brahman, produce una carne con excelente marmoleo y sabor intenso. Nuestra hamburguesa Brangus es más que una hamburguesa: es una experiencia gourmet en formato clásico.</p>
                 </div>
             </div>
         </div>
@@ -1393,7 +1408,7 @@
                         <h3 class="card-title">Risotto de Champiñones</h3>
                         <span class="card-price">Ref.14</span>
                     </div>
-                    <p class="card-desc">Arroz cremoso con selección de hongos silvestres.</p>
+                    <p class="card-desc">Arroz cremoso con selección de hongos silvestres. Nuestro risotto se prepara al momento, añadiendo caldo poco a poco mientras el arroz Arborio libera su almidón natural. Los champiñones silvestres aportan un sabor terroso y umami que complementa perfectamente cualquier corte de carne.</p>
                 </div>
             </div>
             <!-- Vegetales al Josper - IMAGEN REEMPLAZADA -->
@@ -1406,7 +1421,7 @@
                         <h3 class="card-title">Vegetales al Josper</h3>
                         <span class="card-price">Ref.9</span>
                     </div>
-                    <p class="card-desc">Selección de vegetales de temporada asados al carbón.</p>
+                    <p class="card-desc">Selección de vegetales de temporada asados al carbón. Calabacín, berenjena, pimientos y cebolla adquieren un sabor ahumado único en nuestro Josper, realzado con un toque de aceite de oliva virgen extra y hierbas frescas. Una guarnición saludable y sabrosa.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1418,7 +1433,7 @@
                         <h3 class="card-title">Papas Fritas Trufadas</h3>
                         <span class="card-price">Ref.9</span>
                     </div>
-                    <p class="card-desc">Papas fritas crujientes con aceite de trufa y parmesano.</p>
+                    <p class="card-desc">Papas fritas crujientes con aceite de trufa y parmesano. Tomamos nuestras papas fritas clásicas y las elevamos a otro nivel con un toque de aceite de trufa negra y queso parmesano rallado. Un acompañamiento decadente que realza cualquier plato principal.</p>
                 </div>
             </div>
             <!-- Risotto de Tuétano - IMAGEN REEMPLAZADA -->
@@ -1431,7 +1446,7 @@
                         <h3 class="card-title">Risotto de Tuétano</h3>
                         <span class="card-price">Ref.14</span>
                     </div>
-                    <p class="card-desc">Exquisito risotto enriquecido con el sabor intenso del tuétano.</p>
+                    <p class="card-desc">Exquisito risotto enriquecido con el sabor intenso del tuétano. Extraemos la médula ósea de huesos de res para crear un caldo profundamente sabroso que impregna cada grano de arroz. Un plato reconfortante y lleno de sabor que complementa carnes rojas a la perfección.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1443,7 +1458,7 @@
                         <h3 class="card-title">Risotto de Chistorra</h3>
                         <span class="card-price">Ref.15</span>
                     </div>
-                    <p class="card-desc">Risotto cremoso con chistorra ibérica.</p>
+                    <p class="card-desc">Risotto cremoso con chistorra ibérica. Los trozos de chistorra ahumada se integran en nuestro risotto cremoso, aportando su característico sabor y un toque de picante suave. Una combinación vasco-italiana que sorprende por su armonía de sabores.</p>
                 </div>
             </div>
             <!-- Chorizo - IMAGEN REEMPLAZADA -->
@@ -1456,7 +1471,7 @@
                         <h3 class="card-title">Chorizo</h3>
                         <span class="card-price">Ref.10</span>
                     </div>
-                    <p class="card-desc">Chorizo a la parrilla.</p>
+                    <p class="card-desc">Chorizo a la parrilla. Nuestro chorizo artesanal, elaborado con receta tradicional, se cocina en el Josper hasta lograr el punto perfecto: crujiente por fuera y jugoso por dentro. El ahumado del carbón realza sus especias características, creando un acompañamiento lleno de sabor.</p>
                 </div>
             </div>
             <!-- Chistorra - IMAGEN REEMPLAZADA -->
@@ -1469,7 +1484,7 @@
                         <h3 class="card-title">Chistorra</h3>
                         <span class="card-price">Ref.10</span>
                     </div>
-                    <p class="card-desc">Chistorra a la parrilla.</p>
+                    <p class="card-desc">Chistorra a la parrilla. Esta salchicha navarra, más fina y con un toque de pimentón, adquiere en nuestro Josper una textura crujiente y un sabor ahumado que la hace irresistible. Perfecta como acompañamiento o para compartir como entrada adicional.</p>
                 </div>
             </div>
             <!-- Morcilla - IMAGEN REEMPLAZADA -->
@@ -1482,7 +1497,7 @@
                         <h3 class="card-title">Morcilla</h3>
                         <span class="card-price">Ref.9</span>
                     </div>
-                    <p class="card-desc">Morcilla a la parrilla.</p>
+                    <p class="card-desc">Morcilla a la parrilla. Nuestra morcilla tradicional, elaborada con arroz y especias, se cocina en el Josper hasta obtener una textura cremosa en el interior y ligeramente crujiente en el exterior. Un acompañamiento clásico que nunca pasa de moda.</p>
                 </div>
             </div>
             <!-- Congri - IMAGEN REEMPLAZADA -->
@@ -1495,7 +1510,7 @@
                         <h3 class="card-title">Congri</h3>
                         <span class="card-price">Ref.7</span>
                     </div>
-                    <p class="card-desc">Arroz congri tradicional.</p>
+                    <p class="card-desc">Arroz congri tradicional. Esta preparación cubana de arroz con frijoles negros se cocina lentamente para que los sabores se integren perfectamente. Un acompañamiento sustancioso y lleno de sabor que complementa especialmente bien las carnes asadas.</p>
                 </div>
             </div>
             <!-- Yuca Frita o Sancochada - IMAGEN REEMPLAZADA -->
@@ -1508,7 +1523,7 @@
                         <h3 class="card-title">Yuca Frita o Sancochada</h3>
                         <span class="card-price">Ref.6</span>
                     </div>
-                    <p class="card-desc">Yuca frita o sancochada al gusto.</p>
+                    <p class="card-desc">Yuca frita o sancochada al gusto. Ofrecemos esta raíz tropical preparada de dos formas: frita para un acompañamiento crujiente, o sancochada para una opción más suave. Ambas se sirven con nuestro mojo de ajo, un aderezo que realza su sabor natural.</p>
                 </div>
             </div>
             <!-- Papas Fritas - IMAGEN REEMPLAZADA -->
@@ -1521,7 +1536,7 @@
                         <h3 class="card-title">Papas Fritas</h3>
                         <span class="card-price">Ref.5</span>
                     </div>
-                    <p class="card-desc">Papas fritas tradicionales.</p>
+                    <p class="card-desc">Papas fritas tradicionales. Cortadas a mano y fritas dos veces para lograr la textura perfecta: crujientes por fuera y esponjosas por dentro. Servidas con sal marina y perejil fresco, son el acompañamiento clásico que nunca falla.</p>
                 </div>
             </div>
         </div>
@@ -1537,7 +1552,7 @@
                         <h3 class="card-title">Ensalada Casa Res</h3>
                         <span class="card-price">Ref.16</span>
                     </div>
-                    <p class="card-desc">La especialidad de la casa con vegetales frescos y aderezo especial.</p>
+                    <p class="card-desc">La especialidad de la casa con vegetales frescos y aderezo especial. Mezcla de lechugas variadas, tomate cherry, aguacate, nueces tostadas, queso de cabra y crujientes croutons de ajo. Todo ello unido por nuestro aderezo secreto a base de miel y mostaza Dijon.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1549,7 +1564,7 @@
                         <h3 class="card-title">César de Berro</h3>
                         <span class="card-price">Ref.15</span>
                     </div>
-                    <p class="card-desc">Variación de la ensalada César utilizando berro fresco y crujiente.</p>
+                    <p class="card-desc">Variación de la ensalada César utilizando berro fresco y crujiente. Sustituimos la lechuga romana tradicional por berro, que aporta un sabor ligeramente picante y una textura interesante. Combinado con pollo a la parrilla, parmesano, croutons y nuestro aderezo César clásico.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1561,7 +1576,7 @@
                         <h3 class="card-title">Palmito, Aguacate y Tomate</h3>
                         <span class="card-price">Ref.15</span>
                     </div>
-                    <p class="card-desc">Fresca combinación tropical con aderezo ligero.</p>
+                    <p class="card-desc">Fresca combinación tropical con aderezo ligero. Palmito fresco en rodajas, aguacate maduro, tomate pera y cebolla morada, todo aliñado con un aderezo de lima y cilantro. Una ensalada refrescante y ligera perfecta para los días calurosos o como contraste a platos más contundentes.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1573,7 +1588,7 @@
                         <h3 class="card-title">César Tradicional</h3>
                         <span class="card-price">Ref.13</span>
                     </div>
-                    <p class="card-desc">Ensalada César tradicional con pollo y aderezo original.</p>
+                    <p class="card-desc">Ensalada César tradicional con pollo y aderezo original. Lechuga romana crujiente, pollo a la parrilla, queso parmesano en láminas, croutons caseros y nuestro aderezo César preparado al momento con anchoas, ajo, yema de huevo y aceite de oliva. Un clásico hecho a la perfección.</p>
                 </div>
             </div>
         </div>
@@ -1589,7 +1604,7 @@
                         <h3 class="card-title">Apple Crumble Pie</h3>
                         <span class="card-price">Ref.14</span>
                     </div>
-                    <p class="card-desc">Pastel de manzana caliente con cubierta crujiente.</p>
+                    <p class="card-desc">Pastel de manzana caliente con cubierta crujiente. Elaborado con manzanas Granny Smith caramelizadas con canela y azúcar moreno, cubiertas con una masa de migajas de mantequilla, harina y avena que se hornea hasta dorar. Servido con helado de vainilla artesanal que se derrite sobre el pastel caliente.</p>
                 </div>
             </div>
             <!-- Brookie - IMAGEN REEMPLAZADA -->
@@ -1602,7 +1617,7 @@
                         <h3 class="card-title">Brookie</h3>
                         <span class="card-price">Ref.10</span>
                     </div>
-                    <p class="card-desc">La unión perfecta entre un Brownie y una Cookie.</p>
+                    <p class="card-desc">La unión perfecta entre un Brownie y una Cookie. Nuestro brokie combina la textura densa y chocolateada de un brownie con los bordes crujientes y centro blando de una cookie de chocolate. Cada bocado ofrece dos texturas diferentes unidas en un solo postre decadente.</p>
                 </div>
             </div>
             <!-- Brownie con Helado - IMAGEN REEMPLAZADA -->
@@ -1615,7 +1630,7 @@
                         <h3 class="card-title">Brownie con Helado</h3>
                         <span class="card-price">Ref.8</span>
                     </div>
-                    <p class="card-desc">Clásico brownie de chocolate servido con helado de mantecado.</p>
+                    <p class="card-desc">Clásico brownie de chocolate servido con helado de mantecado. Nuestro brownie tiene un centro fundente y bordes ligeramente crujientes, elaborado con chocolate negro de alta calidad. Se sirve caliente coronado con una bola de helado de mantecado artesanal que crea el contraste perfecto de temperaturas y texturas.</p>
                 </div>
             </div>
             <!-- Quesillo - IMAGEN REEMPLAZADA -->
@@ -1628,7 +1643,7 @@
                         <h3 class="card-title">Quesillo</h3>
                         <span class="card-price">Ref.7</span>
                     </div>
-                    <p class="card-desc">Tradicional postre venezolano de leche y caramelo.</p>
+                    <p class="card-desc">Tradicional postre venezolano de leche y caramelo. Similar al flan pero con una textura más firme y sabor más intenso a huevo y leche. El caramelo líquido que lo cubre se integra perfectamente con la cremosa textura del quesillo. Un postre reconfortante que evoca sabores de la infancia.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1640,7 +1655,7 @@
                         <h3 class="card-title">Torta de Queso Llanero</h3>
                         <span class="card-price">Ref.12</span>
                     </div>
-                    <p class="card-desc">Torta de queso venezolano estilo llanero.</p>
+                    <p class="card-desc">Torta de queso venezolano estilo llanero. Elaborada con queso llanero fresco, tiene una textura más firme que la cheesecake tradicional y un sabor lácteo pronunciado. Se hornea lentamente para lograr una superficie dorada y un interior cremoso. Servida con mermelada de guayaba casera.</p>
                 </div>
             </div>
         </div>
@@ -1657,7 +1672,7 @@
                         <h3 class="card-title">Nuggets de Pollo</h3>
                         <span class="card-price">Ref.10</span>
                     </div>
-                    <p class="card-desc">Nuggets de pollo crujientes con papas fritas.</p>
+                    <p class="card-desc">Nuggets de pollo crujientes con papas fritas. Elaborados con pechuga de pollo 100% natural, sin conservantes ni colorantes artificiales. Su rebozado crujiente y dorado es irresistible para los más pequeños. Acompañados de nuestras papas fritas tradicionales y kétchup casero.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1669,7 +1684,7 @@
                         <h3 class="card-title">Burger Kids</h3>
                         <span class="card-price">Ref.12</span>
                     </div>
-                    <p class="card-desc">Hamburguesa pequeña para niños con papas fritas.</p>
+                    <p class="card-desc">Hamburguesa pequeña para niños con papas fritas. Nuestra hamburguesa clásica en versión mini, con carne 100% de res, queso cheddar, lechuga y tomate en un pan brioche suave. Acompañada de papas fritas y un huevo sorpresa de chocolate como postre. Los niños también merecen una experiencia gourmet.</p>
                 </div>
             </div>
             <!-- Papas Fritas (kids) - IMAGEN REEMPLAZADA -->
@@ -1682,7 +1697,7 @@
                         <h3 class="card-title">Papas Fritas</h3>
                         <span class="card-price">Ref.5</span>
                     </div>
-                    <p class="card-desc">Porción de papas fritas para niños.</p>
+                    <p class="card-desc">Porción de papas fritas para niños. Nuestras famosas papas fritas caseras en porción especial para los más pequeños. Crujientes por fuera y esponjosas por dentro, son el acompañamiento perfecto o un snack por sí solas. Incluyen kétchup y mayonesa para dipping.</p>
                 </div>
             </div>
         </div>
@@ -1699,7 +1714,7 @@
                         <h3 class="card-title">Lobster Roll</h3>
                         <span class="card-price">Ref.35</span>
                     </div>
-                    <p class="card-desc">Pan brioche relleno de langosta fresca.</p>
+                    <p class="card-desc">Pan brioche tostado con mantequilla relleno de langosta fresca. Nuestra versión de este clásico de Nueva Inglaterra utiliza langosta recién cocida, mezclada ligeramente con mayonesa casera, apio y un toque de limón. Servido con papas fritas trufadas, es una experiencia del mar inolvidable.</p>
                 </div>
             </div>
             <!-- Lobster Mac & Cheese - IMAGEN REEMPLAZADA -->
@@ -1712,7 +1727,7 @@
                         <h3 class="card-title">Lobster Mac & Cheese</h3>
                         <span class="card-price">Ref.23</span>
                     </div>
-                    <p class="card-desc">Macarrones con queso y langosta.</p>
+                    <p class="card-desc">Macarrones con queso y langosta. Tomamos el comfort food por excelencia y lo elevamos con trozos generosos de langosta y una mezcla de cuatro quesos que se funden en una salsa cremosa. Horneado con una costra de pan rallado con parmesano hasta quedar dorado y burbujeante.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1724,7 +1739,7 @@
                         <h3 class="card-title">Ribeye Sandwich</h3>
                         <span class="card-price">Ref.24</span>
                     </div>
-                    <p class="card-desc">Sándwich de ribeye con vegetales.</p>
+                    <p class="card-desc">Sándwich de ribeye con vegetales. Finas láminas de ribeye asado al Josper, colocadas sobre pan ciabatta tostado con ajo, acompañadas de cebolla caramelizada, pimientos asados, rúcula y nuestra salsa especial de hierbas. Un sándwich que trasciende lo ordinario.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1736,7 +1751,7 @@
                         <h3 class="card-title">New York Sandwich</h3>
                         <span class="card-price">Ref.24</span>
                     </div>
-                    <p class="card-desc">Sándwich de New York con vegetales.</p>
+                    <p class="card-desc">Sándwich de New York con vegetales. Jugosas tiras de New York steak asadas al punto perfecto, servidas en pan de focaccia con pesto de albahaca, tomate seco, mozzarella fresca y lechuga baby. Una fusión italiana-americana que deleitará tus sentidos.</p>
                 </div>
             </div>
             <!-- Surf and Turf (lomito) - IMAGEN REEMPLAZADA -->
@@ -1749,7 +1764,7 @@
                         <h3 class="card-title">Surf and Turf (lomito)</h3>
                         <span class="card-price">Ref.48</span>
                     </div>
-                    <p class="card-desc">Combinación de lomito y langosta.</p>
+                    <p class="card-desc">Combinación de lomito y langosta. El corte más tierno de la res se une a la dulzura de la langosta en este plato clásico de alta cocina. El lomito se sirve al punto solicitado, junto con una cola de langosta entera a la mantequilla clarificada. Acompañado de vegetales al Josper y puré de papas trufado.</p>
                 </div>
             </div>
             <!-- Surf and Turf (Ribeye) - IMAGEN REEMPLAZADA -->
@@ -1762,7 +1777,7 @@
                         <h3 class="card-title">Surf and Turf (Ribeye)</h3>
                         <span class="card-price">Ref.50</span>
                     </div>
-                    <p class="card-desc">Combinación de ribeye y langosta.</p>
+                    <p class="card-desc">Combinación de ribeye y langosta. El sabor intenso y jugoso del ribeye se complementa perfectamente con la textura firme y dulce de la langosta. Ambos cocinados a la perfección en el Josper para realzar sus sabores naturales. Una experiencia para los verdaderos amantes de los mariscos y carnes premium.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1774,7 +1789,7 @@
                         <h3 class="card-title">Burger Angus (single)</h3>
                         <span class="card-price">Ref.24</span>
                     </div>
-                    <p class="card-desc">Hamburguesa Angus individual.</p>
+                    <p class="card-desc">Hamburguesa Angus individual. Elaborada con carne 100% Angus, conocida por su excelente marmoleo y sabor intenso. Una hamburguesa gourmet de 180g con queso gouda ahumado, cebolla crispy, lechuga morada, tomate heirloom y nuestra salsa barbacoa artesanal. En pan brioche negro con semillas de sésamo.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1786,7 +1801,7 @@
                         <h3 class="card-title">Burger Angus (doble)</h3>
                         <span class="card-price">Ref.28</span>
                     </div>
-                    <p class="card-desc">Hamburguesa Angus doble.</p>
+                    <p class="card-desc">Hamburguesa Angus doble. Para los más hambrientos, dos jugosas hamburguesas Angus de 180g cada una, con doble queso cheddar, doble tocino, cebolla caramelizada, pepinillos y nuestra salsa especial. Una experiencia indulgente que satisface incluso los apetitos más exigentes.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1798,7 +1813,7 @@
                         <h3 class="card-title">Foie Gras Burger</h3>
                         <span class="card-price">Ref.45</span>
                     </div>
-                    <p class="card-desc">Hamburguesa con foie gras.</p>
+                    <p class="card-desc">Hamburguesa con foie gras. Nuestra hamburguesa más exclusiva, coronada con una generosa porción de foie gras de pato salteado, reducción de oporto, rúcula silvestre y trufa negra rallada. Una combinación de lujo donde la jugosidad de la carne se encuentra con la untuosidad del foie gras en una sinfonía de sabores.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1810,7 +1825,7 @@
                         <h3 class="card-title">Langosta al Josper (x kg)</h3>
                         <span class="card-price">Ref.70</span>
                     </div>
-                    <p class="card-desc">Langosta entera al Josper por kilo.</p>
+                    <p class="card-desc">Langosta entera al Josper por kilo. Seleccionamos langostas vivas que cocinamos enteras en el Josper para preservar toda su dulzura y jugosidad. El ahumado del carbón realza su satural natural. Servida con mantequilla de ajo y perejil, limón y nuestras papas fritas trufadas. Precio por kilo de langosta viva.</p>
                 </div>
             </div>
             <div class="card reveal">
@@ -1822,7 +1837,7 @@
                         <h3 class="card-title">Risotto de Langosta</h3>
                         <span class="card-price">Ref.24</span>
                     </div>
-                    <p class="card-desc">Risotto con langosta.</p>
+                    <p class="card-desc">Risotto con langosta. Nuestro cremoso risotto se enriquece con un fumet de langosta y se acompaña con generosos trozos de langosta cocida. Terminado con un toque de brandy y perejil fresco, este plato ofrece el lujo del mar en cada cucharada. Una opción reconfortante y elegante.</p>
                 </div>
             </div>
         </div>
@@ -2103,7 +2118,7 @@
             }
         }
 
-        // --- SCROLL ANIMATION SIMPLIFICADO (SIN PARALLAX) ---
+        // --- SCROLL ANIMATION CON APARICIÓN SUAVE DE IMÁGENES ---
         function revealOnScroll() {
             var reveals = document.querySelectorAll(".reveal");
             var windowHeight = window.innerHeight;
