@@ -1271,7 +1271,7 @@
                         <h3 class="card-title">Punta Trasera Nac. (320g)</h3>
                         <span class="card-price">Ref.24</span>
                     </div>
-                    <p class="card-desc">Corte tradicional, con su capa de grasa externa que aporta sabor único durante la cocción en el Josper. Esta grasa se funde lentamente, aromatizando la carne y manteniéndola jugosa. Un corte popular por su equilibrio entre sabor y textura.</p>
+                    <p class="card-desc">Corte tradicional, con su capa de grasa externa que aporta sabor único durante la cocción en el Josper. Esta grasa se funde lentamente, aromatizando la carne y manteniéndula jugosa. Un corte popular por su equilibrio entre sabor y textura.</p>
                 </div>
             </div>
             <!-- New York Nacional (460g) - IMAGEN REEMPLAZADA -->
@@ -2058,8 +2058,8 @@
                 if (testResponse.ok) {
                     const data = await testResponse.json();
                     karlMessages.innerHTML = '';
-                    // CAMBIADO: Mensaje de KarlBot
-                    addKarlMessage('¡Hola! Soy KarlBot de Casa Res. ¿Te gustaría saber más sobre nuestros cortes premium al Josper o necesitas una recomendación culinaria?', false);
+                    // CAMBIADO: Nuevo mensaje de bienvenida
+                    addKarlMessage('¡Bienvenido a Casa Res! Estoy a su orden. ¿En qué puedo ayudarle hoy?', false);
                     
                     karlInput.disabled = false;
                     karlSendBtn.disabled = false;
@@ -2070,8 +2070,8 @@
             } catch (error) {
                 console.error('Error en inicialización:', error);
                 karlMessages.innerHTML = '';
-                // CAMBIADO: Mensaje de KarlBot
-                addKarlMessage('¡Hola! Soy KarlBot de Casa Res. ¿En qué puedo ayudarte hoy? ¿Quieres hacer un pedido, necesitas recomendaciones o tienes alguna pregunta sobre nuestro menú?', false);
+                // CAMBIADO: Mensaje de error cuando no puede conectar
+                addKarlMessage('Lo siento, en estos momentos no puedo atenderle. Por favor, intente más tarde.', false);
                 
                 karlInput.disabled = false;
                 karlSendBtn.disabled = false;
@@ -2172,8 +2172,8 @@
                 typingIndicator.remove();
                 // Fallback para cuando no hay servidor real
                 setTimeout(() => {
-                    // CAMBIADO: Mensaje de KarlBot
-                    addKarlMessage('¡Gracias por tu consulta! Como experto en carnes de Casa Res, te recomiendo probar nuestro Tomahawk al Josper, cocinado a 63°C para un punto medio perfecto, acompañado de risotto de champiñones. ¿Te gustaría saber más sobre algún plato en particular?');
+                    // CAMBIADO: Nuevo mensaje de error
+                    addKarlMessage('Lo siento, ha ocurrido un error. Por favor, intente más tarde.');
                 }, 500);
                 console.error('Error detallado:', error);
             } finally {
