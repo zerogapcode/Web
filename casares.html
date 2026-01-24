@@ -125,7 +125,7 @@
             display: inline-block;
             width: calc(100% - 30px);
             padding-bottom: 8px;
-            scroll-margin-top: 140px;
+            scroll-margin-top: 120px; /* Ajustado para que el título sea visible */
         }
 
         /* --- GRID DE TARJETAS CONVERTIDO A COLUMNA ÚNICA PARA CELULARES --- */
@@ -153,27 +153,24 @@
             box-shadow: 0 12px 30px rgba(0,0,0,0.15);
         }
         
-        /* Contenedor para imagen CON PARALLAX REACTIVADO - ALTURA DUPLICADA */
+        /* Contenedor para imagen - SIN PARALLAX */
         .card-img-container {
             width: 100%;
-            height: 560px; /* DUPLICADO: Antes 280px, ahora 560px */
+            height: 280px; /* Restaurado a altura normal */
             overflow: hidden;
             position: relative;
         }
         
         .card-img-top {
             width: 100%;
-            height: 120%; /* Altura mayor para permitir movimiento parallax */
+            height: 100%;
             object-fit: cover;
             display: block;
-            transform: translateY(-10%); /* Iniciar más arriba para efecto parallax */
-            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.4, 1);
-            will-change: transform; /* Optimización para el parallax */
+            transition: transform 0.3s ease; /* Solo para hover */
         }
         
-        /* Efecto parallax invertido REACTIVADO */
-        .card.reveal.active .card-img-top {
-            transform: translateY(0%); /* Mover hacia la posición original al hacer scroll */
+        .card:hover .card-img-top {
+            transform: scale(1.05);
         }
         
         .card-body {
@@ -634,7 +631,7 @@
         @media (max-width: 768px) {
             .section-title { 
                 font-size: 1.9rem; 
-                scroll-margin-top: 120px;
+                scroll-margin-top: 100px; /* Ajustado */
                 margin: 2.5rem 15px 1.2rem;
             }
             
@@ -653,7 +650,7 @@
             }
             
             .card-img-container { 
-                height: 500px; /* DUPLICADO: Antes 250px, ahora 500px */
+                height: 250px; /* Restaurado */
             }
             
             .card-title {
@@ -779,10 +776,11 @@
             
             .section-title {
                 font-size: 1.7rem;
+                scroll-margin-top: 90px; /* Ajustado */
             }
             
             .card-img-container {
-                height: 440px; /* DUPLICADO: Antes 220px, ahora 440px */
+                height: 220px; /* Restaurado */
             }
             
             .card-title {
@@ -874,10 +872,11 @@
             
             .section-title {
                 font-size: 1.5rem;
+                scroll-margin-top: 80px; /* Ajustado */
             }
             
             .card-img-container {
-                height: 400px; /* DUPLICADO: Antes 200px, ahora 400px */
+                height: 200px; /* Restaurado */
             }
             
             .card-title {
@@ -2104,7 +2103,7 @@
             }
         }
 
-        // --- SCROLL ANIMATION CON PARALLAX REACTIVADO ---
+        // --- SCROLL ANIMATION SIMPLIFICADO (SIN PARALLAX) ---
         function revealOnScroll() {
             var reveals = document.querySelectorAll(".reveal");
             var windowHeight = window.innerHeight;
@@ -2115,30 +2114,6 @@
                 
                 if (elementTop < windowHeight - 50) {
                     element.classList.add("active");
-                    
-                    // Efecto parallax reactivado para las imágenes dentro de las tarjetas
-                    if (element.classList.contains("card")) {
-                        var img = element.querySelector(".card-img-top");
-                        if (img) {
-                            // Calcular el porcentaje de visibilidad de la tarjeta
-                            var elementVisible = 50;
-                            var distanceFromTop = elementTop;
-                            var percentVisible = Math.max(0, Math.min(1, (windowHeight - distanceFromTop) / (windowHeight - elementVisible)));
-                            
-                            // Aplicar transformación invertida (movimiento hacia abajo)
-                            // Iniciar en -10% y moverse hacia 0% según el scroll
-                            var translateValue = -10 + (10 * percentVisible);
-                            img.style.transform = `translateY(${translateValue}%)`;
-                        }
-                    }
-                } else {
-                    // Cuando la tarjeta no es visible, resetear la transformación
-                    if (element.classList.contains("card")) {
-                        var img = element.querySelector(".card-img-top");
-                        if (img) {
-                            img.style.transform = 'translateY(-10%)';
-                        }
-                    }
                 }
             }
         }
