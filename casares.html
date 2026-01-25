@@ -110,7 +110,7 @@
 
         /* --- CONTENEDOR Y TÍTULOS --- */
         .container {
-            max-width: 100%; /* Ancho completo */
+            max-width: 100%; /* Ancho completo para móvil */
             margin: 0;
             padding: 10px 0;
         }
@@ -133,7 +133,7 @@
         /* --- GRID DE TARJETAS CONVERTIDO A COLUMNA ÚNICA PARA CELULARES --- */
         .menu-grid {
             display: flex;
-            flex-direction: column; /* Columna única */
+            flex-direction: column; /* Columna única para móvil */
             gap: 25px; /* Más espacio entre tarjetas */
             padding: 0 15px;
         }
@@ -669,6 +669,129 @@
         @keyframes karlFingerPulse {
             0% { transform: scale(1); opacity: 0.7; }
             100% { transform: scale(1.3); opacity: 1; }
+        }
+
+        /* === ESTILOS PARA COMPUTADORAS (ESCRITORIO) === */
+        @media (min-width: 769px) {
+            /* Contenedor principal centrado con ancho máximo */
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px 30px;
+            }
+            
+            /* Grid de dos columnas para computadoras */
+            .menu-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+                padding: 0;
+            }
+            
+            /* Ajuste de altura de imágenes para computadoras */
+            .card-img-container {
+                height: 380px; /* Reducido de 560px para mejor proporción en desktop */
+            }
+            
+            /* Títulos de sección más grandes */
+            .section-title {
+                font-size: 2.5rem;
+                margin: 4rem 0 2rem;
+                width: 100%;
+                padding-bottom: 12px;
+                scroll-margin-top: 120px; /* Ajustado para desktop */
+            }
+            
+            /* Header más grande */
+            header {
+                min-height: 300px;
+            }
+            
+            .header-logo {
+                max-height: 260px;
+                max-width: 80%;
+            }
+            
+            /* Navegación mejorada */
+            nav {
+                padding: 15px 0;
+            }
+            
+            nav a {
+                font-size: 1.2rem;
+                padding: 14px 24px;
+                margin: 5px 10px;
+            }
+            
+            /* Ajustes de texto para mejor legibilidad */
+            .card-title {
+                font-size: 1.8rem;
+            }
+            
+            .card-price {
+                font-size: 1.5rem;
+                padding: 10px 18px;
+            }
+            
+            .card-desc {
+                font-size: 1.4rem;
+                line-height: 1.7;
+            }
+            
+            .card-body {
+                padding: 2rem;
+            }
+            
+            /* Chat de Karl ajustado para desktop */
+            #karl-chat-window {
+                max-width: 500px;
+                height: 700px;
+                bottom: 180px;
+                right: 40px;
+            }
+            
+            /* Botón Karl más grande en desktop */
+            .karl-button-container {
+                bottom: 50px;
+                right: 50px;
+            }
+            
+            .karl-float-btn {
+                height: 160px;
+                width: 160px;
+            }
+            
+            /* Ajustes del anuncio temporal */
+            .karl-attention-indicator {
+                bottom: 220px;
+                right: 30px;
+                width: 280px;
+            }
+            
+            .karl-attention-text {
+                font-size: 22px;
+                padding: 16px 24px;
+            }
+            
+            /* Footer con más espacio */
+            footer {
+                padding: 3.5rem 2rem;
+                margin-top: 5rem;
+            }
+            
+            .address {
+                font-size: 1.5rem;
+            }
+            
+            .reservations a {
+                font-size: 1.4rem;
+                padding: 14px 28px;
+            }
+            
+            /* Mejoras de espaciado general */
+            .menu-grid {
+                margin-bottom: 40px;
+            }
         }
 
         /* --- RESPONSIVE - OPTIMIZADO SOLO PARA CELULARES --- */
