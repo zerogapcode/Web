@@ -90,24 +90,22 @@
             box-shadow: 0 0 15px rgba(255, 102, 0, 0.6);
         }
 
-        /* --- HEADER CON FONDO MEJORADO PARA MÓVILES --- */
+        /* --- HEADER CON FONDO MEJORADO - SIN MOSAICO --- */
         header {
             background-color: #000;
-            /* IMAGEN DE FONDO CON AJUSTES ESPECÍFICOS PARA MÓVILES */
             background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), 
                               url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
             background-size: cover;
-            background-position: center 30%; /* Posición mejorada */
+            background-position: center center;
+            background-repeat: no-repeat;
             background-attachment: fixed;
             
-            /* Altura ajustada */
             height: 550px;
             padding: 120px 20px 180px 20px;
             
             text-align: center;
             position: relative;
             
-            /* CURVA CIRCULAR */
             border-bottom-left-radius: 100% 45%;
             border-bottom-right-radius: 100% 45%;
             
@@ -117,23 +115,21 @@
             justify-content: center;
         }
 
-        /* Logo como imagen */
+        /* Logo sin sombras extrañas */
         .logo-image {
             max-width: 550px;
             width: 85%;
             height: auto;
             z-index: 2;
             position: relative;
-            filter: drop-shadow(0 8px 25px rgba(0,0,0,0.9));
-            transition: transform 0.4s ease, filter 0.4s ease;
+            transition: transform 0.4s ease;
         }
 
         .logo-image:hover {
             transform: scale(1.05);
-            filter: drop-shadow(0 12px 30px rgba(0,0,0,1));
         }
 
-        /* Info de Tamaños */
+        /* Info de Tamaños - DOS LÍNEAS */
         .sizes-info {
             background-color: var(--primary-orange);
             color: #000;
@@ -151,6 +147,13 @@
             border-radius: 40px;
             font-size: 1.2rem;
             border: 4px solid #fff;
+            line-height: 1.4;
+        }
+
+        .sizes-info br {
+            display: block;
+            content: "";
+            margin: 5px 0;
         }
 
         .container {
@@ -207,7 +210,7 @@
         .pizza-image-container {
             position: relative;
             width: 100%;
-            height: 200px; /* Altura ajustada */
+            height: 200px;
             overflow: hidden;
         }
 
@@ -234,14 +237,14 @@
         }
 
         .pizza-name {
-            color: var(--primary-orange); /* COLOR NARANJA */
+            color: var(--primary-orange);
             font-size: 1.6rem;
             margin: 0;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
-            text-align: left; /* ALINEADO A LA IZQUIERDA */
+            text-align: left;
             padding-left: 10px;
         }
 
@@ -361,9 +364,397 @@
             font-size: 2rem;
         }
 
+        /* === NUEVO: BOTÓN ENZOBOT === */
+        .enzobot-button-container {
+            position: fixed; 
+            bottom: 40px; 
+            right: 30px; 
+            z-index: 10000;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .enzobot-button-container.hidden { 
+            display: none; 
+        }
+        
+        .enzobot-float-btn {
+            --btn-accent: #ff6600;
+            --btn-bg: rgba(255, 102, 0, 0.7);
+            
+            position: relative;
+            height: 160px;
+            width: 160px;
+            background: var(--btn-bg);
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            
+            will-change: transform, background;
+            user-select: none;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow: hidden;
+            
+            box-shadow: 
+                inset 0 0 40px rgba(255, 255, 255, 0.6),
+                inset 0 0 80px rgba(255, 255, 255, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+        
+        .enzobot-float-btn:hover {
+            transform: scale(1.15);
+            background: rgba(255, 102, 0, 0.85);
+            border-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 
+                inset 0 0 50px rgba(255, 255, 255, 0.7),
+                inset 0 0 100px rgba(255, 255, 255, 0.5),
+                0 0 0 2px rgba(255, 255, 255, 0.4);
+        }
+        
+        .enzobot-icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            padding: 12px;
+        }
+        
+        .enzobot-icon-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+        
+        .enzobot-float-btn:hover .enzobot-icon-wrapper img {
+            transform: scale(1.1);
+        }
+        
+        /* Indicador de pulsación */
+        .enzobot-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 102, 0, 0.4);
+            animation: enzobotPulse 2s infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        @keyframes enzobotPulse {
+            0% { transform: scale(1); opacity: 0.6; }
+            70% { transform: scale(1.2); opacity: 0; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+        
+        /* Chat Window */
+        #enzobot-chat-window {
+            position: fixed;
+            bottom: 180px;
+            right: 30px;
+            width: 90%;
+            max-width: 450px;
+            height: 550px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+            border: 4px solid var(--primary-orange);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        #enzobot-chat-window.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .enzobot-chat-header {
+            padding: 20px 25px;
+            background: var(--primary-orange);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        
+        .enzobot-chat-title {
+            font-weight: 900;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .enzobot-chat-close {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 28px;
+            color: white;
+            font-weight: 300;
+        }
+        
+        .enzobot-chat-close:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.15);
+        }
+        
+        .enzobot-chat-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #f8f9fa;
+        }
+        
+        .enzobot-message {
+            display: flex;
+            gap: 12px;
+            animation: messageSlideIn 0.3s ease;
+        }
+        
+        @keyframes messageSlideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .enzobot-message.user {
+            justify-content: flex-end;
+        }
+        
+        .enzobot-message-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+            background: var(--primary-orange);
+            color: white;
+            overflow: hidden;
+            border: 2px solid var(--primary-orange);
+        }
+        
+        .ai .enzobot-message-avatar {
+            background: #ff9933;
+            border-color: #ff9933;
+        }
+        
+        .enzobot-message-avatar img {
+            width: 85%;
+            height: 85%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+        
+        .user .enzobot-message-avatar {
+            background: var(--primary-orange);
+            color: white;
+            border-color: var(--primary-orange);
+        }
+        
+        .enzobot-message-content {
+            max-width: 80%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            line-height: 1.5;
+            font-size: 16px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: white;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .ai .enzobot-message-content {
+            color: #222;
+            font-weight: 500;
+        }
+        
+        .user .enzobot-message-content {
+            background: var(--primary-orange);
+            color: white;
+            border-color: var(--primary-orange);
+        }
+        
+        .enzobot-typing {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .enzobot-typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary-orange);
+            animation: enzobotTypingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .enzobot-typing-dot:nth-child(1) { animation-delay: 0s; }
+        .enzobot-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .enzobot-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes enzobotTypingAnimation {
+            0%, 60%, 100% { transform: scale(1); opacity: 0.5; }
+            30% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        .enzobot-chat-input-container {
+            padding: 20px;
+            border-top: 2px solid #e9ecef;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            flex-shrink: 0;
+            background: white;
+        }
+        
+        .enzobot-chat-input {
+            flex: 1;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 18px;
+            padding: 14px 18px;
+            color: #222;
+            font-size: 16px;
+            resize: none;
+            min-height: 50px;
+            max-height: 120px;
+            transition: all 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        
+        .enzobot-chat-input:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 0 4px rgba(255, 102, 0, 0.15);
+        }
+        
+        .enzobot-chat-send {
+            background: var(--primary-orange);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .enzobot-chat-send:hover {
+            background: #e55c00;
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        .enzobot-chat-send:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* ANUNCIO TEMPORAL PARA ENZOBOT */
+        .enzobot-attention-indicator {
+            position: fixed;
+            bottom: 200px;
+            right: 10px;
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            animation: enzobotAttentionBounce 2s infinite ease-in-out;
+            width: 200px;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        .enzobot-attention-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .enzobot-attention-text {
+            background: white;
+            color: var(--primary-orange);
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 900;
+            box-shadow: 0 6px 20px rgba(255, 102, 0, 0.25);
+            border: 3px solid #ff9933;
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            position: relative;
+            width: 100%;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+        
+        .enzobot-attention-finger {
+            font-size: 36px;
+            color: #ff9933;
+            text-shadow: 0 0 10px rgba(255, 153, 51, 0.7);
+            animation: enzobotFingerPulse 1.5s infinite alternate;
+            position: relative;
+            margin-top: 0;
+            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+            align-self: center;
+            transform: none;
+        }
+        
+        @keyframes enzobotAttentionBounce {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        
+        @keyframes enzobotFingerPulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.3); opacity: 1; }
+        }
+
         /* MEDIA QUERIES - ENFOQUE PRIMERO MÓVIL */
         @media (min-width: 768px) {
-            /* Tablet y desktop: 2 columnas */
             .pizza-grid {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
@@ -380,7 +771,6 @@
         }
 
         @media (min-width: 1024px) {
-            /* Desktop grande: 3 columnas */
             .pizza-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
@@ -392,12 +782,9 @@
                 padding: 80px 20px 140px 20px;
                 border-bottom-left-radius: 100% 35%;
                 border-bottom-right-radius: 100% 35%;
-                /* FONDO MEJORADO PARA MÓVILES - menos zoom */
                 background-attachment: scroll;
                 background-size: cover;
-                background-position: center 25%;
-                /* Reducir el zoom de la imagen de fondo */
-                background-size: 120% auto; /* Reducir el zoom */
+                background-position: center center;
             }
             
             .logo-image {
@@ -468,6 +855,39 @@
             .pizza-name {
                 font-size: 1.5rem;
             }
+            
+            .enzobot-button-container {
+                bottom: 35px;
+                right: 25px;
+            }
+            
+            .enzobot-float-btn {
+                height: 140px;
+                width: 140px;
+            }
+            
+            #enzobot-chat-window { 
+                width: calc(100% - 30px); 
+                right: 15px; 
+                height: 60vh; 
+                bottom: 150px;
+                max-width: none;
+            }
+            
+            .enzobot-attention-indicator {
+                bottom: 160px;
+                right: 10px;
+                width: 180px;
+            }
+            
+            .enzobot-attention-text {
+                font-size: 16px;
+                padding: 10px 14px;
+            }
+            
+            .enzobot-attention-finger {
+                font-size: 32px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -476,9 +896,7 @@
                 padding: 70px 15px 120px 15px;
                 border-bottom-left-radius: 100% 30%;
                 border-bottom-right-radius: 100% 30%;
-                /* FONDO MEJORADO PARA SMARTPHONES PEQUEÑOS */
-                background-position: center 30%;
-                background-size: 140% auto; /* Aún menos zoom que en tablet */
+                background-position: center center;
             }
             
             .logo-image {
@@ -542,15 +960,45 @@
                 font-size: 1rem;
                 margin: 15px 15px 10px;
             }
+            
+            .enzobot-button-container {
+                bottom: 30px;
+                right: 20px;
+            }
+            
+            .enzobot-float-btn {
+                height: 120px;
+                width: 120px;
+            }
+            
+            #enzobot-chat-window {
+                width: calc(100% - 20px);
+                right: 10px;
+                height: 60vh;
+                bottom: 130px;
+            }
+            
+            .enzobot-attention-indicator {
+                bottom: 130px;
+                right: 0;
+                width: 160px;
+            }
+            
+            .enzobot-attention-text {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            
+            .enzobot-attention-finger {
+                font-size: 28px;
+            }
         }
         
         @media (max-width: 360px) {
             header {
                 height: 350px;
                 padding: 60px 15px 100px 15px;
-                /* FONDO ÓPTIMO PARA PANTALLAS MUY PEQUEÑAS */
-                background-position: center 35%;
-                background-size: 160% auto; /* Ajuste óptimo para evitar zoom excesivo */
+                background-position: center center;
             }
             
             .logo-image {
@@ -569,6 +1017,34 @@
             .pizza-name {
                 font-size: 1.3rem;
             }
+            
+            .enzobot-button-container {
+                bottom: 20px;
+                right: 15px;
+            }
+            
+            .enzobot-float-btn {
+                height: 100px;
+                width: 100px;
+            }
+            
+            #enzobot-chat-window {
+                bottom: 110px;
+            }
+            
+            .enzobot-attention-indicator {
+                bottom: 110px;
+                width: 140px;
+            }
+            
+            .enzobot-attention-text {
+                font-size: 12px;
+                padding: 7px 10px;
+            }
+            
+            .enzobot-attention-finger {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
@@ -579,7 +1055,8 @@
     </header>
 
     <div class="sizes-info">
-        Grande: 33cm (8 Slices) &nbsp;|&nbsp; Familiar: 50cm (16 Slices)
+        Grande: 33cm (8 Slices)<br>
+        Familiar: 50cm (16 Slices)
     </div>
 
     <!-- Barra de navegación fija CON DOS FILAS -->
@@ -1044,24 +1521,311 @@
 
     </div>
 
+    <!-- === ANUNCIO TEMPORAL PARA ENZOBOT === -->
+    <div class="enzobot-attention-indicator" id="enzobot-attention-indicator">
+        <div class="enzobot-attention-text">
+            ¡Pregunta a Enzo sobre pizzas!
+        </div>
+        <div class="enzobot-attention-finger">👇</div>
+    </div>
+    
+    <!-- Botón flotante de EnzoBot -->
+    <div class="enzobot-button-container" id="enzobot-button-container">
+        <div class="enzobot-pulse"></div>
+        <div id="enzobot-float-btn" class="enzobot-float-btn" role="button" aria-label="Abrir Asistente EnzoBot" title="Hablar con EnzoBot">
+            <div class="enzobot-icon-wrapper">
+                <img src="https://cdn-icons-png.flaticon.com/512/6978/6978255.png" alt="EnzoBot" onerror="this.src='https://cdn-icons-png.flaticon.com/512/6978/6978255.png'">
+            </div>
+        </div>
+    </div>
+
+    <!-- Ventana de chat de EnzoBot -->
+    <div id="enzobot-chat-window">
+        <div class="enzobot-chat-header">
+            <div class="enzobot-chat-title">
+                EnzoBot - Chef de Pizzas
+            </div>
+            <div class="enzobot-chat-close" id="enzobot-close-btn">×</div>
+        </div>
+        <div class="enzobot-chat-body" id="enzobot-messages"></div>
+        <div class="enzobot-chat-input-container">
+            <textarea id="enzobot-input" class="enzobot-chat-input" placeholder="Escribe tu pregunta sobre pizzas aquí..." rows="1"></textarea>
+            <button id="enzobot-send-btn" class="enzobot-chat-send">→</button>
+        </div>
+    </div>
+
     <script>
-        // Función para mostrar/ocultar la barra de navegación al hacer scroll
+        // --- LOGICA DEL CHATBOT ENZO ---
+        // USANDO LA MISMA URL QUE EN CASARES.HTML (servidor de Balú)
+        const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        
+        const enzobotFloatBtn = document.getElementById('enzobot-float-btn');
+        const enzobotButtonContainer = document.getElementById('enzobot-button-container');
+        const enzobotChatWindow = document.getElementById('enzobot-chat-window');
+        const enzobotCloseBtn = document.getElementById('enzobot-close-btn');
+        const enzobotMessages = document.getElementById('enzobot-messages');
+        const enzobotInput = document.getElementById('enzobot-input');
+        const enzobotSendBtn = document.getElementById('enzobot-send-btn');
+        
+        let isEnzobotChatOpen = false;
+        let isGenerating = false;
+        let currentSessionId = null;
+        
+        function toggleEnzobotButton(show) {
+            if (show) enzobotButtonContainer.classList.remove('hidden');
+            else enzobotButtonContainer.classList.add('hidden');
+        }
+        
+        enzobotFloatBtn.addEventListener('click', () => {
+            if (!isEnzobotChatOpen) {
+                isEnzobotChatOpen = true;
+                enzobotChatWindow.classList.add('active');
+                toggleEnzobotButton(false);
+                
+                // Ocultar anuncio temporal al abrir el chat
+                if (enzobotAttentionIndicator && attentionIndicatorVisible) {
+                    enzobotAttentionIndicator.classList.add('hidden');
+                    attentionIndicatorVisible = false;
+                }
+                
+                if (!currentSessionId) initEnzobotConnection();
+                enzobotInput.focus();
+            }
+        });
+        
+        enzobotCloseBtn.addEventListener('click', () => {
+            isEnzobotChatOpen = false;
+            enzobotChatWindow.classList.remove('active');
+            toggleEnzobotButton(true);
+        });
+        
+        // Función para mostrar mensaje de escritura
+        function showEnzobotTyping() {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'enzobot-message ai';
+            messageDiv.id = 'enzobot-typing-indicator';
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'enzobot-message-avatar';
+            const img = document.createElement('img');
+            img.src = 'https://cdn-icons-png.flaticon.com/512/6978/6978255.png';
+            img.alt = 'EnzoBot';
+            avatarDiv.appendChild(img);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'enzobot-message-content';
+            
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'enzobot-typing';
+            typingDiv.innerHTML = `
+                <div class="enzobot-typing-dot"></div>
+                <div class="enzobot-typing-dot"></div>
+                <div class="enzobot-typing-dot"></div>
+            `;
+            
+            contentDiv.appendChild(typingDiv);
+            messageDiv.appendChild(avatarDiv);
+            messageDiv.appendChild(contentDiv);
+            enzobotMessages.appendChild(messageDiv);
+            
+            enzobotMessages.scrollTop = enzobotMessages.scrollHeight;
+            
+            return messageDiv;
+        }
+        
+        async function initEnzobotConnection() {
+            try {
+                addEnzobotMessage('Conectando con EnzoBot...', false);
+                currentSessionId = "empizzados-enzo-session-" + Date.now();
+                
+                // Usando el mismo servidor que casares.html pero con el asistente "enzo"
+                const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true',
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: "Ciao Enzo!",
+                        assistant: "enzo", // Especificamos que queremos el asistente "enzo"
+                        session_id: currentSessionId
+                    })
+                });
+                
+                if (testResponse.ok) {
+                    const data = await testResponse.json();
+                    enzobotMessages.innerHTML = '';
+                    // Mensaje de bienvenida
+                    addEnzobotMessage('¡Buonasera! Sono Enzo, il tuo pizzaiolo! 🍕 ¿En qué puedo ayudarte hoy?', false);
+                    
+                    enzobotInput.disabled = false;
+                    enzobotSendBtn.disabled = false;
+                } else {
+                    throw new Error(`HTTP ${testResponse.status}`);
+                }
+                
+            } catch (error) {
+                console.error('Error en inicialización:', error);
+                enzobotMessages.innerHTML = '';
+                // Mensaje de error cuando no puede conectar
+                addEnzobotMessage('¡Buonasera! Soy Enzo, tu maestro pizzaiolo. ¿En qué puedo ayudarte hoy? 🍕', false);
+                
+                enzobotInput.disabled = false;
+                enzobotSendBtn.disabled = false;
+            }
+        }
+        
+        function addEnzobotMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `enzobot-message ${isUser ? 'user' : 'ai'}`;
+            
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'enzobot-message-avatar';
+            
+            // Si es el asistente, usar la imagen de Enzo
+            if (!isUser) {
+                const img = document.createElement('img');
+                img.src = 'https://cdn-icons-png.flaticon.com/512/6978/6978255.png';
+                img.alt = 'EnzoBot';
+                avatarDiv.appendChild(img);
+            } else {
+                avatarDiv.textContent = 'Tú';
+            }
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'enzobot-message-content';
+            contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+            
+            messageDiv.appendChild(avatarDiv);
+            messageDiv.appendChild(contentDiv);
+            enzobotMessages.appendChild(messageDiv);
+            
+            enzobotMessages.scrollTop = enzobotMessages.scrollHeight;
+            
+            return contentDiv;
+        }
+        
+        // Ajustar altura del textarea
+        enzobotInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+        
+        enzobotInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!isGenerating) sendEnzobotMessage();
+            }
+        });
+        
+        enzobotSendBtn.addEventListener('click', sendEnzobotMessage);
+        
+        async function sendEnzobotMessage() {
+            const text = enzobotInput.value.trim();
+            if (!text || isGenerating) return;
+            
+            enzobotInput.value = '';
+            enzobotInput.style.height = 'auto';
+            
+            addEnzobotMessage(text, true);
+            
+            enzobotInput.disabled = true;
+            enzobotSendBtn.disabled = true;
+            isGenerating = true;
+            
+            const typingIndicator = showEnzobotTyping();
+            
+            try {
+                // Enviar mensaje especificando que es para el asistente "enzo"
+                const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true',
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        message: text,
+                        assistant: "enzo", // Usando el asistente "enzo"
+                        session_id: currentSessionId
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                typingIndicator.remove();
+                
+                if (data.status === 'success' && data.response) {
+                    addEnzobotMessage(data.response);
+                } else {
+                    throw new Error('Respuesta inválida del servidor');
+                }
+                
+            } catch (error) {
+                typingIndicator.remove();
+                // Fallback para cuando no hay servidor real
+                setTimeout(() => {
+                    // Mensaje de error
+                    addEnzobotMessage('¡Perdona! En estos momentos no puedo procesar tu pregunta. ¿En qué más puedo ayudarte sobre nuestras pizzas? 🍕');
+                }, 500);
+                console.error('Error detallado:', error);
+            } finally {
+                enzobotInput.disabled = false;
+                enzobotSendBtn.disabled = false;
+                isGenerating = false;
+                enzobotInput.focus();
+            }
+        }
+
+        // === FUNCIONALIDAD DEL ANUNCIO TEMPORAL ===
+        const enzobotAttentionIndicator = document.getElementById('enzobot-attention-indicator');
+        let attentionIndicatorVisible = true;
+
+        // Ocultar el anuncio después de 30 segundos
+        setTimeout(() => {
+            if (enzobotAttentionIndicator && attentionIndicatorVisible) {
+                enzobotAttentionIndicator.classList.add('hidden');
+                attentionIndicatorVisible = false;
+            }
+        }, 30000); // 30 segundos
+
+        // Ocultar anuncio al hacer clic en cualquier parte
+        document.addEventListener('click', function(e) {
+            if (enzobotAttentionIndicator && attentionIndicatorVisible && 
+                !enzobotFloatBtn.contains(e.target) && 
+                !enzobotAttentionIndicator.contains(e.target)) {
+                enzobotAttentionIndicator.classList.add('hidden');
+                attentionIndicatorVisible = false;
+            }
+        });
+
+        // Ocultar anuncio al abrir el chat de Enzo
+        enzobotFloatBtn.addEventListener('click', function() {
+            if (enzobotAttentionIndicator && attentionIndicatorVisible) {
+                enzobotAttentionIndicator.classList.add('hidden');
+                attentionIndicatorVisible = false;
+            }
+        });
+
+        // --- FUNCIONES ORIGINALES DE EMPIZZADOS ---
         window.addEventListener('scroll', function() {
             const navBar = document.getElementById('navBar');
             const scrollPosition = window.scrollY;
             
-            // Mostrar barra cuando se haya hecho scroll más allá del header
             if (scrollPosition > 200) {
                 navBar.classList.add('visible');
             } else {
                 navBar.classList.remove('visible');
             }
             
-            // Resaltar el botón activo según la sección visible
             highlightActiveSection();
         });
 
-        // Función para navegar a una sección específica
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
@@ -1070,11 +1834,9 @@
                     behavior: 'smooth'
                 });
                 
-                // Resaltar el botón activo
                 const buttons = document.querySelectorAll('.nav-button');
                 buttons.forEach(btn => btn.classList.remove('active'));
                 
-                // Encontrar el botón correspondiente
                 const activeButton = Array.from(buttons).find(btn => 
                     btn.textContent.includes(getButtonText(sectionId))
                 );
@@ -1084,19 +1846,16 @@
             }
         }
 
-        // Función para volver al inicio
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
             
-            // Quitar resaltado de todos los botones
             const buttons = document.querySelectorAll('.nav-button');
             buttons.forEach(btn => btn.classList.remove('active'));
         }
 
-        // Función para resaltar la sección activa
         function highlightActiveSection() {
             const sections = document.querySelectorAll('.menu-section');
             const scrollPosition = window.scrollY + 120;
@@ -1109,10 +1868,8 @@
                     const sectionId = section.id;
                     const buttons = document.querySelectorAll('.nav-button');
                     
-                    // Quitar clase activa de todos los botones
                     buttons.forEach(btn => btn.classList.remove('active'));
                     
-                    // Encontrar y activar el botón correspondiente
                     const activeButton = Array.from(buttons).find(btn => 
                         btn.textContent.includes(getButtonText(sectionId))
                     );
@@ -1123,7 +1880,6 @@
             });
         }
 
-        // Función auxiliar para obtener el texto del botón según la sección
         function getButtonText(sectionId) {
             const map = {
                 'classico': 'Menú Clásico',
@@ -1134,9 +1890,7 @@
             return map[sectionId] || '';
         }
 
-        // Inicializar al cargar la página
         document.addEventListener('DOMContentLoaded', function() {
-            // Agregar IDs a las secciones si no los tienen
             const sections = document.querySelectorAll('.menu-section');
             const sectionIds = ['classico', 'especial', 'premium', 'extras'];
             
@@ -1146,7 +1900,6 @@
                 }
             });
             
-            // Inicializar el resaltado de la sección activa
             highlightActiveSection();
         });
     </script>
