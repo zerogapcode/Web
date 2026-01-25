@@ -256,7 +256,7 @@
             text-align: center;
         }
 
-        /* Precios */
+        /* Precios - CORREGIDO PARA MÓVILES */
         .price-container {
             display: flex;
             justify-content: center;
@@ -274,7 +274,9 @@
             font-weight: bold;
             text-align: center;
             min-width: 90px;
+            max-width: 120px; /* Limitar máximo ancho */
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            flex: 1; /* Permitir que crezcan equitativamente */
         }
 
         .price-label {
@@ -800,14 +802,19 @@
                 border-radius: 35px;
             }
             
+            /* PRECIOS CORREGIDOS - MEJOR ALINEACIÓN */
             .price-container { 
-                flex-direction: column;
-                gap: 10px;
+                flex-direction: row; /* Mantener en fila en tablets */
+                flex-wrap: wrap; /* Permitir envolver si es necesario */
+                gap: 15px;
+                justify-content: center;
             }
             
             .price-box {
-                width: 100%;
-                min-width: auto;
+                width: 45%; /* Ancho proporcional */
+                min-width: 100px; /* Ancho mínimo */
+                max-width: 130px; /* Ancho máximo */
+                margin: 0 5px; /* Margen lateral pequeño */
             }
             
             .section-title {
@@ -958,6 +965,25 @@
                 height: 200px; /* Aumentado de 160px */
             }
             
+            /* PRECIOS CORREGIDOS - MEJOR DISEÑO EN MÓVILES */
+            .price-container {
+                flex-direction: row; /* Mantener en fila en móviles también */
+                gap: 10px;
+                justify-content: space-between; /* Distribuir espacio equitativamente */
+            }
+            
+            .price-box {
+                width: 48%; /* Ocupar casi la mitad del ancho */
+                min-width: 0; /* Resetear mínimo */
+                max-width: none; /* Permitir que crezcan */
+                margin: 0; /* Sin margen */
+                padding: 6px 10px; /* Padding reducido */
+            }
+            
+            .price-val {
+                font-size: 1.3rem; /* Tamaño de fuente ligeramente menor */
+            }
+            
             .pizza-ingredients {
                 font-size: 1rem;
                 margin: 15px 15px 10px;
@@ -1010,6 +1036,23 @@
             /* ALTURA AUMENTADA PARA MÓVILES MUY PEQUEÑOS */
             .pizza-image-container {
                 height: 190px; /* Aumentado de 150px */
+            }
+            
+            /* PRECIOS CORREGIDOS - AJUSTE FINAL PARA PANTALLAS MUY PEQUEÑAS */
+            .price-container {
+                gap: 8px; /* Menor gap */
+            }
+            
+            .price-box {
+                padding: 5px 8px; /* Padding aún más reducido */
+            }
+            
+            .price-val {
+                font-size: 1.2rem; /* Fuente más pequeña */
+            }
+            
+            .price-label {
+                font-size: 0.75rem; /* Etiqueta más pequeña */
             }
             
             .nav-button {
@@ -1532,12 +1575,12 @@
         <div class="enzobot-attention-finger">👇</div>
     </div>
     
-    <!-- Botón flotante de EnzoBot - IMAGEN CORREGIDA -->
+    <!-- Botón flotante de EnzoBot - IMAGEN LOCAL enzo.png -->
     <div class="enzobot-button-container" id="enzobot-button-container">
         <div class="enzobot-pulse"></div>
         <div id="enzobot-float-btn" class="enzobot-float-btn" role="button" aria-label="Abrir Asistente EnzoBot" title="Hablar con EnzoBot">
             <div class="enzobot-icon-wrapper">
-                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="EnzoBot" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
+                <img src="enzo.png" alt="EnzoBot" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
             </div>
         </div>
     </div>
@@ -1611,8 +1654,11 @@
             const avatarDiv = document.createElement('div');
             avatarDiv.className = 'enzobot-message-avatar';
             const img = document.createElement('img');
-            img.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png';
+            img.src = 'enzo.png'; // IMAGEN LOCAL
             img.alt = 'EnzoBot';
+            img.onerror = function() {
+                this.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png';
+            };
             avatarDiv.appendChild(img);
             
             const contentDiv = document.createElement('div');
@@ -1689,8 +1735,11 @@
             // Si es el asistente, usar la imagen de Enzo
             if (!isUser) {
                 const img = document.createElement('img');
-                img.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png';
+                img.src = 'enzo.png'; // IMAGEN LOCAL
                 img.alt = 'EnzoBot';
+                img.onerror = function() {
+                    this.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png';
+                };
                 avatarDiv.appendChild(img);
             } else {
                 avatarDiv.textContent = 'Tú';
