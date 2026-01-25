@@ -28,7 +28,7 @@
         /* --- BARRA DE NAVEGACIÓN FIJA - DOS FILAS --- */
         .nav-bar {
             position: fixed;
-            top: -120px; /* Más espacio para las dos filas */
+            top: -120px;
             left: 0;
             width: 100%;
             background-color: rgba(26, 26, 26, 0.97);
@@ -90,13 +90,14 @@
             box-shadow: 0 0 15px rgba(255, 102, 0, 0.6);
         }
 
-        /* --- HEADER CON FONDO ADAPTATIVO MEJORADO --- */
+        /* --- HEADER CON FONDO MEJORADO PARA MÓVILES --- */
         header {
             background-color: #000;
+            /* IMAGEN DE FONDO CON AJUSTES ESPECÍFICOS PARA MÓVILES */
             background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), 
                               url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
             background-size: cover;
-            background-position: center center;
+            background-position: center 30%; /* Posición mejorada */
             background-attachment: fixed;
             
             /* Altura ajustada */
@@ -106,7 +107,7 @@
             text-align: center;
             position: relative;
             
-            /* CURVA CIRCULAR MUY PRONUNCIADA */
+            /* CURVA CIRCULAR */
             border-bottom-left-radius: 100% 45%;
             border-bottom-right-radius: 100% 45%;
             
@@ -161,7 +162,7 @@
         /* Secciones del Menú */
         .menu-section {
             margin-bottom: 70px;
-            scroll-margin-top: 130px; /* Más espacio para la barra de dos filas */
+            scroll-margin-top: 130px;
         }
 
         .section-title {
@@ -176,11 +177,12 @@
             letter-spacing: 1px;
         }
 
-        /* Grid de Pizzas - IMAGENES MAS VERTICALES */
+        /* Grid de Pizzas - UNA SOLA COLUMNA EN TODOS LOS DISPOSITIVOS */
         .pizza-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
         }
 
         .pizza-card {
@@ -188,25 +190,24 @@
             padding: 0;
             border-radius: 15px;
             border: 3px solid var(--primary-orange);
-            display: flex;
-            flex-direction: column;
             transition: transform 0.4s, box-shadow 0.4s;
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             position: relative;
             overflow: hidden;
-            height: 100%;
+            width: 100%;
+            margin-bottom: 0;
         }
         
         .pizza-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
         }
 
         /* Contenedor de imagen con texto superpuesto */
         .pizza-image-container {
             position: relative;
             width: 100%;
-            height: 220px; /* Más alto para mostrar más imagen */
+            height: 200px; /* Altura ajustada */
             overflow: hidden;
         }
 
@@ -214,7 +215,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 30%; /* Ajuste para mostrar mejor la pizza */
+            object-position: center center;
             transition: transform 0.5s ease;
         }
 
@@ -222,33 +223,32 @@
             transform: scale(1.08);
         }
 
-        /* Nombre superpuesto en la imagen */
+        /* Nombre superpuesto en la imagen - IZQUIERDA Y NARANJA */
         .pizza-name-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5), transparent);
-            padding: 20px 15px 15px;
-            color: white;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.3), transparent);
+            padding: 15px;
         }
 
         .pizza-name {
-            color: #fff;
-            font-size: 1.8rem; /* Más grande */
+            color: var(--primary-orange); /* COLOR NARANJA */
+            font-size: 1.6rem;
             margin: 0;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+            text-align: left; /* ALINEADO A LA IZQUIERDA */
+            padding-left: 10px;
         }
 
         .pizza-ingredients {
             font-size: 1.1rem;
             color: #ddd;
             margin: 20px 20px 15px;
-            flex-grow: 1;
             line-height: 1.6;
             text-align: center;
         }
@@ -361,23 +361,28 @@
             font-size: 2rem;
         }
 
-        @media (max-width: 1024px) {
-            header {
-                height: 500px;
-                padding: 100px 20px 150px 20px;
-            }
-            
-            .logo-image {
-                max-width: 450px;
-            }
-            
+        /* MEDIA QUERIES - ENFOQUE PRIMERO MÓVIL */
+        @media (min-width: 768px) {
+            /* Tablet y desktop: 2 columnas */
             .pizza-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 25px;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
             }
             
             .pizza-image-container {
-                height: 200px;
+                height: 220px;
+            }
+            
+            .pizza-name {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            /* Desktop grande: 3 columnas */
+            .pizza-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -387,19 +392,12 @@
                 padding: 80px 20px 140px 20px;
                 border-bottom-left-radius: 100% 35%;
                 border-bottom-right-radius: 100% 35%;
-                /* Fondo adaptativo mejorado para móviles */
+                /* FONDO MEJORADO PARA MÓVILES - menos zoom */
                 background-attachment: scroll;
                 background-size: cover;
-                background-position: center 25%; /* Posición mejorada */
-            }
-            
-            /* Fondo específico para smartphones */
-            @media (max-width: 480px) {
-                header {
-                    background-position: center 30%;
-                    background-size: cover;
-                    background-attachment: scroll;
-                }
+                background-position: center 25%;
+                /* Reducir el zoom de la imagen de fondo */
+                background-size: 120% auto; /* Reducir el zoom */
             }
             
             .logo-image {
@@ -423,11 +421,6 @@
             .price-box {
                 width: 100%;
                 min-width: auto;
-            }
-            
-            .pizza-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
             }
             
             .section-title {
@@ -469,11 +462,11 @@
             }
             
             .pizza-image-container {
-                height: 190px;
+                height: 180px;
             }
             
             .pizza-name {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
         }
         
@@ -483,9 +476,9 @@
                 padding: 70px 15px 120px 15px;
                 border-bottom-left-radius: 100% 30%;
                 border-bottom-right-radius: 100% 30%;
-                /* Mejora específica para smartphones */
-                background-position: center 35%;
-                background-size: cover;
+                /* FONDO MEJORADO PARA SMARTPHONES PEQUEÑOS */
+                background-position: center 30%;
+                background-size: 140% auto; /* Aún menos zoom que en tablet */
             }
             
             .logo-image {
@@ -510,7 +503,8 @@
             }
             
             .pizza-name {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
+                padding-left: 8px;
             }
             
             .nav-container {
@@ -541,7 +535,12 @@
             }
             
             .pizza-image-container {
-                height: 180px;
+                height: 160px;
+            }
+            
+            .pizza-ingredients {
+                font-size: 1rem;
+                margin: 15px 15px 10px;
             }
         }
         
@@ -549,7 +548,9 @@
             header {
                 height: 350px;
                 padding: 60px 15px 100px 15px;
-                background-position: center 40%;
+                /* FONDO ÓPTIMO PARA PANTALLAS MUY PEQUEÑAS */
+                background-position: center 35%;
+                background-size: 160% auto; /* Ajuste óptimo para evitar zoom excesivo */
             }
             
             .logo-image {
@@ -557,12 +558,16 @@
             }
             
             .pizza-image-container {
-                height: 160px;
+                height: 150px;
             }
             
             .nav-button {
                 font-size: 0.75rem;
                 padding: 4px 8px;
+            }
+            
+            .pizza-name {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -1061,7 +1066,7 @@
             const element = document.getElementById(sectionId);
             if (element) {
                 window.scrollTo({
-                    top: element.offsetTop - 100, // Ajuste para la barra fija de dos filas
+                    top: element.offsetTop - 100,
                     behavior: 'smooth'
                 });
                 
@@ -1094,7 +1099,7 @@
         // Función para resaltar la sección activa
         function highlightActiveSection() {
             const sections = document.querySelectorAll('.menu-section');
-            const scrollPosition = window.scrollY + 120; // Ajuste para la barra de dos filas
+            const scrollPosition = window.scrollY + 120;
             
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
