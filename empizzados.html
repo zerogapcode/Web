@@ -22,19 +22,19 @@
             padding: 0;
             line-height: 1.6;
             overflow-x: hidden;
-            scroll-behavior: smooth; /* Para navegación suave */
+            scroll-behavior: smooth;
         }
 
-        /* --- BARRA DE NAVEGACIÓN FIJA --- */
+        /* --- BARRA DE NAVEGACIÓN FIJA - DOS FILAS --- */
         .nav-bar {
             position: fixed;
-            top: -80px; /* Inicialmente oculta */
+            top: -120px; /* Más espacio para las dos filas */
             left: 0;
             width: 100%;
-            background-color: rgba(26, 26, 26, 0.95);
+            background-color: rgba(26, 26, 26, 0.97);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            padding: 15px 0;
+            padding: 10px 0;
             transition: top 0.4s ease;
             border-bottom: 3px solid var(--primary-orange);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
@@ -49,23 +49,34 @@
             margin: 0 auto;
             padding: 0 20px;
             display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-row {
+            display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
+        }
+
+        .nav-row.top {
+            margin-bottom: 5px;
         }
 
         .nav-button {
             background-color: transparent;
             color: #fff;
             border: 2px solid var(--primary-orange);
-            padding: 10px 20px;
+            padding: 8px 18px;
             border-radius: 25px;
             font-weight: bold;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            flex: 0 0 auto;
         }
 
         .nav-button:hover {
@@ -79,19 +90,16 @@
             box-shadow: 0 0 15px rgba(255, 102, 0, 0.6);
         }
 
-        /* --- HEADER CON CURVA CIRCULAR PRONUNCIADA Y PARALLAX --- */
+        /* --- HEADER CON FONDO ADAPTATIVO MEJORADO --- */
         header {
             background-color: #000;
-            /* IMAGEN DE FONDO MÁS BRILLANTE: reducido el oscurecimiento */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), 
+                              url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
             background-size: cover;
-            /* FONDO ADAPTATIVO - se ajusta mejor al tamaño de pantalla */
-            background-position: center 20%; /* Posición más alta para que se vea mejor la pizza */
-            
-            /* EFECTO PARALLAX solo en desktop */
+            background-position: center center;
             background-attachment: fixed;
             
-            /* Altura ajustada para mejor visualización */
+            /* Altura ajustada */
             height: 550px;
             padding: 120px 20px 180px 20px;
             
@@ -108,7 +116,7 @@
             justify-content: center;
         }
 
-        /* Logo como imagen - MÁS GRANDE */
+        /* Logo como imagen */
         .logo-image {
             max-width: 550px;
             width: 85%;
@@ -124,7 +132,7 @@
             filter: drop-shadow(0 12px 30px rgba(0,0,0,1));
         }
 
-        /* Info de Tamaños - Ajustado para la curva más pronunciada */
+        /* Info de Tamaños */
         .sizes-info {
             background-color: var(--primary-orange);
             color: #000;
@@ -153,7 +161,7 @@
         /* Secciones del Menú */
         .menu-section {
             margin-bottom: 70px;
-            scroll-margin-top: 100px;
+            scroll-margin-top: 130px; /* Más espacio para la barra de dos filas */
         }
 
         .section-title {
@@ -168,7 +176,7 @@
             letter-spacing: 1px;
         }
 
-        /* Grid de Pizzas */
+        /* Grid de Pizzas - IMAGENES MAS VERTICALES */
         .pizza-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -177,16 +185,16 @@
 
         .pizza-card {
             background-color: var(--card-bg);
-            padding: 25px 25px 30px 25px;
+            padding: 0;
             border-radius: 15px;
-            border-left: 8px solid var(--primary-orange);
+            border: 3px solid var(--primary-orange);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             transition: transform 0.4s, box-shadow 0.4s;
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             position: relative;
             overflow: hidden;
+            height: 100%;
         }
         
         .pizza-card:hover {
@@ -194,76 +202,87 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
 
-        /* Imagen de pizza referencial */
+        /* Contenedor de imagen con texto superpuesto */
+        .pizza-image-container {
+            position: relative;
+            width: 100%;
+            height: 220px; /* Más alto para mostrar más imagen */
+            overflow: hidden;
+        }
+
         .pizza-image {
             width: 100%;
-            height: 180px;
+            height: 100%;
             object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 3px solid rgba(255, 102, 0, 0.3);
-            transition: transform 0.3s ease;
+            object-position: center 30%; /* Ajuste para mostrar mejor la pizza */
+            transition: transform 0.5s ease;
         }
 
         .pizza-card:hover .pizza-image {
-            transform: scale(1.03);
+            transform: scale(1.08);
+        }
+
+        /* Nombre superpuesto en la imagen */
+        .pizza-name-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5), transparent);
+            padding: 20px 15px 15px;
+            color: white;
         }
 
         .pizza-name {
-            color: var(--primary-orange);
-            font-size: 1.7rem;
-            margin: 0 0 12px 0;
+            color: #fff;
+            font-size: 1.8rem; /* Más grande */
+            margin: 0;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .pizza-name::before {
-            content: "🍕";
-            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            text-align: center;
         }
 
         .pizza-ingredients {
             font-size: 1.1rem;
             color: #ddd;
-            margin-bottom: 20px;
+            margin: 20px 20px 15px;
             flex-grow: 1;
             line-height: 1.6;
+            text-align: center;
         }
 
         /* Precios */
         .price-container {
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
             gap: 20px;
-            margin-top: 20px;
-            border-top: 3px solid #444;
-            padding-top: 20px;
+            margin: 0 20px 20px;
+            border-top: 2px solid #444;
+            padding-top: 15px;
         }
 
         .price-box {
             background-color: var(--price-bg);
             color: var(--price-text);
-            padding: 10px 18px;
+            padding: 8px 15px;
             border-radius: 8px;
             font-weight: bold;
             text-align: center;
-            min-width: 100px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+            min-width: 90px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
         }
 
         .price-label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             color: #666;
         }
 
         .price-val {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
         /* Extras y Bebidas */
@@ -290,7 +309,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
 
-        /* Botón de acción - MODIFICADO PARA MÁS ESPACIO */
+        /* Botón de acción */
         .cta-container {
             margin: 100px 0;
             text-align: center;
@@ -344,7 +363,6 @@
 
         @media (max-width: 1024px) {
             header {
-                background-position: center 25%;
                 height: 500px;
                 padding: 100px 20px 150px 20px;
             }
@@ -357,6 +375,10 @@
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
                 gap: 25px;
             }
+            
+            .pizza-image-container {
+                height: 200px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -365,9 +387,19 @@
                 padding: 80px 20px 140px 20px;
                 border-bottom-left-radius: 100% 35%;
                 border-bottom-right-radius: 100% 35%;
-                /* Fondo adaptativo para móviles - sin parallax */
+                /* Fondo adaptativo mejorado para móviles */
                 background-attachment: scroll;
-                background-position: center 30%; /* Posición diferente para móviles */
+                background-size: cover;
+                background-position: center 25%; /* Posición mejorada */
+            }
+            
+            /* Fondo específico para smartphones */
+            @media (max-width: 480px) {
+                header {
+                    background-position: center 30%;
+                    background-size: cover;
+                    background-attachment: scroll;
+                }
             }
             
             .logo-image {
@@ -385,7 +417,7 @@
             
             .price-container { 
                 flex-direction: column;
-                gap: 15px;
+                gap: 10px;
             }
             
             .price-box {
@@ -408,21 +440,24 @@
             }
             
             .nav-bar {
-                padding: 10px 0;
+                padding: 8px 0;
             }
             
             .nav-container {
-                gap: 10px;
                 padding: 0 10px;
             }
             
+            .nav-row {
+                gap: 10px;
+            }
+            
             .nav-button {
-                padding: 8px 15px;
+                padding: 6px 12px;
                 font-size: 0.85rem;
             }
             
             .menu-section {
-                scroll-margin-top: 80px;
+                scroll-margin-top: 120px;
             }
             
             .cta-container {
@@ -433,8 +468,12 @@
                 max-width: 100px;
             }
             
-            .pizza-image {
-                height: 160px;
+            .pizza-image-container {
+                height: 190px;
+            }
+            
+            .pizza-name {
+                font-size: 1.6rem;
             }
         }
         
@@ -444,7 +483,9 @@
                 padding: 70px 15px 120px 15px;
                 border-bottom-left-radius: 100% 30%;
                 border-bottom-right-radius: 100% 30%;
-                background-position: center 35%; /* Ajuste para pantallas pequeñas */
+                /* Mejora específica para smartphones */
+                background-position: center 35%;
+                background-size: cover;
             }
             
             .logo-image {
@@ -465,7 +506,7 @@
             }
             
             .pizza-card {
-                padding: 20px 20px 25px 20px;
+                border-width: 2px;
             }
             
             .pizza-name {
@@ -476,10 +517,14 @@
                 gap: 5px;
             }
             
+            .nav-row {
+                gap: 8px;
+            }
+            
             .nav-button {
-                padding: 6px 10px;
-                font-size: 0.75rem;
-                margin: 2px;
+                padding: 5px 10px;
+                font-size: 0.8rem;
+                margin: 0;
             }
             
             .cta-container {
@@ -495,9 +540,8 @@
                 max-width: 60px;
             }
             
-            .pizza-image {
-                height: 140px;
-                margin-bottom: 15px;
+            .pizza-image-container {
+                height: 180px;
             }
         }
         
@@ -512,8 +556,13 @@
                 max-width: 250px;
             }
             
-            .pizza-image {
-                height: 120px;
+            .pizza-image-container {
+                height: 160px;
+            }
+            
+            .nav-button {
+                font-size: 0.75rem;
+                padding: 4px 8px;
             }
         }
     </style>
@@ -528,14 +577,18 @@
         Grande: 33cm (8 Slices) &nbsp;|&nbsp; Familiar: 50cm (16 Slices)
     </div>
 
-    <!-- Barra de navegación fija -->
+    <!-- Barra de navegación fija CON DOS FILAS -->
     <nav class="nav-bar" id="navBar">
         <div class="nav-container">
-            <button class="nav-button" onclick="scrollToSection('classico')">Menú Clásico</button>
-            <button class="nav-button" onclick="scrollToSection('especial')">Menú Especial</button>
-            <button class="nav-button" onclick="scrollToSection('premium')">Menú Premium</button>
-            <button class="nav-button" onclick="scrollToSection('extras')">Extras y Bebidas</button>
-            <button class="nav-button" onclick="scrollToTop()">Volver Arriba</button>
+            <div class="nav-row top">
+                <button class="nav-button" onclick="scrollToSection('classico')">Menú Clásico</button>
+                <button class="nav-button" onclick="scrollToSection('especial')">Menú Especial</button>
+                <button class="nav-button" onclick="scrollToSection('premium')">Menú Premium</button>
+            </div>
+            <div class="nav-row">
+                <button class="nav-button" onclick="scrollToSection('extras')">Extras y Bebidas</button>
+                <button class="nav-button" onclick="scrollToTop()">Volver Arriba</button>
+            </div>
         </div>
     </nav>
 
@@ -546,8 +599,12 @@
             <div class="pizza-grid">
                 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Margarita" class="pizza-image">
-                    <h3 class="pizza-name">Margarita</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Margarita" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Margarita</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Albahaca.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">9$</span></div>
@@ -556,8 +613,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Maíz" class="pizza-image">
-                    <h3 class="pizza-name">Maíz</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Maíz" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Maíz</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Maíz.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
@@ -566,8 +627,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1552539618-7eec9f4e1556?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Jalapeño" class="pizza-image">
-                    <h3 class="pizza-name">Jalapeño</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Jalapeño" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Jalapeño</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Jalapeño.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
@@ -576,8 +641,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Jamón" class="pizza-image">
-                    <h3 class="pizza-name">Jamón / Ahumado</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Jamón" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Jamón / Ahumado</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Jamón (o Jamón ahumado).</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
@@ -586,8 +655,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1551503759-5c04d734c5a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Tocineta" class="pizza-image">
-                    <h3 class="pizza-name">Tocineta</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Tocineta" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Tocineta</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Tocineta.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
@@ -596,8 +669,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Pepperoni" class="pizza-image">
-                    <h3 class="pizza-name">Pepperoni</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Pepperoni" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Pepperoni</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Pepperoni.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
@@ -606,8 +683,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Funghi" class="pizza-image">
-                    <h3 class="pizza-name">Funghi</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Funghi" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Funghi</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Champiñones.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
@@ -615,18 +696,27 @@
                     </div>
                 </div>
 
-                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1552539618-7eec9f4e1556?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Chistorra" class="pizza-image">
-                    <h3 class="pizza-name">Chistorra</h3>
+                <div class="pizza-card">
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Chistorra" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Chistorra</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Chistorra.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
                         <div class="price-box"><span class="price-label">Familiar</span><span class="price-val">14$</span></div>
                     </div>
                 </div>
-                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Piña/Anchoas" class="pizza-image">
-                    <h3 class="pizza-name">Piña / Anchoas</h3>
+
+                <div class="pizza-card">
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Piña/Anchoas" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Piña / Anchoas</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Queso mozzarella, Piña o Anchoas.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">10$</span></div>
@@ -640,8 +730,12 @@
             <h2 class="section-title">Menú Especial</h2>
             <div class="pizza-grid">
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1551503759-5c04d734c5a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Primavera" class="pizza-image">
-                    <h3 class="pizza-name">Primavera</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Primavera" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Primavera</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Tocineta, Maíz.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
@@ -650,8 +744,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Tocironi" class="pizza-image">
-                    <h3 class="pizza-name">Tocironi</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Tocironi" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Tocironi</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Tocineta, Pepperoni.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
@@ -660,8 +758,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Black Pepper" class="pizza-image">
-                    <h3 class="pizza-name">Black Pepper</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Black Pepper" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Black Pepper</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Pepperoni, Aceitunas negras.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
@@ -670,8 +772,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1552539618-7eec9f4e1556?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Florencia" class="pizza-image">
-                    <h3 class="pizza-name">Florencia</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Florencia" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Florencia</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Champiñones, Tocineta.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
@@ -680,8 +786,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Tres Quesos" class="pizza-image">
-                    <h3 class="pizza-name">Tres Quesos</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Tres Quesos" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Tres Quesos</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Parmigiano reggiano, Bocconcini.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
@@ -690,8 +800,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1551503759-5c04d734c5a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Vera" class="pizza-image">
-                    <h3 class="pizza-name">Vera</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Vera" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Vera</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Jamón, Maíz.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
@@ -700,8 +814,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Siciliana" class="pizza-image">
-                    <h3 class="pizza-name">Siciliana</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Siciliana" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Siciliana</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Chorizo monserratina, Maíz.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
@@ -710,8 +828,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Dos Estaciones" class="pizza-image">
-                    <h3 class="pizza-name">Dos Estaciones</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Dos Estaciones" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Dos Estaciones</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Champiñones, Maíz.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
@@ -719,9 +841,13 @@
                     </div>
                 </div>
                 
-                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1552539618-7eec9f4e1556?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Roma/Torino" class="pizza-image">
-                    <h3 class="pizza-name">Roma / Torino</h3>
+                <div class="pizza-card">
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Roma/Torino" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Roma / Torino</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Maíz/Pimientos/Cebolla o Anchoas/Jamón.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
@@ -730,8 +856,12 @@
                 </div>
                 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Pollo BBQ/Hawaiana" class="pizza-image">
-                    <h3 class="pizza-name">Pollo BBQ / Hawaiana</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Pollo BBQ/Hawaiana" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Pollo BBQ / Hawaiana</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana, Mozzarella, Pollo BBQ o Jamón/Piña.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">11$</span></div>
@@ -746,8 +876,12 @@
             <div class="pizza-grid">
                 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1551503759-5c04d734c5a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Vegetariana" class="pizza-image">
-                    <h3 class="pizza-name">Vegetariana</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Vegetariana" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Vegetariana</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Cebolla morada, Maíz, Pimientos, Aceitunas negras, Champiñones.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">13$</span></div>
@@ -756,8 +890,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Cuatro Estaciones" class="pizza-image">
-                    <h3 class="pizza-name">Cuatro Estaciones</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Cuatro Estaciones" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Cuatro Estaciones</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Jamón, Maíz, Pimientos, Champiñones.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">13$</span></div>
@@ -766,8 +904,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Rellena" class="pizza-image">
-                    <h3 class="pizza-name">Pizza Rellena</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Rellena" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Pizza Rellena</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Pizza tradicional, Mozzarella, Dos (2) ingredientes internos, cubierta con pizza de un (1) ingrediente.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">14$</span></div>
@@ -776,8 +918,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1552539618-7eec9f4e1556?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Suprema Margarita" class="pizza-image">
-                    <h3 class="pizza-name">Suprema Margarita</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Suprema Margarita" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Suprema Margarita</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Salsa napolitana y Un (1) KILO de queso mozzarella.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">14$</span></div>
@@ -786,8 +932,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Americana" class="pizza-image">
-                    <h3 class="pizza-name">Americana</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Americana" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Americana</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Papas fritas, Trozos de tocineta, Queso cheddar.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">15$</span></div>
@@ -796,8 +946,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1551503759-5c04d734c5a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Pizzarella" class="pizza-image">
-                    <h3 class="pizza-name">Pizzarella</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Pizzarella" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Pizzarella</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Jamón, Tocineta, Pimientos, Maíz, Champiñones.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">14$</span></div>
@@ -806,8 +960,12 @@
                 </div>
 
                 <div class="pizza-card">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Empizzada" class="pizza-image">
-                    <h3 class="pizza-name">Empizzada</h3>
+                    <div class="pizza-image-container">
+                        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pizza Empizzada" class="pizza-image">
+                        <div class="pizza-name-overlay">
+                            <h3 class="pizza-name">Empizzada</h3>
+                        </div>
+                    </div>
                     <p class="pizza-ingredients">Tocineta, Jamón, Pepperoni, Aceitunas negras, Cebolla morada, Maíz, Pimientos, Champiñones.</p>
                     <div class="price-container">
                         <div class="price-box"><span class="price-label">Grande</span><span class="price-val">15$</span></div>
@@ -903,7 +1061,7 @@
             const element = document.getElementById(sectionId);
             if (element) {
                 window.scrollTo({
-                    top: element.offsetTop - 80,
+                    top: element.offsetTop - 100, // Ajuste para la barra fija de dos filas
                     behavior: 'smooth'
                 });
                 
@@ -936,7 +1094,7 @@
         // Función para resaltar la sección activa
         function highlightActiveSection() {
             const sections = document.querySelectorAll('.menu-section');
-            const scrollPosition = window.scrollY + 100;
+            const scrollPosition = window.scrollY + 120; // Ajuste para la barra de dos filas
             
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
