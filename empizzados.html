@@ -180,7 +180,7 @@
             letter-spacing: 1px;
         }
 
-        /* Grid de Pizzas - UNA SOLA COLUMNA EN TODOS LOS DISPOSITIVOS MÓVILES */
+        /* Grid de Pizzas - UNA SOLA COLUMNA EN TODOS LOS DISPOSITIVOS */
         .pizza-grid {
             display: flex;
             flex-direction: column;
@@ -206,11 +206,11 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.6);
         }
 
-        /* Contenedor de imagen con texto superpuesto */
+        /* Contenedor de imagen con texto superpuesto - ALTURA AJUSTADA */
         .pizza-image-container {
             position: relative;
             width: 100%;
-            height: 200px;
+            height: 240px; /* Aumentado para mejor visualización */
             overflow: hidden;
         }
 
@@ -753,26 +753,26 @@
             100% { transform: scale(1.3); opacity: 1; }
         }
 
-        /* MEDIA QUERIES - MODIFICADAS PARA MÓVILES */
-        /* EN MÓVILES (hasta 1024px) - SIEMPRE UNA COLUMNA */
-        @media (max-width: 1024px) {
+        /* MEDIA QUERIES - ENFOQUE PRIMERO MÓVIL */
+        @media (min-width: 768px) {
             .pizza-grid {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 30px !important;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
             }
             
-            .pizza-card {
-                width: 100% !important;
+            .pizza-image-container {
+                height: 240px; /* Mantenido consistente */
+            }
+            
+            .pizza-name {
+                font-size: 1.8rem;
             }
         }
 
-        /* SOLO EN DESKTOP GRANDE (más de 1024px) - 3 COLUMNAS */
-        @media (min-width: 1025px) {
+        @media (min-width: 1024px) {
             .pizza-grid {
-                display: grid;
                 grid-template-columns: repeat(3, 1fr);
-                gap: 30px;
             }
         }
 
@@ -848,8 +848,9 @@
                 max-width: 100px;
             }
             
+            /* ALTURA AUMENTADA PARA MÓVILES */
             .pizza-image-container {
-                height: 180px;
+                height: 220px; /* Aumentado de 180px */
             }
             
             .pizza-name {
@@ -952,8 +953,9 @@
                 max-width: 60px;
             }
             
+            /* ALTURA AUMENTADA PARA MÓVILES PEQUEÑOS */
             .pizza-image-container {
-                height: 160px;
+                height: 200px; /* Aumentado de 160px */
             }
             
             .pizza-ingredients {
@@ -1005,8 +1007,9 @@
                 max-width: 250px;
             }
             
+            /* ALTURA AUMENTADA PARA MÓVILES MUY PEQUEÑOS */
             .pizza-image-container {
-                height: 150px;
+                height: 190px; /* Aumentado de 150px */
             }
             
             .nav-button {
@@ -1529,12 +1532,12 @@
         <div class="enzobot-attention-finger">👇</div>
     </div>
     
-    <!-- Botón flotante de EnzoBot -->
+    <!-- Botón flotante de EnzoBot - IMAGEN CORREGIDA -->
     <div class="enzobot-button-container" id="enzobot-button-container">
         <div class="enzobot-pulse"></div>
         <div id="enzobot-float-btn" class="enzobot-float-btn" role="button" aria-label="Abrir Asistente EnzoBot" title="Hablar con EnzoBot">
             <div class="enzobot-icon-wrapper">
-                <img src="Enzo.png" alt="EnzoBot" onerror="this.src='https://cdn-icons-png.flaticon.com/512/6978/6978255.png'">
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="EnzoBot" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
             </div>
         </div>
     </div>
@@ -1608,11 +1611,8 @@
             const avatarDiv = document.createElement('div');
             avatarDiv.className = 'enzobot-message-avatar';
             const img = document.createElement('img');
-            img.src = 'Enzo.png';
+            img.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png';
             img.alt = 'EnzoBot';
-            img.onerror = function() {
-                this.src = 'https://cdn-icons-png.flaticon.com/512/6978/6978255.png';
-            };
             avatarDiv.appendChild(img);
             
             const contentDiv = document.createElement('div');
@@ -1689,11 +1689,8 @@
             // Si es el asistente, usar la imagen de Enzo
             if (!isUser) {
                 const img = document.createElement('img');
-                img.src = 'Enzo.png';
+                img.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png';
                 img.alt = 'EnzoBot';
-                img.onerror = function() {
-                    this.src = 'https://cdn-icons-png.flaticon.com/512/6978/6978255.png';
-                };
                 avatarDiv.appendChild(img);
             } else {
                 avatarDiv.textContent = 'Tú';
