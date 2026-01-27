@@ -380,11 +380,11 @@
             align-items: center;
             gap: 8px;
             padding: 10px 20px;
-            background: rgba(100, 220, 150, 0.3);
-            border: 1px solid rgba(100, 220, 150, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             text-decoration: none;
-            color: #000000;
+            color: inherit;
             font-weight: 600;
             font-size: 13px;
             transition: all 0.3s ease;
@@ -393,10 +393,9 @@
         }
         
         .project-link:hover {
-            background: rgba(100, 220, 150, 0.4);
-            border-color: rgba(100, 220, 150, 0.8);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(100, 220, 150, 0.3);
         }
         
         footer{padding:80px 0;text-align:center;color:var(--muted-light);font-size:13px}
@@ -415,7 +414,7 @@
             opacity: 1;
         }
         
-        /* Botón de volver a inicio - VERDE MEJORADO */
+        /* Botón de contacto */
         .back-button {
             display: inline-block;
             padding: 12px 32px;
@@ -430,46 +429,191 @@
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
             text-align: center;
-            background: rgba(100, 220, 150, 0.3);
-            color: #000000;
-            border: 1px solid rgba(100, 220, 150, 0.5);
+            color: rgba(0, 0, 0, 0.3);
             user-select: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .back-button:hover {
             transform: translateY(-2px);
-            border-color: rgba(100, 220, 150, 0.8);
-            background: rgba(100, 220, 150, 0.4);
-            box-shadow: 0 8px 20px rgba(100, 220, 150, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
         }
         
         .back-button-wrapper {
             text-align: center;
             margin-top: 40px;
-            margin-bottom: 20px;
         }
 
-        /* Mejora para modo oscuro del botón verde */
-        body[data-theme='dark'] .back-button {
-            color: #ffffff;
-            background: rgba(100, 220, 150, 0.2);
-            border: 1px solid rgba(100, 220, 150, 0.4);
+        /* Botones flotantes (copiados de index.html) */
+        .float-buttons-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 15px;
+            align-items: flex-end;
         }
         
-        body[data-theme='dark'] .back-button:hover {
-            background: rgba(100, 220, 150, 0.3);
-            border-color: rgba(100, 220, 150, 0.6);
+        .float-btn {
+            --btn-accent: rgba(100, 220, 150, 1); 
+            --btn-accent-glow: rgba(100, 220, 150, 0.4);
+            --btn-bg: rgba(255, 255, 255, 0.1);
+
+            position: relative;
+            height: 60px;
+            width: 60px;
+            background: var(--btn-bg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            cursor: pointer;
+            
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.6s ease,
+                        width 0.3s ease,
+                        background 0.3s ease,
+                        box-shadow 0.3s ease;
+                        
+            will-change: transform, opacity;
+            transform: translate3d(0,0,0);
+            
+            color: #333;
+            user-select: none;
+        }
+
+        .float-btn.init-hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+
+        .float-btn.intro-pop {
+            transform: translate(var(--tx), var(--ty)) scale(var(--s)) !important;
+            width: 60px !important;
+            height: 60px !important;
+            border-radius: 50% !important;
+            z-index: 20000 !important;
+            opacity: 1 !important;
+            pointer-events: none;
+            background: var(--btn-accent) !important;
+            box-shadow: 0 0 60px var(--btn-accent-glow), 0 0 100px rgba(0,0,0,0.1) !important;
+            border: 4px solid rgba(255,255,255,0.5) !important;
+        }
+
+        .float-btn.intro-pop .btn-text,
+        .float-btn.intro-pop .status-dot {
+            display: none !important;
+            opacity: 0 !important;
+        }
+
+        .float-btn.intro-pop .float-icon-wrapper svg {
+            color: #fff !important;
+        }
+
+        body[data-theme='dark'] .float-btn {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .float-btn:hover {
+            width: 180px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 25px var(--btn-accent-glow);
+            border-color: var(--btn-accent);
+        }
+
+        .float-icon-wrapper {
+            min-width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .float-icon-wrapper svg {
+            width: 26px;
+            height: 26px;
+            stroke: currentColor;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .float-btn:hover .float-icon-wrapper svg {
+            transform: scale(1.15) rotate(-10deg);
+            color: var(--btn-accent);
+        }
+
+        .btn-text {
+            position: absolute;
+            left: 60px;
+            white-space: nowrap;
+            opacity: 0;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            transform: translateX(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .float-btn:hover .btn-text {
+            opacity: 1;
+            transform: translateX(0);
+            transition-delay: 0.05s;
+        }
+
+        .status-dot {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 7px;
+            height: 7px;
+            background-color: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00ff88;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         
-        body[data-theme='dark'] .project-link {
-            color: #ffffff;
-            background: rgba(100, 220, 150, 0.2);
-            border: 1px solid rgba(100, 220, 150, 0.4);
+        /* Animación de latido para el botón de IA */
+        #ai-float-btn:not(:hover) .float-icon-wrapper svg {
+            animation: heartbeat 2s infinite ease-in-out;
         }
-        
-        body[data-theme='dark'] .project-link:hover {
-            background: rgba(100, 220, 150, 0.3);
-            border-color: rgba(100, 220, 150, 0.6);
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            5% { transform: scale(1.1); }
+            10% { transform: scale(1); }
+            15% { transform: scale(1.1); }
+            20% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive para botones */
+        @media (max-width: 768px) {
+            .float-buttons-container { bottom: 15px; right: 15px; gap: 12px; }
+            .float-btn { height: 50px; width: 50px; }
+            .float-icon-wrapper { 
+                min-width: 50px; 
+                height: 50px; 
+            }
+            .float-icon-wrapper svg { 
+                width: 22px; 
+                height: 22px; 
+            }
+            .float-btn:hover { width: 160px; }
+            .btn-text { left: 50px; font-size: 14px; }
         }
 
         a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
@@ -628,10 +772,6 @@
             .card, .project-card {
                 padding: 20px;
             }
-            
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
         }
         
         @media (max-width: 480px) {
@@ -641,11 +781,6 @@
             
             .hero {
                 min-height: 50vh;
-            }
-            
-            .back-button {
-                padding: 10px 24px;
-                font-size: 13px;
             }
         }
         
@@ -1189,6 +1324,44 @@
                         </a>
                     </div>
                 </div>
+                
+                <!-- PROYECTO NUEVO 4: Casares -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Casares Restaurante">
+                    </div>
+                    <div class="project-content">
+                        <h3>Casares - Restaurante Gourmet</h3>
+                        <p>Web para el restaurante gourmet Casares con diseño elegante, menú degustación interactivo y sistema de reservas en línea. Incluye galería de platos y experiencias culinarias.</p>
+                        <div class="project-tags">
+                            <span class="project-tag tag-restaurant">Restaurante</span>
+                            <span class="project-tag tag-restaurant">Gourmet</span>
+                            <span class="project-tag tag-technology">Reservas</span>
+                        </div>
+                        <a href="casares.html" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> Ver Proyecto
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- PROYECTO NUEVO 5: Empizzados -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1222&q=80" alt="Empizzados">
+                    </div>
+                    <div class="project-content">
+                        <h3>Empizzados - Pizzería & Cervecería</h3>
+                        <p>Sitio web para la pizzería y cervecería Empizzados con catálogo de pizzas artesanales, cervezas y sistema de pedidos online. Diseño moderno y dinámico.</p>
+                        <div class="project-tags">
+                            <span class="project-tag tag-restaurant">Pizzería</span>
+                            <span class="project-tag tag-ecommerce">Pedidos Online</span>
+                            <span class="project-tag tag-restaurant">Cervecería</span>
+                        </div>
+                        <a href="empizzados.html" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> Ver Proyecto
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1269,6 +1442,43 @@
         <div class="tear-edge"></div>
     </div>
 
+    <!-- Botones flotantes -->
+    <div class="float-buttons-container">
+        <!-- Botón Inicio -->
+        <div id="home-float-btn" class="float-btn" role="button" aria-label="Volver al Inicio">
+            <div class="float-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </div>
+            <span class="btn-text">Inicio</span>
+        </div>
+
+        <!-- Botón Galería -->
+        <div id="gallery-float-btn" class="float-btn" role="button" aria-label="Ver Galería">
+            <div class="float-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+            </div>
+            <span class="btn-text">Galería</span>
+        </div>
+
+        <!-- Botón Contacto -->
+        <div id="contact-float-btn" class="float-btn" role="button" aria-label="Contacto">
+            <div class="float-icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+            </div>
+            <span class="btn-text">Contacto</span>
+        </div>
+    </div>
+
     <script>
         // ========================================
         // INICIALIZACIÓN PRINCIPAL
@@ -1278,6 +1488,12 @@
         let isTearing = false;
         let tearForce = 0;
         const MAX_TEAR_FORCE = 100;
+        
+        // === Elementos DOM ===
+        const floatButtonsContainer = document.querySelector('.float-buttons-container');
+        const homeFloatBtn = document.getElementById('home-float-btn');
+        const galleryFloatBtn = document.getElementById('gallery-float-btn');
+        const contactFloatBtn = document.getElementById('contact-float-btn');
         
         // === Elementos Matrix ===
         const matrixOverlay = document.getElementById('matrix-overlay');
@@ -1294,6 +1510,9 @@
             } else {
                 document.body.dataset.theme = mode;
             }
+            
+            // Aplicar colores aleatorios después de cambiar el tema
+            setTimeout(applyRandomColors, 50);
         }
         
         modeButtons.forEach(btn => btn.addEventListener('click', () => {
@@ -1304,6 +1523,64 @@
         
         // Aplicar tema automático por defecto
         applyTheme('auto');
+        
+        // === CONFIGURACIÓN DE COLORES MEJORADA ===
+        const colorPalettes = [
+            { r: '255, 100, 100', hex: '#ff6464' },
+            { r: '255, 165, 80',  hex: '#ffa550' },
+            { r: '255, 220, 100', hex: '#ffdc64' },
+            { r: '100, 220, 150', hex: '#64dc96' },
+            { r: '100, 180, 255', hex: '#64b4ff' },
+            { r: '180, 120, 255', hex: '#b478ff' }
+        ];
+        
+        function applyRandomColors() {
+            const theme = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+            
+            const accentColor = `rgb(${theme.r})`;
+            const glowColor = `rgba(${theme.r}, 0.4)`;
+            const bgColor = `rgba(${theme.r}, 0.1)`;
+            
+            const btns = document.querySelectorAll('.float-btn');
+            btns.forEach(btn => {
+                btn.style.setProperty('--btn-accent', accentColor);
+                btn.style.setProperty('--btn-accent-glow', glowColor);
+                btn.style.setProperty('--btn-bg', bgColor);
+            });
+            
+            // Aplicar color a los botones de proyecto
+            const projectLinks = document.querySelectorAll('.project-link');
+            projectLinks.forEach(link => {
+                link.style.background = `rgba(${theme.r}, 0.15)`;
+                link.style.border = `1px solid rgba(${theme.r}, 0.3)`;
+                link.onmouseenter = () => {
+                    link.style.boxShadow = `0 8px 20px ${glowColor}`;
+                    link.style.borderColor = accentColor;
+                };
+                link.onmouseleave = () => {
+                    link.style.boxShadow = 'none';
+                    link.style.borderColor = `rgba(${theme.r}, 0.3)`;
+                };
+            });
+            
+            // Aplicar color al botón de volver
+            const backButton = document.querySelector('.back-button');
+            if(backButton) {
+                backButton.style.background = `rgba(${theme.r}, 0.15)`;
+                backButton.style.border = `1px solid rgba(${theme.r}, 0.3)`;
+                backButton.onmouseenter = () => {
+                    backButton.style.boxShadow = `0 8px 20px ${glowColor}`;
+                    backButton.style.borderColor = accentColor;
+                };
+                backButton.onmouseleave = () => {
+                    backButton.style.boxShadow = 'none';
+                    backButton.style.borderColor = `rgba(${theme.r}, 0.3)`;
+                };
+            }
+        }
+        
+        // Aplicar colores al cargar
+        applyRandomColors();
         
         // === ANIMACIÓN TÍTULO ===
         const typed = document.getElementById('typed');
@@ -1814,12 +2091,67 @@
             }
         }
         
+        // === Funcionalidad de botones flotantes ===
+        homeFloatBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+        
+        galleryFloatBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: document.getElementById('proyectos').offsetTop - 80,
+                behavior: 'smooth'
+            });
+        });
+        
+        contactFloatBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: document.getElementById('contacto').offsetTop - 80,
+                behavior: 'smooth'
+            });
+        });
+        
         // === INICIALIZACIÓN FINAL ===
         document.addEventListener('DOMContentLoaded', function() {
             matrixCanvas.width = window.innerWidth;
             matrixCanvas.height = window.innerHeight;
             
             console.log("✅ Galería de Proyectos cargada correctamente");
+
+            // Animación de entrada para botones flotantes
+            const floatBtns = document.querySelectorAll('.float-btn');
+            floatBtns.forEach(btn => btn.classList.add('init-hidden'));
+
+            setTimeout(() => {
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const targetScale = 6;
+
+                floatBtns.forEach((btn, index) => {
+                    setTimeout(() => {
+                        const rect = btn.getBoundingClientRect();
+                        const btnCenterX = rect.left + rect.width / 2;
+                        const btnCenterY = rect.top + rect.height / 2;
+
+                        const moveX = centerX - btnCenterX;
+                        const moveY = centerY - btnCenterY;
+
+                        btn.style.setProperty('--tx', `${moveX}px`);
+                        btn.style.setProperty('--ty', `${moveY}px`);
+                        btn.style.setProperty('--s', targetScale);
+
+                        btn.classList.add('intro-pop');
+                        
+                        void btn.offsetWidth;
+
+                        btn.classList.remove('init-hidden');
+
+                        setTimeout(() => {
+                            btn.classList.remove('intro-pop');
+                        }, 500);
+
+                    }, index * 300);
+                });
+            }, 1000);
         });
 
         window.addEventListener('wheel', function(e) {
