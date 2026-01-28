@@ -444,178 +444,6 @@
             margin-top: 40px;
         }
 
-        /* Botones flotantes (copiados de index.html) */
-        .float-buttons-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 15px;
-            align-items: flex-end;
-        }
-        
-        .float-btn {
-            --btn-accent: rgba(100, 220, 150, 1); 
-            --btn-accent-glow: rgba(100, 220, 150, 0.4);
-            --btn-bg: rgba(255, 255, 255, 0.1);
-
-            position: relative;
-            height: 60px;
-            width: 60px;
-            background: var(--btn-bg);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            cursor: pointer;
-            
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            
-            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                        opacity 0.6s ease,
-                        width 0.3s ease,
-                        background 0.3s ease,
-                        box-shadow 0.3s ease;
-                        
-            will-change: transform, opacity;
-            transform: translate3d(0,0,0);
-            
-            color: #333;
-            user-select: none;
-        }
-
-        .float-btn.init-hidden {
-            opacity: 0;
-            transform: scale(0.8);
-            pointer-events: none;
-        }
-
-        .float-btn.intro-pop {
-            transform: translate(var(--tx), var(--ty)) scale(var(--s)) !important;
-            width: 60px !important;
-            height: 60px !important;
-            border-radius: 50% !important;
-            z-index: 20000 !important;
-            opacity: 1 !important;
-            pointer-events: none;
-            background: var(--btn-accent) !important;
-            box-shadow: 0 0 60px var(--btn-accent-glow), 0 0 100px rgba(0,0,0,0.1) !important;
-            border: 4px solid rgba(255,255,255,0.5) !important;
-        }
-
-        .float-btn.intro-pop .btn-text,
-        .float-btn.intro-pop .status-dot {
-            display: none !important;
-            opacity: 0 !important;
-        }
-
-        .float-btn.intro-pop .float-icon-wrapper svg {
-            color: #fff !important;
-        }
-
-        body[data-theme='dark'] .float-btn {
-            color: #fff;
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .float-btn:hover {
-            width: 180px;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 25px var(--btn-accent-glow);
-            border-color: var(--btn-accent);
-        }
-
-        .float-icon-wrapper {
-            min-width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-            position: relative;
-        }
-
-        .float-icon-wrapper svg {
-            width: 26px;
-            height: 26px;
-            stroke: currentColor;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .float-btn:hover .float-icon-wrapper svg {
-            transform: scale(1.15) rotate(-10deg);
-            color: var(--btn-accent);
-        }
-
-        .btn-text {
-            position: absolute;
-            left: 60px;
-            white-space: nowrap;
-            opacity: 0;
-            font-weight: 600;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-            transform: translateX(20px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .float-btn:hover .btn-text {
-            opacity: 1;
-            transform: translateX(0);
-            transition-delay: 0.05s;
-        }
-
-        .status-dot {
-            position: absolute;
-            top: 18px;
-            right: 18px;
-            width: 7px;
-            height: 7px;
-            background-color: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #00ff88;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        /* Animación de latido para el botón de IA */
-        #ai-float-btn:not(:hover) .float-icon-wrapper svg {
-            animation: heartbeat 2s infinite ease-in-out;
-        }
-
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            5% { transform: scale(1.1); }
-            10% { transform: scale(1); }
-            15% { transform: scale(1.1); }
-            20% { transform: scale(1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Responsive para botones */
-        @media (max-width: 768px) {
-            .float-buttons-container { bottom: 15px; right: 15px; gap: 12px; }
-            .float-btn { height: 50px; width: 50px; }
-            .float-icon-wrapper { 
-                min-width: 50px; 
-                height: 50px; 
-            }
-            .float-icon-wrapper svg { 
-                width: 22px; 
-                height: 22px; 
-            }
-            .float-btn:hover { width: 160px; }
-            .btn-text { left: 50px; font-size: 14px; }
-        }
-
         a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
         a.link-plain:hover{text-decoration:none;color:inherit}
 
@@ -1167,6 +995,14 @@
             animation-delay: 0.5s;
         }
 
+        .project-card:nth-child(4) {
+            animation-delay: 0.7s;
+        }
+
+        .project-card:nth-child(5) {
+            animation-delay: 0.9s;
+        }
+
         /* Mejoras visuales para secciones */
         .section-intro {
             margin-bottom: 50px;
@@ -1442,43 +1278,6 @@
         <div class="tear-edge"></div>
     </div>
 
-    <!-- Botones flotantes -->
-    <div class="float-buttons-container">
-        <!-- Botón Inicio -->
-        <div id="home-float-btn" class="float-btn" role="button" aria-label="Volver al Inicio">
-            <div class="float-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-            </div>
-            <span class="btn-text">Inicio</span>
-        </div>
-
-        <!-- Botón Galería -->
-        <div id="gallery-float-btn" class="float-btn" role="button" aria-label="Ver Galería">
-            <div class="float-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                    <polyline points="21 15 16 10 5 21"></polyline>
-                </svg>
-            </div>
-            <span class="btn-text">Galería</span>
-        </div>
-
-        <!-- Botón Contacto -->
-        <div id="contact-float-btn" class="float-btn" role="button" aria-label="Contacto">
-            <div class="float-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-            </div>
-            <span class="btn-text">Contacto</span>
-        </div>
-    </div>
-
     <script>
         // ========================================
         // INICIALIZACIÓN PRINCIPAL
@@ -1488,12 +1287,6 @@
         let isTearing = false;
         let tearForce = 0;
         const MAX_TEAR_FORCE = 100;
-        
-        // === Elementos DOM ===
-        const floatButtonsContainer = document.querySelector('.float-buttons-container');
-        const homeFloatBtn = document.getElementById('home-float-btn');
-        const galleryFloatBtn = document.getElementById('gallery-float-btn');
-        const contactFloatBtn = document.getElementById('contact-float-btn');
         
         // === Elementos Matrix ===
         const matrixOverlay = document.getElementById('matrix-overlay');
@@ -1540,13 +1333,6 @@
             const accentColor = `rgb(${theme.r})`;
             const glowColor = `rgba(${theme.r}, 0.4)`;
             const bgColor = `rgba(${theme.r}, 0.1)`;
-            
-            const btns = document.querySelectorAll('.float-btn');
-            btns.forEach(btn => {
-                btn.style.setProperty('--btn-accent', accentColor);
-                btn.style.setProperty('--btn-accent-glow', glowColor);
-                btn.style.setProperty('--btn-bg', bgColor);
-            });
             
             // Aplicar color a los botones de proyecto
             const projectLinks = document.querySelectorAll('.project-link');
@@ -2091,67 +1877,12 @@
             }
         }
         
-        // === Funcionalidad de botones flotantes ===
-        homeFloatBtn.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-        
-        galleryFloatBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: document.getElementById('proyectos').offsetTop - 80,
-                behavior: 'smooth'
-            });
-        });
-        
-        contactFloatBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: document.getElementById('contacto').offsetTop - 80,
-                behavior: 'smooth'
-            });
-        });
-        
         // === INICIALIZACIÓN FINAL ===
         document.addEventListener('DOMContentLoaded', function() {
             matrixCanvas.width = window.innerWidth;
             matrixCanvas.height = window.innerHeight;
             
             console.log("✅ Galería de Proyectos cargada correctamente");
-
-            // Animación de entrada para botones flotantes
-            const floatBtns = document.querySelectorAll('.float-btn');
-            floatBtns.forEach(btn => btn.classList.add('init-hidden'));
-
-            setTimeout(() => {
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
-                const targetScale = 6;
-
-                floatBtns.forEach((btn, index) => {
-                    setTimeout(() => {
-                        const rect = btn.getBoundingClientRect();
-                        const btnCenterX = rect.left + rect.width / 2;
-                        const btnCenterY = rect.top + rect.height / 2;
-
-                        const moveX = centerX - btnCenterX;
-                        const moveY = centerY - btnCenterY;
-
-                        btn.style.setProperty('--tx', `${moveX}px`);
-                        btn.style.setProperty('--ty', `${moveY}px`);
-                        btn.style.setProperty('--s', targetScale);
-
-                        btn.classList.add('intro-pop');
-                        
-                        void btn.offsetWidth;
-
-                        btn.classList.remove('init-hidden');
-
-                        setTimeout(() => {
-                            btn.classList.remove('intro-pop');
-                        }, 500);
-
-                    }, index * 300);
-                });
-            }, 1000);
         });
 
         window.addEventListener('wheel', function(e) {
