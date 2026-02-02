@@ -15,7 +15,7 @@
             --color-texto: #222;
         }
         html {
-            scroll-behavior: smooth; /* Scroll suave en toda la página */
+            scroll-behavior: smooth;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -41,7 +41,8 @@
             opacity: 1;
             transform: translateY(0);
         }
-        /* --- HEADER (AJUSTADO) --- */
+        
+        /* --- HEADER MEJORADO PARA ESCRITORIO --- */
         header {
             background-color: var(--color-amarillo);
             color: var(--color-rojo);
@@ -77,7 +78,7 @@
         }
         .header-logo {
             flex-shrink: 0;
-            align-self: flex-end; /* Mantiene la imagen en la parte inferior */
+            align-self: flex-end;
             margin-bottom: 0;
             z-index: 2;
         }
@@ -92,12 +93,8 @@
             margin-left: 5px;
             vertical-align: bottom;
         }
-        @media (max-width: 400px) {
-            .header-container { min-height: 200px; }
-            header h1 { font-size: 7rem; letter-spacing: -3px; padding-bottom: 15px; }
-            .header-logo img { width: 200px; max-height: 260px; margin-left: 5px; }
-        }
-        /* --- NAVEGACIÓN MEJORADA CON BOTONES CENTRADOS --- */
+        
+        /* --- NAVEGACIÓN MEJORADA --- */
         nav {
             background: var(--color-rojo);
             position: sticky;
@@ -105,19 +102,19 @@
             z-index: 999;
             padding: 12px 0;
             display: flex;
-            justify-content: center; /* CENTRADO */
+            justify-content: center;
             align-items: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             overflow-x: auto;
             overflow-y: hidden;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
             white-space: nowrap;
             width: 100%;
         }
         
         nav::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Edge */
+            display: none;
         }
         
         nav a {
@@ -125,7 +122,7 @@
             text-decoration: none;
             font-weight: bold;
             font-size: 1.2rem;
-            padding: 14px 24px; /* Aumentado padding horizontal para mejor centrado */
+            padding: 14px 24px;
             border-radius: 25px;
             background: rgba(255,255,255,0.15);
             transition: all 0.3s ease;
@@ -133,7 +130,7 @@
             display: inline-block;
             text-align: center;
             min-width: max-content;
-            margin: 0 6px; /* Margen horizontal para separación */
+            margin: 0 6px;
         }
         
         nav a:hover {
@@ -141,7 +138,125 @@
             transform: translateY(-2px);
         }
         
-        /* Ajustes para diferentes tamaños de pantalla */
+        /* --- CONTENEDOR PRINCIPAL CON GRID PARA ESCRITORIO --- */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10px 15px;
+        }
+        
+        /* Grid para escritorio - 2 columnas */
+        @media (min-width: 769px) {
+            .container {
+                max-width: 1400px;
+                padding: 20px 30px;
+            }
+            
+            .cards-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+                padding: 0 15px;
+            }
+            
+            .card {
+                margin: 0;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+            }
+            
+            /* Ajustar tamaño de imágenes para escritorio */
+            .card-img-top {
+                height: 500px; /* Reducido para escritorio */
+            }
+            
+            /* Mejorar tipografía para escritorio */
+            .card-title {
+                font-size: 2rem;
+            }
+            
+            .card-price {
+                font-size: 1.8rem;
+                padding: 10px 25px;
+            }
+            
+            .card-desc {
+                font-size: 1.4rem;
+                line-height: 1.5;
+            }
+            
+            /* Header más grande para escritorio */
+            header h1 {
+                font-size: 10rem;
+                letter-spacing: -5px;
+            }
+            
+            .header-logo img {
+                width: 280px;
+                max-height: 350px;
+            }
+            
+            .header-container {
+                min-height: 280px;
+            }
+            
+            /* Navegación con mejor espaciado */
+            nav a {
+                font-size: 1.3rem;
+                padding: 16px 28px;
+                margin: 0 8px;
+            }
+            
+            /* Títulos de sección más grandes */
+            .section-title {
+                font-size: 2.8rem;
+                margin: 4rem 15px 2rem;
+                border-bottom-width: 4px;
+            }
+            
+            /* Footer más amplio */
+            footer {
+                padding: 3rem 1rem;
+            }
+            
+            .address {
+                font-size: 1.5rem;
+            }
+            
+            .footer-text {
+                font-size: 1.3rem;
+            }
+        }
+        
+        /* --- MEDIA QUERIES PARA MÓVIL (MANTENIDAS) --- */
+        @media (max-width: 768px) {
+            .header-container { min-height: 200px; }
+            header h1 { font-size: 7rem; letter-spacing: -3px; padding-bottom: 15px; }
+            .header-logo img { width: 200px; max-height: 260px; margin-left: 5px; }
+            
+            nav a {
+                font-size: 0.95rem;
+                padding: 10px 16px;
+                border-radius: 20px;
+                margin: 0 3px;
+            }
+            
+            .card-img-top {
+                height: 780px; /* Mantenido para móvil */
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .header-container { min-height: 200px; }
+            header h1 { font-size: 7rem; letter-spacing: -3px; padding-bottom: 15px; }
+            .header-logo img { width: 200px; max-height: 260px; margin-left: 5px; }
+        }
+        
+        /* Ajustes adicionales para navegación en diferentes tamaños */
         @media (max-width: 1200px) {
             nav a {
                 font-size: 1.1rem;
@@ -155,30 +270,6 @@
                 font-size: 1rem;
                 padding: 10px 18px;
                 margin: 0 4px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            nav {
-                padding: 10px 0;
-            }
-            
-            nav a {
-                font-size: 0.95rem;
-                padding: 10px 16px;
-                border-radius: 20px;
-                margin: 0 3px;
-            }
-            
-            header h1 {
-                font-size: 6rem;
-                letter-spacing: -2px;
-                padding-bottom: 15px;
-            }
-            
-            .header-logo img {
-                width: 180px;
-                max-height: 240px;
             }
         }
         
@@ -265,12 +356,7 @@
             }
         }
         
-        /* --- CONTENEDOR --- */
-        .container {
-            max-width: 100%; 
-            margin: 0;
-            padding: 10px 0;
-        }
+        /* --- TÍTULOS DE SECCIÓN --- */
         .section-title {
             text-align: center;
             color: var(--color-rojo);
@@ -282,7 +368,7 @@
             display: inline-block;
             width: calc(100% - 30px);
             padding-bottom: 8px;
-            scroll-margin-top: 100px; /* Espacio para que no quede detrás del nav fijo */
+            scroll-margin-top: 100px;
         }
         
         /* Ajustes responsivos para títulos de sección */
@@ -311,7 +397,7 @@
         }
         .card-img-top {
             width: 100%;
-            height: 936px; /* AUMENTADO 20% MÁS (antes 780px, ahora 936px = 780px + 20%) */
+            height: 936px;
             object-fit: cover;
             display: block;
         }
@@ -344,7 +430,7 @@
             margin: 0;
         }
         
-        /* Ajustes responsivos para tarjetas */
+        /* Ajustes responsivos para tarjetas en móvil */
         @media (max-width: 768px) {
             .card-title {
                 font-size: 1.5rem;
@@ -361,6 +447,10 @@
             
             .card-body {
                 padding: 1.2rem;
+            }
+            
+            .card-img-top {
+                height: 780px;
             }
         }
         
@@ -381,9 +471,25 @@
             .card-body {
                 padding: 1rem;
             }
+            
+            .card-img-top {
+                height: 650px;
+            }
         }
         
-        /* --- FOOTER (AJUSTADO) --- */
+        @media (max-width: 480px) {
+            .card-img-top {
+                height: 550px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .card-img-top {
+                height: 450px;
+            }
+        }
+        
+        /* --- FOOTER --- */
         footer {
             background: #111;
             color: #fff;
@@ -439,10 +545,10 @@
             }
         }
         
-        /* --- BOTÓN BALÚ (AJUSTADO) - LADO DERECHO, MÁS GRANDE Y ABAJO CON EFECTO LIQUIDGLASS --- */
+        /* --- BOTÓN BALÚ CON MEJORAS PARA ESCRITORIO --- */
         .balu-button-container {
             position: fixed;
-            bottom: 40px; /* Aproximadamente 1cm del fondo */
+            bottom: 40px;
             right: 30px;
             z-index: 10000;
             transition: opacity 0.3s ease, transform 0.3s ease;
@@ -453,12 +559,12 @@
         }
         
         .balu-float-btn {
-            --btn-accent: #FF6B6B; /* Color rojo acorde al menú */
-            --btn-bg: rgba(255, 235, 59, 0.7); /* Amarillo semitransparente para efecto liquidglass */
+            --btn-accent: #FF6B6B;
+            --btn-bg: rgba(255, 235, 59, 0.7);
             
             position: relative;
-            height: 180px; /* MÁS GRANDE (antes 160px) */
-            width: 180px; /* MÁS GRANDE (antes 160px) */
+            height: 180px;
+            width: 180px;
             background: var(--btn-bg);
             border: 4px solid rgba(255, 255, 255, 0.8);
             border-radius: 50%;
@@ -468,7 +574,6 @@
             justify-content: center;
             cursor: pointer;
             
-            /* EFECTO LIQUIDGLASS - vidrio líquido */
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             
@@ -479,11 +584,23 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             overflow: hidden;
             
-            /* Efecto de brillo interno */
             box-shadow: 
                 inset 0 0 40px rgba(255, 255, 255, 0.6),
                 inset 0 0 80px rgba(255, 255, 255, 0.4),
                 0 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Tamaño reducido para escritorio */
+        @media (min-width: 769px) {
+            .balu-float-btn {
+                height: 140px;
+                width: 140px;
+            }
+            
+            .balu-button-container {
+                bottom: 30px;
+                right: 30px;
+            }
         }
         
         .balu-float-btn:hover {
@@ -504,7 +621,7 @@
             height: 100%;
             border-radius: 50%;
             overflow: hidden;
-            padding: 12px; /* Aumentado para mejor ajuste */
+            padding: 12px;
         }
         
         .balu-icon-wrapper img {
@@ -520,13 +637,13 @@
             transform: scale(1.1);
         }
         
-        /* Indicador de pulsación - también ajustado */
+        /* Indicador de pulsación */
         .balu-pulse {
             position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: rgba(255, 235, 59, 0.4); /* Amarillo semitransparente */
+            background: rgba(255, 235, 59, 0.4);
             animation: baluPulse 2s infinite ease-in-out;
             z-index: -1;
         }
@@ -537,18 +654,18 @@
             100% { transform: scale(1.2); opacity: 0; }
         }
         
-        /* Ventana de chat de Balú - AUMENTADA 50% */
+        /* Ventana de chat de Balú - MEJORADA PARA ESCRITORIO */
         #balu-chat-window {
             position: fixed;
-            bottom: 200px; /* Ajustado por el botón más grande */
+            bottom: 200px;
             right: 30px;
             width: 90%;
-            max-width: 675px; /* AUMENTADO 50% (antes 450px) */
-            height: 825px; /* AUMENTADO 50% (antes 550px) */
+            max-width: 675px;
+            height: 825px;
             background: white;
             border-radius: 25px;
             box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
-            border: 6px solid var(--color-rojo); /* Borde más grueso */
+            border: 6px solid var(--color-rojo);
             z-index: 9999;
             display: none;
             flex-direction: column;
@@ -559,6 +676,48 @@
                         transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
+        /* Ajustes para escritorio */
+        @media (min-width: 769px) {
+            #balu-chat-window {
+                max-width: 500px;
+                height: 700px;
+                bottom: 150px;
+                right: 30px;
+            }
+            
+            .balu-chat-title {
+                font-size: 24px;
+            }
+            
+            .balu-chat-close {
+                width: 40px;
+                height: 40px;
+                font-size: 30px;
+            }
+            
+            .balu-message-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
+            
+            .balu-message-content {
+                padding: 16px 20px;
+                font-size: 18px;
+            }
+            
+            .balu-chat-input {
+                padding: 16px 20px;
+                font-size: 18px;
+            }
+            
+            .balu-chat-send {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+        }
+        
         #balu-chat-window.active {
             display: flex;
             opacity: 1;
@@ -566,7 +725,7 @@
         }
         
         .balu-chat-header {
-            padding: 25px 30px; /* Aumentado */
+            padding: 25px 30px;
             background: var(--color-rojo);
             color: white;
             display: flex;
@@ -578,15 +737,15 @@
         
         .balu-chat-title {
             font-weight: 900;
-            font-size: 30px; /* AUMENTADO 50% (antes 20px) */
+            font-size: 30px;
             display: flex;
             align-items: center;
-            gap: 15px; /* Aumentado */
+            gap: 15px;
         }
         
         .balu-chat-close {
-            width: 50px; /* Aumentado */
-            height: 50px; /* Aumentado */
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.25);
             border: none;
@@ -595,7 +754,7 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 36px; /* Aumentado */
+            font-size: 36px;
             color: white;
             font-weight: 300;
         }
@@ -608,16 +767,16 @@
         .balu-chat-body {
             flex: 1;
             overflow-y: auto;
-            padding: 30px; /* Aumentado */
+            padding: 30px;
             display: flex;
             flex-direction: column;
-            gap: 20px; /* Aumentado */
+            gap: 20px;
             background: #f8f9fa;
         }
         
         .balu-message {
             display: flex;
-            gap: 15px; /* Aumentado */
+            gap: 15px;
             animation: messageSlideIn 0.3s ease;
         }
         
@@ -631,51 +790,50 @@
         }
         
         .balu-message-avatar {
-            width: 63px; /* AUMENTADO 50% (antes 42px) */
-            height: 63px; /* AUMENTADO 50% (antes 42px) */
+            width: 63px;
+            height: 63px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 24px; /* Aumentado */
+            font-size: 24px;
             flex-shrink: 0;
-            background: var(--color-rojo); /* Rojo por defecto (para usuario) */
+            background: var(--color-rojo);
             color: white;
             overflow: hidden;
-            border: 3px solid var(--color-rojo); /* Borde más grueso */
+            border: 3px solid var(--color-rojo);
         }
         
-        /* Avatar de la IA (Balú) - FONDO AMARILLO Y IMAGEN MÁS GRANDE */
         .ai .balu-message-avatar {
-            background: var(--color-amarillo); /* Fondo amarillo para la IA */
+            background: var(--color-amarillo);
             border-color: var(--color-amarillo);
         }
         
         .balu-message-avatar img {
-            width: 90%; /* IMAGEN MÁS GRANDE (antes 85%) */
-            height: 90%; /* IMAGEN MÁS GRANDE (antes 85%) */
-            object-fit: contain; /* Asegura que la imagen se ajuste sin distorsión */
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
             border-radius: 50%;
         }
         
         .user .balu-message-avatar {
-            background: var(--color-rojo); /* Fondo rojo para el usuario */
-            color: var(--color-amarillo); /* Texto amarillo para contraste */
+            background: var(--color-rojo);
+            color: var(--color-amarillo);
             border-color: var(--color-rojo);
         }
         
         .balu-message-content {
             max-width: 80%;
-            padding: 21px 27px; /* AUMENTADO 50% (antes 14px 18px) */
-            border-radius: 25px; /* Aumentado */
-            line-height: 1.6; /* Mejorado */
-            font-size: 24px; /* AUMENTADO 50% (antes 16px) */
+            padding: 21px 27px;
+            border-radius: 25px;
+            line-height: 1.6;
+            font-size: 24px;
             white-space: pre-wrap;
             word-break: break-word;
             background: white;
-            border: 3px solid #e9ecef; /* Borde más grueso */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Sombra mejorada */
+            border: 3px solid #e9ecef;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         
         .ai .balu-message-content {
@@ -692,12 +850,12 @@
         .balu-typing {
             display: inline-flex;
             align-items: center;
-            gap: 7px; /* Aumentado */
+            gap: 7px;
         }
         
         .balu-typing-dot {
-            width: 12px; /* Aumentado */
-            height: 12px; /* Aumentado */
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background-color: var(--color-rojo);
             animation: baluTypingAnimation 1.4s infinite ease-in-out;
@@ -713,10 +871,10 @@
         }
         
         .balu-chat-input-container {
-            padding: 25px 30px; /* Aumentado */
-            border-top: 3px solid #e9ecef; /* Borde más grueso */
+            padding: 25px 30px;
+            border-top: 3px solid #e9ecef;
             display: flex;
-            gap: 15px; /* Aumentado */
+            gap: 15px;
             align-items: flex-end;
             flex-shrink: 0;
             background: white;
@@ -725,14 +883,14 @@
         .balu-chat-input {
             flex: 1;
             background: #f8f9fa;
-            border: 3px solid #e9ecef; /* Borde más grueso */
-            border-radius: 20px; /* Aumentado */
-            padding: 21px 27px; /* AUMENTADO 50% (antes 14px 18px) */
+            border: 3px solid #e9ecef;
+            border-radius: 20px;
+            padding: 21px 27px;
             color: #222;
-            font-size: 24px; /* AUMENTADO 50% (antes 16px) */
+            font-size: 24px;
             resize: none;
-            min-height: 75px; /* Aumentado */
-            max-height: 180px; /* Aumentado */
+            min-height: 75px;
+            max-height: 180px;
             transition: all 0.3s ease;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
@@ -740,23 +898,23 @@
         .balu-chat-input:focus {
             outline: none;
             border-color: var(--color-rojo);
-            box-shadow: 0 0 0 6px rgba(211, 47, 47, 0.15); /* Sombra más grande */
+            box-shadow: 0 0 0 6px rgba(211, 47, 47, 0.15);
         }
         
         .balu-chat-send {
             background: var(--color-rojo);
             color: white;
             border: none;
-            border-radius: 20px; /* Aumentado */
-            width: 75px; /* AUMENTADO 50% (antes 50px) */
-            height: 75px; /* AUMENTADO 50% (antes 50px) */
+            border-radius: 20px;
+            width: 75px;
+            height: 75px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 700;
-            font-size: 30px; /* Aumentado */
+            font-size: 30px;
             flex-shrink: 0;
         }
         
@@ -771,6 +929,7 @@
             transform: none;
         }
         
+        /* Ajustes para tablet */
         @media (max-width: 1024px) {
             .balu-button-container {
                 bottom: 35px;
@@ -790,10 +949,11 @@
             }
             
             .card-img-top {
-                height: 700px; /* Ajustado para tablet */
+                height: 700px;
             }
         }
         
+        /* Ajustes para móvil */
         @media (max-width: 768px) {
             .balu-button-container {
                 bottom: 30px;
@@ -807,13 +967,12 @@
             
             #balu-chat-window {
                 width: calc(100vw - 40px);
-                height: 70vh; /* Mayor porcentaje de altura */
+                height: 70vh;
                 max-width: none;
                 bottom: 160px;
                 right: 20px;
             }
             
-            /* Ajustes de tamaño para móvil - Reducir el aumento del 50% */
             .balu-chat-header {
                 padding: 20px 25px;
             }
@@ -862,7 +1021,7 @@
             }
             
             .card-img-top {
-                height: 550px; /* Ajustado para móvil */
+                height: 550px;
             }
         }
         
@@ -884,7 +1043,6 @@
                 width: calc(100vw - 20px);
             }
             
-            /* Más ajustes para móvil pequeño */
             .balu-chat-title {
                 font-size: 18px;
             }
@@ -918,7 +1076,7 @@
             }
             
             .card-img-top {
-                height: 500px; /* Ajustado para móvil pequeño */
+                height: 500px;
             }
         }
         
@@ -941,15 +1099,15 @@
             }
             
             .card-img-top {
-                height: 450px; /* Ajustado para pantallas muy pequeñas */
+                height: 450px;
             }
         }
 
-        /* === NUEVO: ANUNCIO TEMPORAL PARA BALÚ === */
+        /* === ANUNCIO TEMPORAL PARA BALÚ === */
         .balu-attention-indicator {
             position: fixed;
-            bottom: 240px; /* Posicionado encima del botón Balú */
-            right: 10px; /* Alineado con el botón */
+            bottom: 240px;
+            right: 10px;
             z-index: 9998;
             display: flex;
             flex-direction: column;
@@ -967,13 +1125,13 @@
         
         .balu-attention-text {
             background: white;
-            color: #D32F2F; /* Color rojo de Balú */
+            color: #D32F2F;
             padding: 14px 20px;
             border-radius: 16px;
             font-size: 20px;
             font-weight: 900;
             box-shadow: 0 8px 25px rgba(211, 47, 47, 0.25);
-            border: 3px solid #FFEB3B; /* Borde amarillo de Balú */
+            border: 3px solid #FFEB3B;
             text-align: center;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             position: relative;
@@ -983,17 +1141,30 @@
             line-height: 1.3;
         }
         
-        /* Dedo posicionado en la parte inferior y CENTRADO debajo del cuadro de texto */
+        /* Ajuste para escritorio */
+        @media (min-width: 769px) {
+            .balu-attention-indicator {
+                bottom: 180px;
+                right: 20px;
+                width: 220px;
+            }
+            
+            .balu-attention-text {
+                font-size: 18px;
+                padding: 12px 16px;
+            }
+        }
+        
         .balu-attention-finger {
             font-size: 40px;
-            color: #FFEB3B; /* Amarillo de Balú */
+            color: #FFEB3B;
             text-shadow: 0 0 12px rgba(255, 235, 59, 0.7);
             animation: baluFingerPulse 1.5s infinite alternate;
             position: relative;
-            margin-top: 0; /* Sin margen superior */
+            margin-top: 0;
             filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
-            align-self: center; /* Centra el dedo horizontalmente */
-            transform: none; /* Sin rotación */
+            align-self: center;
+            transform: none;
         }
         
         @keyframes baluAttentionBounce {
@@ -1095,92 +1266,103 @@
     </nav>
     <div class="container">
         <h2 id="hamburguesas" class="section-title reveal">Hamburguesas</h2>
-        <div class="card reveal">
-            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Hamburguesa" class="card-img-top">
-            <div class="card-body">
-                <div class="card-header">
-                    <h3 class="card-title">Balú Clásica</h3>
-                    <span class="card-price">$8.50</span>
+        <div class="cards-grid">
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Hamburguesa" class="card-img-top">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="card-title">Balú Clásica</h3>
+                        <span class="card-price">$8.50</span>
+                    </div>
+                    <p class="card-desc">Carne de res premium, queso, vegetales frescos y salsa Balú.</p>
                 </div>
-                <p class="card-desc">Carne de res premium, queso, vegetales frescos y salsa Balú.</p>
+            </div>
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=600&q=80" alt="Perro Caliente" class="card-img-top">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="card-title">Perro Balú Especial</h3>
+                        <span class="card-price">$5.00</span>
+                    </div>
+                    <p class="card-desc">Salchicha jumbo, lluvia de papitas crujientes y triple salsa.</p>
+                </div>
             </div>
         </div>
-        <div class="card reveal">
-            <img src="https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=600&q=80" alt="Perro Caliente" class="card-img-top">
-            <div class="card-body">
-                <div class="card-header">
-                    <h3 class="card-title">Perro Balú Especial</h3>
-                    <span class="card-price">$5.00</span>
-                </div>
-                <p class="card-desc">Salchicha jumbo, lluvia de papitas crujientes y triple salsa.</p>
-            </div>
-        </div>
+        
         <h2 id="almuerzos" class="section-title reveal">Almuerzos & Pastas</h2>
-        <div class="card reveal">
-            <img src="https://images.unsplash.com/photo-1626844131082-256783844137?auto=format&fit=crop&w=600&q=80" alt="Pollo Frito" class="card-img-top">
-            <div class="card-body">
-                <div class="card-header">
-                    <h3 class="card-title">Pollo a la Canasta</h3>
-                    <span class="card-price">$10.00</span>
+        <div class="cards-grid">
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1626844131082-256783844137?auto=format&fit=crop&w=600&q=80" alt="Pollo Frito" class="card-img-top">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="card-title">Pollo a la Canasta</h3>
+                        <span class="card-price">$10.00</span>
+                    </div>
+                    <p class="card-desc">Pollo broaster super crujiente con papas fritas y ensalada.</p>
                 </div>
-                <p class="card-desc">Pollo broaster super crujiente con papas fritas y ensalada.</p>
+            </div>
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" alt="Pasta" class="card-img-top">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="card-title">Pasta Boloñesa</h3>
+                        <span class="card-price">$9.00</span>
+                    </div>
+                    <p class="card-desc">Spaghetti con salsa de carne artesanal y queso parmesano.</p>
+                </div>
             </div>
         </div>
-        <div class="card reveal">
-            <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" alt="Pasta" class="card-img-top">
-            <div class="card-body">
-                <div class="card-header">
-                    <h3 class="card-title">Pasta Boloñesa</h3>
-                    <span class="card-price">$9.00</span>
-                </div>
-                <p class="card-desc">Spaghetti con salsa de carne artesanal y queso parmesano.</p>
-            </div>
-        </div>
+        
         <h2 id="postres" class="section-title reveal">Postres</h2>
-        <div class="card reveal">
-            <img src="https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=600&q=80" alt="Postre de chocolate" class="card-img-top">
-            <div class="card-body">
-                <div class="card-header">
-                    <h3 class="card-title">Brownie Explosión</h3>
-                    <span class="card-price">$6.00</span>
+        <div class="cards-grid">
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=600&q=80" alt="Postre de chocolate" class="card-img-top">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="card-title">Brownie Explosión</h3>
+                        <span class="card-price">$6.00</span>
+                    </div>
+                    <p class="card-desc">Brownie de chocolate caliente con helado de vainilla y fudge.</p>
                 </div>
-                <p class="card-desc">Brownie de chocolate caliente con helado de vainilla y fudge.</p>
+            </div>
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=600&q=80" alt="Helado" class="card-img-top">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="card-title">Copa Sundae</h3>
+                        <span class="card-price">$5.50</span>
+                    </div>
+                    <p class="card-desc">Tres porciones de helado con topping de maní y caramelo.</p>
+                </div>
             </div>
         </div>
-        <div class="card reveal">
-            <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=600&q=80" alt="Helado" class="card-img-top">
-            <div class="card-body">
-                <div class="card-header">
-                    <h3 class="card-title">Copa Sundae</h3>
-                    <span class="card-price">$5.50</span>
-                </div>
-                <p class="card-desc">Tres porciones de helado con topping de maní y caramelo.</p>
-            </div>
-        </div>
+        
         <h2 id="bebidas" class="section-title reveal">Bebidas</h2>
-        <div class="card reveal">
-            <img src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=600&q=80" alt="Merengada" class="card-img-top">
-            <div class="card-body">
-                <div class="card-header">
-                    <h3 class="card-title">Merengada Oreo</h3>
-                    <span class="card-price">$5.00</span>
+        <div class="cards-grid">
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=600&q=80" alt="Merengada" class="card-img-top">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="card-title">Merengada Oreo</h3>
+                        <span class="card-price">$5.00</span>
+                    </div>
+                    <p class="card-desc">Batido cremoso de galleta oreo con crema chantilly.</p>
                 </div>
-                <p class="card-desc">Batido cremoso de galleta oreo con crema chantilly.</p>
             </div>
-        </div>
-        <div class="card reveal">
-            <img src="https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=80" alt="Limonada" class="card-img-top">
-            <div class="card-body">
-                <div class="card-header">
-                    <h3 class="card-title">Limonada Natural</h3>
-                    <span class="card-price">$3.50</span>
+            <div class="card reveal">
+                <img src="https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=80" alt="Limonada" class="card-img-top">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="card-title">Limonada Natural</h3>
+                        <span class="card-price">$3.50</span>
+                    </div>
+                    <p class="card-desc">Refrescante limonada natural con hielo y menta.</p>
                 </div>
-                <p class="card-desc">Refrescante limonada natural con hielo y menta.</p>
             </div>
         </div>
     </div>
     
-    <!-- === NUEVO: ANUNCIO TEMPORAL PARA BALÚ === -->
+    <!-- === ANUNCIO TEMPORAL PARA BALÚ === -->
     <div class="balu-attention-indicator" id="balu-attention-indicator">
         <div class="balu-attention-text">
             Pulsa aquí para hablar con Balú
@@ -1188,7 +1370,7 @@
         <div class="balu-attention-finger">👇</div>
     </div>
     
-    <!-- Botón flotante de Balú - LADO DERECHO, MÁS GRANDE Y ABAJO CON EFECTO LIQUIDGLASS -->
+    <!-- Botón flotante de Balú -->
     <div class="balu-button-container" id="balu-button-container">
         <div class="balu-pulse"></div>
         <div id="balu-float-btn" class="balu-float-btn" role="button" aria-label="Abrir Asistente Balú" title="Hablar con Balú">
@@ -1251,7 +1433,7 @@
             if (!isBaluChatOpen) {
                 isBaluChatOpen = true;
                 baluChatWindow.classList.add('active');
-                toggleBaluButton(false); // Ocultar botón al abrir chat
+                toggleBaluButton(false);
                 
                 // Inicializar conexión
                 if (!currentSessionId) {
@@ -1271,7 +1453,7 @@
         function closeBaluChat() {
             isBaluChatOpen = false;
             baluChatWindow.classList.remove('active');
-            toggleBaluButton(true); // Mostrar botón al cerrar chat
+            toggleBaluButton(true);
         }
         
         // Inicializar conexión con el servidor (usando el asistente "balu")
@@ -1291,7 +1473,7 @@
                     },
                     body: JSON.stringify({
                         message: "Hola",
-                        assistant: "balu", // Usando el asistente "balu"
+                        assistant: "balu",
                         session_id: currentSessionId
                     })
                 });
@@ -1325,7 +1507,6 @@
             const avatarDiv = document.createElement('div');
             avatarDiv.className = 'balu-message-avatar';
             
-            // Si es el asistente, usar la imagen balu.png
             if (!isUser) {
                 const img = document.createElement('img');
                 img.src = 'balu.png';
@@ -1426,7 +1607,7 @@
                     },
                     body: JSON.stringify({ 
                         message: text,
-                        assistant: "balu", // Usando el asistente "balu"
+                        assistant: "balu",
                         session_id: currentSessionId
                     })
                 });
@@ -1472,8 +1653,7 @@
                     const targetElement = document.querySelector(targetId);
                     
                     if (targetElement) {
-                        // Scroll rápido y preciso al elemento objetivo
-                        const offsetTop = targetElement.offsetTop - 100; // Ajuste para el menú fijo
+                        const offsetTop = targetElement.offsetTop - 100;
                         window.scrollTo({
                             top: offsetTop,
                             behavior: 'smooth'
@@ -1493,7 +1673,7 @@
                 });
             }
 
-            // === NUEVO: Funcionalidad del anuncio temporal ===
+            // === Funcionalidad del anuncio temporal ===
             const baluAttentionIndicator = document.getElementById('balu-attention-indicator');
             let attentionIndicatorVisible = true;
 
@@ -1503,7 +1683,7 @@
                     baluAttentionIndicator.classList.add('hidden');
                     attentionIndicatorVisible = false;
                 }
-            }, 30000); // 30 segundos
+            }, 30000);
 
             // Ocultar anuncio al hacer clic en cualquier parte
             document.addEventListener('click', function(e) {
