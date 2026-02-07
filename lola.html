@@ -3,19 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rancho e Lola Beach - Tu escapada soñada en la Isla de Margarita. Relax, playa, y la mejor vibra caribeña en Venezuela.">
+    <meta name="keywords" content="hotel margarita, posada margarita, playa venezuela, turismo margarita, hospedaje isla margarita">
+    <meta name="author" content="Rancho e Lola Beach">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ranchoelola.com/">
+    <meta property="og:title" content="Rancho e Lola Beach | Isla de Margarita">
+    <meta property="og:description" content="Tu escapada soñada en la Isla de Margarita. Sol, relax y buena energía.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ranchoelola.com/">
+    <meta property="twitter:title" content="Rancho e Lola Beach | Isla de Margarita">
+    <meta property="twitter:description" content="Tu escapada soñada en la Isla de Margarita. Sol, relax y buena energía.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200">
+    
     <title>Rancho e Lola Beach | Isla de Margarita</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            /* Paleta de colores vibrante pero relajada */
-            --primary: #00a896; /* Turquesa más vivo */
-            --secondary: #ff8a65; /* Coral cálido */
-            --accent: #f0f7f4; /* Blanco hueso para fondos */
+            --primary: #00a896;
+            --secondary: #ff8a65;
+            --accent: #f0f7f4;
             --text: #444444;
             --white: #ffffff;
             --transition: all 0.4s ease;
@@ -32,7 +49,6 @@
         }
 
         body {
-            /* Nueva tipografía principal: Poppins (redondeada y amable) */
             font-family: 'Poppins', sans-serif;
             color: var(--text);
             background-color: var(--accent);
@@ -41,11 +57,10 @@
         }
 
         h1, h2, h3, h4, .logo {
-            font-weight: 700; /* Negrita para impacto */
+            font-weight: 700;
             letter-spacing: 1px;
         }
 
-        /* Nueva tipografía de acento: Kaushan Script (estilo pincelada) */
         .script-font {
             font-family: 'Kaushan Script', cursive;
             color: var(--secondary);
@@ -53,7 +68,24 @@
             font-size: 1.8rem;
         }
 
-        /* --- Navegación Estilo Resort --- */
+        /* Skip to main content for accessibility */
+        .skip-to-main {
+            position: absolute;
+            left: -9999px;
+            z-index: 999;
+            padding: 1em;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+
+        .skip-to-main:focus {
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+        }
+
+        /* --- Navegación Mejorada --- */
         nav {
             position: fixed;
             top: 0;
@@ -94,8 +126,42 @@
             transition: var(--transition);
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links a:focus {
             color: var(--primary);
+            outline: 2px solid var(--primary);
+            outline-offset: 4px;
+        }
+
+        /* Menú hamburguesa para móvil */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            margin: 5px 0;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
         }
 
         .btn-reserve {
@@ -110,21 +176,25 @@
             transition: var(--transition);
             text-decoration: none;
             box-shadow: 0 5px 15px rgba(0, 168, 150, 0.3);
+            display: inline-block;
         }
 
-        .btn-reserve:hover {
+        .btn-reserve:hover,
+        .btn-reserve:focus {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0, 168, 150, 0.5);
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
         }
 
-        /* --- Header Hero (FONDO NUEVO) --- */
+        /* --- Header Hero --- */
         header {
             height: 100vh;
-            /* NUEVA IMAGEN VIBRANTE y gradiente azulado para que resalte el texto */
-            background-image: linear-gradient(rgba(0, 40, 40, 0.4), rgba(0, 40, 40, 0.2)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2673&auto=format&fit=crop');
+            background-image: linear-gradient(rgba(0, 40, 40, 0.4), rgba(0, 40, 40, 0.2)), 
+                              url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop');
             background-size: cover;
             background-position: center center;
-            background-attachment: fixed; /* Efecto Parallax */
+            background-attachment: fixed;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -147,7 +217,6 @@
             animation: fadeInUp 1s ease-out;
         }
 
-        /* Estilo especial para "Beach" en el título principal */
         header h1 .beach-title {
             font-family: 'Kaushan Script', cursive;
             color: var(--secondary);
@@ -167,7 +236,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Secciones Generales --- */
+        /* --- Secciones --- */
         section {
             padding: 100px 10%;
         }
@@ -183,7 +252,7 @@
             margin-top: 10px;
         }
 
-        /* --- Cards con estilo "Glassmorphism" ligero --- */
+        /* --- Cards --- */
         .experience-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -199,7 +268,8 @@
             transition: var(--transition);
         }
 
-        .card:hover {
+        .card:hover,
+        .card:focus-within {
             transform: translateY(-15px);
             box-shadow: 0 25px 50px rgba(0,0,0,0.1);
         }
@@ -222,7 +292,7 @@
             font-size: 1.5rem;
         }
 
-        /* --- Galería --- */
+        /* --- Galería con Lightbox --- */
         .gallery-section {
             background-color: var(--white);
         }
@@ -238,6 +308,23 @@
             overflow: hidden;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .gallery-item::after {
+            content: '🔍';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
         }
 
         .gallery-item img {
@@ -249,9 +336,9 @@
 
         .gallery-item:hover img {
             transform: scale(1.15);
+            filter: brightness(0.7);
         }
 
-        /* Configuración del Masonry Grid */
         .g-1 { grid-column: 1 / 3; }
         .g-2 { grid-column: 3 / 5; }
         .g-3 { grid-column: 1 / 2; grid-row: 2 / 3; }
@@ -259,7 +346,54 @@
         .g-5 { grid-column: 3 / 4; grid-row: 2 / 3; }
         .g-6 { grid-column: 4 / 5; grid-row: 2 / 3; }
 
-        /* --- Footer con vibra nocturna --- */
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+
+        /* --- Footer --- */
         footer {
             background: linear-gradient(to bottom, #1a1a1a, #000000);
             color: #bbb;
@@ -302,12 +436,14 @@
             text-decoration: none;
         }
 
-        .social-icons a:hover {
+        .social-icons a:hover,
+        .social-icons a:focus {
             background: var(--secondary);
             transform: rotate(15deg);
+            outline: 2px solid var(--white);
         }
 
-        /* --- WhatsApp Flotante Mejorado --- */
+        /* --- WhatsApp Flotante --- */
         .whatsapp-float {
             position: fixed;
             bottom: 30px;
@@ -329,11 +465,13 @@
 
         .whatsapp-float i { font-size: 1.5rem; }
 
-        .whatsapp-float:hover {
+        .whatsapp-float:hover,
+        .whatsapp-float:focus {
             transform: scale(1.05) translateY(-5px);
+            outline: 2px solid white;
         }
 
-        /* --- Botón flotante de Lola --- */
+        /* --- Botón Lola --- */
         .lola-button-container {
             position: fixed;
             bottom: 120px;
@@ -347,51 +485,35 @@
         }
 
         .lola-float-btn {
-            --btn-accent: #FF6B6B;
-            --btn-bg: rgba(0, 168, 150, 0.7);
-            
             position: relative;
             height: 140px;
             width: 140px;
-            background: var(--btn-bg);
+            background: rgba(0, 168, 150, 0.7);
             border: 4px solid rgba(255, 255, 255, 0.8);
             border-radius: 50%;
-            
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            
             backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            
-            will-change: transform, background;
             user-select: none;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             overflow: hidden;
-            
             box-shadow: 
                 inset 0 0 40px rgba(255, 255, 255, 0.6),
                 inset 0 0 80px rgba(255, 255, 255, 0.4),
                 0 0 0 1px rgba(255, 255, 255, 0.3);
         }
 
-        .lola-float-btn:hover {
+        .lola-float-btn:hover,
+        .lola-float-btn:focus {
             transform: scale(1.15);
             background: rgba(0, 168, 150, 0.85);
             border-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 
-                inset 0 0 50px rgba(255, 255, 255, 0.7),
-                inset 0 0 100px rgba(255, 255, 255, 0.5),
-                0 0 0 2px rgba(255, 255, 255, 0.4);
+            outline: 2px solid var(--primary);
         }
 
         .lola-icon-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
             width: 100%;
             height: 100%;
             border-radius: 50%;
@@ -404,15 +526,10 @@
             height: 100%;
             object-fit: contain;
             border-radius: 50%;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.4s;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
         }
 
-        .lola-float-btn:hover .lola-icon-wrapper img {
-            transform: scale(1.1);
-        }
-
-        /* Indicador de pulsación */
         .lola-pulse {
             position: absolute;
             width: 100%;
@@ -429,7 +546,7 @@
             100% { transform: scale(1.2); opacity: 0; }
         }
 
-        /* Ventana de chat de Lola */
+        /* Ventana de chat */
         #lola-chat-window {
             position: fixed;
             bottom: 280px;
@@ -447,8 +564,7 @@
             overflow: hidden;
             opacity: 0;
             transform: translateY(20px) scale(0.95);
-            transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: opacity 0.3s, transform 0.3s;
         }
 
         #lola-chat-window.active {
@@ -464,7 +580,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            user-select: none;
             flex-shrink: 0;
         }
 
@@ -474,7 +589,6 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            font-family: 'Poppins', sans-serif;
         }
 
         .lola-chat-close {
@@ -483,19 +597,17 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.25);
             border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 30px;
             color: white;
-            font-weight: 300;
         }
 
-        .lola-chat-close:hover {
+        .lola-chat-close:hover,
+        .lola-chat-close:focus {
             background: rgba(255, 255, 255, 0.35);
             transform: scale(1.15);
+            outline: 2px solid white;
         }
 
         .lola-chat-body {
@@ -533,15 +645,18 @@
             font-weight: 800;
             font-size: 18px;
             flex-shrink: 0;
-            background: var(--primary);
-            color: white;
             overflow: hidden;
-            border: 3px solid var(--primary);
         }
 
         .ai .lola-message-avatar {
             background: var(--secondary);
-            border-color: var(--secondary);
+            border: 3px solid var(--secondary);
+        }
+
+        .user .lola-message-avatar {
+            background: var(--primary);
+            color: white;
+            border: 3px solid var(--primary);
         }
 
         .lola-message-avatar img {
@@ -551,34 +666,26 @@
             border-radius: 50%;
         }
 
-        .user .lola-message-avatar {
-            background: var(--primary);
-            color: var(--white);
-            border-color: var(--primary);
-        }
-
         .lola-message-content {
             max-width: 80%;
             padding: 16px 20px;
             border-radius: 25px;
             line-height: 1.6;
             font-size: 18px;
-            white-space: pre-wrap;
             word-break: break-word;
-            background: white;
-            border: 3px solid #e9ecef;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .ai .lola-message-content {
+            background: white;
             color: #222;
-            font-weight: 500;
+            border: 3px solid #e9ecef;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .user .lola-message-content {
             background: var(--primary);
             color: white;
-            border-color: var(--primary);
+            border: 3px solid var(--primary);
         }
 
         .lola-typing {
@@ -620,7 +727,6 @@
             border: 3px solid #e9ecef;
             border-radius: 20px;
             padding: 16px 20px;
-            color: #222;
             font-size: 18px;
             resize: none;
             min-height: 60px;
@@ -642,19 +748,17 @@
             border-radius: 20px;
             width: 60px;
             height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: 700;
             font-size: 24px;
             flex-shrink: 0;
         }
 
-        .lola-chat-send:hover {
+        .lola-chat-send:hover,
+        .lola-chat-send:focus {
             background: #007a6e;
             transform: translateY(-3px) scale(1.05);
+            outline: 2px solid var(--primary);
         }
 
         .lola-chat-send:disabled {
@@ -663,233 +767,240 @@
             transform: none;
         }
 
-        /* Ajustes responsivos */
+        /* Loading spinner */
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Responsive --- */
         @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                padding: 100px 30px;
+                gap: 25px;
+                transition: right 0.3s ease;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .btn-reserve.nav-btn {
+                display: none;
+            }
+
+            header h1 {
+                font-size: 3rem;
+            }
+
+            header p {
+                font-size: 1.1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .gallery-item {
+                height: 250px;
+            }
+
+            .g-1, .g-2, .g-3, .g-4, .g-5, .g-6 {
+                grid-column: auto;
+                grid-row: auto;
+            }
+
+            section {
+                padding: 60px 5%;
+            }
+
             .lola-button-container {
                 bottom: 100px;
                 right: 20px;
             }
-            
+
             .lola-float-btn {
                 height: 120px;
                 width: 120px;
             }
-            
+
             #lola-chat-window {
                 width: calc(100vw - 40px);
                 height: 70vh;
-                max-width: none;
                 bottom: 230px;
                 right: 20px;
             }
-            
-            .lola-chat-header {
-                padding: 20px 25px;
-            }
-            
-            .lola-chat-title {
-                font-size: 20px;
-            }
-            
-            .lola-chat-close {
-                width: 35px;
-                height: 35px;
-                font-size: 26px;
-            }
-            
-            .lola-chat-body {
-                padding: 20px;
-                gap: 15px;
-            }
-            
-            .lola-message-avatar {
-                width: 45px;
-                height: 45px;
-                font-size: 16px;
-            }
-            
-            .lola-message-content {
-                padding: 14px 18px;
-                font-size: 16px;
-                border-radius: 20px;
-            }
-            
-            .lola-chat-input-container {
-                padding: 20px;
-            }
-            
-            .lola-chat-input {
-                padding: 14px 18px;
-                font-size: 16px;
-                min-height: 55px;
-            }
-            
-            .lola-chat-send {
-                width: 55px;
-                height: 55px;
-                font-size: 22px;
+
+            .whatsapp-float {
+                padding: 12px 20px;
+                font-size: 1rem;
             }
         }
 
         @media (max-width: 480px) {
-            .lola-button-container {
-                bottom: 90px;
-                right: 15px;
+            header h1 {
+                font-size: 2.5rem;
             }
-            
+
             .lola-float-btn {
                 height: 100px;
                 width: 100px;
             }
-            
+
             #lola-chat-window {
                 height: 65vh;
                 bottom: 200px;
-                right: 10px;
                 width: calc(100vw - 20px);
             }
-            
-            .lola-chat-title {
-                font-size: 18px;
-            }
-            
-            .lola-chat-close {
-                width: 30px;
-                height: 30px;
-                font-size: 22px;
-            }
-            
-            .lola-message-avatar {
-                width: 40px;
-                height: 40px;
-                font-size: 14px;
-            }
-            
-            .lola-message-content {
-                padding: 12px 16px;
-                font-size: 15px;
-            }
-            
-            .lola-chat-input {
-                padding: 12px 16px;
-                font-size: 15px;
-            }
-            
-            .lola-chat-send {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
-            }
-        }
-
-        /* --- Mobile Responsive Ajustado --- */
-        @media (max-width: 768px) {
-            header h1 { font-size: 3rem; }
-            nav { padding: 15px 20px; }
-            .nav-links { display: none; } /* Ocultar menú en móvil */
-            .btn-reserve.nav-btn { display: none; } /* Ocultar botón del nav en móvil */
-            
-            .gallery-grid {
-                display: flex;
-                flex-direction: column;
-                height: auto;
-            }
-            .gallery-item { height: 250px; }
-            section { padding: 60px 5%; }
-            
-            /* Ajuste del banner de gastronomía en móvil */
-            .gastro-container { flex-direction: column-reverse; }
-            .gastro-img { height: 300px; }
         }
     </style>
 </head>
 <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#inicio" class="skip-to-main">Saltar al contenido principal</a>
 
-    <nav>
+    <nav role="navigation" aria-label="Navegación principal">
         <div class="logo">Rancho e Lola <span>Beach</span></div>
+        
+        <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
         <ul class="nav-links">
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#experiencia">Vibra</a></li>
             <li><a href="#habitaciones">Rincones</a></li>
         </ul>
-        <a href="https://www.instagram.com/ranchoelola" target="_blank" class="btn-reserve nav-btn">Reservar</a>
+        <a href="https://www.instagram.com/ranchoelola" target="_blank" rel="noopener noreferrer" class="btn-reserve nav-btn">Reservar</a>
     </nav>
 
-    <header id="inicio">
+    <header id="inicio" role="banner">
         <p class="script-font">Bienvenido al Caribe</p>
         <h1>Rancho e Lola <span class="beach-title">Beach</span></h1>
         <p>Tu escapada soñada en la Isla de Margarita. Sol, relax y buena energía.</p>
         <div style="margin-top: 20px;">
-             <a href="#experiencia" class="btn-reserve" style="background: var(--white); color: var(--primary); margin-right: 15px;">Explorar</a>
+            <a href="#experiencia" class="btn-reserve" style="background: var(--white); color: var(--primary); margin-right: 15px;">Explorar</a>
         </div>
-       
     </header>
 
-    <section id="experiencia">
-        <div class="section-title">
-            <span class="script-font">No es un hotel, es tu casa</span>
-            <h2>La Experiencia Lola</h2>
-        </div>
+    <main>
+        <section id="experiencia">
+            <div class="section-title">
+                <span class="script-font">No es un hotel, es tu casa</span>
+                <h2>La Experiencia Lola</h2>
+            </div>
 
-        <div class="experience-grid">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2670&auto=format&fit=crop" alt="Relax en hamaca">
-                <div class="card-content">
-                    <h3>Desconexión Total</h3>
-                    <p>Olvídate del reloj. Aquí el tiempo se mide en olas y atardeceres. Espacios pensados para tu paz mental.</p>
+            <div class="experience-grid">
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=800&auto=format&fit=crop" 
+                         alt="Persona relajándose en hamaca frente al mar" 
+                         loading="lazy">
+                    <div class="card-content">
+                        <h3>Desconexión Total</h3>
+                        <p>Olvídate del reloj. Aquí el tiempo se mide en olas y atardeceres. Espacios pensados para tu paz mental.</p>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=800&auto=format&fit=crop" 
+                         alt="Playa tropical en Isla de Margarita" 
+                         loading="lazy">
+                    <div class="card-content">
+                        <h3>Corazón de la Isla</h3>
+                        <p>La ubicación perfecta. Cerca de la acción de las mejores playas, pero en un oasis de tranquilidad.</p>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop" 
+                         alt="Cócteles tropicales en la playa" 
+                         loading="lazy">
+                    <div class="card-content">
+                        <h3>Ambiente Único</h3>
+                        <p>Música suave, cócteles que saben a gloria y ese ambiente íntimo que solo encuentras aquí.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="gallery-section" id="habitaciones">
+            <div class="section-title">
+                <span class="script-font">Rincones con encanto</span>
+                <h2>Nuestros Espacios</h2>
+            </div>
+            <div class="gallery-grid" role="list">
+                <div class="gallery-item g-1" tabindex="0" role="button" aria-label="Ver imagen de piscina y palmeras">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=800&auto=format&fit=crop" 
+                         alt="Piscina rodeada de palmeras" 
+                         loading="lazy">
+                </div>
+                <div class="gallery-item g-2" tabindex="0" role="button" aria-label="Ver imagen de habitación luminosa">
+                    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=800&auto=format&fit=crop" 
+                         alt="Habitación luminosa con vista al mar" 
+                         loading="lazy">
+                </div>
+                <div class="gallery-item g-3" tabindex="0" role="button" aria-label="Ver detalle de decoración">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=800&auto=format&fit=crop" 
+                         alt="Detalle de decoración tropical" 
+                         loading="lazy">
+                </div>
+                <div class="gallery-item g-4" tabindex="0" role="button" aria-label="Ver imagen de gastronomía local">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800&auto=format&fit=crop" 
+                         alt="Plato de gastronomía local" 
+                         loading="lazy">
+                </div>
+                <div class="gallery-item g-5" tabindex="0" role="button" aria-label="Ver vista al mar">
+                    <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=800&auto=format&fit=crop" 
+                         alt="Vista panorámica al mar caribe" 
+                         loading="lazy">
+                </div>
+                <div class="gallery-item g-6" tabindex="0" role="button" aria-label="Ver habitación confortable">
+                    <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800&auto=format&fit=crop" 
+                         alt="Habitación confortable con cama king size" 
+                         loading="lazy">
                 </div>
             </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=2670&auto=format&fit=crop" alt="Playa Margarita">
-                <div class="card-content">
-                    <h3>Corazón de la Isla</h3>
-                    <p>La ubicación perfecta. Cerca de la acción de las mejores playas, pero en un oasis de tranquilidad.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2670&auto=format&fit=crop" alt="Cócteles tropicales en la playa">
-                <div class="card-content">
-                    <h3>Ambiente Único</h3>
-                    <p>Música suave, cócteles que saben a gloria y ese ambiente íntimo que solo encuentras aquí.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="gallery-section" id="habitaciones">
-        <div class="section-title">
-            <span class="script-font">Rincones con encanto</span>
-            <h2>Nuestros Espacios</h2>
-        </div>
-        <div class="gallery-grid">
-            <div class="gallery-item g-1">
-                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2670&auto=format&fit=crop" alt="Piscina y Palmeras">
-            </div>
-            <div class="gallery-item g-2">
-                <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2525&auto=format&fit=crop" alt="Habitación Luminosa">
-            </div>
-            <div class="gallery-item g-3">
-                <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=2670&auto=format&fit=crop" alt="Detalle Decoración">
-            </div>
-            <div class="gallery-item g-4">
-                 <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=2574&auto=format&fit=crop" alt="Gastronomía Local">
-            </div>
-             <div class="gallery-item g-5">
-                <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=2670&auto=format&fit=crop" alt="Vista al mar">
-            </div>
-            <div class="gallery-item g-6">
-                <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=2574&auto=format&fit=crop" alt="Habitaciones Confortables">
-            </div>
-        </div>
-    </section>
+        <section style="background: var(--primary); color: var(--white); text-align: center;">
+            <h2 style="color: var(--white); margin-bottom: 20px;">¿Te vienes al paraíso?</h2>
+            <p style="margin-bottom: 30px; font-size: 1.2rem;">Las mejores historias empiezan con un boleto a Margarita.</p>
+            <a href="https://www.instagram.com/ranchoelola" target="_blank" rel="noopener noreferrer" class="btn-reserve" style="background: var(--white); color: var(--primary); padding: 15px 40px;">¡Escríbenos al DM!</a>
+        </section>
+    </main>
 
-    <section style="background: var(--primary); color: var(--white); text-align: center;">
-        <h2 style="color: var(--white); margin-bottom: 20px;">¿Te vienes al paraíso?</h2>
-        <p style="margin-bottom: 30px; font-size: 1.2rem;">Las mejores historias empiezan con un boleto a Margarita.</p>
-        <a href="https://www.instagram.com/ranchoelola" class="btn-reserve" style="background: var(--white); color: var(--primary); padding: 15px 40px;">¡Escríbenos al DM!</a>
-    </section>
-
-    <footer>
+    <footer role="contentinfo">
         <div>
             <div class="logo" style="margin-bottom: 20px;">Rancho e Lola <span style="font-size: 1.2rem;">Beach</span></div>
             <p>Más que una posada, tu refugio de desconexión en el Caribe venezolano.</p>
@@ -897,53 +1008,75 @@
         <div>
             <h4>Contacto Directo</h4>
             <ul style="list-style: none;">
-                <li><i class="fa-brands fa-instagram"></i> @ranchoelola</li>
-                <li><i class="fa-solid fa-map-location-dot"></i> Isla de Margarita, Venezuela</li>
+                <li><i class="fa-brands fa-instagram" aria-hidden="true"></i> @ranchoelola</li>
+                <li><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Isla de Margarita, Venezuela</li>
             </ul>
         </div>
         <div>
             <h4>Síguenos</h4>
-            <div class="social-icons">
-                <a href="https://www.instagram.com/ranchoelola" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+            <div class="social-icons" role="navigation" aria-label="Redes sociales">
+                <a href="https://www.instagram.com/ranchoelola" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+                </a>
+                <a href="#" aria-label="Facebook">
+                    <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                </a>
+                <a href="#" aria-label="TikTok">
+                    <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </footer>
 
+    <!-- Lightbox para galería -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visor de imágenes">
+        <span class="lightbox-close" tabindex="0" role="button" aria-label="Cerrar visor">&times;</span>
+        <img src="" alt="Imagen ampliada" id="lightbox-img">
+    </div>
+
     <!-- Botón flotante de Lola -->
     <div class="lola-button-container" id="lola-button-container">
         <div class="lola-pulse"></div>
-        <div id="lola-float-btn" class="lola-float-btn" role="button" aria-label="Abrir Asistente Lola" title="Hablar con Lola">
+        <div id="lola-float-btn" class="lola-float-btn" role="button" tabindex="0" aria-label="Abrir chat con Lola, asistente virtual" title="Hablar con Lola">
             <div class="lola-icon-wrapper">
-                <!-- Cambiado a lola.png -->
-                <img src="lola.png" alt="Lola">
+                <img src="lola.png" alt="Icono de Lola, recepcionista virtual">
             </div>
         </div>
     </div>
 
     <!-- Ventana de chat de Lola -->
-    <div id="lola-chat-window">
+    <div id="lola-chat-window" role="dialog" aria-labelledby="lola-chat-title" aria-modal="true">
         <div class="lola-chat-header">
-            <div class="lola-chat-title">
+            <div class="lola-chat-title" id="lola-chat-title">
                 Lola - Recepcionista
             </div>
-            <div class="lola-chat-close" id="lola-close-btn">×</div>
+            <button class="lola-chat-close" id="lola-close-btn" aria-label="Cerrar chat">×</button>
         </div>
-        <div class="lola-chat-body" id="lola-messages"></div>
+        <div class="lola-chat-body" id="lola-messages" role="log" aria-live="polite" aria-atomic="false"></div>
         <div class="lola-chat-input-container">
-            <textarea id="lola-input" class="lola-chat-input" placeholder="" rows="1"></textarea>
-            <button id="lola-send-btn" class="lola-chat-send">→</button>
+            <textarea id="lola-input" 
+                      class="lola-chat-input" 
+                      placeholder="Escribe tu mensaje..." 
+                      rows="1"
+                      aria-label="Escribe tu mensaje a Lola"></textarea>
+            <button id="lola-send-btn" class="lola-chat-send" aria-label="Enviar mensaje">→</button>
         </div>
     </div>
 
-    <a href="https://www.instagram.com/ranchoelola" class="whatsapp-float" target="_blank">
-        <i class="fa-brands fa-whatsapp"></i>
+    <a href="https://www.instagram.com/ranchoelola" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       aria-label="Contactar por WhatsApp">
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
         <span>¡Reserva Aquí!</span>
     </a>
 
     <script>
+        // Configuración del servidor - Usar variable de entorno en producción
         const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        const MAX_RETRIES = 3;
+        const RETRY_DELAY = 2000;
         
         // Elementos DOM
         const lolaFloatBtn = document.getElementById('lola-float-btn');
@@ -953,57 +1086,142 @@
         const lolaMessages = document.getElementById('lola-messages');
         const lolaInput = document.getElementById('lola-input');
         const lolaSendBtn = document.getElementById('lola-send-btn');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxClose = document.querySelector('.lightbox-close');
+        const galleryItems = document.querySelectorAll('.gallery-item');
         
         let isLolaChatOpen = false;
         let isGenerating = false;
         let currentSessionId = null;
+        let retryCount = 0;
+
+        // === MENÚ HAMBURGUESA ===
+        menuToggle.addEventListener('click', () => {
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // === LIGHTBOX GALERÍA ===
+        galleryItems.forEach(item => {
+            const openLightbox = () => {
+                const img = item.querySelector('img');
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+
+            item.addEventListener('click', openLightbox);
+            
+            // Accesibilidad con teclado
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightbox();
+                }
+            });
+        });
+
+        const closeLightboxFn = () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        lightboxClose.addEventListener('click', closeLightboxFn);
         
-        // Función para mostrar/ocultar el botón
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightboxFn();
+            }
+        });
+
+        // Cerrar con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightboxFn();
+            }
+        });
+
+        // === CHAT LOLA ===
         function toggleLolaButton(show) {
-            if (show) {
-                lolaButtonContainer.classList.remove('hidden');
-            } else {
-                lolaButtonContainer.classList.add('hidden');
+            lolaButtonContainer.classList.toggle('hidden', !show);
+        }
+
+        // Guardar historial en localStorage
+        function saveToLocalStorage(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+            } catch (e) {
+                console.warn('No se pudo guardar en localStorage:', e);
             }
         }
-        
-        // Abrir ventana de chat
-        lolaFloatBtn.addEventListener('click', () => {
+
+        function loadFromLocalStorage(key) {
+            try {
+                const value = localStorage.getItem(key);
+                return value ? JSON.parse(value) : null;
+            } catch (e) {
+                console.warn('No se pudo cargar de localStorage:', e);
+                return null;
+            }
+        }
+
+        // Abrir chat
+        const openLolaChat = () => {
             if (!isLolaChatOpen) {
                 isLolaChatOpen = true;
                 lolaChatWindow.classList.add('active');
                 toggleLolaButton(false);
                 
-                // Inicializar conexión
                 if (!currentSessionId) {
                     initLolaConnection();
                 }
                 
                 lolaInput.focus();
             }
+        };
+
+        lolaFloatBtn.addEventListener('click', openLolaChat);
+
+        // Accesibilidad con teclado para botón flotante
+        lolaFloatBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openLolaChat();
+            }
         });
-        
-        // Cerrar ventana de chat
-        lolaCloseBtn.addEventListener('click', () => {
-            closeLolaChat();
-        });
-        
-        // Función para cerrar el chat
-        function closeLolaChat() {
+
+        // Cerrar chat
+        const closeLolaChat = () => {
             isLolaChatOpen = false;
             lolaChatWindow.classList.remove('active');
             toggleLolaButton(true);
-        }
-        
-        // Inicializar conexión con el servidor (usando el asistente "lola")
+        };
+
+        lolaCloseBtn.addEventListener('click', closeLolaChat);
+
+        // Inicializar conexión con reintentos
         async function initLolaConnection() {
             try {
                 addLolaMessage('Conectando con Lola...', false);
                 
                 currentSessionId = "lola-session-" + Date.now();
                 
-                // Enviar petición de inicialización al asistente "lola"
-                const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const testResponse = await fetchWithRetry(`${OLLAMA_SERVER_URL}/chat`, {
                     method: 'POST',
                     headers: {
                         'ngrok-skip-browser-warning': 'true',
@@ -1024,6 +1242,7 @@
                     
                     lolaInput.disabled = false;
                     lolaSendBtn.disabled = false;
+                    retryCount = 0;
                 } else {
                     throw new Error(`HTTP ${testResponse.status}`);
                 }
@@ -1031,14 +1250,32 @@
             } catch (error) {
                 console.error('Error en inicialización:', error);
                 lolaMessages.innerHTML = '';
-                addLolaMessage('⚠️ No se pudo conectar con el servidor. Por favor, intenta más tarde.', false);
+                addLolaMessage('⚠️ No se pudo conectar con el servidor. Por favor, intenta más tarde o contáctanos por Instagram.', false);
                 
                 lolaInput.disabled = true;
                 lolaSendBtn.disabled = true;
             }
         }
-        
-        // Añadir mensaje al chat
+
+        // Función para reintentos automáticos
+        async function fetchWithRetry(url, options, retries = MAX_RETRIES) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) return response;
+                    
+                    if (i < retries - 1) {
+                        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+                    }
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+                }
+            }
+            throw new Error('Max retries reached');
+        }
+
+        // Añadir mensaje
         function addLolaMessage(content, isUser = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `lola-message ${isUser ? 'user' : 'ai'}`;
@@ -1048,7 +1285,6 @@
             
             if (!isUser) {
                 const img = document.createElement('img');
-                // Cambiado a lola.png
                 img.src = 'lola.png';
                 img.alt = 'Lola';
                 avatarDiv.appendChild(img);
@@ -1058,7 +1294,7 @@
             
             const contentDiv = document.createElement('div');
             contentDiv.className = 'lola-message-content';
-            contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+            contentDiv.innerHTML = escapeHtml(content).replace(/\n/g, '<br>');
             
             messageDiv.appendChild(avatarDiv);
             messageDiv.appendChild(contentDiv);
@@ -1068,8 +1304,20 @@
             
             return contentDiv;
         }
-        
-        // Mostrar indicador de escritura
+
+        // Escapar HTML para prevenir XSS
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Indicador de escritura
         function showLolaTyping() {
             const messageDiv = document.createElement('div');
             messageDiv.className = 'lola-message ai';
@@ -1078,7 +1326,6 @@
             const avatarDiv = document.createElement('div');
             avatarDiv.className = 'lola-message-avatar';
             const img = document.createElement('img');
-            // Cambiado a lola.png
             img.src = 'lola.png';
             img.alt = 'Lola';
             avatarDiv.appendChild(img);
@@ -1103,25 +1350,24 @@
             
             return messageDiv;
         }
-        
+
         // Ajustar altura del textarea
         lolaInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
         });
-        
-        // Enviar con Enter (sin Shift)
+
+        // Enviar con Enter
         lolaInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 if (!isGenerating) sendLolaMessage();
             }
         });
-        
-        // Enviar mensaje al hacer clic
+
         lolaSendBtn.addEventListener('click', sendLolaMessage);
-        
-        // Función para enviar mensaje
+
+        // Enviar mensaje
         async function sendLolaMessage() {
             const text = lolaInput.value.trim();
             if (!text || isGenerating) return;
@@ -1133,13 +1379,13 @@
             
             lolaInput.disabled = true;
             lolaSendBtn.disabled = true;
+            lolaSendBtn.innerHTML = '<div class="loading-spinner"></div>';
             isGenerating = true;
             
             const typingIndicator = showLolaTyping();
             
             try {
-                // Enviar mensaje especificando que es para el asistente "lola"
-                const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const response = await fetchWithRetry(`${OLLAMA_SERVER_URL}/chat`, {
                     method: 'POST',
                     headers: {
                         'ngrok-skip-browser-warning': 'true',
@@ -1169,41 +1415,54 @@
                 
             } catch (error) {
                 typingIndicator.remove();
-                addLolaMessage('❌ Error al conectar con el servidor. Por favor, intenta nuevamente.', false);
-                console.error('Error detallado:', error);
+                addLolaMessage('❌ Error al conectar. Por favor, contáctanos por Instagram: @ranchoelola', false);
+                console.error('Error:', error);
             } finally {
                 lolaInput.disabled = false;
                 lolaSendBtn.disabled = false;
+                lolaSendBtn.innerHTML = '→';
                 isGenerating = false;
                 lolaInput.focus();
             }
         }
-        
-        // Inicializar al cargar la página
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("✅ Botón de Lola cargado correctamente");
+
+        // === NAVEGACIÓN SUAVE ===
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 100;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // === SCROLL DE NAVEGACIÓN ===
+        let lastScroll = 0;
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            const currentScroll = window.scrollY;
             
-            // Mostrar el botón inicialmente
+            nav.style.padding = currentScroll > 50 ? '15px 50px' : '20px 50px';
+            nav.style.background = currentScroll > 50 ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.9)';
+            
+            lastScroll = currentScroll;
+        });
+
+        // === INICIALIZACIÓN ===
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("✅ Página cargada correctamente");
             toggleLolaButton(true);
             
-            // Mejorar la navegación por anclas
-            document.querySelectorAll('nav a').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        const offsetTop = targetElement.offsetTop - 100;
-                        window.scrollTo({
-                            top: offsetTop,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-            
-            // Cerrar ventana al hacer clic fuera en móviles
+            // Cerrar chat al hacer clic fuera en móviles
             if (window.innerWidth <= 768) {
                 document.addEventListener('click', function(e) {
                     if (isLolaChatOpen && 
@@ -1215,11 +1474,13 @@
             }
         });
 
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            // Cuando bajamos 50px, el menú se vuelve un poco más pequeño y transparente
-            nav.style.padding = window.scrollY > 50 ? '15px 50px' : '20px 50px';
-            nav.style.background = window.scrollY > 50 ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.9)';
+        // Prevenir comportamiento por defecto en elementos con role="button"
+        document.querySelectorAll('[role="button"]').forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === ' ') {
+                    e.preventDefault();
+                }
+            });
         });
     </script>
 </body>
