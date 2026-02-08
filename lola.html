@@ -471,6 +471,66 @@
             outline: 2px solid white;
         }
 
+        /* === NUEVO: ANUNCIO TEMPORAL PARA LOLA === */
+        .lola-attention-indicator {
+            position: fixed;
+            bottom: 220px; /* AJUSTADO: Más arriba para que el dedo no se monte */
+            right: 10px; /* Alineado con el botón */
+            z-index: 10001;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            animation: lolaAttentionBounce 2s infinite ease-in-out;
+            width: 200px;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        .lola-attention-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .lola-attention-text {
+            background: white;
+            color: var(--primary); /* Color principal de Lola */
+            padding: 12px 18px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(0, 168, 150, 0.25);
+            border: 3px solid var(--secondary); /* Borde naranja de Lola */
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            width: 100%;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        
+        /* Dedo posicionado en la parte inferior y CENTRADO debajo del cuadro de texto */
+        .lola-attention-finger {
+            font-size: 36px;
+            color: var(--secondary); /* Naranja de Lola */
+            text-shadow: 0 0 12px rgba(255, 138, 101, 0.7);
+            animation: lolaFingerPulse 1.5s infinite alternate;
+            position: relative;
+            margin-top: 0; /* Sin margen superior */
+            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+            align-self: center; /* Centra el dedo horizontalmente */
+            transform: none; /* Sin rotación */
+        }
+        
+        @keyframes lolaAttentionBounce {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        
+        @keyframes lolaFingerPulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.3); opacity: 1; }
+        }
+
         /* --- Botón Lola --- */
         .lola-button-container {
             position: fixed;
@@ -845,6 +905,22 @@
                 padding: 60px 5%;
             }
 
+            /* Ajustes para el anuncio temporal en tablet */
+            .lola-attention-indicator {
+                bottom: 180px; /* AJUSTADO: Más arriba en tablet */
+                right: 10px;
+                width: 180px;
+            }
+            
+            .lola-attention-text {
+                font-size: 14px;
+                padding: 10px 14px;
+            }
+            
+            .lola-attention-finger {
+                font-size: 32px;
+            }
+
             .lola-button-container {
                 bottom: 100px;
                 right: 20px;
@@ -873,6 +949,22 @@
                 font-size: 2.5rem;
             }
 
+            /* Ajustes para el anuncio temporal en móvil */
+            .lola-attention-indicator {
+                bottom: 160px; /* AJUSTADO: Más arriba en móvil */
+                right: 5px;
+                width: 160px;
+            }
+            
+            .lola-attention-text {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+            
+            .lola-attention-finger {
+                font-size: 28px;
+            }
+
             .lola-float-btn {
                 height: 100px;
                 width: 100px;
@@ -882,6 +974,37 @@
                 height: 65vh;
                 bottom: 200px;
                 width: calc(100vw - 20px);
+            }
+        }
+        
+        @media (max-width: 360px) {
+            /* Ajustes para el anuncio temporal en móvil pequeño */
+            .lola-attention-indicator {
+                bottom: 140px; /* AJUSTADO: Más arriba en móvil pequeño */
+                width: 140px;
+            }
+            
+            .lola-attention-text {
+                font-size: 11px;
+                padding: 7px 10px;
+            }
+            
+            .lola-attention-finger {
+                font-size: 24px;
+            }
+            
+            .lola-button-container {
+                bottom: 20px;
+                right: 15px;
+            }
+            
+            .lola-float-btn {
+                height: 90px;
+                width: 90px;
+            }
+            
+            #lola-chat-window {
+                bottom: 180px;
             }
         }
     </style>
@@ -934,7 +1057,7 @@
                     </div>
                 </article>
                 <article class="card">
-                    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=800&auto=format&fit=crop" 
+                    <img src="https://images.unsplash.com/photo-1559827260-d76694265947?q=80&w=800&auto=format&fit=crop" 
                          alt="Playa tropical en Isla de Margarita" 
                          loading="lazy">
                     <div class="card-content">
@@ -1034,6 +1157,14 @@
         <img src="" alt="Imagen ampliada" id="lightbox-img">
     </div>
 
+    <!-- === NUEVO: ANUNCIO TEMPORAL PARA LOLA === -->
+    <div class="lola-attention-indicator" id="lola-attention-indicator">
+        <div class="lola-attention-text">
+            ¡Pulsa aquí para hablar con Lola!
+        </div>
+        <div class="lola-attention-finger">👇</div>
+    </div>
+
     <!-- Botón flotante de Lola -->
     <div class="lola-button-container" id="lola-button-container">
         <div class="lola-pulse"></div>
@@ -1092,6 +1223,10 @@
         const lightboxImg = document.getElementById('lightbox-img');
         const lightboxClose = document.querySelector('.lightbox-close');
         const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        // === NUEVO: Elementos para el anuncio temporal ===
+        const lolaAttentionIndicator = document.getElementById('lola-attention-indicator');
+        let attentionIndicatorVisible = true;
         
         let isLolaChatOpen = false;
         let isGenerating = false;
@@ -1186,6 +1321,12 @@
                 isLolaChatOpen = true;
                 lolaChatWindow.classList.add('active');
                 toggleLolaButton(false);
+                
+                // Ocultar anuncio temporal al abrir el chat
+                if (lolaAttentionIndicator && attentionIndicatorVisible) {
+                    lolaAttentionIndicator.classList.add('hidden');
+                    attentionIndicatorVisible = false;
+                }
                 
                 if (!currentSessionId) {
                     initLolaConnection();
@@ -1425,6 +1566,34 @@
                 lolaInput.focus();
             }
         }
+
+        // === NUEVO: Funcionalidad del anuncio temporal ===
+        
+        // Ocultar el anuncio después de 30 segundos
+        setTimeout(() => {
+            if (lolaAttentionIndicator && attentionIndicatorVisible) {
+                lolaAttentionIndicator.classList.add('hidden');
+                attentionIndicatorVisible = false;
+            }
+        }, 30000); // 30 segundos
+
+        // Ocultar anuncio al hacer clic en cualquier parte
+        document.addEventListener('click', function(e) {
+            if (lolaAttentionIndicator && attentionIndicatorVisible && 
+                !lolaFloatBtn.contains(e.target) && 
+                !lolaAttentionIndicator.contains(e.target)) {
+                lolaAttentionIndicator.classList.add('hidden');
+                attentionIndicatorVisible = false;
+            }
+        });
+
+        // Ocultar anuncio al abrir el chat de Lola
+        lolaFloatBtn.addEventListener('click', function() {
+            if (lolaAttentionIndicator && attentionIndicatorVisible) {
+                lolaAttentionIndicator.classList.add('hidden');
+                attentionIndicatorVisible = false;
+            }
+        });
 
         // === NAVEGACIÓN SUAVE ===
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
