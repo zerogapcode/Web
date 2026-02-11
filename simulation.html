@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Simulación - ProtonLab</title>
-  <meta name="description" content="Simulaciones interactivas - En construcción" />
+  <title>Simulation - ProtonLab</title>
+  <meta name="description" content="Interactive simulations - Under construction" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -821,7 +821,8 @@
       }
       
       .mode-toggle {
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
         margin-top: 10px;
         padding-top: 15px;
@@ -934,16 +935,20 @@
       <span></span>
     </button>
     <nav id="nav">
-      <a class="navlink" href="index.html#inicio">Inicio</a>
-      <a class="navlink" href="index.html#servicios">Servicios</a>
-      <a class="navlink" href="index.html#departamentos">Departamentos</a>
-      <a class="navlink" href="index.html#contacto">Contacto</a>
-      <a class="navlink" href="index.html#acerca">Acerca</a>
+      <a class="navlink" href="index.html#inicio" data-i18n="nav_home">Home</a>
+      <a class="navlink" href="index.html#servicios" data-i18n="nav_services">Services</a>
+      <a class="navlink" href="index.html#departamentos" data-i18n="nav_departments">Departments</a>
+      <a class="navlink" href="index.html#contacto" data-i18n="nav_contact">Contact</a>
+      <a class="navlink" href="index.html#acerca" data-i18n="nav_about">About</a>
       <div class="mode-toggle">
         <div class="seg">
-          <button data-mode="auto" class="active">Auto</button>
-          <button data-mode="light">Claro</button>
-          <button data-mode="dark">Oscuro</button>
+          <button data-mode="auto" class="active" data-i18n="mode_auto">Auto</button>
+          <button data-mode="light" data-i18n="mode_light">Light</button>
+          <button data-mode="dark" data-i18n="mode_dark">Dark</button>
+        </div>
+        <div class="seg" style="margin-top: 4px;">
+          <button data-lang="en" class="active">EN</button>
+          <button data-lang="es">ES</button>
         </div>
       </div>
     </nav>
@@ -954,10 +959,10 @@
   <main class="wrap">
     <section class="construction-container">
       <div class="construction-icon">🚧</div>
-      <h1 class="construction-title">EN CONSTRUCCIÓN</h1>
-      <p class="construction-subtitle">
-        Estamos trabajando en increíbles simulaciones interactivas. 
-        Pronto podrás experimentar con modelos físicos, algoritmos visuales y mucho más.
+      <h1 class="construction-title" data-i18n="const_title">UNDER CONSTRUCTION</h1>
+      <p class="construction-subtitle" data-i18n="const_subtitle">
+        We are working on incredible interactive simulations. 
+        Soon you will be able to experiment with physical models, visual algorithms and much more.
       </p>
       
       <div class="construction-progress">
@@ -967,20 +972,20 @@
       <div class="construction-grid">
         <div class="construction-feature">
           <div class="construction-feature-icon">🌊</div>
-          <h3>Simulaciones de Fluidos</h3>
-          <p>Visualiza el comportamiento de líquidos y gases en tiempo real</p>
+          <h3 data-i18n="feat_fluid_t">Fluid Simulations</h3>
+          <p data-i18n="feat_fluid_p">Visualize the behavior of liquids and gases in real time</p>
         </div>
         
         <div class="construction-feature">
           <div class="construction-feature-icon">🔬</div>
-          <h3>Modelos Físicos</h3>
-          <p>Experimentos con gravedad, colisiones y sistemas de partículas</p>
+          <h3 data-i18n="feat_phys_t">Physical Models</h3>
+          <p data-i18n="feat_phys_p">Experiments with gravity, collisions and particle systems</p>
         </div>
         
         <div class="construction-feature">
           <div class="construction-feature-icon">🧠</div>
-          <h3>Algoritmos Visuales</h3>
-          <p>Observa cómo funcionan los algoritmos de forma interactiva</p>
+          <h3 data-i18n="feat_algo_t">Visual Algorithms</h3>
+          <p data-i18n="feat_algo_p">Observe how algorithms work interactively</p>
         </div>
       </div>
       
@@ -988,7 +993,7 @@
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M15 8H1M8 15L1 8l7-7"/>
         </svg>
-        Volver al Inicio
+        <span data-i18n="back_btn">Back to Home</span>
       </a>
     </section>
   </main>
@@ -996,13 +1001,50 @@
   <footer>
     <p>© 2023 ProtonLab – www.protonlab.site</p>
     <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
-      Innovación en cada línea de código, precisión en cada componente físico. <a href="pi.html" class="footer-pi">π</a>
+      <span data-i18n="footer_text">Innovation in every line of code, precision in every physical component.</span> <a href="pi.html" class="footer-pi">π</a>
     </p>
   </footer>
 
   <script>
+    // === Traducciones (Inglés predefinido) ===
+    const translations = {
+      nav_home: { en: "Home", es: "Inicio" },
+      nav_services: { en: "Services", es: "Servicios" },
+      nav_departments: { en: "Departments", es: "Departamentos" },
+      nav_contact: { en: "Contact", es: "Contacto" },
+      nav_about: { en: "About", es: "Acerca" },
+      mode_auto: { en: "Auto", es: "Auto" },
+      mode_light: { en: "Light", es: "Claro" },
+      mode_dark: { en: "Dark", es: "Oscuro" },
+      const_title: { en: "UNDER CONSTRUCTION", es: "EN CONSTRUCCIÓN" },
+      const_subtitle: { en: "We are working on incredible interactive simulations. Soon you will be able to experiment with physical models, visual algorithms and much more.", es: "Estamos trabajando en increíbles simulaciones interactivas. Pronto podrás experimentar con modelos físicos, algoritmos visuales y mucho más." },
+      feat_fluid_t: { en: "Fluid Simulations", es: "Simulaciones de Fluidos" },
+      feat_fluid_p: { en: "Visualize the behavior of liquids and gases in real time", es: "Visualiza el comportamiento de líquidos y gases en tiempo real" },
+      feat_phys_t: { en: "Physical Models", es: "Modelos Físicos" },
+      feat_phys_p: { en: "Experiments with gravity, collisions and particle systems", es: "Experimentos con gravedad, colisiones y sistemas de partículas" },
+      feat_algo_t: { en: "Visual Algorithms", es: "Algoritmos Visuales" },
+      feat_algo_p: { en: "Observe how algorithms work interactively", es: "Observa cómo funcionan los algoritmos de forma interactiva" },
+      back_btn: { en: "Back to Home", es: "Volver al Inicio" },
+      footer_text: { en: "Innovation in every line of code, precision in every physical component.", es: "Innovación en cada línea de código, precisión en cada componente físico." }
+    };
+
+    function changeLanguage(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[key]) el.textContent = translations[key][lang];
+      });
+      document.querySelectorAll('[data-lang]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+    }
+
+    document.querySelectorAll('[data-lang]').forEach(btn => {
+      btn.addEventListener('click', () => changeLanguage(btn.dataset.lang));
+    });
+
     // === Modo de color ===
-    const modeButtons=document.querySelectorAll('.seg button');
+    const modeButtons=document.querySelectorAll('.seg button[data-mode]');
     function applyTheme(mode){
       if(mode==='auto'){
         const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -1018,86 +1060,43 @@
 
     // === PARALLAX PANELS ===
     const panels = document.getElementById('panels');
-    
     const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
     const occupiedPositions = [];
     
     function isOverlapping(pos1, pos2, size1, size2, margin = 5) {
-      const left1 = parseFloat(pos1.left);
-      const top1 = parseFloat(pos1.top);
-      const left2 = parseFloat(pos2.left);
-      const top2 = parseFloat(pos2.top);
-      
-      const right1 = left1 + size1.width + margin;
-      const bottom1 = top1 + size1.height + margin;
-      const right2 = left2 + size2.width + margin;
-      const bottom2 = top2 + size2.height + margin;
-      
+      const left1 = parseFloat(pos1.left); const top1 = parseFloat(pos1.top);
+      const left2 = parseFloat(pos2.left); const top2 = parseFloat(pos2.top);
+      const right1 = left1 + size1.width + margin; const bottom1 = top1 + size1.height + margin;
+      const right2 = left2 + size2.width + margin; const bottom2 = top2 + size2.height + margin;
       return !(right1 < left2 || left1 > right2 || bottom1 < top2 || top1 > bottom2);
     }
     
     function getRandomPosition(sizeType) {
       let leftMin, leftMax, topMin, topMax, size;
-      
       switch(sizeType) {
-        case 'large':
-          leftMin = 2; leftMax = 70; topMin = 15; topMax = 70;
-          size = { width: 20, height: 15 };
-          break;
-        case 'medium':
-          leftMin = 5; leftMax = 75; topMin = 10; topMax = 75;
-          size = { width: 16, height: 12 };
-          break;
-        case 'small':
-          leftMin = 8; leftMax = 82; topMin = 5; topMax = 80;
-          size = { width: 12, height: 8 };
-          break;
+        case 'large': leftMin = 2; leftMax = 70; topMin = 15; topMax = 70; size = { width: 20, height: 15 }; break;
+        case 'medium': leftMin = 5; leftMax = 75; topMin = 10; topMax = 75; size = { width: 16, height: 12 }; break;
+        case 'small': leftMin = 8; leftMax = 82; topMin = 5; topMax = 80; size = { width: 12, height: 8 }; break;
       }
-      
-      let attempts = 0;
-      const maxAttempts = 50;
-      
+      let attempts = 0; const maxAttempts = 50;
       while (attempts < maxAttempts) {
-        const position = {
-          left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%',
-          top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%'
-        };
-        
+        const position = { left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%', top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%' };
         let hasOverlap = false;
-        for (const occupied of occupiedPositions) {
-          if (isOverlapping(position, occupied.position, size, occupied.size)) {
-            hasOverlap = true;
-            break;
-          }
-        }
-        
-        if (!hasOverlap) {
-          occupiedPositions.push({ position, size });
-          return position;
-        }
-        
+        for (const occupied of occupiedPositions) { if (isOverlapping(position, occupied.position, size, occupied.size)) { hasOverlap = true; break; } }
+        if (!hasOverlap) { occupiedPositions.push({ position, size }); return position; }
         attempts++;
       }
-      
-      const fallbackPosition = {
-        left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%',
-        top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%'
-      };
-      occupiedPositions.push({ position: fallbackPosition, size });
-      return fallbackPosition;
+      const fallbackPosition = { left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%', top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%' };
+      occupiedPositions.push({ position: fallbackPosition, size }); return fallbackPosition;
     }
     
     function shuffleArray(array) {
       const newArray = [...array];
-      for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-      }
+      for (let i = newArray.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; }
       return newArray;
     }
     
     const shuffledColors = shuffleArray(rainbowColors);
-    
     const largePanelsContent = [
       { speed: 0.9, lines: ['// Simulación iniciando...', 'const model = new ParticleSystem();', 'model.initialize(1000);', 'model.run();', '// Cargando parámetros...'] },
       { speed: 0.8, lines: ['<simulation/>', 'parameters = {', '  gravity: 9.81,', '  friction: 0.98,', '  timeStep: 0.016', '}', 'runSimulation(parameters);'] },
@@ -1127,136 +1126,67 @@
     const smallPanels = smallPanelsContent.map(content => ({ ...content, ...getRandomPosition('small') }));
     
     function typeText(element, text, speed, onComplete) {
-      let i = 0;
-      element.innerHTML = '';
-      
+      let i = 0; element.innerHTML = '';
       function typeChar() {
         if (i < text.length) {
-          const char = text.charAt(i);
-          element.innerHTML += char === ' ' ? '&nbsp;' : char;
-          i++;
-          
+          const char = text.charAt(i); element.innerHTML += char === ' ' ? '&nbsp;' : char; i++;
           let delay = speed;
           if (char === '.' || char === ';' || char === '}') delay = speed * 3;
           else if (char === ',' || char === ' ') delay = speed * 1.5;
-          
           setTimeout(typeChar, delay);
-        } else if (onComplete) {
-          setTimeout(onComplete, 1000);
-        }
+        } else if (onComplete) { setTimeout(onComplete, 1000); }
       }
-      
       typeChar();
     }
     
     function animatePanel(panel, lines, isSmall = false) {
-      const inner = panel.querySelector('.inner');
-      let currentLine = 0;
-      let isAnimating = false;
-      let timeoutId = null;
-      
-      function stopAnimation() {
-        isAnimating = false;
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-          timeoutId = null;
-        }
-      }
-      
+      const inner = panel.querySelector('.inner'); let currentLine = 0; let isAnimating = false; let timeoutId = null;
+      function stopAnimation() { isAnimating = false; if (timeoutId) { clearTimeout(timeoutId); timeoutId = null; } }
       function typeNextLine() {
         if (!isAnimating) return;
-        
         if (currentLine < lines.length) {
-          const lineElement = document.createElement('div');
-          lineElement.className = 'code-line';
-          inner.appendChild(lineElement);
-          
+          const lineElement = document.createElement('div'); lineElement.className = 'code-line'; inner.appendChild(lineElement);
           const baseSpeed = isSmall ? 25 + Math.random() * 20 : 40 + Math.random() * 30;
-          
           typeText(lineElement, lines[currentLine], baseSpeed, () => {
-            if (!isAnimating) return;
-            
-            currentLine++;
-            if (currentLine < lines.length) {
-              const pauseTime = isSmall ? 200 : 300;
-              timeoutId = setTimeout(typeNextLine, pauseTime);
-            } else {
-              timeoutId = setTimeout(() => {
-                if (!isAnimating) return;
-                inner.innerHTML = '';
-                currentLine = 0;
-                timeoutId = setTimeout(typeNextLine, isSmall ? 500 : 800);
-              }, isSmall ? 1500 : 2000);
-            }
+            if (!isAnimating) return; currentLine++;
+            if (currentLine < lines.length) { timeoutId = setTimeout(typeNextLine, isSmall ? 200 : 300); }
+            else { timeoutId = setTimeout(() => { if (!isAnimating) return; inner.innerHTML = ''; currentLine = 0; timeoutId = setTimeout(typeNextLine, isSmall ? 500 : 800); }, isSmall ? 1500 : 2000); }
           });
         }
       }
-      
-      return {
-        start: () => { if (!isAnimating) { isAnimating = true; typeNextLine(); } },
-        stop: () => { stopAnimation(); }
-      };
+      return { start: () => { if (!isAnimating) { isAnimating = true; typeNextLine(); } }, stop: () => { stopAnimation(); } };
     }
     
     const animationControllers = new Map();
     const panelObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        const panelEl = entry.target;
-        const controller = animationControllers.get(panelEl);
-        
-        if (entry.isIntersecting) {
-          if (controller) controller.start();
-        } else {
-          if (controller) controller.stop();
-        }
+        const controller = animationControllers.get(entry.target);
+        if (entry.isIntersecting) { if (controller) controller.start(); }
+        else { if (controller) controller.stop(); }
       });
     }, { root: null, rootMargin: '100px', threshold: 0 });
     
     largePanels.forEach((c, index) => {
-      const el = document.createElement('div');
-      el.className = 'panel large ' + shuffledColors[index % shuffledColors.length];
-      el.style.left = c.left;
-      el.style.top = c.top;
-      const inner = document.createElement('div');
-      inner.className = 'inner';
-      el.appendChild(inner);
-      panels.appendChild(el);
-      c.el = el;
-      const controller = animatePanel(el, c.lines, false);
-      animationControllers.set(el, controller);
-      panelObserver.observe(el);
+      const el = document.createElement('div'); el.className = 'panel large ' + shuffledColors[index % shuffledColors.length];
+      el.style.left = c.left; el.style.top = c.top; const inner = document.createElement('div'); inner.className = 'inner';
+      el.appendChild(inner); panels.appendChild(el); c.el = el;
+      const controller = animatePanel(el, c.lines, false); animationControllers.set(el, controller); panelObserver.observe(el);
     });
     
     const shuffledColorsMedium = shuffleArray(rainbowColors);
     mediumPanels.forEach((c, index) => {
-      const el = document.createElement('div');
-      el.className = 'panel medium ' + shuffledColorsMedium[index % shuffledColorsMedium.length];
-      el.style.left = c.left;
-      el.style.top = c.top;
-      const inner = document.createElement('div');
-      inner.className = 'inner';
-      el.appendChild(inner);
-      panels.appendChild(el);
-      c.el = el;
-      const controller = animatePanel(el, c.lines, false);
-      animationControllers.set(el, controller);
-      panelObserver.observe(el);
+      const el = document.createElement('div'); el.className = 'panel medium ' + shuffledColorsMedium[index % shuffledColorsMedium.length];
+      el.style.left = c.left; el.style.top = c.top; const inner = document.createElement('div'); inner.className = 'inner';
+      el.appendChild(inner); panels.appendChild(el); c.el = el;
+      const controller = animatePanel(el, c.lines, false); animationControllers.set(el, controller); panelObserver.observe(el);
     });
     
     const shuffledColorsSmall = shuffleArray(rainbowColors);
     smallPanels.forEach((c, index) => {
-      const el = document.createElement('div');
-      el.className = 'panel small ' + shuffledColorsSmall[index % shuffledColorsSmall.length];
-      el.style.left = c.left;
-      el.style.top = c.top;
-      const inner = document.createElement('div');
-      inner.className = 'inner';
-      el.appendChild(inner);
-      panels.appendChild(el);
-      c.el = el;
-      const controller = animatePanel(el, c.lines, true);
-      animationControllers.set(el, controller);
-      panelObserver.observe(el);
+      const el = document.createElement('div'); el.className = 'panel small ' + shuffledColorsSmall[index % shuffledColorsSmall.length];
+      el.style.left = c.left; el.style.top = c.top; const inner = document.createElement('div'); inner.className = 'inner';
+      el.appendChild(inner); panels.appendChild(el); c.el = el;
+      const controller = animatePanel(el, c.lines, true); animationControllers.set(el, controller); panelObserver.observe(el);
     });
 
     let ticking = false;
@@ -1287,40 +1217,15 @@
     const hamburger = document.getElementById('hamburger');
     const nav = document.getElementById('nav');
     let isMenuOpen = false;
-    
     function toggleMenu() {
       isMenuOpen = !isMenuOpen;
-      hamburger.classList.toggle('active');
-      nav.classList.toggle('active');
-      
-      if (isMenuOpen) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
+      hamburger.classList.toggle('active'); nav.classList.toggle('active');
+      document.body.style.overflow = isMenuOpen ? 'hidden' : '';
     }
-    
     hamburger.addEventListener('click', toggleMenu);
-    
-    document.querySelectorAll('.navlink').forEach(link => {
-      link.addEventListener('click', () => {
-        if (isMenuOpen) {
-          toggleMenu();
-        }
-      });
-    });
-    
-    document.addEventListener('click', (e) => {
-      if (isMenuOpen && !nav.contains(e.target) && !hamburger.contains(e.target)) {
-        toggleMenu();
-      }
-    });
-    
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 768 && isMenuOpen) {
-        toggleMenu();
-      }
-    });
+    document.querySelectorAll('.navlink').forEach(link => { link.addEventListener('click', () => { if (isMenuOpen) toggleMenu(); }); });
+    document.addEventListener('click', (e) => { if (isMenuOpen && !nav.contains(e.target) && !hamburger.contains(e.target)) toggleMenu(); });
+    window.addEventListener('resize', () => { if (window.innerWidth > 768 && isMenuOpen) toggleMenu(); });
   </script>
 </body>
 </html>
