@@ -893,20 +893,6 @@
     body[data-theme='dark'] button[type="submit"]:hover {
       background: #e0e0e0;
     }
-
-    /* Mensaje informativo sobre configuración de Web3Forms */
-    .info-message {
-      font-size: 12px;
-      padding: 8px 12px;
-      background: rgba(0,0,0,0.03);
-      border-radius: 6px;
-      margin-bottom: 16px;
-      color: var(--muted-light);
-    }
-    body[data-theme='dark'] .info-message {
-      background: rgba(255,255,255,0.05);
-      color: var(--muted-dark);
-    }
   </style>
 </head>
 
@@ -951,18 +937,14 @@
             <small class="muted" data-i18n="hero_subtitle">Send us a message and we will respond shortly.</small></div>
           
           <div class="card" style="margin-top: 36px;">
-            <!-- Mensaje informativo sobre configuración de Web3Forms -->
-            <div class="info-message">
-              ⚠️ <strong>Importante:</strong> Para que el formulario funcione, debes usar una <strong>access_key válida</strong> de Web3Forms y, si pruebas en local, añadir <code>localhost</code> como dominio permitido en tu panel de Web3Forms.
-            </div>
-
             <form id="contact-form">
               <input type="hidden" name="access_key" value="93131d3e-c31f-4b1b-a06e-f62d1137eb4f">
-              <!-- ⚠️ REEMPLAZA LA CLAVE ANTERIOR POR UNA VÁLIDA OBTENIDA EN https://web3forms.com/ -->
               <input type="hidden" name="_subject" value="Nuevo mensaje de ProtonLab">
-              <input type="hidden" name="_captcha" value="false">
+              <input type="hidden" name="_captcha" value="false"> <!-- IMPORTANTE: Desactivar reCAPTCHA en el dashboard de Web3Forms -->
               <input type="hidden" name="_template" value="table">
-              <!-- ELIMINADO: input name="from_name" (no necesario) -->
+              <input type="hidden" name="from_name" value="Formulario ProtonLab">
+              <!-- Campo opcional: fuerza que el reply-to sea el email del remitente -->
+              <input type="hidden" name="_replyto" value="email">
               
               <div class="form-group">
                 <label for="name" data-i18n="form_name">Name</label>
@@ -1022,6 +1004,13 @@
   </main>
 
   <script>
+    // === CONFIGURACIÓN Y DEPURACIÓN ===
+    console.log('🔧 Web3Forms access_key: 93131d3e-c31f-4b1b-a06e-f62d1137eb4f');
+    console.log('⚠️  Asegúrate de:');
+    console.log('   1. Verificar el correo electrónico asociado a esta access_key (revisa spam).');
+    console.log('   2. Desactivar reCAPTCHA en el dashboard de Web3Forms (https://web3forms.com/dashboard).');
+    console.log('   3. No haber superado el límite mensual de 250 envíos (plan gratuito).');
+
     // === Traducciones ===
     const translations = {
       nav_home: { en: "Home", es: "Inicio" },
@@ -1061,6 +1050,7 @@
       currentLang = lang;
       document.documentElement.lang = lang;
       
+      // Actualizar textos simples
       document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
         if (translations[key] && translations[key][lang]) {
@@ -1068,6 +1058,7 @@
         }
       });
 
+      // Actualizar botón activo
       document.querySelectorAll('[data-lang]').forEach(btn => {
         if (btn.getAttribute('data-lang') === lang) {
           btn.classList.add('active');
@@ -1093,6 +1084,7 @@
       }else document.body.dataset.theme=mode;
     }
     modeButtons.forEach(btn=>btn.addEventListener('click',()=>{
+      // Solo remover active de los botones de modo (no de idioma)
       modeButtons.forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
       applyTheme(btn.dataset.mode);
@@ -1148,7 +1140,7 @@
       }
     });
 
-    // === WEB3FORMS - MANEJO DEL FORMULARIO (CORREGIDO) ===
+    // === WEB3FORMS - MANEJO DEL FORMULARIO MEJORADO ===
     const contactForm = document.getElementById('contact-form');
     const formAlert = document.getElementById('form-alert');
     const submitBtn = contactForm.querySelector('button[type="submit"]');
@@ -1165,7 +1157,7 @@
       const formData = new FormData(contactForm);
       const data = Object.fromEntries(formData);
       
-      // Mostrar en consola para depuración
+      // Depuración: mostrar datos enviados en consola
       console.log('📤 Enviando datos a Web3Forms:', data);
       
       try {
@@ -1179,7 +1171,9 @@
         });
         
         const result = await response.json();
-        console.log('📥 Respuesta de Web3Forms:', result);
+        
+        // Depuración: mostrar respuesta completa
+        console.log('📩 Respuesta de Web3Forms:', result);
         
         if (response.ok && result.success) {
           // Éxito
@@ -1188,16 +1182,18 @@
           formAlert.style.display = 'block';
           contactForm.reset(); // Limpiar formulario
         } else {
-          // Error de validación
+          // Error de validación o de API
           let errorMsg = result.message || 'No se pudo enviar el mensaje';
-          if (result.message && result.message.includes('Access key is invalid')) {
-            errorMsg = '❌ La access_key no es válida. Obtén una nueva en web3forms.com';
+          // Mensaje más amigable si es error de verificación de email
+          if (errorMsg.includes('verify') || errorMsg.includes('email')) {
+            errorMsg += ' ⚠️ Verifica tu correo en Web3Forms (revisa spam).';
           }
           formAlert.textContent = translations['form_error'][currentLang] + errorMsg;
           formAlert.className = 'form-alert error';
           formAlert.style.display = 'block';
         }
       } catch (error) {
+        // Error de red
         console.error('❌ Error de red:', error);
         formAlert.textContent = translations['form_fail'][currentLang];
         formAlert.className = 'form-alert error';
@@ -1207,10 +1203,10 @@
         submitBtn.textContent = translations['form_btn'][currentLang];
         submitBtn.disabled = false;
         
-        // Ocultar alerta después de 7 segundos
+        // Ocultar alerta después de 10 segundos
         setTimeout(() => {
           formAlert.style.display = 'none';
-        }, 7000);
+        }, 10000);
       }
     });
 
