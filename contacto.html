@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact - ProtonLab</title>
-  <meta name="description" content="Contact ProtonLab for software and hardware development" />
+  <title>Contacto - ProtonLab</title>
+  <meta name="description" content="Contacta a ProtonLab para desarrollo de software y hardware" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -43,6 +43,7 @@
       transition:transform .35s ease,opacity .35s ease;
       z-index:60;
       height: 70px;
+      /* GPU Acceleration */
       transform: translateZ(0);
       will-change: transform;
     }
@@ -212,6 +213,7 @@
       box-shadow: var(--card-shadow-light);
       position: relative;
       overflow: hidden;
+      /* GPU Acceleration */
       transform: translateZ(0);
       will-change: transform;
     }
@@ -265,6 +267,7 @@
       position: relative;
       overflow: hidden;
       box-shadow: var(--card-shadow-light);
+      /* GPU Acceleration */
       transform: translateZ(0);
       will-change: transform;
     }
@@ -310,6 +313,7 @@
       opacity:.95;
       box-shadow:0 18px 40px rgba(2,6,23,0.06);
       border:1px solid rgba(255,255,255,0.2);
+      /* GPU Acceleration - CRÍTICO para parallax suave */
       transform: translate3d(0, 0, 0);
       will-change: transform;
       backface-visibility: hidden;
@@ -834,44 +838,6 @@
       transform: translateY(-2px);
     }
 
-    button[type="submit"]:disabled {
-      background: #666;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* Alerta de éxito/error */
-    .form-alert {
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin-top: 16px;
-      font-size: 14px;
-      font-weight: 500;
-      display: none;
-    }
-
-    .form-alert.success {
-      background: rgba(100, 220, 150, 0.1);
-      border: 1px solid rgba(100, 220, 150, 0.3);
-      color: #2d5f3f;
-    }
-
-    body[data-theme='dark'] .form-alert.success {
-      background: rgba(100, 220, 150, 0.08);
-      color: #64dc96;
-    }
-
-    .form-alert.error {
-      background: rgba(255, 100, 100, 0.1);
-      border: 1px solid rgba(255, 100, 100, 0.3);
-      color: #b91c1c;
-    }
-
-    body[data-theme='dark'] .form-alert.error {
-      background: rgba(255, 100, 100, 0.08);
-      color: #ff6464;
-    }
-
     body[data-theme='dark'] input,
     body[data-theme='dark'] textarea {
       background: var(--card-bg-dark);
@@ -905,23 +871,17 @@
       <span></span>
     </button>
     <nav id="nav">
-      <a class="navlink" href="index.html#inicio" data-i18n="nav_home">Home</a>
-      <a class="navlink" href="index.html#servicios" data-i18n="nav_services">Services</a>
-      <a class="navlink" href="index.html#departamentos" data-i18n="nav_departments">Departments</a>
-      <a class="navlink" href="index.html#contacto" data-i18n="nav_contact">Contact</a>
-      <a class="navlink" href="index.html#acerca" data-i18n="nav_about">About</a>
-      <a class="navlink" href="contacto.html" data-i18n="nav_direct">Direct Contact</a>
+      <a class="navlink" href="index.html#inicio">Inicio</a>
+      <a class="navlink" href="index.html#servicios">Servicios</a>
+      <a class="navlink" href="index.html#departamentos">Departamentos</a>
+      <a class="navlink" href="index.html#contacto">Contacto</a>
+      <a class="navlink" href="index.html#acerca">Acerca</a>
+      <a class="navlink" href="contacto.html">Contacto Directo</a>
       <div class="mode-toggle">
         <div class="seg">
-          <button data-mode="auto" class="active" data-i18n="mode_auto">Auto</button>
-          <button data-mode="light" data-i18n="mode_light">Light</button>
-          <button data-mode="dark" data-i18n="mode_dark">Dark</button>
-        </div>
-      </div>
-      <div class="mode-toggle">
-        <div class="seg">
-          <button data-lang="en" class="active">EN</button>
-          <button data-lang="es">ES</button>
+          <button data-mode="auto" class="active">Auto</button>
+          <button data-mode="light">Claro</button>
+          <button data-mode="dark">Oscuro</button>
         </div>
       </div>
     </nav>
@@ -933,61 +893,56 @@
     <section class="hero">
       <div class="hero-inner">
         <div class="hero-left">
-          <div class="code-title"><span data-i18n="hero_title">Direct Contact</span>
-            <small class="muted" data-i18n="hero_subtitle">Send us a message and we will respond shortly.</small></div>
+          <div class="code-title">Contacto Directo
+            <small class="muted">Envíanos un mensaje y te responderemos pronto.</small></div>
           
           <div class="card" style="margin-top: 36px;">
-            <form id="contact-form">
-              <input type="hidden" name="access_key" value="93131d3e-c31f-4b1b-a06e-f62d1137eb4f">
+            <form action="https://formsubmit.co/gapcode@protonmail.com" method="POST">
+              <!-- Campos del formulario -->
               <input type="hidden" name="_subject" value="Nuevo mensaje de ProtonLab">
-              <input type="hidden" name="_captcha" value="false"> <!-- IMPORTANTE: Desactivar reCAPTCHA en el dashboard de Web3Forms -->
+              <input type="hidden" name="_captcha" value="false">
               <input type="hidden" name="_template" value="table">
-              <input type="hidden" name="from_name" value="Formulario ProtonLab">
-              <!-- Campo opcional: fuerza que el reply-to sea el email del remitente -->
-              <input type="hidden" name="_replyto" value="email">
               
               <div class="form-group">
-                <label for="name" data-i18n="form_name">Name</label>
+                <label for="name">Nombre</label>
                 <input type="text" id="name" name="name" required>
               </div>
               
               <div class="form-group">
-                <label for="email" data-i18n="form_email">Email</label>
+                <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
               </div>
               
               <div class="form-group">
-                <label for="subject" data-i18n="form_subject">Subject</label>
+                <label for="subject">Asunto</label>
                 <input type="text" id="subject" name="subject" required>
               </div>
               
               <div class="form-group">
-                <label for="message" data-i18n="form_message">Message</label>
+                <label for="message">Mensaje</label>
                 <textarea id="message" name="message" required></textarea>
               </div>
               
-              <button type="submit" data-i18n="form_btn">Send Message</button>
+              <button type="submit">Enviar Mensaje</button>
             </form>
-            
-            <div id="form-alert" class="form-alert"></div>
           </div>
 
           <div class="service-grid" style="margin-top: 36px;">
             <div class="service-card">
-              <h3 data-i18n="contact_info">Contact Information</h3>
+              <h3>Información de Contacto</h3>
               <p>
                 <strong>Email:</strong> <a class="link-plain" href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a><br>
-                <strong data-i18n="contact_phone">Phone:</strong> <a class="link-plain" href="tel:+17542313968">+1 754 231 3968</a><br>
-                <strong>WhatsApp:</strong> <a class="link-plain" href="https://wa.me/17542313968" data-i18n="contact_wa">Send message</a>
+                <strong>Teléfono:</strong> <a class="link-plain" href="tel:+17542313968">+1 754 231 3968</a><br>
+                <strong>WhatsApp:</strong> <a class="link-plain" href="https://wa.me/17542313968">Enviar mensaje</a>
               </p>
             </div>
             
             <div class="service-card">
-              <h3 data-i18n="hours_title">Business Hours</h3>
+              <h3>Horario de Atención</h3>
               <p>
-                <span data-i18n="hours_week">Monday to Friday:</span> 9:00 - 18:00<br>
-                <span data-i18n="hours_weekend">Saturdays:</span> 10:00 - 14:00<br>
-                <em data-i18n="hours_tz">EST Time (Eastern US)</em>
+                Lunes a Viernes: 9:00 - 18:00<br>
+                Sábados: 10:00 - 14:00<br>
+                <em>Horario EST (Este de EE. UU.)</em>
               </p>
             </div>
           </div>
@@ -995,88 +950,18 @@
       </div>
     </section>
 
+    <!-- FOOTER MOVIDO DENTRO DEL MAIN - IGUAL QUE EN INDEX.HTML -->
     <footer>
       <p>© 2023 ProtonLab — www.protonlab.site</p>
       <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
-        <span data-i18n="footer_slogan">Innovation in every line of code, precision in every physical component.</span> <a href="pi.html" class="footer-pi">π</a>
+        Innovación en cada línea de código, precisión en cada componente físico. <a href="pi.html" class="footer-pi">π</a>
       </p>
     </footer>
   </main>
 
   <script>
-    // === CONFIGURACIÓN Y DEPURACIÓN ===
-    console.log('🔧 Web3Forms access_key: 93131d3e-c31f-4b1b-a06e-f62d1137eb4f');
-    console.log('⚠️  Asegúrate de:');
-    console.log('   1. Verificar el correo electrónico asociado a esta access_key (revisa spam).');
-    console.log('   2. Desactivar reCAPTCHA en el dashboard de Web3Forms (https://web3forms.com/dashboard).');
-    console.log('   3. No haber superado el límite mensual de 250 envíos (plan gratuito).');
-
-    // === Traducciones ===
-    const translations = {
-      nav_home: { en: "Home", es: "Inicio" },
-      nav_services: { en: "Services", es: "Servicios" },
-      nav_departments: { en: "Departments", es: "Departamentos" },
-      nav_contact: { en: "Contact", es: "Contacto" },
-      nav_about: { en: "About", es: "Acerca" },
-      nav_direct: { en: "Direct Contact", es: "Contacto Directo" },
-      mode_auto: { en: "Auto", es: "Auto" },
-      mode_light: { en: "Light", es: "Claro" },
-      mode_dark: { en: "Dark", es: "Oscuro" },
-      hero_title: { en: "Direct Contact", es: "Contacto Directo" },
-      hero_subtitle: { en: "Send us a message and we will respond shortly.", es: "Envíanos un mensaje y te responderemos pronto." },
-      form_name: { en: "Name", es: "Nombre" },
-      form_email: { en: "Email", es: "Email" },
-      form_subject: { en: "Subject", es: "Asunto" },
-      form_message: { en: "Message", es: "Mensaje" },
-      form_btn: { en: "Send Message", es: "Enviar Mensaje" },
-      form_success: { en: "Message sent successfully! We will respond shortly.", es: "¡Mensaje enviado con éxito! Te responderemos pronto." },
-      form_error: { en: "Error: ", es: "Error: " },
-      form_fail: { en: "Connection error. Please try again.", es: "Error de conexión. Por favor, inténtalo de nuevo." },
-      form_sending: { en: "Sending...", es: "Enviando..." },
-      contact_info: { en: "Contact Information", es: "Información de Contacto" },
-      contact_phone: { en: "Phone:", es: "Teléfono:" },
-      contact_wa: { en: "Send message", es: "Enviar mensaje" },
-      hours_title: { en: "Business Hours", es: "Horario de Atención" },
-      hours_week: { en: "Monday to Friday:", es: "Lunes a Viernes:" },
-      hours_weekend: { en: "Saturdays:", es: "Sábados:" },
-      hours_tz: { en: "EST Time (Eastern US)", es: "Horario EST (Este de EE. UU.)" },
-      footer_slogan: { en: "Innovation in every line of code, precision in every physical component.", es: "Innovación en cada línea de código, precisión en cada componente físico." }
-    };
-
-    let currentLang = 'en'; // Idioma por defecto
-
-    // Función para cambiar idioma
-    function changeLanguage(lang) {
-      currentLang = lang;
-      document.documentElement.lang = lang;
-      
-      // Actualizar textos simples
-      document.querySelectorAll('[data-i18n]').forEach(element => {
-        const key = element.getAttribute('data-i18n');
-        if (translations[key] && translations[key][lang]) {
-          element.textContent = translations[key][lang];
-        }
-      });
-
-      // Actualizar botón activo
-      document.querySelectorAll('[data-lang]').forEach(btn => {
-        if (btn.getAttribute('data-lang') === lang) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
-      });
-    }
-
-    // Event listeners para botones de idioma
-    document.querySelectorAll('[data-lang]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        changeLanguage(btn.getAttribute('data-lang'));
-      });
-    });
-
     // === Modo de color ===
-    const modeButtons=document.querySelectorAll('.seg button[data-mode]');
+    const modeButtons=document.querySelectorAll('.seg button');
     function applyTheme(mode){
       if(mode==='auto'){
         const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -1084,7 +969,6 @@
       }else document.body.dataset.theme=mode;
     }
     modeButtons.forEach(btn=>btn.addEventListener('click',()=>{
-      // Solo remover active de los botones de modo (no de idioma)
       modeButtons.forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
       applyTheme(btn.dataset.mode);
@@ -1137,76 +1021,6 @@
     window.addEventListener('resize', () => {
       if (window.innerWidth > 768 && isMenuOpen) {
         toggleMenu();
-      }
-    });
-
-    // === WEB3FORMS - MANEJO DEL FORMULARIO MEJORADO ===
-    const contactForm = document.getElementById('contact-form');
-    const formAlert = document.getElementById('form-alert');
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    
-    contactForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      // Desactivar botón y mostrar estado de carga
-      submitBtn.textContent = translations['form_sending'][currentLang];
-      submitBtn.disabled = true;
-      formAlert.style.display = 'none';
-      
-      // Preparar datos
-      const formData = new FormData(contactForm);
-      const data = Object.fromEntries(formData);
-      
-      // Depuración: mostrar datos enviados en consola
-      console.log('📤 Enviando datos a Web3Forms:', data);
-      
-      try {
-        const response = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
-        
-        const result = await response.json();
-        
-        // Depuración: mostrar respuesta completa
-        console.log('📩 Respuesta de Web3Forms:', result);
-        
-        if (response.ok && result.success) {
-          // Éxito
-          formAlert.textContent = translations['form_success'][currentLang];
-          formAlert.className = 'form-alert success';
-          formAlert.style.display = 'block';
-          contactForm.reset(); // Limpiar formulario
-        } else {
-          // Error de validación o de API
-          let errorMsg = result.message || 'No se pudo enviar el mensaje';
-          // Mensaje más amigable si es error de verificación de email
-          if (errorMsg.includes('verify') || errorMsg.includes('email')) {
-            errorMsg += ' ⚠️ Verifica tu correo en Web3Forms (revisa spam).';
-          }
-          formAlert.textContent = translations['form_error'][currentLang] + errorMsg;
-          formAlert.className = 'form-alert error';
-          formAlert.style.display = 'block';
-        }
-      } catch (error) {
-        // Error de red
-        console.error('❌ Error de red:', error);
-        formAlert.textContent = translations['form_fail'][currentLang];
-        formAlert.className = 'form-alert error';
-        formAlert.style.display = 'block';
-      } finally {
-        // Restaurar botón
-        submitBtn.textContent = translations['form_btn'][currentLang];
-        submitBtn.disabled = false;
-        
-        // Ocultar alerta después de 10 segundos
-        setTimeout(() => {
-          formAlert.style.display = 'none';
-        }, 10000);
       }
     });
 
@@ -1300,16 +1114,17 @@
     
     const shuffledColors = shuffleArray(rainbowColors);
     
-    // Contenido de paneles
+    // Contenido de paneles (reducido para ejemplo)
     const largePanelsContent = [
       {
         speed: 0.9,
         lines: [
-          '// Web3Forms API',
-          'const response = await fetch',
-          '("https://api.web3forms.com/submit",',
-          '  { method: "POST" }',
-          ');'
+          '// Formulario de contacto',
+          'function sendMessage() {',
+          '  const form = document',
+          '  .getElementById("form");',
+          '  form.submit();',
+          '}'
         ]
       }
     ];
@@ -1330,8 +1145,8 @@
       {
         speed: 0.2,
         lines: [
-          'web3forms:',
-          'api.web3forms.com',
+          'email:',
+          'gapcode@protonmail.com',
           'status: active'
         ]
       }
