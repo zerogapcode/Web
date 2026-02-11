@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ProtonLab – Desarrollo de software y hardware</title>
-  <meta name="description" content="ProtonLab – Desarrollo web y apps iOS, integración software+hardware, impresión 3D y electrónica" />
+  <title>ProtonLab – Software & Hardware Development</title>
+  <meta name="description" content="ProtonLab – Web development, iOS apps, software+hardware integration, 3D printing and electronics" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
 
@@ -1908,16 +1908,22 @@
       <span></span>
     </button>
     <nav id="nav">
-      <a class="navlink" href="#inicio">Inicio</a>
-      <a class="navlink" href="#servicios">Servicios</a>
-      <a class="navlink" href="#departamentos">Departamentos</a>
-      <a class="navlink" href="#contacto">Contacto</a>
-      <a class="navlink" href="#acerca">Acerca</a>
+      <a class="navlink" href="#inicio" data-i18n="nav_home">Home</a>
+      <a class="navlink" href="#servicios" data-i18n="nav_services">Services</a>
+      <a class="navlink" href="#departamentos" data-i18n="nav_departments">Departments</a>
+      <a class="navlink" href="#contacto" data-i18n="nav_contact">Contact</a>
+      <a class="navlink" href="#acerca" data-i18n="nav_about">About</a>
       <div class="mode-toggle">
         <div class="seg">
-          <button data-mode="auto" class="active">Auto</button>
-          <button data-mode="light">Claro</button>
-          <button data-mode="dark">Oscuro</button>
+          <button data-mode="auto" class="active" data-i18n="mode_auto">Auto</button>
+          <button data-mode="light" data-i18n="mode_light">Light</button>
+          <button data-mode="dark" data-i18n="mode_dark">Dark</button>
+        </div>
+      </div>
+      <div class="mode-toggle">
+        <div class="seg">
+          <button data-lang="en" class="active">EN</button>
+          <button data-lang="es">ES</button>
         </div>
       </div>
     </nav>
@@ -1930,167 +1936,166 @@
       <div class="hero-inner">
         <div class="hero-left">
           <div class="code-title"><span id="typedWrap">&lt;<span id="typed"></span>&gt;</span>
-            <small class="muted">Software y hardware al alcance de todos.</small></div>
-          <p style="margin-top:18px">
-            Somos un laboratorio de desarrollo especializado en aplicaciones iOS nativas, soluciones web escalables, 
-            integración de sistemas electrónicos y fabricación aditiva (impresión 3D). Combinamos tecnologías de vanguardia 
-            con metodologías ágiles para ofrecer productos innovadores que resuelvan problemas complejos.</p>
-          <p style="margin-top:18px">
-            Nuestro enfoque multidisciplinario nos permite abordar proyectos desde la concepción hasta la implementación, 
-            creando soluciones integrales que conectan el mundo digital con el físico.</p>
+            <small class="muted" id="typed-subtitle" data-i18n="hero_subtitle">Software and hardware within everyone's reach.</small></div>
+          <p style="margin-top:18px" data-i18n="hero_p1">
+            We are a development laboratory specializing in native iOS applications, scalable web solutions, 
+            electronic systems integration, and additive manufacturing (3D printing). We combine cutting-edge technologies 
+            with agile methodologies to deliver innovative products that solve complex problems.</p>
+          <p style="margin-top:18px" data-i18n="hero_p2">
+            Our multidisciplinary approach allows us to tackle projects from conception to implementation, 
+            creating comprehensive solutions that connect the digital world with the physical.</p>
         </div>
       </div>
     </section>
 
     <section id="servicios">
-      <h2>Servicios</h2>
-      <p class="lead">Desarrollo a medida, consultoría técnica y prototipado rápido. Transformamos ideas en productos funcionales.</p>
+      <h2 data-i18n="services_title">Services</h2>
+      <p class="lead" data-i18n="services_lead">Custom development, technical consulting, and rapid prototyping. We transform ideas into functional products.</p>
       
       <div class="service-grid">
         <div class="service-card">
-          <h3>Desarrollo iOS</h3>
-          <p>Aplicaciones nativas para iPhone y iPad usando Swift y SwiftUI. Interfaces optimizadas y experiencia de usuario excepcional con integración completa del ecosistema Apple.</p>
+          <h3 data-i18n="service_ios_title">iOS Development</h3>
+          <p data-i18n="service_ios_desc">Native applications for iPhone and iPad using Swift and SwiftUI. Optimized interfaces and exceptional user experience with full Apple ecosystem integration.</p>
         </div>
         
         <div class="service-card">
-          <h3>Soluciones Web</h3>
-          <p>Desarrollo de aplicaciones web modernas, APIs RESTful y sistemas backend escalables con las últimas tecnologías. Arquitecturas robustas y mantenibles.</p>
+          <h3 data-i18n="service_web_title">Web Solutions</h3>
+          <p data-i18n="service_web_desc">Development of modern web applications, RESTful APIs, and scalable backend systems with the latest technologies. Robust and maintainable architectures.</p>
         </div>
         
         <div class="service-card">
-          <h3>Integración Hardware/Software</h3>
-          <p>Sistemas embebidos, IoT, automatización y control de dispositivos físicos mediante software personalizado. Conexión perfecta entre mundo digital y físico.</p>
+          <h3 data-i18n="service_hw_title">Hardware/Software Integration</h3>
+          <p data-i18n="service_hw_desc">Embedded systems, IoT, automation, and physical device control via custom software. Seamless connection between the digital and physical worlds.</p>
         </div>
         
         <div class="service-card">
-          <h3>Fabricación Aditiva</h3>
-          <p>Prototipado rápido, piezas personalizadas y soluciones de impresión 3D para proyectos de hardware y productos físicos. Desde concepto hasta producto final.</p>
+          <h3 data-i18n="service_3d_title">Additive Manufacturing</h3>
+          <p data-i18n="service_3d_desc">Rapid prototyping, custom parts, and 3D printing solutions for hardware projects and physical products. From concept to final product.</p>
         </div>
         
         <div class="service-card">
-          <h3>Consultoría Técnica</h3>
-          <p>Asesoramiento especializado en arquitectura de software, optimización de procesos y estrategias tecnológicas. Maximizamos el valor de tu inversión tecnológica.</p>
+          <h3 data-i18n="service_consulting_title">Technical Consulting</h3>
+          <p data-i18n="service_consulting_desc">Specialized advice on software architecture, process optimization, and technology strategies. We maximize the value of your technological investment.</p>
         </div>
         
         <div class="service-card">
-          <h3>Mantenimiento & Soporte</h3>
-          <p>Servicios continuos de mantenimiento, actualizaciones y soporte técnico para garantizar el funcionamiento óptimo de tus sistemas a largo plazo.</p>
+          <h3 data-i18n="service_maintenance_title">Maintenance & Support</h3>
+          <p data-i18n="service_maintenance_desc">Continuous maintenance services, updates, and technical support to ensure optimal operation of your systems in the long term.</p>
         </div>
       </div>
     </section>
 
     <section id="departamentos">
-      <h2>Departamentos</h2>
-      <p class="lead">Equipos especializados trabajando en sinergia para ofrecer soluciones completas e innovadoras.</p>
+      <h2 data-i18n="dept_title">Departments</h2>
+      <p class="lead" data-i18n="dept_lead">Specialized teams working in synergy to offer complete and innovative solutions.</p>
       
       <div class="service-grid">
         <div class="service-card">
-          <h3>Desarrollo iOS</h3>
-          <p>Especialistas en Swift, SwiftUI y el ecosistema Apple. Creación de aplicaciones nativas de alto rendimiento con interfaces fluidas y experiencias de usuario excepcionales.</p>
+          <h3 data-i18n="dept_ios_title">iOS Development</h3>
+          <p data-i18n="dept_ios_desc">Specialists in Swift, SwiftUI, and the Apple ecosystem. Creation of high-performance native applications with fluid interfaces and exceptional user experiences.</p>
         </div>
         
         <div class="service-card">
-          <h3>Ingeniería de Software</h3>
-          <p>Arquitectura de sistemas, desarrollo backend, bases de datos y APIs. Tecnologías modernas y escalables para construir soluciones robustas y mantenibles.</p>
+          <h3 data-i18n="dept_eng_title">Software Engineering</h3>
+          <p data-i18n="dept_eng_desc">Systems architecture, backend development, databases, and APIs. Modern and scalable technologies to build robust and maintainable solutions.</p>
         </div>
         
         <div class="service-card">
-          <h3>Electrónica & IoT</h3>
-          <p>Diseño de circuitos, sistemas embebidos, sensores y conectividad. Puente entre el mundo digital y físico, creando soluciones tangibles e innovadoras.</p>
+          <h3 data-i18n="dept_elec_title">Electronics & IoT</h3>
+          <p data-i18n="dept_elec_desc">Circuit design, embedded systems, sensors, and connectivity. Bridge between the digital and physical worlds, creating tangible and innovative solutions.</p>
         </div>
         
         <div class="service-card">
-          <h3>Diseño & UX/UI</h3>
-          <p>Interfaces intuitivas, experiencia de usuario optimizada y diseño visual atractivo para todos nuestros productos. Centrados en la usabilidad y estética.</p>
+          <h3 data-i18n="dept_design_title">Design & UX/UI</h3>
+          <p data-i18n="dept_design_desc">Intuitive interfaces, optimized user experience, and attractive visual design for all our products. Focused on usability and aesthetics.</p>
         </div>
         
         <div class="service-card">
-          <h3>Fabricación & Prototipado</h3>
-          <p>Impresión 3D, mecanizado CNC y fabricación de prototipos funcionales para validación de conceptos. Materialización de ideas en productos físicos.</p>
+          <h3 data-i18n="dept_fab_title">Manufacturing & Prototyping</h3>
+          <p data-i18n="dept_fab_desc">3D printing, CNC machining, and fabrication of functional prototypes for concept validation. Materialization of ideas into physical products.</p>
         </div>
         
         <div class="service-card">
-          <h3>Control de Calidad</h3>
-          <p>Testing exhaustivo, automatización de pruebas y garantía de calidad en cada etapa del desarrollo. Comprometidos con la excelencia y fiabilidad.</p>
+          <h3 data-i18n="dept_qa_title">Quality Control</h3>
+          <p data-i18n="dept_qa_desc">Exhaustive testing, test automation, and quality assurance at every stage of development. Committed to excellence and reliability.</p>
         </div>
       </div>
     </section>
 
     <section id="contacto">
-      <h2>Contacto</h2>
-      <p class="lead">¿Tienes un proyecto en mente? Hablemos sobre cómo podemos hacerlo realidad.</p>
+      <h2 data-i18n="contact_title">Contact</h2>
+      <p class="lead" data-i18n="contact_lead">Do you have a project in mind? Let's talk about how we can make it happen.</p>
       
       <div class="service-grid">
         <div class="service-card">
-          <h3>Información de Contacto</h3>
+          <h3 data-i18n="contact_info_title">Contact Information</h3>
           <p>
             <strong>Email:</strong> <a class="link-plain" href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a><br>
-            <strong>Teléfono:</strong> <a class="link-plain" href="tel:+17542313968">+1 754 231 3968</a><br>
-            <strong>WhatsApp:</strong> <a class="link-plain" href="https://wa.me/17542313968">Enviar mensaje</a>
+            <strong data-i18n="contact_phone">Phone:</strong> <a class="link-plain" href="tel:+17542313968">+1 754 231 3968</a><br>
+            <strong>WhatsApp:</strong> <a class="link-plain" href="https://wa.me/17542313968" data-i18n="contact_msg">Send message</a>
           </p>
           <div class="contact-button-wrapper">
-            <a href="contacto.html" class="contact-button" id="contact-btn">CONTACTO</a>
+            <a href="contacto.html" class="contact-button" id="contact-btn" data-i18n="contact_btn">CONTACT</a>
           </div>
         </div>
         
         <div class="service-card">
-          <h3>Horario de Atención</h3>
+          <h3 data-i18n="contact_hours_title">Business Hours</h3>
           <p>
-            Lunes a Viernes: 9:00 - 18:00<br>
-            Sábados: 10:00 - 14:00<br>
-            <em>Horario EST (Este de EE. UU.)</em>
+            <span data-i18n="contact_mon_fri">Monday to Friday:</span> 9:00 - 18:00<br>
+            <span data-i18n="contact_sat">Saturdays:</span> 10:00 - 14:00<br>
+            <em data-i18n="contact_tz">EST Time (Eastern US)</em>
           </p>
         </div>
         
         <div class="service-card">
-          <h3>Proceso de Trabajo</h3>
+          <h3 data-i18n="contact_process_title">Work Process</h3>
           <p>
-            1. Consulta inicial<br>
-            2. Análisis y planificación<br>
-            3. Propuesta detallada<br>
-            4. Desarrollo iterativo<br>
-            5. Entrega y soporte
+            1. <span data-i18n="process_1">Initial consultation</span><br>
+            2. <span data-i18n="process_2">Analysis and planning</span><br>
+            3. <span data-i18n="process_3">Detailed proposal</span><br>
+            4. <span data-i18n="process_4">Iterative development</span><br>
+            5. <span data-i18n="process_5">Delivery and support</span>
           </p>
         </div>
       </div>
     </section>
 
     <section id="acerca">
-      <h2>Acerca de ProtonLab</h2>
-      <p class="lead">Más que una empresa de desarrollo, somos un laboratorio de innovación donde las ideas toman forma.</p>
+      <h2 data-i18n="about_title">About ProtonLab</h2>
+      <p class="lead" data-i18n="about_lead">More than a development company, we are an innovation laboratory where ideas take shape.</p>
       
       <div class="service-grid">
         <div class="service-card">
-          <h3>Nuestra Filosofía</h3>
-          <p>Creemos en la intersección entre software y hardware como el futuro de la tecnología. Cada proyecto es una oportunidad para crear algo único y significativo que resuelva problemas reales y mejore la experiencia del usuario.</p>
+          <h3 data-i18n="about_phil_title">Our Philosophy</h3>
+          <p data-i18n="about_phil_desc">We believe in the intersection of software and hardware as the future of technology. Every project is an opportunity to create something unique and meaningful that solves real problems and improves the user experience.</p>
         </div>
         
         <div class="service-card">
-          <h3>Metodología</h3>
-          <p>Combinamos desarrollo ágil con principios de ingeniería sólidos. Priorizamos la comunicación transparente y la entrega iterativa de valor, asegurando que cada etapa del proyecto esté alineada con los objetivos del cliente.</p>
+          <h3 data-i18n="about_method_title">Methodology</h3>
+          <p data-i18n="about_method_desc">We combine agile development with solid engineering principles. We prioritize transparent communication and iterative value delivery, ensuring that each stage of the project is aligned with the client's objectives.</p>
         </div>
         
         <div class="service-card">
-          <h3>Tecnologías</h3>
-          <p>Trabajamos con un stack tecnológico moderno y versátil, seleccionando siempre la herramienta adecuada para cada desafío específico. Mantenemos actualizados con las últimas tendencias y mejores prácticas de la industria.</p>
+          <h3 data-i18n="about_tech_title">Technologies</h3>
+          <p data-i18n="about_tech_desc">We work with a modern and versatile technology stack, always selecting the right tool for each specific challenge. We stay updated with the latest trends and best practices in the industry.</p>
         </div>
       </div>
       
       <div class="card" style="margin-top: 30px;">
-        <h3>Compromiso con la Calidad</h3>
-        <p>En ProtonLab, no entregamos solo código; entregamos soluciones que funcionan, escalan y perduran. Nuestro compromiso es con la excelencia técnica y la satisfacción del cliente en cada proyecto que emprendemos, asegurando que cada línea de código y cada componente físico cumplan con los más altos estándares de calidad.</p>
+        <h3 data-i18n="about_quality_title">Commitment to Quality</h3>
+        <p data-i18n="about_quality_desc">At ProtonLab, we don't just deliver code; we deliver solutions that work, scale, and endure. Our commitment is to technical excellence and customer satisfaction in every project we undertake, ensuring that every line of code and every physical component meets the highest quality standards.</p>
       </div>
     </section>
 
     <footer>
   <p>© 2023 ProtonLab – www.protonlab.site</p>
   <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
-    Innovación en cada línea de código, precisión en cada componente físico. <a href="pi.html" class="footer-pi">π</a>
+    <span data-i18n="footer_text">Innovation in every line of code, precision in every physical component.</span> <a href="pi.html" class="footer-pi">π</a>
   </p>
 </footer>
   </main>
 
-  <!-- Elementos para el efecto Matrix -->
   <div id="matrix-overlay">
     <canvas id="matrix-canvas"></canvas>
   </div>
@@ -2100,28 +2105,26 @@
     <div class="tear-edge"></div>
   </div>
 
-  <!-- Modal de contraseña para Pagos -->
   <div id="password-modal">
     <div class="password-modal-content">
       <div class="password-modal-header">
-        <div class="password-modal-title">Acceso a Pagos</div>
+        <div class="password-modal-title" data-i18n="pay_modal_title">Payment Access</div>
         <div class="password-modal-close" id="password-close-btn">×</div>
       </div>
       <div class="password-modal-body">
         <div class="password-input-container">
-          <label for="password-input-field" class="password-input-label">Password</label>
-          <input type="password" id="password-input-field" placeholder="Ingrese la contraseña" autocomplete="off" />
-          <div id="password-error" class="password-error">Contraseña incorrecta. Intente nuevamente.</div>
+          <label for="password-input-field" class="password-input-label" data-i18n="pay_modal_label">Password</label>
+          <input type="password" id="password-input-field" placeholder="Enter password" autocomplete="off" />
+          <div id="password-error" class="password-error" data-i18n="pay_modal_error">Incorrect password. Try again.</div>
         </div>
       </div>
       <div class="password-modal-footer">
-        <button id="password-submit-btn" class="password-submit-btn">Acceder</button>
+        <button id="password-submit-btn" class="password-submit-btn" data-i18n="pay_modal_btn">Access</button>
       </div>
     </div>
   </div>
 
   <div class="float-buttons-container">
-    <!-- Botón Simulación ahora primero -->
     <div id="simulation-float-btn" class="float-btn" role="button" aria-label="Abrir Simulación">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2130,10 +2133,9 @@
           <line x1="12" y1="22.08" x2="12" y2="12"></line>
         </svg>
       </div>
-      <span class="btn-text">Simulación</span>
+      <span class="btn-text" data-i18n="float_sim">Simulation</span>
     </div>
 
-    <!-- Botón Pitfall ahora segundo -->
     <div id="pitfall-float-btn" class="float-btn" role="button" aria-label="Abrir Pitfall">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2143,17 +2145,15 @@
       <span class="btn-text">Pitfall</span>
     </div>
 
-    <!-- Botón Tráfico Aéreo ahora tercero -->
     <div id="traffic-float-btn" class="float-btn" role="button" aria-label="Abrir Tráfico Aéreo">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
         </svg>
       </div>
-      <span class="btn-text">Tráfico</span>
+      <span class="btn-text" data-i18n="float_traffic">Traffic</span>
     </div>
 
-    <!-- Botón DebugBot ahora cuarto -->
     <div id="debug-float-btn" class="float-btn" role="button" aria-label="Abrir Debugger">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2169,7 +2169,6 @@
       <span class="btn-text">DebugBot</span>
     </div>
 
-    <!-- Botón RickGPT ahora quinto -->
     <div id="ai-float-btn" class="float-btn" role="button" aria-label="Abrir Asistente IA">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2183,7 +2182,6 @@
       <span class="status-dot"></span>
     </div>
 
-    <!-- Botón Pagos -->
     <div id="pagos-float-btn" class="float-btn" role="button" aria-label="Abrir Pagos">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2194,10 +2192,9 @@
           <line x1="14" y1="8" x2="14" y2="8"></line>
         </svg>
       </div>
-      <span class="btn-text">Pagos</span>
+      <span class="btn-text" data-i18n="float_pay">Payments</span>
     </div>
 
-    <!-- NUEVO: Botón Galería -->
     <div id="galeria-float-btn" class="float-btn" role="button" aria-label="Abrir Galería">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2206,10 +2203,9 @@
           <polyline points="21 15 16 10 5 21"></polyline>
         </svg>
       </div>
-      <span class="btn-text">Galería</span>
+      <span class="btn-text" data-i18n="float_gallery">Gallery</span>
     </div>
 
-    <!-- NUEVO: Botón Alex BETA -->
     <div id="alex-float-btn" class="float-btn" role="button" aria-label="Abrir Alex BETA">
       <div class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2234,7 +2230,7 @@
     <div class="debug-chat-body">
       <div class="debug-editor-container">
         <div class="debug-editor-header">
-          <span>Editor de Código</span>
+          <span data-i18n="debug_editor_title">Code Editor</span>
           <select id="language-selector" class="language-selector">
             <option value="javascript">JavaScript</option>
             <option value="python">Python</option>
@@ -2252,23 +2248,23 @@
             <option value="typescript">TypeScript</option>
             <option value="sql">SQL</option>
             <option value="bash">Bash/Shell</option>
-            <option value="plaintext">Texto plano</option>
+            <option value="plaintext">Text</option>
           </select>
         </div>
         <div id="debug-editor"></div>
       </div>
       <div class="debug-output-container">
         <div class="debug-output-header">
-          <div class="debug-output-title">Análisis<span id="debug-status" class="debug-status-indicator status-checking">verificando...</span></div>
+          <div class="debug-output-title"><span data-i18n="debug_analysis">Analysis</span><span id="debug-status" class="debug-status-indicator status-checking" data-i18n="debug_verifying">verifying...</span></div>
           <div class="debug-btn-container">
-            <button class="debug-action-btn" id="debug-analyze-btn">Analizar</button>
+            <button class="debug-action-btn" id="debug-analyze-btn" data-i18n="debug_btn_analyze">Analyze</button>
           </div>
         </div>
         <div id="debug-output">
-          <div class="info">💡 Escribe tu código y presiona "Analizar"</div>
+          <div class="info" data-i18n="debug_placeholder">💡 Write your code and press "Analyze"</div>
           <div id="debug-loading" class="debug-loading">
             <div class="debug-spinner"></div>
-            <div class="debug-loading-text">Analizando código...</div>
+            <div class="debug-loading-text" data-i18n="debug_analyzing_txt">Analyzing code...</div>
             <div class="debug-loading-dots">
               <div class="debug-loading-dot"></div>
               <div class="debug-loading-dot"></div>
@@ -2640,7 +2636,7 @@
     }
 
     // === Modo de color ===
-    const modeButtons=document.querySelectorAll('.seg button');
+    const modeButtons=document.querySelectorAll('[data-mode]');
     function applyTheme(mode){
       if(mode==='auto'){
         const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -2660,6 +2656,150 @@
     }));
     applyTheme('auto');
     applyRandomColors();
+
+    // ========================================
+    // LOGICA DE TRADUCCION
+    // ========================================
+    const translations = {
+      nav_home: { en: "Home", es: "Inicio" },
+      nav_services: { en: "Services", es: "Servicios" },
+      nav_departments: { en: "Departments", es: "Departamentos" },
+      nav_contact: { en: "Contact", es: "Contacto" },
+      nav_about: { en: "About", es: "Acerca" },
+      mode_auto: { en: "Auto", es: "Auto" },
+      mode_light: { en: "Light", es: "Claro" },
+      mode_dark: { en: "Dark", es: "Oscuro" },
+      hero_subtitle: { en: "Software and hardware within everyone's reach.", es: "Software y hardware al alcance de todos." },
+      hero_p1: { 
+        en: "We are a development laboratory specializing in native iOS applications, scalable web solutions, electronic systems integration, and additive manufacturing (3D printing). We combine cutting-edge technologies with agile methodologies to deliver innovative products that solve complex problems.", 
+        es: "Somos un laboratorio de desarrollo especializado en aplicaciones iOS nativas, soluciones web escalables, integración de sistemas electrónicos y fabricación aditiva (impresión 3D). Combinamos tecnologías de vanguardia con metodologías ágiles para ofrecer productos innovadores que resuelvan problemas complejos." 
+      },
+      hero_p2: { 
+        en: "Our multidisciplinary approach allows us to tackle projects from conception to implementation, creating comprehensive solutions that connect the digital world with the physical.", 
+        es: "Nuestro enfoque multidisciplinario nos permite abordar proyectos desde la concepción hasta la implementación, creando soluciones integrales que conectan el mundo digital con el físico." 
+      },
+      services_title: { en: "Services", es: "Servicios" },
+      services_lead: { en: "Custom development, technical consulting, and rapid prototyping. We transform ideas into functional products.", es: "Desarrollo a medida, consultoría técnica y prototipado rápido. Transformamos ideas en productos funcionales." },
+      service_ios_title: { en: "iOS Development", es: "Desarrollo iOS" },
+      service_ios_desc: { en: "Native applications for iPhone and iPad using Swift and SwiftUI. Optimized interfaces and exceptional user experience with full Apple ecosystem integration.", es: "Aplicaciones nativas para iPhone y iPad usando Swift y SwiftUI. Interfaces optimizadas y experiencia de usuario excepcional con integración completa del ecosistema Apple." },
+      service_web_title: { en: "Web Solutions", es: "Soluciones Web" },
+      service_web_desc: { en: "Development of modern web applications, RESTful APIs, and scalable backend systems with the latest technologies. Robust and maintainable architectures.", es: "Desarrollo de aplicaciones web modernas, APIs RESTful y sistemas backend escalables con las últimas tecnologías. Arquitecturas robustas y mantenibles." },
+      service_hw_title: { en: "Hardware/Software Integration", es: "Integración Hardware/Software" },
+      service_hw_desc: { en: "Embedded systems, IoT, automation, and physical device control via custom software. Seamless connection between the digital and physical worlds.", es: "Sistemas embebidos, IoT, automatización y control de dispositivos físicos mediante software personalizado. Conexión perfecta entre mundo digital y físico." },
+      service_3d_title: { en: "Additive Manufacturing", es: "Fabricación Aditiva" },
+      service_3d_desc: { en: "Rapid prototyping, custom parts, and 3D printing solutions for hardware projects and physical products. From concept to final product.", es: "Prototipado rápido, piezas personalizadas y soluciones de impresión 3D para proyectos de hardware y productos físicos. Desde concepto hasta producto final." },
+      service_consulting_title: { en: "Technical Consulting", es: "Consultoría Técnica" },
+      service_consulting_desc: { en: "Specialized advice on software architecture, process optimization, and technology strategies. We maximize the value of your technological investment.", es: "Asesoramiento especializado en arquitectura de software, optimización de procesos y estrategias tecnológicas. Maximizamos el valor de tu inversión tecnológica." },
+      service_maintenance_title: { en: "Maintenance & Support", es: "Mantenimiento & Soporte" },
+      service_maintenance_desc: { en: "Continuous maintenance services, updates, and technical support to ensure optimal operation of your systems in the long term.", es: "Servicios continuos de mantenimiento, actualizaciones y soporte técnico para garantizar el funcionamiento óptimo de tus sistemas a largo plazo." },
+      dept_title: { en: "Departments", es: "Departamentos" },
+      dept_lead: { en: "Specialized teams working in synergy to offer complete and innovative solutions.", es: "Equipos especializados trabajando en sinergia para ofrecer soluciones completas e innovadoras." },
+      dept_ios_title: { en: "iOS Development", es: "Desarrollo iOS" },
+      dept_ios_desc: { en: "Specialists in Swift, SwiftUI, and the Apple ecosystem. Creation of high-performance native applications with fluid interfaces and exceptional user experiences.", es: "Especialistas en Swift, SwiftUI y el ecosistema Apple. Creación de aplicaciones nativas de alto rendimiento con interfaces fluidas y experiencias de usuario excepcionales." },
+      dept_eng_title: { en: "Software Engineering", es: "Ingeniería de Software" },
+      dept_eng_desc: { en: "Systems architecture, backend development, databases, and APIs. Modern and scalable technologies to build robust and maintainable solutions.", es: "Arquitectura de sistemas, desarrollo backend, bases de datos y APIs. Tecnologías modernas y escalables para construir soluciones robustas y mantenibles." },
+      dept_elec_title: { en: "Electronics & IoT", es: "Electrónica & IoT" },
+      dept_elec_desc: { en: "Circuit design, embedded systems, sensors, and connectivity. Bridge between the digital and physical worlds, creating tangible and innovative solutions.", es: "Diseño de circuitos, sistemas embebidos, sensores y conectividad. Puente entre el mundo digital y físico, creando soluciones tangibles e innovadoras." },
+      dept_design_title: { en: "Design & UX/UI", es: "Diseño & UX/UI" },
+      dept_design_desc: { en: "Intuitive interfaces, optimized user experience, and attractive visual design for all our products. Focused on usability and aesthetics.", es: "Interfaces intuitivas, experiencia de usuario optimizada y diseño visual atractivo para todos nuestros productos. Centrados en la usabilidad y estética." },
+      dept_fab_title: { en: "Manufacturing & Prototyping", es: "Fabricación & Prototipado" },
+      dept_fab_desc: { en: "3D printing, CNC machining, and fabrication of functional prototypes for concept validation. Materialization of ideas into physical products.", es: "Impresión 3D, mecanizado CNC y fabricación de prototipos funcionales para validación de conceptos. Materialización de ideas en productos físicos." },
+      dept_qa_title: { en: "Quality Control", es: "Control de Calidad" },
+      dept_qa_desc: { en: "Exhaustive testing, test automation, and quality assurance at every stage of development. Committed to excellence and reliability.", es: "Testing exhaustivo, automatización de pruebas y garantía de calidad en cada etapa del desarrollo. Comprometidos con la excelencia y fiabilidad." },
+      contact_title: { en: "Contact", es: "Contacto" },
+      contact_lead: { en: "Do you have a project in mind? Let's talk about how we can make it happen.", es: "¿Tienes un proyecto en mente? Hablemos sobre cómo podemos hacerlo realidad." },
+      contact_info_title: { en: "Contact Information", es: "Información de Contacto" },
+      contact_phone: { en: "Phone:", es: "Teléfono:" },
+      contact_msg: { en: "Send message", es: "Enviar mensaje" },
+      contact_btn: { en: "CONTACT", es: "CONTACTO" },
+      contact_hours_title: { en: "Business Hours", es: "Horario de Atención" },
+      contact_mon_fri: { en: "Monday to Friday:", es: "Lunes a Viernes:" },
+      contact_sat: { en: "Saturdays:", es: "Sábados:" },
+      contact_tz: { en: "EST Time (Eastern US)", es: "Horario EST (Este de EE. UU.)" },
+      contact_process_title: { en: "Work Process", es: "Proceso de Trabajo" },
+      process_1: { en: "Initial consultation", es: "Consulta inicial" },
+      process_2: { en: "Analysis and planning", es: "Análisis y planificación" },
+      process_3: { en: "Detailed proposal", es: "Propuesta detallada" },
+      process_4: { en: "Iterative development", es: "Desarrollo iterativo" },
+      process_5: { en: "Delivery and support", es: "Entrega y soporte" },
+      about_title: { en: "About ProtonLab", es: "Acerca de ProtonLab" },
+      about_lead: { en: "More than a development company, we are an innovation laboratory where ideas take shape.", es: "Más que una empresa de desarrollo, somos un laboratorio de innovación donde las ideas toman forma." },
+      about_phil_title: { en: "Our Philosophy", es: "Nuestra Filosofía" },
+      about_phil_desc: { en: "We believe in the intersection of software and hardware as the future of technology. Every project is an opportunity to create something unique and meaningful that solves real problems and improves the user experience.", es: "Creemos en la intersección entre software y hardware como el futuro de la tecnología. Cada proyecto es una oportunidad para crear algo único y significativo que resuelva problemas reales y mejore la experiencia del usuario." },
+      about_method_title: { en: "Methodology", es: "Metodología" },
+      about_method_desc: { en: "We combine agile development with solid engineering principles. We prioritize transparent communication and iterative value delivery, ensuring that each stage of the project is aligned with the client's objectives.", es: "Combinamos desarrollo ágil con principios de ingeniería sólidos. Priorizamos la comunicación transparente y la entrega iterativa de valor, asegurando que cada etapa del proyecto esté alineada con los objetivos del cliente." },
+      about_tech_title: { en: "Technologies", es: "Tecnologías" },
+      about_tech_desc: { en: "We work with a modern and versatile technology stack, always selecting the right tool for each specific challenge. We stay updated with the latest trends and best practices in the industry.", es: "Trabajamos con un stack tecnológico moderno y versátil, seleccionando siempre la herramienta adecuada para cada desafío específico. Mantenemos actualizados con las últimas tendencias y mejores prácticas de la industria." },
+      about_quality_title: { en: "Commitment to Quality", es: "Compromiso con la Calidad" },
+      about_quality_desc: { en: "At ProtonLab, we don't just deliver code; we deliver solutions that work, scale, and endure. Our commitment is to technical excellence and customer satisfaction in every project we undertake, ensuring that every line of code and every physical component meets the highest quality standards.", es: "En ProtonLab, no entregamos solo código; entregamos soluciones que funcionan, escalan y perduran. Nuestro compromiso es con la excelencia técnica y la satisfacción del cliente en cada proyecto que emprendemos, asegurando que cada línea de código y cada componente físico cumplan con los más altos estándares de calidad." },
+      footer_text: { en: "Innovation in every line of code, precision in every physical component.", es: "Innovación en cada línea de código, precisión en cada componente físico." },
+      pay_modal_title: { en: "Payment Access", es: "Acceso a Pagos" },
+      pay_modal_label: { en: "Password", es: "Contraseña" },
+      pay_modal_error: { en: "Incorrect password. Try again.", es: "Contraseña incorrecta. Intente nuevamente." },
+      pay_modal_btn: { en: "Access", es: "Acceder" },
+      float_sim: { en: "Simulation", es: "Simulación" },
+      float_traffic: { en: "Traffic", es: "Tráfico" },
+      float_pay: { en: "Payments", es: "Pagos" },
+      float_gallery: { en: "Gallery", es: "Galería" },
+      debug_editor_title: { en: "Code Editor", es: "Editor de Código" },
+      debug_analysis: { en: "Analysis", es: "Análisis" },
+      debug_verifying: { en: "verifying...", es: "verificando..." },
+      debug_btn_analyze: { en: "Analyze", es: "Analizar" },
+      debug_placeholder: { en: "💡 Write your code and press \"Analyze\"", es: "💡 Escribe tu código y presiona \"Analizar\"" },
+      debug_analyzing_txt: { en: "Analyzing code...", es: "Analizando código..." }
+    };
+
+    const langButtons = document.querySelectorAll('[data-lang]');
+    let currentLang = 'en';
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      
+      // Actualizar botones
+      langButtons.forEach(btn => {
+        if (btn.dataset.lang === lang) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      // Actualizar textos
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[key] && translations[key][lang]) {
+          // Si el elemento tiene hijos HTML específicos (como spans), usamos innerHTML si es necesario
+          // pero para la mayoría basta con textContent/innerText
+          // Nota: Para hero_subtitle esto es importante para la animación
+          if (el.id === 'typed-subtitle' || el.tagName === 'P') {
+             el.innerText = translations[key][lang];
+          } else {
+             el.innerText = translations[key][lang];
+          }
+        }
+      });
+      
+      // Actualizar placeholders
+      if (document.getElementById('password-input-field')) {
+        document.getElementById('password-input-field').placeholder = lang === 'en' ? "Enter password" : "Ingrese la contraseña";
+      }
+      
+      if (document.getElementById('ai-input')) {
+         const ph = document.getElementById('ai-input').getAttribute('placeholder');
+         if (ph !== 'Conectando...' && ph !== 'Servidor no disponible') {
+             document.getElementById('ai-input').placeholder = lang === 'en' ? "Write your message..." : "Escribe tu mensaje...";
+         }
+      }
+      
+      // Actualizar etiqueta HTML
+      document.documentElement.lang = lang;
+    }
+
+    langButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        changeLanguage(btn.dataset.lang);
+      });
+    });
 
     // === ANIMACIÓN TÍTULO ===
     const typed = document.getElementById('typed');
