@@ -3,33 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-  <title>CS Brazilian Steakhouse – Newark, DE</title>
+  
+  <!-- Título y metadatos SEO / Redes sociales -->
+  <title>CS Brazilian Steakhouse – Menú auténtico en Newark, DE</title>
+  <meta name="description" content="Menú de churrasco brasileño en Newark, Delaware. Carnes a la parrilla, caipirinhas, feijoada y más. ¡Vive la experiencia CS!">
+  <meta property="og:title" content="CS Brazilian Steakhouse – Menú en Newark, DE">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://example.com/cs-steakhouse-og.jpg"> <!-- Reemplazar con URL real -->
+  <meta property="og:description" content="Sabores de Brasil en Delaware: picanha, coxinha, caipirinha y un ambiente inigualable.">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"> <!-- Añadir favicon real -->
+
   <style>
-    /* Brazilian colors & sophisticated steakhouse style */
+    /* ===== VARIABLES CSS – Paleta brasileña ===== */
+    :root {
+      --green-brazil: #009c3b;
+      --yellow-brazil: #ffdf00;
+      --red-accent: #c7442d;
+      --sand-bg: #f2e8dc;
+      --brown-dark: #2c1e13;
+      --brown-mid: #5a4a3a;
+      --brown-light: #7a5b47;
+      --gold-light: #e6d5b8;
+      --white: #ffffff;
+      --black: #000000;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --radius-card: 28px;
+      --radius-soft: 12px;
+      --shadow: 0 12px 30px rgba(0,0,0,0.08);
+      --border-dash: 2px dashed #d4b48c;
+    }
+
+    /* ===== RESET Y BASE ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      font-size: 100%; /* 1rem = 16px */
+    }
+
     body {
-      background: #f2e8dc; /* warm sand */
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--sand-bg);
+      font-family: var(--font-sans);
       line-height: 1.5;
-      color: #2c1e13;
+      color: var(--brown-dark);
       padding: 2rem 1rem;
     }
 
+    /* ===== SKIP LINK – accesibilidad ===== */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--green-brazil);
+      color: white;
+      padding: 8px 16px;
+      z-index: 100;
+      text-decoration: none;
+      border-radius: 0 0 var(--radius-soft) 0;
+      font-weight: 600;
+      transition: top 0.2s;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* ===== CONTENEDOR PRINCIPAL ===== */
     .menu {
       max-width: 1200px;
       margin: 0 auto;
-      background: white;
-      border-radius: 28px 28px 20px 20px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      background: var(--white);
+      border-radius: var(--radius-card) var(--radius-card) 20px 20px;
+      box-shadow: var(--shadow);
       padding: 2.5rem 2rem;
       position: relative;
-      border-top: 8px solid #009c3b; /* green */
-      border-bottom: 8px solid #ffdf00; /* yellow */
+      border-top: 8px solid var(--green-brazil);
+      border-bottom: 8px solid var(--yellow-brazil);
     }
 
     .menu::before {
@@ -43,31 +94,33 @@
       border-radius: inherit;
     }
 
-    /* ---------- BLACK STRIPE WITH LOGO ---------- */
+    /* ===== HEADER – BARRA NEGRA CON LOGO ===== */
     .logo-bar {
-      background-color: #000000;
-      height: 3cm;                /* 3 cm height */
+      background-color: var(--black);
+      min-height: 120px;        /* equivalente aproximado a 3cm, pero flexible */
+      padding: 0.5rem 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 1.5rem;
-      border-radius: 12px;        /* soft corners */
-      padding: 0 1rem;
+      border-radius: var(--radius-soft);
     }
 
     .logo-bar img {
-      max-height: 80%;           /* fits inside the bar */
+      max-height: 100%;
       max-width: 100%;
       width: auto;
       height: auto;
       display: block;
+      object-fit: contain;
     }
 
+    /* ===== TÍTULOS Y ENCABEZADOS ===== */
     .subhead {
       font-size: 0.95rem;
       text-transform: uppercase;
       letter-spacing: 5px;
-      color: #a6552b;
+      color: var(--red-accent);
       margin-bottom: 1.5rem;
       margin-top: 0.5rem;
       font-weight: 500;
@@ -77,10 +130,10 @@
     h2 {
       font-size: 1.6rem;
       font-weight: 650;
-      color: #1e4d2e;
+      color: #1e4d2e;          /* verde oscuro (se mantiene) */
       margin: 2rem 0 1rem 0;
       padding-bottom: 0.5rem;
-      border-bottom: 2px dashed #d4b48c;
+      border-bottom: var(--border-dash);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -88,18 +141,47 @@
 
     h2::before {
       content: '✦';
-      color: #c7442d;
+      color: var(--red-accent);
       font-size: 1.5rem;
       font-weight: 300;
     }
 
-    /* two‑column grid for most sections */
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: #1e4d2e;
+      margin: 1.5rem 0 0.5rem;
+      font-weight: 600;
+    }
+
+    /* ===== GRIDS REUTILIZABLES ===== */
     .items-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1.2rem 2.2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
 
+    .three-col-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem 1.8rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* ítem genérico de menú (con nombre, precio, descripción) */
     .menu-item {
       break-inside: avoid;
     }
@@ -111,7 +193,7 @@
       font-weight: 600;
       color: #3a2c1e;
       font-size: 1.05rem;
-      border-bottom: 1px dotted #e6d5b8;
+      border-bottom: 1px dotted var(--gold-light);
       padding-bottom: 0.2rem;
       margin-bottom: 0.3rem;
     }
@@ -123,7 +205,7 @@
 
     .item-price {
       font-weight: 700;
-      color: #a6552b;
+      color: var(--red-accent);
       font-size: 1.05rem;
       white-space: nowrap;
       margin-left: 0.75rem;
@@ -131,7 +213,7 @@
 
     .item-desc {
       font-size: 0.9rem;
-      color: #5a4a3a;
+      color: var(--brown-mid);
       margin-bottom: 0.4rem;
       line-height: 1.45;
     }
@@ -151,7 +233,7 @@
 
     .item-desc li::before {
       content: '•';
-      color: #c7442d;
+      color: var(--red-accent);
       font-weight: bold;
       position: absolute;
       left: 0.2rem;
@@ -160,21 +242,11 @@
     .note {
       font-size: 0.85rem;
       font-style: italic;
-      color: #7a5b47;
+      color: var(--brown-light);
       margin-top: 0.15rem;
     }
 
-    .grid-span-2 {
-      grid-column: span 2;
-    }
-
-    /* three‑column grid for beers & large lists */
-    .three-col {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.8rem 1.8rem;
-    }
-
+    /* ítems de cerveza, vino, licores (formato línea) */
     .beer-item, .spirit-item {
       display: flex;
       justify-content: space-between;
@@ -190,16 +262,21 @@
 
     .spirit-price {
       font-weight: 600;
-      color: #a6552b;
+      color: var(--red-accent);
       white-space: nowrap;
     }
 
+    .grid-span-2 {
+      grid-column: span 2;
+    }
+
+    /* ===== HAPPY HOUR ===== */
     .happy-hour {
       background: #fdf3e0;
       padding: 1.5rem 1.8rem;
       border-radius: 24px;
       margin-top: 2.5rem;
-      border-left: 8px solid #009c3b;
+      border-left: 8px solid var(--green-brazil);
     }
 
     .hh-grid {
@@ -211,9 +288,10 @@
 
     .hh-day {
       font-weight: 700;
-      color: #c7442d;
+      color: var(--red-accent);
     }
 
+    /* ===== DISCLAIMER ===== */
     .disclaimer {
       background: #fff1e0;
       padding: 1.2rem;
@@ -225,298 +303,369 @@
       text-align: center;
     }
 
+    /* ===== FOOTER ===== */
     .footer {
       margin-top: 2.8rem;
       padding-top: 1.5rem;
       text-align: center;
       font-size: 0.95rem;
-      border-top: 1px solid #e6d5b8;
+      border-top: 1px solid var(--gold-light);
       color: #6b4f3a;
     }
 
     .obrigado {
       font-size: 1.3rem;
       font-weight: 600;
-      color: #c7442d;
+      color: var(--red-accent);
       letter-spacing: 2px;
     }
 
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 800px) {
-      .items-grid, .three-col {
+      .items-grid,
+      .three-col-grid,
+      .two-col-grid {
         grid-template-columns: 1fr;
       }
       .grid-span-2 {
         grid-column: span 1;
       }
       .logo-bar {
-        height: 2.5cm;   /* slightly smaller on mobile */
+        min-height: 100px;  /* un poco más pequeño en móvil */
       }
+      .menu {
+        padding: 1.5rem 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-bar {
+        min-height: 80px;
+      }
+      h2 {
+        font-size: 1.4rem;
+      }
+    }
+
+    /* utilidad para precios con <data> */
+    data {
+      font-weight: inherit;
+      color: inherit;
     }
   </style>
 </head>
 <body>
+  <!-- ENLACE PARA SALTAR AL CONTENIDO PRINCIPAL -->
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
   <div class="menu">
-    <!-- ========== BLACK BAR WITH LOGO (NO TEXT) ========= -->
-    <div class="logo-bar">
-      <img src="white-transparent-cs2-logo.png" alt="CS Brazilian Steakhouse">
-    </div>
-    
-    <div class="subhead">— AUTHENTIC BRAZILIAN CHURRASCO —</div>
-    
-    <!-- ========== SALGADOS & APPETIZERS ========= -->
-    <h2>Salgados & Appetizers</h2>
-    <div class="items-grid">
-      <div class="menu-item">
-        <div class="item-header"><span class="item-name">Pão de Queijo</span><span class="item-price">$10</span></div>
-        <div class="item-desc">Traditional hand‑rolled cheese bread basket – gluten free.</div>
-      </div>
-      <div class="menu-item">
-        <div class="item-header"><span class="item-name">Coxinhas</span><span class="item-price">$14</span></div>
-        <div class="item-desc">Roasted chicken fritters, creamy sriracha.</div>
-      </div>
-      <div class="menu-item">
-        <div class="item-header"><span class="item-name">Yucca Fries</span><span class="item-price">$10</span></div>
-        <div class="item-desc">Fried yucca root sticks, creamy sriracha.</div>
-      </div>
-      <div class="menu-item">
-        <div class="item-header"><span class="item-name">Fried Polenta</span><span class="item-price">$10</span></div>
-        <div class="item-desc">Polenta sticks with parmesan.</div>
-      </div>
-      <div class="menu-item">
-        <div class="item-header"><span class="item-name">Sampler Platter</span><span class="item-price">$25</span></div>
-        <div class="item-desc">Four each: Yucca sticks, polenta fries, pão de queijo & coxinhas. Served with creamy sriracha.</div>
-      </div>
-      <div class="menu-item">
-        <div class="item-header"><span class="item-name">Salad Bar</span><span class="item-price">$20</span></div>
-        <div class="item-desc">One time visit to our fresh salad bar.</div>
-      </div>
-    </div>
+    <!-- HEADER SEMÁNTICO CON LOGO -->
+    <header class="logo-bar">
+      <img src="white-transparent-cs2-logo.png" 
+           alt="CS Brazilian Steakhouse – Inicio" 
+           width="300" 
+           height="100"
+           loading="eager">
+    </header>
 
-    <!-- ========== MAIN COURSES ========= -->
-    <h2>Main Courses • Pratos Principais</h2>
-    <div class="items-grid">
-      <div class="menu-item">
-        <div class="item-header"><span class="item-name">Feijoada</span><span class="item-price">$14</span></div>
-        <div class="item-desc">Bottomless bowl of black bean stew with pork & beef. Served with rice, farofa, orange & vinaigrette.</div>
-      </div>
-      <div class="menu-item">
-        <div class="item-header"><span class="item-name">Lamb Chops</span><span class="item-price">$35</span></div>
-        <div class="item-desc">Four lamb chops over tabbouleh, house‑made mint sauce.</div>
-      </div>
-      <div class="menu-item">
-        <div class="item-header"><span class="item-name">Churrasco Trio</span><span class="item-price">$16</span></div>
-        <div class="item-desc">Beef wrapped in bacon, linguiça sausage & beer‑marinated chicken leg. Choice of tabbouleh, garlic potatoes, or rice & beans.</div>
-      </div>
-      <div class="menu-item">
-        <div class="item-header"><span class="item-name">Prato Feito</span><span class="item-price">$18</span></div>
-        <div class="item-desc">Garlic potatoes, Brazilian rice & beans, chicken wrapped in bacon. 
-          <br><span class="note">Substitute Fraldinha +$4 | Substitute Picanha +$4 | Add salad bar +$10</span>
+    <div class="subhead" aria-hidden="true">— AUTHENTIC BRAZILIAN CHURRASCO —</div>
+
+    <!-- ========== CONTENIDO PRINCIPAL ========= -->
+    <main id="main-content">
+
+      <!-- SECCIÓN: SALGADOS & APPETIZERS -->
+      <section aria-labelledby="appetizers-heading">
+        <h2 id="appetizers-heading">Salgados & Appetizers</h2>
+        <ul class="items-grid">
+          <li class="menu-item">
+            <div class="item-header"><span class="item-name">Pão de Queijo</span><data class="item-price" value="10">$10</data></div>
+            <div class="item-desc">Traditional hand‑rolled cheese bread basket – gluten free.</div>
+          </li>
+          <li class="menu-item">
+            <div class="item-header"><span class="item-name">Coxinhas</span><data class="item-price" value="14">$14</data></div>
+            <div class="item-desc">Roasted chicken fritters, creamy sriracha.</div>
+          </li>
+          <li class="menu-item">
+            <div class="item-header"><span class="item-name">Yucca Fries</span><data class="item-price" value="10">$10</data></div>
+            <div class="item-desc">Fried yucca root sticks, creamy sriracha.</div>
+          </li>
+          <li class="menu-item">
+            <div class="item-header"><span class="item-name">Fried Polenta</span><data class="item-price" value="10">$10</data></div>
+            <div class="item-desc">Polenta sticks with parmesan.</div>
+          </li>
+          <li class="menu-item">
+            <div class="item-header"><span class="item-name">Sampler Platter</span><data class="item-price" value="25">$25</data></div>
+            <div class="item-desc">Four each: Yucca sticks, polenta fries, pão de queijo & coxinhas. Served with creamy sriracha.</div>
+          </li>
+          <li class="menu-item">
+            <div class="item-header"><span class="item-name">Salad Bar</span><data class="item-price" value="20">$20</data></div>
+            <div class="item-desc">One time visit to our fresh salad bar.</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SECCIÓN: MAIN COURSES -->
+      <section aria-labelledby="mains-heading">
+        <h2 id="mains-heading">Main Courses • Pratos Principais</h2>
+        <ul class="items-grid">
+          <li class="menu-item">
+            <div class="item-header"><span class="item-name">Feijoada</span><data class="item-price" value="14">$14</data></div>
+            <div class="item-desc">Bottomless bowl of black bean stew with pork & beef. Served with rice, farofa, orange & vinaigrette.</div>
+          </li>
+          <li class="menu-item">
+            <div class="item-header"><span class="item-name">Lamb Chops</span><data class="item-price" value="35">$35</data></div>
+            <div class="item-desc">Four lamb chops over tabbouleh, house‑made mint sauce.</div>
+          </li>
+          <li class="menu-item">
+            <div class="item-header"><span class="item-name">Churrasco Trio</span><data class="item-price" value="16">$16</data></div>
+            <div class="item-desc">Beef wrapped in bacon, linguiça sausage & beer‑marinated chicken leg. Choice of tabbouleh, garlic potatoes, or rice & beans.</div>
+          </li>
+          <li class="menu-item">
+            <div class="item-header"><span class="item-name">Prato Feito</span><data class="item-price" value="18">$18</data></div>
+            <div class="item-desc">Garlic potatoes, Brazilian rice & beans, chicken wrapped in bacon. 
+              <br><span class="note">Substitute Fraldinha +$4 | Substitute Picanha +$4 | Add salad bar +$10</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SECCIÓN: DESSERTS -->
+      <section aria-labelledby="desserts-heading">
+        <h2 id="desserts-heading">Sobremesas • Desserts</h2>
+        <ul class="items-grid">
+          <li class="menu-item"><div class="item-header"><span class="item-name">NY Cheesecake</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Choice of sauce: strawberry, raspberry, chocolate, caramel, blueberry, seasonal fruits.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Smashed Caramel Brownie</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Warm brownie with caramel center.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Chocolate Mousse Cake</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Layers of chocolate cake & whipped mousse, ganache.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Chocolate Molten Cake</span><data class="item-price" value="10">$10</data></div><div class="item-desc">With vanilla ice cream.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Papaya or Strawberry Cream</span><data class="item-price" value="8">$8</data></div><div class="item-desc">Fresh fruit blended with vanilla ice cream, crème de cassis.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Pudim</span><data class="item-price" value="9">$9</data></div><div class="item-desc">Brazilian flan – creamy vanilla caramel custard.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Chocolate Peanut Butter Cake</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Layers of chocolate cake & peanut butter mousse, ganache.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Petrucci Affogato</span><data class="item-price" value="9">$9</data></div><div class="item-desc">Double espresso poured tableside over vanilla ice cream. Add Kahlúa, Bailey’s, Frangelico or Vanille de Madagascar +$5.</div></li>
+        </ul>
+      </section>
+
+      <!-- SECCIÓN: COCKTAILS -->
+      <section aria-labelledby="cocktails-heading">
+        <h2 id="cocktails-heading">Coqueteis • Cocktails</h2>
+        <ul class="items-grid">
+          <li class="menu-item grid-span-2">
+            <div class="item-header"><span class="item-name">Caipirinha</span><span class="item-price">Traditional $12 | Premium $14 | Specialty $14</span></div>
+            <div class="item-desc"><strong>Traditional:</strong> Brazil’s national cocktail. <strong>Premium:</strong> Novo Fogo Cachaça. <strong>Specialty:</strong> Kiwi, Pineapple, Mango, Strawberry, Blueberry – or mix & match!</div>
+          </li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Cucumber Mint</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Steel Blue vodka, mint, cucumber, lemon, simple syrup.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Dirty Na</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Stateside vodka, Guarana soda, muddled orange.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Strawberry Mint Fizz</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Aviation gin, strawberry purée, mint, lemon, club soda.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Ward CS</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Rye whiskey, OJ, lemon, grenadine, simple syrup.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Blue Brazilian</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Blueberries, blue curaçao, lime, rum.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Skrewball Sundae</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Skrewball peanut butter whiskey, chocolate liqueur, whipped cream & cherry.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Jameson Green Tea</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Jameson, peach schnapps, sweet & sour, lemonade.</div></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="martinis-heading">
+        <h2 id="martinis-heading">Martinis & Muddled</h2>
+        <ul class="items-grid">
+          <li class="menu-item"><div class="item-header"><span class="item-name">Peanut Butter Cup</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Skrewball whiskey, chocolate liqueur.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Tequila Twist of Love</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Pomegranate tequila, triple sec, cherry & lime.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Chocolate Covered Cherry</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Cherry liqueur, vodka, crème de coco, cream.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Pineapple Upside Down</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Pineapple, vodka – dream of Rio.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Brazilian Old Fashioned</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Muddled orange, sugar, chocolate bitters, Novo Fogo barrel‑aged cachaça.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Paris Lemonade</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Muddled lemon, strawberry, blueberry, Novo Fogo Silver, Grand Marnier.</div></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="specials-heading">
+        <h2 id="specials-heading">Mimosas & Sangrias</h2>
+        <ul class="items-grid">
+          <li class="menu-item"><div class="item-header"><span class="item-name">Mimosa Specials</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Watermelon, Strawberry Lemonade, Hawaiian, Raspberry, Sangria, Pineapple, Caramel Apple – ask your server.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Sangria Specials</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Blood Orange, Pineapple, Traditional Red & White, Strawberry Peach.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Blood Orange Mimosa</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Blood orange sparkling juice & prosecco.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Spiked Strawberry Lemonade</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Tito’s vodka, homemade lemonade, fresh strawberries.</div></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="dessert-cocktails-heading">
+        <h2 id="dessert-cocktails-heading">Dessert Cocktails & After Dinner</h2>
+        <ul class="items-grid">
+          <li class="menu-item"><div class="item-header"><span class="item-name">Chocolate Martini</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Rich chocolate indulgence – perfect with molten cake.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Espresso Martini</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Double espresso, milk & white chocolate liqueurs, vodka, Kahlúa, cream.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Cinnamon Roll Martini</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Stoli Vanilla, RumChata, Kahlúa.</div></li>
+          <li class="menu-item"><div class="item-header"><span class="item-name">Toasted Almond</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Nutty after‑dinner drink.</div></li>
+        </ul>
+      </section>
+
+      <!-- SECCIÓN: BEER -->
+      <section aria-labelledby="beer-heading">
+        <h2 id="beer-heading">Cervejas • Beer</h2>
+        <h3 class="section-subtitle">Draft</h3>
+        <ul class="three-col-grid">
+          <li class="beer-item"><span>Allagash White</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Yuengling Lager</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Lagunitas IPA</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Founders Breakfast Stout</span><data class="spirit-price" value="9">$9</data></li>
+          <li class="beer-item"><span>Guinness Stout</span><data class="spirit-price" value="9">$9</data></li>
+          <li class="beer-item"><span>WBW Undelivered Mail IPA</span><data class="spirit-price" value="8">$8</data></li>
+          <li class="beer-item"><span>CountyLine Neshaminy Creek IPA</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Hoop Tea</span><data class="spirit-price" value="9">$9</data></li>
+          <li class="beer-item"><span>Dogfish 60 Minute IPA</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Elysian Space Dust</span><data class="spirit-price" value="8">$8</data></li>
+          <li class="beer-item"><span>Rise Up Coffee Stout</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Yuengling Black & Tan</span><data class="spirit-price" value="7">$7</data></li>
+        </ul>
+
+        <h3 class="section-subtitle">Bottled & Cans</h3>
+        <ul class="three-col-grid">
+          <li class="beer-item"><span>Heineken</span><data class="spirit-price" value="8">$8</data></li>
+          <li class="beer-item"><span>Heineken 0.0</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Bud Light</span><data class="spirit-price" value="6">$6</data></li>
+          <li class="beer-item"><span>Budweiser Zero</span><data class="spirit-price" value="6">$6</data></li>
+          <li class="beer-item"><span>Coors Light</span><data class="spirit-price" value="6">$6</data></li>
+          <li class="beer-item"><span>Miller Lite</span><data class="spirit-price" value="6">$6</data></li>
+          <li class="beer-item"><span>Miller High Life</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Michelob Ultra</span><data class="spirit-price" value="6">$6</data></li>
+          <li class="beer-item"><span>Dogfish Head 90 Minute IPA</span><data class="spirit-price" value="8">$8</data></li>
+          <li class="beer-item"><span>Founders All Day IPA</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Heavy Seas Hazy Cannon</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Lagunitas IPA</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Bell's Two Hearted Ale</span><data class="spirit-price" value="6">$6</data></li>
+          <li class="beer-item"><span>Yards Philadelphia Pale Ale</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Landshark</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Corona Extra / Corona Light</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Dos Equis XX</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Modelo Negra / Especial</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Sol Cerveza</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Blue Moon Belgian White</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Samuel Adams Boston Lager</span><data class="spirit-price" value="7">$7</data></li>
+          <li class="beer-item"><span>Stella Artois</span><data class="spirit-price" value="8">$8</data></li>
+          <li class="beer-item"><span>Delmarva Pure Pils</span><data class="spirit-price" value="7">$7</data></li>
+        </ul>
+        <div style="margin-top:0.8rem;"><span style="font-weight:600;">Cider:</span> Strongbow Gold Apple Cider <data class="spirit-price" value="7" style="margin-left:0.5rem;">$7</data></div>
+      </section>
+
+      <!-- SECCIÓN: WINES -->
+      <section aria-labelledby="wines-heading">
+        <h2 id="wines-heading">Vinhos • Wines</h2>
+        <ul class="three-col-grid">
+          <li class="beer-item"><span>Yare Marydel Blend (berry)</span><data class="spirit-price" value="19">$19</data></li>
+          <li class="beer-item"><span>Peach Blossom (white peach)</span><data class="spirit-price" value="19">$19</data></li>
+          <li class="beer-item"><span>Cabernet Sauvignon, Marydel</span><data class="spirit-price" value="30">$30</data></li>
+          <li class="beer-item"><span>Blue Hen Blue (Concord/blueberry)</span><data class="spirit-price" value="23">$23</data></li>
+          <li class="beer-item"><span>Bartenura Moscato d’Asti</span><data class="spirit-price" value="19">$19</data></li>
+          <li class="beer-item"><span>Freakshow Cabernet Sauvignon</span><data class="spirit-price" value="30">$30</data></li>
+          <li class="beer-item"><span>Joel Gott 815 Cabernet</span><data class="spirit-price" value="20">$20</data></li>
+          <li class="beer-item"><span>Heinz Eifel Eiswein</span><data class="spirit-price" value="80">$80</data></li>
+          <li class="beer-item"><span>Taylor Fladgate 10yr Tawny</span><data class="spirit-price" value="11">$11</data></li>
+          <li class="beer-item"><span>Taylor Fladgate 20yr Tawny</span><data class="spirit-price" value="15">$15</data></li>
+          <li class="beer-item"><span>Graham’s 30yr Tawny Porto</span><data class="spirit-price" value="30">$30</data></li>
+          <li class="beer-item"><span>Graham’s Six Grapes Porto</span><data class="spirit-price" value="9">$9</data></li>
+        </ul>
+      </section>
+
+      <!-- SECCIÓN: SPIRITS (ahora con grid unificado y categorías) -->
+      <section aria-labelledby="spirits-heading">
+        <h2 id="spirits-heading">Licores & Destilados</h2>
+        <div class="two-col-grid" style="gap: 1.5rem;">
+          
+          <div>
+            <h3 class="section-subtitle">Cachaça</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li class="beer-item"><span>Novo Fogo Tanager</span><data class="spirit-price" value="35">$35</data></li>
+              <li class="beer-item"><span>Novo Fogo Chameleon</span><data class="spirit-price" value="11">$11</data></li>
+              <li class="beer-item"><span>Novo Fogo Barrel-Aged</span><data class="spirit-price" value="10">$10</data></li>
+              <li class="beer-item"><span>Novo Fogo Silver</span><data class="spirit-price" value="9">$9</data></li>
+              <li class="beer-item"><span>Leblon Reserva Especial</span><data class="spirit-price" value="11">$11</data></li>
+              <li class="beer-item"><span>Leblon Cachaça</span><data class="spirit-price" value="9">$9</data></li>
+              <li class="beer-item"><span>Pitú Cachaça</span><data class="spirit-price" value="8">$8</data></li>
+              <li class="beer-item"><span>Pineapple Cachaça Shot (infused)</span><data class="spirit-price" value="5">$5</data></li>
+            </ul>
+            
+            <h3 class="section-subtitle" style="margin-top:1.2rem;">Tequila</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li class="beer-item"><span>Don Julio 1942</span><data class="spirit-price" value="22">$22</data></li>
+            </ul>
+
+            <h3 class="section-subtitle" style="margin-top:1.2rem;">Scotch</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li class="beer-item"><span>Laphroaig 10 Year</span><data class="spirit-price" value="14">$14</data></li>
+              <li class="beer-item"><span>Macallan 12 Year</span><data class="spirit-price" value="20">$20</data></li>
+            </ul>
+
+            <h3 class="section-subtitle" style="margin-top:1.2rem;">Bourbon & Rye</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li class="beer-item"><span>Eagle Rare 10 Year</span><data class="spirit-price" value="40">$40</data></li>
+              <li class="beer-item"><span>WhistlePig 10yr Rye</span><data class="spirit-price" value="14">$14</data></li>
+              <li class="beer-item"><span>Screwball Peanut Butter</span><data class="spirit-price" value="9">$9</data></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="section-subtitle">Cognac</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li class="beer-item"><span>Rémy Martin Louis XIII</span><data class="spirit-price" value="350">$350</data></li>
+              <li class="beer-item"><span>Grand Marnier Cuvee 1880</span><data class="spirit-price" value="50">$50</data></li>
+              <li class="beer-item"><span>Grand Marnier Louis Alexandre</span><data class="spirit-price" value="20">$20</data></li>
+              <li class="beer-item"><span>Grand Marnier Cordon Rouge</span><data class="spirit-price" value="12">$12</data></li>
+              <li class="beer-item"><span>Rémy Martin VSOP</span><data class="spirit-price" value="18">$18</data></li>
+              <li class="beer-item"><span>Courvoisier VSOP</span><data class="spirit-price" value="16">$16</data></li>
+              <li class="beer-item"><span>Hennessy Privilege VSOP</span><data class="spirit-price" value="14">$14</data></li>
+            </ul>
+            
+            <h3 class="section-subtitle" style="margin-top:1.2rem;">Gin</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li class="beer-item"><span>Aviation</span><data class="spirit-price" value="7">$7</data></li>
+              <li class="beer-item"><span>Hendrick's</span><data class="spirit-price" value="10">$10</data></li>
+              <li class="beer-item"><span>Tanqueray London Dry</span><data class="spirit-price" value="9">$9</data></li>
+              <li class="beer-item"><span>Tanqueray Sevilla Orange</span><data class="spirit-price" value="9">$9</data></li>
+              <li class="beer-item"><span>Tanqueray No.10</span><data class="spirit-price" value="12">$12</data></li>
+              <li class="beer-item"><span>Bluecoat American Dry</span><data class="spirit-price" value="7">$7</data></li>
+              <li class="beer-item"><span>Bombay Sapphire</span><data class="spirit-price" value="9">$9</data></li>
+            </ul>
+
+            <h3 class="section-subtitle" style="margin-top:1.2rem;">Rum</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li class="beer-item"><span>Captain Morgan Spiced</span><data class="spirit-price" value="7">$7</data></li>
+              <li class="beer-item"><span>Captain Morgan Parrot Bay</span><data class="spirit-price" value="6">$6</data></li>
+              <li class="beer-item"><span>Rumhaven Coconut</span><data class="spirit-price" value="6">$6</data></li>
+            </ul>
+            
+            <h3 class="section-subtitle" style="margin-top:1.2rem;">Whiskey</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li class="beer-item"><span>Midleton 2018</span><data class="spirit-price" value="38">$38</data></li>
+              <li class="beer-item"><span>Midleton Barry Crocket 1992</span><data class="spirit-price" value="24">$24</data></li>
+              <li class="beer-item"><span>Crown Royal (Peach/Apple/Reg)</span><data class="spirit-price" value="10">$10</data></li>
+              <li class="beer-item"><span>Drambuie</span><data class="spirit-price" value="12">$12</data></li>
+              <li class="beer-item"><span>77 Whiskey Rye</span><data class="spirit-price" value="9">$9</data></li>
+            </ul>
+          </div>
         </div>
+      </section>
+
+      <!-- SECCIÓN: HAPPY HOUR (aside temático) -->
+      <aside class="happy-hour" aria-labelledby="happy-hour-heading">
+        <h2 id="happy-hour-heading" style="margin-top:0; border-bottom: none; color:#1e4d2e;">🍻 Happy Hour • Mon–Fri 5–7pm</h2>
+        <div class="hh-grid">
+          <div><span class="hh-day">Monday – Meat Monday</span><br>Two cuts of meat with rice & beans + a wine or tap beer <strong>$20</strong></div>
+          <div><span class="hh-day">Tuesday – Tequila Tuesday</span><br>Regular Margaritas $6 • Flavored $7 • Rice & Beans $5</div>
+          <div><span class="hh-day">Wednesday – WineBottleWednesday</span><br>½ price bottles (see today’s selection) + Charcuterie Board $18</div>
+          <div><span class="hh-day">Thursday – Flight Night</span><br>Wine flight $20 • Beer flight $15 • Caipirinha flight $15 • App sampler $7</div>
+          <div><span class="hh-day">Friday – Feijoada Friday</span><br>Sampler Platter $15 • Rail Mixes $5 • Feijoada $15</div>
+        </div>
+        <div style="margin-top:1rem;"><strong>Domestic $5 | Import $6 | Draft $6 | IPA $8 | Wine on Tap ½ off 5oz pours | Crush’s $6</strong></div>
+      </aside>
+
+      <!-- AVISO IMPORTANTE -->
+      <div class="disclaimer" role="alert">
+        <strong>⚠️ Due to meat plant shortages and significant price increases, we are currently not offering filet mignon.</strong> We appreciate your patience as we continue to source only the best quality meats. — Thank you.
       </div>
-    </div>
 
-    <!-- ========== DESSERTS ========= -->
-    <h2>Sobremesas • Desserts</h2>
-    <div class="items-grid">
-      <div class="menu-item"><div class="item-header"><span class="item-name">NY Cheesecake</span><span class="item-price">$10</span></div><div class="item-desc">Choice of sauce: strawberry, raspberry, chocolate, caramel, blueberry, seasonal fruits.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Smashed Caramel Brownie</span><span class="item-price">$10</span></div><div class="item-desc">Warm brownie with caramel center.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Chocolate Mousse Cake</span><span class="item-price">$10</span></div><div class="item-desc">Layers of chocolate cake & whipped mousse, ganache.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Chocolate Molten Cake</span><span class="item-price">$10</span></div><div class="item-desc">With vanilla ice cream.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Papaya or Strawberry Cream</span><span class="item-price">$8</span></div><div class="item-desc">Fresh fruit blended with vanilla ice cream, crème de cassis.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Pudim</span><span class="item-price">$9</span></div><div class="item-desc">Brazilian flan – creamy vanilla caramel custard.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Chocolate Peanut Butter Cake</span><span class="item-price">$10</span></div><div class="item-desc">Layers of chocolate cake & peanut butter mousse, ganache.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Petrucci Affogato</span><span class="item-price">$9</span></div><div class="item-desc">Double espresso poured tableside over vanilla ice cream. Add Kahlúa, Bailey’s, Frangelico or Vanille de Madagascar +$5.</div></div>
-    </div>
+    </main> <!-- fin de #main-content -->
 
-    <!-- ========== COCKTAILS ========= -->
-    <h2>Coqueteis • Cocktails</h2>
-    <div class="items-grid">
-      <div class="menu-item grid-span-2">
-        <div class="item-header"><span class="item-name">Caipirinha</span><span class="item-price">Traditional $12 | Premium $14 | Specialty $14</span></div>
-        <div class="item-desc"><strong>Traditional:</strong> Brazil’s national cocktail. <strong>Premium:</strong> Novo Fogo Cachaça. <strong>Specialty:</strong> Kiwi, Pineapple, Mango, Strawberry, Blueberry – or mix & match!</div>
-      </div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Cucumber Mint</span><span class="item-price">$14</span></div><div class="item-desc">Steel Blue vodka, mint, cucumber, lemon, simple syrup.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Dirty Na</span><span class="item-price">$12</span></div><div class="item-desc">Stateside vodka, Guarana soda, muddled orange.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Strawberry Mint Fizz</span><span class="item-price">$14</span></div><div class="item-desc">Aviation gin, strawberry purée, mint, lemon, club soda.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Ward CS</span><span class="item-price">$12</span></div><div class="item-desc">Rye whiskey, OJ, lemon, grenadine, simple syrup.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Blue Brazilian</span><span class="item-price">$14</span></div><div class="item-desc">Blueberries, blue curaçao, lime, rum.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Skrewball Sundae</span><span class="item-price">$14</span></div><div class="item-desc">Skrewball peanut butter whiskey, chocolate liqueur, whipped cream & cherry.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Jameson Green Tea</span><span class="item-price">$14</span></div><div class="item-desc">Jameson, peach schnapps, sweet & sour, lemonade.</div></div>
-    </div>
-
-    <h2>Martinis & Muddled</h2>
-    <div class="items-grid">
-      <div class="menu-item"><div class="item-header"><span class="item-name">Peanut Butter Cup</span><span class="item-price">$14</span></div><div class="item-desc">Skrewball whiskey, chocolate liqueur.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Tequila Twist of Love</span><span class="item-price">$14</span></div><div class="item-desc">Pomegranate tequila, triple sec, cherry & lime.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Chocolate Covered Cherry</span><span class="item-price">$14</span></div><div class="item-desc">Cherry liqueur, vodka, crème de coco, cream.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Pineapple Upside Down</span><span class="item-price">$14</span></div><div class="item-desc">Pineapple, vodka – dream of Rio.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Brazilian Old Fashioned</span><span class="item-price">$14</span></div><div class="item-desc">Muddled orange, sugar, chocolate bitters, Novo Fogo barrel‑aged cachaça.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Paris Lemonade</span><span class="item-price">$12</span></div><div class="item-desc">Muddled lemon, strawberry, blueberry, Novo Fogo Silver, Grand Marnier.</div></div>
-    </div>
-
-    <div class="items-grid">
-      <div class="menu-item"><div class="item-header"><span class="item-name">Mimosa Specials</span><span class="item-price">$12</span></div><div class="item-desc">Watermelon, Strawberry Lemonade, Hawaiian, Raspberry, Sangria, Pineapple, Caramel Apple – ask your server.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Sangria Specials</span><span class="item-price">$12</span></div><div class="item-desc">Blood Orange, Pineapple, Traditional Red & White, Strawberry Peach.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Blood Orange Mimosa</span><span class="item-price">$10</span></div><div class="item-desc">Blood orange sparkling juice & prosecco.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Spiked Strawberry Lemonade</span><span class="item-price">$14</span></div><div class="item-desc">Tito’s vodka, homemade lemonade, fresh strawberries.</div></div>
-    </div>
-
-    <!-- ========== DESSERT COCKTAILS & AFTER DINNER ========= -->
-    <h2>Dessert Cocktails & After Dinner</h2>
-    <div class="items-grid">
-      <div class="menu-item"><div class="item-header"><span class="item-name">Chocolate Martini</span><span class="item-price">$12</span></div><div class="item-desc">Rich chocolate indulgence – perfect with molten cake.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Espresso Martini</span><span class="item-price">$12</span></div><div class="item-desc">Double espresso, milk & white chocolate liqueurs, vodka, Kahlúa, cream.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Cinnamon Roll Martini</span><span class="item-price">$12</span></div><div class="item-desc">Stoli Vanilla, RumChata, Kahlúa.</div></div>
-      <div class="menu-item"><div class="item-header"><span class="item-name">Toasted Almond</span><span class="item-price">$10</span></div><div class="item-desc">Nutty after‑dinner drink.</div></div>
-    </div>
-
-    <!-- ========== BEER ========= -->
-    <h2>Cervejas • Beer</h2>
-    <h3 style="font-size:1.2rem; margin-bottom:0.5rem; color:#1e4d2e;">Draft</h3>
-    <div class="three-col">
-      <div class="beer-item"><span>Allagash White</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Yuengling Lager</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Lagunitas IPA</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Founders Breakfast Stout</span><span class="spirit-price">$9</span></div>
-      <div class="beer-item"><span>Guinness Stout</span><span class="spirit-price">$9</span></div>
-      <div class="beer-item"><span>WBW Undelivered Mail IPA</span><span class="spirit-price">$8</span></div>
-      <div class="beer-item"><span>CountyLine Neshaminy Creek IPA</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Hoop Tea</span><span class="spirit-price">$9</span></div>
-      <div class="beer-item"><span>Dogfish 60 Minute IPA</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Elysian Space Dust</span><span class="spirit-price">$8</span></div>
-      <div class="beer-item"><span>Rise Up Coffee Stout</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Yuengling Black & Tan</span><span class="spirit-price">$7</span></div>
-    </div>
-    <h3 style="font-size:1.2rem; margin:1.5rem 0 0.5rem; color:#1e4d2e;">Bottled & Cans</h3>
-    <div class="three-col">
-      <div class="beer-item"><span>Heineken</span><span class="spirit-price">$8</span></div>
-      <div class="beer-item"><span>Heineken 0.0</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Bud Light</span><span class="spirit-price">$6</span></div>
-      <div class="beer-item"><span>Budweiser Zero</span><span class="spirit-price">$6</span></div>
-      <div class="beer-item"><span>Coors Light</span><span class="spirit-price">$6</span></div>
-      <div class="beer-item"><span>Miller Lite</span><span class="spirit-price">$6</span></div>
-      <div class="beer-item"><span>Miller High Life</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Michelob Ultra</span><span class="spirit-price">$6</span></div>
-      <div class="beer-item"><span>Dogfish Head 90 Minute IPA</span><span class="spirit-price">$8</span></div>
-      <div class="beer-item"><span>Founders All Day IPA</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Heavy Seas Hazy Cannon</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Lagunitas IPA</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Bell's Two Hearted Ale</span><span class="spirit-price">$6</span></div>
-      <div class="beer-item"><span>Yards Philadelphia Pale Ale</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Landshark</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Corona Extra / Corona Light</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Dos Equis XX</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Modelo Negra / Especial</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Sol Cerveza</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Blue Moon Belgian White</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Samuel Adams Boston Lager</span><span class="spirit-price">$7</span></div>
-      <div class="beer-item"><span>Stella Artois</span><span class="spirit-price">$8</span></div>
-      <div class="beer-item"><span>Delmarva Pure Pils</span><span class="spirit-price">$7</span></div>
-    </div>
-    <div style="margin-top:0.8rem;"><span style="font-weight:600;">Cider:</span> Strongbow Gold Apple Cider <span style="font-weight:700; color:#a6552b; margin-left:0.5rem;">$7</span></div>
-
-    <!-- ========== WINES ========= -->
-    <h2>Vinhos • Wines</h2>
-    <div class="three-col">
-      <div class="beer-item"><span>Yare Marydel Blend (berry)</span><span class="spirit-price">$19</span></div>
-      <div class="beer-item"><span>Peach Blossom (white peach)</span><span class="spirit-price">$19</span></div>
-      <div class="beer-item"><span>Cabernet Sauvignon, Marydel</span><span class="spirit-price">$30</span></div>
-      <div class="beer-item"><span>Blue Hen Blue (Concord/blueberry)</span><span class="spirit-price">$23</span></div>
-      <div class="beer-item"><span>Bartenura Moscato d’Asti</span><span class="spirit-price">$19</span></div>
-      <div class="beer-item"><span>Freakshow Cabernet Sauvignon</span><span class="spirit-price">$30</span></div>
-      <div class="beer-item"><span>Joel Gott 815 Cabernet</span><span class="spirit-price">$20</span></div>
-      <div class="beer-item"><span>Heinz Eifel Eiswein</span><span class="spirit-price">$80</span></div>
-      <div class="beer-item"><span>Taylor Fladgate 10yr Tawny</span><span class="spirit-price">$11</span></div>
-      <div class="beer-item"><span>Taylor Fladgate 20yr Tawny</span><span class="spirit-price">$15</span></div>
-      <div class="beer-item"><span>Graham’s 30yr Tawny Porto</span><span class="spirit-price">$30</span></div>
-      <div class="beer-item"><span>Graham’s Six Grapes Porto</span><span class="spirit-price">$9</span></div>
-    </div>
-
-    <!-- ========== SPIRITS ========= -->
-    <h2>Licores & Destilados</h2>
-    <div style="display:grid; grid-template-columns: repeat(2,1fr); gap:1.5rem;">
-      <!-- left column -->
-      <div>
-        <h3 style="font-size:1.2rem; color:#1e4d2e; margin-bottom:0.5rem;">Cachaça</h3>
-        <div class="beer-item"><span>Novo Fogo Tanager</span><span class="spirit-price">$35</span></div>
-        <div class="beer-item"><span>Novo Fogo Chameleon</span><span class="spirit-price">$11</span></div>
-        <div class="beer-item"><span>Novo Fogo Barrel-Aged</span><span class="spirit-price">$10</span></div>
-        <div class="beer-item"><span>Novo Fogo Silver</span><span class="spirit-price">$9</span></div>
-        <div class="beer-item"><span>Leblon Reserva Especial</span><span class="spirit-price">$11</span></div>
-        <div class="beer-item"><span>Leblon Cachaça</span><span class="spirit-price">$9</span></div>
-        <div class="beer-item"><span>Pitú Cachaça</span><span class="spirit-price">$8</span></div>
-        <div class="beer-item"><span>Pineapple Cachaça Shot (infused)</span><span class="spirit-price">$5</span></div>
-        
-        <h3 style="font-size:1.2rem; color:#1e4d2e; margin:1.2rem 0 0.5rem;">Tequila</h3>
-        <div class="beer-item"><span>Don Julio 1942</span><span class="spirit-price">$22</span></div>
-        
-        <h3 style="font-size:1.2rem; color:#1e4d2e; margin:1.2rem 0 0.5rem;">Scotch</h3>
-        <div class="beer-item"><span>Laphroaig 10 Year</span><span class="spirit-price">$14</span></div>
-        <div class="beer-item"><span>Macallan 12 Year</span><span class="spirit-price">$20</span></div>
-        
-        <h3 style="font-size:1.2rem; color:#1e4d2e; margin:1.2rem 0 0.5rem;">Bourbon & Rye</h3>
-        <div class="beer-item"><span>Eagle Rare 10 Year</span><span class="spirit-price">$40</span></div>
-        <div class="beer-item"><span>WhistlePig 10yr Rye</span><span class="spirit-price">$14</span></div>
-        <div class="beer-item"><span>Screwball Peanut Butter</span><span class="spirit-price">$9</span></div>
-      </div>
-      <!-- right column -->
-      <div>
-        <h3 style="font-size:1.2rem; color:#1e4d2e; margin-bottom:0.5rem;">Cognac</h3>
-        <div class="beer-item"><span>Rémy Martin Louis XIII</span><span class="spirit-price">$350</span></div>
-        <div class="beer-item"><span>Grand Marnier Cuvee 1880</span><span class="spirit-price">$50</span></div>
-        <div class="beer-item"><span>Grand Marnier Louis Alexandre</span><span class="spirit-price">$20</span></div>
-        <div class="beer-item"><span>Grand Marnier Cordon Rouge</span><span class="spirit-price">$12</span></div>
-        <div class="beer-item"><span>Rémy Martin VSOP</span><span class="spirit-price">$18</span></div>
-        <div class="beer-item"><span>Courvoisier VSOP</span><span class="spirit-price">$16</span></div>
-        <div class="beer-item"><span>Hennessy Privilege VSOP</span><span class="spirit-price">$14</span></div>
-        
-        <h3 style="font-size:1.2rem; color:#1e4d2e; margin:1.2rem 0 0.5rem;">Gin</h3>
-        <div class="beer-item"><span>Aviation</span><span class="spirit-price">$7</span></div>
-        <div class="beer-item"><span>Hendrick's</span><span class="spirit-price">$10</span></div>
-        <div class="beer-item"><span>Tanqueray London Dry</span><span class="spirit-price">$9</span></div>
-        <div class="beer-item"><span>Tanqueray Sevilla Orange</span><span class="spirit-price">$9</span></div>
-        <div class="beer-item"><span>Tanqueray No.10</span><span class="spirit-price">$12</span></div>
-        <div class="beer-item"><span>Bluecoat American Dry</span><span class="spirit-price">$7</span></div>
-        <div class="beer-item"><span>Bombay Sapphire</span><span class="spirit-price">$9</span></div>
-
-        <h3 style="font-size:1.2rem; color:#1e4d2e; margin:1.2rem 0 0.5rem;">Rum</h3>
-        <div class="beer-item"><span>Captain Morgan Spiced</span><span class="spirit-price">$7</span></div>
-        <div class="beer-item"><span>Captain Morgan Parrot Bay</span><span class="spirit-price">$6</span></div>
-        <div class="beer-item"><span>Rumhaven Coconut</span><span class="spirit-price">$6</span></div>
-        
-        <h3 style="font-size:1.2rem; color:#1e4d2e; margin:1.2rem 0 0.5rem;">Whiskey</h3>
-        <div class="beer-item"><span>Midleton 2018</span><span class="spirit-price">$38</span></div>
-        <div class="beer-item"><span>Midleton Barry Crocket 1992</span><span class="spirit-price">$24</span></div>
-        <div class="beer-item"><span>Crown Royal (Peach/Apple/Reg)</span><span class="spirit-price">$10</span></div>
-        <div class="beer-item"><span>Drambuie</span><span class="spirit-price">$12</span></div>
-        <div class="beer-item"><span>77 Whiskey Rye</span><span class="spirit-price">$9</span></div>
-      </div>
-    </div>
-
-    <!-- ========== HAPPY HOUR ========= -->
-    <div class="happy-hour">
-      <h2 style="margin-top:0; border-bottom: none; color:#1e4d2e;">🍻 Happy Hour • Mon–Fri 5–7pm</h2>
-      <div class="hh-grid">
-        <div><span class="hh-day">Monday – Meat Monday</span><br>Two cuts of meat with rice & beans + a wine or tap beer <strong>$20</strong></div>
-        <div><span class="hh-day">Tuesday – Tequila Tuesday</span><br>Regular Margaritas $6 • Flavored $7 • Rice & Beans $5</div>
-        <div><span class="hh-day">Wednesday – WineBottleWednesday</span><br>½ price bottles (see today’s selection) + Charcuterie Board $18</div>
-        <div><span class="hh-day">Thursday – Flight Night</span><br>Wine flight $20 • Beer flight $15 • Caipirinha flight $15 • App sampler $7</div>
-        <div><span class="hh-day">Friday – Feijoada Friday</span><br>Sampler Platter $15 • Rail Mixes $5 • Feijoada $15</div>
-      </div>
-      <div style="margin-top:1rem;"><strong>Domestic $5 | Import $6 | Draft $6 | IPA $8 | Wine on Tap ½ off 5oz pours | Crush’s $6</strong></div>
-    </div>
-
-    <!-- ========== IMPORTANT NOTE ========= -->
-    <div class="disclaimer">
-      <strong>⚠️ Due to meat plant shortages and significant price increases, we are currently not offering filet mignon.</strong> We appreciate your patience as we continue to source only the best quality meats. — Thank you.
-    </div>
-
-    <!-- ========== FOOTER (ADDRESS HERE ONLY) ========= -->
-    <div class="footer">
+    <!-- FOOTER con dirección únicamente -->
+    <footer class="footer">
       <span class="obrigado">Obrigado!</span><br>
       <span style="font-size:0.95rem;">CS Brazilian Steakhouse — 600 Center Blvd S, Newark, DE 19702</span><br>
       <span style="font-size:0.85rem;">*Consuming raw or undercooked meats, poultry, seafood, or eggs may increase your risk of foodborne illness.</span>
-    </div>
-  </div> <!-- end .menu -->
+    </footer>
+  </div> <!-- fin .menu -->
 </body>
 </html>
