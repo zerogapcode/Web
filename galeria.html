@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería de Proyectos - ProtonLab</title>
-    <meta name="description" content="Galería de proyectos web desarrollados por ProtonLab - Menús digitales, catálogos interactivos y soluciones web innovadoras" />
+    <title>Project Gallery - ProtonLab</title>
+    <meta name="description" content="ProtonLab web projects gallery - Digital menus, interactive catalogs, and innovative web solutions" />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -1067,15 +1067,21 @@
             <span></span>
         </button>
         <nav id="nav">
-            <a class="navlink" href="#inicio">Inicio</a>
-            <a class="navlink" href="#proyectos">Proyectos</a>
-            <a class="navlink" href="#tecnologias">Tecnologías</a>
-            <a class="navlink" href="#contacto">Contacto</a>
+            <a class="navlink" href="#inicio" data-i18n="nav_home">Home</a>
+            <a class="navlink" href="#proyectos" data-i18n="nav_projects">Projects</a>
+            <a class="navlink" href="#tecnologias" data-i18n="nav_technologies">Technologies</a>
+            <a class="navlink" href="#contacto" data-i18n="nav_contact">Contact</a>
             <div class="mode-toggle">
                 <div class="seg">
-                    <button data-mode="auto" class="active">Auto</button>
-                    <button data-mode="light">Claro</button>
-                    <button data-mode="dark">Oscuro</button>
+                    <button data-mode="auto" class="active" data-i18n="mode_auto">Auto</button>
+                    <button data-mode="light" data-i18n="mode_light">Light</button>
+                    <button data-mode="dark" data-i18n="mode_dark">Dark</button>
+                </div>
+            </div>
+            <div class="mode-toggle">
+                <div class="seg">
+                    <button data-lang="en" class="active">EN</button>
+                    <button data-lang="es">ES</button>
                 </div>
             </div>
         </nav>
@@ -1088,14 +1094,14 @@
             <div class="hero-inner">
                 <div class="hero-left">
                     <div class="code-title"><span id="typedWrap">&lt;<span id="typed"></span>&gt;</span>
-                        <small class="muted">Galería de proyectos web innovadores y funcionales.</small></div>
-                    <p style="margin-top:18px">
-                        Una colección de proyectos web desarrollados con las últimas tecnologías y diseño responsivo. 
-                        Desde menús digitales hasta catálogos interactivos, cada proyecto tiene su propio estilo y propósito único.
+                        <small class="muted" data-i18n="hero_subtitle">Gallery of innovative and functional web projects.</small></div>
+                    <p style="margin-top:18px" data-i18n="hero_desc1">
+                        A collection of web projects developed with the latest technologies and responsive design. 
+                        From digital menus to interactive catalogs, each project has its own unique style and purpose.
                     </p>
-                    <p style="margin-top:18px">
-                        Explora nuestros trabajos más recientes y descubre cómo combinamos creatividad, tecnología 
-                        y funcionalidad para crear experiencias digitales excepcionales.
+                    <p style="margin-top:18px" data-i18n="hero_desc2">
+                        Explore our latest work and discover how we combine creativity, technology, 
+                        and functionality to create exceptional digital experiences.
                     </p>
                 </div>
             </div>
@@ -1103,121 +1109,115 @@
 
         <section id="proyectos">
             <div class="section-intro">
-                <h2>Nuestros Proyectos</h2>
-                <p class="lead">Una selección de proyectos web desarrollados con las últimas tecnologías y diseño responsivo.</p>
+                <h2 data-i18n="projects_title">Our Projects</h2>
+                <p class="lead" data-i18n="projects_lead">A selection of web projects developed with the latest technologies and responsive design.</p>
             </div>
             
             <div class="project-grid">
-                <!-- Proyecto 1: Menú Digital Balú -->
                 <div class="project-card">
                     <div class="project-image">
                         <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1081&q=80" alt="Restaurante Balú">
                     </div>
                     <div class="project-content">
-                        <h3>Menú Digital Balú</h3>
-                        <p>Un menú digital interactivo para el Restaurante Balú Charallave con diseño moderno, navegación suave y asistente virtual integrado. Perfecto para mostrar platillos y facilitar pedidos.</p>
+                        <h3 data-i18n="proj1_title">Balú Digital Menu</h3>
+                        <p data-i18n="proj1_desc">An interactive digital menu for Balú Charallave Restaurant with modern design, smooth navigation, and integrated virtual assistant. Perfect for showcasing dishes and facilitating orders.</p>
                         <div class="project-tags">
-                            <span class="project-tag tag-restaurant">Restaurante</span>
-                            <span class="project-tag tag-technology">Digital</span>
-                            <span class="project-tag tag-restaurant">Interactivo</span>
+                            <span class="project-tag tag-restaurant" data-i18n="tag_restaurant">Restaurant</span>
+                            <span class="project-tag tag-technology" data-i18n="tag_digital">Digital</span>
+                            <span class="project-tag tag-restaurant" data-i18n="tag_interactive">Interactive</span>
                         </div>
                         <a href="menu.html" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> Ver Proyecto
+                            <i class="fas fa-external-link-alt"></i> <span data-i18n="view_project">View Project</span>
                         </a>
                     </div>
                 </div>
                 
-                <!-- Proyecto 2: Interking -->
                 <div class="project-card">
                     <div class="project-image">
                         <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Interking">
                     </div>
                     <div class="project-content">
-                        <h3>Interking - Proveedor de Internet</h3>
-                        <p>Plataforma web para Interking, proveedor de servicios de internet con diseño profesional, información de planes y asistente virtual "Rey" para atención al cliente.</p>
+                        <h3 data-i18n="proj2_title">Interking - Internet Provider</h3>
+                        <p data-i18n="proj2_desc">Web platform for Interking, an internet service provider with professional design, plan information, and virtual assistant "Rey" for customer service.</p>
                         <div class="project-tags">
-                            <span class="project-tag tag-technology">Tecnología</span>
-                            <span class="project-tag tag-technology">Servicios</span>
-                            <span class="project-tag tag-technology">Asistente IA</span>
+                            <span class="project-tag tag-technology" data-i18n="tag_technology">Technology</span>
+                            <span class="project-tag tag-technology" data-i18n="tag_services">Services</span>
+                            <span class="project-tag tag-technology" data-i18n="tag_ai_assistant">AI Assistant</span>
                         </div>
                         <a href="ik.html" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> Ver Proyecto
+                            <i class="fas fa-external-link-alt"></i> <span data-i18n="view_project">View Project</span>
                         </a>
                     </div>
                 </div>
                 
-                <!-- Proyecto 3: StarVenezuela -->
                 <div class="project-card">
                     <div class="project-image">
                         <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="StarVenezuela">
                     </div>
                     <div class="project-content">
-                        <h3>StarVenezuela - Catálogo Digital</h3>
-                        <p>Catálogo digital completo para StarVenezuela con sistema de inventario en tiempo real, filtros avanzados, carrito de compras y asistente virtual "Carlitos".</p>
+                        <h3 data-i18n="proj3_title">StarVenezuela - Digital Catalog</h3>
+                        <p data-i18n="proj3_desc">Complete digital catalog for StarVenezuela with real-time inventory system, advanced filters, shopping cart, and virtual assistant "Carlitos".</p>
                         <div class="project-tags">
-                            <span class="project-tag tag-ecommerce">E-commerce</span>
-                            <span class="project-tag tag-ecommerce">Catálogo</span>
-                            <span class="project-tag tag-technology">Inventario</span>
+                            <span class="project-tag tag-ecommerce" data-i18n="tag_ecommerce">E-commerce</span>
+                            <span class="project-tag tag-ecommerce" data-i18n="tag_catalog">Catalog</span>
+                            <span class="project-tag tag-technology" data-i18n="tag_inventory">Inventory</span>
                         </div>
                         <a href="sv.html" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> Ver Proyecto
+                            <i class="fas fa-external-link-alt"></i> <span data-i18n="view_project">View Project</span>
                         </a>
                     </div>
                 </div>
                 
-                <!-- PROYECTO NUEVO 4: Casares -->
                 <div class="project-card">
                     <div class="project-image">
                         <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Casares Restaurante">
                     </div>
                     <div class="project-content">
-                        <h3>Casares - Restaurante Gourmet</h3>
-                        <p>Web para el restaurante gourmet Casares con diseño elegante, menú degustación interactivo y sistema de reservas en línea. Incluye galería de platos y experiencias culinarias.</p>
+                        <h3 data-i18n="proj4_title">Casares - Gourmet Restaurant</h3>
+                        <p data-i18n="proj4_desc">Website for Casares gourmet restaurant with elegant design, interactive tasting menu, and online reservation system. Includes gallery of dishes and culinary experiences.</p>
                         <div class="project-tags">
-                            <span class="project-tag tag-restaurant">Restaurante</span>
-                            <span class="project-tag tag-restaurant">Gourmet</span>
-                            <span class="project-tag tag-technology">Reservas</span>
+                            <span class="project-tag tag-restaurant" data-i18n="tag_restaurant">Restaurant</span>
+                            <span class="project-tag tag-restaurant" data-i18n="tag_gourmet">Gourmet</span>
+                            <span class="project-tag tag-technology" data-i18n="tag_reservations">Reservations</span>
                         </div>
                         <a href="casares.html" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> Ver Proyecto
+                            <i class="fas fa-external-link-alt"></i> <span data-i18n="view_project">View Project</span>
                         </a>
                     </div>
                 </div>
                 
-                <!-- PROYECTO NUEVO 5: Empizzados -->
                 <div class="project-card">
                     <div class="project-image">
                         <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1222&q=80" alt="Empizzados">
                     </div>
                     <div class="project-content">
-                        <h3>Empizzados - Pizzería & Cervecería</h3>
-                        <p>Sitio web para la pizzería y cervecería Empizzados con catálogo de pizzas artesanales, cervezas y sistema de pedidos online. Diseño moderno y dinámico.</p>
+                        <h3 data-i18n="proj5_title">Empizzados - Pizzeria & Brewery</h3>
+                        <p data-i18n="proj5_desc">Website for Empizzados pizzeria and brewery with artisanal pizza catalog, beers, and online ordering system. Modern and dynamic design.</p>
                         <div class="project-tags">
-                            <span class="project-tag tag-restaurant">Pizzería</span>
-                            <span class="project-tag tag-ecommerce">Pedidos Online</span>
-                            <span class="project-tag tag-restaurant">Cervecería</span>
+                            <span class="project-tag tag-restaurant" data-i18n="tag_pizzeria">Pizzeria</span>
+                            <span class="project-tag tag-ecommerce" data-i18n="tag_online_orders">Online Orders</span>
+                            <span class="project-tag tag-restaurant" data-i18n="tag_brewery">Brewery</span>
                         </div>
                         <a href="empizzados.html" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> Ver Proyecto
+                            <i class="fas fa-external-link-alt"></i> <span data-i18n="view_project">View Project</span>
                         </a>
                     </div>
                 </div>
                 
-                <!-- PROYECTO NUEVO 6: Rancho e Lola Beach -->
                 <div class="project-card">
                     <div class="project-image">
                         <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2673&q=80" alt="Rancho e Lola Beach">
                     </div>
                     <div class="project-content">
-                        <h3>Rancho e Lola Beach - Isla de Margarita</h3>
-                        <p>Página web para un resort en la Isla de Margarita con diseño vibrante, galería interactiva y asistente virtual "Lola". Incluye efectos parallax, reservas en línea y chat integrado.</p>
+                        <h3 data-i18n="proj6_title">Rancho e Lola Beach - Margarita Island</h3>
+                        <p data-i18n="proj6_desc">Website for a resort on Margarita Island with vibrant design, interactive gallery, and virtual assistant "Lola". Includes parallax effects, online booking, and integrated chat.</p>
                         <div class="project-tags">
-                            <span class="project-tag tag-restaurant">Resort</span>
-                            <span class="project-tag tag-technology">Turismo</span>
-                            <span class="project-tag tag-technology">Asistente IA</span>
+                            <span class="project-tag tag-restaurant" data-i18n="tag_resort">Resort</span>
+                            <span class="project-tag tag-technology" data-i18n="tag_tourism">Tourism</span>
+                            <span class="project-tag tag-technology" data-i18n="tag_ai_assistant">AI Assistant</span>
                         </div>
                         <a href="lola.html" class="project-link">
-                            <i class="fas fa-external-link-alt"></i> Ver Proyecto
+                            <i class="fas fa-external-link-alt"></i> <span data-i18n="view_project">View Project</span>
                         </a>
                     </div>
                 </div>
@@ -1226,73 +1226,72 @@
 
         <section id="tecnologias">
             <div class="section-intro">
-                <h2>Tecnologías Utilizadas</h2>
-                <p class="lead">Estos proyectos implementan las siguientes tecnologías y características:</p>
+                <h2 data-i18n="tech_title">Technologies Used</h2>
+                <p class="lead" data-i18n="tech_lead">These projects implement the following technologies and features:</p>
             </div>
             
             <div class="card">
                 <div class="tech-info">
                     <div class="tech-item">
-                        <h4><i class="fas fa-code" style="color: #64b4ff; margin-right: 10px;"></i> Frontend</h4>
+                        <h4><i class="fas fa-code" style="color: #64b4ff; margin-right: 10px;"></i> <span data-i18n="tech_frontend">Frontend</span></h4>
                         <ul>
                             <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> HTML5, CSS3, JavaScript</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Diseño Responsivo</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Efectos Parallax</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Animaciones CSS</li>
+                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> <span data-i18n="tech_responsive">Responsive Design</span></li>
+                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> <span data-i18n="tech_parallax">Parallax Effects</span></li>
+                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> <span data-i18n="tech_animations">CSS Animations</span></li>
                         </ul>
                     </div>
                     <div class="tech-item">
-                        <h4><i class="fas fa-robot" style="color: #ffa550; margin-right: 10px;"></i> Asistentes IA</h4>
+                        <h4><i class="fas fa-robot" style="color: #ffa550; margin-right: 10px;"></i> <span data-i18n="tech_ai_assistants">AI Assistants</span></h4>
                         <ul>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Balú - Asistente de Restaurante</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Rey - Asistente de Interking</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Carlitos - Asistente de Catálogo</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Lola - Asistente de Resort</li>
+                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> <span data-i18n="ai_balu">Balú - Restaurant Assistant</span></li>
+                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> <span data-i18n="ai_rey">Rey - Interking Assistant</span></li>
+                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> <span data-i18n="ai_carlitos">Carlitos - Catalog Assistant</span></li>
+                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> <span data-i18n="ai_lola">Lola - Resort Assistant</span></li>
                         </ul>
                     </div>
                     <div class="tech-item">
-                        <h4><i class="fas fa-mobile-alt" style="color: #64dc96; margin-right: 10px;"></i> Experiencia</h4>
+                        <h4><i class="fas fa-mobile-alt" style="color: #64dc96; margin-right: 10px;"></i> <span data-i18n="tech_experience">Experience</span></h4>
                         <ul>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Optimizado para móviles</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Navegación intuitiva</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Interfaces modernas</li>
-                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> Performance optimizada</li>
+                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> <span data-i18n="exp_mobile">Mobile Optimized</span></li>
+                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> <span data-i18n="exp_nav">Intuitive Navigation</span></li>
+                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> <span data-i18n="exp_ui">Modern Interfaces</span></li>
+                            <li><i class="fas fa-check" style="color: #00cc66; margin-right: 8px;"></i> <span data-i18n="exp_perf">Optimized Performance</span></li>
                         </ul>
                     </div>
                 </div>
-                <p style="margin-top: 1.5rem;">Cada proyecto está optimizado para una experiencia de usuario excepcional en dispositivos móviles y desktop, implementando las mejores prácticas de desarrollo web moderno.</p>
+                <p style="margin-top: 1.5rem;" data-i18n="tech_footer">Each project is optimized for an exceptional user experience on mobile and desktop devices, implementing best modern web development practices.</p>
             </div>
         </section>
 
         <section id="contacto">
             <div class="section-intro">
-                <h2>Más Proyectos</h2>
-                <p class="lead">¿Interesado en ver más de nuestro trabajo o desarrollar un proyecto similar?</p>
+                <h2 data-i18n="more_projects_title">More Projects</h2>
+                <p class="lead" data-i18n="more_projects_lead">Interested in seeing more of our work or developing a similar project?</p>
             </div>
             
             <div class="card">
-                <h3>Contacto</h3>
-                <p>
-                    Si tienes un proyecto en mente o quieres saber más sobre nuestros servicios, no dudes en contactarnos. 
-                    Estamos especializados en desarrollo web a medida, aplicaciones interactivas y soluciones digitales innovadoras.
+                <h3 data-i18n="contact_card_title">Contact</h3>
+                <p data-i18n="contact_card_text">
+                    If you have a project in mind or want to know more about our services, feel free to contact us. 
+                    We specialize in custom web development, interactive applications, and innovative digital solutions.
                 </p>
                 <div class="back-button-wrapper">
                     <a href="index.html" class="back-button">
-                        <i class="fas fa-arrow-left"></i> Volver a Inicio
+                        <i class="fas fa-arrow-left"></i> <span data-i18n="back_home">Back to Home</span>
                     </a>
                 </div>
             </div>
         </section>
 
         <footer>
-            <p>© 2023 ProtonLab – Galería de Proyectos</p>
+            <p data-i18n="footer_copy">© 2023 ProtonLab – Project Gallery</p>
             <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
-                Innovación en cada línea de código, creatividad en cada proyecto. <a href="index.html" class="footer-pi">←</a>
+                <span data-i18n="footer_slogan">Innovation in every line of code, creativity in every project.</span> <a href="index.html" class="footer-pi">←</a>
             </p>
         </footer>
     </main>
 
-    <!-- Elementos para el efecto Matrix -->
     <div id="matrix-overlay">
         <canvas id="matrix-canvas"></canvas>
     </div>
@@ -1319,7 +1318,7 @@
         const tear = document.querySelector('.tear');
         
         // === Modo de color ===
-        const modeButtons = document.querySelectorAll('.seg button');
+        const modeButtons = document.querySelectorAll('[data-mode]');
         function applyTheme(mode){
             if(mode==='auto'){
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -1340,6 +1339,122 @@
         
         // Aplicar tema automático por defecto
         applyTheme('auto');
+
+        // === TRADUCCIONES ===
+        const translations = {
+            nav_home: { en: "Home", es: "Inicio" },
+            nav_projects: { en: "Projects", es: "Proyectos" },
+            nav_technologies: { en: "Technologies", es: "Tecnologías" },
+            nav_contact: { en: "Contact", es: "Contacto" },
+            mode_auto: { en: "Auto", es: "Auto" },
+            mode_light: { en: "Light", es: "Claro" },
+            mode_dark: { en: "Dark", es: "Oscuro" },
+            hero_subtitle: { en: "Gallery of innovative and functional web projects.", es: "Galería de proyectos web innovadores y funcionales." },
+            hero_desc1: { en: "A collection of web projects developed with the latest technologies and responsive design. From digital menus to interactive catalogs, each project has its own unique style and purpose.", es: "Una colección de proyectos web desarrollados con las últimas tecnologías y diseño responsivo. Desde menús digitales hasta catálogos interactivos, cada proyecto tiene su propio estilo y propósito único." },
+            hero_desc2: { en: "Explore our latest work and discover how we combine creativity, technology, and functionality to create exceptional digital experiences.", es: "Explora nuestros trabajos más recientes y descubre cómo combinamos creatividad, tecnología y funcionalidad para crear experiencias digitales excepcionales." },
+            projects_title: { en: "Our Projects", es: "Nuestros Proyectos" },
+            projects_lead: { en: "A selection of web projects developed with the latest technologies and responsive design.", es: "Una selección de proyectos web desarrollados con las últimas tecnologías y diseño responsivo." },
+            view_project: { en: "View Project", es: "Ver Proyecto" },
+            
+            // Project 1
+            proj1_title: { en: "Balú Digital Menu", es: "Menú Digital Balú" },
+            proj1_desc: { en: "An interactive digital menu for Balú Charallave Restaurant with modern design, smooth navigation, and integrated virtual assistant. Perfect for showcasing dishes and facilitating orders.", es: "Un menú digital interactivo para el Restaurante Balú Charallave con diseño moderno, navegación suave y asistente virtual integrado. Perfecto para mostrar platillos y facilitar pedidos." },
+            tag_restaurant: { en: "Restaurant", es: "Restaurante" },
+            tag_digital: { en: "Digital", es: "Digital" },
+            tag_interactive: { en: "Interactive", es: "Interactivo" },
+            
+            // Project 2
+            proj2_title: { en: "Interking - Internet Provider", es: "Interking - Proveedor de Internet" },
+            proj2_desc: { en: "Web platform for Interking, an internet service provider with professional design, plan information, and virtual assistant \"Rey\" for customer service.", es: "Plataforma web para Interking, proveedor de servicios de internet con diseño profesional, información de planes y asistente virtual \"Rey\" para atención al cliente." },
+            tag_technology: { en: "Technology", es: "Tecnología" },
+            tag_services: { en: "Services", es: "Servicios" },
+            tag_ai_assistant: { en: "AI Assistant", es: "Asistente IA" },
+            
+            // Project 3
+            proj3_title: { en: "StarVenezuela - Digital Catalog", es: "StarVenezuela - Catálogo Digital" },
+            proj3_desc: { en: "Complete digital catalog for StarVenezuela with real-time inventory system, advanced filters, shopping cart, and virtual assistant \"Carlitos\".", es: "Catálogo digital completo para StarVenezuela con sistema de inventario en tiempo real, filtros avanzados, carrito de compras y asistente virtual \"Carlitos\"." },
+            tag_ecommerce: { en: "E-commerce", es: "E-commerce" },
+            tag_catalog: { en: "Catalog", es: "Catálogo" },
+            tag_inventory: { en: "Inventory", es: "Inventario" },
+            
+            // Project 4
+            proj4_title: { en: "Casares - Gourmet Restaurant", es: "Casares - Restaurante Gourmet" },
+            proj4_desc: { en: "Website for Casares gourmet restaurant with elegant design, interactive tasting menu, and online reservation system. Includes gallery of dishes and culinary experiences.", es: "Web para el restaurante gourmet Casares con diseño elegante, menú degustación interactivo y sistema de reservas en línea. Incluye galería de platos y experiencias culinarias." },
+            tag_gourmet: { en: "Gourmet", es: "Gourmet" },
+            tag_reservations: { en: "Reservations", es: "Reservas" },
+            
+            // Project 5
+            proj5_title: { en: "Empizzados - Pizzeria & Brewery", es: "Empizzados - Pizzería & Cervecería" },
+            proj5_desc: { en: "Website for Empizzados pizzeria and brewery with artisanal pizza catalog, beers, and online ordering system. Modern and dynamic design.", es: "Sitio web para la pizzería y cervecería Empizzados con catálogo de pizzas artesanales, cervezas y sistema de pedidos online. Diseño moderno y dinámico." },
+            tag_pizzeria: { en: "Pizzeria", es: "Pizzería" },
+            tag_online_orders: { en: "Online Orders", es: "Pedidos Online" },
+            tag_brewery: { en: "Brewery", es: "Cervecería" },
+            
+            // Project 6
+            proj6_title: { en: "Rancho e Lola Beach - Margarita Island", es: "Rancho e Lola Beach - Isla de Margarita" },
+            proj6_desc: { en: "Website for a resort on Margarita Island with vibrant design, interactive gallery, and virtual assistant \"Lola\". Includes parallax effects, online booking, and integrated chat.", es: "Página web para un resort en la Isla de Margarita con diseño vibrante, galería interactiva y asistente virtual \"Lola\". Incluye efectos parallax, reservas en línea y chat integrado." },
+            tag_resort: { en: "Resort", es: "Resort" },
+            tag_tourism: { en: "Tourism", es: "Turismo" },
+            
+            // Technologies
+            tech_title: { en: "Technologies Used", es: "Tecnologías Utilizadas" },
+            tech_lead: { en: "These projects implement the following technologies and features:", es: "Estos proyectos implementan las siguientes tecnologías y características:" },
+            tech_frontend: { en: "Frontend", es: "Frontend" },
+            tech_responsive: { en: "Responsive Design", es: "Diseño Responsivo" },
+            tech_parallax: { en: "Parallax Effects", es: "Efectos Parallax" },
+            tech_animations: { en: "CSS Animations", es: "Animaciones CSS" },
+            tech_ai_assistants: { en: "AI Assistants", es: "Asistentes IA" },
+            ai_balu: { en: "Balú - Restaurant Assistant", es: "Balú - Asistente de Restaurante" },
+            ai_rey: { en: "Rey - Interking Assistant", es: "Rey - Asistente de Interking" },
+            ai_carlitos: { en: "Carlitos - Catalog Assistant", es: "Carlitos - Asistente de Catálogo" },
+            ai_lola: { en: "Lola - Resort Assistant", es: "Lola - Asistente de Resort" },
+            tech_experience: { en: "Experience", es: "Experiencia" },
+            exp_mobile: { en: "Mobile Optimized", es: "Optimizado para móviles" },
+            exp_nav: { en: "Intuitive Navigation", es: "Navegación intuitiva" },
+            exp_ui: { en: "Modern Interfaces", es: "Interfaces modernas" },
+            exp_perf: { en: "Optimized Performance", es: "Performance optimizada" },
+            tech_footer: { en: "Each project is optimized for an exceptional user experience on mobile and desktop devices, implementing best modern web development practices.", es: "Cada proyecto está optimizado para una experiencia de usuario excepcional en dispositivos móviles y desktop, implementando las mejores prácticas de desarrollo web moderno." },
+            
+            // Contact
+            more_projects_title: { en: "More Projects", es: "Más Proyectos" },
+            more_projects_lead: { en: "Interested in seeing more of our work or developing a similar project?", es: "¿Interesado en ver más de nuestro trabajo o desarrollar un proyecto similar?" },
+            contact_card_title: { en: "Contact", es: "Contacto" },
+            contact_card_text: { en: "If you have a project in mind or want to know more about our services, feel free to contact us. We specialize in custom web development, interactive applications, and innovative digital solutions.", es: "Si tienes un proyecto en mente o quieres saber más sobre nuestros servicios, no dudes en contactarnos. Estamos especializados en desarrollo web a medida, aplicaciones interactivas y soluciones digitales innovadoras." },
+            back_home: { en: "Back to Home", es: "Volver a Inicio" },
+            
+            // Footer
+            footer_copy: { en: "© 2023 ProtonLab – Project Gallery", es: "© 2023 ProtonLab – Galería de Proyectos" },
+            footer_slogan: { en: "Innovation in every line of code, creativity in every project.", es: "Innovación en cada línea de código, creatividad en cada proyecto." }
+        };
+
+        const langButtons = document.querySelectorAll('[data-lang]');
+        
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[key] && translations[key][lang]) {
+                    el.innerText = translations[key][lang];
+                }
+            });
+            
+            // Actualizar botones activos
+            langButtons.forEach(btn => {
+                if(btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Actualizar atributo lang del html
+            document.documentElement.lang = lang;
+        }
+
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                setLanguage(btn.dataset.lang);
+            });
+        });
         
         // === CONFIGURACIÓN DE COLORES MEJORADA ===
         const colorPalettes = [
@@ -1395,7 +1510,7 @@
         // === ANIMACIÓN TÍTULO ===
         const typed = document.getElementById('typed');
         const brandMini = document.getElementById('brandMini');
-        const finalText = 'GaleríaDev';
+        const finalText = 'GalleryDev';
         const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
         
         const revealOrder = [0, 6, 3, 7, 2, 5, 8, 1, 4, 9];
