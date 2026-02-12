@@ -96,14 +96,19 @@
 
     /* ===== HEADER – BARRA NEGRA CON LOGO ===== */
     .logo-bar {
-      background-color: var(--black);
-      min-height: 120px;        /* equivalente aproximado a 3cm, pero flexible */
+      background-color: #000000; /* NEGRO ABSOLUTO */
+      min-height: 120px;
       padding: 0.5rem 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 1.5rem;
       border-radius: var(--radius-soft);
+      /* ───────────────────────────────────────── */
+      /*   SOLUCIÓN: TAPA LOS PUNTITOS GRISES      */
+      position: relative;
+      z-index: 1;
+      /* ───────────────────────────────────────── */
     }
 
     .logo-bar img {
@@ -130,7 +135,7 @@
     h2 {
       font-size: 1.6rem;
       font-weight: 650;
-      color: #1e4d2e;          /* verde oscuro (se mantiene) */
+      color: #1e4d2e;
       margin: 2rem 0 1rem 0;
       padding-bottom: 0.5rem;
       border-bottom: var(--border-dash);
@@ -181,7 +186,7 @@
       margin: 0;
     }
 
-    /* ítem genérico de menú (con nombre, precio, descripción) */
+    /* ítem genérico de menú */
     .menu-item {
       break-inside: avoid;
     }
@@ -246,7 +251,7 @@
       margin-top: 0.15rem;
     }
 
-    /* ítems de cerveza, vino, licores (formato línea) */
+    /* ítems de cerveza, vino, licores */
     .beer-item, .spirit-item {
       display: flex;
       justify-content: space-between;
@@ -331,7 +336,7 @@
         grid-column: span 1;
       }
       .logo-bar {
-        min-height: 100px;  /* un poco más pequeño en móvil */
+        min-height: 100px;
       }
       .menu {
         padding: 1.5rem 1rem;
@@ -347,7 +352,6 @@
       }
     }
 
-    /* utilidad para precios con <data> */
     data {
       font-weight: inherit;
       color: inherit;
@@ -355,11 +359,10 @@
   </style>
 </head>
 <body>
-  <!-- ENLACE PARA SALTAR AL CONTENIDO PRINCIPAL -->
   <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
   <div class="menu">
-    <!-- HEADER SEMÁNTICO CON LOGO -->
+    <!-- HEADER – BARRA NEGRA PURA (SIN PUNTITOS) -->
     <header class="logo-bar">
       <img src="white-transparent-cs2-logo.png" 
            alt="CS Brazilian Steakhouse – Inicio" 
@@ -561,7 +564,7 @@
         </ul>
       </section>
 
-      <!-- SECCIÓN: SPIRITS (ahora con grid unificado y categorías) -->
+      <!-- SECCIÓN: SPIRITS -->
       <section aria-labelledby="spirits-heading">
         <h2 id="spirits-heading">Licores & Destilados</h2>
         <div class="two-col-grid" style="gap: 1.5rem;">
@@ -640,7 +643,7 @@
         </div>
       </section>
 
-      <!-- SECCIÓN: HAPPY HOUR (aside temático) -->
+      <!-- ASIDE: HAPPY HOUR -->
       <aside class="happy-hour" aria-labelledby="happy-hour-heading">
         <h2 id="happy-hour-heading" style="margin-top:0; border-bottom: none; color:#1e4d2e;">🍻 Happy Hour • Mon–Fri 5–7pm</h2>
         <div class="hh-grid">
@@ -658,14 +661,14 @@
         <strong>⚠️ Due to meat plant shortages and significant price increases, we are currently not offering filet mignon.</strong> We appreciate your patience as we continue to source only the best quality meats. — Thank you.
       </div>
 
-    </main> <!-- fin de #main-content -->
+    </main>
 
-    <!-- FOOTER con dirección únicamente -->
+    <!-- FOOTER -->
     <footer class="footer">
       <span class="obrigado">Obrigado!</span><br>
       <span style="font-size:0.95rem;">CS Brazilian Steakhouse — 600 Center Blvd S, Newark, DE 19702</span><br>
       <span style="font-size:0.85rem;">*Consuming raw or undercooked meats, poultry, seafood, or eggs may increase your risk of foodborne illness.</span>
     </footer>
-  </div> <!-- fin .menu -->
+  </div>
 </body>
 </html>
