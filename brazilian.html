@@ -4,36 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
   
-  <!-- Título y metadatos SEO / Redes sociales -->
   <title>CS Brazilian Steakhouse – Menú auténtico en Newark, DE</title>
   <meta name="description" content="Menú de churrasco brasileño en Newark, Delaware. Carnes a la parrilla, caipirinhas, feijoada y más. ¡Vive la experiencia CS!">
   <meta property="og:title" content="CS Brazilian Steakhouse – Menú en Newark, DE">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://example.com/cs-steakhouse-og.jpg"> <!-- Reemplazar con URL real -->
+  <meta property="og:image" content="https://example.com/cs-steakhouse-og.jpg">
   <meta property="og:description" content="Sabores de Brasil en Delaware: picanha, coxinha, caipirinha y un ambiente inigualable.">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico"> <!-- Añadir favicon real -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ===== VARIABLES CSS – Paleta brasileña ===== */
     :root {
       --green-brazil: #009c3b;
       --yellow-brazil: #ffdf00;
-      --red-accent: #c7442d;
-      --sand-bg: #f2e8dc;
-      --brown-dark: #2c1e13;
-      --brown-mid: #5a4a3a;
-      --brown-light: #7a5b47;
-      --gold-light: #e6d5b8;
+      --red-accent: #ff6b4a;
+      --sand-bg: #121212;
+      --brown-dark: #e0d6cc;
+      --brown-mid: #b3a69c;
+      --brown-light: #9c8e82;
+      --gold-light: #d4b48c;
       --white: #ffffff;
       --black: #000000;
+      --bg-card: #1e1e1e;
+      --border-card: #333333;
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       --radius-card: 28px;
       --radius-soft: 12px;
-      --shadow: 0 12px 30px rgba(0,0,0,0.08);
-      --border-dash: 2px dashed #d4b48c;
+      --shadow: 0 12px 30px rgba(0,0,0,0.5);
+      --border-dash: 2px dashed #6b8c5e;
     }
 
-    /* ===== RESET Y BASE ===== */
     * {
       margin: 0;
       padding: 0;
@@ -41,18 +42,17 @@
     }
 
     html {
-      font-size: 100%; /* 1rem = 16px */
+      font-size: 100%;
+      scroll-behavior: smooth;
     }
 
     body {
-      background: var(--sand-bg);
+      background: #0a0a0a;
       font-family: var(--font-sans);
       line-height: 1.5;
-      color: var(--brown-dark);
-      padding: 2rem 1rem;
+      color: #f0f0f0;
     }
 
-    /* ===== SKIP LINK – accesibilidad ===== */
     .skip-link {
       position: absolute;
       top: -40px;
@@ -70,57 +70,91 @@
       top: 0;
     }
 
-    /* ===== CONTENEDOR PRINCIPAL ===== */
+    /* ===== HERO CON ALTURA REDUCIDA Y SOLO LOGO ===== */
+    .hero {
+      position: relative;
+      height: 60vh; /* Altura reducida */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background-color: black;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=2000&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed; /* Efecto parallax */
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      padding: 0 1.5rem;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-logo {
+      max-width: 300px;
+      width: 80%;
+      height: auto;
+      filter: brightness(1.2);
+    }
+
+    /* Desactivar parallax en móviles */
+    @media (max-width: 800px) {
+      .hero-bg {
+        background-attachment: scroll;
+      }
+      .hero {
+        height: 50vh; /* Aún más pequeño en móviles */
+      }
+      .hero-logo {
+        max-width: 220px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-logo {
+        max-width: 180px;
+      }
+    }
+
+    /* ===== MENÚ SIN BORDES VERDE/AMARILLO ===== */
     .menu {
       max-width: 1200px;
-      margin: 0 auto;
-      background: var(--white);
+      margin: 2rem auto;
+      background: #0a0a0a;
       border-radius: var(--radius-card) var(--radius-card) 20px 20px;
       box-shadow: var(--shadow);
       padding: 2.5rem 2rem;
       position: relative;
-      border-top: 8px solid var(--green-brazil);
-      border-bottom: 8px solid var(--yellow-brazil);
     }
 
     .menu::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-image: radial-gradient(#eae2d7 1px, transparent 1px);
+      background-image: radial-gradient(#2a2a2a 1px, transparent 1px);
       background-size: 20px 20px;
       opacity: 0.15;
       pointer-events: none;
       border-radius: inherit;
     }
 
-    /* ===== HEADER – BARRA NEGRA CON LOGO ===== */
-    .logo-bar {
-      background-color: #000000; /* NEGRO ABSOLUTO */
-      min-height: 120px;
-      padding: 0.5rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-      border-radius: var(--radius-soft);
-      /* ───────────────────────────────────────── */
-      /*   SOLUCIÓN: TAPA LOS PUNTITOS GRISES      */
-      position: relative;
-      z-index: 1;
-      /* ───────────────────────────────────────── */
-    }
-
-    .logo-bar img {
-      max-height: 100%;
-      max-width: 100%;
-      width: auto;
-      height: auto;
-      display: block;
-      object-fit: contain;
-    }
-
-    /* ===== TÍTULOS Y ENCABEZADOS ===== */
     .subhead {
       font-size: 0.95rem;
       text-transform: uppercase;
@@ -135,7 +169,7 @@
     h2 {
       font-size: 1.6rem;
       font-weight: 650;
-      color: #1e4d2e;
+      color: #a8d5a2;
       margin: 2rem 0 1rem 0;
       padding-bottom: 0.5rem;
       border-bottom: var(--border-dash);
@@ -153,12 +187,11 @@
 
     .section-subtitle {
       font-size: 1.2rem;
-      color: #1e4d2e;
+      color: #d4b48c;
       margin: 1.5rem 0 0.5rem;
       font-weight: 600;
     }
 
-    /* ===== GRIDS REUTILIZABLES ===== */
     .items-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -186,7 +219,6 @@
       margin: 0;
     }
 
-    /* ítem genérico de menú */
     .menu-item {
       break-inside: avoid;
     }
@@ -196,9 +228,9 @@
       justify-content: space-between;
       align-items: baseline;
       font-weight: 600;
-      color: #3a2c1e;
+      color: #f0e6d8;
       font-size: 1.05rem;
-      border-bottom: 1px dotted var(--gold-light);
+      border-bottom: 1px dotted #6b8c5e;
       padding-bottom: 0.2rem;
       margin-bottom: 0.3rem;
     }
@@ -218,7 +250,7 @@
 
     .item-desc {
       font-size: 0.9rem;
-      color: var(--brown-mid);
+      color: #b0a8a0;
       margin-bottom: 0.4rem;
       line-height: 1.45;
     }
@@ -233,7 +265,7 @@
       position: relative;
       padding-left: 1.2rem;
       font-size: 0.88rem;
-      color: #4e3e32;
+      color: #b0a8a0;
     }
 
     .item-desc li::before {
@@ -247,17 +279,16 @@
     .note {
       font-size: 0.85rem;
       font-style: italic;
-      color: var(--brown-light);
+      color: #c0b0a0;
       margin-top: 0.15rem;
     }
 
-    /* ítems de cerveza, vino, licores */
     .beer-item, .spirit-item {
       display: flex;
       justify-content: space-between;
       font-size: 0.92rem;
-      color: #3a2c1e;
-      border-bottom: 1px dotted #efddd0;
+      color: #e0d6cc;
+      border-bottom: 1px dotted #4a5c3a;
       padding-bottom: 0.2rem;
     }
 
@@ -275,13 +306,13 @@
       grid-column: span 2;
     }
 
-    /* ===== HAPPY HOUR ===== */
     .happy-hour {
-      background: #fdf3e0;
+      background: #1a1a1a;
       padding: 1.5rem 1.8rem;
       border-radius: 24px;
       margin-top: 2.5rem;
       border-left: 8px solid var(--green-brazil);
+      color: #f0f0f0;
     }
 
     .hh-grid {
@@ -296,26 +327,24 @@
       color: var(--red-accent);
     }
 
-    /* ===== DISCLAIMER ===== */
     .disclaimer {
-      background: #fff1e0;
+      background: #2a1e1a;
       padding: 1.2rem;
       border-radius: 16px;
       margin-top: 2rem;
       font-style: italic;
-      color: #6b3f2b;
-      border: 1px solid #ecc6ad;
+      color: #f0c0b0;
+      border: 1px solid #8b4c3a;
       text-align: center;
     }
 
-    /* ===== FOOTER ===== */
     .footer {
       margin-top: 2.8rem;
       padding-top: 1.5rem;
       text-align: center;
       font-size: 0.95rem;
-      border-top: 1px solid var(--gold-light);
-      color: #6b4f3a;
+      border-top: 1px solid #4a5c3a;
+      color: #c0c0c0;
     }
 
     .obrigado {
@@ -325,7 +354,6 @@
       letter-spacing: 2px;
     }
 
-    /* ===== RESPONSIVE ===== */
     @media (max-width: 800px) {
       .items-grid,
       .three-col-grid,
@@ -335,48 +363,37 @@
       .grid-span-2 {
         grid-column: span 1;
       }
-      .logo-bar {
-        min-height: 100px;
-      }
       .menu {
         padding: 1.5rem 1rem;
       }
     }
 
     @media (max-width: 480px) {
-      .logo-bar {
-        min-height: 80px;
-      }
       h2 {
         font-size: 1.4rem;
       }
-    }
-
-    data {
-      font-weight: inherit;
-      color: inherit;
     }
   </style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
-  <div class="menu">
-    <!-- HEADER – BARRA NEGRA PURA (SIN PUNTITOS) -->
-    <header class="logo-bar">
-      <img src="white-transparent-cs2-logo.png" 
-           alt="CS Brazilian Steakhouse – Inicio" 
-           width="300" 
-           height="100"
-           loading="eager">
-    </header>
+  <!-- HERO – SOLO LOGO, ALTURA REDUCIDA, PARALLAX -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
 
+    <div class="hero-content">
+      <img src="white-transparent-cs2-logo.png" alt="CS Brazilian Steakhouse" class="hero-logo" width="300" height="100" loading="eager">
+    </div>
+  </section>
+
+  <!-- MENÚ COMPLETO -->
+  <div class="menu" id="main-content">
     <div class="subhead" aria-hidden="true">— AUTHENTIC BRAZILIAN CHURRASCO —</div>
 
-    <!-- ========== CONTENIDO PRINCIPAL ========= -->
-    <main id="main-content">
-
-      <!-- SECCIÓN: SALGADOS & APPETIZERS -->
+    <main>
+      <!-- Salgados & Appetizers -->
       <section aria-labelledby="appetizers-heading">
         <h2 id="appetizers-heading">Salgados & Appetizers</h2>
         <ul class="items-grid">
@@ -407,7 +424,7 @@
         </ul>
       </section>
 
-      <!-- SECCIÓN: MAIN COURSES -->
+      <!-- Main Courses -->
       <section aria-labelledby="mains-heading">
         <h2 id="mains-heading">Main Courses • Pratos Principais</h2>
         <ul class="items-grid">
@@ -432,7 +449,7 @@
         </ul>
       </section>
 
-      <!-- SECCIÓN: DESSERTS -->
+      <!-- Desserts -->
       <section aria-labelledby="desserts-heading">
         <h2 id="desserts-heading">Sobremesas • Desserts</h2>
         <ul class="items-grid">
@@ -447,7 +464,7 @@
         </ul>
       </section>
 
-      <!-- SECCIÓN: COCKTAILS -->
+      <!-- Cocktails -->
       <section aria-labelledby="cocktails-heading">
         <h2 id="cocktails-heading">Coqueteis • Cocktails</h2>
         <ul class="items-grid">
@@ -465,6 +482,7 @@
         </ul>
       </section>
 
+      <!-- Martinis & Muddled -->
       <section aria-labelledby="martinis-heading">
         <h2 id="martinis-heading">Martinis & Muddled</h2>
         <ul class="items-grid">
@@ -477,6 +495,7 @@
         </ul>
       </section>
 
+      <!-- Mimosas & Sangrias -->
       <section aria-labelledby="specials-heading">
         <h2 id="specials-heading">Mimosas & Sangrias</h2>
         <ul class="items-grid">
@@ -487,6 +506,7 @@
         </ul>
       </section>
 
+      <!-- Dessert Cocktails -->
       <section aria-labelledby="dessert-cocktails-heading">
         <h2 id="dessert-cocktails-heading">Dessert Cocktails & After Dinner</h2>
         <ul class="items-grid">
@@ -497,7 +517,7 @@
         </ul>
       </section>
 
-      <!-- SECCIÓN: BEER -->
+      <!-- Beer -->
       <section aria-labelledby="beer-heading">
         <h2 id="beer-heading">Cervejas • Beer</h2>
         <h3 class="section-subtitle">Draft</h3>
@@ -542,10 +562,10 @@
           <li class="beer-item"><span>Stella Artois</span><data class="spirit-price" value="8">$8</data></li>
           <li class="beer-item"><span>Delmarva Pure Pils</span><data class="spirit-price" value="7">$7</data></li>
         </ul>
-        <div style="margin-top:0.8rem;"><span style="font-weight:600;">Cider:</span> Strongbow Gold Apple Cider <data class="spirit-price" value="7" style="margin-left:0.5rem;">$7</data></div>
+        <div style="margin-top:0.8rem;"><span style="font-weight:600; color: #e0d6cc;">Cider:</span> Strongbow Gold Apple Cider <data class="spirit-price" value="7" style="margin-left:0.5rem;">$7</data></div>
       </section>
 
-      <!-- SECCIÓN: WINES -->
+      <!-- Wines -->
       <section aria-labelledby="wines-heading">
         <h2 id="wines-heading">Vinhos • Wines</h2>
         <ul class="three-col-grid">
@@ -564,11 +584,10 @@
         </ul>
       </section>
 
-      <!-- SECCIÓN: SPIRITS -->
+      <!-- Spirits -->
       <section aria-labelledby="spirits-heading">
         <h2 id="spirits-heading">Licores & Destilados</h2>
         <div class="two-col-grid" style="gap: 1.5rem;">
-          
           <div>
             <h3 class="section-subtitle">Cachaça</h3>
             <ul style="list-style: none; padding: 0;">
@@ -581,18 +600,15 @@
               <li class="beer-item"><span>Pitú Cachaça</span><data class="spirit-price" value="8">$8</data></li>
               <li class="beer-item"><span>Pineapple Cachaça Shot (infused)</span><data class="spirit-price" value="5">$5</data></li>
             </ul>
-            
             <h3 class="section-subtitle" style="margin-top:1.2rem;">Tequila</h3>
             <ul style="list-style: none; padding: 0;">
               <li class="beer-item"><span>Don Julio 1942</span><data class="spirit-price" value="22">$22</data></li>
             </ul>
-
             <h3 class="section-subtitle" style="margin-top:1.2rem;">Scotch</h3>
             <ul style="list-style: none; padding: 0;">
               <li class="beer-item"><span>Laphroaig 10 Year</span><data class="spirit-price" value="14">$14</data></li>
               <li class="beer-item"><span>Macallan 12 Year</span><data class="spirit-price" value="20">$20</data></li>
             </ul>
-
             <h3 class="section-subtitle" style="margin-top:1.2rem;">Bourbon & Rye</h3>
             <ul style="list-style: none; padding: 0;">
               <li class="beer-item"><span>Eagle Rare 10 Year</span><data class="spirit-price" value="40">$40</data></li>
@@ -600,7 +616,6 @@
               <li class="beer-item"><span>Screwball Peanut Butter</span><data class="spirit-price" value="9">$9</data></li>
             </ul>
           </div>
-
           <div>
             <h3 class="section-subtitle">Cognac</h3>
             <ul style="list-style: none; padding: 0;">
@@ -612,7 +627,6 @@
               <li class="beer-item"><span>Courvoisier VSOP</span><data class="spirit-price" value="16">$16</data></li>
               <li class="beer-item"><span>Hennessy Privilege VSOP</span><data class="spirit-price" value="14">$14</data></li>
             </ul>
-            
             <h3 class="section-subtitle" style="margin-top:1.2rem;">Gin</h3>
             <ul style="list-style: none; padding: 0;">
               <li class="beer-item"><span>Aviation</span><data class="spirit-price" value="7">$7</data></li>
@@ -623,14 +637,12 @@
               <li class="beer-item"><span>Bluecoat American Dry</span><data class="spirit-price" value="7">$7</data></li>
               <li class="beer-item"><span>Bombay Sapphire</span><data class="spirit-price" value="9">$9</data></li>
             </ul>
-
             <h3 class="section-subtitle" style="margin-top:1.2rem;">Rum</h3>
             <ul style="list-style: none; padding: 0;">
               <li class="beer-item"><span>Captain Morgan Spiced</span><data class="spirit-price" value="7">$7</data></li>
               <li class="beer-item"><span>Captain Morgan Parrot Bay</span><data class="spirit-price" value="6">$6</data></li>
               <li class="beer-item"><span>Rumhaven Coconut</span><data class="spirit-price" value="6">$6</data></li>
             </ul>
-            
             <h3 class="section-subtitle" style="margin-top:1.2rem;">Whiskey</h3>
             <ul style="list-style: none; padding: 0;">
               <li class="beer-item"><span>Midleton 2018</span><data class="spirit-price" value="38">$38</data></li>
@@ -643,9 +655,9 @@
         </div>
       </section>
 
-      <!-- ASIDE: HAPPY HOUR -->
+      <!-- Happy Hour -->
       <aside class="happy-hour" aria-labelledby="happy-hour-heading">
-        <h2 id="happy-hour-heading" style="margin-top:0; border-bottom: none; color:#1e4d2e;">🍻 Happy Hour • Mon–Fri 5–7pm</h2>
+        <h2 id="happy-hour-heading" style="margin-top:0; border-bottom: none; color: #a8d5a2;">🍻 Happy Hour • Mon–Fri 5–7pm</h2>
         <div class="hh-grid">
           <div><span class="hh-day">Monday – Meat Monday</span><br>Two cuts of meat with rice & beans + a wine or tap beer <strong>$20</strong></div>
           <div><span class="hh-day">Tuesday – Tequila Tuesday</span><br>Regular Margaritas $6 • Flavored $7 • Rice & Beans $5</div>
@@ -653,17 +665,15 @@
           <div><span class="hh-day">Thursday – Flight Night</span><br>Wine flight $20 • Beer flight $15 • Caipirinha flight $15 • App sampler $7</div>
           <div><span class="hh-day">Friday – Feijoada Friday</span><br>Sampler Platter $15 • Rail Mixes $5 • Feijoada $15</div>
         </div>
-        <div style="margin-top:1rem;"><strong>Domestic $5 | Import $6 | Draft $6 | IPA $8 | Wine on Tap ½ off 5oz pours | Crush’s $6</strong></div>
+        <div style="margin-top:1rem;"><strong style="color: #e0d6cc;">Domestic $5 | Import $6 | Draft $6 | IPA $8 | Wine on Tap ½ off 5oz pours | Crush’s $6</strong></div>
       </aside>
 
-      <!-- AVISO IMPORTANTE -->
+      <!-- Disclaimer -->
       <div class="disclaimer" role="alert">
         <strong>⚠️ Due to meat plant shortages and significant price increases, we are currently not offering filet mignon.</strong> We appreciate your patience as we continue to source only the best quality meats. — Thank you.
       </div>
-
     </main>
 
-    <!-- FOOTER -->
     <footer class="footer">
       <span class="obrigado">Obrigado!</span><br>
       <span style="font-size:0.95rem;">CS Brazilian Steakhouse — 600 Center Blvd S, Newark, DE 19702</span><br>
