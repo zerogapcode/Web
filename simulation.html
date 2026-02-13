@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
+    /* Todos los estilos de simulation.html se mantienen exactamente igual */
     :root{
       --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
       --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
@@ -317,7 +318,6 @@
       opacity: 1;
     }
     
-    /* Botón de contacto con liquid glass */
     .contact-button {
       display: inline-block;
       padding: 12px 32px;
@@ -349,9 +349,6 @@
       margin-top: 20px;
     }
 
-    /* ------------------------------------------------------------------ */
-    /* --- ANIMACIÓN EN CONSTRUCCIÓN --- */
-    /* ------------------------------------------------------------------ */
     .construction-container {
       display: flex;
       flex-direction: column;
@@ -369,18 +366,10 @@
     }
     
     @keyframes constructionPulse {
-      0%, 100% { 
-        transform: scale(1) rotate(0deg);
-      }
-      25% { 
-        transform: scale(1.1) rotate(5deg);
-      }
-      50% { 
-        transform: scale(1.05) rotate(-5deg);
-      }
-      75% { 
-        transform: scale(1.1) rotate(5deg);
-      }
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.1) rotate(5deg); }
+      50% { transform: scale(1.05) rotate(-5deg); }
+      75% { transform: scale(1.1) rotate(5deg); }
     }
     
     .construction-title {
@@ -491,7 +480,6 @@
       margin: 0;
     }
     
-    /* BOTÓN DE REGRESO */
     .back-button {
       display: inline-flex;
       align-items: center;
@@ -530,7 +518,6 @@
       border-color: rgba(255, 255, 255, 0.2);
     }
 
-    /* PARALLAX PANELS */
     .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
     .panel{
       position:absolute;
@@ -688,7 +675,6 @@
       51%, 100% { opacity: 0; }
     }
     
-    /* Modo oscuro general */
     body[data-theme='dark']{
       background:var(--bg-dark);
       color:var(--text-dark);
@@ -1006,6 +992,31 @@
   </footer>
 
   <script>
+    // ========================================
+    // [NUEVO] PERSISTENCIA CON LOCALSTORAGE
+    // ========================================
+    const STORAGE_KEYS = {
+      THEME: 'protonlab_theme',
+      LANG: 'protonlab_lang'
+    };
+
+    function setPreference(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        console.warn('No se pudo guardar en localStorage', e);
+      }
+    }
+
+    function getPreference(key, defaultValue = null) {
+      try {
+        return localStorage.getItem(key) || defaultValue;
+      } catch (e) {
+        console.warn('No se pudo leer localStorage', e);
+        return defaultValue;
+      }
+    }
+
     // === Traducciones (Inglés predefinido) ===
     const translations = {
       nav_home: { en: "Home", es: "Inicio" },
@@ -1028,35 +1039,72 @@
       footer_text: { en: "Innovation in every line of code, precision in every physical component.", es: "Innovación en cada línea de código, precisión en cada componente físico." }
     };
 
+    // [MODIFICADO] Función changeLanguage mejorada
     function changeLanguage(lang) {
       document.documentElement.lang = lang;
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[key]) el.textContent = translations[key][lang];
+        if (translations[key]) {
+          el.textContent = translations[key][lang];
+        }
       });
       document.querySelectorAll('[data-lang]').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang);
       });
     }
 
-    document.querySelectorAll('[data-lang]').forEach(btn => {
-      btn.addEventListener('click', () => changeLanguage(btn.dataset.lang));
+    // === Modo de color ===
+    const modeButtons = document.querySelectorAll('.seg button[data-mode]');
+    
+    function applyTheme(mode) {
+      if (mode === 'auto') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.body.dataset.theme = prefersDark ? 'dark' : 'light';
+      } else {
+        document.body.dataset.theme = mode;
+      }
+    }
+
+    // [MODIFICADO] Cargar tema guardado al inicio
+    const savedTheme = getPreference(STORAGE_KEYS.THEME, 'auto');
+    // Activar visualmente el botón correspondiente
+    modeButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mode === savedTheme);
+    });
+    applyTheme(savedTheme);
+
+    // [MODIFICADO] Event listeners para botones de tema (ahora guardan en localStorage)
+    modeButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        modeButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const selectedMode = this.dataset.mode;
+        setPreference(STORAGE_KEYS.THEME, selectedMode);
+        applyTheme(selectedMode);
+      });
     });
 
-    // === Modo de color ===
-    const modeButtons=document.querySelectorAll('.seg button[data-mode]');
-    function applyTheme(mode){
-      if(mode==='auto'){
-        const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.body.dataset.theme=prefersDark?'dark':'light';
-      }else document.body.dataset.theme=mode;
+    // [MODIFICADO] Si el usuario tiene guardado 'auto', reaccionamos a cambios del sistema
+    if (savedTheme === 'auto') {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (getPreference(STORAGE_KEYS.THEME) === 'auto') {
+          applyTheme('auto');
+        }
+      });
     }
-    modeButtons.forEach(btn=>btn.addEventListener('click',()=>{
-      modeButtons.forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      applyTheme(btn.dataset.mode);
-    }));
-    applyTheme('auto');
+
+    // [MODIFICADO] Cargar idioma guardado al inicio
+    const savedLang = getPreference(STORAGE_KEYS.LANG, 'en');
+    changeLanguage(savedLang);
+
+    // [MODIFICADO] Event listeners para botones de idioma (ahora guardan en localStorage)
+    document.querySelectorAll('[data-lang]').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const selectedLang = this.dataset.lang;
+        setPreference(STORAGE_KEYS.LANG, selectedLang);
+        changeLanguage(selectedLang);
+      });
+    });
 
     // === PARALLAX PANELS ===
     const panels = document.getElementById('panels');
@@ -1204,13 +1252,13 @@
     });
 
     // === Ocultar header ===
-    const topbar=document.getElementById('topbar'); 
-    let lastScroll=0;
-    window.addEventListener('scroll',()=>{
-      const y=window.scrollY;
-      if(y>lastScroll+10) topbar.classList.add('hidden');
-      else if(y<lastScroll-10) topbar.classList.remove('hidden');
-      lastScroll=y;
+    const topbar = document.getElementById('topbar'); 
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if(y > lastScroll + 10) topbar.classList.add('hidden');
+      else if(y < lastScroll - 10) topbar.classList.remove('hidden');
+      lastScroll = y;
     });
 
     // === Menú hamburguesa ===
