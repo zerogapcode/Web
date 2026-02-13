@@ -80,7 +80,6 @@
       text-align: center;
       overflow: hidden;
       background-color: black;
-      /* El clip-path se controla por JS */
     }
 
     .hero-bg {
@@ -109,10 +108,10 @@
       width: 100%;
     }
 
-    /* LOGO 100% ADAPTABLE */
+    /* LOGO MÁS GRANDE Y 100% RESPONSIVO */
     .hero-logo {
-      width: 100%;
-      max-width: 500px;
+      max-width: 800px;      /* Aumentado considerablemente */
+      width: 90%;           /* Fluido en móviles */
       height: auto;
       filter: brightness(1.2);
       object-fit: contain;
@@ -127,22 +126,22 @@
         height: 50vh;
       }
       .hero-logo {
-        max-width: 350px;
+        max-width: 600px;   /* Sigue siendo grande en tablets */
       }
     }
 
     @media (max-width: 480px) {
       .hero-logo {
-        max-width: 280px;
+        max-width: 400px;   /* Óptimo para móviles */
       }
     }
 
-    /* ===== EFECTO DE VAPOR EN EL SUBTÍTULO ===== */
+    /* ===== SUBTÍTULO CENTRADO (AUTHENTIC BRAZILIAN CHURRASCO) ===== */
     .subhead-wrapper {
       position: relative;
-      display: inline-block;
-      margin-bottom: 1.5rem;
-      margin-top: 0.5rem;
+      display: block;        /* Cambiado a bloque para ocupar todo el ancho */
+      text-align: center;    /* Centra el contenido inline */
+      margin: 0 auto 1.5rem; /* Centrado horizontal y margen inferior */
     }
 
     .subhead-steam {
@@ -175,12 +174,13 @@
       letter-spacing: 5px;
       color: var(--red-accent);
       font-weight: 500;
-      text-align: center;
+      text-align: center;    /* Aseguramos centrado */
       position: relative;
       z-index: 5;
+      display: inline-block; /* Permite que el fondo de vapor lo rodee */
     }
 
-    /* ===== MENÚ SIN BORDES VERDE/AMARILLO ===== */
+    /* ===== RESTO DEL MENÚ (sin cambios estructurales) ===== */
     .menu {
       max-width: 1200px;
       margin: 2rem auto;
@@ -420,13 +420,13 @@
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
-      <img src="white-transparent-cs2-logo.png" alt="CS Brazilian Steakhouse" class="hero-logo" width="500" height="167" loading="eager">
+      <img src="white-transparent-cs2-logo.png" alt="CS Brazilian Steakhouse" class="hero-logo" width="800" height="267" loading="eager">
     </div>
   </section>
 
   <!-- MENÚ COMPLETO -->
   <div class="menu" id="main-content">
-    <!-- SUBTÍTULO CON EFECTO DE VAPOR -->
+    <!-- SUBTÍTULO AHORA CENTRADO CORRECTAMENTE -->
     <div class="subhead-wrapper">
       <div class="subhead-steam"></div>
       <div class="subhead-steam delay-1"></div>
@@ -727,53 +727,50 @@
     (function() {
       "use strict";
 
-      // ===== PARALLAX CON BORDE INFERIOR CURVO DINÁMICO =====
       const hero = document.getElementById('hero-section');
-      
+
       function updateClipPath() {
         if (!hero) return;
-        
-        const scrollY = window.scrollY;
-        // Limitar la curva a un máximo de 150px de desplazamiento vertical en el clip
-        const maxScroll = 300; // a partir de 300px de scroll, la curva se estabiliza
-        const progress = Math.min(scrollY / maxScroll, 1);
-        
-        // Puntos de control para la curva inferior
-        // Usamos un polígono que mantiene los bordes laterales rectos y curva la parte inferior
-        // y0: posición vertical del borde inferior (0% = borde inferior original)
-        // cY: altura de la curva (positivo hacia arriba)
-        const curveHeight = 40; // altura máxima de la curva en píxeles (convertida a %)
-        
-        // Convertimos la altura de la curva a porcentaje relativo a la altura del hero
+
+        // Posición y dimensiones del hero
+        const rect = hero.getBoundingClientRect();
+        const heroTop = rect.top + window.scrollY;  // offsetTop absoluto
         const heroHeight = hero.offsetHeight;
-        const curvePercent = heroHeight ? (curveHeight * progress / heroHeight) * 100 : 0;
-        
-        // El polígono: 
-        // (0% 0%, 100% 0%, 100% 100%, 0% 100%) -> rectángulo
-        // Para curvar, modificamos los dos puntos inferiores:
-        // (100% 100%) -> (100% calc(100% - curvePercent)) 
-        // (0% 100%) -> (0% calc(100% - curvePercent))
-        // y añadimos un punto medio en la parte inferior con una curva más pronunciada
-        // Para simular una curva suave usamos tres puntos en la parte inferior:
-        // 100% (100% - x%), 50% 100%, 0% (100% - x%)
-        // Esto crea una muesca hacia arriba en las esquinas.
-        // Pero el cliente quiere que se curve hacia abajo? "la parte inferior del parallax se vaya curvando" 
-        // Interpretamos que el borde inferior se curva hacia arriba (como una ola) o hacia abajo? 
-        // Vamos a hacer que las esquinas inferiores se eleven ligeramente, creando un efecto de "curvatura" suave.
-        
-        // Polígono con curva en la parte inferior: las esquinas se elevan, el centro permanece abajo.
-        const clipPath = `polygon(
-          0% 0%, 
-          100% 0%, 
-          100% ${100 - curvePercent}%, 
-          50% 100%, 
-          0% ${100 - curvePercent}%
-        )`;
-        
-        hero.style.clipPath = clipPath;
+        const scrollY = window.scrollY;
+
+        // Rango de desaparición: desde que el borde superior toca el tope del viewport
+        // hasta que el borde inferior alcanza el tope (hero completamente fuera)
+        const startDisappear = heroTop;
+        const endDisappear = heroTop + heroHeight;
+
+        // Progreso de desaparición (0 = inicio, 1 = completamente fuera)
+        let progress = (scrollY - startDisappear) / (endDisappear - startDisappear);
+        progress = Math.min(Math.max(progress, 0), 1); // clamp entre 0 y 1
+
+        // ----- CERRAR COMPLETAMENTE AL 50% DE DESAPARICIÓN -----
+        const closureThreshold = 0.5;
+
+        if (progress < closureThreshold) {
+          // Mapeamos el progreso de 0 a 1 en este tramo
+          const t = progress / closureThreshold; // 0 → 0, 0.5 → 1
+          // La curva crece hasta que las esquinas inferiores alcanzan el 0% (arriba)
+          // y el punto medio se mantiene en 100% (abajo). Así obtenemos un triángulo.
+          const curvePercent = t * 100; // de 0% a 100%
+
+          const clipPath = `polygon(
+            0% 0%,
+            100% 0%,
+            100% calc(100% - ${curvePercent}%),
+            50% 100%,
+            0% calc(100% - ${curvePercent}%)
+          )`;
+          hero.style.clipPath = clipPath;
+        } else {
+          // Ya está completamente cerrado: triángulo simple (punta inferior)
+          hero.style.clipPath = `polygon(0% 0%, 100% 0%, 50% 100%)`;
+        }
       }
 
-      // Ejecutar al cargar y al hacer scroll
       if (hero) {
         window.addEventListener('scroll', updateClipPath);
         window.addEventListener('resize', updateClipPath);
