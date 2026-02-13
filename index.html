@@ -9,7 +9,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
 
   <style>
-    /* Todos los estilos CSS permanecen iguales - sin cambios */
+    /* Todos los estilos CSS permanecen exactamente igual que en tu versión original */
+    /* ... (mantén todo el CSS sin cambios) ... */
     :root{
       --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
       --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
@@ -360,21 +361,19 @@
       right: 20px;
       z-index: 9999;
       display: flex;
-      flex-direction: column-reverse; /* Apila de abajo hacia arriba */
+      flex-direction: column-reverse;
       gap: 15px;
       align-items: flex-end;
     }
     
-    /* Estilo base de botones (variables se asignan en JS) */
     .float-btn {
-      /* Default vars */
       --btn-accent: rgba(100, 220, 150, 1); 
       --btn-accent-glow: rgba(100, 220, 150, 0.4);
       --btn-bg: rgba(255, 255, 255, 0.1);
 
       position: relative;
       height: 60px;
-      width: 60px; /* Ancho cerrado */
+      width: 60px;
       background: var(--btn-bg);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 30px;
@@ -388,63 +387,46 @@
       -webkit-backdrop-filter: blur(16px) saturate(180%);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
       
-      /* TRANSICIÓN: CLAVE PARA EL EFECTO */
-      /* Usamos transform para el movimiento y opacity para aparecer */
       transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
                   opacity 0.6s ease,
                   width 0.3s ease,
                   background 0.3s ease,
                   box-shadow 0.3s ease;
                   
-      /* Optimizaciones de renderizado */
       will-change: transform, opacity;
-      transform: translate3d(0,0,0); /* Forzar aceleración GPU */
+      transform: translate3d(0,0,0);
       
       color: #333;
       user-select: none;
     }
 
-    /* ESTADO INICIAL: OCULTO */
     .float-btn.init-hidden {
       opacity: 0;
-      /* Opcional: Pequeño scale inicial */
       transform: scale(0.8);
       pointer-events: none;
     }
 
-    /* ESTADO "POP": CENTRADO MEDIANTE TRANSFORM */
     .float-btn.intro-pop {
-      /* IMPORTANTE: Usamos CSS Vars calculadas en JS para moverlo al centro */
-      /* --tx y --ty son las distancias desde la esquina al centro */
-      /* --s es el factor de escala */
       transform: translate(var(--tx), var(--ty)) scale(var(--s)) !important;
-      
-      /* Estilos visuales durante el Pop */
-      width: 60px !important; /* Mantener width base, el scale lo agranda */
+      width: 60px !important;
       height: 60px !important;
-      border-radius: 50% !important; /* Círculo perfecto */
-      
+      border-radius: 50% !important;
       z-index: 20000 !important;
       opacity: 1 !important;
-      pointer-events: none; /* No interactuable durante animación */
-      
-      /* Fondo más solido para destacar */
+      pointer-events: none;
       background: var(--btn-accent) !important;
       box-shadow: 0 0 60px var(--btn-accent-glow), 0 0 100px rgba(0,0,0,0.1) !important;
       border: 4px solid rgba(255,255,255,0.5) !important;
     }
 
-    /* Ocultar elementos internos durante el Pop */
     .float-btn.intro-pop .btn-text,
     .float-btn.intro-pop .status-dot {
       display: none !important;
       opacity: 0 !important;
     }
 
-    /* Ajustar icono durante POP */
     .float-btn.intro-pop .float-icon-wrapper svg {
-      color: #fff !important; /* Icono blanco sobre fondo accent */
-      /* Compensar si es necesario, pero el scale general ya agranda todo */
+      color: #fff !important;
     }
 
     body[data-theme='dark'] .float-btn {
@@ -452,7 +434,6 @@
       border-color: rgba(255, 255, 255, 0.15);
     }
 
-    /* Hover Estado: Expandido (Normal) */
     .float-btn:hover {
       width: 180px;
       background: rgba(255, 255, 255, 0.2);
@@ -460,7 +441,6 @@
       border-color: var(--btn-accent);
     }
 
-    /* Contenedor del Icono SVG - CENTRADO */
     .float-icon-wrapper {
       min-width: 60px;
       height: 60px;
@@ -480,13 +460,11 @@
       margin: 0 auto;
     }
 
-    /* Animación del icono al hover */
     .float-btn:hover .float-icon-wrapper svg {
       transform: scale(1.15) rotate(-10deg);
       color: var(--btn-accent);
     }
 
-    /* Texto (DebugBot / RickGPT) */
     .btn-text {
       position: absolute;
       left: 60px;
@@ -505,7 +483,6 @@
       transition-delay: 0.05s;
     }
 
-    /* Punto de estado (solo para IA) */
     .status-dot {
       position: absolute;
       top: 18px;
@@ -519,7 +496,6 @@
       transition: opacity 0.3s;
     }
     
-    /* Animación de latido para el botón de IA */
     #ai-float-btn:not(:hover) .float-icon-wrapper svg {
       animation: heartbeat 2s infinite ease-in-out;
     }
@@ -533,7 +509,6 @@
       100% { transform: scale(1); }
     }
 
-    /* Responsive para botones */
     @media (max-width: 768px) {
       .float-buttons-container { bottom: 15px; right: 15px; gap: 12px; }
       .float-btn { height: 50px; width: 50px; }
@@ -549,7 +524,6 @@
       .btn-text { left: 50px; font-size: 14px; }
     }
 
-    /* VENTANA DEBUG */
     #debug-chat-window {
       position: fixed;
       bottom: 20px;
@@ -772,23 +746,13 @@
     }
     
     @keyframes analyzingPulse {
-      0%, 100% { 
-        transform: scale(1); 
-      }
-      50% { 
-        transform: scale(1.05); 
-      }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
     
     @keyframes colorBreathing {
-      0%, 100% { 
-        background: rgba(0, 255, 136, 0.2);
-        border-color: rgba(0, 255, 136, 0.5);
-      }
-      50% { 
-        background: rgba(0, 255, 136, 0.4);
-        border-color: rgba(0, 255, 136, 0.8);
-      }
+      0%, 100% { background: rgba(0, 255, 136, 0.2); border-color: rgba(0, 255, 136, 0.5); }
+      50% { background: rgba(0, 255, 136, 0.4); border-color: rgba(0, 255, 136, 0.8); }
     }
     
     .debug-action-btn:hover {
@@ -865,14 +829,8 @@
     .debug-loading-dot:nth-child(3) { animation-delay: 0.4s; }
     
     @keyframes debugPulse {
-      0%, 80%, 100% { 
-        transform: scale(0.8);
-        opacity: 0.5;
-      }
-      40% { 
-        transform: scale(1.2);
-        opacity: 1;
-      }
+      0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+      40% { transform: scale(1.2); opacity: 1; }
     }
     
     .debug-progress {
@@ -923,7 +881,6 @@
       border-left: 3px solid #ff5555;
     }
     
-    /* VENTANA IA (RickGPT) */
     #ai-chat-window {
       position: fixed;
       bottom: 20px;
@@ -1254,12 +1211,10 @@
       border-color: rgba(255, 255, 255, 0.2);
     }
     
-    /* CORREGIDO: Añadida regla para el modo oscuro del texto pequeño del título */
     body[data-theme='dark'] .code-title small {
       color: var(--muted-dark);
     }
 
-    /* MODIFICADO: Aumentar área táctil para botones de cerrar en móviles */
     @media (max-width: 768px) {
       .ai-chat-close, .debug-chat-close {
         width: 40px;
@@ -1578,7 +1533,6 @@
       color:var(--muted-dark);
     }
     
-    /* OPTIMIZACIÓN PARA MÓVILES: Reducir cantidad de paneles */
     @media (max-width: 768px) {
       .panel.large:nth-child(n+3) {
         display: none;
@@ -1719,7 +1673,6 @@
       box-shadow: 0 0 20px rgba(0, 255, 100, 0.5);
     }
 
-    /* Añadir más altura al footer para permitir scroll */
     footer {
       min-height: 300px;
       position: relative;
@@ -1874,7 +1827,6 @@
       transform: translateY(-2px);
     }
     
-    /* Modo oscuro para el modal */
     body[data-theme='dark'] .password-modal-title,
     body[data-theme='dark'] #password-input-field {
       color: #f0f0f0;
@@ -2089,11 +2041,11 @@
     </section>
 
     <footer>
-  <p>© 2023 ProtonLab – www.protonlab.site</p>
-  <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
-    <span data-i18n="footer_text">Innovation in every line of code, precision in every physical component.</span> <a href="pi.html" class="footer-pi">π</a>
-  </p>
-</footer>
+      <p>© 2023 ProtonLab – www.protonlab.site</p>
+      <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
+        <span data-i18n="footer_text">Innovation in every line of code, precision in every physical component.</span> <a href="pi.html" class="footer-pi">π</a>
+      </p>
+    </footer>
   </main>
 
   <div id="matrix-overlay">
@@ -2293,6 +2245,31 @@
 
   <script>
     // ========================================
+    // [NUEVO] PERSISTENCIA CON LOCALSTORAGE
+    // ========================================
+    const STORAGE_KEYS = {
+      THEME: 'protonlab_theme',
+      LANG: 'protonlab_lang'
+    };
+
+    function setPreference(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        console.warn('No se pudo guardar en localStorage', e);
+      }
+    }
+
+    function getPreference(key, defaultValue = null) {
+      try {
+        return localStorage.getItem(key) || defaultValue;
+      } catch (e) {
+        console.warn('No se pudo leer localStorage', e);
+        return defaultValue;
+      }
+    }
+
+    // ========================================
     // CONFIGURACIÓN PRINCIPAL - MODIFICADA
     // ========================================
     
@@ -2306,7 +2283,7 @@
     // Función de utilidad para añadir headers de ngrok
     function getNgrokHeaders() {
       return {
-        'ngrok-skip-browser-warning': 'true', // Header para evitar la advertencia de ngrok
+        'ngrok-skip-browser-warning': 'true',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       };
@@ -2330,10 +2307,9 @@
     const debugFloatBtn = document.getElementById('debug-float-btn');
     const aiFloatBtn = document.getElementById('ai-float-btn');
     const pagosFloatBtn = document.getElementById('pagos-float-btn');
-    const galeriaFloatBtn = document.getElementById('galeria-float-btn'); // NUEVO
+    const galeriaFloatBtn = document.getElementById('galeria-float-btn');
     const alexFloatBtn = document.getElementById('alex-float-btn');
     
-    // Elementos del modal de contraseña
     const passwordModal = document.getElementById('password-modal');
     const passwordInputField = document.getElementById('password-input-field');
     const passwordSubmitBtn = document.getElementById('password-submit-btn');
@@ -2383,7 +2359,6 @@
       document.addEventListener('touchend', dragEnd);
 
       function dragStart(e) {
-        // MODIFICADO: Si el usuario toca el botón de cerrar, NO iniciar el arrastre
         if (e.target.closest('.ai-chat-close') || e.target.closest('.debug-chat-close')) {
           return; 
         }
@@ -2635,13 +2610,16 @@
       });
     }
 
-    // === Modo de color ===
-    const modeButtons=document.querySelectorAll('[data-mode]');
-    function applyTheme(mode){
-      if(mode==='auto'){
-        const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.body.dataset.theme=prefersDark?'dark':'light';
-      }else document.body.dataset.theme=mode;
+    // === [MODIFICADO] Lógica de tema con persistencia ===
+    const modeButtons = document.querySelectorAll('[data-mode]');
+    
+    function applyTheme(mode) {
+      if (mode === 'auto') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.body.dataset.theme = prefersDark ? 'dark' : 'light';
+      } else {
+        document.body.dataset.theme = mode;
+      }
       
       if (debugEditor && editorInitialized) {
         const theme = document.body.dataset.theme === 'dark' ? 'vs-dark' : 'vs';
@@ -2649,13 +2627,34 @@
       }
       setTimeout(applyRandomColors, 50);
     }
-    modeButtons.forEach(btn=>btn.addEventListener('click',()=>{
-      modeButtons.forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      applyTheme(btn.dataset.mode);
-    }));
-    applyTheme('auto');
-    applyRandomColors();
+
+    // Cargar tema guardado al inicio
+    const savedTheme = getPreference(STORAGE_KEYS.THEME, 'auto');
+    // Activar visualmente el botón correspondiente
+    modeButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mode === savedTheme);
+    });
+    applyTheme(savedTheme);
+
+    // Event listeners para botones de tema (ahora guardan en localStorage)
+    modeButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        modeButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const selectedMode = this.dataset.mode;
+        setPreference(STORAGE_KEYS.THEME, selectedMode);
+        applyTheme(selectedMode);
+      });
+    });
+
+    // Si el usuario tiene guardado 'auto', reaccionamos a cambios del sistema
+    if (savedTheme === 'auto') {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (getPreference(STORAGE_KEYS.THEME) === 'auto') {
+          applyTheme('auto');
+        }
+      });
+    }
 
     // ========================================
     // LOGICA DE TRADUCCION (MODIFICADA)
@@ -2748,7 +2747,6 @@
       debug_placeholder: { en: "💡 Write your code and press \"Analyze\"", es: "💡 Escribe tu código y presiona \"Analizar\"" },
       debug_analyzing_txt: { en: "Analyzing code...", es: "Analizando código..." },
       
-      // === NUEVAS TRADUCCIONES PARA IA Y DEBUG ===
       ai_greeting: {
         en: "Hello! I'm RickGPT, your AI assistant specialized in software and hardware development. How can I help you today?",
         es: "¡Hola! Soy RickGPT, tu asistente de IA especializado en desarrollo de software y hardware. ¿En qué puedo ayudarte hoy?"
@@ -2778,44 +2776,40 @@
     const langButtons = document.querySelectorAll('[data-lang]');
     let currentLang = 'en';
 
+    // [MODIFICADO] Función changeLanguage ahora actualiza TODOS los textos dinámicos
     function changeLanguage(lang) {
       currentLang = lang;
       
       // Actualizar botones
       langButtons.forEach(btn => {
-        if (btn.dataset.lang === lang) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
+        btn.classList.toggle('active', btn.dataset.lang === lang);
       });
 
-      // Actualizar textos
+      // Actualizar textos estáticos
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[key] && translations[key][lang]) {
-          // Si el elemento tiene hijos HTML específicos (como spans), usamos innerHTML si es necesario
-          // pero para la mayoría basta con textContent/innerText
-          // Nota: Para hero_subtitle esto es importante para la animación
           if (el.id === 'typed-subtitle' || el.tagName === 'P') {
-             el.innerText = translations[key][lang];
+            el.innerText = translations[key][lang];
           } else {
-             el.innerText = translations[key][lang];
+            el.innerText = translations[key][lang];
           }
         }
       });
       
       // Actualizar placeholders
-      if (document.getElementById('password-input-field')) {
-        document.getElementById('password-input-field').placeholder = lang === 'en' ? "Enter password" : "Ingrese la contraseña";
+      const passwordInput = document.getElementById('password-input-field');
+      if (passwordInput) {
+        passwordInput.placeholder = lang === 'en' ? "Enter password" : "Ingrese la contraseña";
       }
       
       // Actualizar placeholder del input de IA solo si no está en estado de conexión
-      if (document.getElementById('ai-input')) {
-         const ph = document.getElementById('ai-input').getAttribute('placeholder');
-         if (ph !== 'Conectando...' && ph !== 'Connecting...' && ph !== 'Servidor no disponible' && ph !== 'Server unavailable') {
-             document.getElementById('ai-input').placeholder = translations.ai_input_placeholder[lang];
-         }
+      const aiInputEl = document.getElementById('ai-input');
+      if (aiInputEl) {
+        const ph = aiInputEl.getAttribute('placeholder');
+        if (ph !== 'Conectando...' && ph !== 'Connecting...' && ph !== 'Servidor no disponible' && ph !== 'Server unavailable') {
+          aiInputEl.placeholder = translations.ai_input_placeholder[lang];
+        }
       }
       
       // Actualizar etiqueta HTML
@@ -2824,7 +2818,7 @@
       // Actualizar código de ejemplo del editor de Debug si ya está inicializado
       if (debugEditor && editorInitialized) {
         const currentLanguage = languageSelector.value;
-        updateExampleCode(currentLanguage, true); // true indica que es por cambio de idioma
+        updateExampleCode(currentLanguage, true);
       }
       
       // Actualizar el estado de DebugBot si está visible
@@ -2840,9 +2834,16 @@
       }
     }
 
+    // Cargar idioma guardado al inicio
+    const savedLang = getPreference(STORAGE_KEYS.LANG, 'en');
+    changeLanguage(savedLang);
+
+    // Event listeners para botones de idioma (ahora guardan en localStorage)
     langButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        changeLanguage(btn.dataset.lang);
+      btn.addEventListener('click', function() {
+        const selectedLang = this.dataset.lang;
+        setPreference(STORAGE_KEYS.LANG, selectedLang);
+        changeLanguage(selectedLang);
       });
     });
 
@@ -3185,13 +3186,13 @@
     });
 
     // === Ocultar header ===
-    const topbar=document.getElementById('topbar'); 
-    let lastScroll=0;
-    window.addEventListener('scroll',()=>{
-      const y=window.scrollY;
-      if(y>lastScroll+10) topbar.classList.add('hidden');
-      else if(y<lastScroll-10) topbar.classList.remove('hidden');
-      lastScroll=y;
+    const topbar = document.getElementById('topbar'); 
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if(y > lastScroll + 10) topbar.classList.add('hidden');
+      else if(y < lastScroll - 10) topbar.classList.remove('hidden');
+      lastScroll = y;
     });
 
     // === Menú hamburguesa ===
@@ -3281,12 +3282,10 @@
     // FUNCIONALIDAD PAGOS CON CONTRASEÑA
     // ========================================
 
-    // NUEVO: Evento para abrir el modal de contraseña
     pagosFloatBtn.addEventListener('click', () => {
       openPasswordModal();
     });
 
-    // NUEVO: Funciones para el modal de contraseña
     function openPasswordModal() {
       passwordModal.classList.add('active');
       passwordInputField.value = '';
@@ -3306,16 +3305,13 @@
       const password = passwordInputField.value.trim();
       
       if (password === 'swordfish') {
-        // Contraseña correcta, redirigir a intercom.html
         closePasswordModal();
         window.location.href = 'intercom.html';
       } else {
-        // Contraseña incorrecta, mostrar error
         passwordError.classList.add('show');
         passwordInputField.value = '';
         passwordInputField.focus();
         
-        // Agregar animación de sacudida al input
         passwordInputField.style.animation = 'none';
         setTimeout(() => {
           passwordInputField.style.animation = 'shake 0.5s ease-in-out';
@@ -3323,7 +3319,6 @@
       }
     }
 
-    // NUEVO: Estilos para animación de sacudida
     const style = document.createElement('style');
     style.textContent = `
       @keyframes shake {
@@ -3334,7 +3329,6 @@
     `;
     document.head.appendChild(style);
 
-    // Eventos para el modal de contraseña
     passwordSubmitBtn.addEventListener('click', validatePassword);
     
     passwordInputField.addEventListener('keydown', (e) => {
@@ -3345,7 +3339,6 @@
     
     passwordCloseBtn.addEventListener('click', closePasswordModal);
     
-    // Cerrar modal al hacer clic fuera del contenido
     passwordModal.addEventListener('click', (e) => {
       if (e.target === passwordModal) {
         closePasswordModal();
@@ -3366,9 +3359,8 @@
       if (!isDebugChatOpen) openDebugChat();
     });
 
-    // MODIFICADO: Añadir stopPropagation al evento de cierre de DebugBot
     debugCloseBtn.addEventListener('click', (e) => {
-      e.stopPropagation(); // Evita que el clic llegue al manejador de arrastre
+      e.stopPropagation();
       closeDebugChat();
     });
 
@@ -3418,7 +3410,6 @@
       require(['vs/editor/editor.main'], () => {
         const theme = document.body.dataset.theme === 'dark' ? 'vs-dark' : 'vs';
         
-        // Usar ejemplo traducido según el idioma actual
         const exampleCode = translations.debug_editor_example[currentLang] || translations.debug_editor_example['en'];
         
         debugEditor = monaco.editor.create(document.getElementById('debug-editor'), {
@@ -3474,10 +3465,7 @@
       });
     }
 
-    // MODIFICADO: updateExampleCode ahora acepta un parámetro forceLang para cuando se cambia el idioma
     function updateExampleCode(language, forceLang = false) {
-      // Si se llama por cambio de idioma (forceLang = true), mantener el ejemplo traducido para el lenguaje actual
-      // Si es por cambio de lenguaje, mantener el ejemplo en el idioma actual
       const examples = {
         javascript: translations.debug_editor_example[currentLang] || translations.debug_editor_example['en'],
         python: currentLang === 'en' 
@@ -3486,10 +3474,8 @@
         java: currentLang === 'en'
           ? `// Example in Java\npublic class Main {\n    public static int factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`
           : `// Ejemplo en Java\npublic class Main {\n    public static int factorial(int n) {\n        if (n == 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5));\n    }\n}`,
-        // ... (otros lenguajes similares, pero por brevedad no se incluyen todos; se puede mantener la misma lógica)
       };
       
-      // Si el lenguaje no está en examples, usar el ejemplo por defecto traducido
       const example = examples[language] || translations.debug_editor_example[currentLang];
       debugEditor.setValue(example);
     }
@@ -3530,7 +3516,6 @@
       try {
         updateDebugStatus('checking', '🔍 Verificando servidor...');
         
-        // Usando headers específicos para ngrok
         const response = await fetch(`${OLLAMA_SERVER_URL}/health`, {
           headers: getNgrokHeaders()
         });
@@ -3563,7 +3548,6 @@
 
     debugAnalyzeBtn.addEventListener('click', analyzeCode);
 
-    // MODIFICADO: Se añade el idioma actual a la petición
     async function analyzeCode() {
       if (isDebugging) {
         console.warn("Análisis en progreso");
@@ -3602,14 +3586,13 @@
       try {
         console.log('📤 Enviando código para análisis...');
         
-        // MODIFICADO: Se añade el idioma actual a la petición
         const response = await fetch(`${OLLAMA_SERVER_URL}/debug`, {
           method: 'POST',
           headers: getNgrokHeaders(),
           body: JSON.stringify({ 
             code: code,
             language: selectedLanguage,
-            lang: currentLang   // ← NUEVO: idioma seleccionado
+            lang: currentLang
           })
         });
         
@@ -3620,7 +3603,6 @@
         hideDebugLoading();
         debugOutput.innerHTML = '';
         
-        // Leer el stream (Server-Sent Events)
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         
@@ -3672,9 +3654,8 @@
       if (!isAIChatOpen) openAIChat();
     });
 
-    // MODIFICADO: Añadir stopPropagation al evento de cierre de RickGPT
     aiCloseBtn.addEventListener('click', (e) => {
-      e.stopPropagation(); // Evita que el clic llegue al manejador de arrastre
+      e.stopPropagation();
       closeAIChat();
     });
 
@@ -3723,14 +3704,12 @@
       }, 600);
     }
 
-    // MODIFICADO: Usar traducción para el saludo inicial y placeholder
     async function initAIConnection() {
       try {
         addAIMessage(currentLang === 'en' ? 'Connecting to RickGPT...' : 'Conectando con RickGPT...', false);
         
         currentSessionId = "ai-session-" + Date.now();
         
-        // MODIFICADO: Usando headers para ngrok y especificando el asistente "rickgpt"
         const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
           headers: getNgrokHeaders(),
@@ -3738,14 +3717,13 @@
             message: "ping",
             session_id: currentSessionId,
             assistant: "rickgpt",
-            lang: currentLang   // ← NUEVO: idioma seleccionado
+            lang: currentLang
           })
         });
         
         if (testResponse.ok) {
           const data = await testResponse.json();
           aiMessages.innerHTML = '';
-          // Saludo traducido
           addAIMessage(translations.ai_greeting[currentLang], false);
           isServerAvailable = true;
           
@@ -3837,7 +3815,6 @@
 
     aiSendBtn.addEventListener('click', sendAIMessage);
 
-    // MODIFICADO: Se añade el idioma actual a la petición
     async function sendAIMessage() {
       const text = aiInput.value.trim();
       if (!text || isGenerating) return;
@@ -3854,7 +3831,6 @@
       const typingIndicator = showAITyping();
       
       try {
-        // MODIFICADO: Usando headers para ngrok y especificando el asistente "rickgpt" + idioma
         const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
           headers: getNgrokHeaders(),
@@ -3862,7 +3838,7 @@
             message: text,
             session_id: currentSessionId,
             assistant: "rickgpt",
-            lang: currentLang   // ← NUEVO: idioma seleccionado
+            lang: currentLang
           })
         });
         
