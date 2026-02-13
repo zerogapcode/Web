@@ -70,16 +70,17 @@
       top: 0;
     }
 
-    /* ===== HERO CON ALTURA REDUCIDA Y SOLO LOGO ===== */
+    /* ===== HERO CON PARALLAX Y CLIP-PATH ELÍPTICO ===== */
     .hero {
       position: relative;
-      height: 60vh; /* Altura reducida */
+      height: 60vh;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       overflow: hidden;
       background-color: black;
+      /* Clip-path elíptico: se controla con JS */
     }
 
     .hero-bg {
@@ -88,7 +89,7 @@
       background-image: url('https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=2000&auto=format&fit=crop');
       background-size: cover;
       background-position: center;
-      background-attachment: fixed; /* Efecto parallax */
+      background-attachment: fixed;
     }
 
     .hero-overlay {
@@ -105,31 +106,83 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 100%;
     }
 
+    /* LOGO 100% ADAPTABLE */
     .hero-logo {
-      max-width: 300px;
-      width: 80%;
+      width: 100%;
+      max-width: 500px;
       height: auto;
       filter: brightness(1.2);
+      object-fit: contain;
+      margin-bottom: 1rem;
     }
 
-    /* Desactivar parallax en móviles */
+    /* ===== SUBTÍTULO CON VAPOR – CENTRADO EN EL HERO ===== */
+    .hero-subtitle-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+
+    .hero-subtitle-steam {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -10px;
+      width: 120%;
+      height: 180px;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0) 75%);
+      filter: blur(20px);
+      animation: subheadRise 7s infinite ease-in-out;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .hero-subtitle-steam.delay-1 { animation-delay: 2.3s; }
+    .hero-subtitle-steam.delay-2 { animation-delay: 4.6s; }
+
+    @keyframes subheadRise {
+      0% { transform: translate(-50%, 0) scale(1); opacity: 0; }
+      20% { opacity: 0.5; }
+      50% { transform: translate(-50%, -50px) scale(1.15); opacity: 0.35; }
+      100% { transform: translate(-50%, -100px) scale(0.9); opacity: 0; }
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      color: var(--red-accent);
+      font-weight: 500;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+      white-space: nowrap;
+    }
+
+    /* Desactivar parallax y ajustar en móviles */
     @media (max-width: 800px) {
       .hero-bg {
         background-attachment: scroll;
       }
       .hero {
-        height: 50vh; /* Aún más pequeño en móviles */
+        height: 50vh;
       }
       .hero-logo {
-        max-width: 220px;
+        max-width: 350px;
+      }
+      .hero-subtitle {
+        font-size: 0.8rem;
+        letter-spacing: 3px;
+        white-space: normal;
       }
     }
 
     @media (max-width: 480px) {
       .hero-logo {
-        max-width: 180px;
+        max-width: 280px;
       }
     }
 
@@ -153,17 +206,6 @@
       opacity: 0.15;
       pointer-events: none;
       border-radius: inherit;
-    }
-
-    .subhead {
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      letter-spacing: 5px;
-      color: var(--red-accent);
-      margin-bottom: 1.5rem;
-      margin-top: 0.5rem;
-      font-weight: 500;
-      text-align: center;
     }
 
     h2 {
@@ -378,20 +420,26 @@
 <body>
   <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
-  <!-- HERO – SOLO LOGO, ALTURA REDUCIDA, PARALLAX -->
-  <section class="hero">
+  <!-- HERO CON PARALLAX, LOGO, SUBTÍTULO CENTRADO Y BORDE ELÍPTICO -->
+  <section class="hero" id="hero-section">
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
-      <img src="white-transparent-cs2-logo.png" alt="CS Brazilian Steakhouse" class="hero-logo" width="300" height="100" loading="eager">
+      <img src="white-transparent-cs2-logo.png" alt="CS Brazilian Steakhouse" class="hero-logo" width="500" height="167" loading="eager">
+      
+      <!-- SUBTÍTULO CON VAPOR – CENTRADO DEBAJO DEL LOGO -->
+      <div class="hero-subtitle-wrapper">
+        <div class="hero-subtitle-steam"></div>
+        <div class="hero-subtitle-steam delay-1"></div>
+        <div class="hero-subtitle-steam delay-2"></div>
+        <div class="hero-subtitle">— AUTHENTIC BRAZILIAN CHURRASCO —</div>
+      </div>
     </div>
   </section>
 
-  <!-- MENÚ COMPLETO -->
+  <!-- MENÚ COMPLETO (SIN SUBTÍTULO) -->
   <div class="menu" id="main-content">
-    <div class="subhead" aria-hidden="true">— AUTHENTIC BRAZILIAN CHURRASCO —</div>
-
     <main>
       <!-- Salgados & Appetizers -->
       <section aria-labelledby="appetizers-heading">
@@ -680,5 +728,41 @@
       <span style="font-size:0.85rem;">*Consuming raw or undercooked meats, poultry, seafood, or eggs may increase your risk of foodborne illness.</span>
     </footer>
   </div>
+
+  <script>
+    (function() {
+      "use strict";
+
+      // ===== PARALLAX CON BORDE INFERIOR ELÍPTICO (CIRCULAR) =====
+      const hero = document.getElementById('hero-section');
+      
+      function updateClipPath() {
+        if (!hero) return;
+        
+        const scrollY = window.scrollY;
+        const maxScroll = 300; // scroll máximo para el efecto
+        const progress = Math.min(scrollY / maxScroll, 1);
+        
+        // Valores base de la elipse
+        const baseRadiusX = 150; // % ancho de la elipse (siempre ancho completo)
+        const baseRadiusY = 20;   // % altura inicial de la elipse (curva suave)
+        const maxRadiusY = 45;    // % altura máxima (curva más pronunciada)
+        
+        // Interpolación lineal
+        const radiusY = baseRadiusY + (maxRadiusY - baseRadiusY) * progress;
+        
+        // Clip-path con elipse: centro en la parte inferior (50% 100%)
+        // La elipse tiene un ancho grande (siempre cubre todo el ancho) y una altura variable
+        hero.style.clipPath = `ellipse(${baseRadiusX}% ${radiusY}% at 50% 100%)`;
+      }
+
+      // Ejecutar al cargar y al hacer scroll/resize
+      if (hero) {
+        window.addEventListener('scroll', updateClipPath);
+        window.addEventListener('resize', updateClipPath);
+        updateClipPath(); // inicial
+      }
+    })();
+  </script>
 </body>
 </html>
