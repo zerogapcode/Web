@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
+    /* Todos los estilos de contacto.html se mantienen exactamente igual */
     :root{
       --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
       --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
@@ -43,7 +44,6 @@
       transition:transform .35s ease,opacity .35s ease;
       z-index:60;
       height: 70px;
-      /* GPU Acceleration */
       transform: translateZ(0);
       will-change: transform;
     }
@@ -213,7 +213,6 @@
       box-shadow: var(--card-shadow-light);
       position: relative;
       overflow: hidden;
-      /* GPU Acceleration */
       transform: translateZ(0);
       will-change: transform;
     }
@@ -267,7 +266,6 @@
       position: relative;
       overflow: hidden;
       box-shadow: var(--card-shadow-light);
-      /* GPU Acceleration */
       transform: translateZ(0);
       will-change: transform;
     }
@@ -313,7 +311,6 @@
       opacity:.95;
       box-shadow:0 18px 40px rgba(2,6,23,0.06);
       border:1px solid rgba(255,255,255,0.2);
-      /* GPU Acceleration - CRÍTICO para parallax suave */
       transform: translate3d(0, 0, 0);
       will-change: transform;
       backface-visibility: hidden;
@@ -322,7 +319,6 @@
       -webkit-backdrop-filter: blur(20px) saturate(180%);
     }
     
-    /* Colores arcoíris translúcidos con liquid glass - MODO CLARO (más intensos) */
     .panel.color-red {
       background: rgba(255, 100, 100, 0.18);
       border-color: rgba(255, 100, 100, 0.5);
@@ -359,7 +355,6 @@
       box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
     }
     
-    /* TRES TAMAÑOS DE PANELES - MODIFICADO */
     .panel.large {
       width: 280px;
       height: 140px;
@@ -453,7 +448,6 @@
     a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
     a.link-plain:hover{text-decoration:none;color:inherit}
 
-    /* Modo oscuro */
     body[data-theme='dark']{
       background:var(--bg-dark);
       color:var(--text-dark);
@@ -503,7 +497,6 @@
       box-shadow:0 18px 40px rgba(0,0,0,0.4);
     }
     
-    /* Colores más intensos en modo oscuro */
     body[data-theme='dark'] .panel.color-red {
       background: rgba(255, 100, 100, 0.12);
       border-color: rgba(255, 100, 100, 0.4);
@@ -627,7 +620,6 @@
       color: #ffffff;
     }
     
-    /* Soporte para prefers-reduced-motion */
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -786,7 +778,6 @@
       border-top: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* Estilos específicos para el formulario */
     .form-group {
       margin-bottom: 20px;
     }
@@ -964,6 +955,31 @@
   </main>
 
   <script>
+    // ========================================
+    // [NUEVO] PERSISTENCIA CON LOCALSTORAGE
+    // ========================================
+    const STORAGE_KEYS = {
+      THEME: 'protonlab_theme',
+      LANG: 'protonlab_lang'
+    };
+
+    function setPreference(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        console.warn('No se pudo guardar en localStorage', e);
+      }
+    }
+
+    function getPreference(key, defaultValue = null) {
+      try {
+        return localStorage.getItem(key) || defaultValue;
+      } catch (e) {
+        console.warn('No se pudo leer localStorage', e);
+        return defaultValue;
+      }
+    }
+
     // === Traducciones ===
     const translations = {
       nav_home: { en: "Home", es: "Inicio" },
@@ -994,12 +1010,12 @@
 
     let currentLang = 'en';
 
-    // Función para cambiar idioma
+    // [MODIFICADO] Función changeLanguage ahora actualiza TODOS los textos dinámicos
     function changeLanguage(lang) {
       currentLang = lang;
       document.documentElement.lang = lang;
       
-      // Actualizar textos
+      // Actualizar textos estáticos
       document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
         if (translations[key] && translations[key][lang]) {
@@ -1009,45 +1025,71 @@
 
       // Actualizar botón activo de idioma
       document.querySelectorAll('[data-lang]').forEach(btn => {
-        if (btn.getAttribute('data-lang') === lang) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+    }
+
+    // === Modo de color ===
+    const modeButtons = document.querySelectorAll('.seg button[data-mode]');
+    
+    function applyTheme(mode) {
+      if (mode === 'auto') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.body.dataset.theme = prefersDark ? 'dark' : 'light';
+      } else {
+        document.body.dataset.theme = mode;
+      }
+    }
+
+    // [MODIFICADO] Cargar tema guardado al inicio
+    const savedTheme = getPreference(STORAGE_KEYS.THEME, 'auto');
+    // Activar visualmente el botón correspondiente
+    modeButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mode === savedTheme);
+    });
+    applyTheme(savedTheme);
+
+    // [MODIFICADO] Event listeners para botones de tema (ahora guardan en localStorage)
+    modeButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        modeButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const selectedMode = this.dataset.mode;
+        setPreference(STORAGE_KEYS.THEME, selectedMode);
+        applyTheme(selectedMode);
+      });
+    });
+
+    // [MODIFICADO] Si el usuario tiene guardado 'auto', reaccionamos a cambios del sistema
+    if (savedTheme === 'auto') {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (getPreference(STORAGE_KEYS.THEME) === 'auto') {
+          applyTheme('auto');
         }
       });
     }
 
-    // Event listeners para botones de idioma
+    // [MODIFICADO] Cargar idioma guardado al inicio
+    const savedLang = getPreference(STORAGE_KEYS.LANG, 'en');
+    changeLanguage(savedLang);
+
+    // [MODIFICADO] Event listeners para botones de idioma (ahora guardan en localStorage)
     document.querySelectorAll('[data-lang]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        changeLanguage(btn.getAttribute('data-lang'));
+      btn.addEventListener('click', function() {
+        const selectedLang = this.dataset.lang;
+        setPreference(STORAGE_KEYS.LANG, selectedLang);
+        changeLanguage(selectedLang);
       });
     });
 
-    // === Modo de color ===
-    const modeButtons=document.querySelectorAll('.seg button[data-mode]');
-    function applyTheme(mode){
-      if(mode==='auto'){
-        const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.body.dataset.theme=prefersDark?'dark':'light';
-      }else document.body.dataset.theme=mode;
-    }
-    modeButtons.forEach(btn=>btn.addEventListener('click',()=>{
-      // Solo remover active de los botones de modo
-      modeButtons.forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      applyTheme(btn.dataset.mode);
-    }));
-    applyTheme('auto');
-
     // === Ocultar header ===
-    const topbar=document.getElementById('topbar'); 
-    let lastScroll=0;
-    window.addEventListener('scroll',()=>{
-      const y=window.scrollY;
-      if(y>lastScroll+10) topbar.classList.add('hidden');
-      else if(y<lastScroll-10) topbar.classList.remove('hidden');
-      lastScroll=y;
+    const topbar = document.getElementById('topbar'); 
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if(y > lastScroll + 10) topbar.classList.add('hidden');
+      else if(y < lastScroll - 10) topbar.classList.remove('hidden');
+      lastScroll = y;
     });
 
     // === Menú hamburguesa ===
@@ -1090,7 +1132,7 @@
     });
 
     // === PARALLAX CON 3 TAMAÑOS Y VELOCIDADES DIFERENCIADAS ===
-    const panels=document.getElementById('panels');
+    const panels = document.getElementById('panels');
     const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
     const occupiedPositions = [];
     
@@ -1179,7 +1221,6 @@
     
     const shuffledColors = shuffleArray(rainbowColors);
     
-    // Contenido de paneles
     const largePanelsContent = [
       {
         speed: 0.9,
@@ -1217,7 +1258,6 @@
       }
     ];
     
-    // Generar posiciones
     const largePanels = largePanelsContent.map(content => ({
       ...content,
       ...getRandomPosition('large')
@@ -1233,7 +1273,6 @@
       ...getRandomPosition('small')
     }));
     
-    // Función para animar escritura
     function typeText(element, text, speed, onComplete) {
       let i = 0;
       element.innerHTML = '';
@@ -1341,7 +1380,6 @@
       });
     }, observerOptions);
     
-    // Crear paneles
     largePanels.forEach((c, index) => {
       const el = document.createElement('div');
       el.className = 'panel large ' + shuffledColors[index % shuffledColors.length];
