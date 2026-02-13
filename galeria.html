@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Todos los estilos de index.html copiados y adaptados */
+        /* Todos los estilos de galeria.html se mantienen exactamente igual */
         :root{
             --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
             --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
@@ -23,7 +23,6 @@
             --card-border-dark: rgba(255, 255, 255, 0.1);
             --card-shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
             
-            /* Colores para proyectos */
             --color-restaurant: rgba(255, 165, 80, 0.18);
             --color-technology: rgba(100, 180, 255, 0.18);
             --color-ecommerce: rgba(100, 220, 150, 0.18);
@@ -251,7 +250,6 @@
             line-height: 1.6;
         }
         
-        /* Grid de proyectos (similar a service-grid) */
         .project-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -414,7 +412,6 @@
             opacity: 1;
         }
         
-        /* Botón de contacto */
         .back-button {
             display: inline-block;
             padding: 12px 32px;
@@ -447,7 +444,6 @@
         a.link-plain{text-decoration:none;color:inherit;cursor:pointer}
         a.link-plain:hover{text-decoration:none;color:inherit}
 
-        /* Modo oscuro general */
         body[data-theme='dark']{
             background:var(--bg-dark);
             color:var(--text-dark);
@@ -525,7 +521,6 @@
             color: var(--muted-dark);
         }
 
-        /* Responsive design */
         @media (max-width: 768px) {
             header {
                 padding: 12px 16px;
@@ -629,7 +624,6 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* PARALLAX PANELS */
         .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
         .panel{
             position:absolute;
@@ -832,7 +826,6 @@
             color:var(--muted-dark);
         }
         
-        /* OPTIMIZACIÓN PARA MÓVILES: Reducir cantidad de paneles */
         @media (max-width: 768px) {
             .panel.large:nth-child(n+3) {
                 display: none;
@@ -864,7 +857,6 @@
             }
         }
 
-        /* === EFECTO MATRIX MEJORADO === */
         #matrix-overlay {
             position: fixed;
             top: 0;
@@ -959,14 +951,12 @@
             box-shadow: 0 0 20px rgba(0, 255, 100, 0.5);
         }
 
-        /* Añadir más altura al footer para permitir scroll */
         footer {
             min-height: 200px;
             position: relative;
             z-index: 1;
         }
 
-        /* Animación de entrada para las tarjetas */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -1007,7 +997,6 @@
             animation-delay: 1.1s;
         }
 
-        /* Mejoras visuales para secciones */
         .section-intro {
             margin-bottom: 50px;
             text-align: center;
@@ -1023,7 +1012,6 @@
             margin: 0 auto;
         }
 
-        /* Info de tecnología */
         .tech-info {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -1303,6 +1291,31 @@
 
     <script>
         // ========================================
+        // [NUEVO] PERSISTENCIA CON LOCALSTORAGE
+        // ========================================
+        const STORAGE_KEYS = {
+            THEME: 'protonlab_theme',
+            LANG: 'protonlab_lang'
+        };
+
+        function setPreference(key, value) {
+            try {
+                localStorage.setItem(key, value);
+            } catch (e) {
+                console.warn('No se pudo guardar en localStorage', e);
+            }
+        }
+
+        function getPreference(key, defaultValue = null) {
+            try {
+                return localStorage.getItem(key) || defaultValue;
+            } catch (e) {
+                console.warn('No se pudo leer localStorage', e);
+                return defaultValue;
+            }
+        }
+
+        // ========================================
         // INICIALIZACIÓN PRINCIPAL
         // ========================================
         
@@ -1319,26 +1332,45 @@
         
         // === Modo de color ===
         const modeButtons = document.querySelectorAll('[data-mode]');
-        function applyTheme(mode){
-            if(mode==='auto'){
+        
+        function applyTheme(mode) {
+            if (mode === 'auto') {
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 document.body.dataset.theme = prefersDark ? 'dark' : 'light';
             } else {
                 document.body.dataset.theme = mode;
             }
             
-            // Aplicar colores aleatorios después de cambiar el tema
             setTimeout(applyRandomColors, 50);
         }
-        
-        modeButtons.forEach(btn => btn.addEventListener('click', () => {
-            modeButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            applyTheme(btn.dataset.mode);
-        }));
-        
-        // Aplicar tema automático por defecto
-        applyTheme('auto');
+
+        // [MODIFICADO] Cargar tema guardado al inicio
+        const savedTheme = getPreference(STORAGE_KEYS.THEME, 'auto');
+        // Activar visualmente el botón correspondiente
+        modeButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mode === savedTheme);
+        });
+        applyTheme(savedTheme);
+
+        // [MODIFICADO] Event listeners para botones de tema (ahora guardan en localStorage)
+        modeButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                modeButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const selectedMode = this.dataset.mode;
+                setPreference(STORAGE_KEYS.THEME, selectedMode);
+                applyTheme(selectedMode);
+            });
+        });
+
+        // [MODIFICADO] Si el usuario tiene guardado 'auto', reaccionamos a cambios del sistema
+        if (savedTheme === 'auto') {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (getPreference(STORAGE_KEYS.THEME) === 'auto') {
+                    applyTheme('auto');
+                }
+            });
+        }
 
         // === TRADUCCIONES ===
         const translations = {
@@ -1356,47 +1388,40 @@
             projects_lead: { en: "A selection of web projects developed with the latest technologies and responsive design.", es: "Una selección de proyectos web desarrollados con las últimas tecnologías y diseño responsivo." },
             view_project: { en: "View Project", es: "Ver Proyecto" },
             
-            // Project 1
             proj1_title: { en: "Balú Digital Menu", es: "Menú Digital Balú" },
             proj1_desc: { en: "An interactive digital menu for Balú Charallave Restaurant with modern design, smooth navigation, and integrated virtual assistant. Perfect for showcasing dishes and facilitating orders.", es: "Un menú digital interactivo para el Restaurante Balú Charallave con diseño moderno, navegación suave y asistente virtual integrado. Perfecto para mostrar platillos y facilitar pedidos." },
             tag_restaurant: { en: "Restaurant", es: "Restaurante" },
             tag_digital: { en: "Digital", es: "Digital" },
             tag_interactive: { en: "Interactive", es: "Interactivo" },
             
-            // Project 2
             proj2_title: { en: "Interking - Internet Provider", es: "Interking - Proveedor de Internet" },
             proj2_desc: { en: "Web platform for Interking, an internet service provider with professional design, plan information, and virtual assistant \"Rey\" for customer service.", es: "Plataforma web para Interking, proveedor de servicios de internet con diseño profesional, información de planes y asistente virtual \"Rey\" para atención al cliente." },
             tag_technology: { en: "Technology", es: "Tecnología" },
             tag_services: { en: "Services", es: "Servicios" },
             tag_ai_assistant: { en: "AI Assistant", es: "Asistente IA" },
             
-            // Project 3
             proj3_title: { en: "StarVenezuela - Digital Catalog", es: "StarVenezuela - Catálogo Digital" },
             proj3_desc: { en: "Complete digital catalog for StarVenezuela with real-time inventory system, advanced filters, shopping cart, and virtual assistant \"Carlitos\".", es: "Catálogo digital completo para StarVenezuela con sistema de inventario en tiempo real, filtros avanzados, carrito de compras y asistente virtual \"Carlitos\"." },
             tag_ecommerce: { en: "E-commerce", es: "E-commerce" },
             tag_catalog: { en: "Catalog", es: "Catálogo" },
             tag_inventory: { en: "Inventory", es: "Inventario" },
             
-            // Project 4
             proj4_title: { en: "Casares - Gourmet Restaurant", es: "Casares - Restaurante Gourmet" },
             proj4_desc: { en: "Website for Casares gourmet restaurant with elegant design, interactive tasting menu, and online reservation system. Includes gallery of dishes and culinary experiences.", es: "Web para el restaurante gourmet Casares con diseño elegante, menú degustación interactivo y sistema de reservas en línea. Incluye galería de platos y experiencias culinarias." },
             tag_gourmet: { en: "Gourmet", es: "Gourmet" },
             tag_reservations: { en: "Reservations", es: "Reservas" },
             
-            // Project 5
             proj5_title: { en: "Empizzados - Pizzeria & Brewery", es: "Empizzados - Pizzería & Cervecería" },
             proj5_desc: { en: "Website for Empizzados pizzeria and brewery with artisanal pizza catalog, beers, and online ordering system. Modern and dynamic design.", es: "Sitio web para la pizzería y cervecería Empizzados con catálogo de pizzas artesanales, cervezas y sistema de pedidos online. Diseño moderno y dinámico." },
             tag_pizzeria: { en: "Pizzeria", es: "Pizzería" },
             tag_online_orders: { en: "Online Orders", es: "Pedidos Online" },
             tag_brewery: { en: "Brewery", es: "Cervecería" },
             
-            // Project 6
             proj6_title: { en: "Rancho e Lola Beach - Margarita Island", es: "Rancho e Lola Beach - Isla de Margarita" },
             proj6_desc: { en: "Website for a resort on Margarita Island with vibrant design, interactive gallery, and virtual assistant \"Lola\". Includes parallax effects, online booking, and integrated chat.", es: "Página web para un resort en la Isla de Margarita con diseño vibrante, galería interactiva y asistente virtual \"Lola\". Incluye efectos parallax, reservas en línea y chat integrado." },
             tag_resort: { en: "Resort", es: "Resort" },
             tag_tourism: { en: "Tourism", es: "Turismo" },
             
-            // Technologies
             tech_title: { en: "Technologies Used", es: "Tecnologías Utilizadas" },
             tech_lead: { en: "These projects implement the following technologies and features:", es: "Estos proyectos implementan las siguientes tecnologías y características:" },
             tech_frontend: { en: "Frontend", es: "Frontend" },
@@ -1415,20 +1440,19 @@
             exp_perf: { en: "Optimized Performance", es: "Performance optimizada" },
             tech_footer: { en: "Each project is optimized for an exceptional user experience on mobile and desktop devices, implementing best modern web development practices.", es: "Cada proyecto está optimizado para una experiencia de usuario excepcional en dispositivos móviles y desktop, implementando las mejores prácticas de desarrollo web moderno." },
             
-            // Contact
             more_projects_title: { en: "More Projects", es: "Más Proyectos" },
             more_projects_lead: { en: "Interested in seeing more of our work or developing a similar project?", es: "¿Interesado en ver más de nuestro trabajo o desarrollar un proyecto similar?" },
             contact_card_title: { en: "Contact", es: "Contacto" },
             contact_card_text: { en: "If you have a project in mind or want to know more about our services, feel free to contact us. We specialize in custom web development, interactive applications, and innovative digital solutions.", es: "Si tienes un proyecto en mente o quieres saber más sobre nuestros servicios, no dudes en contactarnos. Estamos especializados en desarrollo web a medida, aplicaciones interactivas y soluciones digitales innovadoras." },
             back_home: { en: "Back to Home", es: "Volver a Inicio" },
             
-            // Footer
             footer_copy: { en: "© 2023 ProtonLab – Project Gallery", es: "© 2023 ProtonLab – Galería de Proyectos" },
             footer_slogan: { en: "Innovation in every line of code, creativity in every project.", es: "Innovación en cada línea de código, creatividad en cada proyecto." }
         };
 
         const langButtons = document.querySelectorAll('[data-lang]');
         
+        // [MODIFICADO] Función setLanguage ahora actualiza los textos y recibe el idioma
         function setLanguage(lang) {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
@@ -1439,20 +1463,23 @@
             
             // Actualizar botones activos
             langButtons.forEach(btn => {
-                if(btn.dataset.lang === lang) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
+                btn.classList.toggle('active', btn.dataset.lang === lang);
             });
             
             // Actualizar atributo lang del html
             document.documentElement.lang = lang;
         }
 
+        // [MODIFICADO] Cargar idioma guardado al inicio
+        const savedLang = getPreference(STORAGE_KEYS.LANG, 'en');
+        setLanguage(savedLang);
+
+        // [MODIFICADO] Event listeners para botones de idioma (ahora guardan en localStorage)
         langButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                setLanguage(btn.dataset.lang);
+            btn.addEventListener('click', function() {
+                const selectedLang = this.dataset.lang;
+                setPreference(STORAGE_KEYS.LANG, selectedLang);
+                setLanguage(selectedLang);
             });
         });
         
@@ -1473,7 +1500,6 @@
             const glowColor = `rgba(${theme.r}, 0.4)`;
             const bgColor = `rgba(${theme.r}, 0.1)`;
             
-            // Aplicar color a los botones de proyecto
             const projectLinks = document.querySelectorAll('.project-link');
             projectLinks.forEach(link => {
                 link.style.background = `rgba(${theme.r}, 0.15)`;
@@ -1488,7 +1514,6 @@
                 };
             });
             
-            // Aplicar color al botón de volver
             const backButton = document.querySelector('.back-button');
             if(backButton) {
                 backButton.style.background = `rgba(${theme.r}, 0.15)`;
