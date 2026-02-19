@@ -1063,7 +1063,10 @@
             <span></span>
         </button>
         <nav id="nav">
-            <a class="navlink" href="#inicio" data-i18n="nav_home">Home</a>
+            <!-- Nuevo enlace Home que apunta a index.html, colocado antes de Inicio -->
+            <a class="navlink" href="index.html" data-i18n="nav_home_index">Home</a>
+            <!-- El antiguo "Home" ahora es "Inicio" y mantiene el anclaje -->
+            <a class="navlink" href="#inicio" data-i18n="nav_inicio">Inicio</a>
             <a class="navlink" href="#proyectos" data-i18n="nav_projects">Projects</a>
             <a class="navlink" href="#tecnologias" data-i18n="nav_technologies">Technologies</a>
             <a class="navlink" href="#contacto" data-i18n="nav_contact">Contact</a>
@@ -1110,9 +1113,10 @@
             </div>
             
             <div class="project-grid">
+                <!-- Proyecto: Balú Digital Menu (imagen intercambiada con Empizzados) -->
                 <div class="project-card">
                     <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1081&q=80" alt="Restaurante Balú">
+                        <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1222&q=80" alt="Restaurante Balú">
                     </div>
                     <div class="project-content">
                         <h3 data-i18n="proj1_title">Balú Digital Menu</h3>
@@ -1182,9 +1186,10 @@
                     </div>
                 </div>
                 
+                <!-- Proyecto: Empizzados - Pizzería & Cervecería (imagen intercambiada con Balú) -->
                 <div class="project-card">
                     <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1222&q=80" alt="Empizzados">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1081&q=80" alt="Empizzados">
                     </div>
                     <div class="project-content">
                         <h3 data-i18n="proj5_title">Empizzados - Pizzeria & Brewery</h3>
@@ -1337,7 +1342,7 @@
 
     <script>
         // ========================================
-        // [NUEVO] PERSISTENCIA CON LOCALSTORAGE
+        // PERSISTENCIA CON LOCALSTORAGE
         // ========================================
         const STORAGE_KEYS = {
             THEME: 'protonlab_theme',
@@ -1390,15 +1395,14 @@
             setTimeout(applyRandomColors, 50);
         }
 
-        // [MODIFICADO] Cargar tema guardado al inicio
+        // Cargar tema guardado al inicio
         const savedTheme = getPreference(STORAGE_KEYS.THEME, 'auto');
-        // Activar visualmente el botón correspondiente
         modeButtons.forEach(btn => {
             btn.classList.toggle('active', btn.dataset.mode === savedTheme);
         });
         applyTheme(savedTheme);
 
-        // [MODIFICADO] Event listeners para botones de tema (ahora guardan en localStorage)
+        // Event listeners para botones de tema (guardan en localStorage)
         modeButtons.forEach(btn => {
             btn.addEventListener('click', function() {
                 modeButtons.forEach(b => b.classList.remove('active'));
@@ -1409,7 +1413,7 @@
             });
         });
 
-        // [MODIFICADO] Si el usuario tiene guardado 'auto', reaccionamos a cambios del sistema
+        // Si el usuario tiene guardado 'auto', reaccionamos a cambios del sistema
         if (savedTheme === 'auto') {
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
                 if (getPreference(STORAGE_KEYS.THEME) === 'auto') {
@@ -1418,9 +1422,10 @@
             });
         }
 
-        // === TRADUCCIONES ===
+        // === TRADUCCIONES (actualizadas con las nuevas claves) ===
         const translations = {
-            nav_home: { en: "Home", es: "Inicio" },
+            nav_home_index: { en: "Home", es: "Home" },
+            nav_inicio: { en: "Top", es: "Inicio" },
             nav_projects: { en: "Projects", es: "Proyectos" },
             nav_technologies: { en: "Technologies", es: "Tecnologías" },
             nav_contact: { en: "Contact", es: "Contacto" },
@@ -1485,7 +1490,6 @@
                 es: "Entrega Instantánea"
             },
 
-            // Nuevo proyecto: CS Brazilian Steakhouse
             proj8_title: {
                 en: "CS Brazilian Steakhouse - Authentic Churrasco Menu",
                 es: "CS Brazilian Steakhouse - Menú de Churrasco Auténtico"
@@ -1533,7 +1537,6 @@
 
         const langButtons = document.querySelectorAll('[data-lang]');
         
-        // [MODIFICADO] Función setLanguage ahora actualiza los textos y recibe el idioma
         function setLanguage(lang) {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
@@ -1542,20 +1545,18 @@
                 }
             });
             
-            // Actualizar botones activos
             langButtons.forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
             
-            // Actualizar atributo lang del html
             document.documentElement.lang = lang;
         }
 
-        // [MODIFICADO] Cargar idioma guardado al inicio
+        // Cargar idioma guardado al inicio
         const savedLang = getPreference(STORAGE_KEYS.LANG, 'en');
         setLanguage(savedLang);
 
-        // [MODIFICADO] Event listeners para botones de idioma (ahora guardan en localStorage)
+        // Event listeners para botones de idioma (guardan en localStorage)
         langButtons.forEach(btn => {
             btn.addEventListener('click', function() {
                 const selectedLang = this.dataset.lang;
@@ -1610,7 +1611,6 @@
             }
         }
         
-        // Aplicar colores al cargar
         applyRandomColors();
         
         // === ANIMACIÓN TÍTULO ===
