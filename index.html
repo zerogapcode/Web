@@ -2273,9 +2273,9 @@
 
   <script>
     // ========================================
-    // [NUEVO] CONTADOR DE VISITAS GLOBAL (CountAPI)
+    // [NUEVO] CONTADOR DE VISITAS GLOBAL (propio backend)
     // ========================================
-    const COUNT_API_KEY = 'protonlab-site-visits'; // namespace único
+    const COUNT_API_KEY = 'protonlab-site-visits'; // namespace único (ya no se usa, pero lo dejamos por si acaso)
     let globalVisitCount = 0;
 
     async function updateGlobalVisitCounter() {
@@ -2283,14 +2283,15 @@
       if (!visitSpan) return;
 
       try {
-        // Endpoint "hit" incrementa y devuelve el valor actual
-        const response = await fetch(`https://api.countapi.xyz/hit/protonlab.site/${COUNT_API_KEY}`);
+        const response = await fetch(`${OLLAMA_SERVER_URL}/visits`, {
+          headers: getNgrokHeaders()
+        });
         if (response.ok) {
           const data = await response.json();
           globalVisitCount = data.value;
           visitSpan.textContent = globalVisitCount.toLocaleString();
         } else {
-          throw new Error('Error en la respuesta de CountAPI');
+          throw new Error('Error en la respuesta del servidor');
         }
       } catch (error) {
         console.error('No se pudo obtener el contador de visitas:', error);
@@ -2587,8 +2588,8 @@
           tearContainer.classList.add('active');
           tear.classList.add('active');
           initMatrixEffect();
-          // === ACTUALIZAR CONTADOR AL ACTIVAR MATRIX ===
-          updateGlobalVisitCounter();
+          // === ACTUALIZAR CONTADOR AL ACTIVAR MATRIX (ELIMINADO: ahora solo se actualiza al cargar la página) ===
+          // updateGlobalVisitCounter();  <-- Línea eliminada
         }
         
         const tearPosition = 70 - (tearForce / MAX_TEAR_FORCE) * 25;
@@ -3974,7 +3975,7 @@
         });
       }, 1000);
 
-      // === LLAMAR AL CONTADOR AL CARGAR LA PÁGINA ===
+      // === LLAMAR AL CONTADOR AL CARGAR LA PÁGINA (una sola vez) ===
       updateGlobalVisitCounter();
     });
 
