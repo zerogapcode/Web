@@ -736,80 +736,520 @@
       box-shadow: 0 15px 40px rgba(0, 156, 59, 0.6);
     }
 
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-      
-      .hero {
-        min-height: 600px;
-      }
-      
-      .hero-logo {
-        max-width: 400px;
-      }
-      
-      .menu-container {
-        margin-top: -50px;
-        padding: 2rem 1rem;
-      }
-      
-      .items-grid,
-      .three-col-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .two-col-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      h2 {
-        font-size: 1.5rem;
-      }
-      
-      .happy-hour {
-        padding: 1.5rem;
-      }
+    /* ===== SARA CHAT STYLES (SOBRIOS, ACORDES AL MENÚ) ===== */
+    .sara-button-container {
+      position: fixed; 
+      bottom: 120px; 
+      right: 30px; 
+      z-index: 10000;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
-
-    @media (max-width: 480px) {
-      .hero-logo {
-        max-width: 300px;
-      }
-      
-      .hero-subtitle {
-        font-size: 0.9rem;
-      }
+    
+    .sara-button-container.hidden { 
+      display: none; 
     }
-
-    /* ===== LOADING ANIMATION ===== */
-    .loading-screen {
-      position: fixed;
-      inset: 0;
-      background: var(--black-premium);
-      z-index: 9999;
+    
+    .sara-float-btn {
+      --btn-bg: rgba(26, 26, 26, 0.8); /* fondo oscuro semitransparente */
+      
+      position: relative;
+      height: 180px;
+      width: 180px;
+      background: var(--btn-bg);
+      border: 3px solid var(--gold-premium); /* borde dorado */
+      border-radius: 50%;
+      
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.5s, visibility 0.5s;
+      cursor: pointer;
+      
+      backdrop-filter: blur(10px) saturate(180%);
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
+      
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      
+      will-change: transform, background;
+      user-select: none;
+      overflow: hidden;
+      
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(212, 175, 55, 0.3);
     }
-
-    .loading-screen.hidden {
+    
+    .sara-float-btn:hover {
+      transform: scale(1.15);
+      background: rgba(45, 45, 45, 0.9);
+      border-color: var(--gold-light);
+      box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.6),
+        inset 0 0 30px rgba(212, 175, 55, 0.4);
+    }
+    
+    .sara-icon-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      padding: 12px;
+    }
+    
+    .sara-icon-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+    
+    .sara-float-btn:hover .sara-icon-wrapper img {
+      transform: scale(1.1);
+    }
+    
+    .sara-pulse {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--gold-premium);
+      opacity: 0.3;
+      animation: saraPulse 2s infinite ease-in-out;
+      z-index: -1;
+    }
+    
+    @keyframes saraPulse {
+      0% { transform: scale(1); opacity: 0.4; }
+      70% { transform: scale(1.2); opacity: 0; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+    
+    /* Ventana de chat - colores sobrios */
+    #sara-chat-window {
+      position: fixed;
+      bottom: 220px;
+      right: 30px;
+      width: 90%;
+      max-width: 675px;
+      height: 825px;
+      background: var(--charcoal); /* fondo oscuro */
+      border-radius: 25px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
+      border: 3px solid var(--gold-premium); /* borde dorado */
+      z-index: 9999;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
       opacity: 0;
-      visibility: hidden;
+      transform: translateY(20px) scale(0.95);
+      transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                  transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
     }
-
-    .loading-logo {
-      font-family: var(--font-display);
-      font-size: 3rem;
+    
+    #sara-chat-window.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    
+    .sara-chat-header {
+      padding: 25px 30px;
+      background: var(--black-premium);
+      border-bottom: 2px solid var(--gold-premium);
       color: var(--gold-premium);
-      animation: pulse 1.5s infinite;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      flex-shrink: 0;
+      cursor: move; /* indica que se puede arrastrar */
     }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.95); }
+    
+    .sara-chat-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: var(--gold-premium);
+    }
+    
+    .sara-chat-close {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.2);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 36px;
+      color: var(--gold-premium);
+      font-weight: 300;
+    }
+    
+    .sara-chat-close:hover {
+      background: rgba(212, 175, 55, 0.4);
+      transform: scale(1.15);
+    }
+    
+    .sara-chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: var(--charcoal-light);
+    }
+    
+    .sara-message {
+      display: flex;
+      gap: 15px;
+      animation: messageSlideIn 0.3s ease;
+    }
+    
+    @keyframes messageSlideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .sara-message.user {
+      justify-content: flex-end;
+    }
+    
+    .sara-message-avatar {
+      width: 63px;
+      height: 63px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 24px;
+      flex-shrink: 0;
+      background: var(--black-premium);
+      color: var(--gold-premium);
+      overflow: hidden;
+      border: 2px solid var(--gold-premium);
+    }
+    
+    .ai .sara-message-avatar {
+      background: var(--charcoal);
+      border-color: var(--gold-premium);
+    }
+    
+    .sara-message-avatar img {
+      width: 90%;
+      height: 90%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+    
+    .user .sara-message-avatar {
+      background: var(--green-brazil);
+      color: var(--cream);
+      border-color: var(--gold-premium);
+    }
+    
+    .sara-message-content {
+      max-width: 80%;
+      padding: 21px 27px;
+      border-radius: 25px;
+      line-height: 1.6;
+      font-size: 24px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: var(--black-premium);
+      color: var(--cream);
+      border: 2px solid var(--gold-premium);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    
+    .ai .sara-message-content {
+      background: var(--charcoal);
+    }
+    
+    .user .sara-message-content {
+      background: var(--green-brazil);
+      color: white;
+      border-color: var(--gold-premium);
+    }
+    
+    .sara-typing {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    
+    .sara-typing-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--gold-premium);
+      animation: saraTypingAnimation 1.4s infinite ease-in-out;
+    }
+    
+    .sara-typing-dot:nth-child(1) { animation-delay: 0s; }
+    .sara-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .sara-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes saraTypingAnimation {
+      0%, 60%, 100% { transform: scale(1); opacity: 0.5; }
+      30% { transform: scale(1.2); opacity: 1; }
+    }
+    
+    .sara-chat-input-container {
+      padding: 25px 30px;
+      border-top: 2px solid var(--gold-premium);
+      display: flex;
+      gap: 15px;
+      align-items: flex-end;
+      flex-shrink: 0;
+      background: var(--black-premium);
+    }
+    
+    .sara-chat-input {
+      flex: 1;
+      background: var(--charcoal);
+      border: 2px solid var(--gold-premium);
+      border-radius: 20px;
+      padding: 21px 27px;
+      color: var(--cream);
+      font-size: 24px;
+      resize: none;
+      min-height: 75px;
+      max-height: 180px;
+      transition: all 0.3s ease;
+      font-family: var(--font-sans);
+    }
+    
+    .sara-chat-input:focus {
+      outline: none;
+      border-color: var(--gold-light);
+      box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.15);
+    }
+    
+    .sara-chat-send {
+      background: var(--gold-premium);
+      color: var(--black-premium);
+      border: none;
+      border-radius: 20px;
+      width: 75px;
+      height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 700;
+      font-size: 30px;
+      flex-shrink: 0;
+    }
+    
+    .sara-chat-send:hover {
+      background: var(--gold-light);
+      transform: translateY(-3px) scale(1.05);
+    }
+    
+    .sara-chat-send:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    /* ===== ANUNCIO FLOTANTE PARA SARA (similar a casares.html) ===== */
+    .sara-attention-indicator {
+      position: fixed;
+      bottom: 280px; /* encima del botón */
+      right: 10px;
+      z-index: 9998;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      animation: saraAttentionBounce 2s infinite ease-in-out;
+      width: 250px;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+    
+    .sara-attention-indicator.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .sara-attention-text {
+      background: var(--charcoal);
+      color: var(--gold-premium);
+      padding: 14px 20px;
+      border-radius: 16px;
+      font-size: 20px;
+      font-weight: 900;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+      border: 2px solid var(--gold-premium);
+      text-align: center;
+      font-family: var(--font-display);
+      width: 100%;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+    
+    .sara-attention-finger {
+      font-size: 40px;
+      color: var(--gold-premium);
+      text-shadow: 0 0 12px var(--gold-premium);
+      animation: saraFingerPulse 1.5s infinite alternate;
+      position: relative;
+      margin-top: 0;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+      align-self: center;
+      transform: none;
+    }
+    
+    @keyframes saraAttentionBounce {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-8px) rotate(1deg); }
+    }
+    
+    @keyframes saraFingerPulse {
+      0% { transform: scale(1); opacity: 0.7; }
+      100% { transform: scale(1.3); opacity: 1; }
+    }
+    
+    /* Ajustes responsive */
+    @media (max-width: 768px) {
+      .sara-button-container {
+        bottom: 100px;
+        right: 25px;
+      }
+      .sara-float-btn {
+        height: 160px;
+        width: 160px;
+      }
+      #sara-chat-window {
+        width: calc(100% - 30px);
+        right: 15px;
+        height: 70vh;
+        bottom: 180px;
+        max-width: none;
+      }
+      .sara-chat-header {
+        padding: 20px 25px;
+      }
+      .sara-chat-title {
+        font-size: 22px;
+      }
+      .sara-chat-close {
+        width: 40px;
+        height: 40px;
+        font-size: 28px;
+      }
+      .sara-chat-body {
+        padding: 20px;
+        gap: 15px;
+      }
+      .sara-message-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+      }
+      .sara-message-content {
+        padding: 16px 20px;
+        font-size: 18px;
+        border-radius: 20px;
+      }
+      .sara-chat-input-container {
+        padding: 20px;
+      }
+      .sara-chat-input {
+        padding: 16px 20px;
+        font-size: 18px;
+        min-height: 60px;
+      }
+      .sara-chat-send {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+      }
+      .sara-attention-indicator {
+        bottom: 240px;
+        right: 10px;
+        width: 220px;
+      }
+      .sara-attention-text {
+        font-size: 18px;
+        padding: 12px 16px;
+      }
+      .sara-attention-finger {
+        font-size: 36px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .sara-button-container {
+        bottom: 80px;
+        right: 20px;
+      }
+      .sara-float-btn {
+        height: 140px;
+        width: 140px;
+      }
+      #sara-chat-window {
+        bottom: 140px;
+      }
+      .sara-chat-title {
+        font-size: 18px;
+      }
+      .sara-chat-close {
+        width: 35px;
+        height: 35px;
+        font-size: 24px;
+      }
+      .sara-message-avatar {
+        width: 42px;
+        height: 42px;
+        font-size: 16px;
+      }
+      .sara-message-content {
+        padding: 14px 18px;
+        font-size: 16px;
+      }
+      .sara-chat-input {
+        padding: 14px 18px;
+        font-size: 16px;
+      }
+      .sara-chat-send {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
+      .sara-attention-indicator {
+        bottom: 200px;
+        width: 180px;
+      }
+      .sara-attention-text {
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+      .sara-attention-finger {
+        font-size: 28px;
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .sara-attention-indicator {
+        bottom: 180px;
+        width: 160px;
+      }
     }
   </style>
 <base target="_blank">
@@ -1395,6 +1835,39 @@
 
   </div>
 
+  <!-- === ANUNCIO TEMPORAL PARA SARA === -->
+  <div class="sara-attention-indicator" id="sara-attention-indicator">
+    <div class="sara-attention-text">
+      ¡Pulsa aquí para hablar con Sara!
+    </div>
+    <div class="sara-attention-finger">👇</div>
+  </div>
+
+  <!-- Botón flotante de Sara -->
+  <div class="sara-button-container" id="sara-button-container">
+    <div class="sara-pulse"></div>
+    <div id="sara-float-btn" class="sara-float-btn" role="button" aria-label="Abrir Asistente Sara" title="Hablar con Sara">
+      <div class="sara-icon-wrapper">
+        <img src="sara.png" alt="Sara" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2917/2917633.png'">
+      </div>
+    </div>
+  </div>
+
+  <!-- Ventana de chat de Sara (sin placeholder) -->
+  <div id="sara-chat-window">
+    <div class="sara-chat-header" id="sara-chat-header">
+      <div class="sara-chat-title">
+        Sara - CS Brazilian Steakhouse
+      </div>
+      <div class="sara-chat-close" id="sara-close-btn">×</div>
+    </div>
+    <div class="sara-chat-body" id="sara-messages"></div>
+    <div class="sara-chat-input-container">
+      <textarea id="sara-input" class="sara-chat-input" rows="1"></textarea>
+      <button id="sara-send-btn" class="sara-chat-send">→</button>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="footer" id="footer">
     <div class="footer-logo">CS Brazilian Steakhouse</div>
@@ -1542,6 +2015,286 @@
           }
         });
       });
+
+      // ==================== SARA CHAT ====================
+      const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+      
+      const saraFloatBtn = document.getElementById('sara-float-btn');
+      const saraButtonContainer = document.getElementById('sara-button-container');
+      const saraChatWindow = document.getElementById('sara-chat-window');
+      const saraCloseBtn = document.getElementById('sara-close-btn');
+      const saraMessages = document.getElementById('sara-messages');
+      const saraInput = document.getElementById('sara-input');
+      const saraSendBtn = document.getElementById('sara-send-btn');
+      const saraHeader = document.getElementById('sara-chat-header');
+      
+      // === Anuncio temporal ===
+      const saraAttentionIndicator = document.getElementById('sara-attention-indicator');
+      let attentionIndicatorVisible = true;
+
+      setTimeout(() => {
+        if (saraAttentionIndicator && attentionIndicatorVisible) {
+          saraAttentionIndicator.classList.add('hidden');
+          attentionIndicatorVisible = false;
+        }
+      }, 30000);
+
+      document.addEventListener('click', function(e) {
+        if (saraAttentionIndicator && attentionIndicatorVisible && 
+            !saraFloatBtn.contains(e.target) && 
+            !saraAttentionIndicator.contains(e.target)) {
+          saraAttentionIndicator.classList.add('hidden');
+          attentionIndicatorVisible = false;
+        }
+      });
+
+      saraFloatBtn.addEventListener('click', function() {
+        if (saraAttentionIndicator && attentionIndicatorVisible) {
+          saraAttentionIndicator.classList.add('hidden');
+          attentionIndicatorVisible = false;
+        }
+      });
+      
+      // ====================================================
+      
+      let isSaraChatOpen = false;
+      let isGenerating = false;
+      let currentSessionId = null;
+      
+      // Variables para el arrastre
+      let isDragging = false;
+      let offsetX, offsetY;
+      
+      function toggleSaraButton(show) {
+        if (show) saraButtonContainer.classList.remove('hidden');
+        else saraButtonContainer.classList.add('hidden');
+      }
+      
+      saraFloatBtn.addEventListener('click', () => {
+        if (!isSaraChatOpen) {
+          isSaraChatOpen = true;
+          saraChatWindow.classList.add('active');
+          toggleSaraButton(false);
+          
+          if (!currentSessionId) initSaraConnection();
+          saraInput.focus();
+        }
+      });
+      
+      saraCloseBtn.addEventListener('click', () => {
+        isSaraChatOpen = false;
+        saraChatWindow.classList.remove('active');
+        toggleSaraButton(true);
+      });
+      
+      // Funcionalidad de arrastre
+      saraHeader.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - saraChatWindow.getBoundingClientRect().left;
+        offsetY = e.clientY - saraChatWindow.getBoundingClientRect().top;
+        saraChatWindow.style.cursor = 'grabbing';
+        saraChatWindow.style.transition = 'none'; // quitar transición mientras se arrastra
+      });
+      
+      document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+          const newLeft = e.clientX - offsetX;
+          const newTop = e.clientY - offsetY;
+          
+          // Limitar dentro de la ventana (opcional)
+          const maxX = window.innerWidth - saraChatWindow.offsetWidth;
+          const maxY = window.innerHeight - saraChatWindow.offsetHeight;
+          
+          saraChatWindow.style.left = Math.min(Math.max(newLeft, 0), maxX) + 'px';
+          saraChatWindow.style.top = Math.min(Math.max(newTop, 0), maxY) + 'px';
+          saraChatWindow.style.right = 'auto';
+          saraChatWindow.style.bottom = 'auto';
+        }
+      });
+      
+      document.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          saraChatWindow.style.cursor = 'default';
+          saraChatWindow.style.transition = ''; // restaurar transición
+        }
+      });
+      
+      // Función para mostrar mensaje de escritura
+      function showSaraTyping() {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'sara-message ai';
+        messageDiv.id = 'sara-typing-indicator';
+        
+        const avatarDiv = document.createElement('div');
+        avatarDiv.className = 'sara-message-avatar';
+        const img = document.createElement('img');
+        img.src = 'sara.png';
+        img.alt = 'Sara';
+        avatarDiv.appendChild(img);
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'sara-message-content';
+        
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'sara-typing';
+        typingDiv.innerHTML = `
+          <div class="sara-typing-dot"></div>
+          <div class="sara-typing-dot"></div>
+          <div class="sara-typing-dot"></div>
+        `;
+        
+        contentDiv.appendChild(typingDiv);
+        messageDiv.appendChild(avatarDiv);
+        messageDiv.appendChild(contentDiv);
+        saraMessages.appendChild(messageDiv);
+        
+        saraMessages.scrollTop = saraMessages.scrollHeight;
+        
+        return messageDiv;
+      }
+      
+      async function initSaraConnection() {
+        try {
+          addSaraMessage('Connecting to Sara...', false);
+          currentSessionId = "cs-sara-session-" + Date.now();
+          
+          const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+            method: 'POST',
+            headers: {
+              'ngrok-skip-browser-warning': 'true',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              message: "Hello",
+              assistant: "sara",
+              session_id: currentSessionId
+            })
+          });
+          
+          if (testResponse.ok) {
+            const data = await testResponse.json();
+            saraMessages.innerHTML = '';
+            addSaraMessage('Welcome to CS Brazilian Steakhouse! I’m Sara, your hostess. How can I assist you today?', false);
+            
+            saraInput.disabled = false;
+            saraSendBtn.disabled = false;
+          } else {
+            throw new Error(`HTTP ${testResponse.status}`);
+          }
+          
+        } catch (error) {
+          console.error('Error in initialization:', error);
+          saraMessages.innerHTML = '';
+          addSaraMessage('Sorry, I’m having trouble connecting right now. Please try again later.', false);
+          
+          saraInput.disabled = false;
+          saraSendBtn.disabled = false;
+        }
+      }
+      
+      function addSaraMessage(content, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `sara-message ${isUser ? 'user' : 'ai'}`;
+        
+        const avatarDiv = document.createElement('div');
+        avatarDiv.className = 'sara-message-avatar';
+        
+        if (!isUser) {
+          const img = document.createElement('img');
+          img.src = 'sara.png';
+          img.alt = 'Sara';
+          avatarDiv.appendChild(img);
+        } else {
+          avatarDiv.textContent = 'You';
+        }
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'sara-message-content';
+        contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+        
+        messageDiv.appendChild(avatarDiv);
+        messageDiv.appendChild(contentDiv);
+        saraMessages.appendChild(messageDiv);
+        
+        saraMessages.scrollTop = saraMessages.scrollHeight;
+        
+        return contentDiv;
+      }
+      
+      // Ajustar altura del textarea
+      saraInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+      });
+      
+      saraInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          if (!isGenerating) sendSaraMessage();
+        }
+      });
+      
+      saraSendBtn.addEventListener('click', sendSaraMessage);
+      
+      async function sendSaraMessage() {
+        const text = saraInput.value.trim();
+        if (!text || isGenerating) return;
+        
+        saraInput.value = '';
+        saraInput.style.height = 'auto';
+        
+        addSaraMessage(text, true);
+        
+        saraInput.disabled = true;
+        saraSendBtn.disabled = true;
+        isGenerating = true;
+        
+        const typingIndicator = showSaraTyping();
+        
+        try {
+          const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+            method: 'POST',
+            headers: {
+              'ngrok-skip-browser-warning': 'true',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({ 
+              message: text,
+              assistant: "sara",
+              session_id: currentSessionId
+            })
+          });
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          
+          const data = await response.json();
+          
+          typingIndicator.remove();
+          
+          if (data.status === 'success' && data.response) {
+            addSaraMessage(data.response);
+          } else {
+            throw new Error('Invalid server response');
+          }
+          
+        } catch (error) {
+          typingIndicator.remove();
+          setTimeout(() => {
+            addSaraMessage('Sorry, an error occurred. Please try again later.');
+          }, 500);
+          console.error('Error details:', error);
+        } finally {
+          saraInput.disabled = false;
+          saraSendBtn.disabled = false;
+          isGenerating = false;
+          saraInput.focus();
+        }
+      }
 
     })();
   </script>
