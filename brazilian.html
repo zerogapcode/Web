@@ -8,31 +8,34 @@
   <meta name="description" content="Menú de churrasco brasileño en Newark, Delaware. Carnes a la parrilla, caipirinhas, feijoada y más. ¡Vive la experiencia CS!">
   <meta property="og:title" content="CS Brazilian Steakhouse – Menú en Newark, DE">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://example.com/cs-steakhouse-og.jpg">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=2000&auto=format&fit=crop">
   <meta property="og:description" content="Sabores de Brasil en Delaware: picanha, coxinha, caipirinha y un ambiente inigualable.">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --green-brazil: #009c3b;
+      --green-dark: #006b2b;
       --yellow-brazil: #ffdf00;
-      --red-accent: #ff6b4a;
-      --sand-bg: #121212;
-      --brown-dark: #e0d6cc;
-      --brown-mid: #b3a69c;
-      --brown-light: #9c8e82;
-      --gold-light: #d4b48c;
+      --gold-premium: #d4af37;
+      --gold-light: #f4e4c1;
+      --red-accent: #c41e3a;
+      --red-glow: #ff2d4a;
+      --fire-orange: #ff6b35;
+      --charcoal: #1a1a1a;
+      --charcoal-light: #2d2d2d;
+      --black-premium: #0a0a0a;
       --white: #ffffff;
-      --black: #000000;
-      --bg-card: #1e1e1e;
-      --border-card: #333333;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      --radius-card: 28px;
-      --radius-soft: 12px;
-      --shadow: 0 12px 30px rgba(0,0,0,0.5);
-      --border-dash: 2px dashed #6b8c5e;
+      --cream: #f5f0e8;
+      --font-display: 'Cinzel', serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-card: 24px;
+      --radius-soft: 16px;
+      --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     * {
@@ -47,12 +50,53 @@
     }
 
     body {
-      background: #0a0a0a;
+      background: var(--black-premium);
       font-family: var(--font-sans);
-      line-height: 1.5;
-      color: #f0f0f0;
+      line-height: 1.6;
+      color: var(--cream);
+      overflow-x: hidden;
     }
 
+    /* ===== EMBERS/FIRE BACKGROUND ANIMATION ===== */
+    .embers-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .ember {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, var(--fire-orange) 0%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatEmber 15s infinite;
+    }
+
+    @keyframes floatEmber {
+      0% {
+        transform: translateY(100vh) scale(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.5) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* ===== SKIP LINK ===== */
     .skip-link {
       position: absolute;
       top: -40px;
@@ -60,26 +104,101 @@
       background: var(--green-brazil);
       color: white;
       padding: 8px 16px;
-      z-index: 100;
+      z-index: 1000;
       text-decoration: none;
       border-radius: 0 0 var(--radius-soft) 0;
       font-weight: 600;
-      transition: top 0.2s;
+      transition: top 0.3s;
     }
     .skip-link:focus {
       top: 0;
     }
 
-    /* ===== HERO CON PARALLAX Y CLIP-PATH DINÁMICO ===== */
+    /* ===== NAVIGATION ===== */
+    .nav-sticky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+      transform: translateY(-100%);
+      transition: transform 0.4s var(--transition-smooth);
+    }
+
+    .nav-sticky.visible {
+      transform: translateY(0);
+    }
+
+    .nav-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold-premium);
+      text-decoration: none;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: color 0.3s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green-brazil), var(--gold-premium));
+      transition: width 0.3s var(--transition-smooth);
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-premium);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    /* ===== HERO SECTION ===== */
     .hero {
       position: relative;
-      height: 60vh;
+      height: 100vh;
+      min-height: 700px;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       overflow: hidden;
-      background-color: black;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
     }
 
     .hero-bg {
@@ -88,13 +207,23 @@
       background-image: url('https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=2000&auto=format&fit=crop');
       background-size: cover;
       background-position: center;
-      background-attachment: fixed;
+      transform: scale(1.1);
+      animation: slowZoom 20s infinite alternate;
+    }
+
+    @keyframes slowZoom {
+      0% { transform: scale(1.1); }
+      100% { transform: scale(1.2); }
     }
 
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.6);
+      background: linear-gradient(to bottom, 
+        rgba(0,0,0,0.3) 0%, 
+        rgba(0,0,0,0.6) 50%,
+        rgba(10,10,10,1) 100%
+      );
     }
 
     .hero-content {
@@ -106,132 +235,163 @@
       flex-direction: column;
       align-items: center;
       width: 100%;
+      max-width: 900px;
     }
 
-    /* LOGO MÁS GRANDE Y 100% RESPONSIVO */
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0, 156, 59, 0.2);
+      border: 1px solid var(--green-brazil);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--green-brazil);
+      margin-bottom: 2rem;
+      animation: pulseBadge 2s infinite;
+    }
+
+    @keyframes pulseBadge {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 156, 59, 0.4); }
+      50% { box-shadow: 0 0 0 10px rgba(0, 156, 59, 0); }
+    }
+
     .hero-logo {
-      max-width: 800px;      /* Aumentado considerablemente */
-      width: 90%;           /* Fluido en móviles */
+      max-width: 600px;
+      width: 90%;
       height: auto;
-      filter: brightness(1.2);
-      object-fit: contain;
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 1s ease-out;
     }
 
-    /* Desactivar parallax en móviles */
-    @media (max-width: 800px) {
-      .hero-bg {
-        background-attachment: scroll;
-      }
-      .hero {
-        height: 50vh;
-      }
-      .hero-logo {
-        max-width: 600px;   /* Sigue siendo grande en tablets */
-      }
+    .hero-subtitle {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--gold-premium);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      animation: fadeInUp 1s ease-out 0.2s both;
     }
 
-    @media (max-width: 480px) {
-      .hero-logo {
-        max-width: 400px;   /* Óptimo para móviles */
-      }
+    .hero-location {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 2px;
+      animation: fadeInUp 1s ease-out 0.4s both;
     }
 
-    /* ===== SUBTÍTULO CENTRADO (AUTHENTIC BRAZILIAN CHURRASCO) ===== */
-    .subhead-wrapper {
-      position: relative;
-      display: block;        /* Cambiado a bloque para ocupar todo el ancho */
-      text-align: center;    /* Centra el contenido inline */
-      margin: 0 auto 1.5rem; /* Centrado horizontal y margen inferior */
-    }
-
-    .subhead-steam {
+    .scroll-indicator {
       position: absolute;
+      bottom: 2rem;
       left: 50%;
       transform: translateX(-50%);
-      bottom: -10px;
-      width: 120%;
-      height: 180px;
-      background: radial-gradient(ellipse at center, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0) 75%);
-      filter: blur(20px);
-      animation: subheadRise 7s infinite ease-in-out;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .subhead-steam.delay-1 { animation-delay: 2.3s; }
-    .subhead-steam.delay-2 { animation-delay: 4.6s; }
-
-    @keyframes subheadRise {
-      0% { transform: translate(-50%, 0) scale(1); opacity: 0; }
-      20% { opacity: 0.5; }
-      50% { transform: translate(-50%, -50px) scale(1.15); opacity: 0.35; }
-      100% { transform: translate(-50%, -100px) scale(0.9); opacity: 0; }
-    }
-
-    .subhead {
-      font-size: 0.95rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gold-premium);
+      font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 5px;
-      color: var(--red-accent);
-      font-weight: 500;
-      text-align: center;    /* Aseguramos centrado */
-      position: relative;
-      z-index: 5;
-      display: inline-block; /* Permite que el fondo de vapor lo rodee */
+      letter-spacing: 2px;
+      animation: bounce 2s infinite;
+      cursor: pointer;
+      text-decoration: none;
     }
 
-    /* ===== RESTO DEL MENÚ (sin cambios estructurales) ===== */
-    .menu {
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== MENU CONTAINER ===== */
+    .menu-container {
+      position: relative;
+      z-index: 1;
       max-width: 1200px;
-      margin: 2rem auto;
-      background: #0a0a0a;
-      border-radius: var(--radius-card) var(--radius-card) 20px 20px;
-      box-shadow: var(--shadow);
-      padding: 2.5rem 2rem;
+      margin: -100px auto 0;
+      background: linear-gradient(180deg, var(--charcoal) 0%, var(--black-premium) 100%);
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+      box-shadow: 0 -20px 60px rgba(0,0,0,0.5);
+      padding: 4rem 2rem 2rem;
+    }
+
+    /* ===== SECTION HEADERS ===== */
+    .menu-section {
+      margin-bottom: 4rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s var(--transition-smooth);
+    }
+
+    .menu-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
       position: relative;
     }
 
-    .menu::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-image: radial-gradient(#2a2a2a 1px, transparent 1px);
-      background-size: 20px 20px;
-      opacity: 0.15;
-      pointer-events: none;
-      border-radius: inherit;
+    .section-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
     }
 
     h2 {
-      font-size: 1.6rem;
-      font-weight: 650;
-      color: #a8d5a2;
-      margin: 2rem 0 1rem 0;
-      padding-bottom: 0.5rem;
-      border-bottom: var(--border-dash);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--gold-premium);
+      margin-bottom: 0.5rem;
+      letter-spacing: 2px;
+      position: relative;
+      display: inline-block;
     }
 
-    h2::before {
-      content: '✦';
-      color: var(--red-accent);
-      font-size: 1.5rem;
-      font-weight: 300;
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--green-brazil), transparent);
     }
 
     .section-subtitle {
-      font-size: 1.2rem;
-      color: #d4b48c;
-      margin: 1.5rem 0 0.5rem;
-      font-weight: 600;
+      font-size: 0.9rem;
+      color: rgba(245, 240, 232, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-top: 1rem;
     }
 
+    /* ===== MENU GRIDS ===== */
     .items-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.2rem 2.2rem;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
       list-style: none;
       padding: 0;
       margin: 0;
@@ -239,8 +399,8 @@
 
     .three-col-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.8rem 1.8rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
       list-style: none;
       padding: 0;
       margin: 0;
@@ -249,533 +409,1176 @@
     .two-col-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
+      gap: 2rem;
       list-style: none;
       padding: 0;
       margin: 0;
     }
 
-    .menu-item {
-      break-inside: avoid;
+    /* ===== MENU CARDS ===== */
+    .menu-card {
+      background: linear-gradient(145deg, rgba(45,45,45,0.8) 0%, rgba(26,26,26,0.9) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      border-radius: var(--radius-soft);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s var(--transition-smooth);
+      cursor: pointer;
+    }
+
+    .menu-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+      transition: left 0.6s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(212, 175, 55, 0.3);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0, 156, 59, 0.1);
+    }
+
+    .menu-card:hover::before {
+      left: 100%;
     }
 
     .item-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      font-weight: 600;
-      color: #f0e6d8;
-      font-size: 1.05rem;
-      border-bottom: 1px dotted #6b8c5e;
-      padding-bottom: 0.2rem;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
     }
 
     .item-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--cream);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
 
     .item-price {
+      font-family: var(--font-display);
       font-weight: 700;
-      color: var(--red-accent);
-      font-size: 1.05rem;
+      color: var(--gold-premium);
+      font-size: 1.1rem;
       white-space: nowrap;
-      margin-left: 0.75rem;
+      margin-left: 1rem;
     }
 
     .item-desc {
       font-size: 0.9rem;
-      color: #b0a8a0;
-      margin-bottom: 0.4rem;
-      line-height: 1.45;
-    }
-
-    .item-desc ul {
-      list-style: none;
-      margin-top: 0.2rem;
-      padding-left: 0.5rem;
-    }
-
-    .item-desc li {
+      color: rgba(245, 240, 232, 0.7);
+      line-height: 1.5;
       position: relative;
-      padding-left: 1.2rem;
-      font-size: 0.88rem;
-      color: #b0a8a0;
+      z-index: 1;
     }
 
-    .item-desc li::before {
-      content: '•';
-      color: var(--red-accent);
-      font-weight: bold;
-      position: absolute;
-      left: 0.2rem;
+    .item-desc strong {
+      color: var(--green-brazil);
+      font-weight: 600;
     }
 
-    .note {
-      font-size: 0.85rem;
+    .item-note {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--gold-premium);
       font-style: italic;
-      color: #c0b0a0;
-      margin-top: 0.15rem;
     }
 
-    .beer-item, .spirit-item {
+    .price-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(212, 175, 55, 0.1);
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-left: 0.5rem;
+    }
+
+    /* ===== FEATURED ITEM ===== */
+    .featured-card {
+      grid-column: span 2;
+      background: linear-gradient(135deg, rgba(0, 156, 59, 0.1) 0%, rgba(26,26,26,0.95) 100%);
+      border: 2px solid var(--green-brazil);
+      position: relative;
+    }
+
+    .featured-card::after {
+      content: '★ DESTACADO';
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--green-brazil);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 768px) {
+      .featured-card {
+        grid-column: span 1;
+      }
+    }
+
+    /* ===== SUB-SECTIONS ===== */
+    .subsection-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--green-brazil);
+      margin: 2rem 0 1rem;
+      padding-left: 1rem;
+      border-left: 3px solid var(--gold-premium);
+    }
+
+    /* ===== BEER & SPIRIT ITEMS ===== */
+    .spirit-card {
       display: flex;
       justify-content: space-between;
-      font-size: 0.92rem;
-      color: #e0d6cc;
-      border-bottom: 1px dotted #4a5c3a;
-      padding-bottom: 0.2rem;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      background: rgba(45,45,45,0.5);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s;
+    }
+
+    .spirit-card:hover {
+      background: rgba(45,45,45,0.8);
+      border-color: rgba(212, 175, 55, 0.2);
+      transform: translateX(5px);
     }
 
     .spirit-name {
       font-weight: 500;
+      color: var(--cream);
     }
 
     .spirit-price {
-      font-weight: 600;
-      color: var(--red-accent);
-      white-space: nowrap;
+      font-weight: 700;
+      color: var(--gold-premium);
+      font-family: var(--font-display);
     }
 
-    .grid-span-2 {
-      grid-column: span 2;
-    }
-
+    /* ===== HAPPY HOUR ===== */
     .happy-hour {
-      background: #1a1a1a;
-      padding: 1.5rem 1.8rem;
-      border-radius: 24px;
-      margin-top: 2.5rem;
-      border-left: 8px solid var(--green-brazil);
-      color: #f0f0f0;
+      background: linear-gradient(135deg, rgba(0, 156, 59, 0.1) 0%, rgba(196, 30, 58, 0.05) 100%);
+      border: 2px solid var(--green-brazil);
+      border-radius: var(--radius-card);
+      padding: 2.5rem;
+      margin: 4rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .happy-hour::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0, 156, 59, 0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .happy-hour h2 {
+      color: var(--green-brazil);
+      position: relative;
+      z-index: 1;
     }
 
     .hh-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 0.8rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hh-card {
+      background: rgba(0,0,0,0.3);
+      padding: 1.5rem;
+      border-radius: var(--radius-soft);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s;
+    }
+
+    .hh-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold-premium);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
     .hh-day {
+      font-family: var(--font-display);
       font-weight: 700;
-      color: var(--red-accent);
+      color: var(--gold-premium);
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.5rem;
     }
 
+    .hh-desc {
+      font-size: 0.9rem;
+      color: rgba(245, 240, 232, 0.8);
+      line-height: 1.4;
+    }
+
+    .hh-price {
+      display: inline-block;
+      margin-top: 0.5rem;
+      background: var(--red-accent);
+      color: white;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    /* ===== DISCLAIMER - ESTILO SUTIL ===== */
     .disclaimer {
-      background: #2a1e1a;
-      padding: 1.2rem;
-      border-radius: 16px;
-      margin-top: 2rem;
-      font-style: italic;
-      color: #f0c0b0;
-      border: 1px solid #8b4c3a;
+      background: rgba(45, 45, 45, 0.5);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: var(--radius-soft);
+      padding: 1.5rem;
+      margin: 3rem 0;
       text-align: center;
+      position: relative;
     }
 
+    .disclaimer strong {
+      color: var(--gold-premium);
+      font-family: var(--font-display);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .disclaimer span {
+      color: rgba(245, 240, 232, 0.7);
+      font-size: 0.9rem;
+    }
+
+    /* ===== FOOTER ===== */
     .footer {
-      margin-top: 2.8rem;
-      padding-top: 1.5rem;
+      margin-top: 4rem;
+      padding: 3rem 2rem;
       text-align: center;
-      font-size: 0.95rem;
-      border-top: 1px solid #4a5c3a;
-      color: #c0c0c0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 100%);
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--gold-premium);
+      margin-bottom: 1rem;
     }
 
     .obrigado {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--red-accent);
-      letter-spacing: 2px;
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--green-brazil), var(--gold-premium), var(--green-brazil));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3s linear infinite;
+      display: block;
+      margin-bottom: 1rem;
     }
 
-    @media (max-width: 800px) {
+    @keyframes shine {
+      to { background-position: 200% center; }
+    }
+
+    .footer-address {
+      font-size: 1rem;
+      color: rgba(245, 240, 232, 0.8);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-hours {
+      font-size: 0.9rem;
+      color: rgba(245, 240, 232, 0.6);
+      margin-bottom: 1rem;
+    }
+
+    .footer-legal {
+      font-size: 0.8rem;
+      color: rgba(245, 240, 232, 0.4);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== FLOATING ACTION BUTTON - SOLO AL FINAL ===== */
+    .fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--green-brazil) 0%, var(--green-dark) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 156, 59, 0.4);
+      cursor: pointer;
+      z-index: 99;
+      transition: all 0.3s, opacity 0.3s, transform 0.3s;
+      border: none;
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+
+    .fab.visible {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: all;
+    }
+
+    .fab:hover {
+      transform: scale(1.1) rotate(90deg);
+      box-shadow: 0 15px 40px rgba(0, 156, 59, 0.6);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .hero {
+        min-height: 600px;
+      }
+      
+      .hero-logo {
+        max-width: 400px;
+      }
+      
+      .menu-container {
+        margin-top: -50px;
+        padding: 2rem 1rem;
+      }
+      
       .items-grid,
-      .three-col-grid,
+      .three-col-grid {
+        grid-template-columns: 1fr;
+      }
+      
       .two-col-grid {
         grid-template-columns: 1fr;
       }
-      .grid-span-2 {
-        grid-column: span 1;
+      
+      h2 {
+        font-size: 1.5rem;
       }
-      .menu {
-        padding: 1.5rem 1rem;
+      
+      .happy-hour {
+        padding: 1.5rem;
       }
     }
 
     @media (max-width: 480px) {
-      h2 {
-        font-size: 1.4rem;
+      .hero-logo {
+        max-width: 300px;
+      }
+      
+      .hero-subtitle {
+        font-size: 0.9rem;
       }
     }
+
+    /* ===== LOADING ANIMATION ===== */
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--black-premium);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-logo {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: var(--gold-premium);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.95); }
+    }
   </style>
+<base target="_blank">
 </head>
 <body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loader">
+    <div class="loading-logo">CS</div>
+  </div>
+
+  <!-- Embers Background -->
+  <div class="embers-container" id="embers"></div>
+
+  <!-- Skip Link -->
   <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
-  <!-- HERO CON PARALLAX Y BORDE INFERIOR CURVO DINÁMICO -->
-  <section class="hero" id="hero-section">
+  <!-- Navigation -->
+  <nav class="nav-sticky" id="navbar">
+    <div class="nav-content">
+      <a href="#" class="nav-logo">CS STEAKHOUSE</a>
+      <ul class="nav-links">
+        <li><a href="#appetizers" data-section="appetizers">Appetizers</a></li>
+        <li><a href="#mains" data-section="mains">Mains</a></li>
+        <li><a href="#desserts" data-section="desserts">Desserts</a></li>
+        <li><a href="#drinks" data-section="drinks">Drinks</a></li>
+        <li><a href="#happy-hour" data-section="happy-hour">Happy Hour</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
-
     <div class="hero-content">
-      <img src="white-transparent-cs2-logo.png" alt="CS Brazilian Steakhouse" class="hero-logo" width="800" height="267" loading="eager">
+      <div class="hero-badge">
+        <span>🔥</span>
+        <span>Auténtico Churrasco Brasileño</span>
+      </div>
+      <img src="white-transparent-cs2-logo.png" alt="CS Brazilian Steakhouse" class="hero-logo" width="600" height="200">
+      <p class="hero-subtitle">Authentic Brazilian Churrasco</p>
+      <p class="hero-location">Newark, Delaware</p>
     </div>
+    <a href="#main-content" class="scroll-indicator">
+      <span>Explore Menu</span>
+      <span>↓</span>
+    </a>
   </section>
 
-  <!-- MENÚ COMPLETO -->
-  <div class="menu" id="main-content">
-    <!-- SUBTÍTULO AHORA CENTRADO CORRECTAMENTE -->
-    <div class="subhead-wrapper">
-      <div class="subhead-steam"></div>
-      <div class="subhead-steam delay-1"></div>
-      <div class="subhead-steam delay-2"></div>
-      <div class="subhead" aria-hidden="true">— AUTHENTIC BRAZILIAN CHURRASCO —</div>
-    </div>
-
-    <main>
-      <!-- Salgados & Appetizers -->
-      <section aria-labelledby="appetizers-heading">
+  <!-- Main Menu Content -->
+  <div class="menu-container" id="main-content">
+    
+    <!-- Appetizers -->
+    <section class="menu-section" id="appetizers" aria-labelledby="appetizers-heading">
+      <div class="section-header">
+        <span class="section-icon">🧀</span>
         <h2 id="appetizers-heading">Salgados & Appetizers</h2>
-        <ul class="items-grid">
-          <li class="menu-item">
-            <div class="item-header"><span class="item-name">Pão de Queijo</span><data class="item-price" value="10">$10</data></div>
-            <div class="item-desc">Traditional hand‑rolled cheese bread basket – gluten free.</div>
-          </li>
-          <li class="menu-item">
-            <div class="item-header"><span class="item-name">Coxinhas</span><data class="item-price" value="14">$14</data></div>
-            <div class="item-desc">Roasted chicken fritters, creamy sriracha.</div>
-          </li>
-          <li class="menu-item">
-            <div class="item-header"><span class="item-name">Yucca Fries</span><data class="item-price" value="10">$10</data></div>
-            <div class="item-desc">Fried yucca root sticks, creamy sriracha.</div>
-          </li>
-          <li class="menu-item">
-            <div class="item-header"><span class="item-name">Fried Polenta</span><data class="item-price" value="10">$10</data></div>
-            <div class="item-desc">Polenta sticks with parmesan.</div>
-          </li>
-          <li class="menu-item">
-            <div class="item-header"><span class="item-name">Sampler Platter</span><data class="item-price" value="25">$25</data></div>
-            <div class="item-desc">Four each: Yucca sticks, polenta fries, pão de queijo & coxinhas. Served with creamy sriracha.</div>
-          </li>
-          <li class="menu-item">
-            <div class="item-header"><span class="item-name">Salad Bar</span><data class="item-price" value="20">$20</data></div>
-            <div class="item-desc">One time visit to our fresh salad bar.</div>
-          </li>
-        </ul>
-      </section>
+        <p class="section-subtitle">Begin Your Journey</p>
+      </div>
+      <ul class="items-grid">
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Pão de Queijo</span>
+            <data class="item-price" value="10">$10</data>
+          </div>
+          <div class="item-desc">Traditional hand‑rolled cheese bread basket – <strong>gluten free</strong></div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Coxinhas</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Roasted chicken fritters, creamy sriracha</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Yucca Fries</span>
+            <data class="item-price" value="10">$10</data>
+          </div>
+          <div class="item-desc">Fried yucca root sticks, creamy sriracha</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Fried Polenta</span>
+            <data class="item-price" value="10">$10</data>
+          </div>
+          <div class="item-desc">Polenta sticks with parmesan</div>
+        </li>
+        <li class="menu-card featured-card">
+          <div class="item-header">
+            <span class="item-name">Sampler Platter</span>
+            <data class="item-price" value="25">$25</data>
+          </div>
+          <div class="item-desc">Four each: Yucca sticks, polenta fries, pão de queijo & coxinhas. Served with creamy sriracha</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Salad Bar</span>
+            <data class="item-price" value="20">$20</data>
+          </div>
+          <div class="item-desc">One time visit to our fresh salad bar</div>
+        </li>
+      </ul>
+    </section>
 
-      <!-- Main Courses -->
-      <section aria-labelledby="mains-heading">
+    <!-- Main Courses -->
+    <section class="menu-section" id="mains" aria-labelledby="mains-heading">
+      <div class="section-header">
+        <span class="section-icon">🥩</span>
         <h2 id="mains-heading">Main Courses • Pratos Principais</h2>
-        <ul class="items-grid">
-          <li class="menu-item">
-            <div class="item-header"><span class="item-name">Feijoada</span><data class="item-price" value="14">$14</data></div>
-            <div class="item-desc">Bottomless bowl of black bean stew with pork & beef. Served with rice, farofa, orange & vinaigrette.</div>
-          </li>
-          <li class="menu-item">
-            <div class="item-header"><span class="item-name">Lamb Chops</span><data class="item-price" value="35">$35</data></div>
-            <div class="item-desc">Four lamb chops over tabbouleh, house‑made mint sauce.</div>
-          </li>
-          <li class="menu-item">
-            <div class="item-header"><span class="item-name">Churrasco Trio</span><data class="item-price" value="16">$16</data></div>
-            <div class="item-desc">Beef wrapped in bacon, linguiça sausage & beer‑marinated chicken leg. Choice of tabbouleh, garlic potatoes, or rice & beans.</div>
-          </li>
-          <li class="menu-item">
-            <div class="item-header"><span class="item-name">Prato Feito</span><data class="item-price" value="18">$18</data></div>
-            <div class="item-desc">Garlic potatoes, Brazilian rice & beans, chicken wrapped in bacon. 
-              <br><span class="note">Substitute Fraldinha +$4 | Substitute Picanha +$4 | Add salad bar +$10</span>
-            </div>
-          </li>
-        </ul>
-      </section>
+        <p class="section-subtitle">The Heart of Churrasco</p>
+      </div>
+      <ul class="items-grid">
+        <li class="menu-card featured-card">
+          <div class="item-header">
+            <span class="item-name">Feijoada</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Bottomless bowl of black bean stew with pork & beef. Served with rice, farofa, orange & vinaigrette</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Lamb Chops</span>
+            <data class="item-price" value="35">$35</data>
+          </div>
+          <div class="item-desc">Four lamb chops over tabbouleh, house‑made mint sauce</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Churrasco Trio</span>
+            <data class="item-price" value="16">$16</data>
+          </div>
+          <div class="item-desc">Beef wrapped in bacon, linguiça sausage & beer‑marinated chicken leg. Choice of tabbouleh, garlic potatoes, or rice & beans</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Prato Feito</span>
+            <data class="item-price" value="18">$18</data>
+          </div>
+          <div class="item-desc">Garlic potatoes, Brazilian rice & beans, chicken wrapped in bacon</div>
+          <span class="item-note">Substitute Fraldinha +$4 | Substitute Picanha +$4 | Add salad bar +$10</span>
+        </li>
+      </ul>
+    </section>
 
-      <!-- Desserts -->
-      <section aria-labelledby="desserts-heading">
+    <!-- Desserts -->
+    <section class="menu-section" id="desserts" aria-labelledby="desserts-heading">
+      <div class="section-header">
+        <span class="section-icon">🍮</span>
         <h2 id="desserts-heading">Sobremesas • Desserts</h2>
-        <ul class="items-grid">
-          <li class="menu-item"><div class="item-header"><span class="item-name">NY Cheesecake</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Choice of sauce: strawberry, raspberry, chocolate, caramel, blueberry, seasonal fruits.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Smashed Caramel Brownie</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Warm brownie with caramel center.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Chocolate Mousse Cake</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Layers of chocolate cake & whipped mousse, ganache.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Chocolate Molten Cake</span><data class="item-price" value="10">$10</data></div><div class="item-desc">With vanilla ice cream.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Papaya or Strawberry Cream</span><data class="item-price" value="8">$8</data></div><div class="item-desc">Fresh fruit blended with vanilla ice cream, crème de cassis.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Pudim</span><data class="item-price" value="9">$9</data></div><div class="item-desc">Brazilian flan – creamy vanilla caramel custard.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Chocolate Peanut Butter Cake</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Layers of chocolate cake & peanut butter mousse, ganache.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Petrucci Affogato</span><data class="item-price" value="9">$9</data></div><div class="item-desc">Double espresso poured tableside over vanilla ice cream. Add Kahlúa, Bailey’s, Frangelico or Vanille de Madagascar +$5.</div></li>
-        </ul>
-      </section>
+        <p class="section-subtitle">Sweet Finish</p>
+      </div>
+      <ul class="items-grid">
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">NY Cheesecake</span>
+            <data class="item-price" value="10">$10</data>
+          </div>
+          <div class="item-desc">Choice of sauce: strawberry, raspberry, chocolate, caramel, blueberry, seasonal fruits</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Smashed Caramel Brownie</span>
+            <data class="item-price" value="10">$10</data>
+          </div>
+          <div class="item-desc">Warm brownie with caramel center</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Chocolate Mousse Cake</span>
+            <data class="item-price" value="10">$10</data>
+          </div>
+          <div class="item-desc">Layers of chocolate cake & whipped mousse, ganache</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Chocolate Molten Cake</span>
+            <data class="item-price" value="10">$10</data>
+          </div>
+          <div class="item-desc">With vanilla ice cream</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Papaya or Strawberry Cream</span>
+            <data class="item-price" value="8">$8</data>
+          </div>
+          <div class="item-desc">Fresh fruit blended with vanilla ice cream, crème de cassis</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Pudim</span>
+            <data class="item-price" value="9">$9</data>
+          </div>
+          <div class="item-desc">Brazilian flan – creamy vanilla caramel custard</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Chocolate Peanut Butter Cake</span>
+            <data class="item-price" value="10">$10</data>
+          </div>
+          <div class="item-desc">Layers of chocolate cake & peanut butter mousse, ganache</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Petrucci Affogato</span>
+            <data class="item-price" value="9">$9</data>
+          </div>
+          <div class="item-desc">Double espresso poured tableside over vanilla ice cream</div>
+          <span class="item-note">Add Kahlúa, Bailey's, Frangelico or Vanille de Madagascar +$5</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Drinks Section -->
+    <section class="menu-section" id="drinks" aria-labelledby="drinks-heading">
+      <div class="section-header">
+        <span class="section-icon">🍹</span>
+        <h2 id="drinks-heading">Bebidas • Drinks</h2>
+        <p class="section-subtitle">Crafted Cocktails & Spirits</p>
+      </div>
 
       <!-- Cocktails -->
-      <section aria-labelledby="cocktails-heading">
-        <h2 id="cocktails-heading">Coqueteis • Cocktails</h2>
-        <ul class="items-grid">
-          <li class="menu-item grid-span-2">
-            <div class="item-header"><span class="item-name">Caipirinha</span><span class="item-price">Traditional $12 | Premium $14 | Specialty $14</span></div>
-            <div class="item-desc"><strong>Traditional:</strong> Brazil’s national cocktail. <strong>Premium:</strong> Novo Fogo Cachaça. <strong>Specialty:</strong> Kiwi, Pineapple, Mango, Strawberry, Blueberry – or mix & match!</div>
-          </li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Cucumber Mint</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Steel Blue vodka, mint, cucumber, lemon, simple syrup.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Dirty Na</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Stateside vodka, Guarana soda, muddled orange.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Strawberry Mint Fizz</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Aviation gin, strawberry purée, mint, lemon, club soda.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Ward CS</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Rye whiskey, OJ, lemon, grenadine, simple syrup.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Blue Brazilian</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Blueberries, blue curaçao, lime, rum.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Skrewball Sundae</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Skrewball peanut butter whiskey, chocolate liqueur, whipped cream & cherry.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Jameson Green Tea</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Jameson, peach schnapps, sweet & sour, lemonade.</div></li>
-        </ul>
-      </section>
+      <h3 class="subsection-title">Coqueteis • Cocktails</h3>
+      <ul class="items-grid">
+        <li class="menu-card featured-card">
+          <div class="item-header">
+            <span class="item-name">Caipirinha</span>
+            <span class="item-price">
+              <span class="price-tag">Traditional $12</span>
+              <span class="price-tag">Premium $14</span>
+              <span class="price-tag">Specialty $14</span>
+            </span>
+          </div>
+          <div class="item-desc">
+            <strong>Traditional:</strong> Brazil's national cocktail • 
+            <strong>Premium:</strong> Novo Fogo Cachaça • 
+            <strong>Specialty:</strong> Kiwi, Pineapple, Mango, Strawberry, Blueberry – or mix & match!
+          </div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Cucumber Mint</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Steel Blue vodka, mint, cucumber, lemon, simple syrup</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Dirty Na</span>
+            <data class="item-price" value="12">$12</data>
+          </div>
+          <div class="item-desc">Stateside vodka, Guarana soda, muddled orange</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Strawberry Mint Fizz</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Aviation gin, strawberry purée, mint, lemon, club soda</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Ward CS</span>
+            <data class="item-price" value="12">$12</data>
+          </div>
+          <div class="item-desc">Rye whiskey, OJ, lemon, grenadine, simple syrup</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Blue Brazilian</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Blueberries, blue curaçao, lime, rum</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Skrewball Sundae</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Skrewball peanut butter whiskey, chocolate liqueur, whipped cream & cherry</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Jameson Green Tea</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Jameson, peach schnapps, sweet & sour, lemonade</div>
+        </li>
+      </ul>
 
-      <!-- Martinis & Muddled -->
-      <section aria-labelledby="martinis-heading">
-        <h2 id="martinis-heading">Martinis & Muddled</h2>
-        <ul class="items-grid">
-          <li class="menu-item"><div class="item-header"><span class="item-name">Peanut Butter Cup</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Skrewball whiskey, chocolate liqueur.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Tequila Twist of Love</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Pomegranate tequila, triple sec, cherry & lime.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Chocolate Covered Cherry</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Cherry liqueur, vodka, crème de coco, cream.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Pineapple Upside Down</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Pineapple, vodka – dream of Rio.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Brazilian Old Fashioned</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Muddled orange, sugar, chocolate bitters, Novo Fogo barrel‑aged cachaça.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Paris Lemonade</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Muddled lemon, strawberry, blueberry, Novo Fogo Silver, Grand Marnier.</div></li>
-        </ul>
-      </section>
+      <!-- Martinis -->
+      <h3 class="subsection-title">Martinis & Muddled</h3>
+      <ul class="items-grid">
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Peanut Butter Cup</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Skrewball whiskey, chocolate liqueur</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Tequila Twist of Love</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Pomegranate tequila, triple sec, cherry & lime</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Chocolate Covered Cherry</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Cherry liqueur, vodka, crème de coco, cream</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Pineapple Upside Down</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Pineapple, vodka – dream of Rio</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Brazilian Old Fashioned</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Muddled orange, sugar, chocolate bitters, Novo Fogo barrel‑aged cachaça</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Paris Lemonade</span>
+            <data class="item-price" value="12">$12</data>
+          </div>
+          <div class="item-desc">Muddled lemon, strawberry, blueberry, Novo Fogo Silver, Grand Marnier</div>
+        </li>
+      </ul>
 
       <!-- Mimosas & Sangrias -->
-      <section aria-labelledby="specials-heading">
-        <h2 id="specials-heading">Mimosas & Sangrias</h2>
-        <ul class="items-grid">
-          <li class="menu-item"><div class="item-header"><span class="item-name">Mimosa Specials</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Watermelon, Strawberry Lemonade, Hawaiian, Raspberry, Sangria, Pineapple, Caramel Apple – ask your server.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Sangria Specials</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Blood Orange, Pineapple, Traditional Red & White, Strawberry Peach.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Blood Orange Mimosa</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Blood orange sparkling juice & prosecco.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Spiked Strawberry Lemonade</span><data class="item-price" value="14">$14</data></div><div class="item-desc">Tito’s vodka, homemade lemonade, fresh strawberries.</div></li>
-        </ul>
-      </section>
+      <h3 class="subsection-title">Mimosas & Sangrias</h3>
+      <ul class="items-grid">
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Mimosa Specials</span>
+            <data class="item-price" value="12">$12</data>
+          </div>
+          <div class="item-desc">Watermelon, Strawberry Lemonade, Hawaiian, Raspberry, Sangria, Pineapple, Caramel Apple – ask your server</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Sangria Specials</span>
+            <data class="item-price" value="12">$12</data>
+          </div>
+          <div class="item-desc">Blood Orange, Pineapple, Traditional Red & White, Strawberry Peach</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Blood Orange Mimosa</span>
+            <data class="item-price" value="10">$10</data>
+          </div>
+          <div class="item-desc">Blood orange sparkling juice & prosecco</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Spiked Strawberry Lemonade</span>
+            <data class="item-price" value="14">$14</data>
+          </div>
+          <div class="item-desc">Tito's vodka, homemade lemonade, fresh strawberries</div>
+        </li>
+      </ul>
 
       <!-- Dessert Cocktails -->
-      <section aria-labelledby="dessert-cocktails-heading">
-        <h2 id="dessert-cocktails-heading">Dessert Cocktails & After Dinner</h2>
-        <ul class="items-grid">
-          <li class="menu-item"><div class="item-header"><span class="item-name">Chocolate Martini</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Rich chocolate indulgence – perfect with molten cake.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Espresso Martini</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Double espresso, milk & white chocolate liqueurs, vodka, Kahlúa, cream.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Cinnamon Roll Martini</span><data class="item-price" value="12">$12</data></div><div class="item-desc">Stoli Vanilla, RumChata, Kahlúa.</div></li>
-          <li class="menu-item"><div class="item-header"><span class="item-name">Toasted Almond</span><data class="item-price" value="10">$10</data></div><div class="item-desc">Nutty after‑dinner drink.</div></li>
-        </ul>
-      </section>
+      <h3 class="subsection-title">Dessert Cocktails & After Dinner</h3>
+      <ul class="items-grid">
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Chocolate Martini</span>
+            <data class="item-price" value="12">$12</data>
+          </div>
+          <div class="item-desc">Rich chocolate indulgence – perfect with molten cake</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Espresso Martini</span>
+            <data class="item-price" value="12">$12</data>
+          </div>
+          <div class="item-desc">Double espresso, milk & white chocolate liqueurs, vodka, Kahlúa, cream</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Cinnamon Roll Martini</span>
+            <data class="item-price" value="12">$12</data>
+          </div>
+          <div class="item-desc">Stoli Vanilla, RumChata, Kahlúa</div>
+        </li>
+        <li class="menu-card">
+          <div class="item-header">
+            <span class="item-name">Toasted Almond</span>
+            <data class="item-price" value="10">$10</data>
+          </div>
+          <div class="item-desc">Nutty after‑dinner drink</div>
+        </li>
+      </ul>
 
       <!-- Beer -->
-      <section aria-labelledby="beer-heading">
-        <h2 id="beer-heading">Cervejas • Beer</h2>
-        <h3 class="section-subtitle">Draft</h3>
-        <ul class="three-col-grid">
-          <li class="beer-item"><span>Allagash White</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Yuengling Lager</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Lagunitas IPA</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Founders Breakfast Stout</span><data class="spirit-price" value="9">$9</data></li>
-          <li class="beer-item"><span>Guinness Stout</span><data class="spirit-price" value="9">$9</data></li>
-          <li class="beer-item"><span>WBW Undelivered Mail IPA</span><data class="spirit-price" value="8">$8</data></li>
-          <li class="beer-item"><span>CountyLine Neshaminy Creek IPA</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Hoop Tea</span><data class="spirit-price" value="9">$9</data></li>
-          <li class="beer-item"><span>Dogfish 60 Minute IPA</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Elysian Space Dust</span><data class="spirit-price" value="8">$8</data></li>
-          <li class="beer-item"><span>Rise Up Coffee Stout</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Yuengling Black & Tan</span><data class="spirit-price" value="7">$7</data></li>
-        </ul>
+      <h3 class="subsection-title">Cervejas • Beer</h3>
+      <h4 style="color: var(--gold-premium); margin: 1rem 0 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Draft</h4>
+      <ul class="three-col-grid">
+        <li class="spirit-card"><span class="spirit-name">Allagash White</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Yuengling Lager</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Lagunitas IPA</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Founders Breakfast Stout</span><data class="spirit-price" value="9">$9</data></li>
+        <li class="spirit-card"><span class="spirit-name">Guinness Stout</span><data class="spirit-price" value="9">$9</data></li>
+        <li class="spirit-card"><span class="spirit-name">WBW Undelivered Mail IPA</span><data class="spirit-price" value="8">$8</data></li>
+        <li class="spirit-card"><span class="spirit-name">CountyLine Neshaminy Creek IPA</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Hoop Tea</span><data class="spirit-price" value="9">$9</data></li>
+        <li class="spirit-card"><span class="spirit-name">Dogfish 60 Minute IPA</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Elysian Space Dust</span><data class="spirit-price" value="8">$8</data></li>
+        <li class="spirit-card"><span class="spirit-name">Rise Up Coffee Stout</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Yuengling Black & Tan</span><data class="spirit-price" value="7">$7</data></li>
+      </ul>
 
-        <h3 class="section-subtitle">Bottled & Cans</h3>
-        <ul class="three-col-grid">
-          <li class="beer-item"><span>Heineken</span><data class="spirit-price" value="8">$8</data></li>
-          <li class="beer-item"><span>Heineken 0.0</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Bud Light</span><data class="spirit-price" value="6">$6</data></li>
-          <li class="beer-item"><span>Budweiser Zero</span><data class="spirit-price" value="6">$6</data></li>
-          <li class="beer-item"><span>Coors Light</span><data class="spirit-price" value="6">$6</data></li>
-          <li class="beer-item"><span>Miller Lite</span><data class="spirit-price" value="6">$6</data></li>
-          <li class="beer-item"><span>Miller High Life</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Michelob Ultra</span><data class="spirit-price" value="6">$6</data></li>
-          <li class="beer-item"><span>Dogfish Head 90 Minute IPA</span><data class="spirit-price" value="8">$8</data></li>
-          <li class="beer-item"><span>Founders All Day IPA</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Heavy Seas Hazy Cannon</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Lagunitas IPA</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Bell's Two Hearted Ale</span><data class="spirit-price" value="6">$6</data></li>
-          <li class="beer-item"><span>Yards Philadelphia Pale Ale</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Landshark</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Corona Extra / Corona Light</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Dos Equis XX</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Modelo Negra / Especial</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Sol Cerveza</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Blue Moon Belgian White</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Samuel Adams Boston Lager</span><data class="spirit-price" value="7">$7</data></li>
-          <li class="beer-item"><span>Stella Artois</span><data class="spirit-price" value="8">$8</data></li>
-          <li class="beer-item"><span>Delmarva Pure Pils</span><data class="spirit-price" value="7">$7</data></li>
-        </ul>
-        <div style="margin-top:0.8rem;"><span style="font-weight:600; color: #e0d6cc;">Cider:</span> Strongbow Gold Apple Cider <data class="spirit-price" value="7" style="margin-left:0.5rem;">$7</data></div>
-      </section>
+      <h4 style="color: var(--gold-premium); margin: 1.5rem 0 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Bottled & Cans</h4>
+      <ul class="three-col-grid">
+        <li class="spirit-card"><span class="spirit-name">Heineken</span><data class="spirit-price" value="8">$8</data></li>
+        <li class="spirit-card"><span class="spirit-name">Heineken 0.0</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Bud Light</span><data class="spirit-price" value="6">$6</data></li>
+        <li class="spirit-card"><span class="spirit-name">Budweiser Zero</span><data class="spirit-price" value="6">$6</data></li>
+        <li class="spirit-card"><span class="spirit-name">Coors Light</span><data class="spirit-price" value="6">$6</data></li>
+        <li class="spirit-card"><span class="spirit-name">Miller Lite</span><data class="spirit-price" value="6">$6</data></li>
+        <li class="spirit-card"><span class="spirit-name">Miller High Life</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Michelob Ultra</span><data class="spirit-price" value="6">$6</data></li>
+        <li class="spirit-card"><span class="spirit-name">Dogfish Head 90 Minute IPA</span><data class="spirit-price" value="8">$8</data></li>
+        <li class="spirit-card"><span class="spirit-name">Founders All Day IPA</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Heavy Seas Hazy Cannon</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Lagunitas IPA</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Bell's Two Hearted Ale</span><data class="spirit-price" value="6">$6</data></li>
+        <li class="spirit-card"><span class="spirit-name">Yards Philadelphia Pale Ale</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Landshark</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Corona Extra / Light</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Dos Equis XX</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Modelo Negra / Especial</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Sol Cerveza</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Blue Moon Belgian White</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Samuel Adams Boston Lager</span><data class="spirit-price" value="7">$7</data></li>
+        <li class="spirit-card"><span class="spirit-name">Stella Artois</span><data class="spirit-price" value="8">$8</data></li>
+        <li class="spirit-card"><span class="spirit-name">Delmarva Pure Pils</span><data class="spirit-price" value="7">$7</data></li>
+      </ul>
+      <div class="spirit-card" style="margin-top: 1rem; max-width: 300px;">
+        <span class="spirit-name">Strongbow Gold Apple Cider</span>
+        <data class="spirit-price" value="7">$7</data>
+      </div>
 
       <!-- Wines -->
-      <section aria-labelledby="wines-heading">
-        <h2 id="wines-heading">Vinhos • Wines</h2>
-        <ul class="three-col-grid">
-          <li class="beer-item"><span>Yare Marydel Blend (berry)</span><data class="spirit-price" value="19">$19</data></li>
-          <li class="beer-item"><span>Peach Blossom (white peach)</span><data class="spirit-price" value="19">$19</data></li>
-          <li class="beer-item"><span>Cabernet Sauvignon, Marydel</span><data class="spirit-price" value="30">$30</data></li>
-          <li class="beer-item"><span>Blue Hen Blue (Concord/blueberry)</span><data class="spirit-price" value="23">$23</data></li>
-          <li class="beer-item"><span>Bartenura Moscato d’Asti</span><data class="spirit-price" value="19">$19</data></li>
-          <li class="beer-item"><span>Freakshow Cabernet Sauvignon</span><data class="spirit-price" value="30">$30</data></li>
-          <li class="beer-item"><span>Joel Gott 815 Cabernet</span><data class="spirit-price" value="20">$20</data></li>
-          <li class="beer-item"><span>Heinz Eifel Eiswein</span><data class="spirit-price" value="80">$80</data></li>
-          <li class="beer-item"><span>Taylor Fladgate 10yr Tawny</span><data class="spirit-price" value="11">$11</data></li>
-          <li class="beer-item"><span>Taylor Fladgate 20yr Tawny</span><data class="spirit-price" value="15">$15</data></li>
-          <li class="beer-item"><span>Graham’s 30yr Tawny Porto</span><data class="spirit-price" value="30">$30</data></li>
-          <li class="beer-item"><span>Graham’s Six Grapes Porto</span><data class="spirit-price" value="9">$9</data></li>
-        </ul>
-      </section>
+      <h3 class="subsection-title">Vinhos • Wines</h3>
+      <ul class="three-col-grid">
+        <li class="spirit-card"><span class="spirit-name">Yare Marydel Blend (berry)</span><data class="spirit-price" value="19">$19</data></li>
+        <li class="spirit-card"><span class="spirit-name">Peach Blossom (white peach)</span><data class="spirit-price" value="19">$19</data></li>
+        <li class="spirit-card"><span class="spirit-name">Cabernet Sauvignon, Marydel</span><data class="spirit-price" value="30">$30</data></li>
+        <li class="spirit-card"><span class="spirit-name">Blue Hen Blue (Concord/blueberry)</span><data class="spirit-price" value="23">$23</data></li>
+        <li class="spirit-card"><span class="spirit-name">Bartenura Moscato d'Asti</span><data class="spirit-price" value="19">$19</data></li>
+        <li class="spirit-card"><span class="spirit-name">Freakshow Cabernet Sauvignon</span><data class="spirit-price" value="30">$30</data></li>
+        <li class="spirit-card"><span class="spirit-name">Joel Gott 815 Cabernet</span><data class="spirit-price" value="20">$20</data></li>
+        <li class="spirit-card"><span class="spirit-name">Heinz Eifel Eiswein</span><data class="spirit-price" value="80">$80</data></li>
+        <li class="spirit-card"><span class="spirit-name">Taylor Fladgate 10yr Tawny</span><data class="spirit-price" value="11">$11</data></li>
+        <li class="spirit-card"><span class="spirit-name">Taylor Fladgate 20yr Tawny</span><data class="spirit-price" value="15">$15</data></li>
+        <li class="spirit-card"><span class="spirit-name">Graham's 30yr Tawny Porto</span><data class="spirit-price" value="30">$30</data></li>
+        <li class="spirit-card"><span class="spirit-name">Graham's Six Grapes Porto</span><data class="spirit-price" value="9">$9</data></li>
+      </ul>
 
       <!-- Spirits -->
-      <section aria-labelledby="spirits-heading">
-        <h2 id="spirits-heading">Licores & Destilados</h2>
-        <div class="two-col-grid" style="gap: 1.5rem;">
-          <div>
-            <h3 class="section-subtitle">Cachaça</h3>
-            <ul style="list-style: none; padding: 0;">
-              <li class="beer-item"><span>Novo Fogo Tanager</span><data class="spirit-price" value="35">$35</data></li>
-              <li class="beer-item"><span>Novo Fogo Chameleon</span><data class="spirit-price" value="11">$11</data></li>
-              <li class="beer-item"><span>Novo Fogo Barrel-Aged</span><data class="spirit-price" value="10">$10</data></li>
-              <li class="beer-item"><span>Novo Fogo Silver</span><data class="spirit-price" value="9">$9</data></li>
-              <li class="beer-item"><span>Leblon Reserva Especial</span><data class="spirit-price" value="11">$11</data></li>
-              <li class="beer-item"><span>Leblon Cachaça</span><data class="spirit-price" value="9">$9</data></li>
-              <li class="beer-item"><span>Pitú Cachaça</span><data class="spirit-price" value="8">$8</data></li>
-              <li class="beer-item"><span>Pineapple Cachaça Shot (infused)</span><data class="spirit-price" value="5">$5</data></li>
-            </ul>
-            <h3 class="section-subtitle" style="margin-top:1.2rem;">Tequila</h3>
-            <ul style="list-style: none; padding: 0;">
-              <li class="beer-item"><span>Don Julio 1942</span><data class="spirit-price" value="22">$22</data></li>
-            </ul>
-            <h3 class="section-subtitle" style="margin-top:1.2rem;">Scotch</h3>
-            <ul style="list-style: none; padding: 0;">
-              <li class="beer-item"><span>Laphroaig 10 Year</span><data class="spirit-price" value="14">$14</data></li>
-              <li class="beer-item"><span>Macallan 12 Year</span><data class="spirit-price" value="20">$20</data></li>
-            </ul>
-            <h3 class="section-subtitle" style="margin-top:1.2rem;">Bourbon & Rye</h3>
-            <ul style="list-style: none; padding: 0;">
-              <li class="beer-item"><span>Eagle Rare 10 Year</span><data class="spirit-price" value="40">$40</data></li>
-              <li class="beer-item"><span>WhistlePig 10yr Rye</span><data class="spirit-price" value="14">$14</data></li>
-              <li class="beer-item"><span>Screwball Peanut Butter</span><data class="spirit-price" value="9">$9</data></li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="section-subtitle">Cognac</h3>
-            <ul style="list-style: none; padding: 0;">
-              <li class="beer-item"><span>Rémy Martin Louis XIII</span><data class="spirit-price" value="350">$350</data></li>
-              <li class="beer-item"><span>Grand Marnier Cuvee 1880</span><data class="spirit-price" value="50">$50</data></li>
-              <li class="beer-item"><span>Grand Marnier Louis Alexandre</span><data class="spirit-price" value="20">$20</data></li>
-              <li class="beer-item"><span>Grand Marnier Cordon Rouge</span><data class="spirit-price" value="12">$12</data></li>
-              <li class="beer-item"><span>Rémy Martin VSOP</span><data class="spirit-price" value="18">$18</data></li>
-              <li class="beer-item"><span>Courvoisier VSOP</span><data class="spirit-price" value="16">$16</data></li>
-              <li class="beer-item"><span>Hennessy Privilege VSOP</span><data class="spirit-price" value="14">$14</data></li>
-            </ul>
-            <h3 class="section-subtitle" style="margin-top:1.2rem;">Gin</h3>
-            <ul style="list-style: none; padding: 0;">
-              <li class="beer-item"><span>Aviation</span><data class="spirit-price" value="7">$7</data></li>
-              <li class="beer-item"><span>Hendrick's</span><data class="spirit-price" value="10">$10</data></li>
-              <li class="beer-item"><span>Tanqueray London Dry</span><data class="spirit-price" value="9">$9</data></li>
-              <li class="beer-item"><span>Tanqueray Sevilla Orange</span><data class="spirit-price" value="9">$9</data></li>
-              <li class="beer-item"><span>Tanqueray No.10</span><data class="spirit-price" value="12">$12</data></li>
-              <li class="beer-item"><span>Bluecoat American Dry</span><data class="spirit-price" value="7">$7</data></li>
-              <li class="beer-item"><span>Bombay Sapphire</span><data class="spirit-price" value="9">$9</data></li>
-            </ul>
-            <h3 class="section-subtitle" style="margin-top:1.2rem;">Rum</h3>
-            <ul style="list-style: none; padding: 0;">
-              <li class="beer-item"><span>Captain Morgan Spiced</span><data class="spirit-price" value="7">$7</data></li>
-              <li class="beer-item"><span>Captain Morgan Parrot Bay</span><data class="spirit-price" value="6">$6</data></li>
-              <li class="beer-item"><span>Rumhaven Coconut</span><data class="spirit-price" value="6">$6</data></li>
-            </ul>
-            <h3 class="section-subtitle" style="margin-top:1.2rem;">Whiskey</h3>
-            <ul style="list-style: none; padding: 0;">
-              <li class="beer-item"><span>Midleton 2018</span><data class="spirit-price" value="38">$38</data></li>
-              <li class="beer-item"><span>Midleton Barry Crocket 1992</span><data class="spirit-price" value="24">$24</data></li>
-              <li class="beer-item"><span>Crown Royal (Peach/Apple/Reg)</span><data class="spirit-price" value="10">$10</data></li>
-              <li class="beer-item"><span>Drambuie</span><data class="spirit-price" value="12">$12</data></li>
-              <li class="beer-item"><span>77 Whiskey Rye</span><data class="spirit-price" value="9">$9</data></li>
-            </ul>
-          </div>
+      <h3 class="subsection-title">Licores & Destilados</h3>
+      <div class="two-col-grid">
+        <div>
+          <h4 style="color: var(--gold-premium); margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Cachaça</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li class="spirit-card"><span class="spirit-name">Novo Fogo Tanager</span><data class="spirit-price" value="35">$35</data></li>
+            <li class="spirit-card"><span class="spirit-name">Novo Fogo Chameleon</span><data class="spirit-price" value="11">$11</data></li>
+            <li class="spirit-card"><span class="spirit-name">Novo Fogo Barrel-Aged</span><data class="spirit-price" value="10">$10</data></li>
+            <li class="spirit-card"><span class="spirit-name">Novo Fogo Silver</span><data class="spirit-price" value="9">$9</data></li>
+            <li class="spirit-card"><span class="spirit-name">Leblon Reserva Especial</span><data class="spirit-price" value="11">$11</data></li>
+            <li class="spirit-card"><span class="spirit-name">Leblon Cachaça</span><data class="spirit-price" value="9">$9</data></li>
+            <li class="spirit-card"><span class="spirit-name">Pitú Cachaça</span><data class="spirit-price" value="8">$8</data></li>
+            <li class="spirit-card"><span class="spirit-name">Pineapple Cachaça Shot</span><data class="spirit-price" value="5">$5</data></li>
+          </ul>
+          
+          <h4 style="color: var(--gold-premium); margin: 1.5rem 0 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Tequila</h4>
+          <ul style="list-style: none;">
+            <li class="spirit-card"><span class="spirit-name">Don Julio 1942</span><data class="spirit-price" value="22">$22</data></li>
+          </ul>
+          
+          <h4 style="color: var(--gold-premium); margin: 1.5rem 0 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Scotch</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li class="spirit-card"><span class="spirit-name">Laphroaig 10 Year</span><data class="spirit-price" value="14">$14</data></li>
+            <li class="spirit-card"><span class="spirit-name">Macallan 12 Year</span><data class="spirit-price" value="20">$20</data></li>
+          </ul>
+          
+          <h4 style="color: var(--gold-premium); margin: 1.5rem 0 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Bourbon & Rye</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li class="spirit-card"><span class="spirit-name">Eagle Rare 10 Year</span><data class="spirit-price" value="40">$40</data></li>
+            <li class="spirit-card"><span class="spirit-name">WhistlePig 10yr Rye</span><data class="spirit-price" value="14">$14</data></li>
+            <li class="spirit-card"><span class="spirit-name">Screwball Peanut Butter</span><data class="spirit-price" value="9">$9</data></li>
+          </ul>
         </div>
-      </section>
-
-      <!-- Happy Hour -->
-      <aside class="happy-hour" aria-labelledby="happy-hour-heading">
-        <h2 id="happy-hour-heading" style="margin-top:0; border-bottom: none; color: #a8d5a2;">🍻 Happy Hour • Mon–Fri 5–7pm</h2>
-        <div class="hh-grid">
-          <div><span class="hh-day">Monday – Meat Monday</span><br>Two cuts of meat with rice & beans + a wine or tap beer <strong>$20</strong></div>
-          <div><span class="hh-day">Tuesday – Tequila Tuesday</span><br>Regular Margaritas $6 • Flavored $7 • Rice & Beans $5</div>
-          <div><span class="hh-day">Wednesday – WineBottleWednesday</span><br>½ price bottles (see today’s selection) + Charcuterie Board $18</div>
-          <div><span class="hh-day">Thursday – Flight Night</span><br>Wine flight $20 • Beer flight $15 • Caipirinha flight $15 • App sampler $7</div>
-          <div><span class="hh-day">Friday – Feijoada Friday</span><br>Sampler Platter $15 • Rail Mixes $5 • Feijoada $15</div>
+        
+        <div>
+          <h4 style="color: var(--gold-premium); margin-bottom: 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Cognac</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li class="spirit-card"><span class="spirit-name">Rémy Martin Louis XIII</span><data class="spirit-price" value="350">$350</data></li>
+            <li class="spirit-card"><span class="spirit-name">Grand Marnier Cuvee 1880</span><data class="spirit-price" value="50">$50</data></li>
+            <li class="spirit-card"><span class="spirit-name">Grand Marnier Louis Alexandre</span><data class="spirit-price" value="20">$20</data></li>
+            <li class="spirit-card"><span class="spirit-name">Grand Marnier Cordon Rouge</span><data class="spirit-price" value="12">$12</data></li>
+            <li class="spirit-card"><span class="spirit-name">Rémy Martin VSOP</span><data class="spirit-price" value="18">$18</data></li>
+            <li class="spirit-card"><span class="spirit-name">Courvoisier VSOP</span><data class="spirit-price" value="16">$16</data></li>
+            <li class="spirit-card"><span class="spirit-name">Hennessy Privilege VSOP</span><data class="spirit-price" value="14">$14</data></li>
+          </ul>
+          
+          <h4 style="color: var(--gold-premium); margin: 1.5rem 0 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Gin</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li class="spirit-card"><span class="spirit-name">Aviation</span><data class="spirit-price" value="7">$7</data></li>
+            <li class="spirit-card"><span class="spirit-name">Hendrick's</span><data class="spirit-price" value="10">$10</data></li>
+            <li class="spirit-card"><span class="spirit-name">Tanqueray London Dry</span><data class="spirit-price" value="9">$9</data></li>
+            <li class="spirit-card"><span class="spirit-name">Tanqueray Sevilla Orange</span><data class="spirit-price" value="9">$9</data></li>
+            <li class="spirit-card"><span class="spirit-name">Tanqueray No.10</span><data class="spirit-price" value="12">$12</data></li>
+            <li class="spirit-card"><span class="spirit-name">Bluecoat American Dry</span><data class="spirit-price" value="7">$7</data></li>
+            <li class="spirit-card"><span class="spirit-name">Bombay Sapphire</span><data class="spirit-price" value="9">$9</data></li>
+          </ul>
+          
+          <h4 style="color: var(--gold-premium); margin: 1.5rem 0 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Rum</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li class="spirit-card"><span class="spirit-name">Captain Morgan Spiced</span><data class="spirit-price" value="7">$7</data></li>
+            <li class="spirit-card"><span class="spirit-name">Captain Morgan Parrot Bay</span><data class="spirit-price" value="6">$6</data></li>
+            <li class="spirit-card"><span class="spirit-name">Rumhaven Coconut</span><data class="spirit-price" value="6">$6</data></li>
+          </ul>
+          
+          <h4 style="color: var(--gold-premium); margin: 1.5rem 0 1rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Whiskey</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li class="spirit-card"><span class="spirit-name">Midleton 2018</span><data class="spirit-price" value="38">$38</data></li>
+            <li class="spirit-card"><span class="spirit-name">Midleton Barry Crocket 1992</span><data class="spirit-price" value="24">$24</data></li>
+            <li class="spirit-card"><span class="spirit-name">Crown Royal (Peach/Apple/Reg)</span><data class="spirit-price" value="10">$10</data></li>
+            <li class="spirit-card"><span class="spirit-name">Drambuie</span><data class="spirit-price" value="12">$12</data></li>
+            <li class="spirit-card"><span class="spirit-name">77 Whiskey Rye</span><data class="spirit-price" value="9">$9</data></li>
+          </ul>
         </div>
-        <div style="margin-top:1rem;"><strong style="color: #e0d6cc;">Domestic $5 | Import $6 | Draft $6 | IPA $8 | Wine on Tap ½ off 5oz pours | Crush’s $6</strong></div>
-      </aside>
-
-      <!-- Disclaimer -->
-      <div class="disclaimer" role="alert">
-        <strong>⚠️ Due to meat plant shortages and significant price increases, we are currently not offering filet mignon.</strong> We appreciate your patience as we continue to source only the best quality meats. — Thank you.
       </div>
-    </main>
+    </section>
 
-    <footer class="footer">
-      <span class="obrigado">Obrigado!</span><br>
-      <span style="font-size:0.95rem;">CS Brazilian Steakhouse — 600 Center Blvd S, Newark, DE 19702</span><br>
-      <span style="font-size:0.85rem;">*Consuming raw or undercooked meats, poultry, seafood, or eggs may increase your risk of foodborne illness.</span>
-    </footer>
+    <!-- Happy Hour -->
+    <aside class="happy-hour menu-section" id="happy-hour" aria-labelledby="happy-hour-heading">
+      <div class="section-header" style="margin-bottom: 0;">
+        <h2 id="happy-hour-heading">🍻 Happy Hour • Mon–Fri 5–7pm</h2>
+      </div>
+      <div class="hh-grid">
+        <div class="hh-card">
+          <span class="hh-day">Monday – Meat Monday</span>
+          <p class="hh-desc">Two cuts of meat with rice & beans + a wine or tap beer</p>
+          <span class="hh-price">$20</span>
+        </div>
+        <div class="hh-card">
+          <span class="hh-day">Tuesday – Tequila Tuesday</span>
+          <p class="hh-desc">Regular Margaritas $6 • Flavored $7 • Rice & Beans $5</p>
+        </div>
+        <div class="hh-card">
+          <span class="hh-day">Wednesday – WineBottleWednesday</span>
+          <p class="hh-desc">½ price bottles (see today's selection) + Charcuterie Board $18</p>
+        </div>
+        <div class="hh-card">
+          <span class="hh-day">Thursday – Flight Night</span>
+          <p class="hh-desc">Wine flight $20 • Beer flight $15 • Caipirinha flight $15 • App sampler $7</p>
+        </div>
+        <div class="hh-card">
+          <span class="hh-day">Friday – Feijoada Friday</span>
+          <p class="hh-desc">Sampler Platter $15 • Rail Mixes $5 • Feijoada $15</p>
+        </div>
+      </div>
+      <div style="margin-top: 2rem; text-align: center; position: relative; z-index: 1;">
+        <p style="color: var(--gold-premium); font-weight: 600; letter-spacing: 1px;">
+          Domestic $5 | Import $6 | Draft $6 | IPA $8 | Wine on Tap ½ off 5oz pours | Crush's $6
+        </p>
+      </div>
+    </aside>
+
+    <!-- Disclaimer - Estilo sutil -->
+    <div class="disclaimer" role="note">
+      <strong>Currently not offering filet mignon</strong>
+      <span>Due to meat plant shortages and price increases. We appreciate your patience as we continue to source only the best quality meats. Thank you.</span>
+    </div>
+
   </div>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer">
+    <div class="footer-logo">CS Brazilian Steakhouse</div>
+    <span class="obrigado">Obrigado!</span>
+    <p class="footer-address">600 Center Blvd S, Newark, DE 19702</p>
+    <p class="footer-hours">Wed–Thu: 5–9pm • Fri: 5–10pm • Sat: 11am–10pm • Sun: 1–8pm • Mon–Tue: Closed</p>
+    <p class="footer-legal">
+      *Consuming raw or undercooked meats, poultry, seafood, or eggs may increase your risk of foodborne illness.
+    </p>
+  </footer>
+
+  <!-- Floating Action Button - Solo visible al final -->
+  <button class="fab" id="fab" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Volver arriba">
+    ↑
+  </button>
 
   <script>
     (function() {
       "use strict";
 
-      const hero = document.getElementById('hero-section');
+      // Loading screen
+      window.addEventListener('load', function() {
+        setTimeout(() => {
+          document.getElementById('loader').classList.add('hidden');
+        }, 800);
+      });
 
-      function updateClipPath() {
-        if (!hero) return;
+      // Generate embers
+      const embersContainer = document.getElementById('embers');
+      for (let i = 0; i < 30; i++) {
+        const ember = document.createElement('div');
+        ember.className = 'ember';
+        ember.style.left = Math.random() * 100 + '%';
+        ember.style.animationDelay = Math.random() * 15 + 's';
+        ember.style.animationDuration = (10 + Math.random() * 10) + 's';
+        embersContainer.appendChild(ember);
+      }
 
-        // Posición y dimensiones del hero
-        const rect = hero.getBoundingClientRect();
-        const heroTop = rect.top + window.scrollY;  // offsetTop absoluto
-        const heroHeight = hero.offsetHeight;
-        const scrollY = window.scrollY;
+      // Sticky navigation
+      const navbar = document.getElementById('navbar');
+      let lastScroll = 0;
 
-        // Rango de desaparición: desde que el borde superior toca el tope del viewport
-        // hasta que el borde inferior alcanza el tope (hero completamente fuera)
-        const startDisappear = heroTop;
-        const endDisappear = heroTop + heroHeight;
+      window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        const heroHeight = document.getElementById('hero').offsetHeight;
 
-        // Progreso de desaparición (0 = inicio, 1 = completamente fuera)
-        let progress = (scrollY - startDisappear) / (endDisappear - startDisappear);
-        progress = Math.min(Math.max(progress, 0), 1); // clamp entre 0 y 1
-
-        // ----- CERRAR COMPLETAMENTE AL 50% DE DESAPARICIÓN -----
-        const closureThreshold = 0.5;
-
-        if (progress < closureThreshold) {
-          // Mapeamos el progreso de 0 a 1 en este tramo
-          const t = progress / closureThreshold; // 0 → 0, 0.5 → 1
-          // La curva crece hasta que las esquinas inferiores alcanzan el 0% (arriba)
-          // y el punto medio se mantiene en 100% (abajo). Así obtenemos un triángulo.
-          const curvePercent = t * 100; // de 0% a 100%
-
-          const clipPath = `polygon(
-            0% 0%,
-            100% 0%,
-            100% calc(100% - ${curvePercent}%),
-            50% 100%,
-            0% calc(100% - ${curvePercent}%)
-          )`;
-          hero.style.clipPath = clipPath;
+        if (currentScroll > heroHeight - 100) {
+          navbar.classList.add('visible');
         } else {
-          // Ya está completamente cerrado: triángulo simple (punta inferior)
-          hero.style.clipPath = `polygon(0% 0%, 100% 0%, 50% 100%)`;
+          navbar.classList.remove('visible');
         }
-      }
 
-      if (hero) {
-        window.addEventListener('scroll', updateClipPath);
-        window.addEventListener('resize', updateClipPath);
-        updateClipPath(); // inicial
-      }
+        lastScroll = currentScroll;
+      });
+
+      // FAB - Solo mostrar al llegar al final
+      const fab = document.getElementById('fab');
+      const footer = document.getElementById('footer');
+      
+      const fabObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            fab.classList.add('visible');
+          } else {
+            fab.classList.remove('visible');
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      });
+
+      fabObserver.observe(footer);
+
+      // Intersection Observer for sections
+      const sections = document.querySelectorAll('.menu-section');
+      const navLinks = document.querySelectorAll('.nav-links a');
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            
+            // Update active nav link
+            const id = entry.target.getAttribute('id');
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('data-section') === id) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach(section => observer.observe(section));
+
+      // Parallax effect for hero
+      const heroBg = document.querySelector('.hero-bg');
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        if (scrolled < window.innerHeight) {
+          heroBg.style.transform = `scale(1.1) translateY(${scrolled * 0.5}px)`;
+        }
+      });
+
+      // Card hover tilt effect (subtle)
+      document.querySelectorAll('.menu-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          const rotateX = (y - centerY) / 20;
+          const rotateY = (centerX - x) / 20;
+          
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+        });
+      });
+
+      // Smooth scroll for nav links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
     })();
   </script>
 </body>
