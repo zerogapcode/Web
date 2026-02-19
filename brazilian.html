@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   
   <title>CS Brazilian Steakhouse – Menú auténtico en Newark, DE</title>
   <meta name="description" content="Menú de churrasco brasileño en Newark, Delaware. Carnes a la parrilla, caipirinhas, feijoada y más. ¡Vive la experiencia CS!">
@@ -52,9 +52,11 @@
     body {
       background: var(--black-premium);
       font-family: var(--font-sans);
-      line-height: 1.6;
+      line-height: 1.5;
       color: var(--cream);
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     /* ===== EMBERS/FIRE BACKGROUND ANIMATION ===== */
@@ -114,85 +116,11 @@
       top: 0;
     }
 
-    /* ===== NAVIGATION ===== */
-    .nav-sticky {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(10, 10, 10, 0.95);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-      transform: translateY(-100%);
-      transition: transform 0.4s var(--transition-smooth);
-    }
-
-    .nav-sticky.visible {
-      transform: translateY(0);
-    }
-
-    .nav-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--gold-premium);
-      text-decoration: none;
-      letter-spacing: 2px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--cream);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      position: relative;
-      padding: 0.5rem 0;
-      transition: color 0.3s;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--green-brazil), var(--gold-premium));
-      transition: width 0.3s var(--transition-smooth);
-    }
-
-    .nav-links a:hover {
-      color: var(--gold-premium);
-    }
-
-    .nav-links a:hover::after,
-    .nav-links a.active::after {
-      width: 100%;
-    }
-
     /* ===== HERO SECTION ===== */
     .hero {
       position: relative;
       height: 100vh;
-      min-height: 700px;
+      min-height: 600px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -239,7 +167,7 @@
     }
 
     .hero-logo {
-      max-width: 600px;
+      max-width: 500px;
       width: 90%;
       height: auto;
       filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
@@ -249,43 +177,19 @@
 
     .hero-subtitle {
       font-family: var(--font-display);
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: var(--gold-premium);
-      letter-spacing: 4px;
+      letter-spacing: 3px;
       text-transform: uppercase;
       margin-bottom: 1rem;
       animation: fadeInUp 1s ease-out 0.2s both;
     }
 
     .hero-location {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: rgba(255,255,255,0.7);
       letter-spacing: 2px;
       animation: fadeInUp 1s ease-out 0.4s both;
-    }
-
-    .scroll-indicator {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--gold-premium);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      animation: bounce 2s infinite;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-      40% { transform: translateX(-50%) translateY(-10px); }
-      60% { transform: translateX(-50%) translateY(-5px); }
     }
 
     @keyframes fadeInUp {
@@ -304,16 +208,16 @@
       position: relative;
       z-index: 1;
       max-width: 1200px;
-      margin: -100px auto 0;
+      margin: -80px auto 0;
       background: linear-gradient(180deg, var(--charcoal) 0%, var(--black-premium) 100%);
       border-radius: var(--radius-card) var(--radius-card) 0 0;
       box-shadow: 0 -20px 60px rgba(0,0,0,0.5);
-      padding: 4rem 2rem 2rem;
+      padding: 3rem 1.5rem 2rem;
     }
 
     /* ===== SECTION HEADERS ===== */
     .menu-section {
-      margin-bottom: 4rem;
+      margin-bottom: 3rem;
       opacity: 0;
       transform: translateY(30px);
       transition: all 0.6s var(--transition-smooth);
@@ -326,7 +230,7 @@
 
     .section-header {
       text-align: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       position: relative;
     }
 
@@ -338,28 +242,28 @@
 
     h2 {
       font-family: var(--font-display);
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 600;
       color: var(--gold-premium);
       margin-bottom: 0.5rem;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       position: relative;
       display: inline-block;
     }
 
     .section-subtitle {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       color: rgba(245, 240, 232, 0.6);
       text-transform: uppercase;
-      letter-spacing: 3px;
-      margin-top: 1rem;
+      letter-spacing: 2px;
+      margin-top: 0.5rem;
     }
 
     /* ===== MENU GRIDS ===== */
     .items-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
       list-style: none;
       padding: 0;
       margin: 0;
@@ -367,8 +271,8 @@
 
     .three-col-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.8rem;
       list-style: none;
       padding: 0;
       margin: 0;
@@ -377,7 +281,7 @@
     .two-col-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
+      gap: 1.5rem;
       list-style: none;
       padding: 0;
       margin: 0;
@@ -388,7 +292,7 @@
       background: linear-gradient(145deg, rgba(45,45,45,0.8) 0%, rgba(26,26,26,0.9) 100%);
       border: 1px solid rgba(212, 175, 55, 0.1);
       border-radius: var(--radius-soft);
-      padding: 1.5rem;
+      padding: 1.2rem;
       position: relative;
       overflow: hidden;
       transition: all 0.4s var(--transition-smooth);
@@ -423,28 +327,28 @@
       margin-bottom: 0.5rem;
       position: relative;
       z-index: 1;
+      gap: 0.5rem;
     }
 
     .item-name {
       font-family: var(--font-display);
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 600;
       color: var(--cream);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
     }
 
     .item-price {
       font-family: var(--font-display);
       font-weight: 700;
       color: var(--gold-premium);
-      font-size: 1.1rem;
+      font-size: 1rem;
       white-space: nowrap;
-      margin-left: 1rem;
     }
 
     .item-desc {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: rgba(245, 240, 232, 0.7);
       line-height: 1.5;
       position: relative;
@@ -459,7 +363,7 @@
     .item-note {
       display: inline-block;
       margin-top: 0.5rem;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--gold-premium);
       font-style: italic;
     }
@@ -469,9 +373,9 @@
       align-items: center;
       gap: 0.5rem;
       background: rgba(212, 175, 55, 0.1);
-      padding: 0.2rem 0.8rem;
+      padding: 0.2rem 0.6rem;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       margin-left: 0.5rem;
     }
 
@@ -486,15 +390,15 @@
     .featured-card::after {
       content: '★ DESTACADO';
       position: absolute;
-      top: 1rem;
-      right: 1rem;
+      top: 0.8rem;
+      right: 0.8rem;
       background: var(--green-brazil);
       color: white;
-      padding: 0.3rem 0.8rem;
+      padding: 0.2rem 0.6rem;
       border-radius: 20px;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
     }
 
     @media (max-width: 768px) {
@@ -506,10 +410,10 @@
     /* ===== SUB-SECTIONS ===== */
     .subsection-title {
       font-family: var(--font-display);
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       color: var(--green-brazil);
       margin: 2rem 0 1rem;
-      padding-left: 1rem;
+      padding-left: 0.8rem;
       border-left: 3px solid var(--gold-premium);
     }
 
@@ -518,11 +422,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.8rem 1rem;
+      padding: 0.6rem 0.8rem;
       background: rgba(45,45,45,0.5);
       border-radius: 8px;
       border: 1px solid rgba(255,255,255,0.05);
       transition: all 0.3s;
+      font-size: 0.9rem;
     }
 
     .spirit-card:hover {
@@ -547,8 +452,8 @@
       background: linear-gradient(135deg, rgba(0, 156, 59, 0.1) 0%, rgba(196, 30, 58, 0.05) 100%);
       border: 2px solid var(--green-brazil);
       border-radius: var(--radius-card);
-      padding: 2.5rem;
-      margin: 4rem 0;
+      padding: 1.8rem;
+      margin: 3rem 0;
       position: relative;
       overflow: hidden;
     }
@@ -573,20 +478,21 @@
       color: var(--green-brazil);
       position: relative;
       z-index: 1;
+      font-size: 1.5rem;
     }
 
     .hh-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
       position: relative;
       z-index: 1;
     }
 
     .hh-card {
       background: rgba(0,0,0,0.3);
-      padding: 1.5rem;
+      padding: 1.2rem;
       border-radius: var(--radius-soft);
       border: 1px solid rgba(255,255,255,0.1);
       transition: all 0.3s;
@@ -602,13 +508,13 @@
       font-family: var(--font-display);
       font-weight: 700;
       color: var(--gold-premium);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       display: block;
       margin-bottom: 0.5rem;
     }
 
     .hh-desc {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       color: rgba(245, 240, 232, 0.8);
       line-height: 1.4;
     }
@@ -618,19 +524,19 @@
       margin-top: 0.5rem;
       background: var(--red-accent);
       color: white;
-      padding: 0.2rem 0.6rem;
+      padding: 0.2rem 0.5rem;
       border-radius: 4px;
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
     }
 
-    /* ===== DISCLAIMER - ESTILO SUTIL ===== */
+    /* ===== DISCLAIMER ===== */
     .disclaimer {
       background: rgba(45, 45, 45, 0.5);
       border: 1px solid rgba(212, 175, 55, 0.2);
       border-radius: var(--radius-soft);
-      padding: 1.5rem;
-      margin: 3rem 0;
+      padding: 1.2rem;
+      margin: 2.5rem 0;
       text-align: center;
       position: relative;
     }
@@ -641,18 +547,18 @@
       font-weight: 600;
       display: block;
       margin-bottom: 0.5rem;
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
 
     .disclaimer span {
       color: rgba(245, 240, 232, 0.7);
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 
     /* ===== FOOTER ===== */
     .footer {
-      margin-top: 4rem;
-      padding: 3rem 2rem;
+      margin-top: 3rem;
+      padding: 2rem 1.5rem;
       text-align: center;
       background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 100%);
       border-top: 1px solid rgba(212, 175, 55, 0.2);
@@ -660,14 +566,14 @@
 
     .footer-logo {
       font-family: var(--font-display);
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       color: var(--gold-premium);
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
     }
 
     .obrigado {
       font-family: var(--font-display);
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 700;
       background: linear-gradient(90deg, var(--green-brazil), var(--gold-premium), var(--green-brazil));
       background-size: 200% auto;
@@ -675,7 +581,7 @@
       -webkit-text-fill-color: transparent;
       animation: shine 3s linear infinite;
       display: block;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
     }
 
     @keyframes shine {
@@ -683,38 +589,38 @@
     }
 
     .footer-address {
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: rgba(245, 240, 232, 0.8);
       margin-bottom: 0.5rem;
     }
 
     .footer-hours {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       color: rgba(245, 240, 232, 0.6);
       margin-bottom: 1rem;
     }
 
     .footer-legal {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       color: rgba(245, 240, 232, 0.4);
       max-width: 600px;
       margin: 0 auto;
     }
 
-    /* ===== FLOATING ACTION BUTTON - SOLO AL FINAL ===== */
+    /* ===== FLOATING ACTION BUTTON ===== */
     .fab {
       position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      width: 60px;
-      height: 60px;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 50px;
+      height: 50px;
       background: linear-gradient(135deg, var(--green-brazil) 0%, var(--green-dark) 100%);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       box-shadow: 0 10px 30px rgba(0, 156, 59, 0.4);
       cursor: pointer;
       z-index: 99;
@@ -733,14 +639,13 @@
 
     .fab:hover {
       transform: scale(1.1) rotate(90deg);
-      box-shadow: 0 15px 40px rgba(0, 156, 59, 0.6);
     }
 
-    /* ===== SARA CHAT STYLES (SOBRIOS, ACORDES AL MENÚ) ===== */
+    /* ===== SARA CHAT STYLES ===== */
     .sara-button-container {
       position: fixed; 
-      bottom: 120px; 
-      right: 30px; 
+      bottom: 100px; 
+      right: 20px; 
       z-index: 10000;
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
@@ -750,13 +655,13 @@
     }
     
     .sara-float-btn {
-      --btn-bg: rgba(26, 26, 26, 0.8); /* fondo oscuro semitransparente */
+      --btn-bg: rgba(26, 26, 26, 0.9);
       
       position: relative;
-      height: 180px;
-      width: 180px;
+      height: 140px;
+      width: 140px;
       background: var(--btn-bg);
-      border: 3px solid var(--gold-premium); /* borde dorado */
+      border: 3px solid var(--gold-premium);
       border-radius: 50%;
       
       display: flex;
@@ -779,12 +684,9 @@
     }
     
     .sara-float-btn:hover {
-      transform: scale(1.15);
-      background: rgba(45, 45, 45, 0.9);
+      transform: scale(1.1);
+      background: rgba(45, 45, 45, 0.95);
       border-color: var(--gold-light);
-      box-shadow: 
-        0 15px 40px rgba(0, 0, 0, 0.6),
-        inset 0 0 30px rgba(212, 175, 55, 0.4);
     }
     
     .sara-icon-wrapper {
@@ -795,7 +697,7 @@
       height: 100%;
       border-radius: 50%;
       overflow: hidden;
-      padding: 12px;
+      padding: 10px;
     }
     
     .sara-icon-wrapper img {
@@ -803,8 +705,7 @@
       height: 100%;
       object-fit: contain;
       border-radius: 50%;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      transition: transform 0.4s;
     }
     
     .sara-float-btn:hover .sara-icon-wrapper img {
@@ -828,18 +729,18 @@
       100% { transform: scale(1.2); opacity: 0; }
     }
     
-    /* Ventana de chat - colores sobrios */
+    /* Ventana de chat */
     #sara-chat-window {
       position: fixed;
-      bottom: 220px;
-      right: 30px;
+      bottom: 190px;
+      right: 20px;
       width: 90%;
-      max-width: 675px;
-      height: 825px;
-      background: var(--charcoal); /* fondo oscuro */
-      border-radius: 25px;
+      max-width: 400px;
+      height: 550px;
+      background: var(--charcoal);
+      border-radius: 20px;
       box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
-      border: 3px solid var(--gold-premium); /* borde dorado */
+      border: 3px solid var(--gold-premium);
       z-index: 9999;
       display: none;
       flex-direction: column;
@@ -858,7 +759,7 @@
     }
     
     .sara-chat-header {
-      padding: 25px 30px;
+      padding: 18px 20px;
       background: var(--black-premium);
       border-bottom: 2px solid var(--gold-premium);
       color: var(--gold-premium);
@@ -867,22 +768,22 @@
       align-items: center;
       user-select: none;
       flex-shrink: 0;
-      cursor: move; /* indica que se puede arrastrar */
+      cursor: move;
     }
     
     .sara-chat-title {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: 30px;
+      font-size: 1.3rem;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 10px;
       color: var(--gold-premium);
     }
     
     .sara-chat-close {
-      width: 50px;
-      height: 50px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: rgba(212, 175, 55, 0.2);
       border: none;
@@ -891,29 +792,29 @@
       justify-content: center;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-size: 36px;
+      font-size: 28px;
       color: var(--gold-premium);
       font-weight: 300;
     }
     
     .sara-chat-close:hover {
       background: rgba(212, 175, 55, 0.4);
-      transform: scale(1.15);
+      transform: scale(1.1);
     }
     
     .sara-chat-body {
       flex: 1;
       overflow-y: auto;
-      padding: 30px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 15px;
       background: var(--charcoal-light);
     }
     
     .sara-message {
       display: flex;
-      gap: 15px;
+      gap: 10px;
       animation: messageSlideIn 0.3s ease;
     }
     
@@ -927,14 +828,14 @@
     }
     
     .sara-message-avatar {
-      width: 63px;
-      height: 63px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 24px;
+      font-size: 1.1rem;
       flex-shrink: 0;
       background: var(--black-premium);
       color: var(--gold-premium);
@@ -948,8 +849,8 @@
     }
     
     .sara-message-avatar img {
-      width: 90%;
-      height: 90%;
+      width: 85%;
+      height: 85%;
       object-fit: contain;
       border-radius: 50%;
     }
@@ -961,11 +862,11 @@
     }
     
     .sara-message-content {
-      max-width: 80%;
-      padding: 21px 27px;
-      border-radius: 25px;
-      line-height: 1.6;
-      font-size: 24px;
+      max-width: 75%;
+      padding: 14px 18px;
+      border-radius: 20px;
+      line-height: 1.5;
+      font-size: 0.95rem;
       white-space: pre-wrap;
       word-break: break-word;
       background: var(--black-premium);
@@ -987,12 +888,12 @@
     .sara-typing {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 5px;
     }
     
     .sara-typing-dot {
-      width: 12px;
-      height: 12px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background-color: var(--gold-premium);
       animation: saraTypingAnimation 1.4s infinite ease-in-out;
@@ -1008,10 +909,10 @@
     }
     
     .sara-chat-input-container {
-      padding: 25px 30px;
+      padding: 15px 20px;
       border-top: 2px solid var(--gold-premium);
       display: flex;
-      gap: 15px;
+      gap: 10px;
       align-items: flex-end;
       flex-shrink: 0;
       background: var(--black-premium);
@@ -1021,13 +922,13 @@
       flex: 1;
       background: var(--charcoal);
       border: 2px solid var(--gold-premium);
-      border-radius: 20px;
-      padding: 21px 27px;
+      border-radius: 18px;
+      padding: 12px 16px;
       color: var(--cream);
-      font-size: 24px;
+      font-size: 0.95rem;
       resize: none;
-      min-height: 75px;
-      max-height: 180px;
+      min-height: 45px;
+      max-height: 120px;
       transition: all 0.3s ease;
       font-family: var(--font-sans);
     }
@@ -1035,29 +936,29 @@
     .sara-chat-input:focus {
       outline: none;
       border-color: var(--gold-light);
-      box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.15);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
     }
     
     .sara-chat-send {
       background: var(--gold-premium);
       color: var(--black-premium);
       border: none;
-      border-radius: 20px;
-      width: 75px;
-      height: 75px;
+      border-radius: 18px;
+      width: 55px;
+      height: 55px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: all 0.3s ease;
       font-weight: 700;
-      font-size: 30px;
+      font-size: 1.5rem;
       flex-shrink: 0;
     }
     
     .sara-chat-send:hover {
       background: var(--gold-light);
-      transform: translateY(-3px) scale(1.05);
+      transform: translateY(-2px) scale(1.05);
     }
     
     .sara-chat-send:disabled {
@@ -1066,17 +967,17 @@
       transform: none;
     }
     
-    /* ===== ANUNCIO FLOTANTE PARA SARA (similar a casares.html) ===== */
+    /* ===== ANUNCIO FLOTANTE PARA SARA ===== */
     .sara-attention-indicator {
       position: fixed;
-      bottom: 280px; /* encima del botón */
+      bottom: 230px;
       right: 10px;
       z-index: 9998;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       animation: saraAttentionBounce 2s infinite ease-in-out;
-      width: 250px;
+      width: 200px;
       opacity: 1;
       transition: opacity 0.5s ease;
     }
@@ -1089,9 +990,9 @@
     .sara-attention-text {
       background: var(--charcoal);
       color: var(--gold-premium);
-      padding: 14px 20px;
+      padding: 12px 16px;
       border-radius: 16px;
-      font-size: 20px;
+      font-size: 0.9rem;
       font-weight: 900;
       box-shadow: 0 8px 25px rgba(0,0,0,0.5);
       border: 2px solid var(--gold-premium);
@@ -1104,15 +1005,12 @@
     }
     
     .sara-attention-finger {
-      font-size: 40px;
+      font-size: 30px;
       color: var(--gold-premium);
       text-shadow: 0 0 12px var(--gold-premium);
       animation: saraFingerPulse 1.5s infinite alternate;
-      position: relative;
-      margin-top: 0;
       filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
       align-self: center;
-      transform: none;
     }
     
     @keyframes saraAttentionBounce {
@@ -1125,130 +1023,229 @@
       100% { transform: scale(1.3); opacity: 1; }
     }
     
-    /* Ajustes responsive */
-    @media (max-width: 768px) {
-      .sara-button-container {
-        bottom: 100px;
-        right: 25px;
-      }
-      .sara-float-btn {
-        height: 160px;
-        width: 160px;
-      }
-      #sara-chat-window {
-        width: calc(100% - 30px);
-        right: 15px;
-        height: 70vh;
-        bottom: 180px;
-        max-width: none;
-      }
-      .sara-chat-header {
-        padding: 20px 25px;
-      }
-      .sara-chat-title {
-        font-size: 22px;
-      }
-      .sara-chat-close {
-        width: 40px;
-        height: 40px;
-        font-size: 28px;
-      }
-      .sara-chat-body {
-        padding: 20px;
-        gap: 15px;
-      }
-      .sara-message-avatar {
-        width: 50px;
-        height: 50px;
-        font-size: 18px;
-      }
-      .sara-message-content {
-        padding: 16px 20px;
-        font-size: 18px;
-        border-radius: 20px;
-      }
-      .sara-chat-input-container {
-        padding: 20px;
-      }
-      .sara-chat-input {
-        padding: 16px 20px;
-        font-size: 18px;
-        min-height: 60px;
-      }
-      .sara-chat-send {
-        width: 60px;
-        height: 60px;
-        font-size: 24px;
-      }
-      .sara-attention-indicator {
-        bottom: 240px;
-        right: 10px;
-        width: 220px;
-      }
-      .sara-attention-text {
-        font-size: 18px;
-        padding: 12px 16px;
-      }
-      .sara-attention-finger {
-        font-size: 36px;
-      }
+    /* ===== LOADING SCREEN ===== */
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--black-premium);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-logo {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: var(--gold-premium);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.95); }
     }
     
+    /* ===== RESPONSIVE EXTRA ===== */
     @media (max-width: 480px) {
+      .hero {
+        min-height: 500px;
+      }
+      .hero-logo {
+        max-width: 300px;
+      }
+      .hero-subtitle {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+      }
+      .hero-location {
+        font-size: 0.75rem;
+      }
+      
+      .menu-container {
+        margin-top: -50px;
+        padding: 2rem 1rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      .items-grid {
+        gap: 1rem;
+      }
+      
+      .menu-card {
+        padding: 1rem;
+      }
+      
+      .item-name {
+        font-size: 0.95rem;
+      }
+      
+      .item-price {
+        font-size: 0.95rem;
+      }
+      
+      .item-desc {
+        font-size: 0.8rem;
+      }
+      
+      .subsection-title {
+        font-size: 1.1rem;
+        margin: 1.5rem 0 0.8rem;
+        padding-left: 0.5rem;
+      }
+      
+      .two-col-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .spirit-card {
+        font-size: 0.85rem;
+      }
+      
+      .happy-hour {
+        padding: 1.2rem;
+      }
+      
+      .happy-hour h2 {
+        font-size: 1.3rem;
+      }
+      
+      .hh-grid {
+        gap: 0.8rem;
+      }
+      
+      .footer-logo {
+        font-size: 1.1rem;
+      }
+      .obrigado {
+        font-size: 1.5rem;
+      }
+      
       .sara-button-container {
         bottom: 80px;
-        right: 20px;
+        right: 15px;
       }
       .sara-float-btn {
-        height: 140px;
-        width: 140px;
+        height: 110px;
+        width: 110px;
       }
       #sara-chat-window {
-        bottom: 140px;
+        max-width: 320px;
+        height: 500px;
+        bottom: 150px;
+        right: 10px;
       }
       .sara-chat-title {
-        font-size: 18px;
+        font-size: 1.1rem;
       }
-      .sara-chat-close {
-        width: 35px;
-        height: 35px;
-        font-size: 24px;
+      .sara-chat-header {
+        padding: 12px 16px;
+      }
+      .sara-chat-body {
+        padding: 15px;
+        gap: 12px;
       }
       .sara-message-avatar {
-        width: 42px;
-        height: 42px;
-        font-size: 16px;
+        width: 38px;
+        height: 38px;
+        font-size: 0.9rem;
       }
       .sara-message-content {
-        padding: 14px 18px;
-        font-size: 16px;
+        padding: 10px 14px;
+        font-size: 0.85rem;
+      }
+      .sara-chat-input-container {
+        padding: 12px 16px;
       }
       .sara-chat-input {
-        padding: 14px 18px;
-        font-size: 16px;
+        padding: 10px 12px;
+        font-size: 0.85rem;
       }
       .sara-chat-send {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
+        width: 48px;
+        height: 48px;
+        font-size: 1.3rem;
       }
       .sara-attention-indicator {
-        bottom: 200px;
-        width: 180px;
+        bottom: 180px;
+        width: 160px;
       }
       .sara-attention-text {
-        font-size: 14px;
-        padding: 8px 12px;
+        font-size: 0.8rem;
+        padding: 10px 12px;
       }
       .sara-attention-finger {
-        font-size: 28px;
+        font-size: 24px;
+      }
+      .fab {
+        bottom: 1rem;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
       }
     }
     
     @media (max-width: 360px) {
+      .hero-logo {
+        max-width: 250px;
+      }
+      .hero-subtitle {
+        font-size: 0.8rem;
+      }
+      .hero-location {
+        font-size: 0.7rem;
+      }
+      
+      .menu-container {
+        padding: 1.5rem 0.8rem;
+      }
+      
+      h2 {
+        font-size: 1.3rem;
+      }
+      
+      .item-name, .item-price {
+        font-size: 0.9rem;
+      }
+      
+      .item-desc {
+        font-size: 0.75rem;
+      }
+      
+      .subsection-title {
+        font-size: 1rem;
+      }
+      
+      .spirit-card {
+        font-size: 0.8rem;
+      }
+      
+      .sara-float-btn {
+        height: 90px;
+        width: 90px;
+      }
+      .sara-button-container {
+        bottom: 70px;
+        right: 10px;
+      }
+      #sara-chat-window {
+        max-width: 280px;
+        height: 450px;
+      }
       .sara-attention-indicator {
-        bottom: 180px;
-        width: 160px;
+        bottom: 150px;
+        width: 140px;
       }
     }
   </style>
@@ -1266,20 +1263,6 @@
   <!-- Skip Link -->
   <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
-  <!-- Navigation -->
-  <nav class="nav-sticky" id="navbar">
-    <div class="nav-content">
-      <a href="#" class="nav-logo">CS STEAKHOUSE</a>
-      <ul class="nav-links">
-        <li><a href="#appetizers" data-section="appetizers">Appetizers</a></li>
-        <li><a href="#mains" data-section="mains">Mains</a></li>
-        <li><a href="#desserts" data-section="desserts">Desserts</a></li>
-        <li><a href="#drinks" data-section="drinks">Drinks</a></li>
-        <li><a href="#happy-hour" data-section="happy-hour">Happy Hour</a></li>
-      </ul>
-    </div>
-  </nav>
-
   <!-- Hero Section -->
   <section class="hero" id="hero">
     <div class="hero-bg"></div>
@@ -1289,10 +1272,6 @@
       <p class="hero-subtitle">Authentic Brazilian Churrasco</p>
       <p class="hero-location">Newark, Delaware</p>
     </div>
-    <a href="#main-content" class="scroll-indicator">
-      <span>Explore Menu</span>
-      <span>↓</span>
-    </a>
   </section>
 
   <!-- Main Menu Content -->
@@ -1853,7 +1832,7 @@
     </div>
   </div>
 
-  <!-- Ventana de chat de Sara (sin placeholder) -->
+  <!-- Ventana de chat de Sara -->
   <div id="sara-chat-window">
     <div class="sara-chat-header" id="sara-chat-header">
       <div class="sara-chat-title">
@@ -1879,7 +1858,7 @@
     </p>
   </footer>
 
-  <!-- Floating Action Button - Solo visible al final -->
+  <!-- Floating Action Button -->
   <button class="fab" id="fab" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Volver arriba">
     ↑
   </button>
@@ -1897,7 +1876,7 @@
 
       // Generate embers
       const embersContainer = document.getElementById('embers');
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 20; i++) {
         const ember = document.createElement('div');
         ember.className = 'ember';
         ember.style.left = Math.random() * 100 + '%';
@@ -1906,24 +1885,7 @@
         embersContainer.appendChild(ember);
       }
 
-      // Sticky navigation
-      const navbar = document.getElementById('navbar');
-      let lastScroll = 0;
-
-      window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        const heroHeight = document.getElementById('hero').offsetHeight;
-
-        if (currentScroll > heroHeight - 100) {
-          navbar.classList.add('visible');
-        } else {
-          navbar.classList.remove('visible');
-        }
-
-        lastScroll = currentScroll;
-      });
-
-      // FAB - Solo mostrar al llegar al final
+      // FAB - Mostrar al llegar al final
       const fab = document.getElementById('fab');
       const footer = document.getElementById('footer');
       
@@ -1945,8 +1907,6 @@
 
       // Intersection Observer for sections
       const sections = document.querySelectorAll('.menu-section');
-      const navLinks = document.querySelectorAll('.nav-links a');
-
       const observerOptions = {
         root: null,
         rootMargin: '-20% 0px -60% 0px',
@@ -1957,15 +1917,6 @@
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            
-            // Update active nav link
-            const id = entry.target.getAttribute('id');
-            navLinks.forEach(link => {
-              link.classList.remove('active');
-              if (link.getAttribute('data-section') === id) {
-                link.classList.add('active');
-              }
-            });
           }
         });
       }, observerOptions);
@@ -1979,41 +1930,6 @@
         if (scrolled < window.innerHeight) {
           heroBg.style.transform = `scale(1.1) translateY(${scrolled * 0.5}px)`;
         }
-      });
-
-      // Card hover tilt effect (subtle)
-      document.querySelectorAll('.menu-card').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          
-          const rotateX = (y - centerY) / 20;
-          const rotateY = (centerX - x) / 20;
-          
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-        });
-        
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-        });
-      });
-
-      // Smooth scroll for nav links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
-        });
       });
 
       // ==================== SARA CHAT ====================
@@ -2093,7 +2009,7 @@
         offsetX = e.clientX - saraChatWindow.getBoundingClientRect().left;
         offsetY = e.clientY - saraChatWindow.getBoundingClientRect().top;
         saraChatWindow.style.cursor = 'grabbing';
-        saraChatWindow.style.transition = 'none'; // quitar transición mientras se arrastra
+        saraChatWindow.style.transition = 'none';
       });
       
       document.addEventListener('mousemove', (e) => {
@@ -2101,7 +2017,6 @@
           const newLeft = e.clientX - offsetX;
           const newTop = e.clientY - offsetY;
           
-          // Limitar dentro de la ventana (opcional)
           const maxX = window.innerWidth - saraChatWindow.offsetWidth;
           const maxY = window.innerHeight - saraChatWindow.offsetHeight;
           
@@ -2116,7 +2031,7 @@
         if (isDragging) {
           isDragging = false;
           saraChatWindow.style.cursor = 'default';
-          saraChatWindow.style.transition = ''; // restaurar transición
+          saraChatWindow.style.transition = '';
         }
       });
       
