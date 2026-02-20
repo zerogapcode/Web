@@ -4,216 +4,285 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GameStore Pro · Juegos digitales</title>
-  <!-- Favicon transparente (elimina cualquier imagen previa) -->
-  <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <!-- Swiper CSS (para slider) -->
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <style>
-    /* ===== ESTILOS ORIGINALES DE GAMESTORE PRO (con títulos y tarjetas centradas) ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --bg: #080b12;
+      --bg2: #0d1120;
+      --surface: #111827;
+      --surface2: #1a2236;
+      --accent: #00f5a0;
+      --accent2: #7c3aed;
+      --accent3: #f59e0b;
+      --neon-blue: #0ea5e9;
+      --text: #e2e8f0;
+      --text-muted: #64748b;
+      --border: rgba(255,255,255,0.06);
+      --card-hover: rgba(0,245,160,0.04);
     }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Montserrat', sans-serif;
-      background-color: #f5f7fa;
-      color: #1e293b;
-      line-height: 1.5;
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    .container {
-      max-width: 1280px;
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.3;
+    }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+    .page-frame {
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 0 20px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 0 80px rgba(0,0,0,0.5);
+      min-height: 100vh;
+      background: var(--bg);
+      overflow: hidden;
     }
 
-    .flex {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr); /* Fijo 4 columnas en escritorio */
-      gap: 24px;
-    }
-
-    /* Responsive: menos columnas en pantallas pequeñas */
-    @media (max-width: 1024px) {
-      .grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
+    /* ===== TOPBAR ===== */
     .topbar {
-      background-color: #0f172a;
-      color: #cbd5e1;
-      padding: 8px 0;
-      font-size: 13px;
+      background: linear-gradient(90deg, #00f5a020, transparent, #7c3aed20);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+      font-size: 12px;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 0.5px;
       font-weight: 500;
+      color: var(--text-muted);
     }
 
-    .topbar .container {
+    .topbar .inner {
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
+
+    .topbar-left { display: flex; align-items: center; gap: 20px; }
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
 
     .topbar a {
-      color: #cbd5e1;
+      color: var(--text-muted);
       text-decoration: none;
-      margin-right: 16px;
       transition: color 0.2s;
     }
 
-    .topbar a:hover {
-      color: #ffcc00;
+    .topbar a:hover { color: var(--accent); }
+
+    .topbar-badge {
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 1px;
     }
 
-    .social-icons svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-      margin-right: 8px;
-    }
+    .social-icon { width: 16px; height: 16px; fill: currentColor; }
 
+    /* ===== HEADER ===== */
     .main-header {
-      background-color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      padding: 16px 0;
       position: sticky;
       top: 0;
       z-index: 100;
+      background: rgba(8,11,18,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
     }
 
-    .logo h1 {
-      font-size: 28px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .header-inner {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 16px 0;
     }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg { width: 22px; height: 22px; fill: #000; }
+
+    .logo-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .logo-text span { color: var(--accent); }
 
     .search-bar {
       flex: 1;
-      max-width: 500px;
-      margin: 0 20px;
+      max-width: 480px;
       display: flex;
-      background: #f1f5f9;
-      border-radius: 40px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
       overflow: hidden;
-      border: 1px solid #e2e8f0;
+      transition: border-color 0.2s;
+    }
+
+    .search-bar:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,245,160,0.1);
     }
 
     .search-bar input {
       flex: 1;
       border: none;
-      padding: 12px 20px;
-      font-size: 15px;
+      padding: 12px 16px;
+      font-size: 14px;
       background: transparent;
       outline: none;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
     }
+
+    .search-bar input::placeholder { color: var(--text-muted); }
 
     .search-bar button {
-      background: #3b82f6;
+      background: var(--accent);
       border: none;
-      padding: 0 20px;
+      padding: 0 18px;
       cursor: pointer;
-      color: white;
+      color: #000;
       transition: background 0.2s;
-    }
-
-    .search-bar button:hover {
-      background: #2563eb;
-    }
-
-    .header-icons {
       display: flex;
-      gap: 24px;
+      align-items: center;
     }
 
-    .icon-item {
+    .search-bar button:hover { background: #00d488; }
+    .search-bar button svg { width: 18px; height: 18px; fill: #000; }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+
+    .icon-btn {
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 3px;
       cursor: pointer;
       position: relative;
+      padding: 8px 12px;
+      border-radius: 10px;
+      transition: background 0.2s;
+      background: transparent;
+      border: none;
+      color: var(--text);
     }
 
-    .icon-item svg {
-      width: 24px;
-      height: 24px;
-      fill: #334155;
-    }
-
-    .icon-item span {
-      font-size: 12px;
-      margin-top: 4px;
-      color: #475569;
-    }
+    .icon-btn:hover { background: var(--surface); }
+    .icon-btn svg { width: 22px; height: 22px; fill: currentColor; }
+    .icon-btn span { font-size: 10px; color: var(--text-muted); font-family: 'Rajdhani'; letter-spacing: 0.5px; }
 
     .cart-badge {
       position: absolute;
-      top: -6px;
-      right: -8px;
+      top: 4px;
+      right: 6px;
       background: #ef4444;
       color: white;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 20px;
-    }
-
-    .nav-bar {
-      background: #ffffff;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .nav-menu {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
       display: flex;
-      list-style: none;
-      gap: 32px;
-      padding: 12px 0;
+      align-items: center;
+      justify-content: center;
     }
 
-    .nav-menu a {
+    /* ===== NAV ===== */
+    .nav-bar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-inner::-webkit-scrollbar { display: none; }
+
+    .nav-link {
       text-decoration: none;
+      font-family: 'Rajdhani', sans-serif;
       font-weight: 600;
-      color: #1e293b;
-      transition: color 0.2s;
-      font-size: 15px;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      padding: 14px 16px;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .nav-menu a:hover {
-      color: #3b82f6;
+    .nav-link:hover, .nav-link.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
     }
+
+    .nav-link .platform-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    /* ===== SWIPER ===== */
+    .swiper-wrapper-outer { padding: 24px 0; }
 
     .swiper {
       width: 100%;
-      height: 400px;
-      margin-top: 20px;
+      height: 420px;
       border-radius: 20px;
       overflow: hidden;
+      border: 1px solid var(--border);
     }
 
     .swiper-slide {
@@ -222,651 +291,916 @@
       background-position: center;
     }
 
-    .slide-content {
+    .slide-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 100%);
+      background: linear-gradient(105deg, rgba(8,11,18,0.9) 0%, rgba(8,11,18,0.5) 50%, rgba(8,11,18,0.1) 100%);
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 60px;
-      color: white;
+      justify-content: flex-end;
+      padding: 48px 52px;
     }
 
-    .slide-content h2 {
-      font-size: 48px;
-      font-weight: 800;
-      margin-bottom: 16px;
-      max-width: 600px;
-    }
-
-    .slide-content p {
-      font-size: 18px;
-      max-width: 500px;
-      margin-bottom: 24px;
-      opacity: 0.9;
-    }
-
-    .btn {
+    .slide-tag {
       display: inline-block;
-      background: #3b82f6;
-      color: white;
-      padding: 12px 32px;
-      border-radius: 40px;
+      font-family: 'Rajdhani', sans-serif;
       font-weight: 700;
-      text-decoration: none;
-      transition: background 0.2s;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 14px;
       width: fit-content;
+      text-transform: uppercase;
     }
 
-    .btn:hover {
-      background: #2563eb;
+    .slide-overlay h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 12px;
+      max-width: 560px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
     }
 
-    .section {
-      margin: 60px 0;
+    .slide-overlay p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.75);
+      max-width: 440px;
+      margin-bottom: 24px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #000;
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      width: fit-content;
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover { background: #00d488; transform: translateY(-1px); box-shadow: 0 8px 30px rgba(0,245,160,0.3); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text);
+      padding: 11px 28px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    .slide-btns { display: flex; gap: 12px; align-items: center; }
+
+    /* Swiper custom colors */
+    .swiper-button-next, .swiper-button-prev {
+      color: var(--accent) !important;
+      background: rgba(8,11,18,0.7);
+      width: 44px !important;
+      height: 44px !important;
+      border-radius: 50%;
+      backdrop-filter: blur(10px);
+    }
+
+    .swiper-button-next::after, .swiper-button-prev::after { font-size: 16px !important; font-weight: 900; }
+
+    .swiper-pagination-bullet { background: var(--text-muted) !important; }
+    .swiper-pagination-bullet-active { background: var(--accent) !important; }
+
+    /* ===== SECTIONS ===== */
+    .section { margin: 56px 0; }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 28px;
     }
 
     .section-title {
-      font-size: 32px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 30px;
       font-weight: 800;
-      margin-bottom: 32px;
-      position: relative;
-      text-align: center; /* Centramos el texto */
+      letter-spacing: 0.5px;
     }
 
-    .section-title::after {
-      content: '';
-      display: block;
-      width: 80px;
-      height: 4px;
-      background: #3b82f6;
-      margin-top: 8px;
-      margin-left: auto;   /* Centramos la línea */
-      margin-right: auto;
+    .section-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .section-link {
+      margin-left: auto;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+
+    .section-link:hover { color: var(--accent); }
+
+    /* ===== PRODUCT GRID ===== */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 1100px) {
+      .products-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .products-grid { grid-template-columns: 1fr; }
     }
 
     .product-card {
-      background: white;
+      background: var(--surface);
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      transition: transform 0.25s, box-shadow 0.25s;
+      border: 1px solid var(--border);
       text-decoration: none;
       color: inherit;
       display: block;
-      width: 100%; /* Ocupa todo el ancho de la celda */
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: var(--card-hover);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 1;
     }
 
     .product-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+      transform: translateY(-5px);
+      border-color: rgba(0,245,160,0.25);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0,245,160,0.05);
     }
 
-    .product-image {
-      height: 240px;
+    .product-card:hover::before { opacity: 1; }
+
+    .product-img {
+      width: 100%;
+      height: 220px;
       background-size: cover;
       background-position: center;
       position: relative;
+    }
+
+    .product-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(17,24,39,0.8) 0%, transparent 50%);
     }
 
     .badge {
       position: absolute;
       top: 12px;
       left: 12px;
-      background: #ef4444;
-      color: white;
+      z-index: 2;
+      font-family: 'Rajdhani', sans-serif;
       font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 30px;
-      font-size: 13px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 6px;
     }
 
-    .badge.offer {
-      background: #22c55e;
-    }
+    .badge-sale { background: #ef4444; color: #fff; }
+    .badge-new { background: var(--accent); color: #000; }
+    .badge-hot { background: var(--accent3); color: #000; }
 
-    .product-info {
-      padding: 20px;
-      text-align: center; /* Centramos el contenido de la tarjeta */
+    .product-info { padding: 16px; }
+
+    .product-platform {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
     }
 
     .product-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 19px;
       font-weight: 700;
-      font-size: 18px;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+      line-height: 1.2;
     }
 
     .product-price {
       display: flex;
       align-items: center;
-      justify-content: center; /* Centramos los precios */
-      gap: 12px;
+      gap: 10px;
     }
 
-    .current-price {
-      font-size: 22px;
+    .price-current {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px;
       font-weight: 800;
-      color: #0f172a;
+      color: var(--accent);
     }
 
-    .old-price {
-      font-size: 16px;
-      color: #64748b;
+    .price-old {
+      font-size: 14px;
+      color: var(--text-muted);
       text-decoration: line-through;
     }
 
-    .banner {
-      background: linear-gradient(120deg, #1e293b, #0f172a);
-      border-radius: 24px;
-      padding: 48px;
-      color: white;
+    .product-add {
+      margin-left: auto;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .product-add:hover { background: var(--accent); color: #000; }
+    .product-add svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* ===== BANNER ===== */
+    .promo-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 48px;
+      margin: 56px 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 24px;
       flex-wrap: wrap;
-      margin: 60px 0;
+      position: relative;
+      overflow: hidden;
     }
 
-    .banner h3 {
-      font-size: 32px;
+    .promo-banner::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: -60px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(0,245,160,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .promo-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      right: 200px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .banner-label {
+      font-family: 'Rajdhani', sans-serif;
       font-weight: 700;
-      max-width: 500px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 10px;
     }
 
-    .banner p {
+    .banner-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      max-width: 480px;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .banner-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      max-width: 420px;
+    }
+
+    .banner-action { position: relative; z-index: 1; }
+
+    .btn-gold {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--accent3), #f97316);
+      color: #000;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-family: 'Barlow Condensed', sans-serif;
       font-size: 18px;
-      opacity: 0.8;
-      margin: 16px 0;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(245,158,11,0.25);
     }
 
-    .banner .btn {
-      background: #ffcc00;
-      color: #0f172a;
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,158,11,0.4); }
+
+    /* ===== FLASH TIMER ===== */
+    .flash-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 28px;
     }
 
-    .banner .btn:hover {
-      background: #e6b800;
+    .countdown {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 10px;
+      padding: 6px 14px;
     }
 
+    .countdown-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .countdown-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      color: #ef4444;
+    }
+
+    .countdown-timer {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #ef4444;
+      letter-spacing: 2px;
+    }
+
+    /* ===== FOOTER ===== */
     footer {
-      background: #0f172a;
-      color: #cbd5e1;
-      padding: 60px 0 30px;
-      margin-top: 60px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 60px 0 32px;
+      margin-top: 80px;
     }
 
     .footer-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 40px;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
     }
 
-    .footer-col h4 {
-      color: white;
-      margin-bottom: 20px;
-      font-size: 18px;
+    .footer-brand .logo { margin-bottom: 16px; }
+
+    .footer-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 280px;
+      margin-bottom: 24px;
     }
 
-    .footer-col ul {
-      list-style: none;
-    }
+    .social-row { display: flex; gap: 10px; }
 
-    .footer-col li {
-      margin-bottom: 10px;
-    }
-
-    .footer-col a {
-      color: #cbd5e1;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-col a:hover {
-      color: #ffcc00;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .social-links svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
-    }
-
-    .copyright {
-      text-align: center;
-      padding-top: 40px;
-      margin-top: 40px;
-      border-top: 1px solid #334155;
-      font-size: 14px;
-    }
-
-    @media (max-width: 768px) {
-      .topbar .container {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-      }
-      .main-header .flex {
-        flex-direction: column;
-        gap: 16px;
-      }
-      .search-bar {
-        max-width: 100%;
-        margin: 0;
-      }
-      .nav-menu {
-        flex-wrap: wrap;
-        gap: 16px;
-      }
-      .slide-content h2 {
-        font-size: 32px;
-      }
-      .swiper {
-        height: 300px;
-      }
-      .banner {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-      }
-    }
-
-    /* ===== ESTILOS DEL ASISTENTE GAMER (fusionados) ===== */
-    .game-float-btn {
-      position: fixed;
-      bottom: 35px;
-      right: 35px;
-      width: 85px;
-      height: 85px;
-      background: radial-gradient(circle at 30% 30%, #00d4ff, #0066ff);
-      border: 3px solid #00ffff;
-      border-radius: 50%;
-      box-shadow: 0 0 30px #00ffff, 0 0 60px #0066ff, inset 0 0 15px white;
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.2s;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .social-btn:hover { background: var(--surface2); color: var(--accent); border-color: rgba(0,245,160,0.3); }
+    .social-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+    .footer-col h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 18px;
+      color: var(--text);
+    }
+
+    .footer-col ul { list-style: none; }
+
+    .footer-col li { margin-bottom: 10px; }
+
+    .footer-col a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover { color: var(--accent); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .copyright {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 0.3px;
+    }
+
+    .footer-badges { display: flex; gap: 8px; }
+
+    .footer-badge {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    /* ===== FLOATING AI BUTTON ===== */
+    .game-float-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--accent), #00c97a);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
       z-index: 10000;
-      animation: floatPulse 2.5s infinite ease-in-out;
+      box-shadow: 0 8px 32px rgba(0,245,160,0.35);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: none;
     }
 
     .game-float-btn:hover {
-      transform: scale(1.15) rotate(-5deg);
-      box-shadow: 0 0 50px cyan, 0 0 90px blue, inset 0 0 20px white;
+      transform: scale(1.1) rotate(-5deg);
+      box-shadow: 0 12px 40px rgba(0,245,160,0.5);
     }
 
-    @keyframes floatPulse {
-      0% { box-shadow: 0 0 30px #00ffff, 0 0 60px #0066ff; }
-      50% { box-shadow: 0 0 50px cyan, 0 0 90px #0044ff; }
-      100% { box-shadow: 0 0 30px #00ffff, 0 0 60px #0066ff; }
+    .game-float-btn svg { width: 28px; height: 28px; fill: #000; }
+
+    /* Pulse ring */
+    .game-float-btn::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 20px;
+      border: 2px solid rgba(0,245,160,0.3);
+      animation: ring-pulse 2s infinite;
     }
 
-    .game-float-btn svg {
-      width: 55px;
-      height: 55px;
-      filter: drop-shadow(0 0 8px white);
+    @keyframes ring-pulse {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.4); opacity: 0; }
     }
 
+    /* ===== CHAT WINDOW ===== */
     .game-chat-window {
       position: fixed;
-      bottom: 140px;
-      right: 35px;
-      width: 400px;
-      height: 600px;
-      background: #1a1a2e;
-      border: 3px solid #00ffff;
-      border-radius: 30px;
-      box-shadow: 0 0 50px #00ffff66, 0 0 100px #0000ff66, inset 0 0 10px #00ffff33;
+      bottom: 108px;
+      right: 32px;
+      width: 380px;
+      height: 560px;
+      background: var(--bg2);
+      border: 1px solid rgba(0,245,160,0.2);
+      border-radius: 20px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 40px rgba(0,245,160,0.08);
       display: none;
       flex-direction: column;
       overflow: hidden;
       z-index: 9999;
-      backdrop-filter: blur(5px);
-      transition: all 0.3s ease;
     }
 
     .game-chat-window.active {
       display: flex;
-      animation: slideIn 0.3s ease-out;
+      animation: chatSlideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    @keyframes chatSlideIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.96); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .game-chat-header {
-      background: #16213e;
-      padding: 20px 25px;
-      border-bottom: 2px solid #00ffff;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      color: white;
-      font-weight: bold;
+      justify-content: space-between;
+      background: var(--surface);
     }
 
     .game-chat-title {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 1.5rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px cyan;
+      gap: 10px;
     }
 
-    .game-chat-title svg {
-      width: 32px;
-      height: 32px;
-      fill: #00ffff;
+    .chat-avatar {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent), #00c97a);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chat-avatar svg { width: 20px; height: 20px; fill: #000; }
+
+    .chat-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .chat-status {
+      font-size: 11px;
+      color: var(--accent);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chat-status::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
     }
 
     .game-chat-close {
-      width: 40px;
-      height: 40px;
-      background: #0f3460;
-      border: 2px solid #00ffff;
-      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 28px;
-      color: white;
+      font-size: 16px;
+      color: var(--text-muted);
       transition: all 0.2s;
     }
 
-    .game-chat-close:hover {
-      background: #e94560;
-      border-color: #e94560;
-      transform: scale(1.1);
-      box-shadow: 0 0 20px #e94560;
-    }
+    .game-chat-close:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3); color: #ef4444; }
 
     .game-chat-body {
       flex: 1;
-      padding: 20px;
+      padding: 16px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      background: #1a1a2e;
+      gap: 12px;
       scrollbar-width: thin;
-      scrollbar-color: #00ffff #0f0f1a;
+      scrollbar-color: var(--surface2) transparent;
     }
 
-    .game-chat-body::-webkit-scrollbar {
-      width: 8px;
-    }
-    .game-chat-body::-webkit-scrollbar-track {
-      background: #0f0f1a;
-    }
-    .game-chat-body::-webkit-scrollbar-thumb {
-      background: #00ffff;
-      border-radius: 10px;
-      box-shadow: inset 0 0 5px black;
-    }
+    .game-chat-body::-webkit-scrollbar { width: 4px; }
+    .game-chat-body::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 10px; }
 
     .game-message {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: flex-end;
       animation: messagePop 0.2s ease;
     }
 
     @keyframes messagePop {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .game-message.user {
-      justify-content: flex-end;
-    }
+    .game-message.user { justify-content: flex-end; }
 
     .game-avatar {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: #0f3460;
-      border: 2px solid #00ffff;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), #00c97a);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 0 15px cyan;
     }
 
-    .ai .game-avatar {
-      background: #16213e;
-      border-color: #ff00ff;
-      box-shadow: 0 0 15px magenta;
-    }
+    .user .game-avatar { background: var(--accent2); }
 
-    .game-avatar svg {
-      width: 28px;
-      height: 28px;
-      fill: white;
-    }
+    .game-avatar svg { width: 16px; height: 16px; fill: #000; }
+    .user .game-avatar svg { fill: #fff; }
 
     .game-message-content {
-      max-width: 70%;
-      padding: 15px 20px;
-      border-radius: 25px;
-      font-size: 1rem;
+      max-width: 72%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 13.5px;
       line-height: 1.5;
       word-break: break-word;
-      background: #16213e;
-      color: #ddd;
-      border: 1px solid #00ffff33;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    }
-
-    .user .game-message-content {
-      background: #0066ff;
-      color: white;
-      border-color: #00ffff;
-      border-radius: 25px 5px 25px 25px;
     }
 
     .ai .game-message-content {
-      border-radius: 5px 25px 25px 25px;
-      background: #0f0f1a;
-      border-left: 4px solid #ff00ff;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+      color: var(--text);
+    }
+
+    .user .game-message-content {
+      background: var(--accent2);
+      color: white;
+      border-bottom-right-radius: 4px;
     }
 
     .typing-indicator {
       display: flex;
-      gap: 6px;
-      padding: 15px 20px;
-      background: #0f0f1a;
-      border-left: 4px solid #ff00ff;
-      border-radius: 5px 25px 25px 25px;
-      width: fit-content;
+      gap: 4px;
+      padding: 12px 16px;
+      align-items: center;
     }
 
     .typing-indicator span {
-      width: 10px;
-      height: 10px;
-      background: #00ffff;
+      width: 7px; height: 7px;
+      background: var(--accent);
       border-radius: 50%;
-      animation: blink 1.4s infinite ease-in-out;
+      animation: typingBlink 1.4s infinite ease-in-out;
     }
+
     .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
     .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
 
-    @keyframes blink {
+    @keyframes typingBlink {
       0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
-      30% { opacity: 1; transform: scale(1.2); background: magenta; }
+      30% { opacity: 1; transform: scale(1.2); }
     }
 
     .game-chat-input-area {
-      background: #16213e;
-      border-top: 2px solid #00ffff;
-      padding: 18px 20px;
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: flex-end;
+      background: var(--surface);
     }
 
     .game-chat-input {
       flex: 1;
-      background: #0f0f1a;
-      border: 2px solid #00ffff;
-      border-radius: 30px;
-      padding: 15px 20px;
-      color: white;
-      font-size: 1rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 14px;
+      color: var(--text);
+      font-size: 13px;
       resize: none;
-      min-height: 55px;
-      max-height: 150px;
+      min-height: 42px;
+      max-height: 120px;
       outline: none;
-      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.2s;
     }
 
-    .game-chat-input:focus {
-      border-color: #ff00ff;
-      box-shadow: 0 0 20px magenta;
-    }
+    .game-chat-input:focus { border-color: rgba(0,245,160,0.4); }
+    .game-chat-input::placeholder { color: var(--text-muted); }
 
     .game-chat-send {
-      background: #00ffff;
+      width: 42px;
+      height: 42px;
+      background: var(--accent);
       border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: all 0.2s;
-      box-shadow: 0 0 20px cyan;
+      flex-shrink: 0;
     }
 
-    .game-chat-send:hover {
-      background: #ff00ff;
-      box-shadow: 0 0 30px magenta;
-      transform: scale(1.1);
+    .game-chat-send:hover { background: #00d488; transform: scale(1.05); }
+    .game-chat-send svg { width: 18px; height: 18px; fill: #000; }
+    .game-chat-send:disabled { opacity: 0.4; pointer-events: none; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
     }
 
-    .game-chat-send svg {
-      width: 30px;
-      height: 30px;
-      fill: #0f0f1a;
-    }
-
-    .game-chat-send:disabled {
-      opacity: 0.5;
-      pointer-events: none;
-      filter: grayscale(0.5);
+    @media (max-width: 768px) {
+      .header-inner { flex-wrap: wrap; gap: 12px; }
+      .search-bar { max-width: 100%; order: 3; flex: 0 0 100%; }
+      .slide-overlay h2 { font-size: 34px; }
+      .slide-overlay { padding: 28px 28px; }
+      .swiper { height: 320px; }
+      .promo-banner { flex-direction: column; text-align: center; padding: 32px 24px; }
+      .promo-banner::before, .promo-banner::after { display: none; }
     }
 
     @media (max-width: 550px) {
-      .game-chat-window {
-        width: 95vw;
-        height: 70vh;
-        right: 2.5vw;
-        bottom: 130px;
-      }
-      .game-float-btn {
-        width: 70px;
-        height: 70px;
-        right: 20px;
-        bottom: 20px;
-      }
+      .game-chat-window { width: calc(100vw - 24px); right: 12px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .topbar .inner { flex-direction: column; gap: 6px; }
     }
   </style>
 </head>
 <body>
-  <!-- Topbar -->
+<div class="page-frame">
+
+  <!-- TOPBAR -->
   <div class="topbar">
     <div class="container">
-      <div class="social-icons">
-        <a href="#"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg></a>
-        <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.332.014 7.052.072c-4.358.2-6.78 2.618-6.98 6.98C.014 8.332 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.28.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg></a>
-        <a href="#"><svg viewBox="0 0 24 24"><path d="M8 2H1v9h7V2zm9 0h-7v9h7V2zm0 11h-7v9h7v-9zM8 13H1v9h7v-9z"/></svg></a>
-      </div>
-      <div>
-        <a href="#">Ayuda</a>
-        <a href="#">Mis pedidos</a>
-        <a href="#">🇺🇸 USD</a>
+      <div class="inner">
+        <div class="topbar-left">
+          <span class="topbar-badge">NUEVO</span>
+          <span>Envíos digitales instantáneos · Soporte 24/7</span>
+        </div>
+        <div class="topbar-right">
+          <a href="#">Ayuda</a>
+          <a href="#">Mis pedidos</a>
+          <a href="#">🇺🇸 USD</a>
+          <a href="#"><svg class="social-icon" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg></a>
+          <a href="#"><svg class="social-icon" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.937 4.937 0 004.604 3.417 9.868 9.868 0 01-6.102 2.104c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.054 0 14-7.496 14-13.986 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Main header -->
+  <!-- MAIN HEADER -->
   <header class="main-header">
-    <div class="container flex">
-      <div class="logo">
-        <h1>🎮 GAMESTORE PRO</h1>
-      </div>
-      <div class="search-bar">
-        <input type="text" placeholder="Buscar juegos, consolas, ofertas...">
-        <button>🔍</button>
-      </div>
-      <div class="header-icons">
-        <div class="icon-item">
-          <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          <span>Mi cuenta</span>
+    <div class="container">
+      <div class="header-inner">
+        <a href="#" class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+          </div>
+          <div class="logo-text">GAME<span>STORE</span> PRO</div>
+        </a>
+
+        <div class="search-bar">
+          <input type="text" placeholder="Buscar juegos, consolas, ofertas...">
+          <button>
+            <svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
         </div>
-        <div class="icon-item">
-          <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-          <span>Carrito</span>
-          <span class="cart-badge">3</span>
+
+        <div class="header-actions">
+          <button class="icon-btn">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Cuenta</span>
+          </button>
+          <button class="icon-btn">
+            <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            <span>Carrito</span>
+            <span class="cart-badge">3</span>
+          </button>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Navegación -->
+  <!-- NAV -->
   <nav class="nav-bar">
     <div class="container">
-      <ul class="nav-menu">
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">PlayStation</a></li>
-        <li><a href="#">Xbox</a></li>
-        <li><a href="#">Nintendo</a></li>
-        <li><a href="#">PC</a></li>
-        <li><a href="#">Ofertas</a></li>
-        <li><a href="#">Membresías</a></li>
-        <li><a href="#">Gift Cards</a></li>
-      </ul>
+      <div class="nav-inner">
+        <a href="#" class="nav-link active">Inicio</a>
+        <a href="#" class="nav-link">
+          <span class="platform-dot" style="background:#003087"></span>PlayStation
+        </a>
+        <a href="#" class="nav-link">
+          <span class="platform-dot" style="background:#107c10"></span>Xbox
+        </a>
+        <a href="#" class="nav-link">
+          <span class="platform-dot" style="background:#e4000f"></span>Nintendo
+        </a>
+        <a href="#" class="nav-link">
+          <span class="platform-dot" style="background:#0ea5e9"></span>PC
+        </a>
+        <a href="#" class="nav-link" style="color:#f59e0b">⚡ Ofertas</a>
+        <a href="#" class="nav-link">Membresías</a>
+        <a href="#" class="nav-link">Gift Cards</a>
+      </div>
     </div>
   </nav>
 
-  <!-- Slider principal (Swiper) -->
-  <div class="container">
+  <!-- HERO SLIDER -->
+  <div class="container swiper-wrapper-outer">
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
-        <!-- Slide 1 -->
         <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop');">
-          <div class="slide-content">
-            <h2>Cyberpunk 2077: Edición Definitiva</h2>
-            <p>Incluye todas las actualizaciones y la expansión Phantom Liberty.</p>
-            <a href="#" class="btn">Comprar ahora</a>
+          <div class="slide-overlay">
+            <div class="slide-tag">⭐ Edición Definitiva</div>
+            <h2>Cyberpunk 2077</h2>
+            <p>Incluye todas las actualizaciones y la expansión Phantom Liberty. La experiencia completa.</p>
+            <div class="slide-btns">
+              <a href="#" class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                Comprar ahora
+              </a>
+              <a href="#" class="btn-secondary">Ver detalles</a>
+            </div>
           </div>
         </div>
-        <!-- Slide 2 -->
         <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1600861194942-f883de0dfe96?q=80&w=2069&auto=format&fit=crop');">
-          <div class="slide-content">
-            <h2>Ofertas de primavera</h2>
-            <p>Hasta 70% de descuento en cientos de títulos para todas las plataformas.</p>
-            <a href="#" class="btn">Ver ofertas</a>
+          <div class="slide-overlay">
+            <div class="slide-tag">🔥 Hasta -70%</div>
+            <h2>Ofertas de Primavera</h2>
+            <p>Descuentos increíbles en cientos de títulos para todas las plataformas. Tiempo limitado.</p>
+            <div class="slide-btns">
+              <a href="#" class="btn-primary">Ver todas las ofertas</a>
+            </div>
           </div>
         </div>
-        <!-- Slide 3 -->
         <div class="swiper-slide" style="background-image: url('https://images.unsplash.com/photo-1605901309584-818e25960a8f?q=80&w=2070&auto=format&fit=crop');">
-          <div class="slide-content">
-            <h2>Próximos lanzamientos</h2>
-            <p>Reserva ya los juegos más esperados del año.</p>
-            <a href="#" class="btn">Pre-ordenar</a>
+          <div class="slide-overlay">
+            <div class="slide-tag">🚀 Coming Soon</div>
+            <h2>Próximos Lanzamientos</h2>
+            <p>Reserva ya los juegos más esperados del año y asegura tu copia al mejor precio.</p>
+            <div class="slide-btns">
+              <a href="#" class="btn-primary">Pre-ordenar ahora</a>
+              <a href="#" class="btn-secondary">Ver calendario</a>
+            </div>
           </div>
         </div>
       </div>
@@ -876,131 +1210,195 @@
     </div>
   </div>
 
-  <!-- Sección Destacados (título centrado) -->
+  <!-- FEATURED SECTION -->
   <section class="section container">
-    <h2 class="section-title">🔥 Destacados de la semana</h2>
-    <div class="grid">
+    <div class="section-header">
+      <h2 class="section-title">🔥 Destacados de la <em>semana</em></h2>
+      <a href="#" class="section-link">Ver todos →</a>
+    </div>
+    <div class="products-grid">
       <a href="#" class="product-card">
-        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=2070&auto=format&fit=crop');">
-          <span class="badge offer">-25%</span>
+        <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=2070&auto=format&fit=crop');">
+          <span class="badge badge-sale">-25%</span>
         </div>
         <div class="product-info">
+          <div class="product-platform">PlayStation 5</div>
           <h3 class="product-title">God of War Ragnarök</h3>
           <div class="product-price">
-            <span class="current-price">$44.99</span>
-            <span class="old-price">$59.99</span>
+            <span class="price-current">$44.99</span>
+            <span class="price-old">$59.99</span>
+            <div class="product-add">
+              <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            </div>
           </div>
         </div>
       </a>
       <a href="#" class="product-card">
-        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1611996575749-79a3a250f948?q=80&w=2070&auto=format&fit=crop');">
-          <span class="badge">Nuevo</span>
+        <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1611996575749-79a3a250f948?q=80&w=2070&auto=format&fit=crop');">
+          <span class="badge badge-new">NUEVO</span>
         </div>
         <div class="product-info">
+          <div class="product-platform">PS5 / Xbox / PC</div>
           <h3 class="product-title">EA Sports FC 24</h3>
           <div class="product-price">
-            <span class="current-price">$39.99</span>
-            <span class="old-price">$69.99</span>
+            <span class="price-current">$39.99</span>
+            <span class="price-old">$69.99</span>
+            <div class="product-add">
+              <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            </div>
           </div>
         </div>
       </a>
       <a href="#" class="product-card">
-        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=2065&auto=format&fit=crop');">
-          <span class="badge offer">-40%</span>
+        <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=2065&auto=format&fit=crop');">
+          <span class="badge badge-sale">-40%</span>
         </div>
         <div class="product-info">
+          <div class="product-platform">PlayStation 5</div>
           <h3 class="product-title">The Last of Us Part I</h3>
           <div class="product-price">
-            <span class="current-price">$35.99</span>
-            <span class="old-price">$59.99</span>
+            <span class="price-current">$35.99</span>
+            <span class="price-old">$59.99</span>
+            <div class="product-add">
+              <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            </div>
           </div>
         </div>
       </a>
       <a href="#" class="product-card">
-        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=2057&auto=format&fit=crop');">
-          <span class="badge offer">-30%</span>
+        <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=2057&auto=format&fit=crop');">
+          <span class="badge badge-sale">-30%</span>
         </div>
         <div class="product-info">
+          <div class="product-platform">PlayStation 5</div>
           <h3 class="product-title">Spider-Man 2</h3>
           <div class="product-price">
-            <span class="current-price">$48.99</span>
-            <span class="old-price">$69.99</span>
+            <span class="price-current">$48.99</span>
+            <span class="price-old">$69.99</span>
+            <div class="product-add">
+              <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            </div>
           </div>
         </div>
       </a>
     </div>
   </section>
 
-  <!-- Banner promocional -->
+  <!-- PROMO BANNER -->
   <div class="container">
-    <div class="banner">
+    <div class="promo-banner">
       <div>
-        <h3>🎁 Membresía GAME PASS</h3>
-        <p>Accede a más de 100 juegos de alta calidad por un precio increíble.</p>
+        <div class="banner-label">🎮 Membresía Premium</div>
+        <h3 class="banner-title">GAME PASS — Más de 100 juegos por un precio increíble</h3>
+        <p class="banner-desc">Accede a una biblioteca masiva de títulos AAA, lanzamientos del día uno y descuentos exclusivos para miembros.</p>
       </div>
-      <a href="#" class="btn">Suscribirme</a>
+      <div class="banner-action">
+        <a href="#" class="btn-gold">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          Suscribirme ya
+        </a>
+      </div>
     </div>
   </div>
 
-  <!-- Sección Ofertas flash (título centrado) -->
+  <!-- FLASH DEALS -->
   <section class="section container">
-    <h2 class="section-title">⚡ Ofertas flash (solo hoy)</h2>
-    <div class="grid">
+    <div class="flash-header">
+      <h2 class="section-title">⚡ Ofertas Flash de <em>hoy</em></h2>
+      <div class="countdown">
+        <div class="countdown-dot"></div>
+        <span class="countdown-label">TERMINA EN</span>
+        <span class="countdown-timer" id="flashTimer">08:42:17</span>
+      </div>
+      <a href="#" class="section-link" style="margin-left: auto;">Ver todas →</a>
+    </div>
+    <div class="products-grid">
       <a href="#" class="product-card">
-        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=2070&auto=format&fit=crop');">
-          <span class="badge">-50%</span>
+        <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=2070&auto=format&fit=crop');">
+          <span class="badge badge-hot">-50%</span>
         </div>
         <div class="product-info">
+          <div class="product-platform">PS5 / Xbox / PC</div>
           <h3 class="product-title">Resident Evil 4 Remake</h3>
           <div class="product-price">
-            <span class="current-price">$29.99</span>
-            <span class="old-price">$59.99</span>
+            <span class="price-current">$29.99</span>
+            <span class="price-old">$59.99</span>
+            <div class="product-add">
+              <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            </div>
           </div>
         </div>
       </a>
       <a href="#" class="product-card">
-        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1560253023-3ec5d502959f?q=80&w=2070&auto=format&fit=crop');">
-          <span class="badge">-35%</span>
+        <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1560253023-3ec5d502959f?q=80&w=2070&auto=format&fit=crop');">
+          <span class="badge badge-sale">-35%</span>
         </div>
         <div class="product-info">
+          <div class="product-platform">PS5 / Xbox / PC</div>
           <h3 class="product-title">Hogwarts Legacy</h3>
           <div class="product-price">
-            <span class="current-price">$38.99</span>
-            <span class="old-price">$59.99</span>
+            <span class="price-current">$38.99</span>
+            <span class="price-old">$59.99</span>
+            <div class="product-add">
+              <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            </div>
           </div>
         </div>
       </a>
       <a href="#" class="product-card">
-        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1551103782-8ab07afd45c1?q=80&w=2070&auto=format&fit=crop');">
-          <span class="badge">-60%</span>
+        <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1551103782-8ab07afd45c1?q=80&w=2070&auto=format&fit=crop');">
+          <span class="badge badge-hot">-60%</span>
         </div>
         <div class="product-info">
+          <div class="product-platform">PS4 / PS5</div>
           <h3 class="product-title">FIFA 23 Legacy</h3>
           <div class="product-price">
-            <span class="current-price">$19.99</span>
-            <span class="old-price">$49.99</span>
+            <span class="price-current">$19.99</span>
+            <span class="price-old">$49.99</span>
+            <div class="product-add">
+              <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            </div>
           </div>
         </div>
       </a>
       <a href="#" class="product-card">
-        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?q=80&w=2071&auto=format&fit=crop');">
-          <span class="badge">-20%</span>
+        <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?q=80&w=2071&auto=format&fit=crop');">
+          <span class="badge badge-sale">-20%</span>
         </div>
         <div class="product-info">
+          <div class="product-platform">PS5 / Xbox / PC</div>
           <h3 class="product-title">Call of Duty: MW III</h3>
           <div class="product-price">
-            <span class="current-price">$47.99</span>
-            <span class="old-price">$59.99</span>
+            <span class="price-current">$47.99</span>
+            <span class="price-old">$59.99</span>
+            <div class="product-add">
+              <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            </div>
           </div>
         </div>
       </a>
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer>
     <div class="container">
       <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo" style="margin-bottom:16px; display:inline-flex">
+            <div class="logo-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+            </div>
+            <div class="logo-text" style="margin-left:10px">GAME<span>STORE</span> PRO</div>
+          </a>
+          <p class="footer-desc">Tu destino definitivo para juegos digitales. Entregas instantáneas, precios competitivos y los títulos más esperados.</p>
+          <div class="social-row">
+            <a href="#" class="social-btn"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg></a>
+            <a href="#" class="social-btn"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.332.014 7.052.072c-4.358.2-6.78 2.618-6.98 6.98C.014 8.332 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.28.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg></a>
+            <a href="#" class="social-btn"><svg viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.937 4.937 0 004.604 3.417 9.868 9.868 0 01-6.102 2.104c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.054 0 14-7.496 14-13.986 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
+            <a href="#" class="social-btn"><svg viewBox="0 0 24 24"><path d="M8 2H1v9h7V2zm9 0h-7v9h7V2zm0 11h-7v9h7v-9zM8 13H1v9h7v-9z"/></svg></a>
+          </div>
+        </div>
         <div class="footer-col">
           <h4>GameStore Pro</h4>
           <ul>
@@ -1016,7 +1414,7 @@
             <li><a href="#">PlayStation</a></li>
             <li><a href="#">Xbox</a></li>
             <li><a href="#">Nintendo</a></li>
-            <li><a href="#">PC</a></li>
+            <li><a href="#">PC Gaming</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -1028,59 +1426,51 @@
             <li><a href="#">Contacto</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>Síguenos</h4>
-          <div class="social-links">
-            <a href="#"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-            <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z"/></svg></a>
-            <a href="#"><svg viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.937 4.937 0 004.604 3.417 9.868 9.868 0 01-6.102 2.104c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.054 0 14-7.496 14-13.986 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
-          </div>
-        </div>
       </div>
-      <div class="copyright">
-        <p>© 2025 GameStore Pro. Todos los derechos reservados. Las imágenes son solo ilustrativas.</p>
+      <div class="footer-bottom">
+        <p class="copyright">© 2025 GameStore Pro. Todos los derechos reservados. Las imágenes son solo ilustrativas.</p>
+        <div class="footer-badges">
+          <span class="footer-badge">SSL SEGURO</span>
+          <span class="footer-badge">PAGO SEGURO</span>
+          <span class="footer-badge">24/7 SOPORTE</span>
+        </div>
       </div>
     </div>
   </footer>
 
-  <!-- ===== ASISTENTE GAMER (botón flotante + ventana chat) ===== -->
-  <!-- Botón flotante con forma de gamepad -->
-  <div class="game-float-btn" id="gameAIBtn">
-    <svg viewBox="0 0 24 24">
-      <path d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-    </svg>
-  </div>
+</div><!-- end page-frame -->
 
-  <!-- Ventana de chat -->
+  <!-- FLOATING AI BUTTON -->
+  <button class="game-float-btn" id="gameAIBtn">
+    <svg viewBox="0 0 24 24"><path d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+  </button>
+
+  <!-- CHAT WINDOW -->
   <div class="game-chat-window" id="gameChatWindow">
     <div class="game-chat-header">
       <div class="game-chat-title">
-        <svg viewBox="0 0 24 24">
-          <path d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-        </svg>
-        <span>GAME EXPERT</span>
+        <div class="chat-avatar">
+          <svg viewBox="0 0 24 24"><path d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+        </div>
+        <div>
+          <div class="chat-name">GAME EXPERT</div>
+          <div class="chat-status">En línea</div>
+        </div>
       </div>
       <div class="game-chat-close" id="gameChatClose">✕</div>
     </div>
-
-    <div class="game-chat-body" id="gameMessages">
-      <!-- Mensaje de bienvenida (se genera con JS) -->
-    </div>
-
+    <div class="game-chat-body" id="gameMessages"></div>
     <div class="game-chat-input-area">
       <textarea id="gameChatInput" class="game-chat-input" placeholder="Escribe tu mensaje..." rows="1"></textarea>
       <button id="gameChatSend" class="game-chat-send">
-        <svg viewBox="0 0 24 24">
-          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
       </button>
     </div>
   </div>
 
-  <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
-    // Inicializar Swiper
+    // Swiper
     const swiper = new Swiper('.mySwiper', {
       loop: true,
       autoplay: { delay: 6000 },
@@ -1090,17 +1480,31 @@
       fadeEffect: { crossFade: true }
     });
 
-    // Interacción del carrito (simulada)
+    // Add to cart simulation
     document.querySelectorAll('.product-card').forEach(card => {
       card.addEventListener('click', (e) => {
         e.preventDefault();
-        alert('Producto añadido al carrito (simulación)');
-        let badge = document.querySelector('.cart-badge');
+        const badge = document.querySelector('.cart-badge');
         badge.textContent = parseInt(badge.textContent) + 1;
+        badge.style.transform = 'scale(1.4)';
+        setTimeout(() => badge.style.transform = '', 200);
       });
     });
 
-    // ===== ASISTENTE GAMER =====
+    // Flash countdown timer
+    let totalSeconds = 8 * 3600 + 42 * 60 + 17;
+    function updateTimer() {
+      const h = Math.floor(totalSeconds / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+      document.getElementById('flashTimer').textContent =
+        String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+      if (totalSeconds > 0) totalSeconds--;
+    }
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+    // Chat
     const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
     const ASSISTANT_NAME = 'gameexpert';
 
@@ -1111,23 +1515,16 @@
     const inputField = document.getElementById('gameChatInput');
     const sendBtn = document.getElementById('gameChatSend');
 
-    let isOpen = false;
-    let isGenerating = false;
-    let sessionId = null;
+    let isOpen = false, isGenerating = false, sessionId = null;
 
-    // Mensaje de bienvenida inicial
     function addWelcomeMessage() {
-      const welcomeDiv = document.createElement('div');
-      welcomeDiv.className = 'game-message ai';
-      welcomeDiv.innerHTML = `
-        <div class="game-avatar">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/></svg>
-        </div>
-        <div class="game-message-content">
-          ¡Bienvenido a GameStore! Soy tu experto en videojuegos. ¿En qué puedo ayudarte? Puedes preguntarme sobre lanzamientos, recomendaciones, requisitos del sistema, ¡lo que necesites!
-        </div>
+      const div = document.createElement('div');
+      div.className = 'game-message ai';
+      div.innerHTML = `
+        <div class="game-avatar"><svg viewBox="0 0 24 24"><path d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg></div>
+        <div class="game-message-content">¡Bienvenido a GameStore! Soy tu experto en videojuegos. Pregúntame sobre lanzamientos, recomendaciones, requisitos del sistema, ¡lo que necesites! 🎮</div>
       `;
-      messagesContainer.appendChild(welcomeDiv);
+      messagesContainer.appendChild(div);
     }
     addWelcomeMessage();
 
@@ -1135,9 +1532,7 @@
       if (!isOpen) {
         chatWindow.classList.add('active');
         isOpen = true;
-        if (!sessionId) {
-          sessionId = 'gameexpert_' + Date.now() + '_' + Math.random().toString(36).substring(2, 10);
-        }
+        if (!sessionId) sessionId = 'gameexpert_' + Date.now() + '_' + Math.random().toString(36).substring(2, 10);
         inputField.focus();
       }
     });
@@ -1149,14 +1544,11 @@
 
     inputField.addEventListener('input', function() {
       this.style.height = 'auto';
-      this.style.height = (this.scrollHeight) + 'px';
+      this.style.height = this.scrollHeight + 'px';
     });
 
     inputField.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        if (!isGenerating) sendMessage();
-      }
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!isGenerating) sendMessage(); }
     });
 
     sendBtn.addEventListener('click', sendMessage);
@@ -1164,121 +1556,73 @@
     async function sendMessage() {
       const text = inputField.value.trim();
       if (!text || isGenerating) return;
-
-      inputField.value = '';
-      inputField.style.height = 'auto';
-
+      inputField.value = ''; inputField.style.height = 'auto';
       addMessage(text, true);
       setGeneratingState(true);
-
       const typingId = showTypingIndicator();
 
       try {
         const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'ngrok-skip-browser-warning': 'true'
-          },
-          body: JSON.stringify({
-            message: text,
-            assistant: ASSISTANT_NAME,
-            session_id: sessionId,
-            stream: true,
-            lang: 'es'
-          })
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+          body: JSON.stringify({ message: text, assistant: ASSISTANT_NAME, session_id: sessionId, stream: true, lang: 'es' })
         });
-
         if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
-        let botMessage = '';
-        let messageElement = null;
-
+        let botMessage = '', messageElement = null;
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-
           const chunk = decoder.decode(value);
-          const lines = chunk.split('\n');
-          for (const line of lines) {
+          for (const line of chunk.split('\n')) {
             if (line.startsWith('data: ')) {
-              const jsonStr = line.substring(6);
               try {
-                const data = JSON.parse(jsonStr);
+                const data = JSON.parse(line.substring(6));
                 if (data.token) {
                   botMessage += data.token;
-                  if (!messageElement) {
-                    removeTypingIndicator(typingId);
-                    messageElement = addMessage('', false, true);
-                  }
+                  if (!messageElement) { removeTypingIndicator(typingId); messageElement = addMessage('', false, true); }
                   messageElement.innerHTML = botMessage.replace(/\n/g, '<br>');
                   messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                } else if (data.error) {
-                  throw new Error(data.error);
-                }
-              } catch (e) {}
+                } else if (data.error) throw new Error(data.error);
+              } catch(e) {}
             }
           }
         }
-
-        if (!messageElement) {
-          removeTypingIndicator(typingId);
-          addMessage('🤖 No recibí una respuesta válida. Intenta de nuevo.', false);
-        }
-
+        if (!messageElement) { removeTypingIndicator(typingId); addMessage('No recibí una respuesta válida. Intenta de nuevo.', false); }
       } catch (error) {
-        console.error('Error:', error);
         removeTypingIndicator(typingId);
         addMessage(`❌ Error: ${error.message}. ¿El servidor está disponible?`, false);
-      } finally {
-        setGeneratingState(false);
-      }
+      } finally { setGeneratingState(false); }
     }
 
     function addMessage(text, isUser = false, returnContentDiv = false) {
       const messageDiv = document.createElement('div');
       messageDiv.className = `game-message ${isUser ? 'user' : 'ai'}`;
-
       const avatarDiv = document.createElement('div');
       avatarDiv.className = 'game-avatar';
-      if (!isUser) {
-        avatarDiv.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/></svg>`;
-      } else {
-        avatarDiv.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
-      }
-
+      avatarDiv.innerHTML = isUser
+        ? `<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`
+        : `<svg viewBox="0 0 24 24"><path d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>`;
       const contentDiv = document.createElement('div');
       contentDiv.className = 'game-message-content';
       if (text) contentDiv.innerHTML = text.replace(/\n/g, '<br>');
-
       messageDiv.appendChild(avatarDiv);
       messageDiv.appendChild(contentDiv);
       messagesContainer.appendChild(messageDiv);
-
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      if (returnContentDiv) return contentDiv;
-      return messageDiv;
+      return returnContentDiv ? contentDiv : messageDiv;
     }
 
     function showTypingIndicator() {
-      const typingDiv = document.createElement('div');
-      typingDiv.className = 'game-message ai';
-      typingDiv.id = 'typing-indicator';
-
-      typingDiv.innerHTML = `
-        <div class="game-avatar">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-        </div>
-        <div class="game-message-content">
-          <div class="typing-indicator">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
+      const div = document.createElement('div');
+      div.className = 'game-message ai';
+      div.id = 'typing-indicator';
+      div.innerHTML = `
+        <div class="game-avatar"><svg viewBox="0 0 24 24"><path d="M21 6H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg></div>
+        <div class="game-message-content"><div class="typing-indicator"><span></span><span></span><span></span></div></div>
       `;
-      messagesContainer.appendChild(typingDiv);
+      messagesContainer.appendChild(div);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
       return 'typing-indicator';
     }
@@ -1294,7 +1638,6 @@
       sendBtn.disabled = loading;
     }
 
-    // Cerrar al hacer clic fuera (opcional móvil)
     window.addEventListener('click', (e) => {
       if (isOpen && !chatWindow.contains(e.target) && !gameBtn.contains(e.target)) {
         chatWindow.classList.remove('active');
