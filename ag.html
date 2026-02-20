@@ -11,7 +11,7 @@
   <!-- Swiper CSS (para slider) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <style>
-    /* ===== ESTILOS ORIGINALES DE GAMESTORE PRO (sin modificar) ===== */
+    /* ===== ESTILOS ORIGINALES DE GAMESTORE PRO (con títulos y tarjetas centradas) ===== */
     * {
       margin: 0;
       padding: 0;
@@ -40,8 +40,27 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(4, 1fr); /* Fijo 4 columnas en escritorio */
       gap: 24px;
+    }
+
+    /* Responsive: menos columnas en pantallas pequeñas */
+    @media (max-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .topbar {
@@ -251,6 +270,7 @@
       font-weight: 800;
       margin-bottom: 32px;
       position: relative;
+      text-align: center; /* Centramos el texto */
     }
 
     .section-title::after {
@@ -260,6 +280,8 @@
       height: 4px;
       background: #3b82f6;
       margin-top: 8px;
+      margin-left: auto;   /* Centramos la línea */
+      margin-right: auto;
     }
 
     .product-card {
@@ -271,6 +293,7 @@
       text-decoration: none;
       color: inherit;
       display: block;
+      width: 100%; /* Ocupa todo el ancho de la celda */
     }
 
     .product-card:hover {
@@ -303,6 +326,7 @@
 
     .product-info {
       padding: 20px;
+      text-align: center; /* Centramos el contenido de la tarjeta */
     }
 
     .product-title {
@@ -314,6 +338,7 @@
     .product-price {
       display: flex;
       align-items: center;
+      justify-content: center; /* Centramos los precios */
       gap: 12px;
     }
 
@@ -849,7 +874,7 @@
     </div>
   </div>
 
-  <!-- Sección Destacados -->
+  <!-- Sección Destacados (título centrado) -->
   <section class="section container">
     <h2 class="section-title">🔥 Destacados de la semana</h2>
     <div class="grid">
@@ -915,7 +940,7 @@
     </div>
   </div>
 
-  <!-- Sección Ofertas especiales -->
+  <!-- Sección Ofertas flash (título centrado) -->
   <section class="section container">
     <h2 class="section-title">⚡ Ofertas flash (solo hoy)</h2>
     <div class="grid">
