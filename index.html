@@ -71,6 +71,45 @@
       transform: scale(0.95);
     }
 
+    /* ===== NUEVO BOTÓN MEDICLOUD ===== */
+    .medicloud-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: inherit; /* hereda el color del texto según el tema */
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .medicloud-link:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .medicloud-link svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      transition: transform 0.3s ease;
+    }
+    .medicloud-link:hover svg {
+      transform: scale(1.1);
+    }
+    body[data-theme='dark'] .medicloud-link {
+      color: #f0f0f0;
+    }
+
     nav {
       display: flex;
       align-items: center;
@@ -1877,6 +1916,14 @@
   <header id="topbar">
     <div class="brand">
       <div class="mini" id="brandMini">&lt;/&gt;</div>
+      <!-- NUEVO BOTÓN MEDICLOUD -->
+      <a href="mediCloud.html" class="medicloud-link" aria-label="MediCloud">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+          <polyline points="13 13 10 18 14 18 11 23"/>
+        </svg>
+        <span>MediCloud</span>
+      </a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Menú principal">
       <span></span>
@@ -2079,7 +2126,6 @@
   <div class="tear-container">
     <div class="tear"></div>
     <div class="tear-edge"></div>
-    <!-- === NUEVO: CONTADOR DE VISITAS GLOBAL === -->
     <div class="visit-counter">
       <span data-i18n="visits">TOTAL VISITS</span>: <span id="visit-count">--</span>
     </div>
