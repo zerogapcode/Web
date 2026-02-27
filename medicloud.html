@@ -106,16 +106,15 @@
 
         /* ---------------- Sección Hero con Parallax ---------------- */
         .hero {
-            /* Imagen con superposición oscura y efecto parallax */
             background: linear-gradient(rgba(38, 70, 83, 0.85), rgba(42, 157, 143, 0.85)), 
                         url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
-            background-attachment: fixed; /* Efecto parallax */
+            background-attachment: fixed;
             height: 100vh;
             display: flex;
             align-items: center;
             text-align: center;
             color: var(--white);
-            padding-top: 80px; /* Compensa la altura del menú fijo */
+            padding-top: 80px;
         }
 
         .hero h1 {
@@ -375,7 +374,6 @@
             .hero h1 { font-size: 2.5rem; }
             .hero p { font-size: 1rem; }
             
-            /* Ocultar menú en móviles para mantener simplicidad */
             .nav-links { display: none; }
             
             .download-grid {
@@ -384,7 +382,6 @@
             }
             .btn { width: 100%; }
 
-            /* Desactivar parallax en móviles por rendimiento */
             .hero {
                 background-attachment: scroll;
             }
@@ -411,7 +408,8 @@
         <div class="container">
             <h1>MediCloud: Tu consultorio médico en la nube</h1>
             <p>Software de gestión clínica seguro, multi-doctor y con separación total de datos. Diseñado para potenciar cualquier especialidad médica. Descarga la versión para Windows y mantente atento a macOS, iOS y Android.</p>
-            <a href="#" class="btn btn-primary" onclick="alertaDescarga(event)">
+            <!-- Botón de descarga Windows con enlace directo a Google Drive -->
+            <a href="https://drive.google.com/uc?export=download&id=1xBMESkxi0Y_LcBteuMQ-Cei9yioOp7xb" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                 <i class="fa-brands fa-windows"></i> Descargar para Windows
             </a>
         </div>
@@ -450,7 +448,8 @@
             <h2 class="section-title">Plataformas</h2>
             
             <div class="download-grid">
-                <a href="#" class="btn btn-primary btn-large" onclick="alertaDescarga(event)">
+                <!-- Botón de descarga Windows con enlace directo a Google Drive -->
+                <a href="https://drive.google.com/uc?export=download&id=1xBMESkxi0Y_LcBteuMQ-Cei9yioOp7xb" class="btn btn-primary btn-large" target="_blank" rel="noopener noreferrer">
                     <span><i class="fa-brands fa-windows"></i> Descargar para Windows</span>
                     <small style="font-weight: 300; font-size: 0.85rem;">Versión Estable 1.2 (Febrero 2026)</small>
                 </a>
@@ -470,6 +469,7 @@
             <div class="download-note">
                 <h4>Las versiones móviles estarán disponibles en los próximos meses.</h4>
                 <p style="color: var(--text-light); font-size: 0.95rem;">Suscríbete para recibir noticias y ser de los primeros en probar la beta.</p>
+                <!-- Formulario de suscripción (aún no funcional, se puede conectar a Formspree) -->
                 <form class="subscribe-form" onsubmit="alertaSuscripcion(event)">
                     <input type="email" placeholder="Tu correo electrónico médico..." required>
                     <button type="submit" class="btn btn-secondary">Suscribirme</button>
@@ -508,22 +508,16 @@
     </button>
 
     <script>
-        // Simular descarga
-        function alertaDescarga(event) {
-            event.preventDefault(); 
-            alert("🔒 Descarga Simulada\nEn producción, esto bajará 'MediCloud-Installer.exe'.");
+        // Función para información extra en tarjetas
+        function alertaCaracteristica(mensaje) {
+            alert("ℹ️ " + mensaje);
         }
 
-        // Simular suscripción
+        // Simular suscripción (puedes reemplazar con Formspree más adelante)
         function alertaSuscripcion(event) {
             event.preventDefault(); 
             alert("✅ ¡Gracias por suscribirte!\nTe enviaremos un correo en cuanto las versiones de Android, iOS y macOS estén listas.");
             event.target.reset();
-        }
-
-        // Información extra al hacer clic en tarjetas
-        function alertaCaracteristica(mensaje) {
-            alert("ℹ️ " + mensaje);
         }
 
         // Botón volver arriba: mostrar/ocultar según scroll
