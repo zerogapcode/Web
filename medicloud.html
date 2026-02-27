@@ -10,10 +10,10 @@
     <style>
         /* Variables de diseño */
         :root {
-            --primary: #2A9D8F; /* Verde azulado */
+            --primary: #2A9D8F;
             --primary-dark: #21867a;
-            --secondary: #264653; /* Azul oscuro */
-            --background: #f4f7f6; /* Gris claro */
+            --secondary: #264653;
+            --background: #f4f7f6;
             --text-dark: #333333;
             --text-light: #6c757d;
             --white: #ffffff;
@@ -49,6 +49,11 @@
             font-size: 2.5rem;
             color: var(--secondary);
             margin-bottom: 3rem;
+        }
+
+        /* Ajuste para anclas fijas (compensa el menú) */
+        section {
+            scroll-margin-top: 80px;
         }
 
         /* ---------------- Header y Navegación ---------------- */
@@ -99,11 +104,12 @@
             color: var(--primary);
         }
 
-        /* ---------------- Sección Hero ---------------- */
+        /* ---------------- Sección Hero con Parallax ---------------- */
         .hero {
-            /* Placeholder de imagen médica/tecnológica con superposición oscura */
+            /* Imagen con superposición oscura y efecto parallax */
             background: linear-gradient(rgba(38, 70, 83, 0.85), rgba(42, 157, 143, 0.85)), 
                         url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            background-attachment: fixed; /* Efecto parallax */
             height: 100vh;
             display: flex;
             align-items: center;
@@ -138,7 +144,7 @@
             font-weight: 600;
             text-decoration: none;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             border: none;
             gap: 10px;
         }
@@ -152,11 +158,16 @@
         .btn-primary:hover {
             background-color: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(42, 157, 143, 0.5);
         }
 
         .btn-secondary {
             background-color: var(--secondary);
             color: var(--white);
+        }
+        .btn-secondary:hover {
+            background-color: #1d3543;
+            transform: translateY(-2px);
         }
 
         /* ---------------- Características ---------------- */
@@ -178,11 +189,12 @@
             text-align: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-bottom: 4px solid var(--primary);
+            cursor: pointer;
         }
 
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
 
         .feature-icon {
@@ -228,7 +240,7 @@
             color: var(--white);
             cursor: not-allowed;
             opacity: 0.6;
-            pointer-events: none; /* Desactiva clics */
+            pointer-events: none;
         }
 
         .download-note {
@@ -262,6 +274,7 @@
             font-family: var(--font-main);
             min-width: 200px;
             outline: none;
+            transition: border-color 0.3s;
         }
 
         .subscribe-form input:focus {
@@ -286,6 +299,39 @@
             color: var(--disabled);
             font-size: 3rem;
             flex-wrap: wrap;
+        }
+
+        /* ---------------- Botón "Volver arriba" ---------------- */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, background-color 0.3s;
+            z-index: 999;
+            border: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.1);
         }
 
         /* ---------------- Footer ---------------- */
@@ -329,7 +375,7 @@
             .hero h1 { font-size: 2.5rem; }
             .hero p { font-size: 1rem; }
             
-            /* Ocultar menú en móviles para mantener simplicidad en un solo archivo */
+            /* Ocultar menú en móviles para mantener simplicidad */
             .nav-links { display: none; }
             
             .download-grid {
@@ -337,13 +383,18 @@
                 align-items: center;
             }
             .btn { width: 100%; }
+
+            /* Desactivar parallax en móviles por rendimiento */
+            .hero {
+                background-attachment: scroll;
+            }
         }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="container" style="display: flex;">
+        <div class="container">
             <a href="#inicio" class="logo">
                 <i class="fa-solid fa-cloud-bolt"></i> MediCloud
             </a>
@@ -370,22 +421,22 @@
         <div class="container">
             <h2 class="section-title">El software que tu clínica necesita</h2>
             <div class="grid-features">
-                <div class="feature-card">
+                <div class="feature-card" onclick="alertaCaracteristica('Protección de datos sensibles, como VIH, con acceso restringido.')">
                     <i class="fa-solid fa-user-shield feature-icon"></i>
                     <h3>Datos Protegidos</h3>
                     <p>Ficha del paciente con máxima seguridad para datos sensibles protegidos (ej. VIH oculto).</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" onclick="alertaCaracteristica('Módulos personalizables para cualquier especialidad médica.')">
                     <i class="fa-solid fa-notes-medical feature-icon"></i>
                     <h3>Historias Clínicas Adaptables</h3>
                     <p>Módulos personalizables diseñados para adaptarse a los requerimientos y flujos de trabajo de cualquier especialidad.</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" onclick="alertaCaracteristica('Agenda inteligente y control de inventario integrado.')">
                     <i class="fa-solid fa-calendar-check feature-icon"></i>
                     <h3>Agenda e Inventario</h3>
                     <p>Agenda inteligente y control estricto de insumos y consumibles de tu inventario clínico.</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card" onclick="alertaCaracteristica('Base de datos independiente por cada doctor gracias a Firebase.')">
                     <i class="fa-solid fa-database feature-icon"></i>
                     <h3>Seguridad Multi-Tenant</h3>
                     <p>Respaldado por Firebase: cada doctor opera y almacena datos en su propia base de datos independiente.</p>
@@ -451,18 +502,46 @@
         </div>
     </footer>
 
+    <!-- Botón flotante "Volver arriba" -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Volver arriba">
+        <i class="fa-solid fa-chevron-up"></i>
+    </button>
+
     <script>
-        // Simular descarga para evitar enlaces rotos durante el diseño
+        // Simular descarga
         function alertaDescarga(event) {
             event.preventDefault(); 
             alert("🔒 Descarga Simulada\nEn producción, esto bajará 'MediCloud-Installer.exe'.");
         }
 
-        // Simular envío de formulario
+        // Simular suscripción
         function alertaSuscripcion(event) {
             event.preventDefault(); 
             alert("✅ ¡Gracias por suscribirte!\nTe enviaremos un correo en cuanto las versiones de Android, iOS y macOS estén listas.");
-            event.target.reset(); // Limpia el input del correo
+            event.target.reset();
+        }
+
+        // Información extra al hacer clic en tarjetas
+        function alertaCaracteristica(mensaje) {
+            alert("ℹ️ " + mensaje);
+        }
+
+        // Botón volver arriba: mostrar/ocultar según scroll
+        window.addEventListener('scroll', function() {
+            var backToTop = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Función para volver arriba suavemente
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
     </script>
 </body>
