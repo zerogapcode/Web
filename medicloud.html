@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediCloud | Tu consultorio estético en la nube</title>
+    <title>MediCloud | Tu consultorio médico en la nube</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -272,33 +272,17 @@
             padding: 14px 25px;
         }
 
-        /* ---------------- Testimonios y Confianza ---------------- */
-        .testimonials {
-            padding: 80px 0;
+        /* ---------------- Confianza ---------------- */
+        .trust-section {
+            padding: 60px 0;
             background-color: var(--white);
             text-align: center;
-        }
-
-        .testimonial-container {
-            max-width: 800px;
-            margin: auto;
-            font-style: italic;
-            font-size: 1.3rem;
-            color: var(--text-light);
-        }
-
-        .testimonial-author {
-            margin-top: 25px;
-            font-weight: 600;
-            color: var(--secondary);
-            font-style: normal;
         }
 
         .trust-logos {
             display: flex;
             justify-content: center;
             gap: 50px;
-            margin-top: 60px;
             color: var(--disabled);
             font-size: 3rem;
             flex-wrap: wrap;
@@ -374,8 +358,8 @@
 
     <header id="inicio" class="hero">
         <div class="container">
-            <h1>MediCloud: Tu consultorio estético en la nube</h1>
-            <p>Software de gestión clínica seguro, multi-doctor y con separación total de datos. Descarga la versión para Windows y mantente atento a macOS, iOS y Android.</p>
+            <h1>MediCloud: Tu consultorio médico en la nube</h1>
+            <p>Software de gestión clínica seguro, multi-doctor y con separación total de datos. Diseñado para potenciar cualquier especialidad médica. Descarga la versión para Windows y mantente atento a macOS, iOS y Android.</p>
             <a href="#" class="btn btn-primary" onclick="alertaDescarga(event)">
                 <i class="fa-brands fa-windows"></i> Descargar para Windows
             </a>
@@ -393,8 +377,8 @@
                 </div>
                 <div class="feature-card">
                     <i class="fa-solid fa-notes-medical feature-icon"></i>
-                    <h3>Evaluaciones Estéticas</h3>
-                    <p>Módulos especializados en estética: fototipos de Fitzpatrick, escalas Glogau y MASI integradas.</p>
+                    <h3>Historias Clínicas Adaptables</h3>
+                    <p>Módulos personalizables diseñados para adaptarse a los requerimientos y flujos de trabajo de cualquier especialidad.</p>
                 </div>
                 <div class="feature-card">
                     <i class="fa-solid fa-calendar-check feature-icon"></i>
@@ -443,17 +427,12 @@
         </div>
     </section>
 
-    <section id="testimonios" class="testimonials">
+    <section class="trust-section">
         <div class="container">
-            <div class="testimonial-container">
-                <p>"La migración a MediCloud transformó nuestro flujo de trabajo. La separación de bases de datos por doctor resolvió de inmediato nuestros requerimientos de cumplimiento legal y privacidad."</p>
-                <div class="testimonial-author">— Dra. Elena Villar, Especialista en Medicina Estética</div>
-            </div>
-            
             <div class="trust-logos">
-                <i class="fa-solid fa-hospital" title="Colegios Médicos"></i>
-                <i class="fa-solid fa-stethoscope" title="Asociación Médica"></i>
-                <i class="fa-solid fa-shield-heart" title="HIPAA Compliant Standard"></i>
+                <i class="fa-solid fa-hospital" title="Compatibilidad Hospitalaria"></i>
+                <i class="fa-solid fa-stethoscope" title="Para todas las especialidades"></i>
+                <i class="fa-solid fa-shield-heart" title="Estándares de Privacidad Médica"></i>
             </div>
         </div>
     </section>
