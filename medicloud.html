@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Variables de diseño y estilos generales se mantienen igual */
         :root {
             --primary: #2A9D8F;
             --primary-dark: #21867a;
@@ -113,17 +112,20 @@
         }
         .btn {
             display: inline-flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 15px 30px;
+            padding: 12px 20px;
             border-radius: 8px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             text-decoration: none;
             cursor: pointer;
             transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             border: none;
-            gap: 10px;
+            gap: 4px;
+            min-width: 160px;
+            text-align: center;
         }
         .btn-primary {
             background-color: var(--primary);
@@ -196,12 +198,6 @@
             justify-content: center;
             gap: 20px;
             margin-bottom: 60px;
-        }
-        .btn-large {
-            padding: 20px 40px;
-            font-size: 1.2rem;
-            flex-direction: column;
-            gap: 5px;
         }
         .download-note {
             text-align: center;
@@ -315,8 +311,7 @@
             .hero h1 { font-size: 2.5rem; }
             .hero p { font-size: 1rem; }
             .nav-links { display: none; }
-            .download-grid { flex-direction: column; align-items: center; }
-            .btn { width: 100%; }
+            .btn { min-width: 140px; }
             .hero { background-attachment: scroll; }
         }
     </style>
@@ -341,7 +336,6 @@
         <div class="container">
             <h1>MediCloud: Tu consultorio médico en la nube</h1>
             <p>Software de gestión clínica seguro, multi-doctor y con separación total de datos. Diseñado para potenciar cualquier especialidad médica. Descarga la versión para Windows y la app para Android. Próximamente en macOS y iOS.</p>
-            <!-- Botón modificado: ahora redirige a la sección de descargas -->
             <a href="#descargas" class="btn btn-primary">
                 <i class="fa-solid fa-download"></i> Descarga MediCloud
             </a>
@@ -350,7 +344,8 @@
 
     <section id="caracteristicas" class="features">
         <div class="container">
-            <h2 class="section-title">El software que tu clínica necesita</h2>
+            <!-- NUEVA FRASE CON MÁS ENGAGEMENT -->
+            <h2 class="section-title">La herramienta que transforma tu práctica médica</h2>
             <div class="grid-features">
                 <div class="feature-card" onclick="alertaCaracteristica('Protección de datos sensibles, como VIH, con acceso restringido.')">
                     <i class="fa-solid fa-user-shield feature-icon"></i>
@@ -381,26 +376,28 @@
             <h2 class="section-title">Plataformas</h2>
             
             <div class="download-grid">
-                <!-- Botón Windows -->
-                <a href="https://drive.google.com/uc?export=download&id=1ZjBqjAm_UuKiGg_rVbWifCgNG3E8PPtK" class="btn btn-primary btn-large" target="_blank" rel="noopener noreferrer">
-                    <span><i class="fa-brands fa-windows"></i> Descargar para Windows</span>
-                    <small style="font-weight: 300; font-size: 0.85rem;">Versión Estable 1.2 (Febrero 2026)</small>
+                <!-- Windows (activo) -->
+                <a href="https://drive.google.com/uc?export=download&id=1ZjBqjAm_UuKiGg_rVbWifCgNG3E8PPtK" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-windows"></i> Windows
+                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Versión 1.2</small>
                 </a>
                 
-                <!-- Botón macOS (deshabilitado) -->
+                <!-- Android (activo) -->
+                <a href="https://drive.google.com/uc?export=download&id=1tkoOS81sXg1PTjkfu-cxu-nVSqQ6_O_s" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-android"></i> Android
+                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">APK beta</small>
+                </a>
+                
+                <!-- macOS (deshabilitado) -->
                 <a href="#" class="btn btn-disabled">
-                    <i class="fa-brands fa-apple"></i> Próximamente para macOS
+                    <i class="fa-brands fa-apple"></i> macOS
+                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Próximamente</small>
                 </a>
                 
-                <!-- Botón Android (activado) -->
-                <a href="https://drive.google.com/uc?export=download&id=1tkoOS81sXg1PTjkfu-cxu-nVSqQ6_O_s" class="btn btn-primary btn-large" target="_blank" rel="noopener noreferrer">
-                    <span><i class="fa-brands fa-android"></i> Descargar APK para Android</span>
-                    <small style="font-weight: 300; font-size: 0.85rem;">Versión 1.0 beta</small>
-                </a>
-                
-                <!-- Botón iOS (deshabilitado) -->
+                <!-- iOS (deshabilitado) -->
                 <a href="#" class="btn btn-disabled">
-                    <i class="fa-brands fa-app-store-ios"></i> Próximamente en App Store
+                    <i class="fa-brands fa-app-store-ios"></i> iOS
+                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Próximamente</small>
                 </a>
             </div>
 
