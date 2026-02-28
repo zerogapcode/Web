@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Directorio Médico — MediCloud</title>
+  <title>Directorio Médico · MediCloud</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,600;1,500&display=swap" rel="stylesheet">
 
+  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getFirestore, collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
@@ -90,7 +91,7 @@
 
       if (filtrados.length === 0) {
         grid.innerHTML = `
-          <div class="empty-state glass-effect">
+          <div class="empty-state">
             <div class="empty-icon">🔍</div>
             <p>No se encontraron médicos con los filtros seleccionados.</p>
           </div>`;
@@ -108,8 +109,7 @@
       const iniciales = (m.nombre || '?').split(' ')
         .slice(0, 2).map(w => w[0]).join('').toUpperCase();
 
-      // Colores vibrantes para el modo oscuro/cristal
-      const colores = ['#4fc3f7', '#81c784', '#ba68c8', '#ff8a65', '#64b5f6'];
+      const colores = ['#4A9Ef8', '#2E7D5E', '#9B6B9E', '#E68A6F', '#1A5A7A'];
       const color   = colores[index % colores.length];
 
       const dias = (m.diasTrabajo || []).join(', ') || '—';
@@ -117,15 +117,15 @@
       const waNum = tel.replace(/\D/g, '');
 
       const card = document.createElement('article');
-      card.className = 'card glass-effect parallax-card';
+      card.className = 'card';
       card.style.animationDelay = `${index * 60}ms`;
 
       card.innerHTML = `
         <div class="card-header" style="--accent: ${color}">
-          <div class="avatar" style="background: ${color}; box-shadow: 0 0 15px ${color}88;">${iniciales}</div>
+          <div class="avatar" style="background: ${color}">${iniciales}</div>
           <div class="card-meta">
             <h2 class="card-nombre">${m.nombre || 'Sin nombre'}</h2>
-            <span class="card-especialidad" style="color: ${color}; background: ${color}22;">${m.especialidad || '—'}</span>
+            <span class="card-especialidad">${m.especialidad || '—'}</span>
           </div>
         </div>
         <div class="card-body">
@@ -152,7 +152,7 @@
         </div>
         <div class="card-actions">
           ${tel ? `
-          <a href="tel:${tel}" class="btn btn-glass" title="Llamar">
+          <a href="tel:${tel}" class="btn btn-outline" title="Llamar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.7A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.64a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
             Llamar
           </a>
@@ -161,8 +161,9 @@
             WhatsApp
           </a>` : ''}
           ${m.email ? `
-          <a href="mailto:${m.email}" class="btn btn-glass" title="Email">
+          <a href="mailto:${m.email}" class="btn btn-outline" title="Email">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+            Email
           </a>` : ''}
         </div>
       `;
@@ -173,7 +174,7 @@
     function mostrarSkeleton() {
       const grid = document.getElementById('grid');
       grid.innerHTML = Array(6).fill(`
-        <div class="skeleton-card glass-effect">
+        <div class="skeleton-card">
           <div class="sk sk-avatar"></div>
           <div class="sk-lines">
             <div class="sk sk-line sk-lg"></div>
@@ -185,30 +186,15 @@
 
     function mostrarError() {
       document.getElementById('grid').innerHTML = `
-        <div class="empty-state glass-effect">
+        <div class="empty-state">
           <div class="empty-icon">⚠️</div>
           <p>Error al cargar el directorio. Intenta de nuevo más tarde.</p>
         </div>`;
     }
 
-    // ── Efecto Parallax JS ──────────────────────────────────────
-    function initParallax() {
-      document.addEventListener('mousemove', (e) => {
-        const orbs = document.querySelectorAll('.bg-orb');
-        const x = e.clientX / window.innerWidth;
-        const y = e.clientY / window.innerHeight;
-        
-        orbs.forEach((orb, index) => {
-          const speed = (index + 1) * 30;
-          orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
-        });
-      });
-    }
-
     // ── Event listeners ─────────────────────────────────────────
     window.addEventListener('DOMContentLoaded', () => {
       cargarMedicos();
-      initParallax();
 
       document.getElementById('busqueda').addEventListener('input', e => {
         filtroNombre = e.target.value;
@@ -233,318 +219,381 @@
   </script>
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      /* Paleta Glassmorphism */
-      --glass-bg: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(255, 255, 255, 0.15);
-      --glass-highlight: rgba(255, 255, 255, 0.25);
-      
-      --text-main: #ffffff;
-      --text-muted: rgba(255, 255, 255, 0.7);
-      --radius: 16px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    html { scroll-behavior: smooth; }
-
     body {
-      font-family: 'DM Sans', sans-serif;
-      background-color: #070e17; /* Fondo base muy oscuro */
-      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      background: #0B0F17;
+      color: #E8ECF2;
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* ── BACKGROUND PARALLAX ────────────────────────── */
-    .bg-layer {
+    /* ─── LIQUID GLASS BACKGROUND (capas animadas) ─── */
+    .liquid-bg {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: -1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
       overflow: hidden;
-      background: radial-gradient(circle at top left, #0d2137 0%, #070e17 100%);
     }
 
-    .bg-orb {
+    .blob {
       position: absolute;
       border-radius: 50%;
       filter: blur(80px);
       opacity: 0.5;
-      transition: transform 0.2s ease-out;
+      mix-blend-mode: screen;
+      animation: float 20s infinite alternate ease-in-out;
     }
 
-    .bg-orb-1 {
-      width: 400px; height: 400px;
-      background: #2E7DBF;
-      top: -100px; left: -100px;
+    .blob1 {
+      width: 50vmax;
+      height: 50vmax;
+      background: radial-gradient(circle at 30% 30%, #4A9Ef8, #2E7D5E);
+      top: -10%;
+      left: -10%;
+      animation-duration: 25s;
     }
 
-    .bg-orb-2 {
-      width: 500px; height: 500px;
-      background: #7B4F9E;
-      bottom: -150px; right: -100px;
+    .blob2 {
+      width: 60vmin;
+      height: 60vmin;
+      background: radial-gradient(circle at 70% 70%, #9B6B9E, #E68A6F);
+      bottom: -5%;
+      right: -5%;
+      animation-duration: 18s;
+      animation-delay: -5s;
     }
 
-    .bg-orb-3 {
-      width: 300px; height: 300px;
-      background: #2E7D5E;
-      top: 40%; left: 30%;
-      opacity: 0.3;
+    .blob3 {
+      width: 40vmax;
+      height: 40vmax;
+      background: radial-gradient(circle at 40% 60%, #1A5A7A, #4A9Ef8);
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-duration: 22s;
+      filter: blur(100px);
     }
 
-    /* ── LIQUID GLASS MIXIN ───────────────────────── */
-    .glass-effect {
-      background: var(--glass-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(4%, 6%) scale(1.2); }
     }
 
-    /* ── HERO ─────────────────────────────────────── */
+    /* ─── HERO CON EFECTO PARALLAX ───────────────── */
     .hero {
-      padding: 80px 24px;
-      text-align: center;
       position: relative;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+      overflow: hidden;
       z-index: 1;
+      transform-style: preserve-3d;
     }
 
-    .hero-content { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 700px;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    .hero-bg-layer {
+      position: absolute;
+      top: -20%;
+      left: -10%;
+      width: 120%;
+      height: 140%;
+      background: radial-gradient(ellipse at 30% 40%, rgba(74, 158, 248, 0.15), transparent 60%);
+      filter: blur(60px);
+      z-index: 1;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .hero-bg-layer2 {
+      position: absolute;
+      bottom: -30%;
+      right: -10%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at 70% 60%, rgba(46, 125, 94, 0.15), transparent 60%);
+      filter: blur(70px);
+      z-index: 1;
+      will-change: transform;
+    }
 
     .logo-badge {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      border-radius: 100px;
-      padding: 6px 16px 6px 8px;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 60px;
+      padding: 8px 20px 8px 8px;
       margin-bottom: 32px;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
     }
 
     .logo-dot {
-      width: 28px; height: 28px;
-      background: linear-gradient(135deg, #4fc3f7, #81c784);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 13px; color: #000;
-      box-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #4A9Ef8, #2E7D5E);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      color: white;
     }
 
     .logo-badge span {
       font-size: 14px;
       font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 0.3px;
     }
 
     .hero h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 700;
-      line-height: 1.2;
+      font-size: clamp(2.2rem, 8vw, 4rem);
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.1;
       margin-bottom: 20px;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
     .hero h1 em {
       font-style: italic;
-      background: -webkit-linear-gradient(0deg, #4fc3f7, #ba68c8);
+      background: linear-gradient(135deg, #b0dcff, #b3ffe0);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero p {
       font-size: 1.1rem;
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.7);
       line-height: 1.7;
-      max-width: 500px;
+      max-width: 540px;
       margin: 0 auto;
+      backdrop-filter: blur(5px);
     }
 
-    /* ── SEARCH BAR ───────────────────────────────── */
+    /* ─── BARRA DE BÚSQUEDA GLASS ─────────────────── */
     .search-wrap {
-      max-width: 900px;
-      margin: -20px auto 0;
-      padding: 0 20px;
+      max-width: 1000px;
+      margin: -40px auto 0;
+      padding: 0 24px;
       position: relative;
-      z-index: 10;
+      z-index: 20;
     }
 
     .search-card {
-      border-radius: 20px;
-      padding: 20px;
+      background: rgba(20, 30, 45, 0.5);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 32px;
+      padding: 16px 24px;
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       align-items: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
 
     .search-input-wrap {
-      flex: 1;
-      min-width: 200px;
+      flex: 2;
+      min-width: 220px;
       position: relative;
     }
 
     .search-input-wrap svg {
       position: absolute;
-      left: 14px; top: 50%;
+      left: 16px;
+      top: 50%;
       transform: translateY(-50%);
-      width: 18px; height: 18px;
-      color: var(--text-muted);
-      pointer-events: none;
+      width: 18px;
+      height: 18px;
+      color: #9aa8b9;
     }
 
-    input[type="text"], select {
+    input[type="text"] {
       width: 100%;
-      padding: 14px 14px 14px 42px;
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      color: var(--text-main);
-      background: rgba(0, 0, 0, 0.2);
+      padding: 14px 16px 14px 46px;
+      background: rgba(10, 20, 30, 0.5);
+      border: 1.5px solid rgba(255, 255, 255, 0.05);
+      border-radius: 40px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #fff;
       outline: none;
-      transition: all .3s ease;
+      transition: all 0.2s;
+      backdrop-filter: blur(8px);
     }
-    
+    input[type="text"]:focus {
+      border-color: #4A9Ef8;
+      background: rgba(20, 30, 45, 0.7);
+      box-shadow: 0 0 0 4px rgba(74, 158, 248, 0.2);
+    }
+    input[type="text"]::placeholder {
+      color: #7f8b9f;
+    }
+
     select {
-      padding-left: 14px;
-      min-width: 180px;
+      padding: 14px 40px 14px 18px;
+      background: rgba(10, 20, 30, 0.5);
+      border: 1.5px solid rgba(255, 255, 255, 0.05);
+      border-radius: 40px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #fff;
+      outline: none;
       appearance: none;
       cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      backdrop-filter: blur(8px);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%239aa8b9' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 14px center;
+      background-position: right 16px center;
+      transition: all 0.2s;
     }
-
-    /* Opciones de los selects para que se lean bien en diferentes SO */
-    select option { background: #0d2137; color: #fff; }
-
-    input[type="text"]::placeholder { color: var(--text-muted); }
-
-    input[type="text"]:focus, select:focus { 
-      border-color: var(--glass-highlight); 
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+    select:focus {
+      border-color: #4A9Ef8;
+      background: rgba(20, 30, 45, 0.7);
+    }
+    select option {
+      background: #1A2535;
+      color: #fff;
     }
 
     .btn-limpiar {
-      padding: 14px 20px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      color: var(--text-main);
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 40px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #ccd9f0;
       cursor: pointer;
-      transition: all .3s;
+      transition: all 0.2s;
+      backdrop-filter: blur(8px);
       white-space: nowrap;
     }
-    .btn-limpiar:hover { 
-      background: rgba(255,255,255,0.15); 
-      border-color: var(--glass-highlight); 
+    .btn-limpiar:hover {
+      border-color: #4A9Ef8;
+      background: rgba(74, 158, 248, 0.15);
+      color: white;
     }
 
-    /* ── MAIN & GRID ──────────────────────────────── */
+    /* ─── MAIN Y CONTADOR ─────────────────────────── */
     main {
-      max-width: 1100px;
-      margin: 48px auto 64px;
-      padding: 0 20px;
+      max-width: 1200px;
+      margin: 60px auto 80px;
+      padding: 0 24px;
+      position: relative;
+      z-index: 10;
     }
 
     .counter {
-      font-size: 13px;
-      color: var(--text-muted);
+      font-size: 14px;
+      color: #9aa8b9;
       font-weight: 500;
-      margin-bottom: 24px;
-      letter-spacing: 0.05em;
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
+      padding-left: 8px;
     }
 
+    /* ─── GRID DE TARJETAS ────────────────────────── */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 24px;
     }
 
-    /* ── CARD PARALLAX ────────────────────────────── */
+    /* ─── TARJETA GLASS ───────────────────────────── */
     .card {
-      border-radius: var(--radius);
+      background: rgba(20, 30, 45, 0.4);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 32px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
-      animation: fadeUp .5s ease both;
-      position: relative;
+      transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+      animation: cardRise 0.5s ease both;
+      box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.6);
     }
-    
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 50%; height: 100%;
-      background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
-      transform: skewX(-20deg);
-      transition: left 0.7s ease;
+
+    @keyframes cardRise {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .card:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-      border-color: var(--glass-highlight);
-    }
-    
-    .card:hover::before { left: 200%; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
+      transform: translateY(-6px) scale(1.02);
+      background: rgba(30, 45, 65, 0.6);
+      border-color: rgba(74, 158, 248, 0.4);
+      box-shadow: 0 30px 60px -20px #4A9Ef8;
     }
 
     .card-header {
       display: flex;
       align-items: center;
       gap: 16px;
-      padding: 24px 24px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 24px 24px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       position: relative;
     }
 
-    .card-header::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: var(--accent);
-      opacity: 0.8;
-    }
-
     .avatar {
-      width: 52px; height: 52px;
-      border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: 'Playfair Display', serif;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
-      color: #000;
-      flex-shrink: 0;
+      color: white;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
     .card-nombre {
       font-family: 'Playfair Display', serif;
-      font-size: 17px;
+      font-size: 1.2rem;
       font-weight: 600;
+      color: white;
       line-height: 1.3;
-      margin-bottom: 4px;
     }
 
     .card-especialidad {
       display: inline-block;
       font-size: 11px;
-      font-weight: 700;
-      border-radius: 6px;
-      padding: 3px 10px;
-      letter-spacing: 0.05em;
+      font-weight: 600;
+      color: #4A9Ef8;
+      background: rgba(74, 158, 248, 0.15);
+      border-radius: 30px;
+      padding: 4px 12px;
+      margin-top: 6px;
+      letter-spacing: 0.4px;
       text-transform: uppercase;
     }
 
@@ -561,16 +610,20 @@
       align-items: flex-start;
       gap: 12px;
       font-size: 14px;
-      color: var(--text-muted);
+      color: #b6c4da;
       line-height: 1.5;
     }
 
-    .info-icon { flex-shrink: 0; font-size: 15px; }
+    .info-icon {
+      flex-shrink: 0;
+      font-size: 16px;
+      opacity: 0.8;
+    }
 
     .card-actions {
       display: flex;
       gap: 10px;
-      padding: 16px 24px 24px;
+      padding: 12px 24px 24px;
       flex-wrap: wrap;
     }
 
@@ -578,119 +631,174 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 16px;
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
+      padding: 10px 18px;
+      border-radius: 40px;
+      font-family: 'Inter', sans-serif;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       text-decoration: none;
-      transition: all .3s;
+      transition: all 0.2s;
       cursor: pointer;
-      border: 1px solid transparent;
+      border: none;
+      backdrop-filter: blur(4px);
     }
-    
-    .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-    .btn-glass {
-      background: rgba(255,255,255,0.05);
-      color: var(--text-main);
-      border-color: var(--glass-border);
+    .btn svg {
+      width: 16px;
+      height: 16px;
     }
-    
-    .btn-glass:hover { 
-      background: rgba(255,255,255,0.15); 
-      border-color: var(--glass-highlight);
-      transform: translateY(-2px);
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e0e8ff;
+    }
+    .btn-outline:hover {
+      background: rgba(74, 158, 248, 0.2);
+      border-color: #4A9Ef8;
+      color: white;
     }
 
     .btn-whatsapp {
       background: rgba(37, 211, 102, 0.2);
+      border: 1px solid rgba(37, 211, 102, 0.3);
       color: #25D366;
-      border-color: rgba(37, 211, 102, 0.3);
     }
-    
-    .btn-whatsapp:hover { 
-      background: #25D366; 
-      color: #fff;
-      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-      transform: translateY(-2px);
+    .btn-whatsapp:hover {
+      background: #25D366;
+      border-color: #25D366;
+      color: black;
+      transform: scale(1.05);
     }
 
-    /* ── SKELETON ─────────────────────────────────── */
+    /* ─── SKELETON LOADER (estilo glass) ──────────── */
     .skeleton-card {
+      background: rgba(20, 30, 45, 0.4);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 32px;
       padding: 24px;
       display: flex;
-      gap: 16px;
+      gap: 18px;
       align-items: flex-start;
-      border-radius: var(--radius);
     }
-    .sk { 
-      background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+
+    .sk {
+      background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.06) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
-      border-radius: 8px; 
+      border-radius: 20px;
     }
-    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-    .sk-avatar { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0; }
-    .sk-lines { flex: 1; display: flex; flex-direction: column; gap: 12px; padding-top: 6px; }
-    .sk-line { height: 12px; }
-    .sk-lg { width: 80%; }
-    .sk-md { width: 50%; }
-    .sk-sm { width: 60%; }
 
-    /* ── EMPTY STATE ──────────────────────────────── */
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .sk-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+
+    .sk-lines {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 6px;
+    }
+
+    .sk-line {
+      height: 14px;
+    }
+
+    .sk-lg { width: 70%; }
+    .sk-md { width: 45%; }
+    .sk-sm { width: 55%; }
+
+    /* ─── EMPTY STATE ─────────────────────────────── */
     .empty-state {
       grid-column: 1 / -1;
       text-align: center;
       padding: 80px 24px;
-      border-radius: var(--radius);
+      background: rgba(255,255,255,0.02);
+      border-radius: 48px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.03);
     }
-    .empty-icon { font-size: 56px; margin-bottom: 20px; opacity: 0.8; }
-    .empty-state p { font-size: 16px; color: var(--text-muted); }
 
-    /* ── FOOTER ───────────────────────────────────── */
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
+    }
+
+    .empty-state p {
+      font-size: 16px;
+      color: #9aa8b9;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────── */
     footer {
       text-align: center;
       padding: 40px 24px;
-      border-top: 1px solid var(--glass-border);
-      font-size: 13px;
-      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      font-size: 14px;
+      color: #7f8b9f;
+      backdrop-filter: blur(8px);
       position: relative;
-      z-index: 1;
+      z-index: 10;
     }
-    footer strong { color: #fff; }
 
-    /* ── RESPONSIVE ───────────────────────────────── */
-    @media (max-width: 600px) {
-      .hero { padding: 60px 20px; }
-      .search-card { flex-direction: column; }
-      select, input[type="text"], .btn-limpiar { width: 100%; }
-      .bg-orb-1 { width: 300px; height: 300px; }
-      .bg-orb-2 { width: 400px; height: 400px; }
+    footer strong {
+      color: #9bbaff;
+      font-weight: 600;
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────── */
+    @media (max-width: 700px) {
+      .search-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      select, .btn-limpiar {
+        width: 100%;
+      }
+      .hero {
+        min-height: 50vh;
+        padding: 60px 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-layer">
-    <div class="bg-orb bg-orb-1"></div>
-    <div class="bg-orb bg-orb-2"></div>
-    <div class="bg-orb bg-orb-3"></div>
+  <!-- Capas líquidas de fondo (efecto glass) -->
+  <div class="liquid-bg">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
   </div>
 
-  <header class="hero">
-    <div class="hero-content">
-      <div class="logo-badge glass-effect">
+  <!-- HERO CON CAPAS PARA PARALLAX -->
+  <header class="hero" id="hero">
+    <div class="hero-bg-layer" id="parallaxLayer1"></div>
+    <div class="hero-bg-layer2" id="parallaxLayer2"></div>
+    <div class="hero-content" id="parallaxContent">
+      <div class="logo-badge">
         <div class="logo-dot">M</div>
         <span>MediCloud</span>
       </div>
       <h1>Directorio de <em>médicos</em> registrados</h1>
-      <p>Encuentra especialistas verificados, consulta su información y contáctalos directamente con nuestra plataforma rápida y segura.</p>
+      <p>Encuentra especialistas verificados, consulta su información y contáctalos directamente.</p>
     </div>
   </header>
 
+  <!-- BARRA DE BÚSQUEDA -->
   <div class="search-wrap">
-    <div class="search-card glass-effect">
+    <div class="search-card">
       <div class="search-input-wrap">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -707,14 +815,42 @@
     </div>
   </div>
 
+  <!-- GRID DE MÉDICOS -->
   <main>
-    <p class="counter" id="counter">Cargando directorio...</p>
+    <p class="counter" id="counter">Cargando...</p>
     <div class="grid" id="grid"></div>
   </main>
 
+  <!-- FOOTER -->
   <footer>
     <p>Directorio público de <strong>MediCloud</strong> · Todos los médicos listados han optado voluntariamente por aparecer en este directorio.</p>
   </footer>
 
+  <!-- Script para parallax suave -->
+  <script>
+    (function() {
+      window.addEventListener('scroll', function() {
+        const scrollY = window.scrollY;
+        const hero = document.getElementById('hero');
+        const layer1 = document.getElementById('parallaxLayer1');
+        const layer2 = document.getElementById('parallaxLayer2');
+        const content = document.getElementById('parallaxContent');
+
+        if (layer1 && layer2 && content) {
+          // Velocidades diferentes para cada capa
+          layer1.style.transform = `translateY(${scrollY * 0.1}px)`;
+          layer2.style.transform = `translateY(${scrollY * 0.2}px)`;
+          content.style.transform = `translateY(${scrollY * 0.05}px)`;
+        }
+
+        // También podemos mover las burbujas de fondo ligeramente
+        const blobs = document.querySelectorAll('.blob');
+        blobs.forEach((blob, index) => {
+          const speed = 0.03 + index * 0.01;
+          blob.style.transform = `translateY(${scrollY * speed}px) translateX(${scrollY * speed * 0.5}px)`;
+        });
+      }, { passive: true });
+    })();
+  </script>
 </body>
 </html>
