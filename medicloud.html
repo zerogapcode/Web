@@ -56,7 +56,7 @@
         }
         .navbar .container {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
             padding: 15px 20px;
         }
@@ -68,6 +68,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-bottom: 10px;
         }
         .logo i {
             color: var(--secondary);
@@ -75,16 +76,37 @@
         .nav-links {
             list-style: none;
             display: flex;
-            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links li {
+            margin: 0;
         }
         .nav-links a {
             text-decoration: none;
             color: var(--secondary);
             font-weight: 600;
             transition: color 0.3s ease;
+            font-size: 1rem;
+            white-space: nowrap;
         }
         .nav-links a:hover {
             color: var(--primary);
+        }
+        @media (min-width: 769px) {
+            .navbar .container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .logo {
+                margin-bottom: 0;
+            }
+            .nav-links {
+                gap: 25px;
+            }
         }
         .hero {
             background: linear-gradient(rgba(38, 70, 83, 0.85), rgba(42, 157, 143, 0.85)), 
@@ -95,7 +117,7 @@
             align-items: center;
             text-align: center;
             color: var(--white);
-            padding-top: 80px;
+            padding-top: 120px;
         }
         .hero h1 {
             font-size: 3.5rem;
@@ -310,9 +332,16 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .hero p { font-size: 1rem; }
-            .nav-links { display: none; }
             .btn { min-width: 140px; }
-            .hero { background-attachment: scroll; }
+            .hero { 
+                background-attachment: scroll;
+                padding-top: 180px;
+            }
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -327,6 +356,7 @@
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#caracteristicas">Características</a></li>
                 <li><a href="#descargas">Descargas</a></li>
+                <li><a href="dirmed.html">Directorio Médico</a></li>
                 <li><a href="#contacto">Contacto</a></li>
             </ul>
         </div>
@@ -344,7 +374,6 @@
 
     <section id="caracteristicas" class="features">
         <div class="container">
-            <!-- NUEVA FRASE CON MÁS ENGAGEMENT -->
             <h2 class="section-title">La herramienta que transforma tu práctica médica</h2>
             <div class="grid-features">
                 <div class="feature-card" onclick="alertaCaracteristica('Protección de datos sensibles, como VIH, con acceso restringido.')">
@@ -382,8 +411,8 @@
                     <small style="font-weight: 300; font-size: 0.75rem; display: block;">Versión 1.2</small>
                 </a>
                 
-                <!-- Android (activo) -->
-                <a href="https://drive.google.com/uc?export=download&id=1tkoOS81sXg1PTjkfu-cxu-nVSqQ6_O_s" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                <!-- Android (activo) con NUEVO ENLACE -->
+                <a href="https://drive.google.com/uc?export=download&id=162t1Wx0skL8Os_GBw53GP75c7FC2Cg-I" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                     <i class="fa-brands fa-android"></i> Android
                     <small style="font-weight: 300; font-size: 0.75rem; display: block;">APK beta</small>
                 </a>
@@ -436,7 +465,6 @@
         </div>
     </footer>
 
-    <!-- Botón flotante "Volver arriba" -->
     <button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Volver arriba">
         <i class="fa-solid fa-chevron-up"></i>
     </button>
