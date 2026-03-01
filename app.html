@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#1A3A5C">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MediCloud">
+  <link rel="manifest" href="manifest.json">
+  <title>MediCloud</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ═══════════════════════════════════════════
+       VARIABLES Y RESET
+    ═══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:     #1A3A5C;
+      --primary-d:   #0d2137;
+      --accent:      #2E7DBF;
+      --accent-l:    #E8F2FB;
+      --green:       #2E7D5E;
+      --green-l:     #E8F5EF;
+      --orange:      #B85C38;
+      --orange-l:    #FBEEE9;
+      --purple:      #7B4F9E;
+      --purple-l:    #F0E8F8;
+      --bg:          #F0F4F8;
+      --surface:     #FFFFFF;
+      --border:      #DDE3EC;
+      --text:        #1A2535;
+      --muted:       #6B7A90;
+      --nav-h:       64px;
+      --sidebar-w:   240px;
+      --radius:      12px;
+      --shadow:      0 2px 12px rgba(0,0,0,0.06);
+      --shadow-md:   0 8px 32px rgba(0,0,0,0.10);
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button { cursor: pointer; font-family: inherit; }
+    input, select, textarea { font-family: inherit; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ═══════════════════════════════════════════
+       VISTAS (páginas)
+    ═══════════════════════════════════════════ */
+    .view { display: none; }
+    .view.active { display: flex; }
+
+    /* ═══════════════════════════════════════════
+       LOGIN
+    ═══════════════════════════════════════════ */
+    #view-login {
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, var(--primary-d) 0%, var(--primary) 55%, #1e4d7a 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #view-login::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 15% 50%, rgba(46,125,191,0.2) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 70% at 85% 20%, rgba(46,125,94,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 50% 90%, rgba(123,79,158,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Patrón de puntos sutil */
+    #view-login::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+
+    .login-card {
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.97);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+      margin: 20px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.25), 0 4px 16px rgba(0,0,0,0.1);
+      animation: loginIn .5s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    @keyframes loginIn {
+      from { opacity: 0; transform: translateY(24px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .login-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .brand-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--accent), var(--green));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .brand-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+    }
+
+    .brand-text span {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .login-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .form-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(46,125,191,0.1);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 8px;
+      transition: background .2s, transform .15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary:hover { background: #244d7a; }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-primary:disabled { background: var(--muted); cursor: not-allowed; }
+
+    .error-msg {
+      background: var(--orange-l);
+      border: 1px solid rgba(184,92,56,0.3);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--orange);
+      margin-top: 12px;
+      display: none;
+    }
+
+    .error-msg.show { display: block; }
+
+    /* ═══════════════════════════════════════════
+       LAYOUT PRINCIPAL
+    ═══════════════════════════════════════════ */
+    #view-app {
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      height: var(--nav-h);
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-right: auto;
+    }
+
+    .topbar-brand .brand-icon {
+      width: 34px; height: 34px;
+      font-size: 15px;
+      border-radius: 9px;
+    }
+
+    .topbar-brand span {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .topbar-doctor {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .topbar-avatar {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .topbar-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      display: none;
+    }
+
+    @media (min-width: 600px) { .topbar-name { display: block; } }
+
+    .btn-logout {
+      padding: 7px 14px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      color: rgba(255,255,255,0.8);
+      font-size: 12px;
+      font-weight: 500;
+      transition: background .2s;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,0.18); }
+
+    /* LAYOUT BODY */
+    .app-body {
+      display: flex;
+      flex: 1;
+      min-height: calc(100vh - var(--nav-h));
+    }
+
+    /* SIDEBAR (desktop) */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 20px 12px;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      position: sticky;
+      top: var(--nav-h);
+      height: calc(100vh - var(--nav-h));
+      overflow-y: auto;
+    }
+
+    @media (min-width: 768px) { .sidebar { display: flex; } }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: all .2s;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item:hover { background: var(--bg); color: var(--text); }
+
+    .nav-item.active {
+      background: var(--accent-l);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .nav-icon { font-size: 18px; flex-shrink: 0; }
+    .nav-sep { height: 1px; background: var(--border); margin: 8px 0; }
+
+    /* CONTENIDO */
+    .app-content {
+      flex: 1;
+      padding: 24px 20px;
+      overflow-y: auto;
+      max-width: 100%;
+    }
+
+    /* BOTTOM NAV (móvil) */
+    .bottom-nav {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 60px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      z-index: 100;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+    }
+
+    @media (min-width: 768px) { .bottom-nav { display: none; } }
+
+    .bottom-nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      border: none;
+      background: none;
+      transition: color .2s;
+    }
+
+    .bottom-nav-item.active { color: var(--accent); }
+    .bottom-nav-item .nav-icon { font-size: 20px; }
+
+    /* Espacio para bottom nav en móvil */
+    @media (max-width: 767px) { .app-content { padding-bottom: 80px; } }
+
+    /* ═══════════════════════════════════════════
+       MÓDULOS (pantallas)
+    ═══════════════════════════════════════════ */
+    .module { display: none; }
+    .module.active { display: block; }
+
+    .module-header {
+      margin-bottom: 24px;
+    }
+
+    .module-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .module-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════
+       DASHBOARD
+    ═══════════════════════════════════════════ */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 600px) {
+      .metrics-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .metric-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 18px 16px;
+      box-shadow: var(--shadow);
+      animation: fadeUp .4s ease both;
+    }
+
+    .metric-card:nth-child(1) { animation-delay: .05s; }
+    .metric-card:nth-child(2) { animation-delay: .10s; }
+    .metric-card:nth-child(3) { animation-delay: .15s; }
+    .metric-card:nth-child(4) { animation-delay: .20s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .metric-icon {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Citas de hoy */
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      background: var(--accent-l);
+      color: var(--accent);
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .cita-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow);
+      animation: fadeUp .4s ease both;
+    }
+
+    .cita-hora {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 48px;
+    }
+
+    .cita-info { flex: 1; }
+
+    .cita-paciente {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .cita-tratamiento {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .cita-estado {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .estado-programada  { background: var(--accent-l);  color: var(--accent); }
+    .estado-completada  { background: var(--green-l);   color: var(--green); }
+    .estado-cancelada   { background: var(--orange-l);  color: var(--orange); }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+    }
+
+    .empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-text { font-size: 14px; }
+
+    /* ═══════════════════════════════════════════
+       LOADER
+    ═══════════════════════════════════════════ */
+    .loader {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+    }
+
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ═══════════════════════════════════════════
+       PRÓXIMAMENTE
+    ═══════════════════════════════════════════ */
+    .coming-soon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 24px;
+      text-align: center;
+    }
+
+    .coming-soon-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+    }
+
+    .coming-soon h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .coming-soon p {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 320px;
+    }
+
+    /* ═══════════════════════════════════════════
+       UTILIDADES
+    ═══════════════════════════════════════════ */
+    .surface {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 500px) { .grid-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ LOGIN ═══════════════ -->
+  <div id="view-login" class="view active">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-icon">M</div>
+        <div class="brand-text">
+          <h1>MediCloud</h1>
+          <span>Sistema de gestión médica</span>
+        </div>
+      </div>
+      <p class="login-title">Iniciar sesión</p>
+      <div class="form-group">
+        <label>Correo electrónico</label>
+        <input type="email" id="login-email" class="form-input" placeholder="doctor@ejemplo.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" id="login-pass" class="form-input" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn-primary" id="btn-login">Entrar</button>
+      <div class="error-msg" id="login-error"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ APP ═══════════════ -->
+  <div id="view-app" class="view">
+
+    <!-- TOPBAR -->
+    <nav class="topbar">
+      <div class="topbar-brand">
+        <div class="brand-icon">M</div>
+        <span>MediCloud</span>
+      </div>
+      <div class="topbar-doctor">
+        <div class="topbar-avatar" id="topbar-avatar">DR</div>
+        <span class="topbar-name" id="topbar-name">Doctor</span>
+        <button class="btn-logout" id="btn-logout">Salir</button>
+      </div>
+    </nav>
+
+    <div class="app-body">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <button class="nav-item active" data-module="dashboard">
+          <span class="nav-icon">🏠</span> Inicio
+        </button>
+        <button class="nav-item" data-module="pacientes">
+          <span class="nav-icon">👤</span> Pacientes
+        </button>
+        <button class="nav-item" data-module="agenda">
+          <span class="nav-icon">📅</span> Agenda
+        </button>
+        <div class="nav-sep"></div>
+        <button class="nav-item" data-module="directorio">
+          <span class="nav-icon">🗂️</span> Directorio
+        </button>
+        <button class="nav-item" data-module="config">
+          <span class="nav-icon">⚙️</span> Configuración
+        </button>
+      </aside>
+
+      <!-- CONTENIDO -->
+      <main class="app-content">
+
+        <!-- DASHBOARD -->
+        <div id="module-dashboard" class="module active">
+          <div class="module-header">
+            <h2 class="module-title">Buenos días</h2>
+            <p class="module-subtitle" id="dash-fecha"></p>
+          </div>
+
+          <!-- Métricas -->
+          <div class="metrics-grid" id="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-icon">📋</div>
+              <div class="metric-value" id="m-citas-hoy">—</div>
+              <div class="metric-label">Citas hoy</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon">👥</div>
+              <div class="metric-value" id="m-pacientes">—</div>
+              <div class="metric-label">Pacientes</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon">⏳</div>
+              <div class="metric-value" id="m-pendientes">—</div>
+              <div class="metric-label">Pendientes</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon">📆</div>
+              <div class="metric-value" id="m-semana">—</div>
+              <div class="metric-label">Esta semana</div>
+            </div>
+          </div>
+
+          <!-- Citas de hoy -->
+          <div class="section-title">
+            Citas de hoy
+            <span class="badge" id="badge-hoy">0</span>
+          </div>
+          <div id="lista-citas-hoy">
+            <div class="loader"><div class="spinner"></div></div>
+          </div>
+        </div>
+
+        <!-- PACIENTES -->
+        <div id="module-pacientes" class="module">
+          <div class="coming-soon">
+            <div class="coming-soon-icon">👤</div>
+            <h3>Módulo de Pacientes</h3>
+            <p>En construcción — próximamente disponible en esta versión web.</p>
+          </div>
+        </div>
+
+        <!-- AGENDA -->
+        <div id="module-agenda" class="module">
+          <div class="coming-soon">
+            <div class="coming-soon-icon">📅</div>
+            <h3>Agenda de Citas</h3>
+            <p>En construcción — próximamente disponible en esta versión web.</p>
+          </div>
+        </div>
+
+        <!-- DIRECTORIO -->
+        <div id="module-directorio" class="module">
+          <div class="coming-soon">
+            <div class="coming-soon-icon">🗂️</div>
+            <h3>Directorio Médico</h3>
+            <p>En construcción — próximamente disponible en esta versión web.</p>
+          </div>
+        </div>
+
+        <!-- CONFIGURACIÓN -->
+        <div id="module-config" class="module">
+          <div class="coming-soon">
+            <div class="coming-soon-icon">⚙️</div>
+            <h3>Configuración</h3>
+            <p>En construcción — próximamente disponible en esta versión web.</p>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <!-- BOTTOM NAV MÓVIL -->
+    <nav class="bottom-nav">
+      <button class="bottom-nav-item active" data-module="dashboard">
+        <span class="nav-icon">🏠</span>
+        <span>Inicio</span>
+      </button>
+      <button class="bottom-nav-item" data-module="pacientes">
+        <span class="nav-icon">👤</span>
+        <span>Pacientes</span>
+      </button>
+      <button class="bottom-nav-item" data-module="agenda">
+        <span class="nav-icon">📅</span>
+        <span>Agenda</span>
+      </button>
+      <button class="bottom-nav-item" data-module="directorio">
+        <span class="nav-icon">🗂️</span>
+        <span>Directorio</span>
+      </button>
+      <button class="bottom-nav-item" data-module="config">
+        <span class="nav-icon">⚙️</span>
+        <span>Config</span>
+      </button>
+    </nav>
+
+  </div><!-- /view-app -->
+
+  <!-- ═══════════════ FIREBASE ═══════════════ -->
+  <script type="module">
+    import { initializeApp }         from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+                                     from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getFirestore, collection, doc, getDoc, getDocs, query, where, Timestamp }
+                                     from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // ── Config ──────────────────────────────
+    const firebaseConfig = {
+      apiKey:            "AIzaSyDVL_VCV5qdXE8xZUZadrBzabjlD3DJLG0",
+      authDomain:        "medicloud-1cd0f.firebaseapp.com",
+      projectId:         "medicloud-1cd0f",
+      storageBucket:     "medicloud-1cd0f.firebasestorage.app",
+      messagingSenderId: "337891468698",
+      appId:             "1:337891468698:web:179bf0842d6255dfd64623",
+      measurementId:     "G-VVSCC331VL"
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    // ── Estado ──────────────────────────────
+    let currentUser  = null;
+    let doctorDb     = null;
+    let doctorNombre = '';
+
+    // ── Helpers ─────────────────────────────
+    const $ = id => document.getElementById(id);
+    const show = v => { document.querySelectorAll('.view').forEach(x => x.classList.remove('active')); v.classList.add('active'); };
+
+    // Módulos
+    function activarModulo(nombre) {
+      document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+      document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(b => {
+        b.classList.toggle('active', b.dataset.module === nombre);
+      });
+      const m = $('module-' + nombre);
+      if (m) { m.classList.add('active'); }
+      if (nombre === 'dashboard') cargarDashboard();
+    }
+
+    // Fecha bonita
+    function fechaHoy() {
+      const d = new Date();
+      const dias    = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+      const meses   = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+      return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
+    }
+
+    function hora(ts) {
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    }
+
+    // ── Auth ─────────────────────────────────
+    onAuthStateChanged(auth, async user => {
+      if (user) {
+        currentUser = user;
+        await iniciarSesion(user);
+      } else {
+        currentUser = null;
+        show($('view-login'));
+      }
+    });
+
+    async function iniciarSesion(user) {
+      try {
+        // Obtener database del doctor
+        const mapping = await getDoc(doc(db, 'doctor_databases', user.uid));
+        if (mapping.exists()) {
+          const dbId = mapping.data().databaseId;
+          doctorDb = getFirestore(app, dbId);
+        } else {
+          doctorDb = db;
+        }
+
+        // Obtener perfil del doctor
+        try {
+          const perfil = await getDoc(doc(doctorDb, 'config', 'perfil'));
+          if (perfil.exists()) {
+            doctorNombre = perfil.data().nombre || user.email;
+          } else {
+            doctorNombre = user.email;
+          }
+        } catch { doctorNombre = user.email; }
+
+        // Actualizar UI
+        const iniciales = doctorNombre.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+        $('topbar-avatar').textContent = iniciales || 'DR';
+        $('topbar-name').textContent   = doctorNombre;
+
+        show($('view-app'));
+        activarModulo('dashboard');
+      } catch (e) {
+        console.error(e);
+        mostrarError('Error al cargar tu cuenta. Intenta de nuevo.');
+      }
+    }
+
+    // ── Login ────────────────────────────────
+    $('btn-login').addEventListener('click', async () => {
+      const email = $('login-email').value.trim();
+      const pass  = $('login-pass').value;
+      const errEl = $('login-error');
+      const btn   = $('btn-login');
+
+      errEl.classList.remove('show');
+      if (!email || !pass) {
+        errEl.textContent = 'Ingresa tu correo y contraseña.';
+        errEl.classList.add('show');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Entrando...';
+
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+      } catch (e) {
+        btn.disabled = false;
+        btn.textContent = 'Entrar';
+        const msgs = {
+          'auth/user-not-found':    'No existe una cuenta con ese correo.',
+          'auth/wrong-password':    'Contraseña incorrecta.',
+          'auth/invalid-email':     'Correo inválido.',
+          'auth/too-many-requests': 'Demasiados intentos. Intenta más tarde.',
+          'auth/invalid-credential':'Correo o contraseña incorrectos.',
+        };
+        errEl.textContent = msgs[e.code] || 'Error al iniciar sesión.';
+        errEl.classList.add('show');
+      }
+    });
+
+    // Enter en los campos de login
+    [$('login-email'), $('login-pass')].forEach(el =>
+      el.addEventListener('keydown', e => { if (e.key === 'Enter') $('btn-login').click(); })
+    );
+
+    // ── Logout ───────────────────────────────
+    $('btn-logout').addEventListener('click', () => signOut(auth));
+
+    // ── Navegación ───────────────────────────
+    document.querySelectorAll('[data-module]').forEach(btn => {
+      btn.addEventListener('click', () => activarModulo(btn.dataset.module));
+    });
+
+    // ── Dashboard ────────────────────────────
+    async function cargarDashboard() {
+      if (!doctorDb) return;
+
+      $('dash-fecha').textContent = fechaHoy();
+
+      const hoy   = new Date();
+      hoy.setHours(0,0,0,0);
+      const manana = new Date(hoy); manana.setDate(manana.getDate()+1);
+
+      const inicioSemana = new Date(hoy);
+      inicioSemana.setDate(hoy.getDate() - hoy.getDay());
+      const finSemana = new Date(inicioSemana); finSemana.setDate(inicioSemana.getDate()+7);
+
+      try {
+        // Cargar todas las citas
+        const citasSnap = await getDocs(collection(doctorDb, 'citas'));
+        const todasCitas = citasSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        // Métricas
+        const citasHoy = todasCitas.filter(c => {
+          const f = c.inicio?.toDate?.() || new Date(c.inicio);
+          return f >= hoy && f < manana;
+        });
+
+        const citasSemana = todasCitas.filter(c => {
+          const f = c.inicio?.toDate?.() || new Date(c.inicio);
+          return f >= inicioSemana && f < finSemana;
+        });
+
+        const pendientes = todasCitas.filter(c => {
+          const f = c.inicio?.toDate?.() || new Date(c.inicio);
+          return f >= new Date() && (c.estado === 'programada' || !c.estado);
+        });
+
+        $('m-citas-hoy').textContent = citasHoy.length;
+        $('m-semana').textContent    = citasSemana.length;
+        $('m-pendientes').textContent = pendientes.length;
+
+        // Contar pacientes
+        try {
+          const pacSnap = await getDocs(collection(doctorDb, 'pacientes'));
+          $('m-pacientes').textContent = pacSnap.size;
+        } catch { $('m-pacientes').textContent = '—'; }
+
+        // Lista citas de hoy
+        const lista = $('lista-citas-hoy');
+        $('badge-hoy').textContent = citasHoy.length;
+
+        if (citasHoy.length === 0) {
+          lista.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon">📭</div>
+              <p class="empty-text">Sin citas para hoy</p>
+            </div>`;
+          return;
+        }
+
+        // Ordenar por hora
+        citasHoy.sort((a, b) => {
+          const ta = a.inicio?.toDate?.() || new Date(a.inicio);
+          const tb = b.inicio?.toDate?.() || new Date(b.inicio);
+          return ta - tb;
+        });
+
+        lista.innerHTML = citasHoy.map((c, i) => {
+          const estado = c.estado || 'programada';
+          const ini    = c.inicio?.toDate?.() || new Date(c.inicio);
+          return `
+            <div class="cita-card" style="animation-delay:${i*60}ms">
+              <div class="cita-hora">${hora(c.inicio)}</div>
+              <div class="cita-info">
+                <div class="cita-paciente">${c.pacienteNombre || 'Paciente'}</div>
+                <div class="cita-tratamiento">${c.tratamiento || 'Sin tratamiento especificado'}</div>
+              </div>
+              <span class="cita-estado estado-${estado}">${estado.charAt(0).toUpperCase()+estado.slice(1)}</span>
+            </div>`;
+        }).join('');
+
+      } catch (e) {
+        console.error(e);
+        $('lista-citas-hoy').innerHTML = `<p style="color:var(--muted);font-size:13px">Error al cargar las citas.</p>`;
+      }
+    }
+
+    // ── Saludo dinámico ──────────────────────
+    function saludo() {
+      const h = new Date().getHours();
+      if (h < 12) return 'Buenos días';
+      if (h < 19) return 'Buenas tardes';
+      return 'Buenas noches';
+    }
+
+    // Actualizar saludo al mostrar dashboard
+    const observer = new MutationObserver(() => {
+      if ($('module-dashboard').classList.contains('active')) {
+        $('module-dashboard').querySelector('.module-title').textContent =
+          `${saludo()}, Dr. ${doctorNombre.split(' ')[0] || ''}`;
+      }
+    });
+    observer.observe($('module-dashboard'), { attributes: true });
+
+  </script>
+
+</body>
+</html>
