@@ -2041,6 +2041,15 @@
         await iniciarSesion(user);
       } else {
         currentUser = null;
+        doctorDb    = null;
+        doctorNombre = '';
+        // Resetear botón y limpiar campos para que se pueda iniciar sesión de nuevo
+        const btn = $('btn-login');
+        btn.disabled    = false;
+        btn.textContent = 'Entrar';
+        $('login-email').value = '';
+        $('login-pass').value  = '';
+        $('login-error').classList.remove('show');
         show($('view-login'));
       }
     });
