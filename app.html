@@ -2479,7 +2479,13 @@
         if (citaEditandoId) await setDoc(doc(doctorDb,'citas',citaEditandoId),data,{merge:true});
         else                await addDoc(collection(doctorDb,'citas'),data);
         cerrarModalCita();
-        cargarAgenda();
+        cargarAgenda(); // Recarga la agenda general
+
+        // Si estamos en el expediente de un paciente, recargar su historial
+        if (pacienteActualId) {
+          cargarHistorial(pacienteActualId);
+        }
+
       } catch(e) {
         alert('Error: '+e.message);
         btn.disabled=false; btn.textContent='Guardar cita';
