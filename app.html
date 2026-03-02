@@ -15,7 +15,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 
   <style>
-    /* (estilos completos, sin cambios) */
     /* ═══════════════════════════════════════════
        VARIABLES Y RESET
     ═══════════════════════════════════════════ */
@@ -3195,8 +3194,26 @@ Firma del paciente`;
       }
     }
 
+    // ── NUEVA VARIABLE PARA EL HISTORIAL ──
+    let citaActualDetalle = null;
+
+    // ── FUNCIÓN PARA EDITAR DESDE EL HISTORIAL ──
+    window.editarCitaDesdeHistorial = function() {
+      if (citaActualDetalle) {
+        // Convertir inicioDate a Date si es string
+        let citaParaEditar = { ...citaActualDetalle };
+        if (typeof citaParaEditar.inicioDate === 'string') {
+          citaParaEditar.inicioDate = new Date(citaParaEditar.inicioDate);
+        }
+        abrirFormCita(citaParaEditar);
+        cerrarDetalleCita();
+      }
+    };
+
+    // ── MODIFICAR verDetalleCita para guardar la cita ──
     window.verDetalleCita = function(encoded) {
-      const c   = JSON.parse(decodeURIComponent(encoded));
+      const c = JSON.parse(decodeURIComponent(encoded));
+      citaActualDetalle = c; // Guardar para edición
       const ini = new Date(c.inicioDate);
       const fin = new Date(ini.getTime() + (c.duracionMin||30)*60000);
       const st  = estadoCitaStyle(c.estado, c.pacienteNuevo);
@@ -3215,7 +3232,6 @@ Firma del paciente`;
       document.getElementById('modal-detalle-cita').style.display = 'flex';
     };
 
-    // 🛠️ FUNCIÓN AGREGADA PARA CERRAR EL MODAL DE DETALLE DE CITA
     window.cerrarDetalleCita = function() {
       document.getElementById('modal-detalle-cita').style.display = 'none';
     };
@@ -3854,7 +3870,7 @@ Firma del paciente`;
     </div>
   </div>
 
-  <!-- ═══════════════ MODAL DETALLE CITA (HISTORIAL) ═══════════════ -->
+  <!-- ═══════════════ MODAL DETALLE CITA (HISTORIAL) - MODIFICADO ═══════════════ -->
   <div id="modal-detalle-cita" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);align-items:flex-end;justify-content:center">
     <div style="background:var(--bg);border-radius:20px 20px 0 0;width:100%;max-width:600px;max-height:85vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md)">
       <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0"></div>
@@ -3873,8 +3889,9 @@ Firma del paciente`;
         </div>
         <div id="mdc-notas-wrap"></div>
       </div>
-      <div style="padding:14px 20px;border-top:1px solid var(--border)">
-        <button onclick="cerrarDetalleCita()" style="width:100%;padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;color:var(--muted)">Cerrar</button>
+      <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px">
+        <button onclick="editarCitaDesdeHistorial()" style="flex:1;padding:12px;background:var(--accent-l);border:1.5px solid var(--accent);border-radius:10px;font-size:14px;cursor:pointer;color:var(--accent);font-weight:600">✏️ Editar</button>
+        <button onclick="cerrarDetalleCita()" style="flex:1;padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;color:var(--muted)">Cerrar</button>
       </div>
     </div>
   </div>
