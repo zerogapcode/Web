@@ -15,6 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 
   <style>
+    /* (estilos completos, sin cambios) */
     /* ═══════════════════════════════════════════
        VARIABLES Y RESET
     ═══════════════════════════════════════════ */
@@ -3212,6 +3213,11 @@ Firma del paciente`;
            <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;color:var(--text);line-height:1.7">${c.notas}</div>`
         : `<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);font-style:italic">Sin notas registradas para esta cita.</div>`;
       document.getElementById('modal-detalle-cita').style.display = 'flex';
+    };
+
+    // 🛠️ FUNCIÓN AGREGADA PARA CERRAR EL MODAL DE DETALLE DE CITA
+    window.cerrarDetalleCita = function() {
+      document.getElementById('modal-detalle-cita').style.display = 'none';
     };
 
     // Mostrar tabs historial+consentimientos solo al editar, igual que Flutter
