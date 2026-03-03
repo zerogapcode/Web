@@ -1742,7 +1742,13 @@
                 </div>
                 <div class="switch-row" style="margin-top:12px">
                   <div class="switch-info"><div class="switch-label">Menopausia</div></div>
-                  <label class="toggle"><input type="checkbox" id="pac-menopausia"><span class="toggle-slider"></span></label>
+                  <label class="toggle"><input type="checkbox" id="pac-menopausia" onchange="toggleEdadMenopausia()"><span class="toggle-slider"></span></label>
+                </div>
+                <div id="pac-edad-menopausia-wrap" style="display:none;margin-top:10px">
+                  <div class="form-group">
+                    <label>Edad de la menopausia</label>
+                    <input type="text" class="form-input" id="pac-edad-menopausia" placeholder="50">
+                  </div>
                 </div>
                 <div class="switch-row" style="margin-top:12px">
                   <div class="switch-info"><div class="switch-label">Uso de Anticonceptivos Orales (ACO)</div></div>
@@ -2560,6 +2566,12 @@
       }).join('');
     }
 
+    window.toggleEdadMenopausia = function() {
+      const cb   = document.getElementById('pac-menopausia');
+      const wrap = document.getElementById('pac-edad-menopausia-wrap');
+      if (wrap) wrap.style.display = cb && cb.checked ? 'block' : 'none';
+    };
+
     window.toggleEsteticoDetalle = function(key) {
       const cb = document.getElementById('est-' + key);
       const inp = document.getElementById('estd-' + key);
@@ -2648,7 +2660,7 @@
        'pac-tel-recados','pac-email','pac-emerg-nombre','pac-emerg-tel','pac-referido',
        'pac-alerg-med','pac-alerg-alim','pac-alerg-otras','pac-medicacion',
        'pac-vacunas','pac-autoinmunes','pac-cirugias','pac-fracturas',
-       'pac-menarquia','pac-gestas','pac-partos','pac-cesareas'
+       'pac-menarquia','pac-gestas','pac-partos','pac-cesareas','pac-edad-menopausia'
       ].forEach(id => { const el = $(id); if (el) el.value = ''; });
 
       ['pac-sexo','pac-estado-civil','pac-etnicidad','pac-religion',
@@ -2708,6 +2720,11 @@
       set('pac-partos',      p.partos);
       set('pac-cesareas',    p.cesareas);
       chk('pac-menopausia',  p.menopausia);
+      if (p.menopausia) {
+        const wrap = document.getElementById('pac-edad-menopausia-wrap');
+        if (wrap) wrap.style.display = 'block';
+        set('pac-edad-menopausia', p.edadMenopausia);
+      }
       chk('pac-aco',         p.usoACO);
 
       chk('pac-tabaquismo',  p.tabaquismo);
@@ -2822,6 +2839,7 @@
           partos:               $('pac-partos').value.trim(),
           cesareas:             $('pac-cesareas').value.trim(),
           menopausia:           $('pac-menopausia').checked,
+          edadMenopausia:       $('pac-menopausia').checked ? $('pac-edad-menopausia').value.trim() : '',
           usoACO:               $('pac-aco').checked,
           tabaquismo:           $('pac-tabaquismo').checked,
           cafeina:              $('pac-cafeina').checked,
