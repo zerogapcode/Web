@@ -1521,6 +1521,186 @@
     }
 
     @media (max-width: 500px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* ── ALERTA FIN DE CITA — Liquid Glass ─────────────────── */
+    #alerta-cita-modal {
+      display: none;
+      position: fixed; inset: 0; z-index: 1000;
+      align-items: center; justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      animation: fadeIn .25s ease;
+    }
+    .alerta-cita-card {
+      position: relative;
+      width: 100%; max-width: 360px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.3),
+        0 2px 8px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        inset 0 -1px 0 rgba(255,255,255,0.08);
+      animation: alertaIn .4s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes alertaIn {
+      from { opacity: 0; transform: scale(.88) translateY(20px); }
+      to   { opacity: 1; transform: scale(1)   translateY(0); }
+    }
+    .alerta-cita-glow {
+      position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(120,180,255,0.35) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .alerta-cita-header {
+      padding: 32px 24px 20px;
+      text-align: center;
+      position: relative;
+    }
+    .alerta-cita-icono {
+      font-size: 44px; margin-bottom: 12px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+    .alerta-cita-titulo {
+      font-size: 20px; font-weight: 700;
+      color: white;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+      margin-bottom: 4px;
+    }
+    .alerta-cita-sub {
+      font-size: 13px; color: rgba(255,255,255,0.65);
+    }
+    .alerta-cita-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      margin: 0 24px;
+    }
+    .alerta-cita-body { padding: 20px 24px 28px; }
+    .alerta-cita-info {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 14px 16px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .alerta-cita-pac {
+      font-size: 17px; font-weight: 700;
+      color: white; margin-bottom: 4px;
+    }
+    .alerta-cita-trat {
+      font-size: 13px; color: rgba(255,255,255,0.65);
+    }
+    .alerta-cita-pregunta {
+      font-size: 13px; color: rgba(255,255,255,0.6);
+      text-align: center; margin-bottom: 14px;
+      font-weight: 500; letter-spacing: .2px;
+    }
+    .alerta-cita-btns { display: flex; flex-direction: column; gap: 10px; }
+    .alerta-btn-completada {
+      padding: 14px 16px;
+      border: none; border-radius: 14px; cursor: pointer;
+      font-size: 14px; font-weight: 600;
+      background: linear-gradient(135deg, #34d399, #10b981);
+      color: white;
+      box-shadow: 0 4px 16px rgba(16,185,129,0.4);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .alerta-btn-completada:active { transform: scale(.97); box-shadow: none; }
+    .alerta-btn-continua {
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 14px; cursor: pointer;
+      font-size: 14px; font-weight: 600;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      backdrop-filter: blur(10px);
+      transition: background .15s, transform .15s;
+    }
+    .alerta-btn-continua:active { transform: scale(.97); }
+    .alerta-btn-continua:hover  { background: rgba(255,255,255,0.2); }
+    .alerta-btn-cancelada {
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; cursor: pointer;
+      font-size: 13px;
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+      transition: color .15s, transform .15s;
+    }
+    .alerta-btn-cancelada:active { transform: scale(.97); }
+    .alerta-btn-cancelada:hover  { color: rgba(255,255,255,0.75); }
+
+
+    /* ── TOAST DE INICIO DE CITA ────────────────────────────── */
+    #toast-inicio-cita {
+      position: fixed;
+      bottom: 90px;
+      left: 50%; transform: translateX(-50%) translateY(30px);
+      z-index: 998;
+      opacity: 0;
+      transition: all .4s cubic-bezier(.22,1,.36,1);
+      pointer-events: none;
+      width: calc(100% - 32px);
+      max-width: 400px;
+    }
+    #toast-inicio-cita.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: all;
+    }
+    .tic-card {
+      background: rgba(30,30,60,0.92);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tic-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tic-icono {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .tic-info { flex: 1; }
+    .tic-titulo { font-size: 13px; font-weight: 700; color: white; }
+    .tic-sub    { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 1px; }
+    .tic-btns   { display: flex; gap: 8px; }
+    .tic-btn {
+      flex: 1; padding: 8px 6px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      color: white; font-size: 12px; font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+      text-align: center;
+    }
+    .tic-btn:hover  { background: rgba(255,255,255,0.2); }
+    .tic-btn:active { transform: scale(.97); }
+    .tic-btn-ok     { background: rgba(52,211,153,0.25); border-color: rgba(52,211,153,0.4); }
+    .tic-btn-ok:hover { background: rgba(52,211,153,0.4); }
+    .tic-btn-cerrar {
+      padding: 0 10px;
+      background: transparent; border: none;
+      color: rgba(255,255,255,0.35); font-size: 16px;
+      cursor: pointer; flex-shrink: 0;
+    }
+    @media (min-width: 768px) { #toast-inicio-cita { bottom: 40px; } }
+
   </style>
 </head>
 <body>
@@ -2145,6 +2325,25 @@
 
   <!-- Toast de sync -->
   <div id="sync-toast"></div>
+
+  <!-- TOAST INICIO DE CITA -->
+  <div id="toast-inicio-cita">
+    <div class="tic-card">
+      <div class="tic-top">
+        <div class="tic-icono">🕐</div>
+        <div class="tic-info">
+          <div class="tic-titulo" id="tic-nombre"></div>
+          <div class="tic-sub"    id="tic-trat"></div>
+        </div>
+        <button class="tic-btn-cerrar" onclick="cerrarToastInicio()">✕</button>
+      </div>
+      <div class="tic-btns">
+        <button class="tic-btn tic-btn-ok"  onclick="responderInicioCita('en_curso')">▶ Iniciada</button>
+        <button class="tic-btn"             onclick="responderInicioCita('retrasada')">⏰ Retrasada</button>
+        <button class="tic-btn"             onclick="responderInicioCita('adelantada')">⏩ Adelantada</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══════════════ FIREBASE ═══════════════ -->
   <script type="module">
@@ -2868,6 +3067,7 @@
     window.volverALista = function() {
       $('pac-vista-expediente').style.display = 'none';
       $('pac-vista-lista').style.display      = 'block';
+      renderPacientes(todosPacientes);
     };
 
     function limpiarFormPaciente() {
@@ -3401,6 +3601,67 @@
 
     window.cerrarDetalleCita = function() { document.getElementById('modal-detalle-cita').style.display = 'none'; };
 
+    window.imprimirNotasCita = function() {
+      const c   = citaActualDetalle;
+      if (!c) return;
+      const ini = new Date(c.inicioDate);
+      const fin = new Date(ini.getTime() + (c.duracion_min||30)*60000);
+      const pad = n => String(n).padStart(2,'0');
+      const MESES = ['enero','febrero','marzo','abril','mayo','junio',
+                     'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+      const fechaTxt = `${ini.getDate()} de ${MESES[ini.getMonth()]} de ${ini.getFullYear()}`;
+      const horaTxt  = `${pad(ini.getHours())}:${pad(ini.getMinutes())} – ${pad(fin.getHours())}:${pad(fin.getMinutes())}`;
+      const hoy = new Date().toLocaleDateString('es-VE', { day:'2-digit', month:'long', year:'numeric' });
+
+      const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Notas — ${c.paciente_nombre || 'Paciente'}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; font-size: 14px; color: #1a1a1a; padding: 48px; max-width: 680px; margin: auto; line-height: 1.8; }
+    .header { border-bottom: 2px solid #1a1a6e; padding-bottom: 16px; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .pac-nombre { font-size: 22px; font-weight: 700; color: #1a1a6e; }
+    .meta { font-size: 11px; color: #888; text-align: right; }
+    .cita-info { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; display: flex; gap: 24px; }
+    .ci-item { display: flex; flex-direction: column; }
+    .ci-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+    .ci-valor { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+    .notas-titulo { font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: #1a1a6e; font-weight: 700; margin-bottom: 12px; }
+    .notas-cuerpo { white-space: pre-wrap; font-size: 14px; line-height: 1.9; color: #333; border-left: 3px solid #1a1a6e; padding-left: 18px; }
+    .sin-notas { color: #aaa; font-style: italic; }
+    .footer { margin-top: 48px; padding-top: 12px; border-top: 1px solid #e5e7eb; font-size: 10px; color: #bbb; display: flex; justify-content: space-between; }
+    @media print { body { padding: 20px; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="pac-nombre">${c.paciente_nombre || 'Paciente'}</div>
+    <div class="meta"><strong>MediCloud</strong><br>Impreso el ${hoy}</div>
+  </div>
+  <div class="cita-info">
+    <div class="ci-item"><span class="ci-label">Tratamiento</span><span class="ci-valor">${c.tratamiento || 'Sin especificar'}</span></div>
+    <div class="ci-item"><span class="ci-label">Fecha</span><span class="ci-valor">${fechaTxt}</span></div>
+    <div class="ci-item"><span class="ci-label">Horario</span><span class="ci-valor">${horaTxt}</span></div>
+  </div>
+  <div class="notas-titulo">Notas de la cita</div>
+  ${c.notas
+    ? `<div class="notas-cuerpo">${c.notas}</div>`
+    : `<div class="sin-notas">Sin notas registradas para esta cita.</div>`}
+  <div class="footer">
+    <span>MediCloud — Notas de cita</span>
+    <span>${c.paciente_nombre || ''}</span>
+  </div>
+  <script>window.onload = () => window.print();<\/script>
+</body>
+</html>`;
+
+      const win = window.open('', '_blank');
+      win.document.write(html);
+      win.document.close();
+    };
+
     // ════════════════════════════════════════════════════════════
     // PLANTILLAS DE CONSENTIMIENTO
     // ════════════════════════════════════════════════════════════
@@ -3767,47 +4028,93 @@
     // Revisa cada minuto si alguna cita programada acaba de terminar
     // y pregunta al médico si fue completada, continúa o se canceló
     // ════════════════════════════════════════════════════════════
-    const citasAlertadas = new Set(); // evita alertar la misma cita dos veces
+    // IDs de citas ya alertadas para no repetir
+    const citasAlertadasInicio = new Set();
+    const citasAlertadasFin    = new Set();
+    let   toastInicioTimer     = null;
+    let   citaToastActual      = null; // cita activa en el toast de inicio
 
-    async function verificarCitasTerminadas() {
+    async function verificarCitas() {
       if (!currentUser) return;
       const ahora = new Date();
+      const VENTANA = 5 * 60 * 1000; // 5 minutos
 
       try {
-        // Solo citas programadas de hoy
-        const hoy   = new Date(); hoy.setHours(0,0,0,0);
+        const hoy    = new Date(); hoy.setHours(0,0,0,0);
         const manana = new Date(hoy); manana.setDate(hoy.getDate()+1);
 
         const { data: citas } = await supabase
           .from('citas')
           .select('*')
-          .eq('estado', 'programada')
+          .in('estado', ['programada', 'en_curso', 'retrasada', 'adelantada'])
           .gte('inicio', hoy.toISOString())
           .lt('inicio',  manana.toISOString());
 
         if (!citas) return;
 
         for (const c of citas) {
-          if (citasAlertadas.has(c.id)) continue;
           const inicio = new Date(c.inicio);
           const fin    = new Date(inicio.getTime() + (c.duracion_min || 30) * 60000);
+          const diffIni = ahora - inicio; // ms desde inicio
+          const diffFin = ahora - fin;    // ms desde fin
 
-          // Alertar si la cita terminó hace menos de 5 minutos
-          const diffMs = ahora - fin;
-          if (diffMs >= 0 && diffMs <= 5 * 60 * 1000) {
-            citasAlertadas.add(c.id);
-            mostrarAlertaCita(c);
-            break; // una alerta a la vez
+          // — Toast de INICIO: ventana de 5 min desde la hora programada
+          if (!citasAlertadasInicio.has(c.id) &&
+              c.estado === 'programada' &&
+              diffIni >= 0 && diffIni <= VENTANA) {
+            citasAlertadasInicio.add(c.id);
+            mostrarToastInicio(c);
+            break;
+          }
+
+          // — Modal de CIERRE: ventana de 5 min desde el fin
+          // Solo si estaba en_curso, retrasada, adelantada o programada
+          if (!citasAlertadasFin.has(c.id) &&
+              diffFin >= 0 && diffFin <= VENTANA) {
+            citasAlertadasFin.add(c.id);
+            cerrarToastInicio(); // ocultar toast si estaba visible
+            mostrarModalCierre(c);
+            break;
           }
         }
       } catch(e) { console.warn('verificarCitas:', e.message); }
     }
 
-    function mostrarAlertaCita(cita) {
-      $('alerta-cita-nombre').textContent     = cita.paciente_nombre || 'Paciente';
+    // ── Toast de INICIO ──────────────────────────────────────────
+    function mostrarToastInicio(cita) {
+      citaToastActual = cita;
+      $('tic-nombre').textContent = cita.paciente_nombre || 'Paciente';
+      $('tic-trat').textContent   = cita.tratamiento || '';
+      $('toast-inicio-cita').classList.add('show');
+      // Auto-ocultar después de 30s si no responde
+      clearTimeout(toastInicioTimer);
+      toastInicioTimer = setTimeout(() => cerrarToastInicio(), 30000);
+    }
+
+    window.cerrarToastInicio = function() {
+      $('toast-inicio-cita').classList.remove('show');
+      clearTimeout(toastInicioTimer);
+    };
+
+    window.responderInicioCita = async function(estado) {
+      const cita = citaToastActual;
+      cerrarToastInicio();
+      if (!cita) return;
+      try {
+        await supabase.from('citas').update({ estado }).eq('id', cita.id);
+        if ($('module-agenda')?.classList.contains('active'))    cargarAgenda();
+        if ($('module-dashboard')?.classList.contains('active')) cargarDashboard();
+        const msgs = { en_curso: '▶ Cita iniciada', retrasada: '⏰ Cita marcada como retrasada', adelantada: '⏩ Cita adelantada' };
+        mostrarToast(msgs[estado] || 'Cita actualizada');
+      } catch(e) { console.error(e); }
+    };
+
+    // ── Modal de CIERRE ──────────────────────────────────────────
+    function mostrarModalCierre(cita) {
+      $('alerta-cita-nombre').textContent      = cita.paciente_nombre || 'Paciente';
       $('alerta-cita-tratamiento').textContent = cita.tratamiento || '';
-      $('alerta-cita-modal').dataset.citaId   = cita.id;
-      $('alerta-cita-modal').style.display    = 'flex';
+      $('alerta-cita-modal').dataset.citaId    = cita.id;
+      $('alerta-cita-modal').style.display     = 'flex';
     }
 
     window.responderAlertaCita = async function(estado) {
@@ -3818,20 +4125,16 @@
       if (!citaId) return;
       try {
         await supabase.from('citas').update({ estado }).eq('id', citaId);
-        // Refrescar agenda y dashboard si están activos
         if ($('module-agenda')?.classList.contains('active'))    cargarAgenda();
         if ($('module-dashboard')?.classList.contains('active')) cargarDashboard();
-        mostrarToast(
-          estado === 'completada' ? '✅ Cita marcada como completada' :
-          estado === 'cancelada'  ? '❌ Cita marcada como cancelada'  :
-          '🔄 Cita actualizada'
-        );
+        const msgs = { completada: '✅ Cita completada', extendida: '⏳ Cita extendida', cancelada: '❌ Cita cancelada' };
+        mostrarToast(msgs[estado] || 'Cita actualizada');
       } catch(e) { console.error('responderAlertaCita:', e.message); }
     };
 
     // Revisar al iniciar sesión y luego cada minuto
-    setTimeout(verificarCitasTerminadas, 5000);
-    setInterval(verificarCitasTerminadas, 60 * 1000);
+    setTimeout(verificarCitas, 5000);
+    setInterval(verificarCitas, 60 * 1000);
 
   </script>
 
@@ -3992,6 +4295,7 @@
       </div>
       <div style="padding:14px 20px calc(14px + env(safe-area-inset-bottom)) 20px;border-top:1px solid var(--border);display:flex;gap:10px">
         <button onclick="editarCitaDesdeHistorial()" style="flex:1;padding:12px;background:var(--accent-l);border:1.5px solid var(--accent);border-radius:10px;font-size:14px;cursor:pointer;color:var(--accent);font-weight:600">✏️ Editar</button>
+        <button onclick="imprimirNotasCita()" style="padding:12px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;color:var(--muted)" title="Imprimir notas">🖨️</button>
         <button onclick="cerrarDetalleCita()" style="flex:1;padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;color:var(--muted)">Cerrar</button>
       </div>
     </div>
@@ -4031,14 +4335,16 @@
     </div>
   </div>
 
-  <!-- MODAL ALERTA FIN DE CITA -->
+  <!-- MODAL ALERTA FIN DE CITA — Liquid Glass -->
   <div id="alerta-cita-modal">
     <div class="alerta-cita-card">
+      <div class="alerta-cita-glow"></div>
       <div class="alerta-cita-header">
         <div class="alerta-cita-icono">🏥</div>
         <div class="alerta-cita-titulo">Cita finalizada</div>
         <div class="alerta-cita-sub">El tiempo de la cita ha concluido</div>
       </div>
+      <div class="alerta-cita-divider"></div>
       <div class="alerta-cita-body">
         <div class="alerta-cita-info">
           <div class="alerta-cita-pac" id="alerta-cita-nombre"></div>
@@ -4046,9 +4352,9 @@
         </div>
         <div class="alerta-cita-pregunta">¿Cómo resultó la cita?</div>
         <div class="alerta-cita-btns">
-          <button class="alerta-btn-completada" onclick="responderAlertaCita('completada')">✅ Completada</button>
-          <button class="alerta-btn-continua"   onclick="responderAlertaCita('programada')">🔄 Continúa / Reprogramar</button>
-          <button class="alerta-btn-cancelada"  onclick="responderAlertaCita('cancelada')">❌ Cancelada</button>
+          <button class="alerta-btn-completada" onclick="responderAlertaCita('completada')">✅&nbsp; Completada</button>
+          <button class="alerta-btn-continua"   onclick="responderAlertaCita('extendida')">⏳&nbsp; Extendida</button>
+          <button class="alerta-btn-cancelada"  onclick="responderAlertaCita('cancelada')">✕&nbsp; Cancelada</button>
         </div>
       </div>
     </div>
