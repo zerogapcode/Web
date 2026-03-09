@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#1A3A5C">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -36,7 +36,7 @@
       --border:      #DDE3EC;
       --text:        #1A2535;
       --muted:       #6B7A90;
-      --nav-h:       64px;
+      --nav-h:       calc(64px + env(safe-area-inset-top));
       --sidebar-w:   240px;
       --radius:      12px;
       --shadow:      0 2px 12px rgba(0,0,0,0.06);
@@ -62,15 +62,106 @@
     .view.active { display: flex; }
 
     /* ═══════════════════════════════════════════
+       INDICADOR DE CONEXIÓN / SYNC
+    ═══════════════════════════════════════════ */
+    #sync-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.4s ease;
+      cursor: default;
+      white-space: nowrap;
+    }
+
+    #sync-indicator.online {
+      background: rgba(46,125,94,0.18);
+      color: #6dd8a8;
+    }
+
+    #sync-indicator.offline {
+      background: rgba(184,92,56,0.20);
+      color: #f4a97a;
+    }
+
+    #sync-indicator.syncing {
+      background: rgba(46,125,191,0.18);
+      color: #90c6f0;
+    }
+
+    .sync-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    #sync-indicator.online  .sync-dot { background: #6dd8a8; }
+    #sync-indicator.offline .sync-dot { background: #f4a97a; animation: pulse-dot 1.5s infinite; }
+    #sync-indicator.syncing .sync-dot { background: #90c6f0; animation: spin-dot 1s linear infinite; }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* Toast de sincronización */
+    #sync-toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: var(--shadow-md);
+      z-index: 999;
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    #sync-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (min-width: 768px) { #sync-toast { bottom: 30px; } }
+
+    /* Banner offline encima del contenido */
+    #offline-banner {
+      display: none;
+      background: linear-gradient(90deg, var(--orange) 0%, #d97842 100%);
+      color: white;
+      padding: 8px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 90;
+    }
+
+    #offline-banner.show { display: block; }
+
+    /* ═══════════════════════════════════════════
        LOGIN
     ═══════════════════════════════════════════ */
     #view-login {
       min-height: 100vh;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       background: linear-gradient(145deg, var(--primary-d) 0%, var(--primary) 55%, #1e4d7a 100%);
       position: relative;
-      overflow: hidden;
+      overflow-y: auto;
+      padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom) 0;
     }
 
     #view-login::before {
@@ -84,7 +175,6 @@
       pointer-events: none;
     }
 
-    /* Patrón de puntos sutil */
     #view-login::after {
       content: '';
       position: absolute;
@@ -102,7 +192,7 @@
       padding: 40px;
       width: 100%;
       max-width: 420px;
-      margin: 20px;
+      margin: auto 20px;
       box-shadow: 0 24px 80px rgba(0,0,0,0.25), 0 4px 16px rgba(0,0,0,0.1);
       animation: loginIn .5s cubic-bezier(.22,1,.36,1) both;
     }
@@ -222,13 +312,65 @@
       min-height: 100vh;
     }
 
+    /* SPLASH */
+    #view-splash {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, var(--primary-d) 0%, var(--primary) 55%, #1e4d7a 100%);
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      transition: opacity .4s ease, visibility .4s ease;
+    }
+    #view-splash.oculto {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .splash-logo {
+      width: 80px; height: 80px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; font-weight: 800; color: white;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .splash-nombre {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; font-weight: 700;
+      color: white; margin-bottom: 6px;
+    }
+    .splash-sub {
+      font-size: 13px; color: rgba(255,255,255,0.6);
+      margin-bottom: 48px;
+    }
+    .splash-progress-wrap {
+      width: 200px; height: 3px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px; overflow: hidden;
+    }
+    .splash-progress-bar {
+      height: 100%; width: 0%;
+      background: white;
+      border-radius: 2px;
+      transition: width .3s ease;
+    }
+    .splash-msg {
+      font-size: 12px; color: rgba(255,255,255,0.5);
+      margin-top: 12px;
+    }
+
     /* TOPBAR */
     .topbar {
       height: var(--nav-h);
       background: var(--primary);
       display: flex;
       align-items: center;
-      padding: 0 20px;
+      padding: env(safe-area-inset-top) 20px 0 20px;
       gap: 16px;
       position: sticky;
       top: 0;
@@ -358,7 +500,8 @@
       display: flex;
       position: fixed;
       bottom: 0; left: 0; right: 0;
-      height: 60px;
+      height: calc(60px + env(safe-area-inset-bottom));
+      padding-bottom: env(safe-area-inset-bottom);
       background: var(--surface);
       border-top: 1px solid var(--border);
       z-index: 100;
@@ -387,7 +530,7 @@
     .bottom-nav-item .nav-icon { font-size: 20px; }
 
     /* Espacio para bottom nav en móvil */
-    @media (max-width: 767px) { .app-content { padding-bottom: 80px; } }
+    @media (max-width: 767px) { .app-content { padding-bottom: calc(80px + env(safe-area-inset-bottom)); } }
 
     /* ═══════════════════════════════════════════
        MÓDULOS (pantallas)
@@ -935,8 +1078,8 @@
     .cita-hora-dia    { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
     .cita-body        { flex: 1; padding: 12px; }
     .cita-paciente-nombre { font-size: 14px; font-weight: 600; color: var(--text); }
-    .cita-tratamiento-txt { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .cita-notas-txt   { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cita-tratamiento-txt { font-size: 12px; color: var(--muted); margin-top: 2px; white-space: normal; word-break: break-word; }
+    .cita-notas-txt   { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 2px; white-space: normal; word-break: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .cita-estado-col  { padding: 12px; display: flex; align-items: center; }
 
     .nuevo-banner {
@@ -1034,7 +1177,7 @@
 
     .fab-cita {
       position: fixed;
-      bottom: 76px;
+      bottom: calc(76px + env(safe-area-inset-bottom));
       right: 20px;
       padding: 12px 20px;
       background: var(--accent);
@@ -1050,7 +1193,8 @@
     }
     .fab-cita:hover { background: #2568a3; transform: translateY(-1px); }
 
-    @media (min-width: 768px) { .fab-cita { bottom: 24px; } }
+    @media (min-width: 768px) { .fab-cita { bottom: calc(24px + env(safe-area-inset-bottom)); } }
+    @media (orientation: landscape) and (max-width: 767px) { .fab-cita { bottom: calc(24px + env(safe-area-inset-bottom)); } }
 
     /* Modal cita */
     .modo-pac-toggle {
@@ -1381,6 +1525,17 @@
 </head>
 <body>
 
+  <!-- ═══════════════ SPLASH ═══════════════ -->
+  <div id="view-splash">
+    <div class="splash-logo">M</div>
+    <div class="splash-nombre">MediCloud</div>
+    <div class="splash-sub">Gestión médica inteligente</div>
+    <div class="splash-progress-wrap">
+      <div class="splash-progress-bar" id="splash-bar"></div>
+    </div>
+    <div class="splash-msg" id="splash-msg">Iniciando...</div>
+  </div>
+
   <!-- ═══════════════ LOGIN ═══════════════ -->
   <div id="view-login" class="view active">
     <div class="login-card">
@@ -1415,11 +1570,21 @@
         <span>MediCloud</span>
       </div>
       <div class="topbar-doctor">
+        <!-- INDICADOR DE CONEXIÓN/SYNC -->
+        <div id="sync-indicator" class="syncing" title="Estado de sincronización">
+          <div class="sync-dot"></div>
+          <span id="sync-label">Conectando…</span>
+        </div>
         <div class="topbar-avatar" id="topbar-avatar">DR</div>
         <span class="topbar-name" id="topbar-name">Doctor</span>
         <button class="btn-logout" id="btn-logout">Salir</button>
       </div>
     </nav>
+
+    <!-- BANNER OFFLINE (debajo del topbar) -->
+    <div id="offline-banner">
+      📴 Sin conexión — trabajando con datos locales. Los cambios se sincronizarán automáticamente al reconectarse.
+    </div>
 
     <div class="app-body">
 
@@ -1802,7 +1967,6 @@
 
         <!-- AGENDA -->
         <div id="module-agenda" class="module">
-          <!-- Barra superior -->
           <div class="agenda-topbar">
             <div class="agenda-vistas">
               <button class="av-btn active" data-vista="dia" onclick="cambiarVistaAgenda('dia')">Día</button>
@@ -1817,12 +1981,10 @@
             </div>
           </div>
 
-          <!-- Vistas -->
           <div id="agenda-vista-dia" class="agenda-vista active"></div>
           <div id="agenda-vista-semana" class="agenda-vista"></div>
           <div id="agenda-vista-mes" class="agenda-vista"></div>
 
-          <!-- Botón nueva cita -->
           <button class="fab-cita" onclick="abrirFormCita(null)">+ Nueva Cita</button>
         </div>
 
@@ -1886,9 +2048,7 @@
           <div class="config-section">
             <div class="config-section-title">Días de trabajo</div>
             <div class="config-card">
-              <div class="dias-grid" id="dias-grid">
-                <!-- generado por JS -->
-              </div>
+              <div class="dias-grid" id="dias-grid"></div>
             </div>
           </div>
 
@@ -1947,7 +2107,6 @@
             </div>
           </div>
 
-          <!-- Botón guardar -->
           <button class="btn-save" id="btn-guardar-config">
             <span id="btn-save-text">Guardar cambios</span>
           </button>
@@ -1984,127 +2143,200 @@
 
   </div><!-- /view-app -->
 
+  <!-- Toast de sync -->
+  <div id="sync-toast"></div>
+
   <!-- ═══════════════ FIREBASE ═══════════════ -->
   <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { 
-      getAuth, 
-      setPersistence, 
-      browserSessionPersistence, 
-      signInWithEmailAndPassword, 
-      signOut, 
-      onAuthStateChanged 
-    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-    import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, deleteDoc, query, where, orderBy, Timestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    // ════════════════════════════════════════════════════════════
+    // SUPABASE — cliente único, RLS maneja el aislamiento por doctor
+    // ════════════════════════════════════════════════════════════
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-    // ── Config ──────────────────────────────
-    const firebaseConfig = {
-      apiKey:            "AIzaSyDVL_VCV5qdXE8xZUZadrBzabjlD3DJLG0",
-      authDomain:        "medicloud-1cd0f.firebaseapp.com",
-      projectId:         "medicloud-1cd0f",
-      storageBucket:     "medicloud-1cd0f.firebasestorage.app",
-      messagingSenderId: "337891468698",
-      appId:             "1:337891468698:web:179bf0842d6255dfd64623",
-      measurementId:     "G-VVSCC331VL"
-    };
+    const SUPABASE_URL  = 'https://zqaxtnowvjvtqypdrkwo.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpxYXh0bm93dmp2dHF5cGRya3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4MzM0NDQsImV4cCI6MjA4ODQwOTQ0NH0.r2EwkpUh2SOHRl9aIoLdxu-uuB4dkPfJcLzFu0fFpR8';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
 
-    const app  = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    
-    // ── Forzar persistencia en sesión (se borra al cerrar el navegador) ──
-    setPersistence(auth, browserSessionPersistence)
-      .catch(error => console.error("Error al establecer persistencia:", error));
+    // ════════════════════════════════════════════════════════════
+    // INDICADOR DE CONEXIÓN
+    // ════════════════════════════════════════════════════════════
+    let estaOnline = false;
 
-    const db   = getFirestore(app);
+    function setSyncState(estado, texto) {
+      const ind    = document.getElementById('sync-indicator');
+      const label  = document.getElementById('sync-label');
+      const banner = document.getElementById('offline-banner');
+      if (!ind) return;
+      ind.className = estado; // sin clase extra — solo 'online', 'offline' o 'syncing'
+      label.textContent = texto;
+      banner.classList.toggle('show', estado === 'offline');
+    }
 
-    // ── Estado ──────────────────────────────
+    function mostrarToast(msg, duracion = 3000) {
+      const t = document.getElementById('sync-toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), duracion);
+    }
+
+    // ── Verificación real de conectividad via ping a Supabase ────
+    // Más confiable que navigator.onLine en WebViews de Tauri
+    let _ultimoEstadoOnline = null;
+
+    async function verificarConectividad() {
+      try {
+        const ctrl = new AbortController();
+        const timeout = setTimeout(() => ctrl.abort(), 5000);
+        const resp = await fetch(`${SUPABASE_URL}/rest/v1/`, {
+          method: 'HEAD',
+          headers: { 'apikey': SUPABASE_ANON },
+          signal: ctrl.signal
+        });
+        clearTimeout(timeout);
+        const online = resp.ok || resp.status === 401 || resp.status === 400;
+        if (online !== _ultimoEstadoOnline) {
+          _ultimoEstadoOnline = online;
+          estaOnline = online;
+          setSyncState(online ? 'online' : 'offline', online ? 'En línea' : 'Sin conexión');
+          if (online  && _ultimoEstadoOnline !== null) mostrarToast('✅ Conexión restaurada');
+          if (!online) mostrarToast('📴 Sin internet', 5000);
+        }
+      } catch(e) {
+        if (_ultimoEstadoOnline !== false) {
+          _ultimoEstadoOnline = false;
+          estaOnline = false;
+          setSyncState('offline', 'Sin conexión');
+          mostrarToast('📴 Sin internet', 5000);
+        }
+      }
+    }
+
+    // Verificar al cargar y luego cada 30 segundos
+    setSyncState('syncing', 'Verificando...');
+    verificarConectividad();
+    setInterval(verificarConectividad, 30 * 1000);
+
+    // ── Estado ──────────────────────────────────────────────────
     let currentUser  = null;
-    let doctorDb     = null;
     let doctorNombre = '';
 
-    // ── Helpers ─────────────────────────────
+    // ── Helpers ─────────────────────────────────────────────────
     const $ = id => document.getElementById(id);
-    const show = v => { document.querySelectorAll('.view').forEach(x => x.classList.remove('active')); v.classList.add('active'); };
-
-    // Módulos
+    const show = v => {
+      document.querySelectorAll('.view').forEach(x => x.classList.remove('active'));
+      v.classList.add('active');
+    };
     function activarModulo(nombre) {
       document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
       document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(b => {
         b.classList.toggle('active', b.dataset.module === nombre);
       });
-      const m = $('module-' + nombre);
-      if (m) { m.classList.add('active'); }
-      if (nombre === 'dashboard') cargarDashboard();
+      const mod = document.getElementById('module-' + nombre);
+      if (mod) mod.classList.add('active');
+      if (nombre === 'dashboard')  cargarDashboard();
+      if (nombre === 'agenda')     cargarAgenda();
+      if (nombre === 'pacientes')  cargarPacientes();
+      if (nombre === 'config')     { iniciarDiasGrid(); cargarConfig(); cargarPlantillas(); }
+      if (nombre === 'directorio') cargarDirectorio();
     }
 
-    // Fecha bonita
     function fechaHoy() {
       const d = new Date();
-      const dias    = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-      const meses   = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-      return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
+      const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+      const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+      return `${dias[d.getDay()]} ${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
     }
-
     function hora(ts) {
-      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      const d = ts ? new Date(ts) : new Date();
       return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
     }
 
-    // ── Auth ─────────────────────────────────
-    onAuthStateChanged(auth, async user => {
-      if (user) {
-        currentUser = user;
-        await iniciarSesion(user);
+    // ════════════════════════════════════════════════════════════
+    // SPLASH
+    // ════════════════════════════════════════════════════════════
+    function splashProgress(pct, msg) {
+      const bar = $('splash-bar');
+      const txt = $('splash-msg');
+      if (bar) bar.style.width = pct + '%';
+      if (txt) txt.textContent = msg;
+    }
+
+    function ocultarSplash() {
+      const s = $('view-splash');
+      if (s) s.classList.add('oculto');
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // AUTH
+    // ════════════════════════════════════════════════════════════
+    splashProgress(20, 'Verificando sesión...');
+
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        currentUser = session.user;
+        await iniciarSesion(session.user);
       } else {
-        currentUser = null;
-        doctorDb    = null;
+        currentUser  = null;
         doctorNombre = '';
-        // Resetear botón y limpiar campos para que se pueda iniciar sesión de nuevo
         const btn = $('btn-login');
         btn.disabled    = false;
         btn.textContent = 'Entrar';
         $('login-email').value = '';
         $('login-pass').value  = '';
         $('login-error').classList.remove('show');
+        ocultarSplash();
         show($('view-login'));
       }
     });
 
+    // Si en 3s no hay respuesta de onAuthStateChange, mostrar login
+    setTimeout(() => {
+      if (!currentUser && $('view-splash') && !$('view-splash').classList.contains('oculto')) {
+        ocultarSplash();
+        show($('view-login'));
+      }
+    }, 3000);
+
     async function iniciarSesion(user) {
       try {
-        // Obtener database del doctor
-        const mapping = await getDoc(doc(db, 'doctor_databases', user.uid));
-        if (mapping.exists()) {
-          const dbId = mapping.data().databaseId;
-          doctorDb = getFirestore(app, dbId);
-        } else {
-          doctorDb = db;
-        }
+        splashProgress(50, 'Cargando perfil...');
 
-        // Obtener perfil del doctor
-        try {
-          const perfil = await getDoc(doc(doctorDb, 'config', 'perfil'));
-          if (perfil.exists()) {
-            doctorNombre = perfil.data().nombre || user.email;
-          } else {
-            doctorNombre = user.email;
-          }
-        } catch { doctorNombre = user.email; }
+        const { data: perfil } = await Promise.race([
+          supabase.from('perfiles').select('nombre').eq('id', user.id).maybeSingle(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000))
+        ]);
 
-        // Actualizar UI
+        splashProgress(80, 'Preparando datos...');
+
+        doctorNombre = perfil?.nombre || user.email;
         const iniciales = doctorNombre.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
         $('topbar-avatar').textContent = iniciales || 'DR';
         $('topbar-name').textContent   = doctorNombre;
 
+        splashProgress(100, 'Listo');
+        verificarConectividad(); // usar ping real en vez de navigator.onLine
+
+        // Pequeña pausa para que se vea el 100%
+        await new Promise(r => setTimeout(r, 300));
+        ocultarSplash();
         show($('view-app'));
         activarModulo('dashboard');
-      } catch (e) {
+      } catch(e) {
         console.error(e);
-        mostrarError('Error al cargar tu cuenta. Intenta de nuevo.');
+        // Si falla la carga del perfil, entrar igual con el email
+        doctorNombre = user.email;
+        $('topbar-avatar').textContent = 'DR';
+        $('topbar-name').textContent   = user.email;
+        splashProgress(100, 'Listo');
+        await new Promise(r => setTimeout(r, 300));
+        ocultarSplash();
+        show($('view-app'));
+        activarModulo('dashboard');
       }
     }
 
-    // ── Login ────────────────────────────────
+    // ── Login ────────────────────────────────────────────────────
     $('btn-login').addEventListener('click', async () => {
       const email = $('login-email').value.trim();
       const pass  = $('login-pass').value;
@@ -2117,132 +2349,113 @@
         errEl.classList.add('show');
         return;
       }
-
-      btn.disabled = true;
+      btn.disabled    = true;
       btn.textContent = 'Entrando...';
 
       try {
-        await signInWithEmailAndPassword(auth, email, pass);
-      } catch (e) {
-        btn.disabled = false;
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
+        if (error) {
+          btn.disabled    = false;
+          btn.textContent = 'Entrar';
+          const msgs = {
+            'Invalid login credentials': 'Correo o contraseña incorrectos.',
+            'Email not confirmed':        'Confirma tu correo antes de entrar.',
+            'Too many requests':          'Demasiados intentos. Intenta más tarde.',
+          };
+          errEl.textContent = msgs[error.message] || error.message;
+          errEl.classList.add('show');
+          return;
+        }
+        // Manejar sesión directamente — no depender de onAuthStateChange en Tauri
+        if (data?.user) {
+          currentUser = data.user;
+          await iniciarSesion(data.user);
+        }
+      } catch(e) {
+        btn.disabled    = false;
         btn.textContent = 'Entrar';
-        const msgs = {
-          'auth/user-not-found':    'No existe una cuenta con ese correo.',
-          'auth/wrong-password':    'Contraseña incorrecta.',
-          'auth/invalid-email':     'Correo inválido.',
-          'auth/too-many-requests': 'Demasiados intentos. Intenta más tarde.',
-          'auth/invalid-credential':'Correo o contraseña incorrectos.',
-        };
-        errEl.textContent = msgs[e.code] || 'Error al iniciar sesión.';
+        errEl.textContent = 'Error de conexión. Verifica tu internet.';
         errEl.classList.add('show');
+        console.error(e);
       }
     });
 
-    // Enter en los campos de login
     [$('login-email'), $('login-pass')].forEach(el =>
       el.addEventListener('keydown', e => { if (e.key === 'Enter') $('btn-login').click(); })
     );
 
-    // ── Logout ───────────────────────────────
-    $('btn-logout').addEventListener('click', () => signOut(auth));
+    // ── Logout ───────────────────────────────────────────────────
+    $('btn-logout').addEventListener('click', async () => {
+      todosPacientes = [];
+      await supabase.auth.signOut();
+    });
 
-    // ── Navegación ───────────────────────────
+    // ── Navegación ───────────────────────────────────────────────
     document.querySelectorAll('[data-module]').forEach(btn => {
       btn.addEventListener('click', () => activarModulo(btn.dataset.module));
     });
 
-    // ── Dashboard ────────────────────────────
+    // ════════════════════════════════════════════════════════════
+    // DASHBOARD
+    // ════════════════════════════════════════════════════════════
     async function cargarDashboard() {
-      if (!doctorDb) return;
-
+      if (!currentUser) return;
       $('dash-fecha').textContent = fechaHoy();
 
-      const hoy   = new Date();
-      hoy.setHours(0,0,0,0);
+      const hoy    = new Date(); hoy.setHours(0,0,0,0);
       const manana = new Date(hoy); manana.setDate(manana.getDate()+1);
-
-      const inicioSemana = new Date(hoy);
-      inicioSemana.setDate(hoy.getDate() - hoy.getDay());
-      const finSemana = new Date(inicioSemana); finSemana.setDate(inicioSemana.getDate()+7);
+      const inicioSemana = new Date(hoy); inicioSemana.setDate(hoy.getDate() - hoy.getDay());
+      const finSemana    = new Date(inicioSemana); finSemana.setDate(inicioSemana.getDate()+7);
 
       try {
-        // Cargar todas las citas
-        const citasSnap = await getDocs(collection(doctorDb, 'citas'));
-        const todasCitas = citasSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const { data: todasCitas } = await supabase.from('citas').select('*');
+        const citas = (todasCitas || []);
 
-        // Métricas
-        const citasHoy = todasCitas.filter(c => {
-          const f = c.inicio?.toDate?.() || new Date(c.inicio);
-          return f >= hoy && f < manana;
-        });
+        const citasHoy    = citas.filter(c => { const f = new Date(c.inicio); return f >= hoy && f < manana; });
+        const citasSemana = citas.filter(c => { const f = new Date(c.inicio); return f >= inicioSemana && f < finSemana; });
+        const pendientes  = citas.filter(c => { const f = new Date(c.inicio); return f >= new Date() && (c.estado === 'programada' || !c.estado); });
 
-        const citasSemana = todasCitas.filter(c => {
-          const f = c.inicio?.toDate?.() || new Date(c.inicio);
-          return f >= inicioSemana && f < finSemana;
-        });
-
-        const pendientes = todasCitas.filter(c => {
-          const f = c.inicio?.toDate?.() || new Date(c.inicio);
-          return f >= new Date() && (c.estado === 'programada' || !c.estado);
-        });
-
-        $('m-citas-hoy').textContent = citasHoy.length;
-        $('m-semana').textContent    = citasSemana.length;
+        $('m-citas-hoy').textContent  = citasHoy.length;
+        $('m-semana').textContent     = citasSemana.length;
         $('m-pendientes').textContent = pendientes.length;
 
-        // Contar pacientes
-        try {
-          const pacSnap = await getDocs(collection(doctorDb, 'pacientes'));
-          $('m-pacientes').textContent = pacSnap.size;
-        } catch { $('m-pacientes').textContent = '—'; }
+        const { count } = await supabase.from('pacientes').select('*', { count: 'exact', head: true });
+        $('m-pacientes').textContent = count ?? '—';
 
-        // Lista citas de hoy
         const lista = $('lista-citas-hoy');
         $('badge-hoy').textContent = citasHoy.length;
 
         if (citasHoy.length === 0) {
-          lista.innerHTML = `
-            <div class="empty-state">
-              <div class="empty-icon">📭</div>
-              <p class="empty-text">Sin citas para hoy</p>
-            </div>`;
+          lista.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><p class="empty-text">Sin citas para hoy</p></div>`;
           return;
         }
 
-        // Ordenar por hora
-        citasHoy.sort((a, b) => {
-          const ta = a.inicio?.toDate?.() || new Date(a.inicio);
-          const tb = b.inicio?.toDate?.() || new Date(b.inicio);
-          return ta - tb;
-        });
-
+        citasHoy.sort((a, b) => new Date(a.inicio) - new Date(b.inicio));
         lista.innerHTML = citasHoy.map((c, i) => {
           const estado = c.estado || 'programada';
-          const ini    = c.inicio?.toDate?.() || new Date(c.inicio);
-          return `
-            <div class="cita-card" style="animation-delay:${i*60}ms">
-              <div class="cita-hora">${hora(c.inicio)}</div>
-              <div class="cita-info">
-                <div class="cita-paciente">${c.pacienteNombre || 'Paciente'}</div>
-                <div class="cita-tratamiento">${c.tratamiento || 'Sin tratamiento especificado'}</div>
-              </div>
-              <span class="cita-estado estado-${estado}">${estado.charAt(0).toUpperCase()+estado.slice(1)}</span>
-            </div>`;
+          return `<div class="cita-card" style="animation-delay:${i*60}ms">
+            <div class="cita-hora">${hora(c.inicio)}</div>
+            <div class="cita-info">
+              <div class="cita-paciente">${c.paciente_nombre || 'Paciente'}</div>
+              <div class="cita-tratamiento">${c.tratamiento || 'Sin tratamiento especificado'}</div>
+            </div>
+            <span class="cita-estado estado-${estado}">${estado.charAt(0).toUpperCase()+estado.slice(1)}</span>
+          </div>`;
         }).join('');
 
-      } catch (e) {
+      } catch(e) {
         console.error(e);
         $('lista-citas-hoy').innerHTML = `<p style="color:var(--muted);font-size:13px">Error al cargar las citas.</p>`;
       }
     }
 
-
-
-    // ── AGENDA ───────────────────────────────────
-    const MESES     = ['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-    const MESES_C   = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-    const DIAS_S    = ['','Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-    const DIAS_1    = ['L','M','X','J','V','S','D'];
+    // ════════════════════════════════════════════════════════════
+    // AGENDA
+    // ════════════════════════════════════════════════════════════
+    const MESES   = ['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const MESES_C = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const DIAS_S  = ['','Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+    const DIAS_1  = ['L','M','X','J','V','S','D'];
 
     let agendaVista = 'dia';
     let agendaFecha = new Date();
@@ -2255,12 +2468,9 @@
     function fmtHora(d) { return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`; }
 
     function tituloAgenda() {
-      if (agendaVista === 'dia') {
-        return `${DIAS_S[agendaFecha.getDay()||7]} ${agendaFecha.getDate()} de ${MESES[agendaFecha.getMonth()+1]} ${agendaFecha.getFullYear()}`;
-      }
+      if (agendaVista === 'dia') return `${DIAS_S[agendaFecha.getDay()||7]} ${agendaFecha.getDate()} de ${MESES[agendaFecha.getMonth()+1]} ${agendaFecha.getFullYear()}`;
       if (agendaVista === 'semana') {
-        const lunes = new Date(agendaFecha);
-        lunes.setDate(agendaFecha.getDate() - ((agendaFecha.getDay()||7) - 1));
+        const lunes = new Date(agendaFecha); lunes.setDate(agendaFecha.getDate() - ((agendaFecha.getDay()||7) - 1));
         const dom = new Date(lunes); dom.setDate(lunes.getDate()+6);
         return `${lunes.getDate()} - ${dom.getDate()} ${MESES[lunes.getMonth()+1]} ${lunes.getFullYear()}`;
       }
@@ -2291,7 +2501,7 @@
     };
 
     async function cargarAgenda() {
-      if (!doctorDb) return;
+      if (!currentUser) return;
       document.getElementById('agenda-titulo').textContent = tituloAgenda();
 
       let desde, hasta;
@@ -2299,8 +2509,7 @@
         desde = startOfDay(agendaFecha);
         hasta = new Date(desde); hasta.setDate(hasta.getDate()+1);
       } else if (agendaVista === 'semana') {
-        const lunes = new Date(agendaFecha);
-        lunes.setDate(agendaFecha.getDate() - ((agendaFecha.getDay()||7)-1));
+        const lunes = new Date(agendaFecha); lunes.setDate(agendaFecha.getDate() - ((agendaFecha.getDay()||7)-1));
         desde = startOfDay(lunes);
         hasta = new Date(desde); hasta.setDate(hasta.getDate()+7);
       } else {
@@ -2312,17 +2521,15 @@
       vistaEl.innerHTML = '<div class="loader"><div class="spinner"></div></div>';
 
       try {
-        const q = query(
-          collection(doctorDb, 'citas'),
-          where('inicio', '>=', Timestamp.fromDate(desde)),
-          where('inicio', '<',  Timestamp.fromDate(hasta)),
-          orderBy('inicio')
-        );
-        const snap = await getDocs(q);
-        const citas = snap.docs.map(d => ({ id: d.id, ...d.data() })).map(c => ({
-          ...c,
-          inicioDate: c.inicio?.toDate ? c.inicio.toDate() : new Date(c.inicio),
-        }));
+        const { data, error } = await supabase
+          .from('citas')
+          .select('*')
+          .gte('inicio', desde.toISOString())
+          .lt('inicio', hasta.toISOString())
+          .order('inicio');
+
+        if (error) throw error;
+        const citas = (data || []).map(c => ({ ...c, inicioDate: new Date(c.inicio) }));
 
         if (agendaVista === 'dia')    renderVistaDia(citas);
         if (agendaVista === 'semana') renderVistaSemana(citas, desde);
@@ -2335,21 +2542,21 @@
 
     function citaCardHTML(c, mostrarDia = false) {
       const ini   = c.inicioDate;
-      const fin   = new Date(ini.getTime() + (c.duracionMin||30)*60000);
+      const fin   = new Date(ini.getTime() + (c.duracion_min||30)*60000);
       const est   = c.estado || 'programada';
       const colorMap = { programada:'var(--accent)', completada:'var(--green)', cancelada:'var(--orange)' };
       const bgMap    = { programada:'var(--accent-l)', completada:'var(--green-l)', cancelada:'var(--orange-l)' };
-      const color    = c.pacienteNuevo ? '#7B4F9E' : (colorMap[est]||colorMap.programada);
-      const bg       = c.pacienteNuevo ? '#F2EBF9'  : (bgMap[est] ||bgMap.programada);
-      const label    = c.pacienteNuevo ? 'Nuevo' : (est.charAt(0).toUpperCase()+est.slice(1));
+      const color    = c.paciente_nuevo ? '#7B4F9E' : (colorMap[est]||colorMap.programada);
+      const bg       = c.paciente_nuevo ? '#F2EBF9'  : (bgMap[est] ||bgMap.programada);
+      const label    = c.paciente_nuevo ? 'Nuevo' : (est.charAt(0).toUpperCase()+est.slice(1));
       const diaLbl   = mostrarDia ? `<div class="cita-hora-dia">${DIAS_S[ini.getDay()||7]} ${ini.getDate()}</div>` : '';
       const cJson    = encodeURIComponent(JSON.stringify(c));
       return `<div class="cita-agenda-card" onclick="abrirFormCitaEncoded('${cJson}')">
-        ${c.pacienteNuevo?'<div class="nuevo-banner">⚠️ Paciente nuevo — Completar registro en consulta</div>':''}
+        ${c.paciente_nuevo?'<div class="nuevo-banner">⚠️ Paciente nuevo — Completar registro en consulta</div>':''}
         <div class="cita-barra" style="background:${color}"></div>
         <div class="cita-hora-col">${diaLbl}<div class="cita-hora-inicio">${fmtHora(ini)}</div><div class="cita-hora-fin">${fmtHora(fin)}</div></div>
         <div class="cita-body">
-          <div class="cita-paciente-nombre">${c.pacienteNombre||'Paciente'}</div>
+          <div class="cita-paciente-nombre">${c.paciente_nombre||'Paciente'}</div>
           <div class="cita-tratamiento-txt">${c.tratamiento||''}</div>
           ${c.notas?`<div class="cita-notas-txt">${c.notas}</div>`:''}
         </div>
@@ -2357,9 +2564,7 @@
       </div>`;
     }
 
-    window.abrirFormCitaEncoded = function(encoded) {
-      abrirFormCita(JSON.parse(decodeURIComponent(encoded)));
-    };
+    window.abrirFormCitaEncoded = function(encoded) { abrirFormCita(JSON.parse(decodeURIComponent(encoded))); };
 
     function renderVistaDia(citas) {
       const el = document.getElementById('agenda-vista-dia');
@@ -2417,14 +2622,14 @@
         todosPacientes.map(p=>`<option value="${p.id}">${p.nombre}</option>`).join('');
 
       if (cita) {
-        const esNuevo = cita.pacienteNuevo;
+        const esNuevo = cita.paciente_nuevo;
         setModoPaciente(esNuevo ? 'nuevo' : 'existente');
-        if (esNuevo) { document.getElementById('mc-nombre-nuevo').value = cita.pacienteNombre||''; }
-        else         { sel.value = cita.pacienteId||''; }
-        const ini = cita.inicioDate || (cita.inicio?.toDate ? cita.inicio.toDate() : new Date());
-        document.getElementById('mc-fecha').value    = ini.toISOString().split('T')[0];
-        document.getElementById('mc-hora').value     = fmtHora(ini);
-        document.getElementById('mc-duracion').value = String(cita.duracionMin||30);
+        if (esNuevo) { document.getElementById('mc-nombre-nuevo').value = cita.paciente_nombre||''; }
+        else         { sel.value = cita.paciente_id||''; }
+        const ini = cita.inicioDate || new Date(cita.inicio);
+        document.getElementById('mc-fecha').value    = (ini instanceof Date ? ini : new Date(ini)).toISOString().split('T')[0];
+        document.getElementById('mc-hora').value     = fmtHora(ini instanceof Date ? ini : new Date(ini));
+        document.getElementById('mc-duracion').value = String(cita.duracion_min||30);
         document.getElementById('mc-estado').value   = cita.estado||'programada';
         document.getElementById('mc-tratamiento').value = cita.tratamiento||'';
         document.getElementById('mc-notas').value       = cita.notas||'';
@@ -2454,12 +2659,12 @@
     window.cerrarModalCita = function() { document.getElementById('modal-cita').style.display='none'; };
 
     window.guardarCita = async function() {
-      const btn  = document.getElementById('mc-btn-guardar');
+      const btn   = document.getElementById('mc-btn-guardar');
       const fecha = document.getElementById('mc-fecha').value;
-      const hora  = document.getElementById('mc-hora').value;
+      const horaV = document.getElementById('mc-hora').value;
       const trat  = document.getElementById('mc-tratamiento').value.trim();
-      if (!fecha||!hora) { alert('Selecciona fecha y hora.'); return; }
-      if (!trat)         { alert('Ingresa el tratamiento.'); return; }
+      if (!fecha||!horaV) { alert('Selecciona fecha y hora.'); return; }
+      if (!trat)          { alert('Ingresa el tratamiento.'); return; }
 
       let pacId='', pacNom='';
       if (modoPaciente==='existente') {
@@ -2474,34 +2679,44 @@
       btn.disabled=true; btn.textContent='Guardando...';
       try {
         if (modoPaciente==='nuevo') {
-          const ref = await addDoc(collection(doctorDb,'pacientes'),{
-            nombre:pacNom, telCelular:document.getElementById('mc-tel-nuevo').value.trim(),
-            registroIncompleto:true, creadoEn:Timestamp.now(), actualizadoEn:Timestamp.now()
-          });
+          const { data: ref, error: eRef } = await supabase.from('pacientes').insert({
+            doctor_id: currentUser.id,
+            nombre: pacNom,
+            tel_celular: document.getElementById('mc-tel-nuevo').value.trim(),
+            registro_incompleto: true,
+          }).select('id').single();
+          if (eRef) throw eRef;
           pacId = ref.id;
-          todosPacientes.push({id:ref.id,nombre:pacNom});
+          todosPacientes.push({id: ref.id, nombre: pacNom});
           todosPacientes.sort((a,b)=>(a.nombre||'').localeCompare(b.nombre||''));
         }
+
         const [y,m,d] = fecha.split('-').map(Number);
-        const [h,mi]  = hora.split(':').map(Number);
+        const [h,mi]  = horaV.split(':').map(Number);
+        const inicioDate = new Date(y,m-1,d,h,mi);
+
         const data = {
-          pacienteId:pacId, pacienteNombre:pacNom, tratamiento:trat,
-          inicio:Timestamp.fromDate(new Date(y,m-1,d,h,mi)),
-          duracionMin:parseInt(document.getElementById('mc-duracion').value),
-          notas:document.getElementById('mc-notas').value.trim(),
-          estado:document.getElementById('mc-estado').value,
-          pacienteNuevo:modoPaciente==='nuevo',
+          doctor_id:       currentUser.id,
+          paciente_id:     pacId || null,
+          paciente_nombre: pacNom,
+          tratamiento:     trat,
+          inicio:          inicioDate.toISOString(),
+          duracion_min:    parseInt(document.getElementById('mc-duracion').value),
+          notas:           document.getElementById('mc-notas').value.trim(),
+          estado:          document.getElementById('mc-estado').value,
+          paciente_nuevo:  modoPaciente==='nuevo',
         };
-        if (citaEditandoId) await setDoc(doc(doctorDb,'citas',citaEditandoId),data,{merge:true});
-        else                await addDoc(collection(doctorDb,'citas'),data);
-        cerrarModalCita();
-        cargarAgenda(); // Recarga la agenda general
 
-        // Si estamos en el expediente de un paciente, recargar su historial
-        if (pacienteActualId) {
-          cargarHistorial(pacienteActualId);
+        if (citaEditandoId) {
+          const { error } = await supabase.from('citas').update(data).eq('id', citaEditandoId);
+          if (error) throw error;
+        } else {
+          const { error } = await supabase.from('citas').insert(data);
+          if (error) throw error;
         }
-
+        cerrarModalCita();
+        cargarAgenda();
+        if (pacienteActualId) cargarHistorial(pacienteActualId);
       } catch(e) {
         alert('Error: '+e.message);
         btn.disabled=false; btn.textContent='Guardar cita';
@@ -2510,11 +2725,15 @@
 
     window.eliminarCita = async function() {
       if (!citaEditandoId||!confirm('¿Eliminar esta cita?')) return;
-      try { await deleteDoc(doc(doctorDb,'citas',citaEditandoId)); cerrarModalCita(); cargarAgenda(); }
-      catch(e) { alert('Error: '+e.message); }
+      const { error } = await supabase.from('citas').delete().eq('id', citaEditandoId);
+      if (error) { alert('Error: '+error.message); return; }
+      cerrarModalCita();
+      cargarAgenda();
     };
 
-    // ── PACIENTES ────────────────────────────
+    // ════════════════════════════════════════════════════════════
+    // PACIENTES
+    // ════════════════════════════════════════════════════════════
     const ANTECEDENTES_KEYS = [
       'Hipertensión','Diabetes','Convulsiones/Epilepsia','Dengue',
       'Chikungunya','Infartos','Herpes labial recurrente','COVID-19'
@@ -2531,29 +2750,24 @@
       'Inyección de várices/escleroterapia',
     ];
     const PAC_COLORES = ['#2E7DBF','#2E7D5E','#7B4F9E','#B85C38','#1A3A5C'];
-    let todosPacientes = [];
+    let todosPacientes   = [];
     let pacienteActualId = null;
 
-    // Inicializar checks de antecedentes
     function initAntecedentes(data) {
       const el = document.getElementById('antecedentes-checks');
       if (!el) return;
       el.innerHTML = ANTECEDENTES_KEYS.map(k => {
         const checked = data && data[k] ? 'checked' : '';
-        return `<label class="check-item">
-          <input type="checkbox" id="ant-${k.replace(/[^a-z0-9]/gi,'_')}" ${checked}>
-          <span>${k}</span>
-        </label>`;
+        return `<label class="check-item"><input type="checkbox" id="ant-${k.replace(/[^a-z0-9]/gi,'_')}" ${checked}><span>${k}</span></label>`;
       }).join('');
     }
 
-    // Inicializar lista de estéticos
     function initEsteticos(data) {
       const el = document.getElementById('esteticos-lista');
       if (!el) return;
       el.innerHTML = ESTETICOS_KEYS.map(k => {
-        const key = k.replace(/[^a-z0-9]/gi,'_');
-        const activo = data && data[k] && data[k].activo ? 'checked' : '';
+        const key     = k.replace(/[^a-z0-9]/gi,'_');
+        const activo  = data && data[k] && data[k].activo ? 'checked' : '';
         const detalle = data && data[k] ? (data[k].detalle || '') : '';
         return `<div class="estetico-row">
           <label class="check-item">
@@ -2573,17 +2787,17 @@
     };
 
     window.toggleEsteticoDetalle = function(key) {
-      const cb = document.getElementById('est-' + key);
+      const cb  = document.getElementById('est-' + key);
       const inp = document.getElementById('estd-' + key);
       if (inp) inp.style.display = cb && cb.checked ? 'block' : 'none';
     };
 
     async function cargarPacientes() {
-      if (!doctorDb) return;
+      if (!currentUser) return;
       try {
-        const snap = await getDocs(collection(doctorDb, 'pacientes'));
-        todosPacientes = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-          .sort((a,b) => (a.nombre||'').localeCompare(b.nombre||''));
+        const { data, error } = await supabase.from('pacientes').select('*').order('nombre');
+        if (error) throw error;
+        todosPacientes = (data || []);
         renderPacientes(todosPacientes);
         const n = todosPacientes.length;
         $('pac-counter').textContent = n === 1 ? '1 paciente' : `${n} pacientes`;
@@ -2601,9 +2815,9 @@
       }
       el.innerHTML = lista.map((p, i) => {
         const iniciales = (p.nombre||'?').split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
-        const color = PAC_COLORES[i % PAC_COLORES.length];
-        const edad  = p.fechaNacimiento ? calcularEdadDesde(p.fechaNacimiento) : null;
-        const meta  = [p.sexo, edad ? `${edad} años` : null, p.ci].filter(Boolean).join(' · ');
+        const color     = PAC_COLORES[i % PAC_COLORES.length];
+        const edad      = p.fecha_nacimiento ? calcularEdadDesde(new Date(p.fecha_nacimiento)) : null;
+        const meta      = [p.sexo, edad ? `${edad} años` : null, p.ci].filter(Boolean).join(' · ');
         return `<div class="pac-card" onclick="abrirExpediente('${p.id}')" style="animation-delay:${i*40}ms">
           <div class="pac-avatar" style="background:${color}">${iniciales}</div>
           <div class="pac-info">
@@ -2629,8 +2843,8 @@
       initAntecedentes(null);
       initEsteticos(null);
       $('exp-nombre-titulo').textContent = 'Nuevo paciente';
-      $('exp-subtitulo').textContent = 'Completa los datos del expediente';
-      $('pac-vista-lista').style.display = 'none';
+      $('exp-subtitulo').textContent     = 'Completa los datos del expediente';
+      $('pac-vista-lista').style.display      = 'none';
       $('pac-vista-expediente').style.display = 'block';
       activarTab('t1');
     };
@@ -2642,15 +2856,18 @@
       limpiarFormPaciente();
       cargarFormPaciente(p);
       $('exp-nombre-titulo').textContent = p.nombre || 'Expediente';
-      $('exp-subtitulo').textContent = 'Editando expediente';
-      $('pac-vista-lista').style.display = 'none';
+      $('exp-subtitulo').textContent     = 'Editando expediente';
+      $('pac-vista-lista').style.display      = 'none';
       $('pac-vista-expediente').style.display = 'block';
+      $('tab-btn-historial').style.display = 'block';
+      $('tab-btn-consent').style.display   = 'block';
       activarTab('t1');
+      setTimeout(() => { cargarConsentimientos(id); cargarHistorial(id); }, 200);
     };
 
     window.volverALista = function() {
       $('pac-vista-expediente').style.display = 'none';
-      $('pac-vista-lista').style.display = 'block';
+      $('pac-vista-lista').style.display      = 'block';
     };
 
     function limpiarFormPaciente() {
@@ -2662,15 +2879,13 @@
        'pac-vacunas','pac-autoinmunes','pac-cirugias','pac-fracturas',
        'pac-menarquia','pac-gestas','pac-partos','pac-cesareas','pac-edad-menopausia'
       ].forEach(id => { const el = $(id); if (el) el.value = ''; });
-
-      ['pac-sexo','pac-estado-civil','pac-etnicidad','pac-religion',
-       'pac-sangre','pac-vih','pac-ciclos'
+      ['pac-sexo','pac-estado-civil','pac-etnicidad','pac-religion','pac-sangre','pac-vih','pac-ciclos'
       ].forEach(id => { const el = $(id); if (el) el.selectedIndex = 0; });
-
       ['pac-menopausia','pac-aco','pac-tabaquismo','pac-cafeina','pac-alcohol','pac-chimo'
       ].forEach(id => { const el = $(id); if (el) el.checked = false; });
-
       $('pac-edad-display').style.display = 'none';
+      $('tab-btn-historial').style.display = 'none';
+      $('tab-btn-consent').style.display   = 'none';
     }
 
     function cargarFormPaciente(p) {
@@ -2678,68 +2893,39 @@
       const chk = (id, val) => { const el = $(id); if (el) el.checked = !!val; };
       const sel = (id, val) => { const el = $(id); if (el && val) el.value = val; };
 
-      set('pac-nombre',      p.nombre);
-      set('pac-ci',          p.ci);
-      sel('pac-sexo',        p.sexo);
-      sel('pac-estado-civil', p.estadoCivil);
-      set('pac-conyuge',     p.conyuge);
-      sel('pac-etnicidad',   p.etnicidad);
-      set('pac-ocupacion',   p.ocupacion);
-      sel('pac-religion',    p.religion);
-      set('pac-procedencia', p.procedencia);
-      set('pac-zona',        p.zona);
-      sel('pac-sangre',      p.grupoSanguineo);
-      sel('pac-vih',         p.vih);
-
-      set('pac-direccion',   p.direccion);
-      set('pac-colonia',     p.colonia);
-      set('pac-ciudad',      p.ciudad);
-      set('pac-estado',      p.estado);
-      set('pac-cp',          p.cp);
-      set('pac-tel-celular', p.telCelular);
-      set('pac-tel-casa',    p.telCasa);
-      set('pac-tel-oficina', p.telOficina);
-      set('pac-tel-recados', p.telRecados);
-      set('pac-email',       p.email);
-      set('pac-emerg-nombre', p.contactoEmergencia);
-      set('pac-emerg-tel',   p.telEmergencia);
-      set('pac-referido',    p.referidoPor);
-
-      set('pac-alerg-med',   p.alergiaMedicamentos);
-      set('pac-alerg-alim',  p.alergiaAlimentos);
-      set('pac-alerg-otras', p.alergiaOtras);
-      set('pac-medicacion',  p.medicacionActual);
-      set('pac-vacunas',     p.vacunas);
-      set('pac-autoinmunes', p.enfermedadesAutoinmunes);
-      set('pac-cirugias',    p.antecedenteQuirurgico);
-      set('pac-fracturas',   p.fracturas);
-
-      set('pac-menarquia',   p.menarquia);
-      sel('pac-ciclos',      p.ciclosMenstruales);
-      set('pac-gestas',      p.gestas);
-      set('pac-partos',      p.partos);
-      set('pac-cesareas',    p.cesareas);
-      chk('pac-menopausia',  p.menopausia);
+      set('pac-nombre', p.nombre); set('pac-ci', p.ci);
+      sel('pac-sexo', p.sexo); sel('pac-estado-civil', p.estado_civil);
+      set('pac-conyuge', p.conyuge); sel('pac-etnicidad', p.etnicidad);
+      set('pac-ocupacion', p.ocupacion); sel('pac-religion', p.religion);
+      set('pac-procedencia', p.procedencia); set('pac-zona', p.zona);
+      sel('pac-sangre', p.grupo_sanguineo); sel('pac-vih', p.vih);
+      set('pac-direccion', p.direccion); set('pac-colonia', p.colonia);
+      set('pac-ciudad', p.ciudad); set('pac-estado', p.estado);
+      set('pac-cp', p.cp); set('pac-tel-celular', p.tel_celular);
+      set('pac-tel-casa', p.tel_casa); set('pac-tel-oficina', p.tel_oficina);
+      set('pac-tel-recados', p.tel_recados); set('pac-email', p.email);
+      set('pac-emerg-nombre', p.contacto_emergencia); set('pac-emerg-tel', p.tel_emergencia);
+      set('pac-referido', p.referido_por);
+      set('pac-alerg-med', p.alergia_medicamentos); set('pac-alerg-alim', p.alergia_alimentos);
+      set('pac-alerg-otras', p.alergia_otras); set('pac-medicacion', p.medicacion_actual);
+      set('pac-vacunas', p.vacunas); set('pac-autoinmunes', p.enfermedades_autoinmunes);
+      set('pac-cirugias', p.antecedente_quirurgico); set('pac-fracturas', p.fracturas);
+      set('pac-menarquia', p.menarquia); sel('pac-ciclos', p.ciclos_menstruales);
+      set('pac-gestas', p.gestas); set('pac-partos', p.partos); set('pac-cesareas', p.cesareas);
+      chk('pac-menopausia', p.menopausia); chk('pac-aco', p.uso_aco);
       if (p.menopausia) {
         const wrap = document.getElementById('pac-edad-menopausia-wrap');
         if (wrap) wrap.style.display = 'block';
-        set('pac-edad-menopausia', p.edadMenopausia);
+        set('pac-edad-menopausia', p.edad_menopausia);
       }
-      chk('pac-aco',         p.usoACO);
+      chk('pac-tabaquismo', p.tabaquismo); chk('pac-cafeina', p.cafeina);
+      chk('pac-alcohol', p.alcohol); chk('pac-chimo', p.chimo);
 
-      chk('pac-tabaquismo',  p.tabaquismo);
-      chk('pac-cafeina',     p.cafeina);
-      chk('pac-alcohol',     p.alcohol);
-      chk('pac-chimo',       p.chimo);
-
-      // Fecha nacimiento
-      if (p.fechaNacimiento) {
-        const f = p.fechaNacimiento.toDate ? p.fechaNacimiento.toDate() : new Date(p.fechaNacimiento);
+      if (p.fecha_nacimiento) {
+        const f = new Date(p.fecha_nacimiento);
         $('pac-fecha-nac').value = f.toISOString().split('T')[0];
         mostrarEdad(f);
       }
-
-      // Antecedentes y estéticos
       initAntecedentes(p.antecedentes);
       initEsteticos(p.esteticos);
     }
@@ -2753,16 +2939,16 @@
     function mostrarEdad(fecha) {
       const edad = calcularEdadDesde(fecha);
       if (edad !== null) {
-        $('pac-edad-texto').textContent = `${edad} años`;
+        $('pac-edad-texto').textContent    = `${edad} años`;
         $('pac-edad-display').style.display = 'block';
       }
     }
 
     function calcularEdadDesde(fecha) {
       try {
-        const f = fecha.toDate ? fecha.toDate() : (fecha instanceof Date ? fecha : new Date(fecha));
+        const f   = fecha instanceof Date ? fecha : new Date(fecha);
         const hoy = new Date();
-        let edad = hoy.getFullYear() - f.getFullYear();
+        let edad  = hoy.getFullYear() - f.getFullYear();
         if (hoy.getMonth() < f.getMonth() ||
            (hoy.getMonth() === f.getMonth() && hoy.getDate() < f.getDate())) edad--;
         return edad >= 0 ? edad : null;
@@ -2770,24 +2956,22 @@
     }
 
     window.guardarPaciente = async function() {
-      if (!doctorDb) return;
+      if (!currentUser) return;
       const nombre = $('pac-nombre').value.trim();
       if (!nombre) { alert('El nombre del paciente es requerido.'); return; }
 
       const btn = $('btn-guardar-pac');
       const msg = $('pac-save-msg');
-      btn.disabled = true;
+      btn.disabled    = true;
       btn.textContent = 'Guardando...';
 
       try {
-        // Antecedentes
         const antecedentes = {};
         ANTECEDENTES_KEYS.forEach(k => {
           const el = document.getElementById('ant-' + k.replace(/[^a-z0-9]/gi,'_'));
           if (el) antecedentes[k] = el.checked;
         });
 
-        // Estéticos
         const esteticos = {};
         ESTETICOS_KEYS.forEach(k => {
           const key = k.replace(/[^a-z0-9]/gi,'_');
@@ -2798,128 +2982,112 @@
 
         const fechaVal = $('pac-fecha-nac').value;
         const data = {
+          doctor_id:              currentUser.id,
           nombre,
-          ci:                   $('pac-ci').value.trim(),
-          sexo:                 $('pac-sexo').value,
-          estadoCivil:          $('pac-estado-civil').value,
-          conyuge:              $('pac-conyuge').value.trim(),
-          etnicidad:            $('pac-etnicidad').value,
-          ocupacion:            $('pac-ocupacion').value.trim(),
-          religion:             $('pac-religion').value,
-          procedencia:          $('pac-procedencia').value.trim(),
-          zona:                 $('pac-zona').value.trim(),
-          grupoSanguineo:       $('pac-sangre').value,
-          vih:                  $('pac-vih').value,
-          fechaNacimiento:      fechaVal ? Timestamp.fromDate(new Date(fechaVal + 'T00:00:00')) : null,
-          direccion:            $('pac-direccion').value.trim(),
-          colonia:              $('pac-colonia').value.trim(),
-          ciudad:               $('pac-ciudad').value.trim(),
-          estado:               $('pac-estado').value.trim(),
-          cp:                   $('pac-cp').value.trim(),
-          telCelular:           $('pac-tel-celular').value.trim(),
-          telCasa:              $('pac-tel-casa').value.trim(),
-          telOficina:           $('pac-tel-oficina').value.trim(),
-          telRecados:           $('pac-tel-recados').value.trim(),
-          email:                $('pac-email').value.trim(),
-          contactoEmergencia:   $('pac-emerg-nombre').value.trim(),
-          telEmergencia:        $('pac-emerg-tel').value.trim(),
-          referidoPor:          $('pac-referido').value.trim(),
-          alergiaMedicamentos:  $('pac-alerg-med').value.trim(),
-          alergiaAlimentos:     $('pac-alerg-alim').value.trim(),
-          alergiaOtras:         $('pac-alerg-otras').value.trim(),
-          medicacionActual:     $('pac-medicacion').value.trim(),
+          ci:                     $('pac-ci').value.trim(),
+          sexo:                   $('pac-sexo').value,
+          estado_civil:           $('pac-estado-civil').value,
+          conyuge:                $('pac-conyuge').value.trim(),
+          etnicidad:              $('pac-etnicidad').value,
+          ocupacion:              $('pac-ocupacion').value.trim(),
+          religion:               $('pac-religion').value,
+          procedencia:            $('pac-procedencia').value.trim(),
+          zona:                   $('pac-zona').value.trim(),
+          grupo_sanguineo:        $('pac-sangre').value,
+          vih:                    $('pac-vih').value,
+          fecha_nacimiento:       fechaVal ? new Date(fechaVal + 'T00:00:00').toISOString() : null,
+          direccion:              $('pac-direccion').value.trim(),
+          colonia:                $('pac-colonia').value.trim(),
+          ciudad:                 $('pac-ciudad').value.trim(),
+          estado:                 $('pac-estado').value.trim(),
+          cp:                     $('pac-cp').value.trim(),
+          tel_celular:            $('pac-tel-celular').value.trim(),
+          tel_casa:               $('pac-tel-casa').value.trim(),
+          tel_oficina:            $('pac-tel-oficina').value.trim(),
+          tel_recados:            $('pac-tel-recados').value.trim(),
+          email:                  $('pac-email').value.trim(),
+          contacto_emergencia:    $('pac-emerg-nombre').value.trim(),
+          tel_emergencia:         $('pac-emerg-tel').value.trim(),
+          referido_por:           $('pac-referido').value.trim(),
+          alergia_medicamentos:   $('pac-alerg-med').value.trim(),
+          alergia_alimentos:      $('pac-alerg-alim').value.trim(),
+          alergia_otras:          $('pac-alerg-otras').value.trim(),
+          medicacion_actual:      $('pac-medicacion').value.trim(),
           antecedentes,
-          vacunas:              $('pac-vacunas').value.trim(),
-          enfermedadesAutoinmunes: $('pac-autoinmunes').value.trim(),
-          antecedenteQuirurgico: $('pac-cirugias').value.trim(),
-          fracturas:            $('pac-fracturas').value.trim(),
-          menarquia:            $('pac-menarquia').value.trim(),
-          ciclosMenstruales:    $('pac-ciclos').value,
-          gestas:               $('pac-gestas').value.trim(),
-          partos:               $('pac-partos').value.trim(),
-          cesareas:             $('pac-cesareas').value.trim(),
-          menopausia:           $('pac-menopausia').checked,
-          edadMenopausia:       $('pac-menopausia').checked ? $('pac-edad-menopausia').value.trim() : '',
-          usoACO:               $('pac-aco').checked,
-          tabaquismo:           $('pac-tabaquismo').checked,
-          cafeina:              $('pac-cafeina').checked,
-          alcohol:              $('pac-alcohol').checked,
-          chimo:                $('pac-chimo').checked,
+          vacunas:                $('pac-vacunas').value.trim(),
+          enfermedades_autoinmunes: $('pac-autoinmunes').value.trim(),
+          antecedente_quirurgico: $('pac-cirugias').value.trim(),
+          fracturas:              $('pac-fracturas').value.trim(),
+          menarquia:              $('pac-menarquia').value.trim(),
+          ciclos_menstruales:     $('pac-ciclos').value,
+          gestas:                 $('pac-gestas').value.trim(),
+          partos:                 $('pac-partos').value.trim(),
+          cesareas:               $('pac-cesareas').value.trim(),
+          menopausia:             $('pac-menopausia').checked,
+          edad_menopausia:        $('pac-menopausia').checked ? $('pac-edad-menopausia').value.trim() : '',
+          uso_aco:                $('pac-aco').checked,
+          tabaquismo:             $('pac-tabaquismo').checked,
+          cafeina:                $('pac-cafeina').checked,
+          alcohol:                $('pac-alcohol').checked,
+          chimo:                  $('pac-chimo').checked,
           esteticos,
-          actualizadoEn:        Timestamp.now(),
+          actualizado_en:         new Date().toISOString(),
         };
 
         if (pacienteActualId) {
-          await setDoc(doc(doctorDb, 'pacientes', pacienteActualId), data, { merge: true });
+          const { error } = await supabase.from('pacientes').update(data).eq('id', pacienteActualId);
+          if (error) throw error;
           const idx = todosPacientes.findIndex(p => p.id === pacienteActualId);
           if (idx >= 0) todosPacientes[idx] = { id: pacienteActualId, ...data };
         } else {
-          data.creadoEn = Timestamp.now();
-          const ref = await addDoc(collection(doctorDb, 'pacientes'), data);
+          data.creado_en = new Date().toISOString();
+          const { data: ref, error } = await supabase.from('pacientes').insert(data).select('id').single();
+          if (error) throw error;
           pacienteActualId = ref.id;
           todosPacientes.push({ id: ref.id, ...data });
           todosPacientes.sort((a,b) => (a.nombre||'').localeCompare(b.nombre||''));
         }
 
         $('exp-nombre-titulo').textContent = nombre;
-        $('pac-counter').textContent = `${todosPacientes.length} pacientes`;
-        msg.className = 'save-msg ok';
-        msg.textContent = '✓ Paciente guardado correctamente';
+        $('pac-counter').textContent       = `${todosPacientes.length} pacientes`;
+        msg.className   = 'save-msg ok';
+        msg.textContent = '✓ Guardado';
         setTimeout(() => { msg.textContent = ''; }, 4000);
 
       } catch(e) {
         console.error(e);
-        msg.className = 'save-msg error';
+        msg.className   = 'save-msg error';
         msg.textContent = `Error: ${e.message}`;
       } finally {
-        btn.disabled = false;
+        btn.disabled    = false;
         btn.textContent = 'Guardar';
       }
     };
 
-    // Tabs de pacientes
     function activarTab(nombre) {
-      document.querySelectorAll('.tab-btn').forEach(b =>
-        b.classList.toggle('active', b.dataset.tab === nombre));
-      document.querySelectorAll('.tab-panel').forEach(p =>
-        p.classList.toggle('active', p.id === 'tab-' + nombre));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === nombre));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + nombre));
     }
 
     document.querySelectorAll('.tab-btn').forEach(btn =>
       btn.addEventListener('click', () => activarTab(btn.dataset.tab)));
 
-    // Cargar al activar módulo
     document.querySelectorAll('[data-module]').forEach(btn => {
       btn.addEventListener('click', () => {
-        if (btn.dataset.module === 'pacientes') cargarPacientes();
-        if (btn.dataset.module === 'config') { iniciarDiasGrid(); cargarConfig(); cargarPlantillas(); }
-        if (btn.dataset.module === 'agenda')    { cargarAgenda(); }
-        if (btn.dataset.module === 'directorio') { cargarDirectorio(); }
+        if (btn.dataset.module === 'pacientes')  cargarPacientes();
+        if (btn.dataset.module === 'config')     { iniciarDiasGrid(); cargarConfig(); cargarPlantillas(); }
+        if (btn.dataset.module === 'agenda')     cargarAgenda();
+        if (btn.dataset.module === 'directorio') cargarDirectorio();
       });
     });
 
+    // ════════════════════════════════════════════════════════════
+    // CONSENTIMIENTOS
+    // ════════════════════════════════════════════════════════════
+    const PLANTILLA_DEFAULT = `Yo, {{nombre}}, identificado/a con cédula de identidad, declaro:\n\n1. Que he sido informado/a por el Dr. {{doctor}} del consultorio {{consultorio}} sobre el procedimiento de {{tratamiento}}.\n\n2. Que comprendo en qué consiste el procedimiento, sus beneficios, riesgos y posibles alternativas.\n\n3. Que he tenido la oportunidad de realizar preguntas y que estas han sido respondidas satisfactoriamente.\n\n4. Que autorizo voluntariamente la realización del procedimiento descrito.\n\n5. Que entiendo que puedo retirar este consentimiento en cualquier momento antes del procedimiento.\n\nFecha: {{fecha}}\n\n___________________________\nFirma del paciente`;
 
-    // ── CONSENTIMIENTOS ──────────────────────────────────
-    const PLANTILLA_EJEMPLO = `Yo, {{nombre}}, declaro:
-
-1. Que he sido informado/a por el Dr. {{doctor}} del consultorio {{consultorio}} sobre el procedimiento de {{tratamiento}}.
-
-2. Que comprendo en qué consiste el procedimiento, sus beneficios, riesgos y posibles alternativas.
-
-3. Que he tenido la oportunidad de realizar preguntas y que estas han sido respondidas satisfactoriamente.
-
-4. Que autorizo voluntariamente la realización del procedimiento descrito.
-
-5. Que entiendo que puedo retirar este consentimiento en cualquier momento antes del procedimiento.
-
-Fecha: {{fecha}}
-
-___________________________
-Firma del paciente`;
-
-    let modalConsentPaso = 1; // 1=seleccionar plantilla, 2=formulario
+    let modalConsentPaso   = 1;
     let plantillaSeleccionada = null;
-    let consentimientoVisor = null;
 
     function fmtFecha(d) {
       const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
@@ -2927,10 +3095,9 @@ Firma del paciente`;
     }
 
     function reemplazarVars(contenido, nombre, tratamiento, doctor, consultorio) {
-      const fecha = fmtFecha(new Date());
       return contenido
         .replace(/{{nombre}}/g, nombre)
-        .replace(/{{fecha}}/g, fecha)
+        .replace(/{{fecha}}/g, fmtFecha(new Date()))
         .replace(/{{tratamiento}}/g, tratamiento || '[tratamiento]')
         .replace(/{{doctor}}/g, doctor || '[doctor]')
         .replace(/{{consultorio}}/g, consultorio || '[consultorio]');
@@ -2938,16 +3105,16 @@ Firma del paciente`;
 
     async function cargarConsentimientos(pacId) {
       const wrap = document.getElementById('consent-lista-wrap');
-      if (!wrap || !doctorDb) return;
+      if (!wrap || !currentUser) return;
       wrap.innerHTML = '<div class="loader"><div class="spinner"></div></div>';
       try {
-        const snap = await getDocs(collection(doctorDb, 'pacientes', pacId, 'consentimientos'));
-        const lista = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-          .sort((a, b) => {
-            const ta = a.fechaFirma?.toDate?.() || new Date(0);
-            const tb = b.fechaFirma?.toDate?.() || new Date(0);
-            return tb - ta;
-          });
+        const { data, error } = await supabase
+          .from('consentimientos')
+          .select('*')
+          .eq('paciente_id', pacId)
+          .order('fecha_firma', { ascending: false });
+        if (error) throw error;
+        const lista = data || [];
 
         if (lista.length === 0) {
           wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><p class="empty-text">No hay consentimientos registrados</p></div>`;
@@ -2955,13 +3122,13 @@ Firma del paciente`;
         }
 
         wrap.innerHTML = lista.map((c, i) => {
-          const fecha = c.fechaFirma?.toDate ? fmtFecha(c.fechaFirma.toDate()) : '—';
+          const fecha = c.fecha_firma ? fmtFecha(new Date(c.fecha_firma)) : '—';
           return `<div class="cita-card" style="animation-delay:${i*40}ms;cursor:pointer" onclick="verConsentimiento(${JSON.stringify(c).replace(/"/g,'&quot;')})">
             <div style="font-size:22px">📋</div>
             <div class="cita-info">
-              <div class="cita-paciente">${c.plantillaNombre || 'Consentimiento'}</div>
+              <div class="cita-paciente">${c.plantilla_nombre || 'Consentimiento'}</div>
               <div class="cita-tratamiento">${c.tratamiento || ''} · ${fecha}</div>
-              <div class="cita-tratamiento">Firmado por: ${c.firmadoPor || '—'}</div>
+              <div class="cita-tratamiento">Firmado por: ${c.firmado_por || '—'}</div>
             </div>
             <span class="cita-estado estado-completada">Firmado</span>
           </div>`;
@@ -2972,13 +3139,12 @@ Firma del paciente`;
     }
 
     window.abrirNuevoConsentimiento = async function() {
-      if (!pacienteActualId || !doctorDb) return;
-      modalConsentPaso = 1;
+      if (!pacienteActualId || !currentUser) return;
+      modalConsentPaso      = 1;
       plantillaSeleccionada = null;
 
-      // Cargar plantillas
-      const modal = document.getElementById('modal-consent');
-      const body  = document.getElementById('modal-consent-body');
+      const modal  = document.getElementById('modal-consent');
+      const body   = document.getElementById('modal-consent-body');
       const titulo = document.getElementById('modal-consent-titulo');
       const sub    = document.getElementById('modal-consent-sub');
       const btn    = document.getElementById('modal-consent-btn');
@@ -2990,14 +3156,12 @@ Firma del paciente`;
       modal.style.display = 'flex';
 
       try {
-        const snap = await getDocs(collection(doctorDb, 'plantillas_consentimiento'));
-        const plantillas = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const { data, error } = await supabase.from('plantillas_consentimiento').select('*');
+        if (error) throw error;
+        const plantillas = data || [];
 
         if (plantillas.length === 0) {
-          body.innerHTML = `<div class="empty-state">
-            <div class="empty-icon">📄</div>
-            <p class="empty-text">No hay plantillas. Crea una desde Configuración → Plantillas de consentimiento.</p>
-          </div>`;
+          body.innerHTML = `<div class="empty-state"><div class="empty-icon">📄</div><p class="empty-text">No hay plantillas. Crea una desde Configuración.</p></div>`;
           btn.style.display = 'none';
           return;
         }
@@ -3007,9 +3171,7 @@ Firma del paciente`;
           <div class="pac-card plantilla-item" data-id="${p.id}" data-nombre="${p.nombre}" data-contenido="${encodeURIComponent(p.contenido)}"
                onclick="seleccionarPlantilla(this)" style="margin-bottom:8px">
             <div style="font-size:22px">📄</div>
-            <div class="pac-info">
-              <div class="pac-nombre">${p.nombre}</div>
-            </div>
+            <div class="pac-info"><div class="pac-nombre">${p.nombre}</div></div>
             <span style="font-size:18px;color:var(--border)">›</span>
           </div>`).join('');
       } catch(e) {
@@ -3020,24 +3182,20 @@ Firma del paciente`;
     window.seleccionarPlantilla = function(el) {
       document.querySelectorAll('.plantilla-item').forEach(x => x.style.borderColor = '');
       el.style.borderColor = 'var(--accent)';
-      plantillaSeleccionada = {
-        id: el.dataset.id,
-        nombre: el.dataset.nombre,
-        contenido: decodeURIComponent(el.dataset.contenido)
-      };
+      plantillaSeleccionada = { id: el.dataset.id, nombre: el.dataset.nombre, contenido: decodeURIComponent(el.dataset.contenido) };
     };
 
     window.accionModalConsent = async function() {
       if (modalConsentPaso === 1) {
         if (!plantillaSeleccionada) { alert('Selecciona una plantilla.'); return; }
-        // Paso 2: formulario
         modalConsentPaso = 2;
+
         const titulo = document.getElementById('modal-consent-titulo');
         const sub    = document.getElementById('modal-consent-sub');
         const body   = document.getElementById('modal-consent-body');
         const btn    = document.getElementById('modal-consent-btn');
+        const pac    = todosPacientes.find(p => p.id === pacienteActualId);
 
-        const pac = todosPacientes.find(p => p.id === pacienteActualId);
         titulo.textContent = plantillaSeleccionada.nombre;
         sub.textContent    = pac?.nombre || '';
         btn.textContent    = 'Registrar consentimiento';
@@ -3048,7 +3206,7 @@ Firma del paciente`;
             <input type="text" class="form-input" id="consent-tratamiento" placeholder="Ej: Aplicación de toxina botulínica">
           </div>
           <div class="config-card" style="margin-bottom:16px;background:var(--accent-l);border-color:rgba(46,125,191,0.3)">
-            <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px">Vista previa del contenido</div>
+            <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px">Vista previa</div>
             <div id="consent-preview" style="font-size:13px;color:var(--text);white-space:pre-wrap;line-height:1.7;max-height:200px;overflow-y:auto"></div>
           </div>
           <div class="switch-row">
@@ -3059,77 +3217,57 @@ Firma del paciente`;
             <label class="toggle"><input type="checkbox" id="consent-firmado"><span class="toggle-slider"></span></label>
           </div>`;
 
-        // Preview en tiempo real
         const updatePreview = () => {
           const trat = document.getElementById('consent-tratamiento').value;
           const prev = document.getElementById('consent-preview');
-          if (prev) prev.textContent = reemplazarVars(
-            plantillaSeleccionada.contenido,
-            pac?.nombre || '',
-            trat,
-            doctorNombre,
-            ''
-          );
+          if (prev) prev.textContent = reemplazarVars(plantillaSeleccionada.contenido, pac?.nombre||'', trat, doctorNombre, '');
         };
         document.getElementById('consent-tratamiento').addEventListener('input', updatePreview);
         updatePreview();
 
       } else {
-        // Guardar
         const tratamiento = document.getElementById('consent-tratamiento').value.trim();
         const firmado     = document.getElementById('consent-firmado').checked;
         if (!tratamiento) { alert('Ingresa el tratamiento.'); return; }
-        if (!firmado) { alert('Confirma que el paciente firmó físicamente.'); return; }
+        if (!firmado)     { alert('Confirma que el paciente firmó físicamente.'); return; }
 
         const btn = document.getElementById('modal-consent-btn');
-        btn.disabled = true;
+        btn.disabled    = true;
         btn.textContent = 'Guardando...';
 
         try {
           const pac = todosPacientes.find(p => p.id === pacienteActualId);
-          const contenidoFinal = reemplazarVars(
-            plantillaSeleccionada.contenido,
-            pac?.nombre || '',
+          const { error } = await supabase.from('consentimientos').insert({
+            doctor_id:        currentUser.id,
+            paciente_id:      pacienteActualId,
+            plantilla_id:     plantillaSeleccionada.id,
+            plantilla_nombre: plantillaSeleccionada.nombre,
+            contenido_final:  reemplazarVars(plantillaSeleccionada.contenido, pac?.nombre||'', tratamiento, doctorNombre, ''),
             tratamiento,
-            doctorNombre,
-            ''
-          );
-
-          await addDoc(collection(doctorDb, 'pacientes', pacienteActualId, 'consentimientos'), {
-            plantillaId:      plantillaSeleccionada.id,
-            plantillaNombre:  plantillaSeleccionada.nombre,
-            contenidoFinal,
-            tratamiento,
-            fechaFirma:       Timestamp.now(),
-            firmadoPor:       doctorNombre || currentUser?.email || '',
-            creadoEn:         Timestamp.now(),
+            fecha_firma:      new Date().toISOString(),
+            firmado_por:      doctorNombre || currentUser?.email || '',
           });
-
+          if (error) throw error;
           cerrarModalConsent();
           cargarConsentimientos(pacienteActualId);
         } catch(e) {
           alert('Error: ' + e.message);
-          btn.disabled = false;
+          btn.disabled    = false;
           btn.textContent = 'Registrar consentimiento';
         }
       }
     };
 
-    window.cerrarModalConsent = function() {
-      document.getElementById('modal-consent').style.display = 'none';
-    };
+    window.cerrarModalConsent = function() { document.getElementById('modal-consent').style.display = 'none'; };
 
     window.verConsentimiento = function(c) {
-      document.getElementById('visor-titulo').textContent   = c.plantillaNombre || 'Consentimiento';
-      document.getElementById('visor-meta').textContent     = `Firmado el ${c.fechaFirma?.toDate ? fmtFecha(c.fechaFirma.toDate()) : '—'} · ${c.firmadoPor || ''}`;
-      document.getElementById('visor-contenido').textContent = c.contenidoFinal || '';
-      consentimientoVisor = c;
+      document.getElementById('visor-titulo').textContent    = c.plantilla_nombre || 'Consentimiento';
+      document.getElementById('visor-meta').textContent      = `Firmado el ${c.fecha_firma ? fmtFecha(new Date(c.fecha_firma)) : '—'} · ${c.firmado_por || ''}`;
+      document.getElementById('visor-contenido').textContent = c.contenido_final || '';
       document.getElementById('visor-consent').style.display = 'flex';
     };
 
-    window.cerrarVisor = function() {
-      document.getElementById('visor-consent').style.display = 'none';
-    };
+    window.cerrarVisor = function() { document.getElementById('visor-consent').style.display = 'none'; };
 
     window.imprimirConsentimiento = function() {
       const contenido = document.getElementById('visor-contenido').textContent;
@@ -3143,8 +3281,9 @@ Firma del paciente`;
       win.print();
     };
 
-
-    // ── HISTORIAL DE CITAS EN EXPEDIENTE ─────────
+    // ════════════════════════════════════════════════════════════
+    // HISTORIAL DE CITAS EN EXPEDIENTE
+    // ════════════════════════════════════════════════════════════
     const DIAS_LARGO  = ['','lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
     const MESES_LARGO = ['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 
@@ -3164,16 +3303,16 @@ Firma del paciente`;
 
     async function cargarHistorial(pacId) {
       const wrap = document.getElementById('historial-lista-wrap');
-      if (!wrap || !doctorDb) return;
+      if (!wrap || !currentUser) return;
       wrap.innerHTML = '<div class="loader"><div class="spinner"></div></div>';
       try {
-        const snap = await getDocs(query(
-          collection(doctorDb, 'citas'),
-          where('pacienteId', '==', pacId)
-        ));
-        const citas = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-          .map(c => ({ ...c, inicioDate: c.inicio?.toDate ? c.inicio.toDate() : new Date() }))
-          .sort((a, b) => b.inicioDate - a.inicioDate);
+        const { data, error } = await supabase
+          .from('citas')
+          .select('*')
+          .eq('paciente_id', pacId)
+          .order('inicio', { ascending: false });
+        if (error) throw error;
+        const citas = (data || []).map(c => ({ ...c, inicioDate: new Date(c.inicio) }));
 
         if (citas.length === 0) {
           wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">🗓</div><p class="empty-text">Sin citas registradas</p></div>`;
@@ -3186,7 +3325,7 @@ Firma del paciente`;
 
         const grupos = {};
         citas.forEach(c => {
-          const mes = MESES_LARGO[c.inicioDate.getMonth()+1];
+          const mes   = MESES_LARGO[c.inicioDate.getMonth()+1];
           const clave = `${mes.charAt(0).toUpperCase()+mes.slice(1)} ${c.inicioDate.getFullYear()}`;
           if (!grupos[clave]) grupos[clave] = [];
           grupos[clave].push(c);
@@ -3204,8 +3343,8 @@ Firma del paciente`;
           html += `<div class="hist-mes-titulo">${mes}</div>`;
           lista.forEach(c => {
             const ini  = c.inicioDate;
-            const fin  = new Date(ini.getTime() + (c.duracionMin||30)*60000);
-            const st   = estadoCitaStyle(c.estado, c.pacienteNuevo);
+            const fin  = new Date(ini.getTime() + (c.duracion_min||30)*60000);
+            const st   = estadoCitaStyle(c.estado, c.paciente_nuevo);
             const cEnc = encodeURIComponent(JSON.stringify({...c, inicioDate: ini.toISOString()}));
             html += `<div class="hist-cita-card" onclick="verDetalleCita('${cEnc}')">
               <div class="hist-cita-barra" style="background:${st.color}"></div>
@@ -3228,97 +3367,56 @@ Firma del paciente`;
       }
     }
 
-    // ── NUEVA VARIABLE PARA EL HISTORIAL ──
     let citaActualDetalle = null;
 
-    // ── FUNCIÓN PARA EDITAR DESDE EL HISTORIAL ──
     window.editarCitaDesdeHistorial = function() {
       if (citaActualDetalle) {
-        // Convertir inicioDate a Date si es string
-        let citaParaEditar = { ...citaActualDetalle };
-        if (typeof citaParaEditar.inicioDate === 'string') {
-          citaParaEditar.inicioDate = new Date(citaParaEditar.inicioDate);
-        }
-        abrirFormCita(citaParaEditar);
+        let c = { ...citaActualDetalle };
+        if (typeof c.inicioDate === 'string') c.inicioDate = new Date(c.inicioDate);
+        abrirFormCita(c);
         cerrarDetalleCita();
       }
     };
 
-    // ── MODIFICAR verDetalleCita para guardar la cita ──
     window.verDetalleCita = function(encoded) {
-      const c = JSON.parse(decodeURIComponent(encoded));
-      citaActualDetalle = c; // Guardar para edición
+      const c   = JSON.parse(decodeURIComponent(encoded));
+      citaActualDetalle = c;
       const ini = new Date(c.inicioDate);
-      const fin = new Date(ini.getTime() + (c.duracionMin||30)*60000);
-      const st  = estadoCitaStyle(c.estado, c.pacienteNuevo);
+      const fin = new Date(ini.getTime() + (c.duracion_min||30)*60000);
+      const st  = estadoCitaStyle(c.estado, c.paciente_nuevo);
 
-      document.getElementById('mdc-tratamiento').textContent  = c.tratamiento || 'Sin tratamiento especificado';
-      document.getElementById('mdc-fecha').textContent        = fmtFechaLarga(ini);
-      document.getElementById('mdc-horario').textContent      = `${pad2(ini.getHours())}:${pad2(ini.getMinutes())} — ${pad2(fin.getHours())}:${pad2(fin.getMinutes())}  (${c.duracionMin||30} min)`;
+      document.getElementById('mdc-tratamiento').textContent = c.tratamiento || 'Sin tratamiento especificado';
+      document.getElementById('mdc-fecha').textContent       = fmtFechaLarga(ini);
+      document.getElementById('mdc-horario').textContent     = `${pad2(ini.getHours())}:${pad2(ini.getMinutes())} — ${pad2(fin.getHours())}:${pad2(fin.getMinutes())}  (${c.duracion_min||30} min)`;
       const chip = document.getElementById('mdc-estado-chip');
       chip.textContent = st.label; chip.style.background = st.bg; chip.style.color = st.color;
-      document.getElementById('mdc-nuevo-row').style.display = c.pacienteNuevo ? 'flex' : 'none';
+      document.getElementById('mdc-nuevo-row').style.display = c.paciente_nuevo ? 'flex' : 'none';
       const nw = document.getElementById('mdc-notas-wrap');
       nw.innerHTML = c.notas
         ? `<div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px">Notas de la cita</div>
-           <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;color:var(--text);line-height:1.7">${c.notas}</div>`
-        : `<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);font-style:italic">Sin notas registradas para esta cita.</div>`;
+           <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;color:var(--text);line-height:1.7;white-space:pre-wrap">${c.notas}</div>`
+        : `<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);font-style:italic">Sin notas registradas.</div>`;
       document.getElementById('modal-detalle-cita').style.display = 'flex';
     };
 
-    window.cerrarDetalleCita = function() {
-      document.getElementById('modal-detalle-cita').style.display = 'none';
-    };
+    window.cerrarDetalleCita = function() { document.getElementById('modal-detalle-cita').style.display = 'none'; };
 
-    // Mostrar tabs historial+consentimientos solo al editar, igual que Flutter
-    const origAbrirExpediente = window.abrirExpediente;
-    window.abrirExpediente = function(id) {
-      origAbrirExpediente(id);
-      document.getElementById('tab-btn-historial').style.display = 'block';
-      document.getElementById('tab-btn-consent').style.display   = 'block';
-      setTimeout(() => { cargarConsentimientos(id); cargarHistorial(id); }, 200);
-    };
-
-    const origAbrirNuevoPaciente = window.abrirNuevoPaciente;
-    window.abrirNuevoPaciente = function() {
-      origAbrirNuevoPaciente();
-      document.getElementById('tab-btn-historial').style.display = 'none';
-      document.getElementById('tab-btn-consent').style.display   = 'none';
-    };
-
-
-    // ── PLANTILLAS DE CONSENTIMIENTO ─────────────
+    // ════════════════════════════════════════════════════════════
+    // PLANTILLAS DE CONSENTIMIENTO
+    // ════════════════════════════════════════════════════════════
     let plantillaEditandoId = null;
-
-    const PLANTILLA_DEFAULT = `Yo, {{nombre}}, identificado/a con cédula de identidad, declaro:
-
-1. Que he sido informado/a por el Dr. {{doctor}} del consultorio {{consultorio}} sobre el procedimiento de {{tratamiento}}.
-
-2. Que comprendo en qué consiste el procedimiento, sus beneficios, riesgos y posibles alternativas.
-
-3. Que he tenido la oportunidad de realizar preguntas y que estas han sido respondidas satisfactoriamente.
-
-4. Que autorizo voluntariamente la realización del procedimiento descrito.
-
-5. Que entiendo que puedo retirar este consentimiento en cualquier momento antes del procedimiento.
-
-Fecha: {{fecha}}
-
-___________________________
-Firma del paciente`;
 
     async function cargarPlantillas() {
       const el = document.getElementById('plantillas-lista');
-      if (!el || !doctorDb) return;
+      if (!el || !currentUser) return;
       el.innerHTML = '<div class="loader"><div class="spinner"></div></div>';
       try {
-        const snap = await getDocs(collection(doctorDb, 'plantillas_consentimiento'));
-        const lista = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-          .sort((a, b) => {
-            const ta = a.creadoEn?.toDate?.() || new Date(0);
-            const tb = b.creadoEn?.toDate?.() || new Date(0);
-            return ta - tb;
-          });
+        const { data, error } = await supabase
+          .from('plantillas_consentimiento')
+          .select('*')
+          .order('creado_en');
+        if (error) throw error;
+        const lista = data || [];
 
         if (lista.length === 0) {
           el.innerHTML = `<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">No hay plantillas. Crea la primera.</div>`;
@@ -3330,7 +3428,7 @@ Firma del paciente`;
             <span style="font-size:20px">📄</span>
             <span class="plantilla-card-nombre">${p.nombre}</span>
             <button class="btn-icon" onclick="abrirEditorPlantilla(${JSON.stringify(p).replace(/"/g,'&quot;')})">✏️ Editar</button>
-            <button class="btn-icon danger" onclick="eliminarPlantilla('${p.id}','${p.nombre.replace(/'/g,"\'")}')">🗑️</button>
+            <button class="btn-icon danger" onclick="eliminarPlantilla('${p.id}','${p.nombre.replace(/'/g,"\\'")}')">🗑️</button>
           </div>`).join('');
       } catch(e) {
         el.innerHTML = `<p style="color:var(--orange);font-size:13px">Error: ${e.message}</p>`;
@@ -3345,86 +3443,77 @@ Firma del paciente`;
       document.getElementById('mp-btn-guardar').textContent = plantilla ? 'Guardar cambios' : 'Guardar plantilla';
       document.getElementById('mp-btn-guardar').disabled = false;
       document.getElementById('modal-plantilla').style.display = 'flex';
-      // Scroll al top del modal
-      document.getElementById('modal-plantilla').scrollTop = 0;
     };
 
-    window.cerrarEditorPlantilla = function() {
-      document.getElementById('modal-plantilla').style.display = 'none';
-    };
+    window.cerrarEditorPlantilla = function() { document.getElementById('modal-plantilla').style.display = 'none'; };
 
     window.insertarVar = function(texto) {
-      const ta = document.getElementById('mp-contenido');
+      const ta    = document.getElementById('mp-contenido');
       const start = ta.selectionStart;
       const end   = ta.selectionEnd;
-      const val   = ta.value;
-      ta.value = val.slice(0, start) + texto + val.slice(end);
+      ta.value    = ta.value.slice(0, start) + texto + ta.value.slice(end);
       ta.selectionStart = ta.selectionEnd = start + texto.length;
       ta.focus();
     };
 
     window.guardarPlantilla = async function() {
-      const nombre   = document.getElementById('mp-nombre').value.trim();
+      const nombre    = document.getElementById('mp-nombre').value.trim();
       const contenido = document.getElementById('mp-contenido').value.trim();
       if (!nombre)    { alert('El nombre de la plantilla es requerido.'); return; }
       if (!contenido) { alert('El contenido no puede estar vacío.'); return; }
 
       const btn = document.getElementById('mp-btn-guardar');
-      btn.disabled = true;
-      btn.textContent = 'Guardando...';
+      btn.disabled = true; btn.textContent = 'Guardando...';
 
       try {
-        const data = {
-          nombre,
-          contenido,
-          actualizadoEn: Timestamp.now(),
-        };
-
         if (plantillaEditandoId) {
-          await setDoc(doc(doctorDb, 'plantillas_consentimiento', plantillaEditandoId), data, { merge: true });
+          const { error } = await supabase.from('plantillas_consentimiento')
+            .update({ nombre, contenido, actualizado_en: new Date().toISOString() })
+            .eq('id', plantillaEditandoId);
+          if (error) throw error;
         } else {
-          data.creadoEn = Timestamp.now();
-          await addDoc(collection(doctorDb, 'plantillas_consentimiento'), data);
+          const { error } = await supabase.from('plantillas_consentimiento').insert({
+            doctor_id: currentUser.id, nombre, contenido,
+            creado_en: new Date().toISOString(), actualizado_en: new Date().toISOString(),
+          });
+          if (error) throw error;
         }
-
         cerrarEditorPlantilla();
         cargarPlantillas();
       } catch(e) {
         alert('Error al guardar: ' + e.message);
-        btn.disabled = false;
+        btn.disabled    = false;
         btn.textContent = plantillaEditandoId ? 'Guardar cambios' : 'Guardar plantilla';
       }
     };
 
     window.eliminarPlantilla = async function(id, nombre) {
-      if (!confirm(`¿Eliminar "${nombre}"? Esta acción no se puede deshacer.`)) return;
-      try {
-        await deleteDoc(doc(doctorDb, 'plantillas_consentimiento', id));
-        cargarPlantillas();
-      } catch(e) {
-        alert('Error al eliminar: ' + e.message);
-      }
+      if (!confirm(`¿Eliminar "${nombre}"?`)) return;
+      const { error } = await supabase.from('plantillas_consentimiento').delete().eq('id', id);
+      if (error) { alert('Error al eliminar: ' + error.message); return; }
+      cargarPlantillas();
     };
 
-    // Cargar plantillas al abrir configuración
-    // (se integra en el listener existente de data-module)
-
-
-    // ── DIRECTORIO MÉDICO ────────────────────────
-    let todosLosMedicos = [];
-    let filtroPais        = '';
+    // ════════════════════════════════════════════════════════════
+    // DIRECTORIO MÉDICO
+    // ════════════════════════════════════════════════════════════
+    let todosLosMedicos    = [];
+    let filtroPais         = '';
     let filtroEspecialidad = '';
-    let filtroTipo        = ''; // 'pais' | 'especialidad'
+    let filtroTipo         = '';
 
     async function cargarDirectorio() {
       const el = document.getElementById('dir-lista');
       if (!el) return;
       el.innerHTML = '<div class="loader"><div class="spinner"></div></div>';
       try {
-        // directorio_medicos está en la DB principal (default)
-        const dbDefault = getFirestore(app);
-        const snap = await getDocs(query(collection(dbDefault, 'directorio_medicos'), orderBy('nombre')));
-        todosLosMedicos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const { data, error } = await supabase
+          .from('perfiles')
+          .select('*')
+          .eq('en_directorio', true)
+          .order('nombre');
+        if (error) throw error;
+        todosLosMedicos = data || [];
         renderDirectorio();
       } catch(e) {
         el.innerHTML = `<p style="color:var(--muted);font-size:13px;padding:20px">Error: ${e.message}</p>`;
@@ -3437,19 +3526,18 @@ Firma del paciente`;
     }
 
     function renderDirectorio() {
-      const el     = document.getElementById('dir-lista');
-      const busq   = (document.getElementById('dir-busqueda').value||'').toLowerCase();
-      let lista    = [...todosLosMedicos];
+      const el   = document.getElementById('dir-lista');
+      const busq = (document.getElementById('dir-busqueda').value||'').toLowerCase();
+      let lista  = [...todosLosMedicos];
 
-      if (busq)              lista = lista.filter(m => (m.nombre||'').toLowerCase().includes(busq) || (m.especialidad||'').toLowerCase().includes(busq));
-      if (filtroPais)        lista = lista.filter(m => m.pais === filtroPais);
-      if (filtroEspecialidad)lista = lista.filter(m => m.especialidad === filtroEspecialidad);
+      if (busq)               lista = lista.filter(m => (m.nombre||'').toLowerCase().includes(busq)||(m.especialidad||'').toLowerCase().includes(busq));
+      if (filtroPais)         lista = lista.filter(m => m.pais === filtroPais);
+      if (filtroEspecialidad) lista = lista.filter(m => m.especialidad === filtroEspecialidad);
 
       if (lista.length === 0) {
-        el.innerHTML = `<div class="empty-state"><div class="empty-icon">🏥</div><p class="empty-text">${todosLosMedicos.length===0?'Aún no hay médicos en el directorio':'No se encontraron resultados'}</p></div>`;
+        el.innerHTML = `<div class="empty-state"><div class="empty-icon">🏥</div><p class="empty-text">${todosLosMedicos.length===0?'Aún no hay médicos en el directorio':'Sin resultados'}</p></div>`;
         return;
       }
-
       el.innerHTML = lista.map((m, i) => {
         const meta = [m.pais, m.consultorio].filter(Boolean).join(' · ');
         const mEnc = encodeURIComponent(JSON.stringify(m));
@@ -3483,19 +3571,15 @@ Firma del paciente`;
       document.getElementById('modal-filtro-titulo').textContent = esPais ? 'Filtrar por país' : 'Filtrar por especialidad';
       const opciones = [...new Set(todosLosMedicos.map(m => esPais ? m.pais : m.especialidad).filter(Boolean))].sort();
       const actual   = esPais ? filtroPais : filtroEspecialidad;
-
-      const lista = document.getElementById('modal-filtro-lista');
+      const lista    = document.getElementById('modal-filtro-lista');
       let html = '';
       if (actual) html += `<div class="filtro-opcion" onclick="seleccionarFiltro('')"><span>✕</span> Limpiar filtro</div>`;
-      if (opciones.length === 0) {
-        html += `<div style="padding:20px;color:var(--muted);font-size:13px">No hay opciones disponibles.</div>`;
-      } else {
-        opciones.forEach(op => {
-          html += `<div class="filtro-opcion ${op===actual?'seleccionada':''}" onclick="seleccionarFiltro('${op.replace(/'/g,"\\'")}')">
-            <span>${op===actual?'●':'○'}</span> ${op}
-          </div>`;
-        });
-      }
+      opciones.forEach(op => {
+        html += `<div class="filtro-opcion ${op===actual?'seleccionada':''}" onclick="seleccionarFiltro('${op.replace(/'/g,"\\'")}')">
+          <span>${op===actual?'●':'○'}</span> ${op}
+        </div>`;
+      });
+      if (!opciones.length) html += `<div style="padding:20px;color:var(--muted);font-size:13px">Sin opciones disponibles.</div>`;
       lista.innerHTML = html;
       document.getElementById('modal-filtro-dir').style.display = 'flex';
     };
@@ -3504,41 +3588,37 @@ Firma del paciente`;
       if (filtroTipo === 'pais') {
         filtroPais = valor;
         const btn = document.getElementById('chip-pais');
-        btn.className = valor ? 'filtro-chip activo' : 'filtro-chip';
+        btn.className   = valor ? 'filtro-chip activo' : 'filtro-chip';
         btn.textContent = valor ? `🌍 ${valor}` : '🌍 País';
       } else {
         filtroEspecialidad = valor;
         const btn = document.getElementById('chip-especialidad');
-        btn.className = valor ? 'filtro-chip activo' : 'filtro-chip';
+        btn.className   = valor ? 'filtro-chip activo' : 'filtro-chip';
         btn.textContent = valor ? `🩺 ${valor}` : '🩺 Especialidad';
       }
-      document.getElementById('btn-limpiar-filtros').style.display =
-        (filtroPais || filtroEspecialidad) ? 'block' : 'none';
+      document.getElementById('btn-limpiar-filtros').style.display = (filtroPais||filtroEspecialidad) ? 'block' : 'none';
       cerrarFiltro();
       renderDirectorio();
     };
 
-    window.cerrarFiltro = function() {
-      document.getElementById('modal-filtro-dir').style.display = 'none';
-    };
+    window.cerrarFiltro = function() { document.getElementById('modal-filtro-dir').style.display = 'none'; };
 
     window.verPerfilMedico = function(encoded) {
       const m = JSON.parse(decodeURIComponent(encoded));
-      document.getElementById('mpm-avatar').textContent     = iniciales(m.nombre);
-      document.getElementById('mpm-nombre').textContent     = `Dr. ${m.nombre||''}`;
+      document.getElementById('mpm-avatar').textContent      = iniciales(m.nombre);
+      document.getElementById('mpm-nombre').textContent      = `Dr. ${m.nombre||''}`;
       document.getElementById('mpm-especialidad').textContent = m.especialidad||'';
       document.getElementById('mpm-consultorio').textContent  = m.consultorio||'';
 
       const paisRow = document.getElementById('mpm-pais-row');
       if (m.pais) { document.getElementById('mpm-pais').textContent = m.pais; paisRow.style.display='flex'; }
-      else          paisRow.style.display='none';
+      else         paisRow.style.display='none';
 
       const diasRow = document.getElementById('mpm-dias-row');
-      const dias = Array.isArray(m.diasTrabajo) ? m.diasTrabajo : [];
+      const dias = Array.isArray(m.dias_trabajo) ? m.dias_trabajo : [];
       if (dias.length) { document.getElementById('mpm-dias').textContent = dias.join(', '); diasRow.style.display='flex'; }
       else               diasRow.style.display='none';
 
-      // Botones contacto
       const tel   = (m.telefono||'').trim();
       const email = (m.email||'').trim();
       const telNum = tel.replace(/[^0-9]/g,'');
@@ -3563,17 +3643,15 @@ Firma del paciente`;
             <div><div class="btn-contacto-label" style="color:var(--accent)">Enviar email</div><div class="btn-contacto-sub">${email}</div></div>
           </a>` : '';
       document.getElementById('mpm-btn-email').style.display = email ? 'block' : 'none';
-
       document.getElementById('mpm-sin-contacto').style.display = (!tel && !email) ? 'block' : 'none';
-
       document.getElementById('modal-perfil-medico').style.display = 'flex';
     };
 
-    window.cerrarPerfilMedico = function() {
-      document.getElementById('modal-perfil-medico').style.display = 'none';
-    };
+    window.cerrarPerfilMedico = function() { document.getElementById('modal-perfil-medico').style.display = 'none'; };
 
-    // ── Configuración ────────────────────────
+    // ════════════════════════════════════════════════════════════
+    // CONFIGURACIÓN
+    // ════════════════════════════════════════════════════════════
     const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
     let diasSeleccionados = [];
 
@@ -3587,86 +3665,68 @@ Firma del paciente`;
     }
 
     window.toggleDia = function(dia) {
-      if (diasSeleccionados.includes(dia)) {
-        diasSeleccionados = diasSeleccionados.filter(d => d !== dia);
-      } else {
-        diasSeleccionados.push(dia);
-      }
+      if (diasSeleccionados.includes(dia)) diasSeleccionados = diasSeleccionados.filter(d=>d!==dia);
+      else diasSeleccionados.push(dia);
       iniciarDiasGrid();
     };
 
     async function cargarConfig() {
-      if (!doctorDb) return;
+      if (!currentUser) return;
       try {
-        const snap = await getDoc(doc(doctorDb, 'config', 'perfil'));
-        if (!snap.exists()) return;
-        const d = snap.data();
-
+        const { data, error } = await supabase
+          .from('perfiles')
+          .select('*')
+          .eq('id', currentUser.id)
+          .single();
+        if (error || !data) return;
+        const d = data;
         const set = (id, val) => { const el = $(id); if (el && val) el.value = val; };
-        set('cfg-nombre',      d.nombre);
-        set('cfg-especialidad', d.especialidad);
-        set('cfg-consultorio', d.consultorio);
-        set('cfg-telefono',    d.telefono);
-        set('cfg-email',       d.email);
-        set('cfg-pais',        d.pais);
-        set('cfg-hora-inicio', d.horaInicio);
-        set('cfg-hora-fin',    d.horaFin);
-        if (d.duracionCita) $('cfg-duracion').value = d.duracionCita;
-        if ($('cfg-directorio')) $('cfg-directorio').checked = !!d.enDirectorio;
-
-        diasSeleccionados = d.diasTrabajo || [];
+        set('cfg-nombre', d.nombre); set('cfg-especialidad', d.especialidad);
+        set('cfg-consultorio', d.consultorio); set('cfg-telefono', d.telefono);
+        set('cfg-email', d.email); set('cfg-pais', d.pais);
+        set('cfg-hora-inicio', d.hora_inicio); set('cfg-hora-fin', d.hora_fin);
+        if (d.duracion_cita)   $('cfg-duracion').value    = d.duracion_cita;
+        if ($('cfg-directorio')) $('cfg-directorio').checked = !!d.en_directorio;
+        diasSeleccionados = d.dias_trabajo || [];
         iniciarDiasGrid();
       } catch(e) { console.error('Error cargando config:', e); }
     }
 
     async function guardarConfig() {
-      if (!doctorDb || !currentUser) return;
-      const btn  = $('btn-guardar-config');
-      const msg  = $('save-msg');
+      if (!currentUser) return;
+      const btn = $('btn-guardar-config');
+      const msg = $('save-msg');
       btn.disabled = true;
       $('btn-save-text').textContent = 'Guardando...';
-      msg.className = 'save-msg';
-      msg.textContent = '';
+      msg.className = 'save-msg'; msg.textContent = '';
 
       try {
         const nombre = $('cfg-nombre').value.trim();
         const data = {
-          nombre:       nombre,
+          id:           currentUser.id,
+          nombre,
           especialidad: $('cfg-especialidad').value.trim(),
           consultorio:  $('cfg-consultorio').value.trim(),
           telefono:     $('cfg-telefono').value.trim(),
           email:        $('cfg-email').value.trim(),
           pais:         $('cfg-pais').value.trim(),
-          horaInicio:   $('cfg-hora-inicio').value,
-          horaFin:      $('cfg-hora-fin').value,
-          duracionCita: parseInt($('cfg-duracion').value),
-          diasTrabajo:  diasSeleccionados,
-          enDirectorio: $('cfg-directorio').checked,
+          hora_inicio:  $('cfg-hora-inicio').value,
+          hora_fin:     $('cfg-hora-fin').value,
+          duracion_cita: parseInt($('cfg-duracion').value),
+          dias_trabajo:  diasSeleccionados,
+          en_directorio: $('cfg-directorio').checked,
+          actualizado_en: new Date().toISOString(),
         };
 
-        // Guardar perfil
-        await setDoc(doc(doctorDb, 'config', 'perfil'), data, { merge: true });
+        const { error } = await supabase.from('perfiles').upsert(data);
+        if (error) throw error;
 
-        // Actualizar directorio público
-        await setDoc(doc(db, 'directorio_medicos', currentUser.uid), {
-          nombre:       data.nombre,
-          especialidad: data.especialidad,
-          consultorio:  data.consultorio,
-          pais:         data.pais,
-          telefono:     data.telefono,
-          email:        data.email,
-          diasTrabajo:  data.diasTrabajo,
-          enDirectorio: data.enDirectorio,
-        }, { merge: true });
-
-        // Actualizar nombre en topbar
         doctorNombre = nombre;
         const iniciales = nombre.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
         $('topbar-avatar').textContent = iniciales || 'DR';
         $('topbar-name').textContent   = nombre;
-
         msg.className   = 'save-msg ok';
-        msg.textContent = '✓ Cambios guardados correctamente';
+        msg.textContent = '✓ Cambios guardados';
       } catch(e) {
         console.error(e);
         msg.className   = 'save-msg error';
@@ -3674,26 +3734,19 @@ Firma del paciente`;
       } finally {
         btn.disabled = false;
         $('btn-save-text').textContent = 'Guardar cambios';
-        setTimeout(() => { msg.textContent = ''; msg.className = 'save-msg'; }, 4000);
+        setTimeout(() => { msg.textContent=''; msg.className='save-msg'; }, 4000);
       }
     }
 
-    // Cargar config al activar el módulo
-    const origActivarModulo = activarModulo;
-    window._activarModulo = activarModulo;
-
     document.querySelectorAll('[data-module]').forEach(btn => {
       btn.addEventListener('click', () => {
-        if (btn.dataset.module === 'config') {
-          iniciarDiasGrid();
-          cargarConfig();
-        }
+        if (btn.dataset.module === 'config') { iniciarDiasGrid(); cargarConfig(); }
       });
     });
 
     $('btn-guardar-config')?.addEventListener('click', guardarConfig);
 
-    // ── Saludo dinámico ──────────────────────
+    // Saludo dinámico
     function saludo() {
       const h = new Date().getHours();
       if (h < 12) return 'Buenos días';
@@ -3701,7 +3754,6 @@ Firma del paciente`;
       return 'Buenas noches';
     }
 
-    // Actualizar saludo al mostrar dashboard
     const observer = new MutationObserver(() => {
       if ($('module-dashboard').classList.contains('active')) {
         $('module-dashboard').querySelector('.module-title').textContent =
@@ -3710,15 +3762,88 @@ Firma del paciente`;
     });
     observer.observe($('module-dashboard'), { attributes: true });
 
+    // ════════════════════════════════════════════════════════════
+    // ALERTAS DE FIN DE CITA
+    // Revisa cada minuto si alguna cita programada acaba de terminar
+    // y pregunta al médico si fue completada, continúa o se canceló
+    // ════════════════════════════════════════════════════════════
+    const citasAlertadas = new Set(); // evita alertar la misma cita dos veces
+
+    async function verificarCitasTerminadas() {
+      if (!currentUser) return;
+      const ahora = new Date();
+
+      try {
+        // Solo citas programadas de hoy
+        const hoy   = new Date(); hoy.setHours(0,0,0,0);
+        const manana = new Date(hoy); manana.setDate(hoy.getDate()+1);
+
+        const { data: citas } = await supabase
+          .from('citas')
+          .select('*')
+          .eq('estado', 'programada')
+          .gte('inicio', hoy.toISOString())
+          .lt('inicio',  manana.toISOString());
+
+        if (!citas) return;
+
+        for (const c of citas) {
+          if (citasAlertadas.has(c.id)) continue;
+          const inicio = new Date(c.inicio);
+          const fin    = new Date(inicio.getTime() + (c.duracion_min || 30) * 60000);
+
+          // Alertar si la cita terminó hace menos de 5 minutos
+          const diffMs = ahora - fin;
+          if (diffMs >= 0 && diffMs <= 5 * 60 * 1000) {
+            citasAlertadas.add(c.id);
+            mostrarAlertaCita(c);
+            break; // una alerta a la vez
+          }
+        }
+      } catch(e) { console.warn('verificarCitas:', e.message); }
+    }
+
+    function mostrarAlertaCita(cita) {
+      $('alerta-cita-nombre').textContent     = cita.paciente_nombre || 'Paciente';
+      $('alerta-cita-tratamiento').textContent = cita.tratamiento || '';
+      $('alerta-cita-modal').dataset.citaId   = cita.id;
+      $('alerta-cita-modal').style.display    = 'flex';
+    }
+
+    window.responderAlertaCita = async function(estado) {
+      const modal  = $('alerta-cita-modal');
+      const citaId = modal.dataset.citaId;
+      modal.style.display = 'none';
+
+      if (!citaId) return;
+      try {
+        await supabase.from('citas').update({ estado }).eq('id', citaId);
+        // Refrescar agenda y dashboard si están activos
+        if ($('module-agenda')?.classList.contains('active'))    cargarAgenda();
+        if ($('module-dashboard')?.classList.contains('active')) cargarDashboard();
+        mostrarToast(
+          estado === 'completada' ? '✅ Cita marcada como completada' :
+          estado === 'cancelada'  ? '❌ Cita marcada como cancelada'  :
+          '🔄 Cita actualizada'
+        );
+      } catch(e) { console.error('responderAlertaCita:', e.message); }
+    };
+
+    // Revisar al iniciar sesión y luego cada minuto
+    setTimeout(verificarCitasTerminadas, 5000);
+    setInterval(verificarCitasTerminadas, 60 * 1000);
+
   </script>
 
 
-  <!-- ═══════════════ MODAL CONSENTIMIENTO ═══════════════ -->
+  <!-- ═══════════════ MODALES (sin cambios) ═══════════════ -->
+
+  <!-- MODAL CONSENTIMIENTO -->
   <div id="modal-consent" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;padding:16px">
     <div style="background:var(--surface);border-radius:16px;width:100%;max-width:560px;max-height:90vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md)">
       <div style="padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">
         <div style="flex:1">
-          <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--primary)" id="modal-consent-titulo">Nuevo consentimiento</div>
+          <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--primary)" id="modal-consent-titulo"></div>
           <div style="font-size:12px;color:var(--muted);margin-top:2px" id="modal-consent-sub"></div>
         </div>
         <button onclick="cerrarModalConsent()" style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;color:var(--muted)">✕</button>
@@ -3731,7 +3856,7 @@ Firma del paciente`;
     </div>
   </div>
 
-  <!-- ═══════════════ VISOR CONSENTIMIENTO ═══════════════ -->
+  <!-- VISOR CONSENTIMIENTO -->
   <div id="visor-consent" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;padding:16px">
     <div style="background:var(--surface);border-radius:16px;width:100%;max-width:640px;max-height:90vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md)">
       <div style="padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">
@@ -3749,29 +3874,20 @@ Firma del paciente`;
     </div>
   </div>
 
-
-  <!-- ═══════════════ MODAL EDITOR PLANTILLA ═══════════════ -->
+  <!-- MODAL EDITOR PLANTILLA -->
   <div id="modal-plantilla" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto">
     <div style="background:var(--surface);border-radius:16px;width:100%;max-width:640px;margin:auto;display:flex;flex-direction:column;box-shadow:var(--shadow-md)">
-
-      <!-- Header -->
       <div style="padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;position:sticky;top:0;background:var(--surface);border-radius:16px 16px 0 0;z-index:1">
         <div style="flex:1">
           <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--primary)" id="mp-titulo">Nueva plantilla</div>
         </div>
         <button onclick="cerrarEditorPlantilla()" style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;color:var(--muted)">✕</button>
       </div>
-
-      <!-- Body -->
       <div style="padding:20px;display:flex;flex-direction:column;gap:16px">
-
-        <!-- Nombre -->
         <div class="form-group">
           <label>Nombre de la plantilla *</label>
           <input type="text" class="form-input" id="mp-nombre" placeholder="Ej: Consentimiento para toxina botulínica">
         </div>
-
-        <!-- Barra variables y formato -->
         <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px">
           <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">Insertar variable</div>
           <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
@@ -3788,28 +3904,19 @@ Firma del paciente`;
             <button onclick="insertarVar('\n─────────────────────\n')" class="fmt-chip">── Separador</button>
           </div>
         </div>
-
-        <!-- Editor de contenido -->
         <div class="form-group">
-          <label>Contenido de la plantilla *</label>
-          <textarea class="form-input" id="mp-contenido" rows="16"
-            style="font-family:Georgia,serif;font-size:14px;line-height:1.7;resize:vertical;min-height:300px"
-            placeholder="Escribe el contenido del consentimiento..."></textarea>
+          <label>Contenido *</label>
+          <textarea class="form-input" id="mp-contenido" rows="16" style="font-family:Georgia,serif;font-size:14px;line-height:1.7;resize:vertical;min-height:300px"></textarea>
         </div>
-
       </div>
-
-      <!-- Footer -->
       <div style="padding:16px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:var(--surface);border-radius:0 0 16px 16px">
         <button onclick="cerrarEditorPlantilla()" style="padding:10px 18px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;font-size:13px;cursor:pointer;color:var(--muted)">Cancelar</button>
         <button class="btn-accent" id="mp-btn-guardar" onclick="guardarPlantilla()">Guardar plantilla</button>
       </div>
-
     </div>
   </div>
 
-
-  <!-- ═══════════════ MODAL CITA ═══════════════ -->
+  <!-- MODAL CITA -->
   <div id="modal-cita" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);align-items:flex-end;justify-content:center">
     <div style="background:var(--bg);border-radius:20px 20px 0 0;width:100%;max-width:600px;max-height:92vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md)">
       <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0"></div>
@@ -3818,8 +3925,6 @@ Firma del paciente`;
         <button id="mc-btn-eliminar" onclick="eliminarCita()" style="display:none;padding:6px 12px;background:var(--orange-l);border:1px solid rgba(184,92,56,0.3);border-radius:8px;font-size:13px;color:var(--orange);cursor:pointer">🗑️ Eliminar</button>
       </div>
       <div style="padding:20px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px">
-
-        <!-- Selector paciente existente / nuevo -->
         <div>
           <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Paciente *</div>
           <div class="modo-pac-toggle">
@@ -3827,51 +3932,26 @@ Firma del paciente`;
             <button class="modo-pac-btn" id="modo-nuevo" onclick="setModoPaciente('nuevo')">➕ Paciente nuevo</button>
           </div>
         </div>
-
-        <!-- Paciente existente -->
         <div id="sec-paciente-existente">
-          <select class="form-input" id="mc-paciente-select">
-            <option value="">Seleccionar paciente...</option>
-          </select>
+          <select class="form-input" id="mc-paciente-select"><option value="">Seleccionar paciente...</option></select>
         </div>
-
-        <!-- Paciente nuevo -->
         <div id="sec-paciente-nuevo" style="display:none">
           <div class="config-grid">
-            <div class="form-group">
-              <label>Nombre *</label>
-              <input type="text" class="form-input" id="mc-nombre-nuevo" placeholder="Nombre del paciente">
-            </div>
-            <div class="form-group">
-              <label>Teléfono</label>
-              <input type="tel" class="form-input" id="mc-tel-nuevo" placeholder="+58 412 000 0000">
-            </div>
+            <div class="form-group"><label>Nombre *</label><input type="text" class="form-input" id="mc-nombre-nuevo" placeholder="Nombre del paciente"></div>
+            <div class="form-group"><label>Teléfono</label><input type="tel" class="form-input" id="mc-tel-nuevo" placeholder="+58 412 000 0000"></div>
           </div>
         </div>
-
-        <!-- Fecha y hora -->
         <div class="config-grid">
-          <div class="form-group">
-            <label>Fecha *</label>
-            <input type="date" class="form-input" id="mc-fecha">
-          </div>
-          <div class="form-group">
-            <label>Hora *</label>
-            <input type="time" class="form-input" id="mc-hora" value="09:00">
-          </div>
+          <div class="form-group"><label>Fecha *</label><input type="date" class="form-input" id="mc-fecha"></div>
+          <div class="form-group"><label>Hora *</label><input type="time" class="form-input" id="mc-hora" value="09:00"></div>
         </div>
-
-        <!-- Duración y tratamiento -->
         <div class="config-grid">
           <div class="form-group">
             <label>Duración</label>
             <select class="form-input" id="mc-duracion">
-              <option value="15">15 min</option>
-              <option value="30" selected>30 min</option>
-              <option value="45">45 min</option>
-              <option value="60">60 min</option>
-              <option value="90">90 min</option>
-              <option value="120">120 min</option>
+              <option value="15">15 min</option><option value="30" selected>30 min</option>
+              <option value="45">45 min</option><option value="60">60 min</option>
+              <option value="90">90 min</option><option value="120">120 min</option>
             </select>
           </div>
           <div class="form-group">
@@ -3883,36 +3963,23 @@ Firma del paciente`;
             </select>
           </div>
         </div>
-
-        <!-- Tratamiento -->
-        <div class="form-group">
-          <label>Tratamiento *</label>
-          <input type="text" class="form-input" id="mc-tratamiento" placeholder="Ej: Aplicación de toxina botulínica">
-        </div>
-
-        <!-- Notas -->
-        <div class="form-group">
-          <label>Notas</label>
-          <textarea class="form-input" id="mc-notas" rows="2" placeholder="Observaciones adicionales..."></textarea>
-        </div>
-
+        <div class="form-group"><label>Tratamiento *</label><input type="text" class="form-input" id="mc-tratamiento" placeholder="Ej: Aplicación de toxina botulínica"></div>
+        <div class="form-group"><label>Notas</label><textarea class="form-input" id="mc-notas" rows="5" placeholder="Observaciones adicionales..." style="resize:vertical;min-height:100px"></textarea></div>
       </div>
-      <div style="padding:16px 20px;border-top:1px solid var(--border);display:flex;gap:10px">
+      <div style="padding:16px 20px calc(16px + env(safe-area-inset-bottom)) 20px;border-top:1px solid var(--border);display:flex;gap:10px">
         <button onclick="cerrarModalCita()" style="flex:1;padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;color:var(--muted)">Cancelar</button>
         <button class="btn-accent" id="mc-btn-guardar" onclick="guardarCita()" style="flex:2;padding:12px">Guardar cita</button>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════ MODAL DETALLE CITA (HISTORIAL) - MODIFICADO ═══════════════ -->
+  <!-- MODAL DETALLE CITA -->
   <div id="modal-detalle-cita" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);align-items:flex-end;justify-content:center">
     <div style="background:var(--bg);border-radius:20px 20px 0 0;width:100%;max-width:600px;max-height:85vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md)">
       <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0"></div>
       <div style="padding:16px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)">
         <div id="mdc-icono" style="padding:10px;border-radius:10px;font-size:18px">💊</div>
-        <div style="flex:1">
-          <div style="font-size:16px;font-weight:700;color:var(--text)" id="mdc-tratamiento"></div>
-        </div>
+        <div style="flex:1"><div style="font-size:16px;font-weight:700;color:var(--text)" id="mdc-tratamiento"></div></div>
         <span id="mdc-estado-chip" class="cita-estado"></span>
       </div>
       <div style="padding:20px;overflow-y:auto;flex:1">
@@ -3923,19 +3990,18 @@ Firma del paciente`;
         </div>
         <div id="mdc-notas-wrap"></div>
       </div>
-      <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px">
+      <div style="padding:14px 20px calc(14px + env(safe-area-inset-bottom)) 20px;border-top:1px solid var(--border);display:flex;gap:10px">
         <button onclick="editarCitaDesdeHistorial()" style="flex:1;padding:12px;background:var(--accent-l);border:1.5px solid var(--accent);border-radius:10px;font-size:14px;cursor:pointer;color:var(--accent);font-weight:600">✏️ Editar</button>
         <button onclick="cerrarDetalleCita()" style="flex:1;padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;color:var(--muted)">Cerrar</button>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════ MODAL PERFIL MÉDICO ═══════════════ -->
+  <!-- MODAL PERFIL MÉDICO -->
   <div id="modal-perfil-medico" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);align-items:flex-end;justify-content:center">
     <div style="background:var(--bg);border-radius:20px 20px 0 0;width:100%;max-width:560px;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow-md)">
       <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0"></div>
       <div style="padding:20px">
-        <!-- Header -->
         <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px">
           <div id="mpm-avatar" style="width:64px;height:64px;border-radius:18px;background:var(--accent-l);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:var(--accent);flex-shrink:0"></div>
           <div>
@@ -3944,18 +4010,14 @@ Firma del paciente`;
             <div style="font-size:12px;color:var(--muted);margin-top:2px" id="mpm-consultorio"></div>
           </div>
         </div>
-        <!-- Info -->
         <div id="mpm-pais-row" style="display:none;margin-bottom:10px" class="dir-info-row">
-          <span class="dir-info-icon">🌍</span>
-          <span class="dir-info-label">País:</span>
+          <span class="dir-info-icon">🌍</span><span class="dir-info-label">País:</span>
           <span class="dir-info-valor" id="mpm-pais"></span>
         </div>
         <div id="mpm-dias-row" style="display:none;margin-bottom:16px" class="dir-info-row">
-          <span class="dir-info-icon">📅</span>
-          <span class="dir-info-label">Días de trabajo:</span>
+          <span class="dir-info-icon">📅</span><span class="dir-info-label">Días de trabajo:</span>
           <span class="dir-info-valor" id="mpm-dias"></span>
         </div>
-        <!-- Contactar -->
         <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px">Contactar</div>
         <div id="mpm-btn-llamar" style="display:none;margin-bottom:10px"></div>
         <div id="mpm-btn-whatsapp" style="display:none;margin-bottom:10px"></div>
@@ -3969,7 +4031,30 @@ Firma del paciente`;
     </div>
   </div>
 
-  <!-- ═══════════════ MODAL SELECTOR FILTRO ═══════════════ -->
+  <!-- MODAL ALERTA FIN DE CITA -->
+  <div id="alerta-cita-modal">
+    <div class="alerta-cita-card">
+      <div class="alerta-cita-header">
+        <div class="alerta-cita-icono">🏥</div>
+        <div class="alerta-cita-titulo">Cita finalizada</div>
+        <div class="alerta-cita-sub">El tiempo de la cita ha concluido</div>
+      </div>
+      <div class="alerta-cita-body">
+        <div class="alerta-cita-info">
+          <div class="alerta-cita-pac" id="alerta-cita-nombre"></div>
+          <div class="alerta-cita-trat" id="alerta-cita-tratamiento"></div>
+        </div>
+        <div class="alerta-cita-pregunta">¿Cómo resultó la cita?</div>
+        <div class="alerta-cita-btns">
+          <button class="alerta-btn-completada" onclick="responderAlertaCita('completada')">✅ Completada</button>
+          <button class="alerta-btn-continua"   onclick="responderAlertaCita('programada')">🔄 Continúa / Reprogramar</button>
+          <button class="alerta-btn-cancelada"  onclick="responderAlertaCita('cancelada')">❌ Cancelada</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL SELECTOR FILTRO -->
   <div id="modal-filtro-dir" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);align-items:flex-end;justify-content:center">
     <div style="background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:480px;max-height:60vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md)">
       <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0"></div>
@@ -3980,5 +4065,6 @@ Firma del paciente`;
       </div>
     </div>
   </div>
+
 </body>
 </html>
