@@ -583,6 +583,9 @@
     .metric-card:nth-child(2) { animation-delay: .10s; }
     .metric-card:nth-child(3) { animation-delay: .15s; }
     .metric-card:nth-child(4) { animation-delay: .20s; }
+    .metric-card[onclick] { transition: transform .15s, box-shadow .15s; }
+    .metric-card[onclick]:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .metric-card[onclick]:active { transform: scale(.97); }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(12px); }
@@ -1800,22 +1803,22 @@
 
           <!-- Métricas -->
           <div class="metrics-grid" id="metrics-grid">
-            <div class="metric-card">
+            <div class="metric-card" onclick="activarModulo('agenda');irHoyAgenda()" style="cursor:pointer" title="Ver agenda de hoy">
               <div class="metric-icon">📋</div>
               <div class="metric-value" id="m-citas-hoy">—</div>
               <div class="metric-label">Citas hoy</div>
             </div>
-            <div class="metric-card">
+            <div class="metric-card" onclick="activarModulo('pacientes')" style="cursor:pointer" title="Ver pacientes">
               <div class="metric-icon">👥</div>
               <div class="metric-value" id="m-pacientes">—</div>
               <div class="metric-label">Pacientes</div>
             </div>
-            <div class="metric-card">
+            <div class="metric-card" onclick="activarModulo('agenda');irHoyAgenda()" style="cursor:pointer" title="Ver citas pendientes">
               <div class="metric-icon">⏳</div>
               <div class="metric-value" id="m-pendientes">—</div>
               <div class="metric-label">Pendientes</div>
             </div>
-            <div class="metric-card">
+            <div class="metric-card" onclick="activarModulo('agenda')" style="cursor:pointer" title="Ver agenda semanal">
               <div class="metric-icon">📆</div>
               <div class="metric-value" id="m-semana">—</div>
               <div class="metric-label">Esta semana</div>
@@ -2935,7 +2938,7 @@
     // ════════════════════════════════════════════════════════════
     const ANTECEDENTES_KEYS = [
       'Hipertensión','Diabetes','Convulsiones/Epilepsia','Dengue',
-      'Chikungunya','Infartos','Herpes labial recurrente','COVID-19'
+      'Chikungunya','Infartos','Herpes labial recurrente','COVID-19','Asma'
     ];
     const ESTETICOS_KEYS = [
       'Materiales no reabsorbibles (silicona)',
@@ -2955,11 +2958,29 @@
     function initAntecedentes(data) {
       const el = document.getElementById('antecedentes-checks');
       if (!el) return;
-      el.innerHTML = ANTECEDENTES_KEYS.map(k => {
+      const checks = ANTECEDENTES_KEYS.map(k => {
         const checked = data && data[k] ? 'checked' : '';
         return `<label class="check-item"><input type="checkbox" id="ant-${k.replace(/[^a-z0-9]/gi,'_')}" ${checked}><span>${k}</span></label>`;
       }).join('');
+      // Ítem especial "Otros" con campo de texto
+      const otrosActivo  = data && data['Otros'] && data['Otros'].activo ? 'checked' : '';
+      const otrosDetalle = data && data['Otros'] ? (data['Otros'].detalle || '') : '';
+      const otrosHtml = `<div class="estetico-row" style="grid-column:1/-1">
+        <label class="check-item">
+          <input type="checkbox" id="ant-Otros" ${otrosActivo} onchange="toggleAntOtros()">
+          <span>Otros</span>
+        </label>
+        <input type="text" class="form-input" id="ant-otros-detalle" placeholder="Especificar otros antecedentes..."
+          value="${otrosDetalle}" style="margin-top:6px;display:${otrosActivo ? 'block' : 'none'}">
+      </div>`;
+      el.innerHTML = checks + otrosHtml;
     }
+
+    window.toggleAntOtros = function() {
+      const cb  = document.getElementById('ant-Otros');
+      const inp = document.getElementById('ant-otros-detalle');
+      if (inp) inp.style.display = cb && cb.checked ? 'block' : 'none';
+    };
 
     function initEsteticos(data) {
       const el = document.getElementById('esteticos-lista');
@@ -3171,6 +3192,13 @@
           const el = document.getElementById('ant-' + k.replace(/[^a-z0-9]/gi,'_'));
           if (el) antecedentes[k] = el.checked;
         });
+        // Guardar "Otros" como objeto con activo + detalle
+        const antOtrosCb  = document.getElementById('ant-Otros');
+        const antOtrosInp = document.getElementById('ant-otros-detalle');
+        antecedentes['Otros'] = {
+          activo:  antOtrosCb  ? antOtrosCb.checked          : false,
+          detalle: antOtrosInp ? antOtrosInp.value.trim() : '',
+        };
 
         const esteticos = {};
         ESTETICOS_KEYS.forEach(k => {
@@ -3274,7 +3302,18 @@
 
     document.querySelectorAll('[data-module]').forEach(btn => {
       btn.addEventListener('click', () => {
-        if (btn.dataset.module === 'pacientes')  cargarPacientes();
+        if (btn.dataset.module === 'pacientes') {
+          // Si estamos en el expediente, regresar a la lista
+          const expediente = document.getElementById('pac-vista-expediente');
+          const lista      = document.getElementById('pac-vista-lista');
+          if (expediente && expediente.style.display !== 'none') {
+            expediente.style.display = 'none';
+            lista.style.display      = 'block';
+            renderPacientes(todosPacientes);
+          } else {
+            cargarPacientes();
+          }
+        }
         if (btn.dataset.module === 'config')     { iniciarDiasGrid(); cargarConfig(); cargarPlantillas(); }
         if (btn.dataset.module === 'agenda')     cargarAgenda();
         if (btn.dataset.module === 'directorio') cargarDirectorio();
@@ -3602,14 +3641,36 @@
     window.cerrarDetalleCita = function() { document.getElementById('modal-detalle-cita').style.display = 'none'; };
 
     window.imprimirNotasCita = function() {
-      const c   = citaActualDetalle;
+      const c = citaActualDetalle;
       if (!c) return;
+
+      // Datos del médico (desde campos de configuración si ya fueron cargados)
+      const docNombre      = $('cfg-nombre')?.value.trim()      || doctorNombre || 'Médico';
+      const docEspec       = $('cfg-especialidad')?.value.trim() || '';
+      const docConsultorio = $('cfg-consultorio')?.value.trim()  || '';
+      const docTel         = $('cfg-telefono')?.value.trim()     || '';
+      const docEmail       = $('cfg-email')?.value.trim()        || '';
+
+      // Datos del paciente
+      const pac       = todosPacientes.find(p => p.id === c.paciente_id);
+      const pacCI     = pac?.ci || '';
+      const pacTel    = pac?.tel_celular || pac?.tel_casa || '';
+      const MESES_PAC = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+      const pacFecNac = pac?.fecha_nacimiento ? (() => {
+        const f = new Date(pac.fecha_nacimiento);
+        return `${f.getDate()} de ${MESES_PAC[f.getMonth()]} de ${f.getFullYear()}`;
+      })() : '';
+      const pacEdad = pac?.fecha_nacimiento ? (() => {
+        const f = new Date(pac.fecha_nacimiento), hoyD = new Date();
+        let edad = hoyD.getFullYear() - f.getFullYear();
+        if (hoyD.getMonth() < f.getMonth() || (hoyD.getMonth()===f.getMonth() && hoyD.getDate()<f.getDate())) edad--;
+        return edad >= 0 ? edad + ' años' : '';
+      })() : '';
+
       const ini = new Date(c.inicioDate);
       const fin = new Date(ini.getTime() + (c.duracion_min||30)*60000);
       const pad = n => String(n).padStart(2,'0');
-      const MESES = ['enero','febrero','marzo','abril','mayo','junio',
-                     'julio','agosto','septiembre','octubre','noviembre','diciembre'];
-      const fechaTxt = `${ini.getDate()} de ${MESES[ini.getMonth()]} de ${ini.getFullYear()}`;
+      const fechaTxt = `${ini.getDate()} de ${MESES_PAC[ini.getMonth()]} de ${ini.getFullYear()}`;
       const horaTxt  = `${pad(ini.getHours())}:${pad(ini.getMinutes())} – ${pad(fin.getHours())}:${pad(fin.getMinutes())}`;
       const hoy = new Date().toLocaleDateString('es-VE', { day:'2-digit', month:'long', year:'numeric' });
 
@@ -3620,35 +3681,66 @@
   <title>Notas — ${c.paciente_nombre || 'Paciente'}</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Georgia, serif; font-size: 14px; color: #1a1a1a; padding: 48px; max-width: 680px; margin: auto; line-height: 1.8; }
-    .header { border-bottom: 2px solid #1a1a6e; padding-bottom: 16px; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: flex-end; }
-    .pac-nombre { font-size: 22px; font-weight: 700; color: #1a1a6e; }
-    .meta { font-size: 11px; color: #888; text-align: right; }
-    .cita-info { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; display: flex; gap: 24px; }
-    .ci-item { display: flex; flex-direction: column; }
+    body { font-family: Georgia, serif; font-size: 14px; color: #1a1a1a; padding: 40px 48px; max-width: 720px; margin: auto; line-height: 1.8; }
+    .membrete { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .membrete-nombre { font-size: 20px; font-weight: 700; color: #1a1a6e; }
+    .membrete-espec  { font-size: 12px; color: #555; margin-top: 2px; }
+    .membrete-der    { font-size: 11px; color: #777; text-align: right; line-height: 1.7; }
+    .membrete-linea  { border-bottom: 2px solid #1a1a6e; margin-bottom: 20px; }
+    .pac-section { background: #f4f6fa; border: 1px solid #dde3ec; border-radius: 10px; padding: 12px 16px; margin-bottom: 18px; }
+    .pac-section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #888; font-weight: 700; margin-bottom: 8px; }
+    .pac-datos { display: flex; flex-wrap: wrap; gap: 10px 28px; }
+    .pac-item  { display: flex; flex-direction: column; }
+    .pac-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: #aaa; }
+    .pac-valor { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+    .cita-info { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px 16px; margin-bottom: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
+    .ci-item  { display: flex; flex-direction: column; }
     .ci-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #888; }
     .ci-valor { font-size: 14px; font-weight: 600; color: #1a1a1a; }
-    .notas-titulo { font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: #1a1a6e; font-weight: 700; margin-bottom: 12px; }
+    .notas-titulo { font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: #1a1a6e; font-weight: 700; margin-bottom: 10px; }
     .notas-cuerpo { white-space: pre-wrap; font-size: 14px; line-height: 1.9; color: #333; border-left: 3px solid #1a1a6e; padding-left: 18px; }
     .sin-notas { color: #aaa; font-style: italic; }
-    .footer { margin-top: 48px; padding-top: 12px; border-top: 1px solid #e5e7eb; font-size: 10px; color: #bbb; display: flex; justify-content: space-between; }
-    @media print { body { padding: 20px; } }
+    .footer { margin-top: 40px; padding-top: 10px; border-top: 1px solid #e5e7eb; font-size: 10px; color: #bbb; display: flex; justify-content: space-between; }
+    @media print { body { padding: 20px 24px; } }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="pac-nombre">${c.paciente_nombre || 'Paciente'}</div>
-    <div class="meta"><strong>MediCloud</strong><br>Impreso el ${hoy}</div>
+  <div class="membrete">
+    <div>
+      <div class="membrete-nombre">Dr. ${docNombre}</div>
+      ${docEspec       ? `<div class="membrete-espec">${docEspec}</div>`       : ''}
+      ${docConsultorio ? `<div class="membrete-espec">${docConsultorio}</div>` : ''}
+    </div>
+    <div class="membrete-der">
+      ${docTel   ? `📞 ${docTel}<br>` : ''}
+      ${docEmail ? `✉️ ${docEmail}<br>` : ''}
+      <span style="font-size:10px;color:#aaa">Impreso el ${hoy}</span>
+    </div>
   </div>
+  <div class="membrete-linea"></div>
+
+  <div class="pac-section">
+    <div class="pac-section-title">Datos del paciente</div>
+    <div class="pac-datos">
+      <div class="pac-item"><span class="pac-label">Nombre</span><span class="pac-valor">${c.paciente_nombre || '—'}</span></div>
+      ${pacCI     ? `<div class="pac-item"><span class="pac-label">C.I.</span><span class="pac-valor">${pacCI}</span></div>`                 : ''}
+      ${pacFecNac ? `<div class="pac-item"><span class="pac-label">Fecha de nac.</span><span class="pac-valor">${pacFecNac}</span></div>`    : ''}
+      ${pacEdad   ? `<div class="pac-item"><span class="pac-label">Edad</span><span class="pac-valor">${pacEdad}</span></div>`               : ''}
+      ${pacTel    ? `<div class="pac-item"><span class="pac-label">Teléfono</span><span class="pac-valor">${pacTel}</span></div>`            : ''}
+    </div>
+  </div>
+
   <div class="cita-info">
     <div class="ci-item"><span class="ci-label">Tratamiento</span><span class="ci-valor">${c.tratamiento || 'Sin especificar'}</span></div>
     <div class="ci-item"><span class="ci-label">Fecha</span><span class="ci-valor">${fechaTxt}</span></div>
     <div class="ci-item"><span class="ci-label">Horario</span><span class="ci-valor">${horaTxt}</span></div>
   </div>
+
   <div class="notas-titulo">Notas de la cita</div>
   ${c.notas
     ? `<div class="notas-cuerpo">${c.notas}</div>`
     : `<div class="sin-notas">Sin notas registradas para esta cita.</div>`}
+
   <div class="footer">
     <span>MediCloud — Notas de cita</span>
     <span>${c.paciente_nombre || ''}</span>
@@ -3657,9 +3749,18 @@
 </body>
 </html>`;
 
-      const win = window.open('', '_blank');
-      win.document.write(html);
-      win.document.close();
+      let ifrN = document.getElementById('print-iframe');
+      if (!ifrN) {
+        ifrN = document.createElement('iframe');
+        ifrN.id = 'print-iframe';
+        ifrN.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none;';
+        document.body.appendChild(ifrN);
+      }
+      ifrN.onload = () => {
+        try { ifrN.contentWindow.focus(); ifrN.contentWindow.print(); }
+        catch(e) { const w = window.open('','_blank'); if(w){w.document.write(ifrN.srcdoc);w.document.close();} }
+      };
+      ifrN.srcdoc = html;
     };
 
     // ════════════════════════════════════════════════════════════
@@ -4329,7 +4430,7 @@
         <div id="mpm-sin-contacto" style="display:none;font-size:13px;color:var(--muted);font-style:italic">Sin datos de contacto registrados.</div>
         <div style="height:8px"></div>
       </div>
-      <div style="padding:0 20px 20px">
+      <div style="padding:0 20px calc(20px + env(safe-area-inset-bottom))">
         <button onclick="cerrarPerfilMedico()" style="width:100%;padding:12px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;color:var(--muted)">Cerrar</button>
       </div>
     </div>
