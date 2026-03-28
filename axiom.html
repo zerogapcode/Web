@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>AXIOM · Secure AI Assistant for macOS</title>
+    <!-- Google Fonts + simple reset -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #0B0F1A, #03050A);
+            font-family: 'Inter', sans-serif;
+            color: #EFF3FC;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #11161f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d4b7c;
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* header */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 16px;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 1px solid rgba(72, 187, 255, 0.2);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo i {
+            font-size: 32px;
+            color: #3B82F6;
+            filter: drop-shadow(0 0 6px #3b82f680);
+        }
+        .logo span {
+            font-weight: 700;
+            font-size: 28px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #FFFFFF, #94A3F8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .lang-selector {
+            display: flex;
+            gap: 12px;
+            background: rgba(15, 25, 45, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 8px 16px;
+            border-radius: 60px;
+            border: 1px solid rgba(59,130,246,0.4);
+        }
+        .lang-btn {
+            background: none;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 40px;
+            transition: 0.2s;
+            color: #B0C4FF;
+        }
+        .lang-btn.active {
+            background: #1E3A8A;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .lang-btn:hover:not(.active) {
+            background: #1E2A47;
+            color: white;
+        }
+
+        /* HERO + SCENE (disassembly animation area) */
+        .hero-scene {
+            margin: 40px 0 40px;
+            position: relative;
+        }
+        .scene-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 620px;
+            margin-bottom: 20px;
+        }
+        /* main app mockup window */
+        .app-mockup {
+            width: 760px;
+            max-width: 85vw;
+            background: rgba(18, 24, 36, 0.85);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            border: 1px solid rgba(59,130,246,0.5);
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.2);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+            z-index: 10;
+        }
+        .window-bar {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #2d3748;
+        }
+        .window-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #5f6b7a;
+        }
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+        .window-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #CBD5E1;
+            margin-left: 12px;
+            letter-spacing: 0.3px;
+        }
+        .app-content {
+            padding: 28px 24px;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            background: rgba(0,0,0,0.3);
+        }
+        .code-preview {
+            background: #0A0F1C;
+            border-radius: 20px;
+            padding: 16px;
+            flex: 2;
+            font-family: monospace;
+            border: 1px solid #1E2A47;
+        }
+        .code-preview pre {
+            color: #A5D8FF;
+            font-size: 13px;
+        }
+        .ai-chat {
+            flex: 1;
+            background: #0F1622;
+            border-radius: 20px;
+            padding: 16px;
+        }
+        .ai-chat p {
+            font-size: 13px;
+            color: #94A3B8;
+        }
+
+        /* Floating pieces (will disassemble on scroll) */
+        .floating-piece {
+            position: absolute;
+            background: rgba(12, 20, 32, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid rgba(59,130,246,0.5);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            white-space: nowrap;
+            z-index: 25;
+            transition: transform 0.08s linear, box-shadow 0.2s;
+            pointer-events: none;
+        }
+        .floating-piece i {
+            font-size: 18px;
+            color: #3B82F6;
+        }
+        /* initial positions around mockup */
+        .piece-1 { top: 15%; left: 5%; }
+        .piece-2 { top: 25%; right: 2%; }
+        .piece-3 { bottom: 20%; left: 8%; }
+        .piece-4 { bottom: 30%; right: 6%; }
+        .piece-5 { top: 45%; left: -2%; }
+        .piece-6 { top: 60%; right: -1%; }
+        .piece-7 { bottom: 5%; left: 20%; }
+        .piece-8 { top: 10%; right: 15%; }
+
+        /* responsive adjust positions */
+        @media (max-width: 900px) {
+            .floating-piece { padding: 5px 12px; font-size: 11px; white-space: nowrap; }
+            .piece-1 { top: 5%; left: -2%; }
+            .piece-2 { top: 12%; right: -3%; }
+            .piece-3 { bottom: 10%; left: -2%; }
+            .piece-4 { bottom: 15%; right: -3%; }
+            .piece-5 { top: 35%; left: -5%; }
+            .piece-6 { top: 45%; right: -5%; }
+            .piece-7 { bottom: -2%; left: 15%; }
+            .piece-8 { top: 2%; right: 8%; }
+        }
+
+        /* CTA and intro text */
+        .hero-text {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        .hero-text h1 {
+            font-size: 3.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFF, #60A5FA);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -1px;
+        }
+        .badge-soon {
+            display: inline-block;
+            background: #1E3A8A80;
+            backdrop-filter: blur(4px);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            margin-top: 16px;
+            font-size: 0.9rem;
+            border: 1px solid #3B82F6;
+        }
+        .btn-primary {
+            background: linear-gradient(105deg, #2563EB, #1E40AF);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 48px;
+            font-weight: 600;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 20px -5px #1e3a8a60;
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background: linear-gradient(105deg, #3B82F6, #1E3A8A);
+        }
+
+        /* features grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+            margin: 70px 0 50px;
+        }
+        .feature-card {
+            background: rgba(15, 25, 45, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 28px;
+            border: 1px solid rgba(59,130,246,0.3);
+            transition: all 0.2s;
+        }
+        .feature-card i {
+            font-size: 2rem;
+            color: #60A5FA;
+            margin-bottom: 20px;
+        }
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .security-badge {
+            background: #0F212E;
+            border-left: 4px solid #3B82F6;
+            padding: 20px;
+            border-radius: 28px;
+            margin: 30px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid #1E2A47;
+            margin-top: 40px;
+            color: #7F8EA3;
+        }
+
+        @media (max-width: 700px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .container { padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="navbar">
+        <div class="logo">
+            <i class="fas fa-microchip"></i>
+            <span>AXIOM</span>
+        </div>
+        <div class="lang-selector" id="langSelector">
+            <button class="lang-btn" data-lang="en">🇺🇸 EN</button>
+            <button class="lang-btn" data-lang="es">🇪🇸 ES</button>
+        </div>
+    </div>
+
+    <!-- ANIMATION SCENE: main app view + floating pieces that disassemble on scroll -->
+    <div class="hero-scene">
+        <div class="scene-container" id="sceneContainer">
+            <!-- Main app window mockup (vista principal de la app) -->
+            <div class="app-mockup" id="appMockup">
+                <div class="window-bar">
+                    <div class="window-dots">
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot green"></div>
+                    </div>
+                    <div class="window-title">AXIOM · workspace:~/AXIOM_Workspace</div>
+                </div>
+                <div class="app-content">
+                    <div class="code-preview">
+                        <i class="fas fa-code"></i> <span id="codePreviewLabel">Generating response...</span>
+                        <pre>➜  ~/AXIOM_Workspace $ axiom run --task "analyze email"<br>✅ Safe execution · Sandbox active<br>📧 2 new emails · HTML reply ready</pre>
+                    </div>
+                    <div class="ai-chat">
+                        <i class="fas fa-brain"></i> <strong id="llmStatus">LLM Core (Mixtral)</strong>
+                        <p id="chatDesc">✨ Code, PDF, Audio notes, Telegram bridge active</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- floating pieces (componentes que se desarman) -->
+            <div class="floating-piece piece-1" data-offset-x="-210" data-offset-y="-80" id="pieceCode">
+                <i class="fas fa-file-code"></i> <span class="piece-text" data-i18n="piece_code">Code Gen</span>
+            </div>
+            <div class="floating-piece piece-2" data-offset-x="240" data-offset-y="-60" id="pieceLLM">
+                <i class="fas fa-network-wired"></i> <span class="piece-text" data-i18n="piece_llm">LLM models</span>
+            </div>
+            <div class="floating-piece piece-3" data-offset-x="-180" data-offset-y="100" id="pieceTelegram">
+                <i class="fab fa-telegram"></i> <span class="piece-text" data-i18n="piece_telegram">Telegram Bridge</span>
+            </div>
+            <div class="floating-piece piece-4" data-offset-x="200" data-offset-y="130" id="pieceEmail">
+                <i class="fas fa-envelope"></i> <span class="piece-text" data-i18n="piece_email">Email AI</span>
+            </div>
+            <div class="floating-piece piece-5" data-offset-x="-140" data-offset-y="-140" id="pieceAudio">
+                <i class="fas fa-microphone-alt"></i> <span class="piece-text" data-i18n="piece_audio">Audio notes</span>
+            </div>
+            <div class="floating-piece piece-6" data-offset-x="150" data-offset-y="-100" id="piecePDF">
+                <i class="fas fa-file-pdf"></i> <span class="piece-text" data-i18n="piece_pdf">PDF reports</span>
+            </div>
+            <div class="floating-piece piece-7" data-offset-x="-80" data-offset-y="190" id="pieceWorkspace">
+                <i class="fas fa-folder-tree"></i> <span class="piece-text" data-i18n="piece_workspace">AXIOM_Workspace</span>
+            </div>
+            <div class="floating-piece piece-8" data-offset-x="90" data-offset-y="-170" id="pieceSecurity">
+                <i class="fas fa-shield-haltered"></i> <span class="piece-text" data-i18n="piece_security">Sandbox security</span>
+            </div>
+        </div>
+        <div class="hero-text">
+            <h1 id="mainTitle">AXIOM · Beyond OpenClaw</h1>
+            <div class="badge-soon" id="soonBadge">✨ COMING SOON for macOS (Mac mini | Apple Silicon) ✨</div>
+            <button class="btn-primary" id="ctaBtn"><i class="fab fa-apple"></i> <span id="ctaText">Join waitlist — early access</span></button>
+        </div>
+    </div>
+
+    <!-- FEATURES + SECURITY (textos bilingües) -->
+    <div class="features-grid" id="featuresGrid">
+        <div class="feature-card">
+            <i class="fas fa-code"></i>
+            <h3 data-i18n="feat_code_title">Code & File Generation</h3>
+            <p data-i18n="feat_code_desc">Generate scripts, apps, documents, PDFs, and audio transcriptions directly inside the sandbox.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-envelope-open-text"></i>
+            <h3 data-i18n="feat_email_title">Full Email Suite</h3>
+            <p data-i18n="feat_email_desc">Read, reply, send HTML emails, attach PDFs, and manage threads — fully automated with LLM understanding.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-head-side-vr"></i>
+            <h3 data-i18n="feat_audio_title">Audio Notes & Voice</h3>
+            <p data-i18n="feat_audio_desc">Record voice memos, transcribe, summarize, and integrate with Telegram / iMessage bridges.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-robot"></i>
+            <h3 data-i18n="feat_llm_title">Multi‑Model LLM Core</h3>
+            <p data-i18n="feat_llm_desc">Local & cloud LLMs (Llama, GPT, Claude) orchestrated with privacy-first routing.</p>
+        </div>
+    </div>
+
+    <div class="security-badge" id="securityBlock">
+        <i class="fas fa-lock" style="font-size: 28px; margin-right: 12px;"></i>
+        <strong id="securityTitle">🔐 Ultimate Security: AXIOM_Workspace confinement</strong>
+        <p id="securityDesc" style="margin-top: 8px;">Unlike OpenClaw, AXIOM strictly restricts all operations to the <code style="background:#00000055;">~/AXIOM_Workspace</code> folder. No system file access, no unwanted permissions. Every code execution, file generation, or email attachment is sandboxed. Your data stays isolated, controllable, and transparent.</p>
+        <div style="margin-top: 12px;"><i class="fas fa-check-circle"></i> <span id="extraSecure">Zero system risk · Full workspace encryption ready</span></div>
+    </div>
+
+    <div style="margin: 40px 0 20px; background: #0C1220; border-radius: 28px; padding: 32px;" id="emailDetailed">
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center;">
+            <i class="fas fa-paper-plane" style="font-size: 40px; color: #3B82F6;"></i>
+            <div>
+                <h3 id="emailTitle">📬 Smart Email Operator</h3>
+                <p id="emailDesc">AXIOM connects to IMAP/SMTP to read emails, auto-draft replies, send beautiful HTML newsletters, and attach PDF reports. Ask: “summarize last 5 emails” or “reply to John with the quarterly PDF” — done in seconds, all within AXIOM_Workspace logs.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p id="footerText">© 2026 AXIOM — Autonomous infrastructure. Designed for Mac mini & macOS. More secure, more powerful.</p>
+    </footer>
+</div>
+
+<script>
+    // ----------------------------------------------
+    // 1) DISASSEMBLY SCROLL ANIMATION (piezas se desarman)
+    // ----------------------------------------------
+    const pieces = document.querySelectorAll('.floating-piece');
+    // store original transform (none) and target offsets (px)
+    const pieceData = [];
+    pieces.forEach(piece => {
+        const offsetX = parseFloat(piece.getAttribute('data-offset-x') || '0');
+        const offsetY = parseFloat(piece.getAttribute('data-offset-y') || '0');
+        pieceData.push({
+            element: piece,
+            offsetX: offsetX,
+            offsetY: offsetY
+        });
+    });
+
+    let maxScroll = 480; // pixels to full disassembly
+    function updateDisassembly() {
+        let scrollY = window.scrollY;
+        let progress = Math.min(1, Math.max(0, scrollY / maxScroll));
+        // easing para más suavidad
+        const eased = 1 - Math.pow(1 - progress, 1.5);
+        pieceData.forEach(data => {
+            const x = data.offsetX * eased;
+            const y = data.offsetY * eased;
+            data.element.style.transform = `translate(${x}px, ${y}px)`;
+            // optional slight opacity
+            if (progress > 0.8) {
+                data.element.style.opacity = '0.85';
+            } else {
+                data.element.style.opacity = '1';
+            }
+        });
+        // subtle effect on main window: scale a tiny bit on deep scroll
+        const mockup = document.querySelector('.app-mockup');
+        if(mockup) {
+            const scaleVal = 1 - (progress * 0.02);
+            mockup.style.transform = `scale(${Math.max(0.96, scaleVal)})`;
+        }
+    }
+
+    window.addEventListener('scroll', () => {
+        requestAnimationFrame(updateDisassembly);
+    });
+    window.addEventListener('resize', () => { updateDisassembly(); });
+    updateDisassembly();
+
+    // ----------------------------------------------
+    // 2) BILINGUAL SYSTEM (EN/ES) + localStorage
+    // ----------------------------------------------
+    const translations = {
+        en: {
+            mainTitle: "AXIOM · Beyond OpenClaw",
+            soonBadge: "✨ COMING SOON for macOS (Mac mini | Apple Silicon) ✨",
+            ctaText: "Join waitlist — early access",
+            piece_code: "Code Gen",
+            piece_llm: "LLM models",
+            piece_telegram: "Telegram Bridge",
+            piece_email: "Email AI",
+            piece_audio: "Audio notes",
+            piece_pdf: "PDF reports",
+            piece_workspace: "AXIOM_Workspace",
+            piece_security: "Sandbox security",
+            feat_code_title: "Code & File Generation",
+            feat_code_desc: "Generate scripts, apps, documents, PDFs, and audio transcriptions directly inside the sandbox.",
+            feat_email_title: "Full Email Suite",
+            feat_email_desc: "Read, reply, send HTML emails, attach PDFs, and manage threads — fully automated with LLM understanding.",
+            feat_audio_title: "Audio Notes & Voice",
+            feat_audio_desc: "Record voice memos, transcribe, summarize, and integrate with Telegram / iMessage bridges.",
+            feat_llm_title: "Multi‑Model LLM Core",
+            feat_llm_desc: "Local & cloud LLMs (Llama, GPT, Claude) orchestrated with privacy-first routing.",
+            securityTitle: "🔐 Ultimate Security: AXIOM_Workspace confinement",
+            securityDesc: "Unlike OpenClaw, AXIOM strictly restricts all operations to the ~/AXIOM_Workspace folder. No system file access, no unwanted permissions. Every code execution, file generation, or email attachment is sandboxed. Your data stays isolated, controllable, and transparent.",
+            extraSecure: "Zero system risk · Full workspace encryption ready",
+            emailTitle: "📬 Smart Email Operator",
+            emailDesc: "AXIOM connects to IMAP/SMTP to read emails, auto-draft replies, send beautiful HTML newsletters, and attach PDF reports. Ask: “summarize last 5 emails” or “reply to John with the quarterly PDF” — done in seconds, all within AXIOM_Workspace logs.",
+            footerText: "© 2026 AXIOM — Autonomous infrastructure. Designed for Mac mini & macOS. More secure, more powerful.",
+            codePreviewLabel: "Generating response...",
+            llmStatus: "LLM Core (Mixtral)",
+            chatDesc: "✨ Code, PDF, Audio notes, Telegram bridge active"
+        },
+        es: {
+            mainTitle: "AXIOM · Más seguro que OpenClaw",
+            soonBadge: "✨ PRÓXIMAMENTE para macOS (Mac mini | Apple Silicon) ✨",
+            ctaText: "Lista de espera — acceso anticipado",
+            piece_code: "Generación código",
+            piece_llm: "Modelos LLM",
+            piece_telegram: "Conexión Telegram",
+            piece_email: "Email IA",
+            piece_audio: "Notas de voz",
+            piece_pdf: "Reportes PDF",
+            piece_workspace: "AXIOM_Workspace",
+            piece_security: "Sandbox seguro",
+            feat_code_title: "Código y archivos",
+            feat_code_desc: "Genera scripts, apps, documentos, PDFs y transcripciones dentro del entorno aislado.",
+            feat_email_title: "Suite de correo completa",
+            feat_email_desc: "Lee, responde, envía emails HTML, adjunta PDFs y gestiona hilos con IA integrada.",
+            feat_audio_title: "Notas de audio y voz",
+            feat_audio_desc: "Graba notas de voz, transcribe, resume e integra con Telegram / iMessage.",
+            feat_llm_title: "Núcleo Multi‑LLM",
+            feat_llm_desc: "LLMs locales y en la nube (Llama, GPT, Claude) con enrutamiento privado.",
+            securityTitle: "🔐 Seguridad definitiva: Aislamiento en AXIOM_Workspace",
+            securityDesc: "A diferencia de OpenClaw, AXIOM restringe todas las operaciones a la carpeta ~/AXIOM_Workspace. Sin acceso a archivos del sistema, sin permisos no deseados. Cada ejecución, archivo o adjunto queda en la zona segura.",
+            extraSecure: "Riesgo cero · Cifrado de espacio listo",
+            emailTitle: "📬 Operador de email inteligente",
+            emailDesc: "AXIOM se conecta vía IMAP/SMTP para leer correos, redactar respuestas, enviar newsletters HTML y adjuntar PDFs. Pregúntale: 'resume los últimos 5 emails' o 'responde a Juan con el PDF trimestral' — todo dentro de AXIOM_Workspace.",
+            footerText: "© 2026 AXIOM — Infraestructura autónoma. Diseñado para Mac mini y macOS. Más seguro, más potente.",
+            codePreviewLabel: "Generando respuesta...",
+            llmStatus: "Núcleo LLM (Mixtral)",
+            chatDesc: "✨ Código, PDF, notas de voz, puente Telegram activo"
+        }
+    };
+
+    let currentLang = localStorage.getItem('axiom_lang') || 'en';
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('axiom_lang', lang);
+        // update all elements with data-i18n or specific ids
+        document.getElementById('mainTitle').innerText = translations[lang].mainTitle;
+        document.getElementById('soonBadge').innerText = translations[lang].soonBadge;
+        document.getElementById('ctaText').innerText = translations[lang].ctaText;
+        document.getElementById('securityTitle').innerHTML = translations[lang].securityTitle;
+        document.getElementById('securityDesc').innerHTML = translations[lang].securityDesc;
+        document.getElementById('extraSecure').innerHTML = translations[lang].extraSecure;
+        document.getElementById('emailTitle').innerHTML = translations[lang].emailTitle;
+        document.getElementById('emailDesc').innerHTML = translations[lang].emailDesc;
+        document.getElementById('footerText').innerHTML = translations[lang].footerText;
+        if(document.getElementById('codePreviewLabel')) document.getElementById('codePreviewLabel').innerText = translations[lang].codePreviewLabel;
+        if(document.getElementById('llmStatus')) document.getElementById('llmStatus').innerHTML = translations[lang].llmStatus;
+        if(document.getElementById('chatDesc')) document.getElementById('chatDesc').innerHTML = translations[lang].chatDesc;
+        
+        // update piece texts
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if(translations[lang][key]) el.innerText = translations[lang][key];
+        });
+        // also update dynamic texts inside feature cards manually
+        const featTitles = document.querySelectorAll('.feature-card h3');
+        const featDesc = document.querySelectorAll('.feature-card p');
+        const featTexts = [
+            { title: 'feat_code_title', desc: 'feat_code_desc' },
+            { title: 'feat_email_title', desc: 'feat_email_desc' },
+            { title: 'feat_audio_title', desc: 'feat_audio_desc' },
+            { title: 'feat_llm_title', desc: 'feat_llm_desc' }
+        ];
+        featTitles.forEach((el, idx) => {
+            if(featTexts[idx]) el.innerText = translations[lang][featTexts[idx].title];
+        });
+        featDesc.forEach((el, idx) => {
+            if(featTexts[idx]) el.innerText = translations[lang][featTexts[idx].desc];
+        });
+    }
+
+    // language switcher UI
+    const langBtns = document.querySelectorAll('.lang-btn');
+    langBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const lang = btn.getAttribute('data-lang');
+            if(lang === 'en' || lang === 'es') {
+                setLanguage(lang);
+                langBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+        });
+    });
+    // set initial active based on currentLang
+    if(currentLang === 'en') document.querySelector('.lang-btn[data-lang="en"]').classList.add('active');
+    else document.querySelector('.lang-btn[data-lang="es"]').classList.add('active');
+    setLanguage(currentLang);
+
+    // CTA simple alert (demo)
+    const ctaButton = document.getElementById('ctaBtn');
+    ctaButton.addEventListener('click', () => {
+        alert(currentLang === 'en' ? "🚀 AXIOM early access: launch planned for Q3 2026. Stay tuned!" : "🚀 Acceso anticipado AXIOM: lanzamiento planeado para Q3 2026. ¡Mantente al tanto!");
+    });
+    
+    // Additional small effect to simulate connections/fragments
+    const addDynamicParticles = () => {
+        // just aesthetics: floating particles
+        const container = document.querySelector('.scene-container');
+        for(let i=0;i<12;i++) {
+            let span = document.createElement('div');
+            span.innerHTML = `<i class="fas fa-microchip" style="font-size:10px; opacity:0.4;"></i>`;
+            span.style.position = 'absolute';
+            span.style.bottom = Math.random() * 100 + '%';
+            span.style.left = Math.random() * 100 + '%';
+            span.style.pointerEvents = 'none';
+            span.style.zIndex = '5';
+            span.style.opacity = '0.3';
+            container?.appendChild(span);
+        }
+    };
+    addDynamicParticles();
+</script>
+</body>
+</html>
