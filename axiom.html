@@ -3,148 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>AXIOM · Secure AI Assistant for macOS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>AXIOM · Secure Autonomous Infrastructure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --bg-base: #030712;
-            --glass-bg: rgba(17, 24, 39, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --accent-glow: rgba(59, 130, 246, 0.4);
-            --text-main: #F9FAFB;
-            --text-muted: #9CA3AF;
-            --primary-btn: linear-gradient(135deg, #2563EB, #4F46E5);
+            --bg: #09090b;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --accent: #00ff9d; /* Cyber Green */
+            --accent-hover: #00cc7d;
+            --border: #27272a;
+            --card-bg: #18181b;
+            --alert: #fbbf24; /* Warning Yellow */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-base);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
             color: var(--text-main);
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            scroll-behavior: smooth;
-            /* Mesh gradient background effect */
+            /* Cyber Grid Background */
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(37, 99, 235, 0.15), transparent 40%),
-                radial-gradient(circle at 85% 30%, rgba(79, 70, 229, 0.15), transparent 40%);
-            background-attachment: fixed;
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
         }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-base); }
-        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #4B5563; }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg); border-left: 1px solid var(--border); }
+        ::-webkit-scrollbar-thumb { background: var(--border); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        h1, h2, h3, .mono { font-family: 'Space Mono', monospace; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
 
         /* --- Navbar --- */
         .navbar {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 24px 0; border-bottom: 1px solid var(--glass-border);
-            margin-bottom: 40px;
+            padding: 24px 0; margin-bottom: 60px;
+            border-bottom: 2px solid var(--border);
+            background: var(--bg);
         }
-        .logo { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-        .logo i { color: #3B82F6; }
-        .lang-selector { display: flex; gap: 8px; background: var(--glass-bg); padding: 6px; border-radius: 30px; border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
-        .lang-btn { background: transparent; border: none; color: var(--text-muted); font-weight: 600; font-size: 13px; padding: 8px 16px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
-        .lang-btn.active { background: #1F2937; color: var(--text-main); box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+        .logo { font-size: 28px; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 2px; }
+        .logo i { color: var(--accent); margin-right: 10px; }
+        
+        .lang-selector { display: flex; gap: 0; border: 1px solid var(--border); }
+        .lang-btn { 
+            background: var(--bg); color: var(--text-muted); border: none; 
+            padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 14px; 
+            cursor: pointer; transition: 0.2s; 
+        }
+        .lang-btn:first-child { border-right: 1px solid var(--border); }
+        .lang-btn:hover { color: var(--text-main); }
+        .lang-btn.active { background: var(--accent); color: #000; font-weight: bold; }
 
-        /* --- Hero & Scene --- */
-        .hero { text-align: center; margin-bottom: 60px; }
+        /* --- Hero Section --- */
+        .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 100px; }
+        
+        .hero-text h1 { 
+            font-size: clamp(3rem, 5vw, 5rem); line-height: 1; text-transform: uppercase; 
+            margin-bottom: 24px; text-shadow: 4px 4px 0 var(--border);
+        }
+        .hero-text p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 32px; line-height: 1.6; max-width: 90%; }
+        
         .badge-soon {
-            display: inline-block; padding: 8px 20px; border-radius: 30px;
-            background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3);
-            color: #60A5FA; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px;
-            letter-spacing: 0.5px; text-transform: uppercase;
-        }
-        .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; letter-spacing: -1.5px; margin-bottom: 24px; line-height: 1.1; background: linear-gradient(to right, #fff, #9CA3AF); -webkit-background-clip: text; color: transparent; }
-        
-        .scene-container {
-            position: relative; height: 500px; display: flex; justify-content: center; align-items: center; perspective: 1000px; margin-bottom: 80px;
+            display: inline-block; padding: 8px 16px; border: 1px solid var(--accent);
+            color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.9rem;
+            text-transform: uppercase; margin-bottom: 24px; background: rgba(0, 255, 157, 0.05);
         }
 
-        /* --- macOS Window Mockup --- */
-        .app-mockup {
-            width: 800px; max-width: 90vw; background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 16px; border: 1px solid var(--glass-border); box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05) inset;
-            overflow: hidden; z-index: 10; transform-style: preserve-3d; transition: transform 0.1s ease-out;
-        }
-        .window-bar { background: rgba(31, 41, 55, 0.5); padding: 12px 16px; display: flex; align-items: center; border-bottom: 1px solid var(--glass-border); }
-        .window-dots { display: flex; gap: 8px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .dot.red { background: #FF5F56; } .dot.yellow { background: #FFBD2E; } .dot.green { background: #27C93F; }
-        .window-title { margin: 0 auto; font-size: 13px; color: var(--text-muted); font-family: monospace; }
-        
-        .app-content { display: flex; flex-direction: column; md:flex-row; gap: 20px; padding: 24px; }
-        .terminal { background: #000; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 13px; color: #34D399; line-height: 1.6; border: 1px solid #1F2937; flex: 1; }
-        .terminal-header { color: var(--text-muted); margin-bottom: 12px; display: flex; justify-content: space-between; }
-        .terminal span.path { color: #60A5FA; }
-
-        /* --- Floating Pieces --- */
-        .floating-piece {
-            position: absolute; background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-radius: 12px; padding: 12px 20px; display: flex; align-items: center; gap: 12px;
-            font-size: 14px; font-weight: 500; border: 1px solid var(--glass-border);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 5; transition: transform 0.1s ease-out, opacity 0.3s;
-        }
-        .floating-piece i { color: #60A5FA; font-size: 18px; }
-        
-        /* Initial Positions */
-        .piece-1 { top: 10%; left: 5%; }
-        .piece-2 { top: 15%; right: 5%; }
-        .piece-3 { bottom: 15%; left: 0%; }
-        .piece-4 { bottom: 10%; right: 2%; }
-        .piece-5 { top: 40%; left: -5%; }
-        .piece-6 { top: 50%; right: -5%; }
-
-        /* --- Bento Grid Features --- */
-        .bento-grid {
-            display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; margin-bottom: 80px;
-        }
-        .bento-item {
-            background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid var(--glass-border);
-            border-radius: 24px; padding: 32px; transition: transform 0.3s, border-color 0.3s;
-            display: flex; flex-direction: column; justify-content: center;
-        }
-        .bento-item:hover { transform: translateY(-5px); border-color: rgba(59, 130, 246, 0.4); }
-        .bento-item i { font-size: 32px; color: #60A5FA; margin-bottom: 20px; }
-        .bento-item h3 { font-size: 1.5rem; margin-bottom: 12px; font-weight: 600; }
-        .bento-item p { color: var(--text-muted); line-height: 1.6; }
-
-        /* Spans */
-        .col-span-4 { grid-column: span 4; }
-        .col-span-8 { grid-column: span 8; }
-        .col-span-12 { grid-column: span 12; }
-
-        /* Special Styling for Security / Email blocks */
-        .security-block { background: linear-gradient(145deg, rgba(17,24,39,0.8), rgba(3,7,18,0.9)); position: relative; overflow: hidden; }
-        .security-block::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #3B82F6; }
-        
-        /* --- CTA & Footer --- */
-        .cta-container { text-align: center; margin: 80px 0; }
         .btn-primary {
-            background: var(--primary-btn); color: white; border: none; padding: 16px 36px; border-radius: 50px;
-            font-size: 16px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 12px;
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); transition: all 0.3s ease;
+            background: var(--accent); color: #000; border: 2px solid var(--accent);
+            padding: 16px 32px; font-family: 'Space Mono', monospace; font-size: 16px;
+            font-weight: bold; text-transform: uppercase; cursor: pointer;
+            box-shadow: 6px 6px 0 var(--border); transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 12px;
         }
-        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(37, 99, 235, 0.5); }
+        .btn-primary:hover { transform: translate(2px, 2px); box-shadow: 4px 4px 0 var(--border); }
+        .btn-primary:active { transform: translate(6px, 6px); box-shadow: 0 0 0 var(--border); }
+
+        /* --- Live Terminal --- */
+        .terminal-wrapper {
+            background: #000; border: 2px solid var(--border); box-shadow: 12px 12px 0 var(--border);
+            position: relative;
+        }
+        .terminal-header {
+            background: var(--border); padding: 10px 16px; display: flex; justify-content: space-between;
+            font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text-muted); text-transform: uppercase;
+        }
+        .terminal-body { padding: 24px; font-family: 'Space Mono', monospace; font-size: 14px; line-height: 1.8; color: var(--text-muted); }
+        .terminal-body .user { color: var(--accent); }
+        .terminal-body .path { color: #3b82f6; }
+        .terminal-body .sys { color: var(--alert); }
+        .terminal-body .cursor { display: inline-block; width: 8px; height: 16px; background: var(--accent); animation: blink 1s step-end infinite; vertical-align: middle; margin-left: 4px; }
         
-        footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--glass-border); color: var(--text-muted); font-size: 14px; }
+        /* --- Features Grid (Neo-Brutalist) --- */
+        .features-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-bottom: 100px;
+        }
+        .feature-card {
+            background: var(--card-bg); border: 2px solid var(--border); padding: 32px;
+            transition: all 0.2s; position: relative;
+        }
+        .feature-card::before {
+            content: '0' counter(feature-counter); counter-increment: feature-counter;
+            position: absolute; top: 16px; right: 24px; font-family: 'Space Mono'; font-size: 24px; color: var(--border); font-weight: bold;
+        }
+        body { counter-reset: feature-counter; }
+        
+        .feature-card:hover { border-color: var(--accent); box-shadow: -8px 8px 0 var(--accent); transform: translate(8px, -8px); }
+        .feature-card i { font-size: 32px; color: var(--text-main); margin-bottom: 24px; transition: color 0.3s; }
+        .feature-card:hover i { color: var(--accent); }
+        .feature-card h3 { font-size: 1.4rem; margin-bottom: 16px; text-transform: uppercase; }
+        .feature-card p { color: var(--text-muted); line-height: 1.6; }
+
+        /* --- Security Block --- */
+        .security-block {
+            border: 2px dashed var(--alert); background: rgba(251, 191, 36, 0.05); padding: 40px;
+            margin-bottom: 100px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap;
+        }
+        .security-icon { font-size: 64px; color: var(--alert); }
+        .security-content h2 { color: var(--alert); margin-bottom: 16px; font-size: 2rem; text-transform: uppercase; }
+        .security-content p { color: var(--text-main); font-size: 1.1rem; max-width: 800px; line-height: 1.6; }
+        .security-content code { background: #000; color: var(--accent); padding: 4px 8px; font-family: 'Space Mono', monospace; border: 1px solid var(--border); }
+
+        /* --- Footer --- */
+        footer { border-top: 2px solid var(--border); padding: 40px 0; text-align: center; color: var(--text-muted); font-family: 'Space Mono', monospace; font-size: 14px; background: var(--bg); }
 
         /* --- Responsive --- */
-        @media (max-width: 992px) {
-            .col-span-4, .col-span-8 { grid-column: span 12; }
-            .scene-container { height: 400px; }
-            .floating-piece { display: none; /* Hide floating elements on smaller screens to avoid clutter */ }
+        @media (max-width: 968px) {
+            .hero { grid-template-columns: 1fr; gap: 40px; }
+            .hero-text h1 { font-size: 2.5rem; text-shadow: 2px 2px 0 var(--border); }
+            .terminal-wrapper { box-shadow: 6px 6px 0 var(--border); }
+            .security-block { padding: 24px; flex-direction: column; text-align: center; }
         }
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 2.2rem; }
-            .app-mockup { width: 100%; }
-            .terminal { font-size: 11px; }
-        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -152,7 +152,7 @@
 <div class="container">
     <header class="navbar">
         <div class="logo">
-            <i class="fas fa-microchip"></i> AXIOM
+            <i class="fas fa-terminal"></i> AXIOM
         </div>
         <div class="lang-selector" id="langSelector">
             <button class="lang-btn active" data-lang="en">EN</button>
@@ -160,198 +160,152 @@
         </div>
     </header>
 
-    <main>
-        <section class="hero">
-            <div class="badge-soon" id="soonBadge">For macOS & Apple Silicon</div>
-            <h1 id="mainTitle">Autonomous Intelligence.<br>Absolute Control.</h1>
-            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 1.1rem;" data-i18n="hero_sub">
-                The next-generation secure AI assistant that runs locally on your Mac, restricted to its own workspace.
+    <section class="hero">
+        <div class="hero-text">
+            <div class="badge-soon" id="soonBadge">For Apple Silicon & macOS</div>
+            <h1 id="mainTitle">Beyond<br>OpenClaw.</h1>
+            <p data-i18n="hero_sub">
+                Autonomous infrastructure built for developers. Run local intelligence securely isolated in its own workspace. Absolute control, zero telemetry.
             </p>
-        </section>
-
-        <section class="scene-container" id="sceneContainer">
-            <div class="app-mockup" id="appMockup">
-                <div class="window-bar">
-                    <div class="window-dots">
-                        <div class="dot red"></div>
-                        <div class="dot yellow"></div>
-                        <div class="dot green"></div>
-                    </div>
-                    <div class="window-title">~/AXIOM_Workspace</div>
-                </div>
-                <div class="app-content">
-                    <div class="terminal">
-                        <div class="terminal-header">
-                            <span><i class="fas fa-robot"></i> LLM Core: Active</span>
-                            <span>Sandbox: Locked <i class="fas fa-lock" style="color: #60A5FA;"></i></span>
-                        </div>
-                        <span class="path">➜  ~</span> axiom execute --task "analyze code & generate pdf"<br>
-                        <span style="color: #9CA3AF;">[system] Compiling resources within sandbox...</span><br>
-                        <span style="color: #60A5FA;">[llm] Llama 3 instantiated successfully.</span><br>
-                        <span>✅ Task completed. PDF saved to AXIOM_Workspace/output/</span><br>
-                        <span class="path" style="animation: blink 1s infinite;">_</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="floating-piece piece-1" data-x="-250" data-y="-120"><i class="fas fa-file-code"></i> <span data-i18n="piece_code">Code Generation</span></div>
-            <div class="floating-piece piece-2" data-x="250" data-y="-100"><i class="fas fa-brain"></i> <span data-i18n="piece_llm">Local LLMs</span></div>
-            <div class="floating-piece piece-3" data-x="-200" data-y="150"><i class="fab fa-telegram"></i> <span data-i18n="piece_telegram">Telegram Bridge</span></div>
-            <div class="floating-piece piece-4" data-x="220" data-y="130"><i class="fas fa-shield-haltered"></i> <span data-i18n="piece_security">Secure Sandbox</span></div>
-            <div class="floating-piece piece-5" data-x="-300" data-y="20"><i class="fas fa-microphone-lines"></i> <span data-i18n="piece_audio">Audio Processing</span></div>
-            <div class="floating-piece piece-6" data-x="280" data-y="10"><i class="fas fa-envelope-open-text"></i> <span data-i18n="piece_email">Automated Email</span></div>
-        </section>
-
-        <section class="bento-grid">
-            <div class="bento-item col-span-12 security-block">
-                <i class="fas fa-lock" style="font-size: 40px; color: #3B82F6;"></i>
-                <h3 id="securityTitle">Ultimate Confinement: AXIOM_Workspace</h3>
-                <p id="securityDesc">
-                    Unlike standard assistants, AXIOM strictly restricts all operations to the <code>~/AXIOM_Workspace</code> folder. Zero system file access, zero unwanted permissions. Every code execution, file generation, or email attachment is sandboxed. Your data stays isolated and transparent.
-                </p>
-            </div>
-
-            <div class="bento-item col-span-4">
-                <i class="fas fa-code"></i>
-                <h3 data-i18n="feat_code_title">Code & Files</h3>
-                <p data-i18n="feat_code_desc">Generate scripts, apps, documents, and PDFs directly inside the secure sandbox environment.</p>
-            </div>
-
-            <div class="bento-item col-span-4">
-                <i class="fas fa-microchip"></i>
-                <h3 data-i18n="feat_llm_title">Multi‑Model Core</h3>
-                <p data-i18n="feat_llm_desc">Seamlessly orchestrate local and cloud LLMs (Llama, GPT, Claude) with privacy-first routing.</p>
-            </div>
-
-            <div class="bento-item col-span-4">
-                <i class="fas fa-head-side-vr"></i>
-                <h3 data-i18n="feat_audio_title">Voice & Audio</h3>
-                <p data-i18n="feat_audio_desc">Transcribe, summarize, and integrate voice memos with Telegram or iMessage bridges.</p>
-            </div>
-
-            <div class="bento-item col-span-12" style="flex-direction: row; align-items: center; gap: 30px; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 250px;">
-                    <i class="fas fa-paper-plane" style="font-size: 40px; margin-bottom: 10px;"></i>
-                    <h3 id="emailTitle">Smart Email Operator</h3>
-                    <p id="emailDesc">
-                        Connects to IMAP/SMTP to read emails, auto-draft replies, send beautiful HTML newsletters, and attach PDF reports. Say "reply to John with the quarterly PDF" and it's done in seconds.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <div class="cta-container">
             <button class="btn-primary" id="ctaBtn">
-                <i class="fab fa-apple" style="font-size: 20px;"></i>
-                <span id="ctaText">Join Early Access Waitlist</span>
+                <i class="fas fa-bolt"></i> <span id="ctaText">Init Early Access</span>
             </button>
         </div>
-    </main>
+
+        <div class="terminal-wrapper">
+            <div class="terminal-header">
+                <span>tty1 — axiom-core</span>
+                <span>STATUS: SECURE</span>
+            </div>
+            <div class="terminal-body">
+                <span class="user">admin@axiom</span>:<span class="path">~/AXIOM_Workspace</span>$ ./init_core.sh<br>
+                <span class="sys">[SYSTEM]</span> Allocating resources for Apple Silicon (M1 / 8GB RAM)...<br>
+                <span class="sys">[LLM]</span> Loading local models (DeepSeek / Qwen)...<br>
+                <span class="sys">[NET]</span> Telegram Bridge connected.<br>
+                <span style="color: #4ade80;">[OK]</span> Sandbox environment locked.<br>
+                <br>
+                <span class="user">admin@axiom</span>:<span class="path">~/AXIOM_Workspace</span>$ <span id="typewriter"></span><span class="cursor"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="security-block">
+        <div class="security-icon">
+            <i class="fas fa-triangle-exclamation"></i>
+        </div>
+        <div class="security-content">
+            <h2 id="securityTitle">Containment Protocol: Active</h2>
+            <p id="securityDesc">
+                Unlike OpenClaw, AXIOM strictly restricts all operations to the <code>~/AXIOM_Workspace</code> directory. 
+                No system-wide file access. No unwanted permission escalations. Every script generated, PDF compiled, or email sent is executed inside a fully transparent, user-controlled sandbox.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-grid">
+        <div class="feature-card">
+            <i class="fas fa-file-code"></i>
+            <h3 data-i18n="feat_code_title">Code & Compile</h3>
+            <p data-i18n="feat_code_desc">Generate scripts, apps, documents, and PDFs locally. Execution remains 100% confined to the sandbox.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-microchip"></i>
+            <h3 data-i18n="feat_llm_title">Local & Cloud LLMs</h3>
+            <p data-i18n="feat_llm_desc">Orchestrate Ollama, DeepSeek, Llama, or cloud models via API. Total privacy-first routing control.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-envelope-terminal"></i>
+            <h3 data-i18n="feat_email_title">IMAP/SMTP Operator</h3>
+            <p data-i18n="feat_email_desc">Automate your inbox. Read, draft replies, send HTML newsletters, and attach generated PDF reports autonomously.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-wave-square"></i>
+            <h3 data-i18n="feat_audio_title">Audio & Comms</h3>
+            <p data-i18n="feat_audio_desc">Process voice memos, transcribe audio, and bridge outputs directly to Telegram or iMessage.</p>
+        </div>
+    </section>
 
     <footer>
-        <p id="footerText">© 2026 AXIOM — Autonomous infrastructure. Designed for Mac mini & macOS. More secure, more powerful.</p>
+        <p id="footerText">SYSTEM LOG: 2026 AXIOM V1.0 // AUTONOMOUS INFRASTRUCTURE // DESIGNED FOR MAC MINI & MACOS.</p>
     </footer>
 </div>
 
-<style>
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-</style>
-
 <script>
-    // --- 1. 3D Mouse Parallax Effect ---
-    const scene = document.getElementById('sceneContainer');
-    const mockup = document.getElementById('appMockup');
+    // --- 1. Terminal Typewriter Effect ---
+    const typewriterElement = document.getElementById('typewriter');
+    const texts = [
+        'axiom execute --task "analyze code"',
+        'axiom send --email "report.pdf"',
+        'axiom bridge --telegram "voice_note.ogg"'
+    ];
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function type() {
+        const currentText = texts[textIndex];
+        
+        if (isDeleting) {
+            typewriterElement.textContent = currentText.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            typewriterElement.textContent = currentText.substring(0, charIndex + 1);
+            charIndex++;
+        }
+
+        let typeSpeed = isDeleting ? 30 : 80;
+
+        if (!isDeleting && charIndex === currentText.length) {
+            typeSpeed = 2000; // Pause at end of word
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % texts.length;
+            typeSpeed = 500; // Pause before typing next word
+        }
+
+        setTimeout(type, typeSpeed);
+    }
     
-    scene.addEventListener('mousemove', (e) => {
-        if(window.innerWidth < 992) return; // Disable on mobile
-        const rect = scene.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        // Calculate rotation based on mouse position
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -5; // Max 5 deg
-        const rotateY = ((x - centerX) / centerX) * 5;  // Max 5 deg
+    // Start typing effect after a small delay
+    setTimeout(type, 1500);
 
-        mockup.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-    });
 
-    scene.addEventListener('mouseleave', () => {
-        mockup.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-    });
-
-    // --- 2. Scroll Disassembly Animation ---
-    const pieces = document.querySelectorAll('.floating-piece');
-    const maxScroll = 500;
-
-    window.addEventListener('scroll', () => {
-        if(window.innerWidth < 992) return;
-        
-        let scrollY = window.scrollY;
-        let progress = Math.min(1, scrollY / maxScroll);
-        // Easing out function
-        let easeOut = 1 - Math.pow(1 - progress, 3);
-
-        pieces.forEach(piece => {
-            const targetX = parseFloat(piece.getAttribute('data-x'));
-            const targetY = parseFloat(piece.getAttribute('data-y'));
-            
-            const currentX = targetX * easeOut;
-            const currentY = targetY * easeOut;
-            
-            piece.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
-            piece.style.opacity = 1 - (progress * 0.5); // Fade out slightly
-        });
-    });
-
-    // --- 3. Bilingual System (EN/ES) ---
+    // --- 2. Bilingual System (EN/ES) ---
     const translations = {
         en: {
-            mainTitle: "Autonomous Intelligence.<br>Absolute Control.",
-            soonBadge: "For macOS & Apple Silicon",
-            hero_sub: "The next-generation secure AI assistant that runs locally on your Mac, restricted to its own workspace.",
-            ctaText: "Join Early Access Waitlist",
-            piece_code: "Code Generation",
-            piece_llm: "Local LLMs",
-            piece_telegram: "Telegram Bridge",
-            piece_security: "Secure Sandbox",
-            piece_audio: "Audio Processing",
-            piece_email: "Automated Email",
-            securityTitle: "Ultimate Confinement: AXIOM_Workspace",
-            securityDesc: "Unlike standard assistants, AXIOM strictly restricts all operations to the <code>~/AXIOM_Workspace</code> folder. Zero system file access, zero unwanted permissions. Every code execution, file generation, or email attachment is sandboxed. Your data stays isolated and transparent.",
-            feat_code_title: "Code & Files",
-            feat_code_desc: "Generate scripts, apps, documents, and PDFs directly inside the secure sandbox environment.",
-            feat_llm_title: "Multi‑Model Core",
-            feat_llm_desc: "Seamlessly orchestrate local and cloud LLMs (Llama, GPT, Claude) with privacy-first routing.",
-            feat_audio_title: "Voice & Audio",
-            feat_audio_desc: "Transcribe, summarize, and integrate voice memos with Telegram or iMessage bridges.",
-            emailTitle: "Smart Email Operator",
-            emailDesc: "Connects to IMAP/SMTP to read emails, auto-draft replies, send beautiful HTML newsletters, and attach PDF reports. Say 'reply to John with the quarterly PDF' and it's done in seconds.",
-            footerText: "© 2026 AXIOM — Autonomous infrastructure. Designed for Mac mini & macOS. More secure, more powerful."
+            mainTitle: "Beyond<br>OpenClaw.",
+            soonBadge: "For Apple Silicon & macOS",
+            hero_sub: "Autonomous infrastructure built for developers. Run local intelligence securely isolated in its own workspace. Absolute control, zero telemetry.",
+            ctaText: "Init Early Access",
+            securityTitle: "Containment Protocol: Active",
+            securityDesc: "Unlike OpenClaw, AXIOM strictly restricts all operations to the <code>~/AXIOM_Workspace</code> directory. No system-wide file access. No unwanted permission escalations. Every script generated, PDF compiled, or email sent is executed inside a fully transparent, user-controlled sandbox.",
+            feat_code_title: "Code & Compile",
+            feat_code_desc: "Generate scripts, apps, documents, and PDFs locally. Execution remains 100% confined to the sandbox.",
+            feat_llm_title: "Local & Cloud LLMs",
+            feat_llm_desc: "Orchestrate Ollama, DeepSeek, Llama, or cloud models via API. Total privacy-first routing control.",
+            feat_email_title: "IMAP/SMTP Operator",
+            feat_email_desc: "Automate your inbox. Read, draft replies, send HTML newsletters, and attach generated PDF reports autonomously.",
+            feat_audio_title: "Audio & Comms",
+            feat_audio_desc: "Process voice memos, transcribe audio, and bridge outputs directly to Telegram or iMessage.",
+            footerText: "SYSTEM LOG: 2026 AXIOM V1.0 // AUTONOMOUS INFRASTRUCTURE // DESIGNED FOR MAC MINI & MACOS."
         },
         es: {
-            mainTitle: "Inteligencia Autónoma.<br>Control Absoluto.",
-            soonBadge: "Para macOS y Apple Silicon",
-            hero_sub: "El asistente de IA seguro de próxima generación que se ejecuta localmente en tu Mac, restringido a su propio espacio de trabajo.",
-            ctaText: "Unirse a la lista de espera",
-            piece_code: "Generación de Código",
-            piece_llm: "LLMs Locales",
-            piece_telegram: "Puente Telegram",
-            piece_security: "Sandbox Seguro",
-            piece_audio: "Procesamiento de Audio",
-            piece_email: "Email Automatizado",
-            securityTitle: "Aislamiento Total: AXIOM_Workspace",
-            securityDesc: "A diferencia de los asistentes estándar, AXIOM restringe estrictamente todas las operaciones a la carpeta <code>~/AXIOM_Workspace</code>. Cero acceso a archivos del sistema, cero permisos no deseados. Cada ejecución de código o archivo generado queda en el sandbox.",
-            feat_code_title: "Código y Archivos",
-            feat_code_desc: "Genera scripts, aplicaciones, documentos y PDFs directamente dentro del entorno seguro (sandbox).",
-            feat_llm_title: "Núcleo Multi-Modelo",
-            feat_llm_desc: "Orquesta LLMs locales y en la nube (Llama, GPT, Claude) priorizando la privacidad en el enrutamiento.",
-            feat_audio_title: "Voz y Audio",
-            feat_audio_desc: "Transcribe, resume e integra notas de voz utilizando puentes de Telegram o iMessage.",
-            emailTitle: "Operador de Email Inteligente",
-            emailDesc: "Se conecta a IMAP/SMTP para leer correos, redactar respuestas, enviar newsletters en HTML y adjuntar PDFs. Pídele: 'responde a Juan con el PDF trimestral' y lo hará en segundos.",
-            footerText: "© 2026 AXIOM — Infraestructura autónoma. Diseñado para Mac mini y macOS. Más seguro, más potente."
+            mainTitle: "Más allá<br>de OpenClaw.",
+            soonBadge: "Para Apple Silicon y macOS",
+            hero_sub: "Infraestructura autónoma para desarrolladores. Ejecuta inteligencia local aislada de forma segura en su propio espacio de trabajo. Control absoluto, cero telemetría.",
+            ctaText: "Iniciar Acceso",
+            securityTitle: "Protocolo de Contención: Activo",
+            securityDesc: "A diferencia de OpenClaw, AXIOM restringe estrictamente todas las operaciones al directorio <code>~/AXIOM_Workspace</code>. Sin acceso a archivos del sistema. Sin escalada de permisos. Cada script, PDF o email se ejecuta dentro de un sandbox transparente.",
+            feat_code_title: "Código y Compilación",
+            feat_code_desc: "Genera scripts, aplicaciones, documentos y PDFs localmente. La ejecución permanece confinada al 100% en el sandbox.",
+            feat_llm_title: "LLMs Locales y Cloud",
+            feat_llm_desc: "Orquesta Ollama, DeepSeek, Llama o modelos en la nube vía API. Control total de enrutamiento priorizando la privacidad.",
+            feat_email_title: "Operador IMAP/SMTP",
+            feat_email_desc: "Automatiza tu bandeja. Lee, redacta respuestas, envía newsletters HTML y adjunta reportes PDF generados de forma autónoma.",
+            feat_audio_title: "Audio y Comunicaciones",
+            feat_audio_desc: "Procesa notas de voz, transcribe audio y conecta los resultados directamente a Telegram o iMessage.",
+            footerText: "SYSTEM LOG: 2026 AXIOM V1.0 // INFRAESTRUCTURA AUTÓNOMA // DISEÑADO PARA MAC MINI & MACOS."
         }
     };
 
@@ -366,8 +320,6 @@
         document.getElementById('ctaText').innerText = translations[lang].ctaText;
         document.getElementById('securityTitle').innerText = translations[lang].securityTitle;
         document.getElementById('securityDesc').innerHTML = translations[lang].securityDesc;
-        document.getElementById('emailTitle').innerText = translations[lang].emailTitle;
-        document.getElementById('emailDesc').innerText = translations[lang].emailDesc;
         document.getElementById('footerText').innerText = translations[lang].footerText;
 
         document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -396,7 +348,7 @@
 
     // CTA Alert
     document.getElementById('ctaBtn').addEventListener('click', () => {
-        alert(currentLang === 'en' ? "🚀 AXIOM early access: launch planned for Q3 2026. Stay tuned!" : "🚀 Acceso anticipado AXIOM: lanzamiento planeado para Q3 2026. ¡Mantente al tanto!");
+        alert(currentLang === 'en' ? "⚡ SEQUENCE INITIATED: AXIOM access planned for Q3 2026." : "⚡ SECUENCIA INICIADA: Acceso a AXIOM planeado para Q3 2026.");
     });
 </script>
 
