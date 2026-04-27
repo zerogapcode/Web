@@ -3,359 +3,710 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>AXIOM · La App Inteligente para macOS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>AXIOM · Inteligencia fluida para tu Mac</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            --bg-page: #f8fafc;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --accent: #6366f1; /* Indigo */
-            --accent-gradient: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
-            --warning-bg: #fffbeb;
-            --warning-border: #fde68a;
-            --warning-text: #b45309;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Dark mode auto-detection */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-page: #0f172a;
-                --text-main: #f8fafc;
-                --text-muted: #94a3b8;
-                --card-bg: #1e293b;
-                --border: #334155;
-                --warning-bg: rgba(245, 158, 11, 0.1);
-                --warning-border: rgba(245, 158, 11, 0.2);
-                --warning-text: #fbbf24;
+        body {
+            background: radial-gradient(circle at 10% 20%, #020617, #000000);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #eef2ff;
+            overflow-x: hidden;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* animated grain texture */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.4;
+        }
+
+        /* floating orbs background */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .orb-1 {
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, #8b5cf6, #ec4899);
+            top: -20vh;
+            right: -10vw;
+        }
+        .orb-2 {
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, #06b6d4, #3b82f6);
+            bottom: -15vh;
+            left: -15vw;
+            opacity: 0.2;
+        }
+        .orb-3 {
+            width: 30vw;
+            height: 30vw;
+            background: #a855f7;
+            top: 50%;
+            left: 40%;
+            opacity: 0.1;
+            filter: blur(100px);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 28px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* --- Glassmorphic Navbar --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 20px;
+            margin-bottom: 48px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(4px);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(120deg, #fff, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .logo-icon {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-badge {
+            background: rgba(255,255,255,0.05);
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+            border: 0.5px solid rgba(255,255,255,0.2);
+            color: #cbd5e1;
+        }
+
+        /* Hero + Mockup Grid */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 100px;
+            align-items: center;
+        }
+        .hero-content {
+            text-align: left;
+        }
+        .tagline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            padding: 8px 24px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: #d9c6ff;
+            margin-bottom: 28px;
+        }
+        .hero-content h1 {
+            font-size: clamp(2.8rem, 5vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+            background: linear-gradient(to right, #ffffff, #c4b5fd, #f0abfc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-gradient-text {
+            background: linear-gradient(135deg, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-content p {
+            font-size: 1.1rem;
+            color: #9ca3af;
+            max-width: 90%;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+        .stat i {
+            color: #c084fc;
+        }
+
+        /* App Mockup — Modern glow redesign */
+        .app-mockup {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 36px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(168, 85, 247, 0.2) inset;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: floatGlow 5s ease-in-out infinite;
+        }
+        .app-mockup:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 50px -15px rgba(139, 92, 246, 0.3);
+        }
+        @keyframes floatGlow {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        .app-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .mac-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .mac-dots div {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+        .app-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #a0aec0;
+            letter-spacing: 0.3px;
+            margin: 0 auto;
+        }
+        .app-body {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .chat-bubble {
+            max-width: 85%;
+            padding: 16px 22px;
+            border-radius: 28px;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            font-weight: 450;
+        }
+        .chat-user {
+            background: linear-gradient(115deg, #1e293b, #0f172a);
+            border: 1px solid #334155;
+            align-self: flex-end;
+            border-bottom-right-radius: 6px;
+            color: #f1f5f9;
+            box-shadow: 0 8px 12px -8px rgba(0,0,0,0.3);
+        }
+        .chat-ai {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            align-self: flex-start;
+            border-bottom-left-radius: 6px;
+            display: flex;
+            gap: 14px;
+        }
+        .ai-icon {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(145deg, #a855f7, #ec4899);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 0 8px rgba(168,85,247,0.6);
+        }
+        .file-attach {
+            margin-top: 14px;
+            padding: 10px 14px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            border: 0.5px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+        }
+        .app-input {
+            margin: 16px 24px 28px;
+            padding: 14px 22px;
+            border-radius: 60px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .app-input span {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        .input-actions i {
+            font-size: 1.3rem;
+            margin-left: 18px;
+            color: #c084fc;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .input-actions i:hover {
+            color: #f472b6;
+            transform: scale(1.05);
+        }
+
+        /* Features Grid — Glass cards */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 32px;
+            margin: 100px 0 100px;
+        }
+        .feature-card {
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 36px;
+            padding: 40px 28px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .feature-card:hover {
+            border-color: rgba(168, 85, 247, 0.5);
+            transform: translateY(-10px);
+            background: rgba(20, 28, 50, 0.7);
+            box-shadow: 0 20px 35px -15px rgba(0,0,0,0.5);
+        }
+        .icon-wrapper {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 32px;
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+        }
+        .feature-card h3 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 14px;
+            letter-spacing: -0.3px;
+        }
+        .feature-card p {
+            color: #b9c3db;
+            line-height: 1.6;
+        }
+
+        /* Install Section Modern */
+        .install-section {
+            max-width: 900px;
+            margin: 0 auto 100px;
+            background: rgba(10, 15, 30, 0.7);
+            backdrop-filter: blur(16px);
+            border-radius: 48px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 48px 42px;
+            box-shadow: 0 30px 40px -20px black;
+        }
+        .install-section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 48px;
+            background: linear-gradient(to right, #e2e8f0, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .step {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 36px;
+        }
+        .step-number {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(145deg, #a855f7, #7c3aed);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            box-shadow: 0 8px 14px -6px #7c3aed40;
+        }
+        .step-content h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .step-content p {
+            color: #b3c2db;
+        }
+        .mac-warning {
+            background: rgba(253, 186, 39, 0.08);
+            border-left: 4px solid #fbbf24;
+            border-radius: 20px;
+            padding: 16px 20px;
+            margin: 16px 0 8px;
+            display: flex;
+            gap: 16px;
+        }
+        .code-block {
+            background: #020617;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-top: 16px;
+            backdrop-filter: blur(4px);
+        }
+        .code-block code {
+            color: #e2e8f0;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+        .code-block i {
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #a0aec0;
+            transition: 0.2s;
+        }
+        .code-block i:hover {
+            color: #c084fc;
+        }
+        .btn-download {
+            background: linear-gradient(105deg, #8b5cf6, #ec4899);
+            border: none;
+            width: 100%;
+            padding: 18px 28px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 32px;
+            cursor: pointer;
+            transition: all 0.25s;
+            color: white;
+            box-shadow: 0 12px 20px -10px #a855f7;
+        }
+        .btn-download:hover {
+            transform: scale(1.01);
+            box-shadow: 0 20px 30px -12px #c084fc;
+            letter-spacing: 0.3px;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: #6c7a91;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 960px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 48px;
+                text-align: center;
+            }
+            .hero-content {
+                text-align: center;
+            }
+            .hero-content p {
+                max-width: 100%;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .install-section {
+                padding: 32px 24px;
+            }
+            .step {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+        @media (max-width: 520px) {
+            .app-body {
+                padding: 16px;
+            }
+            .chat-bubble {
+                max-width: 95%;
             }
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background-color: var(--bg-page);
-            color: var(--text-main);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+        /* micro animations */
+        ::selection {
+            background: #a855f7;
+            color: white;
         }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-
-        /* --- Navbar --- */
-        .navbar {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 24px 0; margin-bottom: 40px;
+        .fa-microphone, .fa-paperclip, .fa-circle-arrow-up {
+            cursor: pointer;
         }
-        .logo { 
-            font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .logo-icon {
-            background: var(--accent-gradient);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-            font-size: 28px;
-        }
-
-        /* --- Hero Section --- */
-        .hero { text-align: center; margin-bottom: 60px; padding-top: 40px; }
-        .tagline {
-            display: inline-block; padding: 8px 24px; border-radius: 40px;
-            background: var(--card-bg); border: 1px solid var(--border);
-            color: var(--text-muted); font-size: 0.9rem; font-weight: 500; margin-bottom: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
-        .hero h1 { 
-            font-size: clamp(3rem, 6vw, 4.5rem); font-weight: 700; letter-spacing: -1.5px; 
-            line-height: 1.1; margin-bottom: 24px;
-        }
-        .hero-gradient-text {
-            background: var(--accent-gradient);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-        }
-        .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 40px; line-height: 1.6; }
-
-        /* --- UI Mockup (The App Interface) --- */
-        .app-mockup {
-            max-width: 900px; margin: 0 auto 100px;
-            background: var(--card-bg); border-radius: 24px;
-            border: 1px solid var(--border);
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
-            overflow: hidden;
-            display: flex; flex-direction: column;
-            animation: float 6s ease-in-out infinite;
-        }
-        .app-header {
-            padding: 16px 24px; border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; gap: 16px; background: rgba(0,0,0,0.02);
-        }
-        .mac-dots { display: flex; gap: 8px; }
-        .mac-dots div { width: 12px; height: 12px; border-radius: 50%; }
-        .mac-dots .red { background: #ff5f56; }
-        .mac-dots .yellow { background: #ffbd2e; }
-        .mac-dots .green { background: #27c93f; }
-        .app-title { font-weight: 600; font-size: 14px; color: var(--text-muted); margin-left: auto; margin-right: auto; }
-
-        .app-body { padding: 32px; display: flex; flex-direction: column; gap: 24px; background: var(--bg-page); }
-        
-        .chat-bubble { max-width: 80%; padding: 16px 20px; border-radius: 20px; font-size: 15px; line-height: 1.5; }
-        .chat-user { 
-            background: var(--text-main); color: var(--bg-page); 
-            align-self: flex-end; border-bottom-right-radius: 4px;
-        }
-        .chat-ai { 
-            background: var(--card-bg); border: 1px solid var(--border); 
-            align-self: flex-start; border-bottom-left-radius: 4px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; gap: 16px;
-        }
-        .ai-icon {
-            width: 32px; height: 32px; border-radius: 50%; background: var(--accent-gradient);
-            display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0;
-        }
-        
-        .app-input {
-            margin: 24px 32px 32px; padding: 16px 24px; border-radius: 40px;
-            background: var(--card-bg); border: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: space-between;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .app-input span { color: var(--text-muted); font-size: 15px; }
-        .input-actions i { color: var(--accent); font-size: 20px; margin-left: 16px; cursor: pointer; transition: 0.2s; }
-        .input-actions i:hover { transform: scale(1.1); }
-
-        /* --- Features Grid --- */
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; margin-bottom: 100px; }
-        .feature-card {
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px;
-            padding: 40px 32px; text-align: center; transition: 0.3s;
-        }
-        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1); }
-        .icon-wrapper {
-            width: 64px; height: 64px; border-radius: 20px; background: var(--bg-page);
-            display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
-            font-size: 28px; color: var(--accent); border: 1px solid var(--border);
-        }
-        .feature-card h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 12px; }
-        .feature-card p { color: var(--text-muted); line-height: 1.6; }
-
-        /* --- Installation Guide --- */
-        .install-section {
-            max-width: 800px; margin: 0 auto 80px;
-            background: var(--card-bg); border-radius: 24px;
-            border: 1px solid var(--border); padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        .install-section h2 { font-size: 1.8rem; margin-bottom: 32px; text-align: center; }
-        
-        .step { display: flex; gap: 20px; margin-bottom: 24px; }
-        .step-number {
-            width: 32px; height: 32px; border-radius: 50%; background: var(--text-main);
-            color: var(--bg-page); display: flex; align-items: center; justify-content: center;
-            font-weight: bold; flex-shrink: 0; font-size: 14px;
-        }
-        .step-content { flex: 1; padding-top: 5px; }
-        .step-content h4 { font-size: 1.1rem; margin-bottom: 8px; }
-        .step-content p { color: var(--text-muted); line-height: 1.5; font-size: 0.95rem; }
-
-        .mac-warning {
-            background: var(--warning-bg); border: 1px solid var(--warning-border);
-            border-radius: 12px; padding: 16px; margin: 16px 0;
-            display: flex; gap: 16px; align-items: flex-start;
-        }
-        .mac-warning i { color: var(--warning-text); font-size: 24px; margin-top: 2px; }
-        .mac-warning div { color: var(--warning-text); font-size: 0.9rem; line-height: 1.5; }
-
-        .code-block {
-            background: #0f172a; color: #f8fafc; font-family: monospace;
-            padding: 16px; border-radius: 12px; margin-top: 12px;
-            display: flex; justify-content: space-between; align-items: center;
-            border: 1px solid #334155; font-size: 0.9rem; overflow-x: auto;
-        }
-        .code-block i { cursor: pointer; color: #94a3b8; transition: 0.2s; }
-        .code-block i:hover { color: #fff; }
-
-        .btn-download {
-            background: var(--text-main); color: var(--bg-page); border: none; padding: 16px 36px;
-            border-radius: 50px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s;
-            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-top: 32px;
-        }
-        .btn-download:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-
-        footer { text-align: center; padding: 40px 0; color: var(--text-muted); font-size: 14px; border-top: 1px solid var(--border); }
-
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-        @media (max-width: 768px) {
-            .app-body { padding: 16px; }
-            .chat-bubble { max-width: 90%; }
-            .install-section { padding: 24px; }
+        button, .code-block i {
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
-<div class="container">
-    <header class="navbar">
-        <div class="logo">
-            <i class="fa-solid fa-sparkles logo-icon"></i> AXIOM
-        </div>
+    <div class="container">
+        <header class="navbar">
+            <div class="logo">
+                <i class="fa-solid fa-sparkles logo-icon"></i> AXIOM
+            </div>
+            <div class="nav-badge">
+                <i class="fa-regular fa-gem"></i> v1.0 Beta
+            </div>
         </header>
 
-    <section class="hero">
-        <div class="tagline">Cero código. Solo dile lo que necesitas.</div>
-        <h1>Tu Mac, <br><span class="hero-gradient-text">mágicamente autónoma.</span></h1>
-        <p>Sin terminales ni configuraciones complejas. AXIOM es una hermosa app nativa que escucha, lee y actúa por ti, totalmente segura en su propio espacio de trabajo.</p>
-    </section>
+        <div class="hero-grid">
+            <div class="hero-content">
+                <div class="tagline">
+                    <i class="fa-regular fa-message"></i> Cero código. Solo dile lo que necesitas.
+                </div>
+                <h1>Tu Mac, <span class="hero-gradient-text">mágicamente autónoma.</span></h1>
+                <p>Sin terminales ni configuraciones complejas. AXIOM es una hermosa app nativa que escucha, lee y actúa por ti, totalmente segura en su propio espacio de trabajo.</p>
+                <div class="hero-stats">
+                    <div class="stat"><i class="fa-regular fa-clock"></i> Tiempo real</div>
+                    <div class="stat"><i class="fa-solid fa-laptop-code"></i> Nativa macOS</div>
+                    <div class="stat"><i class="fa-solid fa-shield-heart"></i> Sandbox seguro</div>
+                </div>
+            </div>
 
-    <div class="app-mockup">
-        <div class="app-header">
-            <div class="mac-dots">
-                <div class="red"></div><div class="yellow"></div><div class="green"></div>
-            </div>
-            <div class="app-title">AXIOM Assistant</div>
-            <i class="fa-solid fa-gear" style="color: var(--text-muted); margin-left: auto;"></i>
-        </div>
-        
-        <div class="app-body">
-            <div class="chat-bubble chat-user">
-                "Lee los últimos 5 correos de Carlos y genera un resumen en PDF para nuestra reunión."
-            </div>
-            
-            <div class="chat-bubble chat-ai">
-                <div class="ai-icon"><i class="fa-solid fa-sparkles"></i></div>
-                <div>
-                    <strong style="display: block; margin-bottom: 8px; font-size: 14px;">AXIOM</strong>
-                    <span>¡Listo! He leído los correos. Aquí tienes el resumen en PDF que pediste, guardado de forma segura en tu espacio de trabajo.</span>
-                    
-                    <div style="margin-top: 16px; padding: 12px 16px; background: var(--bg-page); border: 1px solid var(--border); border-radius: 12px; display: inline-flex; align-items: center; gap: 12px; cursor: pointer;">
-                        <i class="fa-solid fa-file-pdf" style="color: #ef4444; font-size: 24px;"></i>
+            <!-- Mockup modernizado -->
+            <div class="app-mockup">
+                <div class="app-header">
+                    <div class="mac-dots">
+                        <div class="red"></div><div class="yellow"></div><div class="green"></div>
+                    </div>
+                    <div class="app-title">AXIOM Assistant</div>
+                    <i class="fa-solid fa-sliders-h" style="color: #6c7a91; margin-left: auto;"></i>
+                </div>
+                <div class="app-body">
+                    <div class="chat-bubble chat-user">
+                        "Lee los últimos 5 correos de Carlos y genera un resumen en PDF para nuestra reunión."
+                    </div>
+                    <div class="chat-bubble chat-ai">
+                        <div class="ai-icon"><i class="fa-solid fa-sparkles"></i></div>
                         <div>
-                            <div style="font-weight: 600; font-size: 14px;">Resumen_Reunion.pdf</div>
-                            <div style="font-size: 12px; color: var(--text-muted);">Generado justo ahora · 124 KB</div>
+                            <strong style="display: block; margin-bottom: 6px; font-size: 13px;">AXIOM · IA</strong>
+                            <span>¡Listo! He leído los correos. Aquí tienes el resumen en PDF que pediste, guardado de forma segura en tu espacio de trabajo.</span>
+                            <div class="file-attach">
+                                <i class="fa-regular fa-file-pdf" style="color: #f87171; font-size: 22px;"></i>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 13px;">Resumen_Reunion.pdf</div>
+                                    <div style="font-size: 10px; opacity: 0.7;">Generado ahora · 124 KB</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-input">
+                    <span>Escribe o dicta tu petición...</span>
+                    <div class="input-actions">
+                        <i class="fa-solid fa-microphone"></i>
+                        <i class="fa-solid fa-paperclip"></i>
+                        <i class="fa-solid fa-circle-arrow-up"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="features">
+            <div class="feature-card">
+                <div class="icon-wrapper"><i class="fa-solid fa-comments"></i></div>
+                <h3>Lenguaje Natural</h3>
+                <p>Olvídate de programar o usar comandos complejos. Habla o escribe con normalidad y AXIOM entenderá exactamente lo que quieres hacer.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-wrapper"><i class="fa-solid fa-envelope-open-text"></i></div>
+                <h3>Piloto Automático</h3>
+                <p>Deja que la app gestione tus tareas. Lee hilos de correo, sugiere respuestas y genera archivos sin que tengas que salir de la interfaz.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-wrapper"><i class="fa-solid fa-shield-check"></i></div>
+                <h3>Totalmente Segura</h3>
+                <p>Todo lo que hace AXIOM ocurre en un entorno aislado (sandbox). Tus archivos y tu sistema están a salvo. Tú siempre tienes el control.</p>
+            </div>
+        </section>
+
+        <section class="install-section">
+            <h2>Instalación y Configuración Inicial</h2>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Descarga la App</h4>
+                    <p>Haz clic en el botón de abajo para descargar el archivo <strong>.dmg</strong>. Una vez descargado, ábrelo y arrastra el ícono de AXIOM a tu carpeta de Aplicaciones.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Aviso de seguridad de macOS</h4>
+                    <div class="mac-warning">
+                        <i class="fa-solid fa-triangle-exclamation" style="font-size: 22px;"></i>
+                        <div>
+                            <strong>Nota importante:</strong> Como AXIOM aún se encuentra en fase Beta y no cuenta con la firma de desarrollador oficial de Apple, al intentar abrirla por primera vez es muy probable que macOS te muestre un error diciendo que <em>"la aplicación está dañada y debe trasladarse a la papelera"</em>. Esto es completamente normal.
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="app-input">
-            <span>Escribe o dicta tu petición...</span>
-            <div class="input-actions">
-                <i class="fa-solid fa-microphone"></i>
-                <i class="fa-solid fa-paperclip"></i>
-                <i class="fa-solid fa-circle-arrow-up" style="color: var(--text-main);"></i>
-            </div>
-        </div>
-    </div>
-
-    <section class="features">
-        <div class="feature-card">
-            <div class="icon-wrapper"><i class="fa-solid fa-comments"></i></div>
-            <h3>Lenguaje Natural</h3>
-            <p>Olvídate de programar o usar comandos complejos. Habla o escribe con normalidad y AXIOM entenderá exactamente lo que quieres hacer.</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon-wrapper"><i class="fa-solid fa-envelope-open-text"></i></div>
-            <h3>Piloto Automático</h3>
-            <p>Deja que la app gestione tus tareas. Lee hilos de correo, sugiere respuestas y genera archivos sin que tengas que salir de la interfaz.</p>
-        </div>
-        <div class="feature-card">
-            <div class="icon-wrapper"><i class="fa-solid fa-shield-check"></i></div>
-            <h3>Totalmente Segura</h3>
-            <p>Todo lo que hace AXIOM ocurre en un entorno aislado (sandbox). Tus archivos y tu sistema están a salvo. Tú siempre tienes el control.</p>
-        </div>
-    </section>
-
-    <section class="install-section">
-        <h2>Instalación y Configuración Inicial</h2>
-        
-        <div class="step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-                <h4>Descarga la App</h4>
-                <p>Haz clic en el botón de abajo para descargar el archivo <strong>.dmg</strong>. Una vez descargado, ábrelo y arrastra el ícono de AXIOM a tu carpeta de Aplicaciones.</p>
-            </div>
-        </div>
-
-        <div class="step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-                <h4>Aviso de seguridad de macOS</h4>
-                <div class="mac-warning">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <div>
-                        <strong>Nota importante:</strong> Como AXIOM aún se encuentra en fase Beta y no cuenta con la firma de desarrollador oficial de Apple, al intentar abrirla por primera vez es muy probable que macOS te muestre un error diciendo que <em>"la aplicación está dañada y debe trasladarse a la papelera"</em>. Esto es completamente normal.
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Autoriza la aplicación</h4>
+                    <p>Para solucionar el aviso de macOS y permitir que AXIOM se ejecute, abre la aplicación <strong>Terminal</strong> en tu Mac (la puedes buscar en Spotlight), copia y pega el siguiente comando, y presiona Enter:</p>
+                    <div class="code-block">
+                        <code id="installCommand">xattr -cr /Applications/AXIOM.app</code>
+                        <i class="fa-regular fa-copy" id="copyBtn" title="Copiar comando"></i>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="step">
-            <div class="step-number">3</div>
-            <div class="step-content">
-                <h4>Autoriza la aplicación</h4>
-                <p>Para solucionar el aviso de macOS y permitir que AXIOM se ejecute, abre la aplicación <strong>Terminal</strong> en tu Mac (la puedes buscar en Spotlight), copia y pega el siguiente comando, y presiona Enter:</p>
-                
-                <div class="code-block">
-                    <code id="installCommand">xattr -cr /Applications/AXIOM.app</code>
-                    <i class="fa-regular fa-copy" id="copyBtn" title="Copiar comando"></i>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>¡Todo listo!</h4>
+                    <p>Ya puedes cerrar la Terminal y abrir AXIOM normalmente desde tu Launchpad o carpeta de Aplicaciones.</p>
                 </div>
             </div>
-        </div>
+            <button class="btn-download" id="downloadBtn">
+                <i class="fa-brands fa-apple"></i> Descargar AXIOM para macOS
+            </button>
+        </section>
 
-        <div class="step">
-            <div class="step-number">4</div>
-            <div class="step-content">
-                <h4>¡Todo listo!</h4>
-                <p>Ya puedes cerrar la Terminal y abrir AXIOM normalmente desde tu Launchpad o carpeta de Aplicaciones.</p>
-            </div>
-        </div>
+        <footer>
+            <p>© 2026 AXIOM — La App Inteligente para Mac mini y macOS. · Diseño visionario</p>
+        </footer>
+    </div>
+    <script>
+        // Microphone simulation (same as original but enhanced)
+        const micIcon = document.querySelector('.fa-microphone');
+        if(micIcon) {
+            micIcon.addEventListener('click', () => {
+                micIcon.style.color = '#f43f5e';
+                micIcon.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    micIcon.style.color = '#c084fc';
+                    micIcon.style.transform = 'scale(1)';
+                }, 1300);
+            });
+        }
 
-        <button class="btn-download" onclick="alert('Iniciando descarga de AXIOM_Beta.dmg...')">
-            <i class="fa-brands fa-apple"></i> Descargar AXIOM para macOS
-        </button>
-    </section>
+        // Copy command functionality
+        const copyBtn = document.getElementById('copyBtn');
+        const commandTextElem = document.getElementById('installCommand');
+        
+        if(copyBtn && commandTextElem) {
+            copyBtn.addEventListener('click', () => {
+                const command = commandTextElem.innerText;
+                navigator.clipboard.writeText(command).then(() => {
+                    const originalClass = copyBtn.className;
+                    copyBtn.className = 'fa-regular fa-circle-check';
+                    copyBtn.style.color = '#4ade80';
+                    setTimeout(() => {
+                        copyBtn.className = 'fa-regular fa-copy';
+                        copyBtn.style.color = '#a0aec0';
+                    }, 2000);
+                }).catch(() => {
+                    alert('No se pudo copiar, intenta manualmente');
+                });
+            });
+        }
 
-    <footer>
-        <p>© 2026 AXIOM — La App Inteligente para Mac mini y macOS.</p>
-    </footer>
-</div>
+        // Download button alert
+        const downloadButton = document.getElementById('downloadBtn');
+        if(downloadButton) {
+            downloadButton.addEventListener('click', () => {
+                alert('🚀 Iniciando descarga de AXIOM_Beta.dmg...\nRecuerda seguir los pasos de instalación para autorizar la app.');
+            });
+        }
 
-<script>
-    // Interactive Input Mock (just for demo)
-    const voiceIcon = document.querySelector('.fa-microphone');
-    voiceIcon.addEventListener('click', () => {
-        voiceIcon.style.color = '#ef4444'; // Red for recording
-        setTimeout(() => {
-            voiceIcon.style.color = 'var(--accent)';
-        }, 1500);
-    });
-
-    // Copy to clipboard function for the terminal command
-    const copyBtn = document.getElementById('copyBtn');
-    const installCommand = document.getElementById('installCommand').innerText;
-
-    copyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(installCommand).then(() => {
-            copyBtn.classList.remove('fa-copy', 'fa-regular');
-            copyBtn.classList.add('fa-check', 'fa-solid');
-            copyBtn.style.color = '#4ade80'; // Green check
-            
-            setTimeout(() => {
-                copyBtn.classList.remove('fa-check', 'fa-solid');
-                copyBtn.classList.add('fa-copy', 'fa-regular');
-                copyBtn.style.color = '#94a3b8';
-            }, 2000);
-        }).catch(err => {
-            console.error('Error al copiar el texto: ', err);
-        });
-    });
-</script>
-
+        // small extra: hover interactions for paperclip
+        const paperclip = document.querySelector('.fa-paperclip');
+        if(paperclip) {
+            paperclip.addEventListener('click', () => {
+                alert('✨ Sube documentos o imágenes directamente desde Finder (próximamente)');
+            });
+        }
+        const arrowUp = document.querySelector('.fa-circle-arrow-up');
+        if(arrowUp) {
+            arrowUp.addEventListener('click', () => {
+                alert('🔮 Procesando tu solicitud... (demo interactiva)');
+            });
+        }
+    </script>
 </body>
 </html>
