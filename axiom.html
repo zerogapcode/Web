@@ -415,6 +415,15 @@
             display: flex;
             gap: 16px;
         }
+        .chip-info {
+            display: inline-block;
+            background: rgba(168,85,247,0.2);
+            border-radius: 40px;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            margin-top: 12px;
+            color: #d8b4fe;
+        }
         .code-block {
             background: #020617;
             border: 1px solid #334155;
@@ -449,7 +458,7 @@
             border-radius: 60px;
             font-weight: 700;
             font-size: 1.05rem;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 14px;
@@ -458,6 +467,7 @@
             transition: all 0.25s;
             color: white;
             box-shadow: 0 12px 20px -10px #a855f7;
+            text-decoration: none;
         }
         .btn-download:hover {
             transform: scale(1.01);
@@ -504,15 +514,11 @@
             }
         }
 
-        /* micro animations */
         ::selection {
             background: #a855f7;
             color: white;
         }
         .fa-microphone, .fa-paperclip, .fa-circle-arrow-up {
-            cursor: pointer;
-        }
-        button, .code-block i {
             cursor: pointer;
         }
     </style>
@@ -528,7 +534,7 @@
                 <i class="fa-solid fa-sparkles logo-icon"></i> AXIOM
             </div>
             <div class="nav-badge">
-                <i class="fa-regular fa-gem"></i> v1.0 Beta
+                <i class="fa-regular fa-gem"></i> v0.1.0-beta
             </div>
         </header>
 
@@ -546,7 +552,6 @@
                 </div>
             </div>
 
-            <!-- Mockup modernizado -->
             <div class="app-mockup">
                 <div class="app-header">
                     <div class="mac-dots">
@@ -609,7 +614,8 @@
                 <div class="step-number">1</div>
                 <div class="step-content">
                     <h4>Descarga la App</h4>
-                    <p>Haz clic en el botón de abajo para descargar el archivo <strong>.dmg</strong>. Una vez descargado, ábrelo y arrastra el ícono de AXIOM a tu carpeta de Aplicaciones.</p>
+                    <p>Haz clic en el botón de abajo para descargar el archivo <strong>.dmg</strong> (versión para Apple Silicon M1/M2/M3/M4). Una vez descargado, ábrelo y arrastra el ícono de AXIOM a tu carpeta de Aplicaciones.</p>
+                    <div class="chip-info"><i class="fa-solid fa-microchip"></i> Build para aarch64 (Macs con chip Apple)</div>
                 </div>
             </div>
             <div class="step">
@@ -642,9 +648,16 @@
                     <p>Ya puedes cerrar la Terminal y abrir AXIOM normalmente desde tu Launchpad o carpeta de Aplicaciones.</p>
                 </div>
             </div>
-            <button class="btn-download" id="downloadBtn">
-                <i class="fa-brands fa-apple"></i> Descargar AXIOM para macOS
-            </button>
+
+            <!-- Enlace de descarga REAL desde GitHub Releases -->
+            <a href="https://github.com/zerogapcode/AXIOM/releases/download/v0.1.0-beta/AXIOM_0.1.0_aarch64.dmg" 
+               class="btn-download" 
+               download>
+                <i class="fa-brands fa-apple"></i> Descargar AXIOM para macOS (Apple Silicon)
+            </a>
+            <p style="text-align: center; margin-top: 20px; font-size: 0.75rem; color: #6c7a91;">
+                <i class="fa-regular fa-circle-check"></i> Versión v0.1.0-beta · Archivo nativo para M1/M2/M3/M4
+            </p>
         </section>
 
         <footer>
@@ -652,7 +665,7 @@
         </footer>
     </div>
     <script>
-        // Microphone simulation (same as original but enhanced)
+        // Microphone simulation
         const micIcon = document.querySelector('.fa-microphone');
         if(micIcon) {
             micIcon.addEventListener('click', () => {
@@ -686,15 +699,7 @@
             });
         }
 
-        // Download button alert
-        const downloadButton = document.getElementById('downloadBtn');
-        if(downloadButton) {
-            downloadButton.addEventListener('click', () => {
-                alert('🚀 Iniciando descarga de AXIOM_Beta.dmg...\nRecuerda seguir los pasos de instalación para autorizar la app.');
-            });
-        }
-
-        // small extra: hover interactions for paperclip
+        // Paperclip & arrow demo (optional)
         const paperclip = document.querySelector('.fa-paperclip');
         if(paperclip) {
             paperclip.addEventListener('click', () => {
