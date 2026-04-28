@@ -4,714 +4,877 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>AXIOM · Inteligencia fluida para tu Mac</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --purple: #a855f7;
+            --pink: #ec4899;
+            --blue: #3b82f6;
+            --cyan: #06b6d4;
+            --bg: #020617;
+            --surface: rgba(15, 23, 42, 0.6);
+            --border: rgba(255,255,255,0.08);
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
         }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            background: radial-gradient(circle at 10% 20%, #020617, #000000);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            font-family: 'DM Sans', sans-serif;
             color: #eef2ff;
             overflow-x: hidden;
             line-height: 1.5;
-            scroll-behavior: smooth;
         }
 
-        /* animated grain texture */
+        /* Grain overlay */
         body::before {
             content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 1000;
-            opacity: 0.4;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 9999; opacity: 0.5;
         }
 
-        /* floating orbs background */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            z-index: 0;
-            pointer-events: none;
-        }
-        .orb-1 {
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, #8b5cf6, #ec4899);
-            top: -20vh;
-            right: -10vw;
-        }
-        .orb-2 {
-            width: 40vw;
-            height: 40vw;
-            background: radial-gradient(circle, #06b6d4, #3b82f6);
-            bottom: -15vh;
-            left: -15vw;
-            opacity: 0.2;
-        }
-        .orb-3 {
-            width: 30vw;
-            height: 30vw;
-            background: #a855f7;
-            top: 50%;
-            left: 40%;
-            opacity: 0.1;
-            filter: blur(100px);
+        /* Orbs */
+        .orb { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.25; z-index: 0; pointer-events: none; }
+        .orb-1 { width: 55vw; height: 55vw; background: radial-gradient(circle, #7c3aed, #ec4899); top: -25vh; right: -10vw; animation: orbDrift 18s ease-in-out infinite; }
+        .orb-2 { width: 40vw; height: 40vw; background: radial-gradient(circle, #06b6d4, #3b82f6); bottom: -15vh; left: -15vw; opacity: 0.15; animation: orbDrift 22s ease-in-out infinite reverse; }
+        .orb-3 { width: 28vw; height: 28vw; background: #a855f7; top: 55%; left: 42%; opacity: 0.08; filter: blur(110px); animation: orbDrift 14s ease-in-out infinite; }
+        @keyframes orbDrift {
+            0%, 100% { transform: translate(0,0) scale(1); }
+            33% { transform: translate(2%, 3%) scale(1.05); }
+            66% { transform: translate(-2%, -2%) scale(0.97); }
         }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 28px;
-            position: relative;
-            z-index: 5;
-        }
+        /* Canvas particles */
+        #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: 0.4; }
 
-        /* --- Glassmorphic Navbar --- */
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 5; }
+
+        /* ─── NAVBAR ─── */
         .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 0 20px;
-            margin-bottom: 48px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(4px);
+            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 28px;
+            background: rgba(2, 6, 23, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            transition: background 0.3s;
         }
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
+            display: flex; align-items: center; gap: 10px;
+            font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em;
             background: linear-gradient(120deg, #fff, #c084fc, #f472b6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
         }
-        .logo-icon {
-            font-size: 2rem;
-            background: linear-gradient(135deg, #a855f7, #ec4899);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+        .logo-icon { font-size: 1.5rem; background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: #e2e8f0; }
         .nav-badge {
-            background: rgba(255,255,255,0.05);
-            padding: 8px 18px;
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            backdrop-filter: blur(4px);
-            border: 0.5px solid rgba(255,255,255,0.2);
-            color: #cbd5e1;
+            background: rgba(168,85,247,0.12); padding: 8px 16px; border-radius: 100px;
+            font-size: 0.78rem; font-weight: 600; border: 1px solid rgba(168,85,247,0.3); color: #c084fc;
         }
 
-        /* Hero + Mockup Grid */
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            margin-bottom: 100px;
-            align-items: center;
-        }
-        .hero-content {
-            text-align: left;
-        }
+        /* ─── HERO ─── */
+        .hero { padding: 80px 0 100px; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+        .hero-content { text-align: left; }
         .tagline {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(139, 92, 246, 0.2);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(139, 92, 246, 0.4);
-            padding: 8px 24px;
-            border-radius: 60px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            color: #d9c6ff;
-            margin-bottom: 28px;
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.35);
+            padding: 7px 20px; border-radius: 60px; font-size: 0.82rem; font-weight: 600;
+            color: #d9c6ff; margin-bottom: 24px; letter-spacing: 0.2px;
         }
-        .hero-content h1 {
-            font-size: clamp(2.8rem, 5vw, 4.2rem);
-            font-weight: 800;
-            line-height: 1.2;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
-            background: linear-gradient(to right, #ffffff, #c4b5fd, #f0abfc);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .hero-gradient-text {
-            background: linear-gradient(135deg, #c084fc, #f472b6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .hero-content p {
-            font-size: 1.1rem;
-            color: #9ca3af;
-            max-width: 90%;
-            margin-bottom: 32px;
-            line-height: 1.6;
-        }
-        .hero-stats {
-            display: flex;
-            gap: 24px;
-            margin-top: 20px;
-        }
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            color: #cbd5e1;
-        }
-        .stat i {
-            color: #c084fc;
-        }
+        .tagline .dot { width: 6px; height: 6px; border-radius: 50%; background: #a855f7; animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(168,85,247,0.6); } 50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(168,85,247,0); } }
 
-        /* App Mockup — Modern glow redesign */
+        .hero-content h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.8rem, 4.5vw, 4.4rem);
+            font-weight: 800; line-height: 1.12; letter-spacing: -0.04em;
+            margin-bottom: 22px;
+        }
+        .grad { background: linear-gradient(135deg, #c084fc 20%, #f472b6 70%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .hero-content p { font-size: 1.05rem; color: var(--text-muted); max-width: 88%; margin-bottom: 36px; line-height: 1.7; font-weight: 300; }
+
+        .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: linear-gradient(105deg, #8b5cf6, #ec4899);
+            padding: 14px 28px; border-radius: 50px; font-weight: 700; font-size: 0.95rem;
+            color: white; text-decoration: none; transition: all 0.25s;
+            box-shadow: 0 8px 20px -6px rgba(139,92,246,0.6);
+            position: relative; overflow: hidden;
+        }
+        .btn-primary::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+        .btn-primary:hover::after { left: 160%; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -8px rgba(168,85,247,0.7); }
+
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);
+            padding: 14px 24px; border-radius: 50px; font-weight: 500; font-size: 0.95rem;
+            color: #cbd5e1; text-decoration: none; transition: all 0.2s; backdrop-filter: blur(6px);
+        }
+        .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(168,85,247,0.4); color: white; }
+
+        .hero-stats { display: flex; gap: 24px; margin-top: 36px; flex-wrap: wrap; }
+        .stat { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted); }
+        .stat i { color: #a855f7; }
+
+        /* ─── APP MOCKUP ─── */
         .app-mockup {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(12px);
-            border-radius: 36px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(168, 85, 247, 0.2) inset;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: floatGlow 5s ease-in-out infinite;
+            background: rgba(10, 15, 30, 0.8); backdrop-filter: blur(20px);
+            border-radius: 32px; border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 30px 60px -20px rgba(0,0,0,0.7), 0 0 0 1px rgba(168,85,247,0.1) inset;
+            animation: floatGlow 6s ease-in-out infinite;
         }
-        .app-mockup:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 30px 50px -15px rgba(139, 92, 246, 0.3);
-        }
-        @keyframes floatGlow {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
+        @keyframes floatGlow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .app-header {
-            padding: 18px 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 16px;
+            padding: 16px 22px; border-bottom: 1px solid rgba(255,255,255,0.07);
+            display: flex; align-items: center; gap: 14px;
         }
-        .mac-dots {
-            display: flex;
-            gap: 8px;
-        }
-        .mac-dots div {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            transition: 0.2s;
-        }
-        .red { background: #ff5f56; }
-        .yellow { background: #ffbd2e; }
-        .green { background: #27c93f; }
-        .app-title {
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: #a0aec0;
-            letter-spacing: 0.3px;
-            margin: 0 auto;
-        }
-        .app-body {
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            background: rgba(0, 0, 0, 0.2);
-        }
-        .chat-bubble {
-            max-width: 85%;
-            padding: 16px 22px;
-            border-radius: 28px;
-            font-size: 0.9rem;
-            line-height: 1.45;
-            font-weight: 450;
-        }
+        .mac-dots { display: flex; gap: 6px; }
+        .mac-dots div { width: 11px; height: 11px; border-radius: 50%; }
+        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+        .app-title { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.82rem; color: #64748b; margin: 0 auto; letter-spacing: 0.5px; }
+        .app-status { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; color: #4ade80; margin-left: auto; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: pulse 2s infinite; }
+
+        .app-body { padding: 22px; display: flex; flex-direction: column; gap: 18px; min-height: 280px; }
+        .chat-bubble { max-width: 88%; padding: 14px 20px; border-radius: 24px; font-size: 0.875rem; line-height: 1.5; }
         .chat-user {
-            background: linear-gradient(115deg, #1e293b, #0f172a);
-            border: 1px solid #334155;
-            align-self: flex-end;
-            border-bottom-right-radius: 6px;
-            color: #f1f5f9;
-            box-shadow: 0 8px 12px -8px rgba(0,0,0,0.3);
+            background: rgba(30,41,59,0.9); border: 1px solid #1e293b;
+            align-self: flex-end; border-bottom-right-radius: 5px; color: #f1f5f9;
         }
         .chat-ai {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(139, 92, 246, 0.4);
-            align-self: flex-start;
-            border-bottom-left-radius: 6px;
-            display: flex;
-            gap: 14px;
+            background: rgba(20,28,48,0.8); border: 1px solid rgba(139,92,246,0.3);
+            align-self: flex-start; border-bottom-left-radius: 5px;
+            display: flex; gap: 12px; align-items: flex-start;
         }
-        .ai-icon {
-            width: 34px;
-            height: 34px;
+        .ai-avatar {
+            width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
             background: linear-gradient(145deg, #a855f7, #ec4899);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            box-shadow: 0 0 8px rgba(168,85,247,0.6);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; color: white; box-shadow: 0 0 10px rgba(168,85,247,0.5);
         }
-        .file-attach {
-            margin-top: 14px;
-            padding: 10px 14px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            border: 0.5px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(2px);
-            transition: 0.2s;
+        .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+        .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: #a855f7; animation: typingBounce 1.2s ease-in-out infinite; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-5px); opacity: 1; } }
+
+        .ai-text { font-size: 0.875rem; line-height: 1.5; color: #cbd5e1; }
+        .ai-text strong { color: white; display: block; margin-bottom: 4px; font-family: 'Syne', sans-serif; font-size: 0.78rem; letter-spacing: 0.3px; }
+        .file-chip {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 8px 14px; margin-top: 10px; font-size: 0.78rem;
         }
         .app-input {
-            margin: 16px 24px 28px;
-            padding: 14px 22px;
-            border-radius: 60px;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            margin: 8px 16px 18px; padding: 12px 18px; border-radius: 50px;
+            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08);
+            display: flex; justify-content: space-between; align-items: center; gap: 10px;
         }
-        .app-input span {
-            color: #94a3b8;
-            font-size: 0.85rem;
+        .app-input span { color: #475569; font-size: 0.82rem; }
+        .input-icons { display: flex; gap: 14px; }
+        .input-icons i { color: #a855f7; font-size: 1rem; cursor: pointer; transition: 0.2s; }
+        .input-icons i:hover { color: #f472b6; transform: scale(1.1); }
+
+        /* ─── SECTION LABELS ─── */
+        .section-label {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            color: #a855f7; margin-bottom: 16px;
         }
-        .input-actions i {
-            font-size: 1.3rem;
-            margin-left: 18px;
-            color: #c084fc;
-            transition: 0.2s;
-            cursor: pointer;
+        .section-label::before { content: ''; width: 20px; height: 1px; background: #a855f7; }
+
+        .section-title {
+            font-family: 'Syne', sans-serif; font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px;
         }
-        .input-actions i:hover {
-            color: #f472b6;
-            transform: scale(1.05);
+        .section-sub { color: var(--text-muted); font-size: 1rem; max-width: 500px; line-height: 1.7; font-weight: 300; }
+
+        /* ─── HOW IT WORKS ─── */
+        .how-section { padding: 100px 0; }
+        .how-header { text-align: center; margin-bottom: 72px; }
+        .how-header .section-label, .how-header .section-sub { display: block; margin: 0 auto; }
+
+        .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+        .flow::before {
+            content: ''; position: absolute; top: 44px; left: 12.5%; right: 12.5%; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(168,85,247,0.4), transparent);
+            z-index: 0;
+        }
+        .flow-step { text-align: center; padding: 0 16px; position: relative; z-index: 1; }
+        .flow-icon {
+            width: 88px; height: 88px; border-radius: 50%; margin: 0 auto 20px;
+            display: flex; align-items: center; justify-content: center; font-size: 28px;
+            background: rgba(10,15,30,0.9); border: 1px solid rgba(168,85,247,0.35);
+            position: relative; transition: all 0.3s;
+        }
+        .flow-icon::before {
+            content: ''; position: absolute; inset: -1px; border-radius: 50%;
+            background: linear-gradient(135deg, rgba(168,85,247,0.5), transparent);
+            z-index: -1;
+        }
+        .flow-step:hover .flow-icon { transform: scale(1.08); border-color: rgba(168,85,247,0.7); box-shadow: 0 0 20px rgba(168,85,247,0.3); }
+        .flow-icon i { color: #c084fc; }
+        .flow-step h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 8px; }
+        .flow-step p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+        .flow-num {
+            position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899); font-size: 0.7rem; font-weight: 800;
+            display: flex; align-items: center; justify-content: center; color: white;
         }
 
-        /* Features Grid — Glass cards */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-            gap: 32px;
-            margin: 100px 0 100px;
+        /* ─── FEATURES BENTO ─── */
+        .features-section { padding: 60px 0 100px; }
+        .features-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+        .bento { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto auto; gap: 20px; }
+        .bento-card {
+            background: rgba(10,15,30,0.7); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.07); border-radius: 28px;
+            padding: 36px 28px; transition: all 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+            position: relative; overflow: hidden;
         }
-        .feature-card {
-            background: rgba(15, 23, 42, 0.55);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 36px;
-            padding: 40px 28px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        .bento-card::before {
+            content: ''; position: absolute; inset: 0; border-radius: 28px;
+            background: linear-gradient(135deg, rgba(168,85,247,0.06), transparent);
+            opacity: 0; transition: opacity 0.3s;
         }
-        .feature-card:hover {
-            border-color: rgba(168, 85, 247, 0.5);
-            transform: translateY(-10px);
-            background: rgba(20, 28, 50, 0.7);
-            box-shadow: 0 20px 35px -15px rgba(0,0,0,0.5);
-        }
-        .icon-wrapper {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(145deg, #1e293b, #0f172a);
-            border-radius: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 24px;
-            font-size: 32px;
-            color: #c084fc;
-            border: 1px solid rgba(168, 85, 247, 0.4);
-        }
-        .feature-card h3 {
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-bottom: 14px;
-            letter-spacing: -0.3px;
-        }
-        .feature-card p {
-            color: #b9c3db;
-            line-height: 1.6;
-        }
+        .bento-card:hover::before { opacity: 1; }
+        .bento-card:hover { border-color: rgba(168,85,247,0.35); transform: translateY(-6px); box-shadow: 0 20px 40px -15px rgba(0,0,0,0.6); }
+        .bento-card.wide { grid-column: span 2; }
+        .bento-card.tall { grid-row: span 2; }
 
-        /* Install Section Modern */
+        .bento-icon {
+            width: 56px; height: 56px; border-radius: 18px; margin-bottom: 20px;
+            display: flex; align-items: center; justify-content: center; font-size: 24px;
+            background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid rgba(168,85,247,0.3);
+        }
+        .bento-icon i { color: #c084fc; }
+        .bento-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.25rem; margin-bottom: 10px; letter-spacing: -0.02em; }
+        .bento-card p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.65; font-weight: 300; }
+
+        .bento-card.featured {
+            background: linear-gradient(145deg, rgba(100,40,180,0.25), rgba(20,10,40,0.9));
+            border-color: rgba(168,85,247,0.25);
+        }
+        .bento-card.featured .bento-icon { background: linear-gradient(145deg, rgba(168,85,247,0.3), rgba(100,40,180,0.2)); }
+
+        /* ─── INTEGRATIONS ─── */
+        .integrations-section { padding: 80px 0; }
+        .integrations-header { text-align: center; margin-bottom: 56px; }
+        .integrations-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .integration-card {
+            display: flex; align-items: center; gap: 14px;
+            background: rgba(10,15,30,0.8); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; padding: 18px 24px; transition: all 0.25s; cursor: default;
+            backdrop-filter: blur(8px); min-width: 180px;
+        }
+        .integration-card:hover { border-color: rgba(168,85,247,0.5); transform: translateY(-4px); background: rgba(20,28,48,0.9); }
+        .integration-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .int-gmail { background: rgba(234,67,53,0.15); color: #ea4335; }
+        .int-telegram { background: rgba(0,136,204,0.15); color: #0088cc; }
+        .int-files { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        .int-mac { background: rgba(168,85,247,0.15); color: #c084fc; }
+        .int-ollama { background: rgba(6,182,212,0.15); color: #06b6d4; }
+        .integration-label { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; }
+        .integration-sub { font-size: 0.72rem; color: var(--text-dim); }
+        .int-badge { font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 30px; margin-top: 3px; display: inline-block; }
+        .int-badge.soon { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+        .int-badge.live { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+
+        /* ─── PRIVACY ─── */
+        .privacy-section { padding: 80px 0 100px; }
+        .privacy-inner {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+            background: rgba(10,15,30,0.7); border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 40px; padding: 60px 52px; backdrop-filter: blur(12px);
+        }
+        .privacy-visual {
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .priv-row {
+            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px; padding: 14px 18px; display: flex; align-items: center; gap: 14px;
+            font-size: 0.83rem; color: var(--text-muted); transition: 0.25s;
+        }
+        .priv-row:hover { border-color: rgba(168,85,247,0.35); color: #cbd5e1; }
+        .priv-row i { color: #4ade80; width: 16px; text-align: center; }
+        .priv-row .label { flex: 1; }
+        .priv-row .check { color: #4ade80; }
+
+        .privacy-content .section-sub { max-width: 100%; margin-bottom: 28px; }
+        .priv-stat { display: flex; align-items: center; gap: 12px; margin-top: 24px; }
+        .priv-num { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; background: linear-gradient(135deg, #c084fc, #f472b6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .priv-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
+
+        /* ─── INSTALL ─── */
         .install-section {
-            max-width: 900px;
-            margin: 0 auto 100px;
-            background: rgba(10, 15, 30, 0.7);
-            backdrop-filter: blur(16px);
-            border-radius: 48px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 48px 42px;
-            box-shadow: 0 30px 40px -20px black;
+            max-width: 860px; margin: 0 auto 80px;
+            background: rgba(8,12,28,0.85); backdrop-filter: blur(20px);
+            border-radius: 40px; border: 1px solid rgba(255,255,255,0.08);
+            padding: 52px 44px; box-shadow: 0 40px 60px -20px rgba(0,0,0,0.8);
         }
-        .install-section h2 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 48px;
-            background: linear-gradient(to right, #e2e8f0, #c084fc);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .step {
-            display: flex;
-            gap: 24px;
-            margin-bottom: 36px;
-        }
+        .install-section h2 { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 48px; background: linear-gradient(to right, #e2e8f0, #c084fc); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .step { display: flex; gap: 22px; margin-bottom: 32px; }
         .step-number {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(145deg, #a855f7, #7c3aed);
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-            box-shadow: 0 8px 14px -6px #7c3aed40;
+            width: 40px; height: 40px; background: linear-gradient(145deg, #8b5cf6, #7c3aed);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; flex-shrink: 0;
+            box-shadow: 0 6px 12px -4px rgba(124,58,237,0.5);
         }
-        .step-content h4 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        .step-content p {
-            color: #b3c2db;
-        }
+        .step-content h4 { font-family: 'Syne', sans-serif; font-size: 1.1rem; margin-bottom: 8px; font-weight: 700; }
+        .step-content p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.65; font-weight: 300; }
         .mac-warning {
-            background: rgba(253, 186, 39, 0.08);
-            border-left: 4px solid #fbbf24;
-            border-radius: 20px;
-            padding: 16px 20px;
-            margin: 16px 0 8px;
-            display: flex;
-            gap: 16px;
-        }
-        .chip-info {
-            display: inline-block;
-            background: rgba(168,85,247,0.2);
-            border-radius: 40px;
-            padding: 6px 14px;
-            font-size: 0.75rem;
-            margin-top: 12px;
-            color: #d8b4fe;
+            background: rgba(251,191,36,0.06); border-left: 3px solid #fbbf24;
+            border-radius: 16px; padding: 14px 18px; margin: 14px 0;
+            display: flex; gap: 14px; font-size: 0.84rem; color: #d4b46a; line-height: 1.5;
         }
         .code-block {
-            background: #020617;
-            border: 1px solid #334155;
-            border-radius: 20px;
-            padding: 16px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            margin-top: 16px;
-            backdrop-filter: blur(4px);
+            background: #010309; border: 1px solid #1e293b; border-radius: 16px;
+            padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;
+            margin-top: 14px; font-family: 'SF Mono','Fira Code',monospace;
         }
-        .code-block code {
-            color: #e2e8f0;
-            font-size: 0.85rem;
-            word-break: break-all;
-        }
-        .code-block i {
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: #a0aec0;
-            transition: 0.2s;
-        }
-        .code-block i:hover {
-            color: #c084fc;
-        }
+        .code-block code { color: #7dd3fc; font-size: 0.83rem; }
+        .code-block i { cursor: pointer; color: #475569; transition: 0.2s; }
+        .code-block i:hover { color: #a855f7; }
+        .chip-info { display: inline-flex; align-items: center; gap: 6px; background: rgba(168,85,247,0.12); border-radius: 30px; padding: 5px 12px; font-size: 0.72rem; margin-top: 10px; color: #c084fc; border: 1px solid rgba(168,85,247,0.2); }
+
         .btn-download {
+            position: relative; overflow: hidden;
             background: linear-gradient(105deg, #8b5cf6, #ec4899);
-            border: none;
-            width: 100%;
-            padding: 18px 28px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1.05rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            margin-top: 32px;
-            cursor: pointer;
-            transition: all 0.25s;
-            color: white;
-            box-shadow: 0 12px 20px -10px #a855f7;
-            text-decoration: none;
+            border: none; width: 100%; padding: 18px 28px; border-radius: 50px;
+            font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+            margin-top: 36px; cursor: pointer; transition: all 0.25s;
+            color: white; box-shadow: 0 12px 24px -8px rgba(139,92,246,0.6); text-decoration: none;
         }
-        .btn-download:hover {
-            transform: scale(1.01);
-            box-shadow: 0 20px 30px -12px #c084fc;
-            letter-spacing: 0.3px;
+        .btn-download::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            animation: shimmer 2.5s ease-in-out infinite;
         }
+        @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
+        .btn-download:hover { transform: scale(1.015); box-shadow: 0 20px 36px -10px rgba(168,85,247,0.75); }
+
+        /* ─── FAQ ─── */
+        .faq-section { max-width: 760px; margin: 0 auto; padding: 0 0 100px; }
+        .faq-section h2 { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 48px; }
+        .faq-item {
+            background: rgba(10,15,30,0.6); border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 20px; margin-bottom: 12px; overflow: hidden; transition: border-color 0.25s;
+        }
+        .faq-item.open { border-color: rgba(168,85,247,0.35); }
+        .faq-q {
+            padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; font-weight: 600; font-size: 0.92rem; gap: 16px;
+            font-family: 'Syne', sans-serif; transition: color 0.2s;
+        }
+        .faq-q:hover { color: #c4b5fd; }
+        .faq-q i { color: #a855f7; transition: transform 0.3s; flex-shrink: 0; }
+        .faq-item.open .faq-q i { transform: rotate(180deg); }
+        .faq-a { padding: 0 24px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; font-weight: 300; }
+        .faq-item.open .faq-a { max-height: 200px; padding-bottom: 20px; }
+
+        /* ─── FOOTER ─── */
         footer {
-            text-align: center;
-            padding: 40px 0;
+            text-align: center; padding: 48px 0 32px;
             border-top: 1px solid rgba(255,255,255,0.05);
-            color: #6c7a91;
-            font-size: 0.8rem;
         }
+        .footer-logo { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; background: linear-gradient(120deg, #fff, #c084fc); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 10px; }
+        footer p { color: var(--text-dim); font-size: 0.78rem; margin-top: 8px; }
+        .footer-links { display: flex; gap: 24px; justify-content: center; margin: 16px 0; }
+        .footer-links a { color: var(--text-dim); font-size: 0.8rem; text-decoration: none; transition: color 0.2s; }
+        .footer-links a:hover { color: #c084fc; }
 
+        /* ─── REVEAL ANIMATION ─── */
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ─── RESPONSIVE ─── */
         @media (max-width: 960px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                gap: 48px;
-                text-align: center;
-            }
-            .hero-content {
-                text-align: center;
-            }
-            .hero-content p {
-                max-width: 100%;
-            }
-            .hero-stats {
-                justify-content: center;
-            }
-            .install-section {
-                padding: 32px 24px;
-            }
-            .step {
-                flex-direction: column;
-                gap: 12px;
-            }
+            .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+            .hero-content { text-align: center; }
+            .hero-content p { max-width: 100%; }
+            .hero-actions { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            .flow { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+            .flow::before { display: none; }
+            .bento { grid-template-columns: 1fr; }
+            .bento-card.wide { grid-column: span 1; }
+            .privacy-inner { grid-template-columns: 1fr; gap: 36px; padding: 36px 28px; }
+            .features-header { flex-direction: column; gap: 16px; text-align: center; }
+            .install-section { padding: 32px 24px; }
+            .step { flex-direction: column; gap: 10px; }
+            .nav-links { display: none; }
         }
-        @media (max-width: 520px) {
-            .app-body {
-                padding: 16px;
-            }
-            .chat-bubble {
-                max-width: 95%;
-            }
+        @media (max-width: 600px) {
+            .flow { grid-template-columns: 1fr; }
+            .bento { gap: 14px; }
+            .integrations-grid { gap: 12px; }
+            .integration-card { min-width: 150px; }
         }
 
-        ::selection {
-            background: #a855f7;
-            color: white;
-        }
-        .fa-microphone, .fa-paperclip, .fa-circle-arrow-up {
-            cursor: pointer;
-        }
+        ::selection { background: #7c3aed; color: white; }
     </style>
 </head>
 <body>
+    <canvas id="particles"></canvas>
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
 
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-sparkles logo-icon"></i> AXIOM
+        </div>
+        <div class="nav-links">
+            <a href="#how">Cómo funciona</a>
+            <a href="#features">Funciones</a>
+            <a href="#privacy">Privacidad</a>
+            <a href="#install">Instalar</a>
+            <a href="#faq">FAQ</a>
+        </div>
+        <div class="nav-badge"><i class="fa-solid fa-code-branch"></i> v0.1.0-beta</div>
+    </nav>
+
     <div class="container">
-        <header class="navbar">
-            <div class="logo">
-                <i class="fa-solid fa-sparkles logo-icon"></i> AXIOM
-            </div>
-            <div class="nav-badge">
-                <i class="fa-regular fa-gem"></i> v0.1.0-beta
-            </div>
-        </header>
 
-        <div class="hero-grid">
-            <div class="hero-content">
-                <div class="tagline">
-                    <i class="fa-regular fa-message"></i> Cero código. Solo dile lo que necesitas.
+        <!-- HERO -->
+        <section class="hero" id="hero">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="tagline reveal">
+                        <span class="dot"></span>
+                        Cero código. Solo dile lo que necesitas.
+                    </div>
+                    <h1 class="reveal reveal-delay-1">Tu Mac,<br><span class="grad">mágicamente<br>autónoma.</span></h1>
+                    <p class="reveal reveal-delay-2">Sin terminales ni configuraciones. AXIOM es un agente nativo que escucha, lee y actúa — con privacidad total gracias a IA local.</p>
+                    <div class="hero-actions reveal reveal-delay-3">
+                        <a href="#install" class="btn-primary"><i class="fa-brands fa-apple"></i> Descargar gratis</a>
+                        <a href="#how" class="btn-ghost"><i class="fa-solid fa-play"></i> Cómo funciona</a>
+                    </div>
+                    <div class="hero-stats reveal reveal-delay-4">
+                        <div class="stat"><i class="fa-solid fa-bolt"></i> Respuesta en tiempo real</div>
+                        <div class="stat"><i class="fa-solid fa-lock"></i> 100% local</div>
+                        <div class="stat"><i class="fa-brands fa-apple"></i> macOS nativo</div>
+                    </div>
                 </div>
-                <h1>Tu Mac, <span class="hero-gradient-text">mágicamente autónoma.</span></h1>
-                <p>Sin terminales ni configuraciones complejas. AXIOM es una hermosa app nativa que escucha, lee y actúa por ti, totalmente segura en su propio espacio de trabajo.</p>
-                <div class="hero-stats">
-                    <div class="stat"><i class="fa-regular fa-clock"></i> Tiempo real</div>
-                    <div class="stat"><i class="fa-solid fa-laptop-code"></i> Nativa macOS</div>
-                    <div class="stat"><i class="fa-solid fa-shield-heart"></i> Sandbox seguro</div>
-                </div>
-            </div>
 
-            <div class="app-mockup">
-                <div class="app-header">
-                    <div class="mac-dots">
-                        <div class="red"></div><div class="yellow"></div><div class="green"></div>
+                <div class="app-mockup reveal reveal-delay-2">
+                    <div class="app-header">
+                        <div class="mac-dots">
+                            <div class="red"></div><div class="yellow"></div><div class="green"></div>
+                        </div>
+                        <div class="app-title">AXIOM · Agente IA</div>
+                        <div class="app-status"><span class="status-dot"></span> Activo</div>
                     </div>
-                    <div class="app-title">AXIOM Assistant</div>
-                    <i class="fa-solid fa-sliders-h" style="color: #6c7a91; margin-left: auto;"></i>
-                </div>
-                <div class="app-body">
-                    <div class="chat-bubble chat-user">
-                        "Lee los últimos 5 correos de Carlos y genera un resumen en PDF para nuestra reunión."
-                    </div>
-                    <div class="chat-bubble chat-ai">
-                        <div class="ai-icon"><i class="fa-solid fa-sparkles"></i></div>
-                        <div>
-                            <strong style="display: block; margin-bottom: 6px; font-size: 13px;">AXIOM · IA</strong>
-                            <span>¡Listo! He leído los correos. Aquí tienes el resumen en PDF que pediste, guardado de forma segura en tu espacio de trabajo.</span>
-                            <div class="file-attach">
-                                <i class="fa-regular fa-file-pdf" style="color: #f87171; font-size: 22px;"></i>
-                                <div>
-                                    <div style="font-weight: 600; font-size: 13px;">Resumen_Reunion.pdf</div>
-                                    <div style="font-size: 10px; opacity: 0.7;">Generado ahora · 124 KB</div>
+                    <div class="app-body" id="chatBody">
+                        <div class="chat-bubble chat-user" id="userMsg" style="opacity:0;transform:translateY(10px);transition:all 0.5s">
+                            "Lee los últimos 5 correos de Carlos y genera un resumen en PDF."
+                        </div>
+                        <div class="chat-bubble chat-ai" id="typingMsg" style="opacity:0;transform:translateY(10px);transition:all 0.5s">
+                            <div class="ai-avatar"><i class="fa-solid fa-sparkles" style="font-size:11px"></i></div>
+                            <div class="typing-indicator">
+                                <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+                            </div>
+                        </div>
+                        <div class="chat-bubble chat-ai" id="aiReply" style="opacity:0;transform:translateY(10px);transition:all 0.5s;display:none">
+                            <div class="ai-avatar"><i class="fa-solid fa-sparkles" style="font-size:11px"></i></div>
+                            <div class="ai-text">
+                                <strong>AXIOM · IA</strong>
+                                ¡Listo! Leí los 5 correos y generé tu resumen. Guardado en el sandbox de forma segura.
+                                <div class="file-chip">
+                                    <i class="fa-regular fa-file-pdf" style="color:#f87171;font-size:18px"></i>
+                                    <div>
+                                        <div style="font-weight:600;font-size:0.78rem">Resumen_Reunion.pdf</div>
+                                        <div style="font-size:0.68rem;opacity:0.6">Generado ahora · 124 KB</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="app-input">
-                    <span>Escribe o dicta tu petición...</span>
-                    <div class="input-actions">
-                        <i class="fa-solid fa-microphone"></i>
-                        <i class="fa-solid fa-paperclip"></i>
-                        <i class="fa-solid fa-circle-arrow-up"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <section class="features">
-            <div class="feature-card">
-                <div class="icon-wrapper"><i class="fa-solid fa-comments"></i></div>
-                <h3>Lenguaje Natural</h3>
-                <p>Olvídate de programar o usar comandos complejos. Habla o escribe con normalidad y AXIOM entenderá exactamente lo que quieres hacer.</p>
-            </div>
-            <div class="feature-card">
-                <div class="icon-wrapper"><i class="fa-solid fa-envelope-open-text"></i></div>
-                <h3>Piloto Automático</h3>
-                <p>Deja que la app gestione tus tareas. Lee hilos de correo, sugiere respuestas y genera archivos sin que tengas que salir de la interfaz.</p>
-            </div>
-            <div class="feature-card">
-                <div class="icon-wrapper"><i class="fa-solid fa-shield-check"></i></div>
-                <h3>Totalmente Segura</h3>
-                <p>Todo lo que hace AXIOM ocurre en un entorno aislado (sandbox). Tus archivos y tu sistema están a salvo. Tú siempre tienes el control.</p>
-            </div>
-        </section>
-
-        <section class="install-section">
-            <h2>Instalación y Configuración Inicial</h2>
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h4>Descarga la App</h4>
-                    <p>Haz clic en el botón de abajo para descargar el archivo <strong>.dmg</strong> (versión para Apple Silicon M1/M2/M3/M4). Una vez descargado, ábrelo y arrastra el ícono de AXIOM a tu carpeta de Aplicaciones.</p>
-                    <div class="chip-info"><i class="fa-solid fa-microchip"></i> Build para aarch64 (Macs con chip Apple)</div>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h4>Aviso de seguridad de macOS</h4>
-                    <div class="mac-warning">
-                        <i class="fa-solid fa-triangle-exclamation" style="font-size: 22px;"></i>
-                        <div>
-                            <strong>Nota importante:</strong> Como AXIOM aún se encuentra en fase Beta y no cuenta con la firma de desarrollador oficial de Apple, al intentar abrirla por primera vez es muy probable que macOS te muestre un error diciendo que <em>"la aplicación está dañada y debe trasladarse a la papelera"</em>. Esto es completamente normal.
+                    <div class="app-input">
+                        <span>Escribe o dicta tu petición...</span>
+                        <div class="input-icons">
+                            <i class="fa-solid fa-microphone" id="micBtn"></i>
+                            <i class="fa-solid fa-paperclip"></i>
+                            <i class="fa-solid fa-circle-arrow-up"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h4>Autoriza la aplicación</h4>
-                    <p>Para solucionar el aviso de macOS y permitir que AXIOM se ejecute, abre la aplicación <strong>Terminal</strong> en tu Mac (la puedes buscar en Spotlight), copia y pega el siguiente comando, y presiona Enter:</p>
-                    <div class="code-block">
-                        <code id="installCommand">xattr -cr /Applications/AXIOM.app</code>
-                        <i class="fa-regular fa-copy" id="copyBtn" title="Copiar comando"></i>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="how-section" id="how">
+            <div class="how-header reveal">
+                <span class="section-label">CÓMO FUNCIONA</span>
+                <h2 class="section-title">Del lenguaje<br>a la acción</h2>
+                <span class="section-sub" style="display:block;margin:0 auto;margin-top:12px">Cuatro pasos simples separan tu idea de un resultado real.</span>
+            </div>
+            <div class="flow">
+                <div class="flow-step reveal">
+                    <div class="flow-icon">
+                        <span class="flow-num">1</span>
+                        <i class="fa-solid fa-keyboard" style="font-size:30px"></i>
+                    </div>
+                    <h4>Escribe o dicta</h4>
+                    <p>Expresa tu tarea en español natural. Sin comandos ni sintaxis especial.</p>
+                </div>
+                <div class="flow-step reveal reveal-delay-1">
+                    <div class="flow-icon">
+                        <span class="flow-num">2</span>
+                        <i class="fa-solid fa-brain" style="font-size:30px"></i>
+                    </div>
+                    <h4>AXIOM entiende</h4>
+                    <p>El modelo Qwen local descompone tu petición en pasos accionables.</p>
+                </div>
+                <div class="flow-step reveal reveal-delay-2">
+                    <div class="flow-icon">
+                        <span class="flow-num">3</span>
+                        <i class="fa-solid fa-gears" style="font-size:30px"></i>
+                    </div>
+                    <h4>Ejecuta herramientas</h4>
+                    <p>Accede a correos, archivos o Telegram según lo que necesites.</p>
+                </div>
+                <div class="flow-step reveal reveal-delay-3">
+                    <div class="flow-icon">
+                        <span class="flow-num">4</span>
+                        <i class="fa-solid fa-circle-check" style="font-size:30px"></i>
+                    </div>
+                    <h4>Entrega el resultado</h4>
+                    <p>Archivos, respuestas o acciones completadas. Tú supervisas siempre.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES BENTO -->
+        <section class="features-section" id="features">
+            <div class="features-header">
+                <div>
+                    <span class="section-label">FUNCIONES</span>
+                    <h2 class="section-title">Un agente de verdad.<br>No un chatbot más.</h2>
+                </div>
+                <p class="section-sub" style="max-width:340px">Diseñado para automatizar las tareas que más tiempo te roban cada día.</p>
+            </div>
+            <div class="bento">
+                <div class="bento-card featured reveal">
+                    <div class="bento-icon"><i class="fa-solid fa-comments"></i></div>
+                    <h3>Lenguaje Natural</h3>
+                    <p>Habla o escribe con total normalidad. AXIOM interpreta el contexto, no solo las palabras. No necesitas aprender ningún comando.</p>
+                </div>
+                <div class="bento-card reveal reveal-delay-1">
+                    <div class="bento-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                    <h3>Gestión de correo</h3>
+                    <p>Lee, clasifica y sugiere respuestas a tus correos. Integrado con Gmail vía IMAP/SMTP.</p>
+                </div>
+                <div class="bento-card reveal reveal-delay-2">
+                    <div class="bento-icon"><i class="fa-brands fa-telegram"></i></div>
+                    <h3>Bot de Telegram</h3>
+                    <p>Envía y recibe mensajes en Telegram directamente desde el agente, sin abrir la app.</p>
+                </div>
+                <div class="bento-card reveal reveal-delay-1">
+                    <div class="bento-icon"><i class="fa-solid fa-file-export"></i></div>
+                    <h3>Generación de archivos</h3>
+                    <p>PDFs, documentos y resúmenes creados en segundos y guardados en tu sandbox seguro.</p>
+                </div>
+                <div class="bento-card wide featured reveal reveal-delay-2">
+                    <div class="bento-icon"><i class="fa-solid fa-shield-check"></i></div>
+                    <h3>Sandbox completamente aislado</h3>
+                    <p>Todo lo que AXIOM hace ocurre dentro de un entorno restringido. Tus archivos de sistema, credenciales y aplicaciones están protegidos. Tú siempre mantienes el control y apruebas las acciones importantes antes de ejecutarse.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTEGRATIONS -->
+        <section class="integrations-section" id="integrations">
+            <div class="integrations-header reveal">
+                <span class="section-label">INTEGRACIONES</span>
+                <h2 class="section-title" style="font-size:2rem">Conectado a lo que ya usas</h2>
+            </div>
+            <div class="integrations-grid">
+                <div class="integration-card reveal">
+                    <div class="integration-icon int-gmail"><i class="fa-brands fa-google"></i></div>
+                    <div>
+                        <div class="integration-label">Gmail</div>
+                        <div class="integration-sub">IMAP / SMTP</div>
+                        <span class="int-badge live">Activo</span>
+                    </div>
+                </div>
+                <div class="integration-card reveal reveal-delay-1">
+                    <div class="integration-icon int-telegram"><i class="fa-brands fa-telegram"></i></div>
+                    <div>
+                        <div class="integration-label">Telegram</div>
+                        <div class="integration-sub">Bot API</div>
+                        <span class="int-badge live">Activo</span>
+                    </div>
+                </div>
+                <div class="integration-card reveal reveal-delay-2">
+                    <div class="integration-icon int-files"><i class="fa-solid fa-folder-open"></i></div>
+                    <div>
+                        <div class="integration-label">Archivos</div>
+                        <div class="integration-sub">Finder / Sandbox</div>
+                        <span class="int-badge live">Activo</span>
+                    </div>
+                </div>
+                <div class="integration-card reveal reveal-delay-3">
+                    <div class="integration-icon int-mac"><i class="fa-brands fa-apple"></i></div>
+                    <div>
+                        <div class="integration-label">macOS</div>
+                        <div class="integration-sub">Nativo · Tauri</div>
+                        <span class="int-badge live">Activo</span>
+                    </div>
+                </div>
+                <div class="integration-card reveal reveal-delay-4">
+                    <div class="integration-icon int-ollama"><i class="fa-solid fa-microchip"></i></div>
+                    <div>
+                        <div class="integration-label">Ollama / Qwen</div>
+                        <div class="integration-sub">IA 100% local</div>
+                        <span class="int-badge live">Activo</span>
+                    </div>
+                </div>
+                <div class="integration-card reveal reveal-delay-1" style="opacity:0.6">
+                    <div class="integration-icon" style="background:rgba(100,116,139,0.1);color:#64748b"><i class="fa-brands fa-slack"></i></div>
+                    <div>
+                        <div class="integration-label" style="color:#64748b">Slack</div>
+                        <div class="integration-sub">Mensajería</div>
+                        <span class="int-badge soon">Próximo</span>
                     </div>
                 </div>
             </div>
-            <div class="step">
+        </section>
+
+        <!-- PRIVACY -->
+        <section class="privacy-section" id="privacy">
+            <div class="privacy-inner reveal">
+                <div class="privacy-visual">
+                    <span class="section-label">PRIVACIDAD</span>
+                    <h2 class="section-title" style="font-size:2.2rem;margin-bottom:16px">Tu IA, en tu Mac.<br>Sin nubes.</h2>
+                    <p class="section-sub" style="max-width:100%;margin-bottom:28px">A diferencia de los asistentes de IA en la nube, AXIOM corre el modelo Qwen2.5 completamente en tu hardware mediante Ollama. Ningún dato tuyo sale de tu equipo.</p>
+                    <div style="display:flex;gap:32px;flex-wrap:wrap">
+                        <div class="priv-stat">
+                            <div class="priv-num">0</div>
+                            <div class="priv-desc">bytes enviados<br>a servidores externos</div>
+                        </div>
+                        <div class="priv-stat">
+                            <div class="priv-num">100%</div>
+                            <div class="priv-desc">inferencia local<br>con Ollama + Qwen</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="privacy-visual">
+                    <div class="priv-row"><i class="fa-solid fa-circle-check"></i><span class="label">Modelo de IA corre localmente</span><span class="check"><i class="fa-solid fa-check"></i></span></div>
+                    <div class="priv-row"><i class="fa-solid fa-circle-check"></i><span class="label">Datos de correo nunca salen del Mac</span><span class="check"><i class="fa-solid fa-check"></i></span></div>
+                    <div class="priv-row"><i class="fa-solid fa-circle-check"></i><span class="label">Sandbox aislado del sistema</span><span class="check"><i class="fa-solid fa-check"></i></span></div>
+                    <div class="priv-row"><i class="fa-solid fa-circle-check"></i><span class="label">Funciona sin conexión a internet</span><span class="check"><i class="fa-solid fa-check"></i></span></div>
+                    <div class="priv-row"><i class="fa-solid fa-circle-check"></i><span class="label">Sin telemetría ni seguimiento</span><span class="check"><i class="fa-solid fa-check"></i></span></div>
+                    <div class="priv-row"><i class="fa-solid fa-circle-check"></i><span class="label">Tú apruebas las acciones críticas</span><span class="check"><i class="fa-solid fa-check"></i></span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INSTALL -->
+        <section class="install-section" id="install">
+            <h2>Instalación en 4 pasos</h2>
+            <div class="step reveal">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Descarga la App</h4>
+                    <p>Haz clic en el botón de abajo para descargar el archivo <strong>.dmg</strong>. Una vez descargado, ábrelo y arrastra AXIOM a tu carpeta de Aplicaciones.</p>
+                    <span class="chip-info"><i class="fa-solid fa-microchip"></i> Build aarch64 · Apple Silicon M1 / M2 / M3 / M4</span>
+                </div>
+            </div>
+            <div class="step reveal reveal-delay-1">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Aviso de seguridad de macOS</h4>
+                    <div class="mac-warning">
+                        <i class="fa-solid fa-triangle-exclamation" style="font-size:20px;color:#fbbf24;flex-shrink:0;margin-top:2px"></i>
+                        <div>Como AXIOM está en fase Beta y aún no tiene firma oficial de Apple, macOS puede mostrar el mensaje <em>"la aplicación está dañada"</em>. Esto es completamente normal en apps en desarrollo.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="step reveal reveal-delay-2">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Autoriza la aplicación</h4>
+                    <p>Abre <strong>Terminal</strong> (búscala en Spotlight), copia el comando y presiona Enter:</p>
+                    <div class="code-block">
+                        <code id="installCommand">xattr -cr /Applications/AXIOM.app</code>
+                        <i class="fa-regular fa-copy" id="copyBtn"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="step reveal reveal-delay-3">
                 <div class="step-number">4</div>
                 <div class="step-content">
                     <h4>¡Todo listo!</h4>
-                    <p>Ya puedes cerrar la Terminal y abrir AXIOM normalmente desde tu Launchpad o carpeta de Aplicaciones.</p>
+                    <p>Cierra la Terminal y abre AXIOM desde Launchpad o tu carpeta de Aplicaciones. Asegúrate de tener Ollama corriendo en tu Mac.</p>
                 </div>
             </div>
 
-            <!-- Enlace de descarga REAL desde GitHub Releases -->
-            <a href="https://github.com/zerogapcode/AXIOM/releases/download/v0.1.0-beta/AXIOM_0.1.0_aarch64.dmg" 
-               class="btn-download" 
-               download>
-                <i class="fa-brands fa-apple"></i> Descargar AXIOM para macOS (Apple Silicon)
+            <a href="https://github.com/zerogapcode/AXIOM/releases/download/v0.1.0-beta/AXIOM_0.1.0_aarch64.dmg"
+               class="btn-download reveal" download>
+                <i class="fa-brands fa-apple"></i> Descargar AXIOM · macOS Apple Silicon
             </a>
-            <p style="text-align: center; margin-top: 20px; font-size: 0.75rem; color: #6c7a91;">
-                <i class="fa-regular fa-circle-check"></i> Versión v0.1.0-beta · Archivo nativo para M1/M2/M3/M4
+            <p style="text-align:center;margin-top:16px;font-size:0.72rem;color:var(--text-dim)">
+                <i class="fa-regular fa-circle-check" style="color:#4ade80"></i> v0.1.0-beta · Gratis · Requiere macOS 12+ y Ollama
             </p>
         </section>
 
-        <footer>
-            <p>© 2026 AXIOM — La App Inteligente para Mac mini y macOS. · Diseño visionario</p>
-        </footer>
-    </div>
+        <!-- FAQ -->
+        <section class="faq-section" id="faq">
+            <h2 class="reveal" style="font-family:'Syne',sans-serif">Preguntas frecuentes</h2>
+            <div class="faq-item reveal">
+                <div class="faq-q">¿Necesito pagar para usar AXIOM? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-a">No. AXIOM es completamente gratuito en su versión beta. Usamos Ollama con el modelo Qwen2.5:7b, que también es de uso libre. No hay suscripciones.</div>
+            </div>
+            <div class="faq-item reveal reveal-delay-1">
+                <div class="faq-q">¿Funciona con Intel Mac? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-a">La versión actual está compilada para Apple Silicon (M1/M2/M3/M4). Un build para Intel x86-64 está en el roadmap para versiones futuras.</div>
+            </div>
+            <div class="faq-item reveal reveal-delay-2">
+                <div class="faq-q">¿Mis datos y correos son privados? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-a">Absolutamente. La IA corre de forma local en tu Mac mediante Ollama. Ningún dato sale de tu equipo. Tu correo se lee y procesa únicamente en la memoria de tu computadora.</div>
+            </div>
+            <div class="faq-item reveal reveal-delay-3">
+                <div class="faq-q">¿Necesito saber programar para usarlo? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-a">Para nada. AXIOM está diseñado para usuarios no técnicos. Si puedes escribir un mensaje de WhatsApp, puedes usar AXIOM.</div>
+            </div>
+            <div class="faq-item reveal reveal-delay-4">
+                <div class="faq-q">¿Qué pasa si AXIOM intenta hacer algo que no quiero? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-a">Para acciones sensibles (como enviar correos o eliminar archivos), AXIOM siempre te pide confirmación antes de proceder. Tú tienes el control final en todo momento.</div>
+            </div>
+        </section>
+
+    </div><!-- /container -->
+
+    <footer>
+        <div class="footer-logo"><i class="fa-solid fa-sparkles" style="font-size:1rem;color:#a855f7"></i> AXIOM</div>
+        <div class="footer-links">
+            <a href="https://github.com/zerogapcode/AXIOM" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#install">Descargar</a>
+            <a href="#faq">FAQ</a>
+            <a href="#privacy">Privacidad</a>
+        </div>
+        <p>© 2026 AXIOM · Hecho con <i class="fa-solid fa-heart" style="color:#ec4899"></i> por ProtonLab</p>
+    </footer>
+
     <script>
-        // Microphone simulation
-        const micIcon = document.querySelector('.fa-microphone');
-        if(micIcon) {
-            micIcon.addEventListener('click', () => {
-                micIcon.style.color = '#f43f5e';
-                micIcon.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    micIcon.style.color = '#c084fc';
-                    micIcon.style.transform = 'scale(1)';
-                }, 1300);
-            });
-        }
+    // ── Particles ──────────────────────────────────────────────
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let pts = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+    for (let i = 0; i < 60; i++) {
+        pts.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+            r: Math.random() * 1.5 + 0.5, a: Math.random() });
+    }
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pts.forEach(p => {
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(168,85,247,${p.a * 0.5})`; ctx.fill();
+            p.x += p.vx; p.y += p.vy; p.a = 0.2 + 0.4 * Math.sin(Date.now() * 0.001 + p.x);
+            if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+            if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+        });
+        requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
 
-        // Copy command functionality
-        const copyBtn = document.getElementById('copyBtn');
-        const commandTextElem = document.getElementById('installCommand');
-        
-        if(copyBtn && commandTextElem) {
-            copyBtn.addEventListener('click', () => {
-                const command = commandTextElem.innerText;
-                navigator.clipboard.writeText(command).then(() => {
-                    const originalClass = copyBtn.className;
-                    copyBtn.className = 'fa-regular fa-circle-check';
-                    copyBtn.style.color = '#4ade80';
-                    setTimeout(() => {
-                        copyBtn.className = 'fa-regular fa-copy';
-                        copyBtn.style.color = '#a0aec0';
-                    }, 2000);
-                }).catch(() => {
-                    alert('No se pudo copiar, intenta manualmente');
-                });
-            });
-        }
+    // ── Scroll Reveal ─────────────────────────────────────────
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-        // Paperclip & arrow demo (optional)
-        const paperclip = document.querySelector('.fa-paperclip');
-        if(paperclip) {
-            paperclip.addEventListener('click', () => {
-                alert('✨ Sube documentos o imágenes directamente desde Finder (próximamente)');
+    // ── Hero visible immediately ──────────────────────────────
+    document.querySelectorAll('.hero .reveal').forEach(el => {
+        setTimeout(() => el.classList.add('visible'), 200);
+    });
+
+    // ── Chat animation ────────────────────────────────────────
+    const userMsg = document.getElementById('userMsg');
+    const typingMsg = document.getElementById('typingMsg');
+    const aiReply = document.getElementById('aiReply');
+
+    function animateChat() {
+        setTimeout(() => { userMsg.style.opacity = '1'; userMsg.style.transform = 'translateY(0)'; }, 800);
+        setTimeout(() => { typingMsg.style.opacity = '1'; typingMsg.style.transform = 'translateY(0)'; }, 1600);
+        setTimeout(() => {
+            typingMsg.style.display = 'none';
+            aiReply.style.display = 'flex';
+            requestAnimationFrame(() => { aiReply.style.opacity = '1'; aiReply.style.transform = 'translateY(0)'; });
+        }, 3800);
+        setTimeout(() => {
+            [userMsg, typingMsg, aiReply].forEach(el => { el.style.transition = 'all 0.5s'; el.style.opacity = '0'; el.style.transform = 'translateY(10px)'; });
+            typingMsg.style.display = '';
+            setTimeout(() => {
+                [userMsg, typingMsg, aiReply].forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(10px)'; });
+                aiReply.style.display = 'none';
+                animateChat();
+            }, 600);
+        }, 7000);
+    }
+    animateChat();
+
+    // ── Mic click ─────────────────────────────────────────────
+    const micBtn = document.getElementById('micBtn');
+    if (micBtn) {
+        micBtn.addEventListener('click', () => {
+            micBtn.style.color = '#f43f5e'; micBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => { micBtn.style.color = '#a855f7'; micBtn.style.transform = 'scale(1)'; }, 1200);
+        });
+    }
+
+    // ── Copy command ──────────────────────────────────────────
+    const copyBtn = document.getElementById('copyBtn');
+    const cmdText = document.getElementById('installCommand');
+    if (copyBtn && cmdText) {
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(cmdText.innerText).then(() => {
+                copyBtn.className = 'fa-regular fa-circle-check'; copyBtn.style.color = '#4ade80';
+                setTimeout(() => { copyBtn.className = 'fa-regular fa-copy'; copyBtn.style.color = '#475569'; }, 2000);
             });
-        }
-        const arrowUp = document.querySelector('.fa-circle-arrow-up');
-        if(arrowUp) {
-            arrowUp.addEventListener('click', () => {
-                alert('🔮 Procesando tu solicitud... (demo interactiva)');
-            });
-        }
+        });
+    }
+
+    // ── FAQ accordion ─────────────────────────────────────────
+    document.querySelectorAll('.faq-q').forEach(q => {
+        q.addEventListener('click', () => {
+            const item = q.parentElement;
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        });
+    });
+
+    // ── Navbar scroll tint ────────────────────────────────────
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('.navbar');
+        nav.style.background = window.scrollY > 40 ? 'rgba(2,6,23,0.92)' : 'rgba(2,6,23,0.7)';
+    });
     </script>
 </body>
 </html>
