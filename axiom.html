@@ -369,6 +369,16 @@
         @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
         .btn-download:hover { transform: scale(1.015); box-shadow: 0 20px 36px -10px rgba(168,85,247,0.75); }
 
+        .btn-pdf {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; margin-top: 14px; padding: 14px 28px; border-radius: 50px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);
+            color: #cbd5e1; font-size: 0.9rem; font-weight: 500; text-decoration: none;
+            transition: all 0.2s; backdrop-filter: blur(6px);
+        }
+        .btn-pdf i { color: #f87171; }
+        .btn-pdf:hover { background: rgba(248,113,113,0.08); border-color: rgba(248,113,113,0.4); color: white; }
+
         /* ─── FAQ ─── */
         .faq-section { max-width: 760px; margin: 0 auto; padding: 0 0 100px; }
         .faq-section h2 { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 48px; }
@@ -738,6 +748,11 @@
             <p style="text-align:center;margin-top:16px;font-size:0.72rem;color:var(--text-dim)">
                 <i class="fa-regular fa-circle-check" style="color:#4ade80"></i> v0.1.0-beta · Gratis · Requiere macOS 12+ y Ollama
             </p>
+
+            <a href="https://github.com/zerogapcode/AXIOM/releases/download/v0.1.0-beta/AXIOM.pdf"
+               class="btn-pdf reveal" download>
+                <i class="fa-regular fa-file-pdf"></i> Descargar Guía de Instalación (PDF)
+            </a>
         </section>
 
         <!-- FAQ -->
