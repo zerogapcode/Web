@@ -168,11 +168,13 @@
             transform: translateY(-2px);
         }
         .btn-disabled {
-            background-color: var(--disabled);
-            color: var(--white);
+            background-color: var(--disabled) !important;
+            color: var(--white) !important;
             cursor: not-allowed;
-            opacity: 0.6;
+            opacity: 0.7;
             pointer-events: none;
+            box-shadow: none;
+            transform: none;
         }
         .features {
             padding: 100px 0;
@@ -343,6 +345,10 @@
                 gap: 10px;
             }
         }
+        /* tooltip o estilo adicional para botones deshabilitados */
+        .btn-disabled small, .btn-disabled i {
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
@@ -365,7 +371,7 @@
     <header id="inicio" class="hero">
         <div class="container">
             <h1>MediCloud: Tu consultorio médico en la nube</h1>
-            <p>Software de gestión clínica seguro, multi-doctor y con separación total de datos. Diseñado para potenciar cualquier especialidad médica. Descarga la versión para Windows, Android y macOS. Próximamente en iOS.</p>
+            <p>Software de gestión clínica seguro, multi-doctor y con separación total de datos. Diseñado para potenciar cualquier especialidad médica. Descarga la versión para Windows. Próximamente en más plataformas.</p>
             <a href="#descargas" class="btn btn-primary">
                 <i class="fa-solid fa-download"></i> Descarga MediCloud
             </a>
@@ -405,40 +411,40 @@
             <h2 class="section-title">Plataformas</h2>
             
             <div class="download-grid">
-                <!-- Windows -->
-                <a href="https://drive.google.com/file/d/1ogwaLhnjtzdFJprGmVawsuIexacbLMP8/view?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                <!-- Windows: ÚNICO ACTIVO con enlace GitHub -->
+                <a href="https://github.com/zerogapcode/MediCloud2/releases/download/v0.1.0/MediCloud_0.1.0_x64-setup.exe" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                     <i class="fa-brands fa-windows"></i> Windows
-                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Versión 1.2</small>
+                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Versión 0.1.0 (Instalador)</small>
                 </a>
                 
-                <!-- Android -->
-                <a href="https://drive.google.com/file/d/1zipj2tGs7rk0wfQ9mSnAIwpMLKO3nIqT/view?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                <!-- Android: DESHABILITADO (gris, sin enlace) -->
+                <span class="btn btn-disabled" title="No disponible actualmente">
                     <i class="fa-brands fa-android"></i> Android
-                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">APK v2.0</small>
-                </a>
-                
-                <!-- macOS (ACTUALIZADO) -->
-                <a href="https://drive.google.com/file/d/1MpuedZk_d3nneZOAYSLwvDKlMkNN2CUP/view?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                    <i class="fa-brands fa-apple"></i> macOS
-                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Versión 1.0</small>
-                </a>
-                
-                <!-- iOS (deshabilitado) -->
-                <a href="#" class="btn btn-disabled">
-                    <i class="fa-brands fa-app-store-ios"></i> iOS
                     <small style="font-weight: 300; font-size: 0.75rem; display: block;">Próximamente</small>
-                </a>
+                </span>
+                
+                <!-- macOS: DESHABILITADO (gris, sin enlace) -->
+                <span class="btn btn-disabled" title="No disponible actualmente">
+                    <i class="fa-brands fa-apple"></i> macOS
+                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Próximamente</small>
+                </span>
+                
+                <!-- iOS: DESHABILITADO ya tenía estilo disabled pero lo unificamos -->
+                <span class="btn btn-disabled" title="Próximamente">
+                    <i class="fa-brands fa-app-store-ios"></i> iOS
+                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">En desarrollo</small>
+                </span>
 
-                <!-- Versión Web (activo) -->
-                <a href="app.html" class="btn btn-primary">
+                <!-- Versión Web: COMPLETAMENTE ELIMINADA / DESHABILITADA (sin acceso) -->
+                <span class="btn btn-disabled" title="Próximamente disponible">
                     <i class="fa-solid fa-globe"></i> Versión Web
-                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Acceso desde navegador</small>
-                </a>
+                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Próximamente</small>
+                </span>
             </div>
 
             <div class="download-note">
-                <h4>Descarga directa para todas las plataformas</h4>
-                <p style="color: var(--text-light); font-size: 0.95rem;">Recibirás notificaciones cuando la versión para iOS esté lista.</p>
+                <h4>Descarga oficial (Windows)</h4>
+                <p style="color: var(--text-light); font-size: 0.95rem;">La versión estable para Windows ya está disponible. Próximamente lanzaremos versiones para Android, macOS, Web e iOS. Suscríbete para recibir novedades.</p>
                 <form class="subscribe-form" onsubmit="alertaSuscripcion(event)">
                     <input type="email" placeholder="Tu correo electrónico médico..." required>
                     <button type="submit" class="btn btn-secondary">Suscribirme</button>
@@ -501,6 +507,11 @@
                 behavior: 'smooth'
             });
         }
+
+        // Aseguramos que ningún elemento deshabilitado pueda recibir clics espurios (por redundancia)
+        document.querySelectorAll('.btn-disabled').forEach(btn => {
+            btn.style.pointerEvents = 'none';
+        });
     </script>
 </body>
 </html>
