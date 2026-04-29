@@ -1361,49 +1361,50 @@
         const heroGrid = document.getElementById('heroGrid');
         const hero = document.querySelector('.hero');
 
-        // Factores de parallax (bg más lento = sensación de mayor profundidad)
-        const BG_FACTOR = 0.35; // capa más lejana
-        const GRID_FACTOR = 0.55; // capa intermedia
-
+        // ── NUEVO PARALLAX CONTINUO ──
         let parallaxTicking = false;
 
         function updateParallax() {
             const rect = hero.getBoundingClientRect();
             const heroHeight = hero.offsetHeight;
+            const viewHeight = window.innerHeight;
 
-            // Solo aplicar si el hero es visible en el viewport
-            if (rect.bottom > 0 && rect.top < window.innerHeight) {
-                // scrollOffset positivo = usuario ha scrolleado hacia abajo dentro del hero
-                const scrollOffset = -rect.top;
+            // Solo aplicar si el hero es visible
+            if (rect.bottom > 0 && rect.top < viewHeight) {
+                // Mapeo lineal del progreso del hero en el viewport (0 a 1)
+                // 0 = justo cuando el hero comienza a ser visible
+                // 1 = cuando termina de salir por completo
+                const totalTravel = heroHeight + viewHeight;
+                const progress = Math.min(Math.max((viewHeight - rect.top) / totalTravel, 0), 1);
 
-                // Limitar el desplazamiento para que el bg no se salga de sus márgenes
-                const maxBgShift = heroHeight * 0.15; // 15% de margen (top: -15% en CSS)
-                const bgShift = Math.min(Math.max(scrollOffset * BG_FACTOR, -maxBgShift), maxBgShift);
-                const gridShift = Math.min(Math.max(scrollOffset * GRID_FACTOR, -maxBgShift * 0.66), maxBgShift * 0.66);
+                // Desplazamiento máximo permitido por las capas (según top/height negativos en CSS)
+                const maxBgShift = heroHeight * 0.15;   // 15% de la altura del hero
+                const maxGridShift = maxBgShift * 0.66; // proporcional menor para la cuadrícula
 
-                heroBg.style.transform = `translateY(${bgShift}px)`;
-                heroGrid.style.transform = `translateY(${gridShift}px)`;
+                heroBg.style.transform = `translateY(${progress * maxBgShift}px)`;
+                heroGrid.style.transform = `translateY(${progress * maxGridShift}px)`;
             }
             parallaxTicking = false;
         }
 
-        // ── NAV scroll effect + parallax scheduler ──
+        // ── NAV scroll effect + activador de parallax ──
         const nav = document.getElementById('nav');
         window.addEventListener('scroll', () => {
             nav.classList.toggle('scrolled', window.scrollY > 20);
             document.getElementById('btt').classList.toggle('show', window.scrollY > 400);
 
-            // Programar actualización de parallax con rAF (máximo 1 por frame)
             if (!parallaxTicking) {
                 requestAnimationFrame(updateParallax);
                 parallaxTicking = true;
             }
         }, { passive: true });
 
-        // Ejecutar parallax al cargar por si hay scroll previo (ej. recarga)
+        // Ejecutar al cargar y al redimensionar
         window.addEventListener('load', updateParallax, { once: true });
-        // También tras un resize (por si cambia la altura del hero)
-        window.addEventListener('resize', updateParallax, { passive: true });
+        window.addEventListener('resize', () => {
+            // Recalcular inmediatamente tras resize
+            updateParallax();
+        }, { passive: true });
 
         // ── Intersection Observer for animations ──
         const observer = new IntersectionObserver((entries) => {
