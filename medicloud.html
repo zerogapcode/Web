@@ -1,517 +1,814 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediCloud | Tu consultorio médico en la nube</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --primary: #2A9D8F;
-            --primary-dark: #21867a;
-            --secondary: #264653;
-            --background: #f4f7f6;
-            --text-dark: #333333;
-            --text-light: #6c757d;
-            --white: #ffffff;
-            --disabled: #adb5bd;
-            --font-main: 'Poppins', sans-serif;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: var(--font-main);
-            color: var(--text-dark);
-            background-color: var(--background);
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: auto;
-            padding: 0 20px;
-        }
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--secondary);
-            margin-bottom: 3rem;
-        }
-        section {
-            scroll-margin-top: 80px;
-        }
-        .navbar {
-            background-color: var(--white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-        .navbar .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px 20px;
-        }
-        .logo {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        .logo i {
-            color: var(--secondary);
-        }
-        .nav-links {
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin: 0;
-            padding: 0;
-        }
-        .nav-links li {
-            margin: 0;
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: var(--secondary);
-            font-weight: 600;
-            transition: color 0.3s ease;
-            font-size: 1rem;
-            white-space: nowrap;
-        }
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-        @media (min-width: 769px) {
-            .navbar .container {
-                flex-direction: row;
-                justify-content: space-between;
-            }
-            .logo {
-                margin-bottom: 0;
-            }
-            .nav-links {
-                gap: 25px;
-            }
-        }
-        .hero {
-            background: linear-gradient(rgba(38, 70, 83, 0.85), rgba(42, 157, 143, 0.85)), 
-                        url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
-            background-attachment: fixed;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: var(--white);
-            padding-top: 120px;
-        }
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 300;
-        }
-        .btn {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            border: none;
-            gap: 4px;
-            min-width: 160px;
-            text-align: center;
-        }
-        .btn-primary {
-            background-color: var(--primary);
-            color: var(--white);
-            box-shadow: 0 4px 15px rgba(42, 157, 143, 0.4);
-        }
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(42, 157, 143, 0.5);
-        }
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: var(--white);
-        }
-        .btn-secondary:hover {
-            background-color: #1d3543;
-            transform: translateY(-2px);
-        }
-        .btn-disabled {
-            background-color: var(--disabled) !important;
-            color: var(--white) !important;
-            cursor: not-allowed;
-            opacity: 0.7;
-            pointer-events: none;
-            box-shadow: none;
-            transform: none;
-        }
-        .features {
-            padding: 100px 0;
-            background-color: var(--white);
-        }
-        .grid-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 30px;
-        }
-        .feature-card {
-            background: var(--background);
-            padding: 40px 30px;
-            border-radius: 12px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-bottom: 4px solid var(--primary);
-            cursor: pointer;
-        }
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-        .feature-icon {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-        .feature-card h3 {
-            color: var(--secondary);
-            margin-bottom: 15px;
-            font-size: 1.25rem;
-        }
-        .feature-card p {
-            color: var(--text-light);
-            font-size: 0.95rem;
-        }
-        .downloads {
-            padding: 100px 0;
-            background-color: var(--background);
-        }
-        .download-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 60px;
-        }
-        .download-note {
-            text-align: center;
-            background-color: var(--white);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            max-width: 650px;
-            margin: auto;
-        }
-        .download-note h4 {
-            color: var(--secondary);
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        .subscribe-form {
-            display: flex;
-            gap: 10px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-        .subscribe-form input {
-            flex: 1;
-            padding: 14px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: var(--font-main);
-            min-width: 200px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        .subscribe-form input:focus {
-            border-color: var(--primary);
-        }
-        .subscribe-form button {
-            padding: 14px 25px;
-        }
-        .trust-section {
-            padding: 60px 0;
-            background-color: var(--white);
-            text-align: center;
-        }
-        .trust-logos {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            color: var(--disabled);
-            font-size: 3rem;
-            flex-wrap: wrap;
-        }
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: var(--primary);
-            color: var(--white);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s, background-color 0.3s;
-            z-index: 999;
-            border: none;
-        }
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        .back-to-top:hover {
-            background-color: var(--primary-dark);
-            transform: scale(1.1);
-        }
-        .footer {
-            background-color: var(--secondary);
-            color: var(--white);
-            padding: 50px 0 30px;
-            text-align: center;
-        }
-        .footer-links {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        .footer-links a {
-            color: var(--white);
-            text-decoration: none;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-        .footer-links a:hover {
-            opacity: 1;
-        }
-        .footer-copy {
-            opacity: 0.5;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 25px;
-            margin-top: 20px;
-        }
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1rem; }
-            .btn { min-width: 140px; }
-            .hero { 
-                background-attachment: scroll;
-                padding-top: 180px;
-            }
-            .nav-links {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
-        }
-        /* tooltip o estilo adicional para botones deshabilitados */
-        .btn-disabled small, .btn-disabled i {
-            opacity: 0.8;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediCloud | Tu consultorio médico en la nube</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --primary: #2A9D8F;
+  --primary-dark: #1f7a6d;
+  --primary-light: #e8f6f4;
+  --secondary: #1a3444;
+  --accent: #E9C46A;
+  --bg: #f5f7f6;
+  --white: #ffffff;
+  --text: #1a2e38;
+  --muted: #607d8b;
+  --disabled: #b0bec5;
+  --border: #e0eae8;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 24px rgba(26,52,68,0.08);
+  --shadow-hover: 0 12px 40px rgba(42,157,143,0.18);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+section { scroll-margin-top: 72px; }
+.container { width: 90%; max-width: 1160px; margin: 0 auto; }
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; width: 100%; z-index: 1000;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow .3s;
+}
+.nav.scrolled { box-shadow: 0 2px 20px rgba(26,52,68,0.1); }
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0;
+}
+.logo {
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  color: var(--secondary);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 0.95rem;
+}
+.nav-links { list-style: none; display: flex; gap: 30px; }
+.nav-links a {
+  text-decoration: none; color: var(--muted);
+  font-size: 0.9rem; font-weight: 500;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--primary); }
+.nav-cta {
+  background: var(--primary); color: white !important;
+  padding: 8px 20px; border-radius: 40px;
+  font-size: 0.85rem !important;
+}
+.nav-cta:hover { background: var(--primary-dark) !important; color: white !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 120px 0 80px;
+  position: relative;
+  overflow: hidden;
+  background: var(--secondary);
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(42,157,143,0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(42,157,143,0.12) 0%, transparent 60%),
+    url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+  opacity: 0.55;
+}
+.hero-grid-lines {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-content {
+  position: relative; z-index: 1;
+  max-width: 800px; margin: 0 auto;
+  text-align: center; color: white;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(42,157,143,0.25);
+  border: 1px solid rgba(42,157,143,0.4);
+  color: #7eded5;
+  font-size: 0.8rem; font-weight: 500;
+  padding: 6px 16px; border-radius: 40px;
+  margin-bottom: 24px;
+  animation: fadeInDown .6s ease both;
+}
+.hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: #2A9D8F; display: inline-block; animation: pulse 2s infinite; }
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  line-height: 1.15;
+  margin-bottom: 22px;
+  animation: fadeInDown .7s ease .1s both;
+}
+.hero h1 em { font-style: italic; color: #7eded5; }
+.hero p {
+  font-size: 1.1rem; font-weight: 300;
+  opacity: 0.85; max-width: 620px; margin: 0 auto 40px;
+  animation: fadeInDown .7s ease .2s both;
+}
+.hero-actions {
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  animation: fadeInDown .7s ease .3s both;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 26px; border-radius: 40px;
+  font-family: var(--sans); font-weight: 600; font-size: 0.95rem;
+  text-decoration: none; cursor: pointer; border: none;
+  transition: transform .2s, box-shadow .2s, background .2s;
+}
+.btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 20px rgba(42,157,143,0.4); }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(42,157,143,0.5); }
+.btn-ghost { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.25); }
+.btn-ghost:hover { background: rgba(255,255,255,0.18); transform: translateY(-2px); }
+.btn-outline { background: white; color: var(--primary); border: 2px solid var(--primary); }
+.btn-outline:hover { background: var(--primary); color: white; transform: translateY(-2px); }
+.btn-disabled { background: var(--disabled); color: white; cursor: not-allowed; pointer-events: none; box-shadow: none; }
+
+.hero-scroll {
+  position: absolute; bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.4); font-size: 0.8rem;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  animation: fadeIn 1s ease 1s both;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+  animation: scrollAnim 2s ease-in-out infinite;
+}
+
+/* ── STATS ── */
+.stats {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+}
+.stats-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+.stat-item {
+  padding: 40px 30px; text-align: center;
+  border-right: 1px solid var(--border);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .5s, transform .5s;
+}
+.stat-item:last-child { border-right: none; }
+.stat-item.visible { opacity: 1; transform: translateY(0); }
+.stat-num {
+  font-family: var(--serif);
+  font-size: 2.5rem; color: var(--primary);
+  display: block; line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+
+/* ── FEATURES ── */
+.features { padding: 100px 0; background: var(--bg); }
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-tag {
+  display: inline-block;
+  background: var(--primary-light); color: var(--primary);
+  font-size: 0.75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 40px; margin-bottom: 14px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--secondary); line-height: 1.2;
+}
+.section-sub { color: var(--muted); margin-top: 12px; max-width: 540px; margin-left: auto; margin-right: auto; }
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.feature-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+  position: relative; overflow: hidden;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity .5s, transform .5s, box-shadow .25s, border-color .25s;
+}
+.feature-card::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), #52d9ca);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s;
+}
+.feature-card.visible { opacity: 1; transform: translateY(0); }
+.feature-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); border-color: transparent; }
+.feature-card:hover::before { transform: scaleX(1); }
+.feature-icon-wrap {
+  width: 52px; height: 52px;
+  background: var(--primary-light);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  font-size: 1.3rem; color: var(--primary);
+}
+.feature-card h3 { font-size: 1.05rem; color: var(--secondary); margin-bottom: 10px; font-weight: 600; }
+.feature-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+
+/* ── HOW IT WORKS ── */
+.howto { padding: 100px 0; background: var(--white); }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-top: 60px; counter-reset: steps; }
+.step {
+  counter-increment: steps; text-align: center;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .5s, transform .5s;
+}
+.step.visible { opacity: 1; transform: translateY(0); }
+.step-num {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--secondary); color: white;
+  font-family: var(--serif); font-size: 1.3rem;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px;
+}
+.step h4 { font-weight: 600; color: var(--secondary); margin-bottom: 8px; }
+.step p { font-size: 0.88rem; color: var(--muted); }
+
+/* ── DOWNLOADS ── */
+.downloads { padding: 100px 0; background: var(--secondary); position: relative; overflow: hidden; }
+.downloads::before {
+  content: '';
+  position: absolute; top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(42,157,143,0.15) 0%, transparent 70%);
+}
+.downloads .section-title { color: white; }
+.downloads .section-tag { background: rgba(42,157,143,0.2); color: #7eded5; }
+.downloads .section-sub { color: rgba(255,255,255,0.55); }
+.platform-grid {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;
+  margin: 50px 0;
+}
+.platform-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 20px 28px;
+  border-radius: var(--radius);
+  font-family: var(--sans); font-weight: 600; cursor: pointer;
+  text-decoration: none; border: none;
+  transition: transform .2s, box-shadow .2s;
+  min-width: 140px;
+}
+.platform-btn i { font-size: 1.6rem; }
+.platform-btn small { font-size: 0.72rem; font-weight: 400; opacity: 0.85; }
+.platform-active {
+  background: var(--primary); color: white;
+  box-shadow: 0 6px 24px rgba(42,157,143,0.45);
+}
+.platform-active:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(42,157,143,0.55); }
+.platform-soon {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.35);
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: not-allowed; pointer-events: none;
+}
+.subscribe-box {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  padding: 40px; max-width: 600px; margin: 0 auto;
+  text-align: center;
+}
+.subscribe-box h4 { color: white; font-size: 1.15rem; margin-bottom: 8px; }
+.subscribe-box p { color: rgba(255,255,255,0.55); font-size: 0.9rem; margin-bottom: 24px; }
+.subscribe-form { display: flex; gap: 10px; flex-wrap: wrap; }
+.subscribe-form input {
+  flex: 1; min-width: 200px;
+  padding: 13px 18px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 40px;
+  background: rgba(255,255,255,0.08);
+  color: white; font-family: var(--sans); font-size: 0.9rem;
+  outline: none; transition: border-color .2s;
+}
+.subscribe-form input::placeholder { color: rgba(255,255,255,0.35); }
+.subscribe-form input:focus { border-color: var(--primary); }
+.subscribe-form button { border-radius: 40px; padding: 13px 26px; }
+
+/* ── TRUST / TESTIMONIAL ── */
+.trust { padding: 90px 0; background: var(--bg); }
+.trust-icons {
+  display: flex; justify-content: center; align-items: center;
+  gap: 50px; flex-wrap: wrap;
+  margin-top: 40px;
+}
+.trust-icon-item { text-align: center; color: var(--disabled); }
+.trust-icon-item i { font-size: 2.2rem; display: block; margin-bottom: 8px; }
+.trust-icon-item span { font-size: 0.8rem; color: var(--muted); }
+.testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 50px; }
+.testimonial {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .5s, transform .5s;
+}
+.testimonial.visible { opacity: 1; transform: translateY(0); }
+.stars { color: var(--accent); font-size: 0.85rem; margin-bottom: 14px; }
+.testimonial p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 18px; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--primary-light); color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.85rem;
+}
+.author-info strong { display: block; font-size: 0.88rem; color: var(--text); }
+.author-info span { font-size: 0.8rem; color: var(--muted); }
+
+/* ── FOOTER ── */
+.footer { background: var(--secondary); color: white; padding: 50px 0 28px; }
+.footer-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; margin-bottom: 40px; }
+.footer-brand p { color: rgba(255,255,255,0.5); font-size: 0.88rem; max-width: 280px; margin-top: 10px; }
+.footer-links-group h5 { color: rgba(255,255,255,0.6); font-size: 0.75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; }
+.footer-links-group ul { list-style: none; }
+.footer-links-group li { margin-bottom: 8px; }
+.footer-links-group a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.88rem; transition: color .2s; }
+.footer-links-group a:hover { color: white; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-bottom p { color: rgba(255,255,255,0.35); font-size: 0.82rem; }
+
+/* ── BACK TO TOP ── */
+.btt {
+  position: fixed; bottom: 28px; right: 28px;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--primary); color: white; border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 4px 16px rgba(42,157,143,0.4);
+  opacity: 0; visibility: hidden; transform: translateY(10px);
+  transition: all .3s; z-index: 999;
+}
+.btt.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.btt:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+/* ── TOAST ── */
+.toast-container { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 2000; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.toast {
+  background: var(--secondary); color: white;
+  padding: 14px 24px; border-radius: 40px;
+  font-size: 0.88rem; font-weight: 500;
+  box-shadow: 0 8px 32px rgba(26,52,68,0.25);
+  display: flex; align-items: center; gap: 10px;
+  animation: toastIn .35s cubic-bezier(.22,1,.36,1) both;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.toast.success { background: var(--primary); }
+.toast i { font-size: 0.9rem; }
+.toast.out { animation: toastOut .3s ease both; }
+
+/* ── MODAL OVERLAY (feature detail) ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1500;
+  background: rgba(26,52,68,0.6);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; visibility: hidden; transition: all .25s;
+}
+.modal-overlay.open { opacity: 1; visibility: visible; }
+.modal {
+  background: white; border-radius: 20px;
+  padding: 36px; max-width: 480px; width: 100%;
+  transform: scale(.95) translateY(10px);
+  transition: transform .25s cubic-bezier(.22,1,.36,1);
+}
+.modal-overlay.open .modal { transform: scale(1) translateY(0); }
+.modal-icon { font-size: 2.2rem; color: var(--primary); margin-bottom: 16px; }
+.modal h3 { font-family: var(--serif); font-size: 1.5rem; color: var(--secondary); margin-bottom: 10px; }
+.modal p { color: var(--muted); font-size: 0.92rem; line-height: 1.7; }
+.modal-close {
+  margin-top: 24px; display: block; width: 100%;
+  background: var(--primary-light); color: var(--primary);
+  border: none; border-radius: 40px; padding: 12px;
+  font-family: var(--sans); font-weight: 600; font-size: 0.9rem;
+  cursor: pointer; transition: background .2s;
+}
+.modal-close:hover { background: var(--primary); color: white; }
+
+/* ── KEYFRAMES ── */
+@keyframes fadeInDown { from { opacity:0; transform: translateY(-20px); } to { opacity:1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+@keyframes scrollAnim { 0%,100%{transform:scaleY(1);opacity:.4;} 50%{transform:scaleY(1.3);opacity:.8;} }
+@keyframes toastIn { from { opacity:0; transform:translateY(20px) scale(.95); } to { opacity:1; transform:translateY(0) scale(1); } }
+@keyframes toastOut { from { opacity:1; transform:translateY(0); } to { opacity:0; transform:translateY(10px); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .nav-links { gap: 14px; }
+  .nav-links li:not(:last-child) { display: none; }
+  .hero { padding: 100px 0 80px; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .stat-item:last-child { border-bottom: none; }
+  .footer-top { flex-direction: column; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+</style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="container">
-            <a href="#inicio" class="logo">
-                <i class="fa-solid fa-cloud-bolt"></i> MediCloud
-            </a>
-            <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#caracteristicas">Características</a></li>
-                <li><a href="#descargas">Descargas</a></li>
-                <li><a href="dirmed.html">Directorio Médico</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="#inicio" class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-cloud-bolt"></i></div>
+      MediCloud
+    </a>
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#caracteristicas">Características</a></li>
+      <li><a href="#como-funciona">Cómo funciona</a></li>
+      <li><a href="#descargas">Descargas</a></li>
+      <li><a href="dirmed.html">Directorio Médico</a></li>
+      <li><a href="#contacto" class="nav-cta">Contacto</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header id="inicio" class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="container hero-content">
+    <div class="hero-badge">
+      <span></span> Versión 0.1.0 disponible para Windows
+    </div>
+    <h1>Tu consultorio médico,<br><em>siempre contigo</em></h1>
+    <p>Gestión clínica segura, multi-doctor y adaptable a cualquier especialidad. Historial, agenda e inventario en una sola plataforma en la nube.</p>
+    <div class="hero-actions">
+      <a href="#descargas" class="btn btn-primary"><i class="fa-solid fa-download"></i> Descargar gratis</a>
+      <a href="#caracteristicas" class="btn btn-ghost"><i class="fa-solid fa-play-circle"></i> Ver características</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Desliza</span>
+  </div>
+</header>
+
+<!-- STATS -->
+<section class="stats" id="stats">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <strong class="stat-num" data-target="100">0</strong>
+        <span class="stat-label">% Datos encriptados</span>
+      </div>
+      <div class="stat-item">
+        <strong class="stat-num" data-target="5" data-suffix="+">0</strong>
+        <span class="stat-label">Especialidades compatibles</span>
+      </div>
+      <div class="stat-item">
+        <strong class="stat-num" data-target="4" data-suffix=" plataformas">0</strong>
+        <span class="stat-label">Próximamente</span>
+      </div>
+      <div class="stat-item">
+        <strong class="stat-num" data-target="0" data-prefix="$">0</strong>
+        <span class="stat-label">Costo para empezar</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="caracteristicas" class="features">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Características</div>
+      <h2 class="section-title">La herramienta que transforma<br>tu práctica médica</h2>
+      <p class="section-sub">Todo lo que necesitas para gestionar tu consultorio, sin complicaciones.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" onclick="openModal('shield','Datos Protegidos','Cada paciente cuenta con una ficha segura que permite ocultar datos sensibles. Información como diagnósticos críticos (ej. VIH) tiene acceso restringido por roles, garantizando privacidad total y cumplimiento con estándares médicos internacionales.')">
+        <div class="feature-icon-wrap"><i class="fa-solid fa-user-shield"></i></div>
+        <h3>Datos Protegidos</h3>
+        <p>Ficha del paciente con datos sensibles ocultos y acceso por roles. Privacidad garantizada.</p>
+      </div>
+      <div class="feature-card" onclick="openModal('notes','Historias Clínicas Adaptables','Módulos de historia clínica completamente configurables según tu especialidad. Desde medicina general hasta odontología, cardiología o pediatría, los formularios se adaptan a tu flujo de trabajo real.')">
+        <div class="feature-icon-wrap"><i class="fa-solid fa-notes-medical"></i></div>
+        <h3>Historias Clínicas Adaptables</h3>
+        <p>Formularios configurables por especialidad. Se adaptan a tu flujo de trabajo exacto.</p>
+      </div>
+      <div class="feature-card" onclick="openModal('calendar','Agenda Inteligente','Gestiona citas con vista diaria, semanal y mensual. Recibe alertas de solapamientos, controla pacientes en espera y lleva un historial completo de asistencia. Todo sincronizado en tiempo real.')">
+        <div class="feature-icon-wrap"><i class="fa-solid fa-calendar-check"></i></div>
+        <h3>Agenda Inteligente</h3>
+        <p>Vista de citas diaria, semanal y mensual. Alertas de solapamiento incluidas.</p>
+      </div>
+      <div class="feature-card" onclick="openModal('database','Seguridad Multi-Tenant','Respaldado por Supabase: cada doctor opera en su propia base de datos completamente aislada. No hay mezcla de datos entre usuarios. Arquitectura pensada para proteger tanto al médico como al paciente.')">
+        <div class="feature-icon-wrap"><i class="fa-solid fa-database"></i></div>
+        <h3>Seguridad Multi-Tenant</h3>
+        <p>Base de datos independiente por doctor. Total aislamiento garantizado.</p>
+      </div>
+      <div class="feature-card" onclick="openModal('boxes','Control de Inventario','Registra insumos, consumibles y medicamentos. Recibe alertas de stock bajo y genera reportes de consumo mensual. Nunca más te quedes sin lo que necesitas en tu consultorio.')">
+        <div class="feature-icon-wrap"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <h3>Control de Inventario</h3>
+        <p>Gestión de insumos clínicos con alertas de stock bajo y reportes de consumo.</p>
+      </div>
+      <div class="feature-card" onclick="openModal('cloud','Sin Límites de Dispositivo','Accede a tu consultorio desde Windows hoy, y pronto desde macOS, Android, iOS y la web. Tu información siempre disponible, siempre sincronizada, en el dispositivo que prefieras.')">
+        <div class="feature-icon-wrap"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+        <h3>Multiplataforma</h3>
+        <p>Windows disponible. macOS, Android, iOS y Web próximamente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="como-funciona" class="howto">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">¿Cómo funciona?</div>
+      <h2 class="section-title">Empieza en minutos,<br>no en semanas</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Descarga e instala</h4>
+        <p>Descarga el instalador para Windows. El proceso tarda menos de 3 minutos.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Crea tu perfil médico</h4>
+        <p>Registra tu especialidad, datos del consultorio y configura tu agenda inicial.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Importa o agrega pacientes</h4>
+        <p>Comienza desde cero o importa tus pacientes existentes de forma segura.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Trabaja sin límites</h4>
+        <p>Consultas, historiales, agenda e inventario en un solo lugar, siempre sincronizado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOADS -->
+<section id="descargas" class="downloads">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Plataformas</div>
+      <h2 class="section-title">Disponible donde trabajas</h2>
+      <p class="section-sub">Windows ya disponible. Suscríbete para ser el primero en recibir las nuevas versiones.</p>
+    </div>
+    <div class="platform-grid">
+      <a href="https://github.com/zerogapcode/MediCloud2/releases/download/v0.1.0/MediCloud_0.1.0_x64-setup.exe" class="platform-btn platform-active" target="_blank" rel="noopener noreferrer" onclick="showToast('Iniciando descarga de MediCloud para Windows...','fa-download')">
+        <i class="fa-brands fa-windows"></i>
+        Windows
+        <small>v0.1.0 — Instalador</small>
+      </a>
+      <span class="platform-btn platform-soon"><i class="fa-brands fa-android"></i> Android <small>Próximamente</small></span>
+      <span class="platform-btn platform-soon"><i class="fa-brands fa-apple"></i> macOS <small>Próximamente</small></span>
+      <span class="platform-btn platform-soon"><i class="fa-brands fa-app-store-ios"></i> iOS <small>En desarrollo</small></span>
+      <span class="platform-btn platform-soon"><i class="fa-solid fa-globe"></i> Web <small>Próximamente</small></span>
+    </div>
+    <div class="subscribe-box">
+      <h4>Sé el primero en saber</h4>
+      <p>Suscríbete y te notificamos cuando lleguen las nuevas versiones para tu plataforma.</p>
+      <form class="subscribe-form" onsubmit="handleSubscribe(event)">
+        <input type="email" placeholder="tucorreo@ejemplo.com" required>
+        <button type="submit" class="btn btn-primary">Suscribirme</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust" id="testimonios">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Confianza</div>
+      <h2 class="section-title">Construido para médicos reales</h2>
+    </div>
+    <div class="trust-icons">
+      <div class="trust-icon-item"><i class="fa-solid fa-hospital"></i><span>Entornos hospitalarios</span></div>
+      <div class="trust-icon-item"><i class="fa-solid fa-stethoscope"></i><span>Todas las especialidades</span></div>
+      <div class="trust-icon-item"><i class="fa-solid fa-shield-heart"></i><span>Privacidad médica</span></div>
+      <div class="trust-icon-item"><i class="fa-solid fa-lock"></i><span>Datos encriptados</span></div>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"Por fin un sistema que se adapta a cómo trabajo, no al revés. La separación de datos por doctor es exactamente lo que necesitaba para mi clínica compartida."</p>
+        <div class="testimonial-author">
+          <div class="avatar">DM</div>
+          <div class="author-info">
+            <strong>Dra. María González</strong>
+            <span>Médico Internista</span>
+          </div>
         </div>
-    </nav>
-
-    <header id="inicio" class="hero">
-        <div class="container">
-            <h1>MediCloud: Tu consultorio médico en la nube</h1>
-            <p>Software de gestión clínica seguro, multi-doctor y con separación total de datos. Diseñado para potenciar cualquier especialidad médica. Descarga la versión para Windows. Próximamente en más plataformas.</p>
-            <a href="#descargas" class="btn btn-primary">
-                <i class="fa-solid fa-download"></i> Descarga MediCloud
-            </a>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"El control de inventario me salvó más de una vez. Antes anotaba todo en papel. Ahora tengo alertas automáticas cuando algo está por agotarse."</p>
+        <div class="testimonial-author">
+          <div class="avatar">CR</div>
+          <div class="author-info">
+            <strong>Dr. Carlos Rivas</strong>
+            <span>Odontólogo General</span>
+          </div>
         </div>
-    </header>
-
-    <section id="caracteristicas" class="features">
-        <div class="container">
-            <h2 class="section-title">La herramienta que transforma tu práctica médica</h2>
-            <div class="grid-features">
-                <div class="feature-card" onclick="alertaCaracteristica('Protección de datos sensibles, como VIH, con acceso restringido.')">
-                    <i class="fa-solid fa-user-shield feature-icon"></i>
-                    <h3>Datos Protegidos</h3>
-                    <p>Ficha del paciente con máxima seguridad para datos sensibles protegidos (ej. VIH oculto).</p>
-                </div>
-                <div class="feature-card" onclick="alertaCaracteristica('Módulos personalizables para cualquier especialidad médica.')">
-                    <i class="fa-solid fa-notes-medical feature-icon"></i>
-                    <h3>Historias Clínicas Adaptables</h3>
-                    <p>Módulos personalizables diseñados para adaptarse a los requerimientos y flujos de trabajo de cualquier especialidad.</p>
-                </div>
-                <div class="feature-card" onclick="alertaCaracteristica('Agenda inteligente y control de inventario integrado.')">
-                    <i class="fa-solid fa-calendar-check feature-icon"></i>
-                    <h3>Agenda e Inventario</h3>
-                    <p>Agenda inteligente y control estricto de insumos y consumibles de tu inventario clínico.</p>
-                </div>
-                <div class="feature-card" onclick="alertaCaracteristica('Base de datos independiente por cada doctor gracias a Firebase.')">
-                    <i class="fa-solid fa-database feature-icon"></i>
-                    <h3>Seguridad Multi-Tenant</h3>
-                    <p>Respaldado por Firebase: cada doctor opera y almacena datos en su propia base de datos independiente.</p>
-                </div>
-            </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"La agenda inteligente eliminó el doble-booking que tenía con mi secretaria. Todo en un solo lugar y sincronizado. Increíble para mi consulta de pediatría."</p>
+        <div class="testimonial-author">
+          <div class="avatar">LP</div>
+          <div class="author-info">
+            <strong>Dra. Laura Pérez</strong>
+            <span>Pediatra</span>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="descargas" class="downloads">
-        <div class="container">
-            <h2 class="section-title">Plataformas</h2>
-            
-            <div class="download-grid">
-                <!-- Windows: ÚNICO ACTIVO con enlace GitHub -->
-                <a href="https://github.com/zerogapcode/MediCloud2/releases/download/v0.1.0/MediCloud_0.1.0_x64-setup.exe" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                    <i class="fa-brands fa-windows"></i> Windows
-                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Versión 0.1.0 (Instalador)</small>
-                </a>
-                
-                <!-- Android: DESHABILITADO (gris, sin enlace) -->
-                <span class="btn btn-disabled" title="No disponible actualmente">
-                    <i class="fa-brands fa-android"></i> Android
-                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Próximamente</small>
-                </span>
-                
-                <!-- macOS: DESHABILITADO (gris, sin enlace) -->
-                <span class="btn btn-disabled" title="No disponible actualmente">
-                    <i class="fa-brands fa-apple"></i> macOS
-                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Próximamente</small>
-                </span>
-                
-                <!-- iOS: DESHABILITADO ya tenía estilo disabled pero lo unificamos -->
-                <span class="btn btn-disabled" title="Próximamente">
-                    <i class="fa-brands fa-app-store-ios"></i> iOS
-                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">En desarrollo</small>
-                </span>
+<!-- FOOTER -->
+<footer id="contacto" class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#inicio" class="logo" style="color:white;">
+          <div class="logo-icon"><i class="fa-solid fa-cloud-bolt"></i></div>
+          MediCloud
+        </a>
+        <p>Software de gestión clínica seguro, moderno y pensado para el médico latinoamericano.</p>
+      </div>
+      <div class="footer-links-group">
+        <h5>Producto</h5>
+        <ul>
+          <li><a href="#caracteristicas">Características</a></li>
+          <li><a href="#descargas">Descargas</a></li>
+          <li><a href="dirmed.html">Directorio Médico</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-group">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Política de Privacidad</a></li>
+          <li><a href="#">Términos de Servicio</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-group">
+        <h5>Soporte</h5>
+        <ul>
+          <li><a href="#">Soporte Técnico</a></li>
+          <li><a href="#">Prensa</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 MediCloud. Todos los derechos reservados.</p>
+      <p>Hecho con <i class="fa-solid fa-heart" style="color:var(--primary)"></i> para médicos</p>
+    </div>
+  </div>
+</footer>
 
-                <!-- Versión Web: COMPLETAMENTE ELIMINADA / DESHABILITADA (sin acceso) -->
-                <span class="btn btn-disabled" title="Próximamente disponible">
-                    <i class="fa-solid fa-globe"></i> Versión Web
-                    <small style="font-weight: 300; font-size: 0.75rem; display: block;">Próximamente</small>
-                </span>
-            </div>
+<!-- BACK TO TOP -->
+<button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
 
-            <div class="download-note">
-                <h4>Descarga oficial (Windows)</h4>
-                <p style="color: var(--text-light); font-size: 0.95rem;">La versión estable para Windows ya está disponible. Próximamente lanzaremos versiones para Android, macOS, Web e iOS. Suscríbete para recibir novedades.</p>
-                <form class="subscribe-form" onsubmit="alertaSuscripcion(event)">
-                    <input type="email" placeholder="Tu correo electrónico médico..." required>
-                    <button type="submit" class="btn btn-secondary">Suscribirme</button>
-                </form>
-            </div>
-        </div>
-    </section>
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
 
-    <section class="trust-section">
-        <div class="container">
-            <div class="trust-logos">
-                <i class="fa-solid fa-hospital" title="Compatibilidad Hospitalaria"></i>
-                <i class="fa-solid fa-stethoscope" title="Para todas las especialidades"></i>
-                <i class="fa-solid fa-shield-heart" title="Estándares de Privacidad Médica"></i>
-            </div>
-        </div>
-    </section>
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-icon"><i id="modalIcon" class="fa-solid fa-shield"></i></div>
+    <h3 id="modalTitle">Título</h3>
+    <p id="modalBody">Contenido del modal.</p>
+    <button class="modal-close" onclick="closeModalDirect()">Entendido</button>
+  </div>
+</div>
 
-    <footer id="contacto" class="footer">
-        <div class="container">
-            <ul class="footer-links">
-                <li><a href="#">Política de Privacidad</a></li>
-                <li><a href="#">Términos de Servicio</a></li>
-                <li><a href="#">Soporte Técnico</a></li>
-                <li><a href="#">Prensa</a></li>
-            </ul>
-            <div class="footer-copy">
-                &copy; 2026 MediCloud. Todos los derechos reservados.
-            </div>
-        </div>
-    </footer>
+<script>
+// NAV scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+  document.getElementById('btt').classList.toggle('show', window.scrollY > 400);
+});
 
-    <button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Volver arriba">
-        <i class="fa-solid fa-chevron-up"></i>
-    </button>
+// Intersection Observer for animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      if (e.target.hasAttribute('data-target')) animateCounter(e.target);
+    }
+  });
+}, { threshold: 0.15 });
 
-    <script>
-        function alertaCaracteristica(mensaje) {
-            alert("ℹ️ " + mensaje);
-        }
+document.querySelectorAll('.feature-card, .stat-item, .step, .testimonial').forEach(el => observer.observe(el));
+document.querySelectorAll('.stat-num').forEach(el => observer.observe(el));
 
-        function alertaSuscripcion(event) {
-            event.preventDefault(); 
-            alert("✅ ¡Gracias por suscribirte!\nTe notificaremos cuando las nuevas versiones estén disponibles.");
-            event.target.reset();
-        }
+// Counter animation
+function animateCounter(el) {
+  if (el.dataset.animated) return;
+  el.dataset.animated = '1';
+  const target = parseInt(el.dataset.target);
+  const prefix = el.dataset.prefix || '';
+  const suffix = el.dataset.suffix || '';
+  let start = 0;
+  const duration = 1200;
+  const step = (timestamp) => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = prefix + Math.floor(eased * target) + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = prefix + target + suffix;
+  };
+  requestAnimationFrame(step);
+}
 
-        window.addEventListener('scroll', function() {
-            var backToTop = document.getElementById('backToTop');
-            if (window.scrollY > 300) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
+// Toast notifications
+function showToast(msg, icon = 'fa-circle-check', type = '') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast' + (type ? ' ' + type : '');
+  toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${msg}`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('out');
+    setTimeout(() => toast.remove(), 300);
+  }, 3200);
+}
 
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
+// Subscribe form
+function handleSubscribe(e) {
+  e.preventDefault();
+  showToast('¡Suscripción registrada! Te avisaremos pronto.', 'fa-circle-check', 'success');
+  e.target.reset();
+}
 
-        // Aseguramos que ningún elemento deshabilitado pueda recibir clics espurios (por redundancia)
-        document.querySelectorAll('.btn-disabled').forEach(btn => {
-            btn.style.pointerEvents = 'none';
-        });
-    </script>
+// Feature modal
+const iconMap = {
+  shield: 'fa-user-shield', notes: 'fa-notes-medical',
+  calendar: 'fa-calendar-check', database: 'fa-database',
+  boxes: 'fa-boxes-stacked', cloud: 'fa-cloud-arrow-up'
+};
+function openModal(iconKey, title, body) {
+  document.getElementById('modalIcon').className = 'fa-solid ' + (iconMap[iconKey] || 'fa-circle-info');
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').textContent = body;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+</script>
 </body>
 </html>
