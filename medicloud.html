@@ -145,7 +145,6 @@
             background: var(--secondary);
         }
 
-        /* Capa de fondo con parallax — más grande que el contenedor para tener margen de movimiento */
         .hero-bg {
             position: absolute;
             top: -15%;
@@ -161,7 +160,6 @@
             will-change: transform;
         }
 
-        /* Líneas de cuadrícula — capa intermedia para profundidad */
         .hero-grid-lines {
             position: absolute;
             top: -10%;
@@ -1049,7 +1047,6 @@
             .hero {
                 padding: 100px 0 80px;
             }
-            /* En móvil, parallax más sutil para mejor rendimiento */
             .hero-bg {
                 top: -8%;
                 height: 116%;
@@ -1101,7 +1098,7 @@
         <div class="hero-grid-lines" id="heroGrid"></div>
         <div class="container hero-content">
             <div class="hero-badge">
-                <span></span> Versión 0.1.0 disponible para Windows
+                <span></span> Versión 0.1.0 disponible para Windows y Android
             </div>
             <h1>Tu consultorio médico,<br><em>siempre contigo</em></h1>
             <p>Gestión clínica segura, multi-doctor y adaptable a cualquier especialidad. Historial, agenda e inventario en una sola plataforma en la nube.</p>
@@ -1177,7 +1174,7 @@
                 <div class="feature-card" onclick="openModal('cloud','Sin Límites de Dispositivo','Accede a tu consultorio desde Windows hoy, y pronto desde macOS, Android, iOS y la web. Tu información siempre disponible, siempre sincronizada, en el dispositivo que prefieras.')">
                     <div class="feature-icon-wrap"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                     <h3>Multiplataforma</h3>
-                    <p>Windows disponible. macOS, Android, iOS y Web próximamente.</p>
+                    <p>Windows y Android disponibles. macOS, iOS y Web próximamente.</p>
                 </div>
             </div>
         </div>
@@ -1194,7 +1191,7 @@
                 <div class="step">
                     <div class="step-num">1</div>
                     <h4>Descarga e instala</h4>
-                    <p>Descarga el instalador para Windows. El proceso tarda menos de 3 minutos.</p>
+                    <p>Descarga el instalador para Windows o Android. El proceso tarda menos de 3 minutos.</p>
                 </div>
                 <div class="step">
                     <div class="step-num">2</div>
@@ -1221,7 +1218,7 @@
             <div class="section-header">
                 <div class="section-tag">Plataformas</div>
                 <h2 class="section-title">Disponible donde trabajas</h2>
-                <p class="section-sub">Windows ya disponible. Suscríbete para ser el primero en recibir las nuevas versiones.</p>
+                <p class="section-sub">Windows y Android ya disponibles. Suscríbete para ser el primero en recibir las nuevas versiones.</p>
             </div>
             <div class="platform-grid">
                 <a href="https://github.com/zerogapcode/MediCloud2/releases/download/v0.1.0/MediCloud_0.1.0_x64-setup.exe" class="platform-btn platform-active" target="_blank" rel="noopener noreferrer" onclick="showToast('Iniciando descarga de MediCloud para Windows...','fa-download')">
@@ -1229,7 +1226,11 @@
                     Windows
                     <small>v0.1.0 — Instalador</small>
                 </a>
-                <span class="platform-btn platform-soon"><i class="fa-brands fa-android"></i> Android <small>Próximamente</small></span>
+                <a href="https://github.com/zerogapcode/MediCloud2/releases/download/v0.1.0/app-universal-release-unsigned.apk" class="platform-btn platform-active" target="_blank" rel="noopener noreferrer" onclick="showToast('Iniciando descarga de MediCloud para Android...','fa-download')">
+                    <i class="fa-brands fa-android"></i>
+                    Android
+                    <small>v0.1.0 — APK</small>
+                </a>
                 <span class="platform-btn platform-soon"><i class="fa-brands fa-apple"></i> macOS <small>Próximamente</small></span>
                 <span class="platform-btn platform-soon"><i class="fa-brands fa-app-store-ios"></i> iOS <small>En desarrollo</small></span>
                 <span class="platform-btn platform-soon"><i class="fa-solid fa-globe"></i> Web <small>Próximamente</small></span>
@@ -1369,17 +1370,12 @@
             const heroHeight = hero.offsetHeight;
             const viewHeight = window.innerHeight;
 
-            // Solo aplicar si el hero es visible
             if (rect.bottom > 0 && rect.top < viewHeight) {
-                // Mapeo lineal del progreso del hero en el viewport (0 a 1)
-                // 0 = justo cuando el hero comienza a ser visible
-                // 1 = cuando termina de salir por completo
                 const totalTravel = heroHeight + viewHeight;
                 const progress = Math.min(Math.max((viewHeight - rect.top) / totalTravel, 0), 1);
 
-                // Desplazamiento máximo permitido por las capas (según top/height negativos en CSS)
-                const maxBgShift = heroHeight * 0.15;   // 15% de la altura del hero
-                const maxGridShift = maxBgShift * 0.66; // proporcional menor para la cuadrícula
+                const maxBgShift = heroHeight * 0.15;
+                const maxGridShift = maxBgShift * 0.66;
 
                 heroBg.style.transform = `translateY(${progress * maxBgShift}px)`;
                 heroGrid.style.transform = `translateY(${progress * maxGridShift}px)`;
@@ -1399,10 +1395,8 @@
             }
         }, { passive: true });
 
-        // Ejecutar al cargar y al redimensionar
         window.addEventListener('load', updateParallax, { once: true });
         window.addEventListener('resize', () => {
-            // Recalcular inmediatamente tras resize
             updateParallax();
         }, { passive: true });
 
