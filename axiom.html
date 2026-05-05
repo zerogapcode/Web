@@ -474,6 +474,34 @@
             box-shadow: 0 20px 30px -12px #c084fc;
             letter-spacing: 0.3px;
         }
+
+        /* Botón secundario para el manual */
+        .btn-manual {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(168, 85, 247, 0.6);
+            width: 100%;
+            padding: 14px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+            cursor: pointer;
+            transition: all 0.25s;
+            color: #e2e8f0;
+            text-decoration: none;
+        }
+        .btn-manual:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: #c084fc;
+            transform: scale(1.01);
+            color: white;
+        }
+
         footer {
             text-align: center;
             padding: 40px 0;
@@ -602,7 +630,7 @@
                 <p>Deja que la app gestione tus tareas. Lee hilos de correo, sugiere respuestas y genera archivos sin que tengas que salir de la interfaz.</p>
             </div>
             <div class="feature-card">
-                <div class="icon-wrapper"><i class="fa-solid fa-lock"></i></div>   <!-- CAMBIADO: ahora es un candado -->
+                <div class="icon-wrapper"><i class="fa-solid fa-lock"></i></div>
                 <h3>Totalmente Segura</h3>
                 <p>Todo lo que hace AXIOM ocurre en un entorno aislado (sandbox). Tus archivos y tu sistema están a salvo. Tú siempre tienes el control.</p>
             </div>
@@ -649,12 +677,21 @@
                 </div>
             </div>
 
-            <!-- Enlace de descarga actualizado al nuevo repositorio Web -->
+            <!-- Botón principal de descarga de la app -->
             <a href="https://github.com/zerogapcode/Web/releases/download/v0.1.0-beta/AXIOM_0.1.0_aarch64.dmg" 
                class="btn-download" 
                download>
                 <i class="fa-brands fa-apple"></i> Descargar AXIOM para macOS (Apple Silicon)
             </a>
+
+            <!-- NUEVO BOTÓN: Descargar manual de usuario (PDF) -->
+            <a href="https://github.com/zerogapcode/Web/releases/download/v0.1.0-beta/AXIOM.pdf" 
+               class="btn-manual" 
+               target="_blank"
+               rel="noopener noreferrer">
+                <i class="fa-regular fa-file-pdf"></i> Descargar manual de usuario (PDF)
+            </a>
+
             <p style="text-align: center; margin-top: 20px; font-size: 0.75rem; color: #6c7a91;">
                 <i class="fa-regular fa-circle-check"></i> Versión v0.1.0-beta · Archivo nativo para M1/M2/M3/M4
             </p>
