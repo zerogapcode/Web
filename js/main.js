@@ -446,19 +446,19 @@
       mode_auto: { en: "Auto", es: "Auto" },
       mode_light: { en: "Light", es: "Claro" },
       mode_dark: { en: "Dark", es: "Oscuro" },
-      hero_subtitle: { en: "Software and hardware within everyone's reach.", es: "Software y hardware al alcance de todos." },
+      hero_subtitle: { en: "Cutting-edge engineering for ambitious projects.", es: "Ingeniería de vanguardia para proyectos ambiciosos." },
       hero_p1: { 
-        en: "We are a development laboratory specializing in native iOS applications, scalable web solutions, electronic systems integration, and additive manufacturing (3D printing). We combine cutting-edge technologies with agile methodologies to deliver innovative products that solve complex problems.", 
-        es: "Somos un laboratorio de desarrollo especializado en aplicaciones iOS nativas, soluciones web escalables, integración de sistemas electrónicos y fabricación aditiva (impresión 3D). Combinamos tecnologías de vanguardia con metodologías ágiles para ofrecer productos innovadores que resuelvan problemas complejos." 
+        en: "We transform complex ideas into market-ready products. As a technological innovation laboratory, we master multi-platform app development (iOS, Android, Windows, macOS, Linux), scalable web architecture, and hardware integration through additive manufacturing (3D printing).", 
+        es: "Transformamos ideas complejas en productos listos para el mercado. Como laboratorio de innovación tecnológica, dominamos el desarrollo de aplicaciones multiplataforma (iOS, Android, Windows, macOS, Linux), la arquitectura web escalable y la integración de hardware a través de fabricación aditiva (3D)." 
       },
       hero_p2: { 
-        en: "Our multidisciplinary approach allows us to tackle projects from conception to implementation, creating comprehensive solutions that connect the digital world with the physical.", 
-        es: "Nuestro enfoque multidisciplinario nos permite abordar proyectos desde la concepción hasta la implementación, creando soluciones integrales que conectan el mundo digital con el físico." 
+        en: "We design, develop, and build. Our end-to-end approach ensures that every line of code and physical component works in perfect synchronization to drive your vision forward.", 
+        es: "Diseñamos, desarrollamos y construimos. Nuestro enfoque end-to-end garantiza que cada línea de código y cada componente físico trabajen en perfecta sincronía para impulsar tu visión." 
       },
       services_title: { en: "Services", es: "Servicios" },
       services_lead: { en: "Custom development, technical consulting, and rapid prototyping. We transform ideas into functional products.", es: "Desarrollo a medida, consultoría técnica y prototipado rápido. Transformamos ideas en productos funcionales." },
-      service_ios_title: { en: "iOS Development", es: "Desarrollo iOS" },
-      service_ios_desc: { en: "Native applications for iPhone and iPad using Swift and SwiftUI. Optimized interfaces and exceptional user experience with full Apple ecosystem integration.", es: "Aplicaciones nativas para iPhone y iPad usando Swift y SwiftUI. Interfaces optimizadas y experiencia de usuario excepcional con integración completa del ecosistema Apple." },
+      service_ios_title: { en: "Multiplatform Development", es: "Desarrollo Multiplataforma" },
+      service_ios_desc: { en: "Native and cross-platform applications for iOS, Android, Windows, macOS, and Linux. Optimized interfaces and exceptional user experience across all devices.", es: "Aplicaciones nativas y multiplataforma para iOS, Android, Windows, macOS y Linux. Interfaces optimizadas y experiencia de usuario excepcional en todos los dispositivos." },
       service_web_title: { en: "Web Solutions", es: "Soluciones Web" },
       service_web_desc: { en: "Development of modern web applications, RESTful APIs, and scalable backend systems with the latest technologies. Robust and maintainable architectures.", es: "Desarrollo de aplicaciones web modernas, APIs RESTful y sistemas backend escalables con las últimas tecnologías. Arquitecturas robustas y mantenibles." },
       service_hw_title: { en: "Hardware/Software Integration", es: "Integración Hardware/Software" },
@@ -471,8 +471,8 @@
       service_maintenance_desc: { en: "Continuous maintenance services, updates, and technical support to ensure optimal operation of your systems in the long term.", es: "Servicios continuos de mantenimiento, actualizaciones y soporte técnico para garantizar el funcionamiento óptimo de tus sistemas a largo plazo." },
       dept_title: { en: "Departments", es: "Departamentos" },
       dept_lead: { en: "Specialized teams working in synergy to offer complete and innovative solutions.", es: "Equipos especializados trabajando en sinergia para ofrecer soluciones completas e innovadoras." },
-      dept_ios_title: { en: "iOS Development", es: "Desarrollo iOS" },
-      dept_ios_desc: { en: "Specialists in Swift, SwiftUI, and the Apple ecosystem. Creation of high-performance native applications with fluid interfaces and exceptional user experiences.", es: "Especialistas en Swift, SwiftUI y el ecosistema Apple. Creación de aplicaciones nativas de alto rendimiento con interfaces fluidas y experiencias de usuario excepcionales." },
+      dept_ios_title: { en: "Multiplatform Development", es: "Desarrollo Multiplataforma" },
+      dept_ios_desc: { en: "Specialists in creating high-performance applications for any operating system (Mobile & Desktop) with fluid interfaces and exceptional user experiences.", es: "Especialistas en la creación de aplicaciones de alto rendimiento para cualquier sistema operativo (Móvil y Escritorio) con interfaces fluidas y experiencias de usuario excepcionales." },
       dept_eng_title: { en: "Software Engineering", es: "Ingeniería de Software" },
       dept_eng_desc: { en: "Systems architecture, backend development, databases, and APIs. Modern and scalable technologies to build robust and maintainable solutions.", es: "Arquitectura de sistemas, desarrollo backend, bases de datos y APIs. Tecnologías modernas y escalables para construir soluciones robustas y mantenibles." },
       dept_elec_title: { en: "Electronics & IoT", es: "Electrónica & IoT" },
