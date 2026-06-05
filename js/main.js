@@ -9,12 +9,10 @@
       if (!visitSpan) return;
 
       try {
-        const response = await fetch(`${OLLAMA_SERVER_URL}/visits`, {
-          headers: getNgrokHeaders()
-        });
+        const response = await fetch(`https://api.counterapi.dev/v1/protonlab/sitevisits/up`);
         if (response.ok) {
           const data = await response.json();
-          globalVisitCount = data.value;
+          globalVisitCount = data.count;
           visitSpan.textContent = globalVisitCount.toLocaleString();
         } else {
           throw new Error('Error en la respuesta del servidor');
