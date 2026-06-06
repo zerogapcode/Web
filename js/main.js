@@ -448,8 +448,8 @@
       mode_dark: { en: "Dark", es: "Oscuro" },
       hero_subtitle: { en: "Cutting-edge engineering for ambitious projects.", es: "Ingeniería de vanguardia para proyectos ambiciosos." },
       hero_p1: { 
-        en: "We transform complex ideas into market-ready products. As a technological innovation laboratory, we master multi-platform app development (iOS, Android, Windows, macOS, Linux), scalable web architecture, and hardware integration through additive manufacturing (3D printing).", 
-        es: "Transformamos ideas complejas en productos listos para el mercado. Como laboratorio de innovación tecnológica, dominamos el desarrollo de aplicaciones multiplataforma (iOS, Android, Windows, macOS, Linux), la arquitectura web escalable y la integración de hardware a través de fabricación aditiva (3D)." 
+        en: "We transform complex ideas into market-ready products. As a technological innovation laboratory, we master multi-platform app development (iOS, Android, Windows, macOS, Linux), scalable web architecture, and electronic systems integration.", 
+        es: "Transformamos ideas complejas en productos listos para el mercado. Como laboratorio de innovación tecnológica, dominamos el desarrollo de aplicaciones multiplataforma (iOS, Android, Windows, macOS, Linux), la arquitectura web escalable y la integración de sistemas electrónicos." 
       },
       hero_p2: { 
         en: "We design, develop, and build. Our end-to-end approach ensures that every line of code and physical component works in perfect synchronization to drive your vision forward.", 
