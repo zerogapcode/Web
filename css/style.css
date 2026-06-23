@@ -154,7 +154,7 @@
       -webkit-backdrop-filter: blur(20px) saturate(180%);
       background: rgba(255, 193, 7, 0.1);
       border: 1px solid rgba(255, 193, 7, 0.2);
-      color: inherit;
+      color: #b38600;
       font-weight: 600;
       font-size: 14px;
       letter-spacing: 0.02em;
@@ -181,6 +181,7 @@
     body[data-theme='dark'] .draiven-link {
       background: rgba(255, 193, 7, 0.15);
       border-color: rgba(255, 193, 7, 0.3);
+      color: #ffc107;
     }
     body[data-theme='dark'] .draiven-link:hover {
       background: rgba(255, 193, 7, 0.25);
