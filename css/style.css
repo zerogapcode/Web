@@ -143,6 +143,50 @@
       border-color: rgba(180, 120, 255, 0.5);
     }
 
+    /* ===== NUEVO BOTÓN DRAIVEN (amarillo) ===== */
+    .draiven-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(255, 193, 7, 0.1);
+      border: 1px solid rgba(255, 193, 7, 0.2);
+      color: inherit;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .draiven-link:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 193, 7, 0.2);
+      border-color: rgba(255, 193, 7, 0.4);
+      box-shadow: 0 8px 20px rgba(255, 193, 7, 0.2);
+    }
+    .draiven-link svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      transition: transform 0.3s ease;
+    }
+    .draiven-link:hover svg {
+      transform: scale(1.1) rotate(5deg);
+    }
+    body[data-theme='dark'] .draiven-link {
+      background: rgba(255, 193, 7, 0.15);
+      border-color: rgba(255, 193, 7, 0.3);
+    }
+    body[data-theme='dark'] .draiven-link:hover {
+      background: rgba(255, 193, 7, 0.25);
+      border-color: rgba(255, 193, 7, 0.5);
+    }
+
     nav {
       display: flex;
       align-items: center;
