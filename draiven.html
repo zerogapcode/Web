@@ -3,108 +3,1462 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draiven - En Construcción</title>
+    <title>DraiVen — Tu Mototaxi Seguro, a un Clic de Distancia</title>
+    <meta name="description" content="DraiVen es la app líder de mototaxis. Viajes rápidos, seguros y a precio justo. Descarga gratis en Google Play.">
+    <meta property="og:title" content="DraiVen — Mototaxi App">
+    <meta property="og:description" content="Tu mototaxi seguro, a un clic de distancia. Viajes rápidos, seguros y a precio justo.">
+    <meta property="og:image" content="images/feature_graphic.png">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="images/app_icon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        /* ============================================
+           DESIGN TOKENS & VARIABLES
+           ============================================ */
+        :root {
+            --color-yellow: #FFD700;
+            --color-yellow-hover: #FFC200;
+            --color-yellow-soft: rgba(255, 215, 0, 0.12);
+            --color-navy: #0f3460;
+            --color-navy-deep: #0a1628;
+            --color-navy-card: #101d35;
+            --color-bg: #060d1b;
+            --color-surface: #0c1a30;
+            --color-white: #ffffff;
+            --color-text: #c8d6e5;
+            --color-text-muted: #7f8c9b;
+            --color-border: rgba(255, 255, 255, 0.06);
+            --color-glass: rgba(15, 52, 96, 0.35);
+            --color-glass-border: rgba(255, 215, 0, 0.12);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+            --radius-xl: 40px;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-        body, html {
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            height: 100%;
-            background-color: #0f172a;
-            color: #f8fafc;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            justify-content: center;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            color: var(--color-yellow);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+
+        a:hover {
+            color: var(--color-yellow-hover);
+        }
+
+        /* ============================================
+           UTILITIES
+           ============================================ */
+        .container {
+            max-width: 1200px;
+            margin-inline: auto;
+            padding-inline: 1.5rem;
+        }
+
+        .section-label {
+            display: inline-flex;
             align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 32px;
+            height: 2px;
+            background: var(--color-yellow);
+            border-radius: 1px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            color: var(--color-white);
+            line-height: 1.15;
+            margin-bottom: 1.25rem;
+            text-wrap: balance;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+            max-width: 600px;
+            text-wrap: pretty;
+        }
+
+        /* ============================================
+           SCROLL-REVEAL ANIMATIONS
+           ============================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            inset-inline: 0;
+            z-index: 100;
+            padding: 1rem 0;
+            transition: background var(--transition), box-shadow var(--transition), padding var(--transition);
+        }
+
+        .navbar.scrolled {
+            background: rgba(6, 13, 27, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 var(--color-border);
+            padding: 0.6rem 0;
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .navbar-logo img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .navbar-logo-text {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--color-white);
+        }
+
+        .navbar-logo-text span {
+            color: var(--color-yellow);
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .navbar-links a {
+            color: var(--color-text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color var(--transition);
+        }
+
+        .navbar-links a:hover {
+            color: var(--color-yellow);
+        }
+
+        .navbar-cta {
+            background: var(--color-yellow);
+            color: var(--color-navy-deep) !important;
+            padding: 0.55rem 1.4rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: background var(--transition), transform var(--transition);
+        }
+
+        .navbar-cta:hover {
+            background: var(--color-yellow-hover);
+            color: var(--color-navy-deep) !important;
+            transform: translateY(-1px);
+        }
+
+        .navbar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .navbar-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--color-white);
+            margin: 5px 0;
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* ============================================
+           PARALLAX BACKGROUND LOGO
+           ============================================ */
+        .parallax-logo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(70vw, 700px);
+            height: auto;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+            filter: grayscale(0.2);
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-block: 8rem 4rem;
             overflow: hidden;
         }
 
-        .container {
-            text-align: center;
-            padding: 3rem;
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 24px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            max-width: 500px;
-            width: 90%;
-            animation: fadeIn 1s ease-out;
+        .hero-bg-glow {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
         }
 
-        .logo {
-            width: 120px;
-            height: auto;
-            margin-bottom: 2rem;
-            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.3));
-            animation: float 6s ease-in-out infinite;
+        .hero-bg-glow::before {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 65%);
+            top: -20%;
+            right: -15%;
+            animation: pulse-glow 8s ease-in-out infinite alternate;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin: 0 0 1rem 0;
-            font-weight: 800;
-            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+        .hero-bg-glow::after {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(15, 52, 96, 0.25) 0%, transparent 65%);
+            bottom: -10%;
+            left: -10%;
+            animation: pulse-glow 10s ease-in-out 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { opacity: 0.6; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.15); }
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 560px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--color-yellow-soft);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 50px;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-yellow);
+            margin-bottom: 1.5rem;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .hero-badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--color-yellow);
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5.5vw, 3.8rem);
+            font-weight: 900;
+            color: var(--color-white);
+            line-height: 1.08;
+            margin-bottom: 1.5rem;
+            text-wrap: balance;
+            animation: fadeInUp 0.7s ease 0.1s both;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--color-yellow) 0%, #ffaa00 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        p {
-            font-size: 1.125rem;
-            line-height: 1.6;
-            color: #94a3b8;
-            margin-bottom: 2rem;
+        .hero-description {
+            font-size: 1.15rem;
+            color: var(--color-text);
+            margin-bottom: 2.5rem;
+            max-width: 480px;
+            text-wrap: pretty;
+            animation: fadeInUp 0.7s ease 0.2s both;
         }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto;
-            border: 3px solid rgba(56, 189, 248, 0.2);
-            border-top-color: #38bdf8;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes fadeIn {
+        @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            animation: fadeInUp 0.7s ease 0.3s both;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 50px;
+            font-family: var(--font);
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition);
+            text-decoration: none;
         }
 
-        /* Subtle background gradient */
-        .bg-glow {
+        .btn-primary {
+            background: var(--color-yellow);
+            color: var(--color-navy-deep);
+            box-shadow: 0 4px 24px rgba(255, 215, 0, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-yellow-hover);
+            color: var(--color-navy-deep);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(255, 215, 0, 0.35);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--color-white);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--color-yellow);
+            color: var(--color-yellow);
+            transform: translateY(-2px);
+        }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            animation: fadeInUp 0.9s ease 0.4s both;
+        }
+
+        .hero-phone-frame {
+            position: relative;
+            width: 280px;
+        }
+
+        .hero-phone-frame img {
+            width: 100%;
+            border-radius: 28px;
+            box-shadow:
+                0 0 0 2px rgba(255, 215, 0, 0.15),
+                0 25px 60px -15px rgba(0, 0, 0, 0.6),
+                0 0 80px rgba(255, 215, 0, 0.06);
+        }
+
+        .hero-phone-float {
             position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(15, 23, 42, 0) 70%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: -1;
+            width: 220px;
+            right: -80px;
+            top: 60px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow:
+                0 20px 50px -10px rgba(0, 0, 0, 0.5);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-phone-float img {
+            width: 100%;
+            border-radius: 24px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 3rem;
+            animation: fadeInUp 0.7s ease 0.5s both;
+        }
+
+        .hero-stat {
+            text-align: start;
+        }
+
+        .hero-stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--color-yellow);
+        }
+
+        .hero-stat-label {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ============================================
+           FEATURES SECTION
+           ============================================ */
+        .features {
+            padding-block: 6rem;
+            position: relative;
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .features-header .section-subtitle {
+            margin-inline: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            position: relative;
+            background: var(--color-glass);
+            border: 1px solid var(--color-glass-border);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all var(--transition);
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.04) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 215, 0, 0.25);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-sm);
+            background: var(--color-yellow-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--color-yellow);
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-white);
+            margin-bottom: 0.6rem;
+            position: relative;
+        }
+
+        .feature-card p {
+            font-size: 0.92rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            position: relative;
+        }
+
+        /* ============================================
+           APP SCREENSHOTS SECTION
+           ============================================ */
+        .screenshots {
+            padding-block: 6rem;
+            position: relative;
+        }
+
+        .screenshots-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .screenshots-header .section-subtitle {
+            margin-inline: auto;
+        }
+
+        .screenshots-track {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            padding-block: 1rem;
+            padding-inline: calc((100vw - 1200px) / 2);
+        }
+
+        .screenshots-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .screenshot-item {
+            flex: 0 0 260px;
+            scroll-snap-align: center;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow:
+                0 0 0 1px rgba(255, 215, 0, 0.08),
+                0 20px 40px -10px rgba(0, 0, 0, 0.4);
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .screenshot-item:hover {
+            transform: scale(1.03);
+            box-shadow:
+                0 0 0 2px rgba(255, 215, 0, 0.2),
+                0 30px 60px -15px rgba(0, 0, 0, 0.5);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            display: block;
+        }
+
+        /* ============================================
+           DRIVERS SECTION
+           ============================================ */
+        .drivers {
+            padding-block: 6rem;
+            position: relative;
+        }
+
+        .drivers-card {
+            background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-deep) 100%);
+            border-radius: var(--radius-xl);
+            padding: 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--color-glass-border);
+        }
+
+        .drivers-card::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.07) 0%, transparent 60%);
+            top: -20%;
+            right: -10%;
             pointer-events: none;
+        }
+
+        .drivers-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .drivers-content .section-title {
+            margin-bottom: 1rem;
+        }
+
+        .drivers-content p {
+            color: var(--color-text);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+            text-wrap: pretty;
+        }
+
+        .drivers-benefits {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .drivers-benefits li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-block: 0.5rem;
+            color: var(--color-text);
+            font-size: 0.95rem;
+        }
+
+        .drivers-benefits li svg {
+            width: 20px;
+            height: 20px;
+            color: var(--color-yellow);
+            flex-shrink: 0;
+        }
+
+        .drivers-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .drivers-visual img {
+            width: 240px;
+            border-radius: 28px;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ============================================
+           HOW IT WORKS
+           ============================================ */
+        .how-it-works {
+            padding-block: 6rem;
+        }
+
+        .how-it-works-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .how-it-works-header .section-subtitle {
+            margin-inline: auto;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            position: relative;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            position: relative;
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            background: var(--color-yellow);
+            color: var(--color-navy-deep);
+            font-size: 1.3rem;
+            font-weight: 800;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .step-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--color-white);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-card p {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        /* ============================================
+           DOWNLOAD CTA SECTION
+           ============================================ */
+        .download-cta {
+            padding-block: 6rem;
+        }
+
+        .download-cta-inner {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(15, 52, 96, 0.3) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.12);
+            border-radius: var(--radius-xl);
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-cta-inner::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.06) 0%, transparent 60%);
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .download-cta-inner .section-title {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .download-cta-inner p {
+            color: var(--color-text-muted);
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+            position: relative;
+        }
+
+        .download-cta-inner .hero-buttons {
+            justify-content: center;
+            position: relative;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            border-top: 1px solid var(--color-border);
+            padding-block: 3rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-brand {
+            max-width: 280px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .footer-logo-text {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--color-white);
+        }
+
+        .footer-logo-text span {
+            color: var(--color-yellow);
+        }
+
+        .footer-brand p {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+        .footer-column h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--color-white);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.6rem;
+        }
+
+        .footer-column ul li a {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--color-yellow);
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+        }
+
+        .footer-social a:hover {
+            background: var(--color-yellow-soft);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .footer-social svg {
+            width: 16px;
+            height: 16px;
+            color: var(--color-text-muted);
+        }
+
+        .footer-social a:hover svg {
+            color: var(--color-yellow);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+
+            .hero-description {
+                margin-inline: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+
+            .hero-phone-frame {
+                width: 220px;
+            }
+
+            .hero-phone-float {
+                width: 180px;
+                right: -50px;
+                top: 40px;
+            }
+
+            .drivers-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 3rem 2rem;
+            }
+
+            .drivers-benefits li {
+                justify-content: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(6, 13, 27, 0.95);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--color-border);
+            }
+
+            .navbar-links.active {
+                display: flex;
+            }
+
+            .navbar-toggle {
+                display: block;
+            }
+
+            .hero {
+                padding-block: 7rem 3rem;
+            }
+
+            .hero-phone-float {
+                display: none;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .screenshots-track {
+                padding-inline: 1.5rem;
+            }
+
+            .screenshot-item {
+                flex: 0 0 200px;
+            }
+
+            .drivers-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-stat {
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="bg-glow"></div>
-    <div class="container">
-        <img src="images/log_o.png" alt="Draiven Logo" class="logo">
-        <h1>En Construcción</h1>
-        <p>Estamos trabajando arduamente para traerte la mejor experiencia con Draiven. ¡Vuelve pronto!</p>
-        <div class="spinner"></div>
-    </div>
+
+    <!-- Parallax Background Logo -->
+    <img src="images/log_o.png" alt="" class="parallax-logo" id="parallaxLogo" aria-hidden="true">
+
+    <!-- ============================================
+         NAVIGATION
+         ============================================ -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="navbar-logo">
+                <img src="images/log_o.png" alt="DraiVen Logo" width="36" height="36">
+                <span class="navbar-logo-text">Drai<span>Ven</span></span>
+            </a>
+            <ul class="navbar-links" id="navLinks">
+                <li><a href="#features">Beneficios</a></li>
+                <li><a href="#how-it-works">Cómo Funciona</a></li>
+                <li><a href="#screenshots">La App</a></li>
+                <li><a href="#drivers">Conductores</a></li>
+                <li><a href="#download" class="navbar-cta">Descargar App</a></li>
+            </ul>
+            <button class="navbar-toggle" id="navToggle" aria-label="Abrir menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         HERO SECTION
+         ============================================ -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-glow"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="hero-badge-dot"></span>
+                    Disponible ahora en tu ciudad
+                </div>
+                <h1>Tu mototaxi <span class="highlight">seguro</span>, a un clic de distancia</h1>
+                <p class="hero-description">
+                    Evade el tráfico, ahorra tiempo y viaja protegido. DraiVen conecta pasajeros con mototaxistas verificados en segundos. Rápido, confiable y al mejor precio.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary" id="btn-download-play">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 0 1 0 1.38l-2.302 2.302L15.396 12l2.302-2.492zM5.864 2.658L16.8 9.99l-2.302 2.302-8.634-8.634z"/></svg>
+                        Descargar en Google Play
+                    </a>
+                    <a href="#drivers" class="btn btn-outline" id="btn-driver-hero">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                        Soy Conductor
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">500+</div>
+                        <div class="hero-stat-label">Conductores</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">10K+</div>
+                        <div class="hero-stat-label">Viajes realizados</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">4.8★</div>
+                        <div class="hero-stat-label">Calificación</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-phone-frame">
+                    <img src="images/screenshot_2.png" alt="DraiVen app mostrando el mapa con solicitudes de viajes cercanos" width="280" height="560" loading="eager" fetchpriority="high">
+                </div>
+                <div class="hero-phone-float">
+                    <img src="images/screenshot_3.png" alt="DraiVen app mostrando detalles de un viaje con ruta y tarifa" width="220" height="440" loading="eager">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FEATURES SECTION
+         ============================================ -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="features-header reveal">
+                <span class="section-label">Beneficios</span>
+                <h2 class="section-title">¿Por qué elegir DraiVen?</h2>
+                <p class="section-subtitle">Diseñada con tu seguridad y comodidad como prioridad. Cada función fue pensada para que tu viaje sea una experiencia premium.</p>
+            </div>
+            <div class="features-grid">
+                <!-- Feature 1: Security -->
+                <div class="feature-card reveal reveal-delay-1">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                    </div>
+                    <h3>Seguridad Primero</h3>
+                    <p>Cada conductor pasa por un riguroso proceso de verificación de identidad, antecedentes y documentos del vehículo. Tu tranquilidad es nuestra prioridad.</p>
+                </div>
+                <!-- Feature 2: Pricing -->
+                <div class="feature-card reveal reveal-delay-2">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <h3>Precios Transparentes</h3>
+                    <p>Conoce el costo exacto antes de confirmar tu viaje. Sin tarifas ocultas, sin sorpresas. Negocia o acepta la tarifa propuesta directamente desde la app.</p>
+                </div>
+                <!-- Feature 3: GPS -->
+                <div class="feature-card reveal reveal-delay-3">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                    </div>
+                    <h3>GPS en Tiempo Real</h3>
+                    <p>Sigue la ruta de tu mototaxi en un mapa en vivo. Comparte tu ubicación con familiares y amigos para mayor seguridad durante todo el trayecto.</p>
+                </div>
+                <!-- Feature 4: Chat -->
+                <div class="feature-card reveal reveal-delay-4">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="9.01" y2="10"/><line x1="15" y1="10" x2="15.01" y2="10"/></svg>
+                    </div>
+                    <h3>Chat Privado</h3>
+                    <p>Comunícate con tu conductor por texto y notas de voz directamente en la app. Sin necesidad de compartir tu número telefónico personal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         HOW IT WORKS SECTION
+         ============================================ -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="how-it-works-header reveal">
+                <span class="section-label">Cómo Funciona</span>
+                <h2 class="section-title">Tu viaje en 3 simples pasos</h2>
+                <p class="section-subtitle">Pedir un mototaxi nunca fue tan fácil. En menos de un minuto estarás en camino.</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card reveal reveal-delay-1">
+                    <div class="step-number">1</div>
+                    <h3>Elige tu destino</h3>
+                    <p>Abre la app, selecciona a dónde quieres ir y recibe al instante una tarifa estimada justa y transparente.</p>
+                </div>
+                <div class="step-card reveal reveal-delay-2">
+                    <div class="step-number">2</div>
+                    <h3>Conecta con un conductor</h3>
+                    <p>Un mototaxista verificado cerca de ti aceptará tu solicitud. Podrás ver su perfil, calificación y placa antes de subir.</p>
+                </div>
+                <div class="step-card reveal reveal-delay-3">
+                    <div class="step-number">3</div>
+                    <h3>¡Viaja y llega rápido!</h3>
+                    <p>Sigue la ruta en tiempo real, chatea con tu conductor y evade el tráfico como un experto. ¡Así de simple!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SCREENSHOTS SECTION
+         ============================================ -->
+    <section class="screenshots" id="screenshots">
+        <div class="container">
+            <div class="screenshots-header reveal">
+                <span class="section-label">La App</span>
+                <h2 class="section-title">Conoce DraiVen por dentro</h2>
+                <p class="section-subtitle">Una interfaz intuitiva y moderna diseñada tanto para pasajeros como conductores.</p>
+            </div>
+        </div>
+        <div class="screenshots-track">
+            <div class="screenshot-item">
+                <img src="images/screenshot_2.png" alt="Pantalla principal con mapa y solicitudes" width="260" height="520" loading="lazy">
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot_3.png" alt="Detalles de viaje con ruta y tarifa" width="260" height="520" loading="lazy">
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot_1.png" alt="Panel de ganancias del conductor" width="260" height="520" loading="lazy">
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot_4.png" alt="Perfil de conductor con datos y vehículo" width="260" height="520" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         DRIVERS SECTION
+         ============================================ -->
+    <section class="drivers" id="drivers">
+        <div class="container">
+            <div class="drivers-card reveal">
+                <div class="drivers-content">
+                    <span class="section-label">Conductores</span>
+                    <h2 class="section-title">Genera ingresos con tu moto</h2>
+                    <p>Únete a la red de mototaxistas de DraiVen. Tú decides cuándo trabajar, cuánto cobrar y las rutas que prefieras. Sin jefes, sin horarios fijos.</p>
+                    <ul class="drivers-benefits">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            Recibe pagos directos por cada viaje completado
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            Panel de ganancias en tiempo real
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            Soporte 24/7 para conductores
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            Registro gratuito — sin costos iniciales
+                        </li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" id="btn-register-driver">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                        Regístrate como Conductor
+                    </a>
+                </div>
+                <div class="drivers-visual">
+                    <img src="images/screenshot_1.png" alt="Panel de ganancias del conductor en DraiVen" width="240" height="480" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         DOWNLOAD CTA SECTION
+         ============================================ -->
+    <section class="download-cta" id="download">
+        <div class="container">
+            <div class="download-cta-inner reveal">
+                <span class="section-label">Descarga Gratis</span>
+                <h2 class="section-title">¿Listo para moverte más rápido?</h2>
+                <p>Descarga DraiVen ahora y experimenta una nueva forma de transporte en tu ciudad. Disponible en Google Play.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary" id="btn-download-footer">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 0 1 0 1.38l-2.302 2.302L15.396 12l2.302-2.492zM5.864 2.658L16.8 9.99l-2.302 2.302-8.634-8.634z"/></svg>
+                        Descargar en Google Play
+                    </a>
+                    <a href="#drivers" class="btn btn-outline" id="btn-driver-footer">
+                        Descargar para Conductores
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="images/log_o.png" alt="DraiVen" width="32" height="32">
+                        <span class="footer-logo-text">Drai<span>Ven</span></span>
+                    </div>
+                    <p>La app de mototaxis más segura y confiable. Conectamos pasajeros y conductores para un transporte rápido, económico y protegido.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Producto</h4>
+                    <ul>
+                        <li><a href="#features">Beneficios</a></li>
+                        <li><a href="#how-it-works">Cómo Funciona</a></li>
+                        <li><a href="#screenshots">La App</a></li>
+                        <li><a href="#download">Descargar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Términos de Servicio</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Centro Legal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:draiven.soporte@protonlab.site">draiven.soporte@protonlab.site</a></li>
+                        <li><a href="#drivers">Conductores</a></li>
+                        <li><a href="#">Soporte</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DraiVen. Todos los derechos reservados.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="#" aria-label="Twitter / X">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
+                    </a>
+                    <a href="#" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         SCRIPTS
+         ============================================ -->
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 30);
+        }, { passive: true });
+
+        // Mobile menu toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu on link click
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Scroll reveal with IntersectionObserver
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Parallax background logo
+        const parallaxLogo = document.getElementById('parallaxLogo');
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    const parallaxOffset = scrollY * 0.3;
+                    const scale = 1 + scrollY * 0.0002;
+                    const opacity = Math.max(0.015, 0.03 - scrollY * 0.000015);
+                    parallaxLogo.style.transform = `translate(-50%, calc(-50% + ${parallaxOffset}px)) scale(${scale})`;
+                    parallaxLogo.style.opacity = opacity;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // Smooth scroll for anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
