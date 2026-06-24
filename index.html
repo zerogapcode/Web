@@ -243,6 +243,23 @@
         }
 
         /* ============================================
+           PARALLAX BACKGROUND LOGO
+           ============================================ */
+        .parallax-logo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(70vw, 700px);
+            height: auto;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+            filter: grayscale(0.2);
+        }
+
+        /* ============================================
            HERO SECTION
            ============================================ */
         .hero {
@@ -1071,6 +1088,9 @@
 </head>
 <body>
 
+    <!-- Parallax Background Logo -->
+    <img src="images/log_o.png" alt="" class="parallax-logo" id="parallaxLogo" aria-hidden="true">
+
     <!-- ============================================
          NAVIGATION
          ============================================ -->
@@ -1407,6 +1427,24 @@
         });
 
         revealElements.forEach(el => revealObserver.observe(el));
+
+        // Parallax background logo
+        const parallaxLogo = document.getElementById('parallaxLogo');
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    const parallaxOffset = scrollY * 0.3;
+                    const scale = 1 + scrollY * 0.0002;
+                    const opacity = Math.max(0.015, 0.03 - scrollY * 0.000015);
+                    parallaxLogo.style.transform = `translate(-50%, calc(-50% + ${parallaxOffset}px)) scale(${scale})`;
+                    parallaxLogo.style.opacity = opacity;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
 
         // Smooth scroll for anchors
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
