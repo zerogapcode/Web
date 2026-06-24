@@ -58,6 +58,10 @@
         body {
             font-family: var(--font);
             background-color: var(--color-bg);
+            background-image: linear-gradient(rgba(6, 13, 27, 0.85), rgba(6, 13, 27, 0.9)), url('images/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: var(--color-text);
             line-height: 1.6;
             overflow-x: hidden;
@@ -1435,7 +1439,7 @@
             if (!ticking) {
                 requestAnimationFrame(() => {
                     const scrollY = window.scrollY;
-                    const parallaxOffset = scrollY * 0.3;
+                    const parallaxOffset = scrollY * -0.3; // Inverted movement
                     const scale = 1 + scrollY * 0.0002;
                     const opacity = Math.max(0.015, 0.03 - scrollY * 0.000015);
                     parallaxLogo.style.transform = `translate(-50%, calc(-50% + ${parallaxOffset}px)) scale(${scale})`;
