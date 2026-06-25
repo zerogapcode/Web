@@ -64,8 +64,8 @@
     .medicloud-link {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
+      gap: 0px;
+      padding: 6px 10px;
       border-radius: 999px;
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -85,6 +85,8 @@
       background: rgba(255, 255, 255, 0.2);
       border-color: rgba(255, 255, 255, 0.4);
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      gap: 6px;
+      padding: 6px 14px;
     }
     .medicloud-link svg {
       width: 18px;
@@ -103,8 +105,8 @@
     .axiom-link {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
+      gap: 0px;
+      padding: 6px 10px;
       border-radius: 999px;
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -124,6 +126,8 @@
       background: rgba(180, 120, 255, 0.2);
       border-color: rgba(180, 120, 255, 0.4);
       box-shadow: 0 8px 20px rgba(180, 120, 255, 0.2);
+      gap: 6px;
+      padding: 6px 14px;
     }
     .axiom-link svg {
       width: 18px;
@@ -147,8 +151,8 @@
     .draiven-link {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
+      gap: 0px;
+      padding: 6px 10px;
       border-radius: 999px;
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -168,6 +172,8 @@
       background: rgba(255, 193, 7, 0.2);
       border-color: rgba(255, 193, 7, 0.4);
       box-shadow: 0 8px 20px rgba(255, 193, 7, 0.2);
+      gap: 6px;
+      padding: 6px 14px;
     }
     .draiven-link svg {
       width: 18px;
@@ -186,6 +192,24 @@
     body[data-theme='dark'] .draiven-link:hover {
       background: rgba(255, 193, 7, 0.25);
       border-color: rgba(255, 193, 7, 0.5);
+    }
+
+    /* Animación de texto en botones */
+    .medicloud-link span,
+    .axiom-link span,
+    .draiven-link span {
+      display: block;
+      max-width: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .medicloud-link:hover span,
+    .axiom-link:hover span,
+    .draiven-link:hover span {
+      max-width: 80px;
+      opacity: 1;
     }
 
     nav {
