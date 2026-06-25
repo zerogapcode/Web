@@ -1,1466 +1,471 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DraiVen — Tu Mototaxi Seguro, a un Clic de Distancia</title>
-    <meta name="description" content="DraiVen es la app líder de mototaxis. Viajes rápidos, seguros y a precio justo. Descarga gratis en Google Play.">
-    <meta property="og:title" content="DraiVen — Mototaxi App">
-    <meta property="og:description" content="Tu mototaxi seguro, a un clic de distancia. Viajes rápidos, seguros y a precio justo.">
-    <meta property="og:image" content="images/feature_graphic.png">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="images/app_icon.png" type="image/png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        /* ============================================
-           DESIGN TOKENS & VARIABLES
-           ============================================ */
-        :root {
-            --color-yellow: #FFD700;
-            --color-yellow-hover: #FFC200;
-            --color-yellow-soft: rgba(255, 215, 0, 0.12);
-            --color-navy: #0f3460;
-            --color-navy-deep: #0a1628;
-            --color-navy-card: #101d35;
-            --color-bg: #060d1b;
-            --color-surface: #0c1a30;
-            --color-white: #ffffff;
-            --color-text: #c8d6e5;
-            --color-text-muted: #7f8c9b;
-            --color-border: rgba(255, 255, 255, 0.06);
-            --color-glass: rgba(15, 52, 96, 0.35);
-            --color-glass-border: rgba(255, 215, 0, 0.12);
-            --radius-sm: 12px;
-            --radius-md: 20px;
-            --radius-lg: 28px;
-            --radius-xl: 40px;
-            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* ============================================
-           RESET & BASE
-           ============================================ */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        body {
-            font-family: var(--font);
-            background-color: var(--color-bg);
-            background-image: linear-gradient(rgba(6, 13, 27, 0.85), rgba(6, 13, 27, 0.9)), url('images/bg.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--color-text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        a {
-            color: var(--color-yellow);
-            text-decoration: none;
-            transition: color var(--transition);
-        }
-
-        a:hover {
-            color: var(--color-yellow-hover);
-        }
-
-        /* ============================================
-           UTILITIES
-           ============================================ */
-        .container {
-            max-width: 1200px;
-            margin-inline: auto;
-            padding-inline: 1.5rem;
-        }
-
-        .section-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--color-yellow);
-            margin-bottom: 1rem;
-        }
-
-        .section-label::before {
-            content: '';
-            width: 32px;
-            height: 2px;
-            background: var(--color-yellow);
-            border-radius: 1px;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 800;
-            color: var(--color-white);
-            line-height: 1.15;
-            margin-bottom: 1.25rem;
-            text-wrap: balance;
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--color-text-muted);
-            max-width: 600px;
-            text-wrap: pretty;
-        }
-
-        /* ============================================
-           SCROLL-REVEAL ANIMATIONS
-           ============================================ */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
-
-        /* ============================================
-           NAVIGATION
-           ============================================ */
-        .navbar {
-            position: fixed;
-            top: 0;
-            inset-inline: 0;
-            z-index: 100;
-            padding: 1rem 0;
-            transition: background var(--transition), box-shadow var(--transition), padding var(--transition);
-        }
-
-        .navbar.scrolled {
-            background: rgba(6, 13, 27, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 1px 0 var(--color-border);
-            padding: 0.6rem 0;
-        }
-
-        .navbar .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .navbar-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .navbar-logo img {
-            width: 36px;
-            height: 36px;
-        }
-
-        .navbar-logo-text {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: var(--color-white);
-        }
-
-        .navbar-logo-text span {
-            color: var(--color-yellow);
-        }
-
-        .navbar-links {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .navbar-links a {
-            color: var(--color-text);
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color var(--transition);
-        }
-
-        .navbar-links a:hover {
-            color: var(--color-yellow);
-        }
-
-        .navbar-cta {
-            background: var(--color-yellow);
-            color: var(--color-navy-deep) !important;
-            padding: 0.55rem 1.4rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            transition: background var(--transition), transform var(--transition);
-        }
-
-        .navbar-cta:hover {
-            background: var(--color-yellow-hover);
-            color: var(--color-navy-deep) !important;
-            transform: translateY(-1px);
-        }
-
-        .navbar-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        .navbar-toggle span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--color-white);
-            margin: 5px 0;
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-
-        /* ============================================
-           PARALLAX BACKGROUND LOGO
-           ============================================ */
-        .parallax-logo {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: min(70vw, 700px);
-            height: auto;
-            opacity: 0.03;
-            pointer-events: none;
-            z-index: 0;
-            will-change: transform;
-            filter: grayscale(0.2);
-        }
-
-        /* ============================================
-           HERO SECTION
-           ============================================ */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding-block: 8rem 4rem;
-        }
-
-        .hero-bg-glow {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-        }
-
-        .hero-bg-glow::before {
-            content: '';
-            position: absolute;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 65%);
-            top: -20%;
-            right: -15%;
-            animation: pulse-glow 8s ease-in-out infinite alternate;
-        }
-
-        .hero-bg-glow::after {
-            content: '';
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(15, 52, 96, 0.25) 0%, transparent 65%);
-            bottom: -10%;
-            left: -10%;
-            animation: pulse-glow 10s ease-in-out 2s infinite alternate;
-        }
-
-        @keyframes pulse-glow {
-            from { opacity: 0.6; transform: scale(1); }
-            to { opacity: 1; transform: scale(1.15); }
-        }
-
-        .hero .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-content {
-            max-width: 560px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--color-yellow-soft);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 50px;
-            padding: 0.4rem 1rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--color-yellow);
-            margin-bottom: 1.5rem;
-            animation: fadeInDown 0.6s ease;
-        }
-
-        .hero-badge-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--color-yellow);
-            border-radius: 50%;
-            animation: blink 2s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 5.5vw, 3.8rem);
-            font-weight: 900;
-            color: var(--color-white);
-            line-height: 1.08;
-            margin-bottom: 1.5rem;
-            text-wrap: balance;
-            animation: fadeInUp 0.7s ease 0.1s both;
-        }
-
-        .hero h1 .highlight {
-            background: linear-gradient(135deg, var(--color-yellow) 0%, #ffaa00 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-description {
-            font-size: 1.15rem;
-            color: var(--color-text);
-            margin-bottom: 2.5rem;
-            max-width: 480px;
-            text-wrap: pretty;
-            animation: fadeInUp 0.7s ease 0.2s both;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            animation: fadeInUp 0.7s ease 0.3s both;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.9rem 1.8rem;
-            border-radius: 50px;
-            font-family: var(--font);
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            transition: all var(--transition);
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: var(--color-yellow);
-            color: var(--color-navy-deep);
-            box-shadow: 0 4px 24px rgba(255, 215, 0, 0.25);
-        }
-
-        .btn-primary:hover {
-            background: var(--color-yellow-hover);
-            color: var(--color-navy-deep);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(255, 215, 0, 0.35);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--color-white);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .btn-outline:hover {
-            border-color: var(--color-yellow);
-            color: var(--color-yellow);
-            transform: translateY(-2px);
-        }
-
-        .btn svg {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
-
-        .hero-visual {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            animation: fadeInUp 0.9s ease 0.4s both;
-        }
-
-        .hero-phone-frame {
-            position: relative;
-            width: 280px;
-        }
-
-        .hero-phone-frame img {
-            width: 100%;
-            border-radius: 28px;
-            box-shadow:
-                0 0 0 2px rgba(255, 215, 0, 0.15),
-                0 25px 60px -15px rgba(0, 0, 0, 0.6),
-                0 0 80px rgba(255, 215, 0, 0.06);
-        }
-
-        .hero-phone-float {
-            position: absolute;
-            width: 220px;
-            right: -80px;
-            top: 60px;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow:
-                0 20px 50px -10px rgba(0, 0, 0, 0.5);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .hero-phone-float img {
-            width: 100%;
-            border-radius: 24px;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 2.5rem;
-            margin-top: 3rem;
-            animation: fadeInUp 0.7s ease 0.5s both;
-        }
-
-        .hero-stat {
-            text-align: start;
-        }
-
-        .hero-stat-number {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--color-yellow);
-        }
-
-        .hero-stat-label {
-            font-size: 0.8rem;
-            color: var(--color-text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        /* ============================================
-           FEATURES SECTION
-           ============================================ */
-        .features {
-            padding-block: 6rem;
-            position: relative;
-        }
-
-        .features-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .features-header .section-subtitle {
-            margin-inline: auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            position: relative;
-            background: var(--color-glass);
-            border: 1px solid var(--color-glass-border);
-            border-radius: var(--radius-md);
-            padding: 2rem;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            transition: all var(--transition);
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.04) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity var(--transition);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 215, 0, 0.25);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-card:hover::before {
-            opacity: 1;
-        }
-
-        .feature-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: var(--radius-sm);
-            background: var(--color-yellow-soft);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.25rem;
-            position: relative;
-        }
-
-        .feature-icon svg {
-            width: 28px;
-            height: 28px;
-            color: var(--color-yellow);
-        }
-
-        .feature-card h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--color-white);
-            margin-bottom: 0.6rem;
-            position: relative;
-        }
-
-        .feature-card p {
-            font-size: 0.92rem;
-            color: var(--color-text-muted);
-            line-height: 1.6;
-            position: relative;
-        }
-
-        /* ============================================
-           APP SCREENSHOTS SECTION
-           ============================================ */
-        .screenshots {
-            padding-block: 6rem;
-            position: relative;
-        }
-
-        .screenshots-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .screenshots-header .section-subtitle {
-            margin-inline: auto;
-        }
-
-        .screenshots-track {
-            display: flex;
-            gap: 1.5rem;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
-            padding-block: 1rem;
-            padding-inline: calc((100vw - 1200px) / 2);
-        }
-
-        .screenshots-track::-webkit-scrollbar {
-            display: none;
-        }
-
-        .screenshot-item {
-            flex: 0 0 260px;
-            scroll-snap-align: center;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow:
-                0 0 0 1px rgba(255, 215, 0, 0.08),
-                0 20px 40px -10px rgba(0, 0, 0, 0.4);
-            transition: transform var(--transition), box-shadow var(--transition);
-        }
-
-        .screenshot-item:hover {
-            transform: scale(1.03);
-            box-shadow:
-                0 0 0 2px rgba(255, 215, 0, 0.2),
-                0 30px 60px -15px rgba(0, 0, 0, 0.5);
-        }
-
-        .screenshot-item img {
-            width: 100%;
-            display: block;
-        }
-
-        /* ============================================
-           DRIVERS SECTION
-           ============================================ */
-        .drivers {
-            padding-block: 6rem;
-            position: relative;
-        }
-
-        .drivers-card {
-            background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-deep) 100%);
-            border-radius: var(--radius-xl);
-            padding: 4rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--color-glass-border);
-        }
-
-        .drivers-card::before {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.07) 0%, transparent 60%);
-            top: -20%;
-            right: -10%;
-            pointer-events: none;
-        }
-
-        .drivers-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .drivers-content .section-title {
-            margin-bottom: 1rem;
-        }
-
-        .drivers-content p {
-            color: var(--color-text);
-            margin-bottom: 2rem;
-            font-size: 1.05rem;
-            text-wrap: pretty;
-        }
-
-        .drivers-benefits {
-            list-style: none;
-            margin-bottom: 2.5rem;
-        }
-
-        .drivers-benefits li {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding-block: 0.5rem;
-            color: var(--color-text);
-            font-size: 0.95rem;
-        }
-
-        .drivers-benefits li svg {
-            width: 20px;
-            height: 20px;
-            color: var(--color-yellow);
-            flex-shrink: 0;
-        }
-
-        .drivers-visual {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            z-index: 1;
-        }
-
-        .drivers-visual img {
-            width: 240px;
-            border-radius: 28px;
-            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
-        }
-
-        /* ============================================
-           HOW IT WORKS
-           ============================================ */
-        .how-it-works {
-            padding-block: 6rem;
-        }
-
-        .how-it-works-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .how-it-works-header .section-subtitle {
-            margin-inline: auto;
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 2rem;
-            position: relative;
-        }
-
-        .step-card {
-            text-align: center;
-            padding: 2rem 1.5rem;
-            position: relative;
-        }
-
-        .step-number {
-            width: 56px;
-            height: 56px;
-            background: var(--color-yellow);
-            color: var(--color-navy-deep);
-            font-size: 1.3rem;
-            font-weight: 800;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
-        }
-
-        .step-card h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--color-white);
-            margin-bottom: 0.5rem;
-        }
-
-        .step-card p {
-            font-size: 0.9rem;
-            color: var(--color-text-muted);
-        }
-
-        /* ============================================
-           DOWNLOAD CTA SECTION
-           ============================================ */
-        .download-cta {
-            padding-block: 6rem;
-        }
-
-        .download-cta-inner {
-            text-align: center;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(15, 52, 96, 0.3) 100%);
-            border: 1px solid rgba(255, 215, 0, 0.12);
-            border-radius: var(--radius-xl);
-            padding: 4rem 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .download-cta-inner::before {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.06) 0%, transparent 60%);
-            top: -50%;
-            left: 50%;
-            transform: translateX(-50%);
-            pointer-events: none;
-        }
-
-        .download-cta-inner .section-title {
-            margin-bottom: 1rem;
-            position: relative;
-        }
-
-        .download-cta-inner p {
-            color: var(--color-text-muted);
-            margin-bottom: 2.5rem;
-            font-size: 1.05rem;
-            position: relative;
-        }
-
-        .download-cta-inner .hero-buttons {
-            justify-content: center;
-            position: relative;
-        }
-
-        /* ============================================
-           FOOTER
-           ============================================ */
-        .footer {
-            border-top: 1px solid var(--color-border);
-            padding-block: 3rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-        }
-
-        .footer-brand {
-            max-width: 280px;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .footer-logo img {
-            width: 32px;
-            height: 32px;
-        }
-
-        .footer-logo-text {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--color-white);
-        }
-
-        .footer-logo-text span {
-            color: var(--color-yellow);
-        }
-
-        .footer-brand p {
-            font-size: 0.85rem;
-            color: var(--color-text-muted);
-            line-height: 1.6;
-        }
-
-        .footer-column h4 {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--color-white);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 1rem;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column ul li {
-            margin-bottom: 0.6rem;
-        }
-
-        .footer-column ul li a {
-            font-size: 0.85rem;
-            color: var(--color-text-muted);
-        }
-
-        .footer-column ul li a:hover {
-            color: var(--color-yellow);
-        }
-
-        .footer-bottom {
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--color-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .footer-bottom p {
-            font-size: 0.8rem;
-            color: var(--color-text-muted);
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .footer-social a {
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--color-border);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition);
-        }
-
-        .footer-social a:hover {
-            background: var(--color-yellow-soft);
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-
-        .footer-social svg {
-            width: 16px;
-            height: 16px;
-            color: var(--color-text-muted);
-        }
-
-        .footer-social a:hover svg {
-            color: var(--color-yellow);
-        }
-
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
-        @media (max-width: 1024px) {
-            .hero .container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-content {
-                max-width: 100%;
-            }
-
-            .hero-description {
-                margin-inline: auto;
-            }
-
-            .hero-buttons {
-                justify-content: center;
-            }
-
-            .hero-stats {
-                justify-content: center;
-            }
-
-            .hero-visual {
-                order: -1;
-            }
-
-            .hero-phone-frame {
-                width: 220px;
-            }
-
-            .hero-phone-float {
-                width: 180px;
-                right: -50px;
-                top: 40px;
-            }
-
-            .drivers-card {
-                grid-template-columns: 1fr;
-                text-align: center;
-                padding: 3rem 2rem;
-            }
-
-            .drivers-benefits li {
-                justify-content: center;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .navbar-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: rgba(6, 13, 27, 0.95);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                flex-direction: column;
-                padding: 1.5rem;
-                gap: 1rem;
-                border-bottom: 1px solid var(--color-border);
-            }
-
-            .navbar-links.active {
-                display: flex;
-            }
-
-            .navbar-toggle {
-                display: block;
-            }
-
-            .hero {
-                padding-block: 7rem 3rem;
-            }
-
-            .hero-phone-float {
-                display: none;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .screenshots-track {
-                padding-inline: 1.5rem;
-            }
-
-            .screenshot-item {
-                flex: 0 0 200px;
-            }
-
-            .drivers-card {
-                padding: 2rem 1.5rem;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-bottom {
-                justify-content: center;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .hero-stat {
-                text-align: center;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ProtonLab – Software & Hardware Development</title>
+  <meta name="description" content="ProtonLab – Web development, multi-platform apps, software+hardware integration and electronics" />
+
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://protonlab.site/" />
+  <meta property="og:title" content="ProtonLab – Software & Hardware Development" />
+  <meta property="og:description" content="ProtonLab – Web development, multi-platform apps, software+hardware integration and electronics" />
+  <meta property="og:image" content="https://protonlab.site/images/ldev.png" />
+
+  <!-- Twitter Meta Tags -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://protonlab.site/" />
+  <meta property="twitter:title" content="ProtonLab – Software & Hardware Development" />
+  <meta property="twitter:description" content="ProtonLab – Web development, multi-platform apps, software+hardware integration and electronics" />
+  <meta property="twitter:image" content="https://protonlab.site/images/ldev.png" />
+
+  <!-- Structured Data / JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "ProtonLab",
+    "image": "https://protonlab.site/images/ldev.png",
+    "url": "https://protonlab.site/",
+    "telephone": "+17542313968",
+    "email": "gapcode@protonmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Eastern US"
+    },
+    "description": "Software and hardware development laboratory specializing in multi-platform applications, scalable web solutions, and electronic systems integration.",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "10:00",
+        "closes": "14:00"
+      }
+    ]
+  }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css?v=2" />
 </head>
+
 <body>
-
-    <!-- Parallax Background Logo -->
-    <img src="images/log_o.png" alt="" class="parallax-logo" id="parallaxLogo" aria-hidden="true">
-
-    <!-- ============================================
-         NAVIGATION
-         ============================================ -->
-    <nav class="navbar" id="navbar">
-        <div class="container">
-            <a href="#" class="navbar-logo">
-                <img src="images/log_o.png" alt="DraiVen Logo" width="36" height="36">
-                <span class="navbar-logo-text">Drai<span>Ven</span></span>
-            </a>
-            <ul class="navbar-links" id="navLinks">
-                <li><a href="#features">Beneficios</a></li>
-                <li><a href="#how-it-works">Cómo Funciona</a></li>
-                <li><a href="#screenshots">La App</a></li>
-                <li><a href="#drivers">Conductores</a></li>
-                <li><a href="#download" class="navbar-cta">Descargar App</a></li>
-            </ul>
-            <button class="navbar-toggle" id="navToggle" aria-label="Abrir menú">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+  <header id="topbar">
+    <div class="brand">
+      <div class="mini" id="brandMini">&lt;/&gt;</div>
+      <!-- BOTÓN MEDICLOUD (original) -->
+      <a href="medicloud.html" class="medicloud-link" aria-label="MediCloud">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+          <polyline points="13 13 10 18 14 18 11 23"/>
+        </svg>
+        <span>MediCloud</span>
+      </a>
+      <!-- NUEVO BOTÓN AXIOM (morado con estrella) -->
+      <a href="axiom.html" class="axiom-link" aria-label="AXIOM">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <span>AXIOM</span>
+      </a>
+      <!-- NUEVO BOTÓN DRAIVEN (amarillo) -->
+      <a href="draiven" class="draiven-link" aria-label="DraiVen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+        <span>DraiVen</span>
+      </a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menú principal">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="nav">
+      <a class="navlink" href="#inicio" data-i18n="nav_home">Home</a>
+      <a class="navlink" href="#servicios" data-i18n="nav_services">Services</a>
+      <a class="navlink" href="#departamentos" data-i18n="nav_departments">Departments</a>
+      <a class="navlink" href="#contacto" data-i18n="nav_contact">Contact</a>
+      <a class="navlink" href="#acerca" data-i18n="nav_about">About</a>
+      <div class="mode-toggle">
+        <div class="seg">
+          <button data-mode="auto" class="active" data-i18n="mode_auto">Auto</button>
+          <button data-mode="light" data-i18n="mode_light">Light</button>
+          <button data-mode="dark" data-i18n="mode_dark">Dark</button>
         </div>
+      </div>
+      <div class="mode-toggle">
+        <div class="seg">
+          <button data-lang="en" class="active">EN</button>
+          <button data-lang="es">ES</button>
+        </div>
+      </div>
     </nav>
+  </header>
 
-    <!-- ============================================
-         HERO SECTION
-         ============================================ -->
-    <section class="hero" id="hero">
-        <div class="hero-bg-glow"></div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="hero-badge-dot"></span>
-                    Disponible ahora en tu ciudad
-                </div>
-                <h1>Tu mototaxi <span class="highlight">seguro</span>, a un clic de distancia</h1>
-                <p class="hero-description">
-                    Evade el tráfico, ahorra tiempo y viaja protegido. DraiVen conecta pasajeros con mototaxistas verificados en segundos. Rápido, confiable y al mejor precio.
-                </p>
-                <div class="hero-buttons">
-                    <a href="#" class="btn btn-primary" id="btn-download-play">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 0 1 0 1.38l-2.302 2.302L15.396 12l2.302-2.492zM5.864 2.658L16.8 9.99l-2.302 2.302-8.634-8.634z"/></svg>
-                        Descargar en Google Play
-                    </a>
-                    <a href="#drivers" class="btn btn-outline" id="btn-driver-hero">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-                        Soy Conductor
-                    </a>
-                </div>
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <div class="hero-stat-number">500+</div>
-                        <div class="hero-stat-label">Conductores</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-number">10K+</div>
-                        <div class="hero-stat-label">Viajes realizados</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-number">4.8★</div>
-                        <div class="hero-stat-label">Calificación</div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="hero-phone-frame">
-                    <img src="images/screenshot_2.png" alt="DraiVen app mostrando el mapa con solicitudes de viajes cercanos" width="280" height="560" loading="eager" fetchpriority="high">
-                </div>
-                <div class="hero-phone-float">
-                    <img src="images/screenshot_3.png" alt="DraiVen app mostrando detalles de un viaje con ruta y tarifa" width="220" height="440" loading="eager">
-                </div>
-            </div>
+  <div class="panels" id="panels"></div>
+
+  <main class="wrap">
+    <section id="inicio" class="hero">
+      <div class="hero-inner">
+        <div class="hero-left">
+          <h1 class="code-title"><span id="typedWrap">&lt;<span id="typed"></span>&gt;</span>
+            <small class="muted" id="typed-subtitle" data-i18n="hero_subtitle">Software and hardware within everyone's reach.</small></h1>
+          <p style="margin-top:18px" data-i18n="hero_p1">
+            We are a development laboratory specializing in multi-platform applications, scalable web solutions, 
+            and electronic systems integration. We combine cutting-edge technologies 
+            with agile methodologies to deliver innovative products that solve complex problems.</p>
+          <p style="margin-top:18px" data-i18n="hero_p2">
+            Our multidisciplinary approach allows us to tackle projects from conception to implementation, 
+            creating comprehensive solutions that connect the digital world with the physical.</p>
         </div>
+      </div>
     </section>
 
-    <!-- ============================================
-         FEATURES SECTION
-         ============================================ -->
-    <section class="features" id="features">
-        <div class="container">
-            <div class="features-header reveal">
-                <span class="section-label">Beneficios</span>
-                <h2 class="section-title">¿Por qué elegir DraiVen?</h2>
-                <p class="section-subtitle">Diseñada con tu seguridad y comodidad como prioridad. Cada función fue pensada para que tu viaje sea una experiencia premium.</p>
-            </div>
-            <div class="features-grid">
-                <!-- Feature 1: Security -->
-                <div class="feature-card reveal reveal-delay-1">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-                    </div>
-                    <h3>Seguridad Primero</h3>
-                    <p>Cada conductor pasa por un riguroso proceso de verificación de identidad, antecedentes y documentos del vehículo. Tu tranquilidad es nuestra prioridad.</p>
-                </div>
-                <!-- Feature 2: Pricing -->
-                <div class="feature-card reveal reveal-delay-2">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    </div>
-                    <h3>Precios Transparentes</h3>
-                    <p>Conoce el costo exacto antes de confirmar tu viaje. Sin tarifas ocultas, sin sorpresas. Negocia o acepta la tarifa propuesta directamente desde la app.</p>
-                </div>
-                <!-- Feature 3: GPS -->
-                <div class="feature-card reveal reveal-delay-3">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-                    </div>
-                    <h3>GPS en Tiempo Real</h3>
-                    <p>Sigue la ruta de tu mototaxi en un mapa en vivo. Comparte tu ubicación con familiares y amigos para mayor seguridad durante todo el trayecto.</p>
-                </div>
-                <!-- Feature 4: Chat -->
-                <div class="feature-card reveal reveal-delay-4">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="9.01" y2="10"/><line x1="15" y1="10" x2="15.01" y2="10"/></svg>
-                    </div>
-                    <h3>Chat Privado</h3>
-                    <p>Comunícate con tu conductor por texto y notas de voz directamente en la app. Sin necesidad de compartir tu número telefónico personal.</p>
-                </div>
-            </div>
+    <section id="servicios">
+      <h2 data-i18n="services_title">Services</h2>
+      <p class="lead" data-i18n="services_lead">Custom development, technical consulting, and rapid prototyping. We transform ideas into functional products.</p>
+      
+      <div class="service-grid">
+        <div class="service-card">
+          <h3 data-i18n="service_ios_title">iOS Development</h3>
+          <p data-i18n="service_ios_desc">Native applications for iPhone and iPad using Swift and SwiftUI. Optimized interfaces and exceptional user experience with full Apple ecosystem integration.</p>
         </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="service_web_title">Web Solutions</h3>
+          <p data-i18n="service_web_desc">Development of modern web applications, RESTful APIs, and scalable backend systems with the latest technologies. Robust and maintainable architectures.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="service_hw_title">Hardware/Software Integration</h3>
+          <p data-i18n="service_hw_desc">Embedded systems, IoT, automation, and physical device control via custom software. Seamless connection between the digital and physical worlds.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="service_consulting_title">Technical Consulting</h3>
+          <p data-i18n="service_consulting_desc">Specialized advice on software architecture, process optimization, and technology strategies. We maximize the value of your technological investment.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="service_maintenance_title">Maintenance & Support</h3>
+          <p data-i18n="service_maintenance_desc">Continuous maintenance services, updates, and technical support to ensure optimal operation of your systems in the long term.</p>
+        </div>
+      </div>
     </section>
 
-    <!-- ============================================
-         HOW IT WORKS SECTION
-         ============================================ -->
-    <section class="how-it-works" id="how-it-works">
-        <div class="container">
-            <div class="how-it-works-header reveal">
-                <span class="section-label">Cómo Funciona</span>
-                <h2 class="section-title">Tu viaje en 3 simples pasos</h2>
-                <p class="section-subtitle">Pedir un mototaxi nunca fue tan fácil. En menos de un minuto estarás en camino.</p>
-            </div>
-            <div class="steps-grid">
-                <div class="step-card reveal reveal-delay-1">
-                    <div class="step-number">1</div>
-                    <h3>Elige tu destino</h3>
-                    <p>Abre la app, selecciona a dónde quieres ir y recibe al instante una tarifa estimada justa y transparente.</p>
-                </div>
-                <div class="step-card reveal reveal-delay-2">
-                    <div class="step-number">2</div>
-                    <h3>Conecta con un conductor</h3>
-                    <p>Un mototaxista verificado cerca de ti aceptará tu solicitud. Podrás ver su perfil, calificación y placa antes de subir.</p>
-                </div>
-                <div class="step-card reveal reveal-delay-3">
-                    <div class="step-number">3</div>
-                    <h3>¡Viaja y llega rápido!</h3>
-                    <p>Sigue la ruta en tiempo real, chatea con tu conductor y evade el tráfico como un experto. ¡Así de simple!</p>
-                </div>
-            </div>
+    <section id="departamentos">
+      <h2 data-i18n="dept_title">Departments</h2>
+      <p class="lead" data-i18n="dept_lead">Specialized teams working in synergy to offer complete and innovative solutions.</p>
+      
+      <div class="service-grid">
+        <div class="service-card">
+          <h3 data-i18n="dept_ios_title">iOS Development</h3>
+          <p data-i18n="dept_ios_desc">Specialists in Swift, SwiftUI, and the Apple ecosystem. Creation of high-performance native applications with fluid interfaces and exceptional user experiences.</p>
         </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="dept_eng_title">Software Engineering</h3>
+          <p data-i18n="dept_eng_desc">Systems architecture, backend development, databases, and APIs. Modern and scalable technologies to build robust and maintainable solutions.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="dept_elec_title">Electronics & IoT</h3>
+          <p data-i18n="dept_elec_desc">Circuit design, embedded systems, sensors, and connectivity. Bridge between the digital and physical worlds, creating tangible and innovative solutions.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="dept_design_title">Design & UX/UI</h3>
+          <p data-i18n="dept_design_desc">Intuitive interfaces, optimized user experience, and attractive visual design for all our products. Focused on usability and aesthetics.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="dept_qa_title">Quality Control</h3>
+          <p data-i18n="dept_qa_desc">Exhaustive testing, test automation, and quality assurance at every stage of development. Committed to excellence and reliability.</p>
+        </div>
+      </div>
     </section>
 
-    <!-- ============================================
-         SCREENSHOTS SECTION
-         ============================================ -->
-    <section class="screenshots" id="screenshots">
-        <div class="container">
-            <div class="screenshots-header reveal">
-                <span class="section-label">La App</span>
-                <h2 class="section-title">Conoce DraiVen por dentro</h2>
-                <p class="section-subtitle">Una interfaz intuitiva y moderna diseñada tanto para pasajeros como conductores.</p>
-            </div>
+    <section id="contacto">
+      <h2 data-i18n="contact_title">Contact</h2>
+      <p class="lead" data-i18n="contact_lead">Do you have a project in mind? Let's talk about how we can make it happen.</p>
+      
+      <div class="service-grid">
+        <div class="service-card">
+          <h3 data-i18n="contact_info_title">Contact Information</h3>
+          <p>
+            <strong>Email:</strong> <a class="link-plain" href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a><br>
+            <strong data-i18n="contact_phone">Phone:</strong> <a class="link-plain" href="tel:+17542313968">+1 754 231 3968</a><br>
+            <strong>WhatsApp:</strong> <a class="link-plain" href="https://wa.me/17542313968" data-i18n="contact_msg">Send message</a>
+          </p>
+          <div class="contact-button-wrapper">
+            <a href="contacto.html" class="contact-button" id="contact-btn" data-i18n="contact_btn">CONTACT</a>
+          </div>
         </div>
-        <div class="screenshots-track">
-            <div class="screenshot-item">
-                <img src="images/screenshot_2.png" alt="Pantalla principal con mapa y solicitudes" width="260" height="520" loading="lazy">
-            </div>
-            <div class="screenshot-item">
-                <img src="images/screenshot_3.png" alt="Detalles de viaje con ruta y tarifa" width="260" height="520" loading="lazy">
-            </div>
-            <div class="screenshot-item">
-                <img src="images/screenshot_1.png" alt="Panel de ganancias del conductor" width="260" height="520" loading="lazy">
-            </div>
-            <div class="screenshot-item">
-                <img src="images/screenshot_4.png" alt="Perfil de conductor con datos y vehículo" width="260" height="520" loading="lazy">
-            </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="contact_hours_title">Business Hours</h3>
+          <p>
+            <span data-i18n="contact_mon_fri">Monday to Friday:</span> 9:00 - 18:00<br>
+            <span data-i18n="contact_sat">Saturdays:</span> 10:00 - 14:00<br>
+            <em data-i18n="contact_tz">EST Time (Eastern US)</em>
+          </p>
         </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="contact_process_title">Work Process</h3>
+          <p>
+            1. <span data-i18n="process_1">Initial consultation</span><br>
+            2. <span data-i18n="process_2">Analysis and planning</span><br>
+            3. <span data-i18n="process_3">Detailed proposal</span><br>
+            4. <span data-i18n="process_4">Iterative development</span><br>
+            5. <span data-i18n="process_5">Delivery and support</span>
+          </p>
+        </div>
+      </div>
     </section>
 
-    <!-- ============================================
-         DRIVERS SECTION
-         ============================================ -->
-    <section class="drivers" id="drivers">
-        <div class="container">
-            <div class="drivers-card reveal">
-                <div class="drivers-content">
-                    <span class="section-label">Conductores</span>
-                    <h2 class="section-title">Genera ingresos con tu moto</h2>
-                    <p>Únete a la red de mototaxistas de DraiVen. Tú decides cuándo trabajar, cuánto cobrar y las rutas que prefieras. Sin jefes, sin horarios fijos.</p>
-                    <ul class="drivers-benefits">
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                            Recibe pagos directos por cada viaje completado
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                            Panel de ganancias en tiempo real
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                            Soporte 24/7 para conductores
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                            Registro gratuito — sin costos iniciales
-                        </li>
-                    </ul>
-                    <a href="#" class="btn btn-primary" id="btn-register-driver">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                        Regístrate como Conductor
-                    </a>
-                </div>
-                <div class="drivers-visual">
-                    <img src="images/screenshot_1.png" alt="Panel de ganancias del conductor en DraiVen" width="240" height="480" loading="lazy">
-                </div>
-            </div>
+    <section id="acerca">
+      <h2 data-i18n="about_title">About ProtonLab</h2>
+      <p class="lead" data-i18n="about_lead">More than a development company, we are an innovation laboratory where ideas take shape.</p>
+      
+      <div class="service-grid">
+        <div class="service-card">
+          <h3 data-i18n="about_phil_title">Our Philosophy</h3>
+          <p data-i18n="about_phil_desc">We believe in the intersection of software and hardware as the future of technology. Every project is an opportunity to create something unique and meaningful that solves real problems and improves the user experience.</p>
         </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="about_method_title">Methodology</h3>
+          <p data-i18n="about_method_desc">We combine agile development with solid engineering principles. We prioritize transparent communication and iterative value delivery, ensuring that each stage of the project is aligned with the client's objectives.</p>
+        </div>
+        
+        <div class="service-card">
+          <h3 data-i18n="about_tech_title">Technologies</h3>
+          <p data-i18n="about_tech_desc">We work with a modern and versatile technology stack, always selecting the right tool for each specific challenge. We stay updated with the latest trends and best practices in the industry.</p>
+        </div>
+      </div>
+      
+      <div class="card" style="margin-top: 30px;">
+        <h3 data-i18n="about_quality_title">Commitment to Quality</h3>
+        <p data-i18n="about_quality_desc">At ProtonLab, we don't just deliver code; we deliver solutions that work, scale, and endure. Our commitment is to technical excellence and customer satisfaction in every project we undertake, ensuring that every line of code and every physical component meets the highest quality standards.</p>
+      </div>
     </section>
 
-    <!-- ============================================
-         DOWNLOAD CTA SECTION
-         ============================================ -->
-    <section class="download-cta" id="download">
-        <div class="container">
-            <div class="download-cta-inner reveal">
-                <span class="section-label">Descarga Gratis</span>
-                <h2 class="section-title">¿Listo para moverte más rápido?</h2>
-                <p>Descarga DraiVen ahora y experimenta una nueva forma de transporte en tu ciudad. Disponible en Google Play.</p>
-                <div class="hero-buttons">
-                    <a href="#" class="btn btn-primary" id="btn-download-footer">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 0 1 0 1.38l-2.302 2.302L15.396 12l2.302-2.492zM5.864 2.658L16.8 9.99l-2.302 2.302-8.634-8.634z"/></svg>
-                        Descargar en Google Play
-                    </a>
-                    <a href="#drivers" class="btn btn-outline" id="btn-driver-footer">
-                        Descargar para Conductores
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================
-         FOOTER
-         ============================================ -->
-    <footer class="footer" id="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <img src="images/log_o.png" alt="DraiVen" width="32" height="32">
-                        <span class="footer-logo-text">Drai<span>Ven</span></span>
-                    </div>
-                    <p>La app de mototaxis más segura y confiable. Conectamos pasajeros y conductores para un transporte rápido, económico y protegido.</p>
-                </div>
-                <div class="footer-column">
-                    <h4>Producto</h4>
-                    <ul>
-                        <li><a href="#features">Beneficios</a></li>
-                        <li><a href="#how-it-works">Cómo Funciona</a></li>
-                        <li><a href="#screenshots">La App</a></li>
-                        <li><a href="#download">Descargar</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="#">Términos de Servicio</a></li>
-                        <li><a href="#">Política de Privacidad</a></li>
-                        <li><a href="#">Centro Legal</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Contacto</h4>
-                    <ul>
-                        <li><a href="mailto:draiven.soporte@protonlab.site">draiven.soporte@protonlab.site</a></li>
-                        <li><a href="#drivers">Conductores</a></li>
-                        <li><a href="#">Soporte</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 DraiVen. Todos los derechos reservados.</p>
-                <div class="footer-social">
-                    <a href="#" aria-label="Instagram">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                    </a>
-                    <a href="#" aria-label="Twitter / X">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
-                    </a>
-                    <a href="#" aria-label="Facebook">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-                    </a>
-                </div>
-            </div>
-        </div>
+    <footer>
+      <p>© 2023 ProtonLab – www.protonlab.site</p>
+      <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
+        <span data-i18n="footer_text">Innovation in every line of code, precision in every physical component.</span> <a href="pi.html" class="footer-pi">π</a>
+      </p>
     </footer>
+  </main>
 
-    <!-- ============================================
-         SCRIPTS
-         ============================================ -->
-    <script>
-        // Navbar scroll effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 30);
-        }, { passive: true });
+  <div id="matrix-overlay">
+    <canvas id="matrix-canvas"></canvas>
+  </div>
+  
+  <div class="tear-container">
+    <div class="tear"></div>
+    <div class="tear-edge"></div>
+    <div class="visit-counter">
+      <span data-i18n="visits">TOTAL VISITS</span>: <span id="visit-count">--</span>
+    </div>
+  </div>
 
-        // Mobile menu toggle
-        const navToggle = document.getElementById('navToggle');
-        const navLinks = document.getElementById('navLinks');
-        navToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
+  <div id="password-modal">
+    <div class="password-modal-content">
+      <div class="password-modal-header">
+        <div class="password-modal-title" data-i18n="pay_modal_title">Payment Access</div>
+        <div class="password-modal-close" id="password-close-btn">×</div>
+      </div>
+      <div class="password-modal-body">
+        <div class="password-input-container">
+          <label for="password-input-field" class="password-input-label" data-i18n="pay_modal_label">Password</label>
+          <input type="password" id="password-input-field" placeholder="Enter password" autocomplete="off" />
+          <div id="password-error" class="password-error" data-i18n="pay_modal_error">Incorrect password. Try again.</div>
+        </div>
+      </div>
+      <div class="password-modal-footer">
+        <button id="password-submit-btn" class="password-submit-btn" data-i18n="pay_modal_btn">Access</button>
+      </div>
+    </div>
+  </div>
 
-        // Close mobile menu on link click
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
+  <div class="float-buttons-container">
+    <div id="simulation-float-btn" class="float-btn" role="button" aria-label="Abrir Simulación">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+      </div>
+      <span class="btn-text" data-i18n="float_sim">Simulation</span>
+    </div>
 
-        // Scroll reveal with IntersectionObserver
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -50px 0px'
-        });
+    <div id="pitfall-float-btn" class="float-btn" role="button" aria-label="Abrir Pitfall">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      </div>
+      <span class="btn-text">Pitfall</span>
+    </div>
 
-        revealElements.forEach(el => revealObserver.observe(el));
+    <div id="traffic-float-btn" class="float-btn" role="button" aria-label="Abrir Tráfico Aéreo">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
+        </svg>
+      </div>
+      <span class="btn-text" data-i18n="float_traffic">Traffic</span>
+    </div>
 
-        // Parallax background logo
-        const parallaxLogo = document.getElementById('parallaxLogo');
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    const scrollY = window.scrollY;
-                    const parallaxOffset = scrollY * -0.3; // Inverted movement
-                    const scale = 1 + scrollY * 0.0002;
-                    const opacity = Math.max(0.015, 0.03 - scrollY * 0.000015);
-                    parallaxLogo.style.transform = `translate(-50%, calc(-50% + ${parallaxOffset}px)) scale(${scale})`;
-                    parallaxLogo.style.opacity = opacity;
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }, { passive: true });
+    <div id="debug-float-btn" class="float-btn" role="button" aria-label="Abrir Debugger">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="2" width="8" height="12" rx="4" />
+          <path d="M12 14v4" />
+          <path d="M16 18l-4-4-4 4" />
+          <path d="M20 10l-4 2" />
+          <path d="M4 10l4 2" />
+          <path d="M20 6l-4 2" />
+          <path d="M4 6l4 2" />
+        </svg>
+      </div>
+      <span class="btn-text">DebugBot</span>
+    </div>
 
-        // Smooth scroll for anchors
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                e.preventDefault();
-                const target = document.querySelector(targetId);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    </script>
+    <div id="ai-float-btn" class="float-btn" role="button" aria-label="Abrir Asistente IA">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="10" rx="2" />
+          <circle cx="12" cy="16" r="2" />
+          <line x1="12" y1="6" x2="12" y2="11" />
+          <circle cx="12" cy="4" r="2" />
+        </svg>
+      </div>
+      <span class="btn-text">RickGPT</span>
+      <span class="status-dot"></span>
+    </div>
 
+    <div id="pagos-float-btn" class="float-btn" role="button" aria-label="Abrir Pagos">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+          <line x1="1" y1="10" x2="23" y2="10"></line>
+          <line x1="6" y1="8" x2="6" y2="8"></line>
+          <line x1="10" y1="8" x2="10" y2="8"></line>
+          <line x1="14" y1="8" x2="14" y2="8"></line>
+        </svg>
+      </div>
+      <span class="btn-text" data-i18n="float_pay">Payments</span>
+    </div>
+
+    <div id="galeria-float-btn" class="float-btn" role="button" aria-label="Abrir Galería">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+      </div>
+      <span class="btn-text" data-i18n="float_gallery">Gallery</span>
+    </div>
+
+    <div id="alex-float-btn" class="float-btn" role="button" aria-label="Abrir Alex BETA">
+      <div class="float-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+          <path d="M16 11h4"></path>
+          <path d="M20 15h-4"></path>
+          <path d="M8 11H4"></path>
+          <path d="M4 15h4"></path>
+        </svg>
+      </div>
+      <span class="btn-text">Alex BETA</span>
+      <span class="status-dot" style="background-color: #ffaa00; box-shadow: 0 0 8px #ffaa00;"></span>
+    </div>
+  </div>
+
+  <div id="debug-chat-window">
+    <div class="debug-chat-header" id="debug-drag-handle">
+      <div class="debug-chat-title">🐛 DebugBot</div>
+      <div class="debug-chat-close" id="debug-close-btn">×</div>
+    </div>
+    <div class="debug-chat-body">
+      <div class="debug-editor-container">
+        <div class="debug-editor-header">
+          <span data-i18n="debug_editor_title">Code Editor</span>
+          <select id="language-selector" class="language-selector">
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
+            <option value="csharp">C#</option>
+            <option value="php">PHP</option>
+            <option value="ruby">Ruby</option>
+            <option value="swift">Swift</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="typescript">TypeScript</option>
+            <option value="sql">SQL</option>
+            <option value="bash">Bash/Shell</option>
+            <option value="plaintext">Text</option>
+          </select>
+        </div>
+        <div id="debug-editor"></div>
+      </div>
+      <div class="debug-output-container">
+        <div class="debug-output-header">
+          <div class="debug-output-title"><span data-i18n="debug_analysis">Analysis</span><span id="debug-status" class="debug-status-indicator status-checking" data-i18n="debug_verifying">verifying...</span></div>
+          <div class="debug-btn-container">
+            <button class="debug-action-btn" id="debug-analyze-btn" data-i18n="debug_btn_analyze">Analyze</button>
+          </div>
+        </div>
+        <div id="debug-output">
+          <div class="info" data-i18n="debug_placeholder">💡 Write your code and press "Analyze"</div>
+          <div id="debug-loading" class="debug-loading">
+            <div class="debug-spinner"></div>
+            <div class="debug-loading-text" data-i18n="debug_analyzing_txt">Analyzing code...</div>
+            <div class="debug-loading-dots">
+              <div class="debug-loading-dot"></div>
+              <div class="debug-loading-dot"></div>
+              <div class="debug-loading-dot"></div>
+            </div>
+            <div class="debug-progress">
+              <div class="debug-progress-bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ai-chat-window">
+    <div class="ai-chat-header" id="ai-drag-handle">
+      <div class="ai-chat-title">RickGPT</div>
+      <div class="ai-chat-close" id="ai-close-btn">×</div>
+    </div>
+    <div class="ai-chat-body" id="ai-messages"></div>
+    <div class="ai-chat-input-container">
+      <textarea id="ai-input" class="ai-chat-input" placeholder="Conectando..." rows="1" disabled></textarea>
+      <button id="ai-send-btn" class="ai-chat-send" disabled>→</button>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
