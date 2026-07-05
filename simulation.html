@@ -384,9 +384,6 @@
       max-width: 650px;
       margin: 0 auto;
     }
-      background-clip: text;
-      animation: gradientShift 4s ease infinite;
-    }
     
     @keyframes gradientShift {
       0% { background-position: 0% 50%; }
@@ -1385,101 +1382,89 @@
     }
 
     // --- 2. SIMULACIÓN DE FLUIDOS (Water Ripples) ---
-    let width, height, halfWidth, halfHeight;
-    let ripplemap = [], ripple, texture;
-    let oldind, newind, mapind;
-    let rippleRad = 3;
+    let fluidW, fluidH, fluidScale = 4;
+    let buf1, buf2;
+    let fluidImageData;
 
     function initFluids() {
-      width = canvas.width;
-      height = canvas.height;
-      halfWidth = width >> 1;
-      halfHeight = height >> 1;
-      let size = width * (height + 2) * 2;
-      ripplemap = new Int16Array(size);
-      texture = ctx.createImageData(width, height);
-      ripple = texture.data;
-      oldind = width;
-      newind = width * (height + 3);
-      
-      for (let i = 0; i < size; i++) {
-        ripplemap[i] = 0;
-      }
-      
-      // Draw background pattern
-      ctx.fillStyle = '#0f172a';
-      ctx.fillRect(0, 0, width, height);
-      for (let y = 0; y < height; y += 20) {
-        for (let x = 0; x < width; x += 20) {
-          ctx.fillStyle = (x/20 + y/20) % 2 === 0 ? '#1e293b' : '#334155';
-          ctx.fillRect(x, y, 20, 20);
-        }
-      }
-      
-      let imgData = ctx.getImageData(0, 0, width, height);
-      for (let i = 0; i < ripple.length; i++) {
-        ripple[i] = imgData.data[i];
-      }
+      fluidW = Math.floor(canvas.width / fluidScale);
+      fluidH = Math.floor(canvas.height / fluidScale);
+      buf1 = new Float32Array(fluidW * fluidH);
+      buf2 = new Float32Array(fluidW * fluidH);
+      fluidImageData = ctx.createImageData(fluidW, fluidH);
+      ctx.fillStyle = '#0a0e1a';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    function dropFluid(dx, dy) {
-      if(dx < rippleRad || dx >= width - rippleRad || dy < rippleRad || dy >= height - rippleRad) return;
-      for (let j = dy - rippleRad; j < dy + rippleRad; j++) {
-        for (let k = dx - rippleRad; k < dx + rippleRad; k++) {
-          ripplemap[oldind + (j * width) + k] += 128;
+    function dropAt(cx, cy, radius, strength) {
+      let sx = Math.floor(cx / fluidScale);
+      let sy = Math.floor(cy / fluidScale);
+      for (let y = Math.max(0, sy - radius); y < Math.min(fluidH, sy + radius); y++) {
+        for (let x = Math.max(0, sx - radius); x < Math.min(fluidW, sx + radius); x++) {
+          let dx = x - sx, dy = y - sy;
+          let dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < radius) {
+            buf1[y * fluidW + x] += strength * (1 - dist / radius);
+          }
         }
       }
     }
 
     function drawFluids() {
-      if (mouse.x && mouse.y) dropFluid(Math.floor(mouse.x), Math.floor(mouse.y));
-      if (Math.random() < 0.05) dropFluid(Math.floor(Math.random()*width), Math.floor(Math.random()*height));
+      // Mouse interaction
+      if (mouse.x != null && mouse.y != null) {
+        dropAt(mouse.x, mouse.y, 3, 150);
+      }
+      // Random drops
+      if (Math.random() < 0.02) {
+        dropAt(
+          Math.random() * canvas.width,
+          Math.random() * canvas.height,
+          4, 300
+        );
+      }
 
-      let i = oldind; oldind = newind; newind = i;
-      i = 0; mapind = oldind;
-
-      let a, b, data, x, y;
-      const imgData = ctx.getImageData(0, 0, width, height);
-      data = imgData.data;
-
-      for (y = 0; y < height; y++) {
-        for (x = 0; x < width; x++) {
-          data = (
-            ripplemap[mapind - width] + 
-            ripplemap[mapind + width] + 
-            ripplemap[mapind - 1] + 
-            ripplemap[mapind + 1]
-          ) >> 1;
-          
-          data -= ripplemap[newind + i];
-          data -= data >> 5;
-          
-          ripplemap[newind + i] = data;
-          
-          data = 1024 - data;
-          
-          old_data = ripplemap[oldind + i];
-          
-          a = (((x - halfWidth) * data / 1024) << 0) + halfWidth;
-          b = (((y - halfHeight) * data / 1024) << 0) + halfHeight;
-          
-          if (a >= width) a = width - 1;
-          if (a < 0) a = 0;
-          if (b >= height) b = height - 1;
-          if (b < 0) b = 0;
-          
-          let target = (a + (b * width)) * 4;
-          let current = i * 4;
-          
-          texture.data[current] = ripple[target];
-          texture.data[current + 1] = ripple[target + 1];
-          texture.data[current + 2] = ripple[target + 2];
-          
-          mapind++;
-          i++;
+      // Propagation
+      let damping = 0.96;
+      for (let y = 1; y < fluidH - 1; y++) {
+        for (let x = 1; x < fluidW - 1; x++) {
+          let idx = y * fluidW + x;
+          buf2[idx] = (
+            buf1[idx - 1] +
+            buf1[idx + 1] +
+            buf1[idx - fluidW] +
+            buf1[idx + fluidW]
+          ) / 2 - buf2[idx];
+          buf2[idx] *= damping;
         }
       }
-      ctx.putImageData(texture, 0, 0);
+
+      // Render to small imageData
+      let d = fluidImageData.data;
+      for (let y = 0; y < fluidH; y++) {
+        for (let x = 0; x < fluidW; x++) {
+          let idx = y * fluidW + x;
+          let val = buf2[idx];
+          let pIdx = idx * 4;
+          d[pIdx]     = Math.max(0, Math.min(255, 10 + val * 0.2));
+          d[pIdx + 1] = Math.max(0, Math.min(255, 30 + Math.abs(val) * 0.6));
+          d[pIdx + 2] = Math.max(0, Math.min(255, 80 + val * 1.5));
+          d[pIdx + 3] = 255;
+        }
+      }
+
+      // Scale up to canvas
+      ctx.imageSmoothingEnabled = true;
+      createImageBitmap(fluidImageData).then(bmp => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(bmp, 0, 0, canvas.width, canvas.height);
+        bmp.close();
+      });
+
+      // Swap buffers
+      let temp = buf1;
+      buf1 = buf2;
+      buf2 = temp;
     }
 
     // --- 3. ALGORITMOS VISUALES (Conway's Game of Life) ---
