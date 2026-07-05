@@ -3,22 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Simulation - ProtonLab</title>
-  <meta name="description" content="Interactive simulations - Under construction" />
+  <title>Simulations Lab - ProtonLab</title>
+  <meta name="description" content="Interactive simulations lab by ProtonLab – particles, cellular automata, and orbital mechanics." />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Todos los estilos de simulation.html se mantienen exactamente igual */
     :root{
       --bg-light:#ffffff; --text-light:#000000; --muted-light:#6b7280; --panel-light:#f3f4f6;
       --bg-dark:#000000; --text-dark:#f0f0f0; --muted-dark:#888888; --panel-dark:#1a1a1a;
       --accent-dark:#e0e0f0; --max-width:1100px; 
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
-      
       --card-bg-light: rgba(255, 255, 255, 0.01);
       --card-border-light: rgba(255, 255, 255, 0.1);
       --card-shadow-light: 0 8px 32px rgba(0, 0, 0, 0.03);
-      
       --card-bg-dark: rgba(0, 0, 0, 0.08);
       --card-border-dark: rgba(255, 255, 255, 0.1);
       --card-shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -27,880 +24,135 @@
     *{box-sizing:border-box; font-family: var(--mono);}
     body{margin:0;background:var(--bg-light);color:var(--text-light);}
     .wrap{max-width:var(--max-width);margin:0 auto;padding:36px 24px}
-    
+
+    /* === HEADER === */
     header{
-      position:fixed;
-      left:0;
-      right:0;
-      top:0;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+      position:fixed;left:0;right:0;top:0;
+      display:flex;align-items:center;justify-content:space-between;
       padding:14px 20px;
       background:rgba(255,255,255,0.95);
-      backdrop-filter:blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
       border-bottom:1px solid rgba(0,0,0,0.08);
       transition:transform .35s ease,opacity .35s ease;
-      z-index:60;
-      height: 70px;
-      transform: translateZ(0);
-      will-change: transform;
+      z-index:60;height:70px;
     }
-    
-    header.hidden{transform:translate3d(0, -110%, 0);opacity:0}
-    
+    header.hidden{transform:translate3d(0,-110%,0);opacity:0}
     .brand{display:flex;align-items:center;gap:12px}
-    .brand .mini{
-      font-weight:700;
-      font-size:20px;
-      letter-spacing:0.12em;
-      color:#000000;
-      cursor: pointer;
-      transition: transform 0.3s ease, color 0.3s ease;
-      user-select: none;
-    }
-    
-    .brand .mini:hover{
-      transform: scale(1.1);
-      color: #333333;
-    }
-    
-    .brand .mini:active{
-      transform: scale(0.95);
-    }
+    .brand .mini{font-weight:700;font-size:20px;letter-spacing:0.12em;color:#000;cursor:pointer;transition:transform .3s,color .3s;user-select:none}
+    .brand .mini:hover{transform:scale(1.1);color:#333}
 
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    
-    .navlink {
-      text-decoration: none;
-      color: #000000;
-      font-weight: 500;
-      font-size: 14px;
-      letter-spacing: 0.02em;
-      transition: color 0.2s ease, transform 0.2s ease;
-      position: relative;
-      padding: 8px 0;
-      white-space: nowrap;
-    }
-    
-    .navlink:hover {
-      color: #333333;
-      transform: translateY(-1px);
-    }
-    
-    .navlink::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: #000000;
-      transition: width 0.3s ease;
-    }
-    
-    .navlink:hover::after {
-      width: 100%;
-    }
+    nav{display:flex;align-items:center;gap:20px}
+    .navlink{text-decoration:none;color:#000;font-weight:500;font-size:14px;letter-spacing:0.02em;transition:color .2s,transform .2s;position:relative;padding:8px 0;white-space:nowrap}
+    .navlink:hover{color:#333;transform:translateY(-1px)}
+    .navlink::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:#000;transition:width .3s}
+    .navlink:hover::after{width:100%}
 
     .mode-toggle{display:flex;align-items:center;gap:6px}
-    .seg{
-      display:inline-flex;
-      border-radius:999px;
-      overflow:hidden;
-      border:2px solid #000;
-      background: rgba(0,0,0,0.03);
-    }
-    .seg button{
-      padding:6px 10px;
-      border:0;
-      background:transparent;
-      font-size: 11px;
-      cursor:pointer;
-      transition:background .2s,color .2s;
-      border-radius:0;
-      color:inherit;
-      font-weight: 500;
-      white-space: nowrap;
-    }
+    .seg{display:inline-flex;border-radius:999px;overflow:hidden;border:2px solid #000;background:rgba(0,0,0,0.03)}
+    .seg button{padding:6px 10px;border:0;background:transparent;font-size:11px;cursor:pointer;transition:background .2s,color .2s;border-radius:0;color:inherit;font-weight:500;white-space:nowrap}
     .seg button.active{background:rgba(0,0,0,0.08)}
 
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 24px;
-      height: 18px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      z-index: 70;
-    }
-    
-    .hamburger span {
-      display: block;
-      height: 2px;
-      width: 100%;
-      background-color: #000000;
-      transition: all 0.3s ease;
-      transform-origin: center;
-    }
-    
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-    
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-      transform: translateX(-10px);
-    }
-    
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -6px);
-    }
+    .hamburger{display:none;flex-direction:column;justify-content:space-between;width:24px;height:18px;background:transparent;border:none;cursor:pointer;padding:0;z-index:70}
+    .hamburger span{display:block;height:2px;width:100%;background:#000;transition:all .3s;transform-origin:center}
+    .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .hamburger.active span:nth-child(2){opacity:0;transform:translateX(-10px)}
+    .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-6px)}
 
+    /* === MAIN LAYOUT === */
     main{padding-top:100px}
-    .hero{min-height:70vh;display:flex;align-items:center}
-    .hero-inner{
-      width:100%;
-      display:flex;
-      flex-direction: column;
-      align-items:center;
-      gap:36px;
-    }
-    @media (min-width: 768px) {
-      .hero-inner {
-        flex-direction: row;
-      }
-    }
-    .hero-left{flex:1}
-    .code-title{font-size:36px;line-height:1;letter-spacing:0.02em;color:inherit}
-    @media (min-width: 768px) {
-      .code-title {
-        font-size: 44px;
-      }
-    }
-    .code-title small{
-      display:block;
-      font-size:14px;
-      margin-top:8px;
-      color: #000000;
-    }
-
-    section{padding:60px 0;border-top:1px solid rgba(11,11,11,0.04)}
-    @media (min-width: 768px) {
-      section {
-        padding: 80px 0;
-      }
-    }
-    h2{font-size:20px;margin:0 0 12px; font-weight: 600;}
-    p.lead{color:var(--muted-light);margin:0 0 18px; font-weight: 400;}
-    
-    .card{
-      background: var(--card-bg-light);
-      border-radius:16px;
-      padding:24px;
-      border:1px solid var(--card-border-light);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      box-shadow: var(--card-shadow-light);
-      position: relative;
-      overflow: hidden;
-      transform: translateZ(0);
-      will-change: transform;
-    }
-    
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, 
-        rgba(255,255,255,0) 0%, 
-        rgba(255,255,255,0.4) 50%, 
-        rgba(255,255,255,0) 100%);
-      z-index: 1;
-    }
-    
-    .card:hover {
-      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-      transform: translate3d(0, -5px, 0);
-      border-color: rgba(255, 255, 255, 0.4);
-    }
-    
-    p {
-      text-align: justify;
-      text-justify: inter-word;
-      line-height: 1.6;
-    }
-    
-    .service-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-      margin-top: 30px;
-    }
-    @media (min-width: 640px) {
-      .service-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      }
-    }
-    
-    .service-card {
-      background: var(--card-bg-light);
-      border-radius: 16px;
-      padding: 24px;
-      border: 1px solid var(--card-border-light);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--card-shadow-light);
-      transform: translateZ(0);
-      will-change: transform;
-    }
-    
-    .service-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, 
-        rgba(255,255,255,0) 0%, 
-        rgba(255,255,255,0.4) 50%, 
-        rgba(255,255,255,0) 100%);
-      z-index: 1;
-    }
-    
-    .service-card:hover {
-      transform: translate3d(0, -8px, 0);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.2);
-      border-color: rgba(255, 255, 255, 0.5);
-    }
-    
-    .service-card h3 {
-      margin-top: 0;
-      font-size: 16px;
-      color: inherit;
-      font-weight: 600;
-    }
-    
-    .service-card p {
-      text-align: justify;
-      text-justify: inter-word;
-    }
-
     footer{padding:40px 0;text-align:center;color:var(--muted-light);font-size:13px}
-    
-    .footer-pi {
-      color: inherit;
-      text-decoration: none;
-      cursor: pointer;
-      opacity: 0.7;
-      transition: opacity 0.3s ease;
-      font-style: normal;
-      margin-left: 4px;
-    }
-    
-    .footer-pi:hover {
-      opacity: 1;
-    }
-    
-    .contact-button {
-      display: inline-block;
-      padding: 12px 32px;
-      margin-top: 16px;
-      border-radius: 999px;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 0.05em;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      cursor: pointer;
-      text-align: center;
-      color: rgba(0, 0, 0, 0.3);
-      user-select: none;
-    }
-    
-    .contact-button:hover {
-      transform: translateY(-2px);
-    }
-    
-    body[data-theme='dark'] .contact-button {
-      color: rgba(255, 255, 255, 0.3);
-    }
-    
-    .contact-button-wrapper {
-      text-align: center;
-      margin-top: 20px;
-    }
+    .footer-pi{color:inherit;text-decoration:none;cursor:pointer;opacity:.7;transition:opacity .3s;margin-left:4px}
+    .footer-pi:hover{opacity:1}
 
-    .simulation-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 80vh;
-      text-align: center;
-      padding: 20px;
-      width: 100%;
-      position: relative;
-      z-index: 10;
+    /* === SIM CONTAINER === */
+    .sim-page{max-width:var(--max-width);margin:0 auto;padding:0 24px;text-align:center}
+    .sim-page h1{
+      font-size:36px;font-weight:700;margin:0 0 8px;
+      background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899);
+      background-size:200% auto;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      background-clip:text;
+      animation:hueShift 5s ease infinite;
     }
-    
-    .simulation-header {
-      margin-bottom: 30px;
-    }
-    
-    .simulation-title {
-      font-size: 40px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      background: linear-gradient(90deg, #64b4ff, #b478ff, #ff6464);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: gradientShift 4s ease infinite;
-    }
-    
-    .simulation-subtitle {
-      font-size: 18px;
-      color: var(--muted-light);
-      max-width: 650px;
-      margin: 0 auto;
-    }
-    
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    
-    .canvas-wrapper {
-      width: 100%;
-      max-width: 900px;
-      height: 450px;
-      margin: 0 auto 40px;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--card-border-light);
-      box-shadow: var(--card-shadow-light);
-      background: rgba(0, 0, 0, 0.85);
-      position: relative;
-    }
-    
-    body[data-theme='dark'] .canvas-wrapper {
-      border: 1px solid var(--card-border-dark);
-      box-shadow: var(--card-shadow-dark);
-      background: rgba(0, 0, 0, 0.95);
-    }
-    
-    #simCanvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-      cursor: crosshair;
-    }
-    
-    .simulation-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      width: 100%;
-      max-width: 900px;
-    }
-    
-    .simulation-feature {
-      background: var(--card-bg-light);
-      border-radius: 16px;
-      padding: 24px;
-      border: 1px solid var(--card-border-light);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      box-shadow: var(--card-shadow-light);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-    }
-    
-    .simulation-feature::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, 
-        rgba(255,255,255,0) 0%, 
-        rgba(255,255,255,0.4) 50%, 
-        rgba(255,255,255,0) 100%);
-      z-index: 1;
-    }
-    
-    .simulation-feature:hover {
-      transform: translate3d(0, -5px, 0);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-      border-color: rgba(255, 255, 255, 0.4);
-    }
-    
-    .simulation-feature-icon {
-      font-size: 40px;
-      margin-bottom: 15px;
-      transition: transform 0.3s ease;
-    }
-    
-    .simulation-feature:hover .simulation-feature-icon {
-      transform: scale(1.1);
-    }
-    
-    .simulation-feature h3 {
-      margin: 0 0 10px;
-      font-size: 18px;
-    }
-    
-    .simulation-feature p {
-      font-size: 14px;
-      color: var(--muted-light);
-      margin: 0;
-    }
-    
-    .back-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      margin-top: 30px;
-      border-radius: 999px;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 0.05em;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      cursor: pointer;
-      color: rgba(0, 0, 0, 0.7);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      background: rgba(255, 255, 255, 0.1);
-    }
-    
-    .back-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      color: rgba(0, 0, 0, 0.9);
-      border-color: rgba(0, 0, 0, 0.2);
-    }
-    
-    body[data-theme='dark'] .back-button {
-      color: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.1);
-    }
-    
-    body[data-theme='dark'] .back-button:hover {
-      color: rgba(255, 255, 255, 0.9);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
+    @keyframes hueShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .sim-page .subtitle{font-size:15px;color:var(--muted-light);margin:0 0 28px;max-width:600px;display:inline-block;text-align:center}
 
-    .panels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1}
-    .panel{
-      position:absolute;
-      border-radius:8px;
-      opacity:.95;
-      box-shadow:0 18px 40px rgba(2,6,23,0.06);
-      border:1px solid rgba(255,255,255,0.2);
-      transform: translate3d(0, 0, 0);
-      will-change: transform;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      overflow: hidden;
+    /* === TABS === */
+    .sim-tabs{display:flex;justify-content:center;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+    .sim-tab{
+      padding:10px 20px;border-radius:12px;border:1px solid rgba(0,0,0,0.1);
+      background:transparent;font-size:13px;font-weight:600;cursor:pointer;
+      transition:all .3s;color:var(--text-light);font-family:var(--mono);
+      display:flex;align-items:center;gap:8px;
     }
-    
-    .panel.color-red {
-      background: rgba(255, 100, 100, 0.18);
-      border-color: rgba(255, 100, 100, 0.5);
-      box-shadow: 0 18px 40px rgba(255, 100, 100, 0.25);
-    }
-    
-    .panel.color-orange {
-      background: rgba(255, 165, 80, 0.18);
-      border-color: rgba(255, 165, 80, 0.5);
-      box-shadow: 0 18px 40px rgba(255, 165, 80, 0.25);
-    }
-    
-    .panel.color-yellow {
-      background: rgba(255, 220, 100, 0.18);
-      border-color: rgba(255, 220, 100, 0.5);
-      box-shadow: 0 18px 40px rgba(255, 220, 100, 0.25);
-    }
-    
-    .panel.color-green {
-      background: rgba(100, 220, 150, 0.18);
-      border-color: rgba(100, 220, 150, 0.5);
-      box-shadow: 0 18px 40px rgba(100, 220, 150, 0.25);
-    }
-    
-    .panel.color-blue {
-      background: rgba(100, 180, 255, 0.18);
-      border-color: rgba(100, 180, 255, 0.5);
-      box-shadow: 0 18px 40px rgba(100, 180, 255, 0.25);
-    }
-    
-    .panel.color-violet {
-      background: rgba(180, 120, 255, 0.18);
-      border-color: rgba(180, 120, 255, 0.5);
-      box-shadow: 0 18px 40px rgba(180, 120, 255, 0.25);
-    }
-    
-    .panel.large {
-      width: 280px;
-      height: 140px;
-      z-index: 3;
-    }
-    @media (min-width: 768px) {
-      .panel.large {
-        width: 320px;
-        height: 160px;
-      }
-    }
-    
-    .panel.medium {
-      width: 220px;
-      height: 110px;
-      z-index: 2;
-      opacity: 0.85;
-    }
-    @media (min-width: 768px) {
-      .panel.medium {
-        width: 250px;
-        height: 125px;
-      }
-    }
-    
-    .panel.small {
-      width: 150px;
-      height: 75px;
-      opacity: 0.7;
-      z-index: 1;
-    }
-    @media (min-width: 768px) {
-      .panel.small {
-        width: 180px;
-        height: 90px;
-      }
-    }
-    
-    .panel .inner{
-      padding: 10px;
-      color: var(--muted-light);
-      overflow: hidden;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-    @media (min-width: 768px) {
-      .panel .inner {
-        padding: 12px;
-      }
-    }
-    
-    .panel.large .inner {
-      font-size: 11px;
-      line-height: 1.3;
-    }
-    @media (min-width: 768px) {
-      .panel.large .inner {
-        font-size: 12px;
-      }
-    }
-    
-    .panel.medium .inner {
-      font-size: 10px;
-      line-height: 1.3;
-    }
-    @media (min-width: 768px) {
-      .panel.medium .inner {
-        font-size: 11px;
-      }
-    }
-    
-    .panel.small .inner {
-      font-size: 9px;
-      line-height: 1.2;
-    }
-    @media (min-width: 768px) {
-      .panel.small .inner {
-        font-size: 10px;
-      }
-    }
-    
-    .code-line {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%;
-    }
-    
-    .typing-cursor {
-      display: inline-block;
-      width: 6px;
-      height: 1em;
-      background-color: currentColor;
-      margin-left: 1px;
-      animation: blink 1s infinite;
-      vertical-align: middle;
-    }
-    
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
-    
-    body[data-theme='dark']{
-      background:var(--bg-dark);
-      color:var(--text-dark);
-    }
-    
-    body[data-theme='dark'] header{
-      background:rgba(0,0,0,0.95);
-      border-bottom:1px solid rgba(255,255,255,0.1);
-    }
-    
-    body[data-theme='dark'] .brand .mini {
-      color: var(--text-dark);
-    }
-    
-    body[data-theme='dark'] .brand .mini:hover {
-      color: #ffffff;
-    }
-    
-    body[data-theme='dark'] .navlink {
-      color: var(--text-dark);
-    }
-    
-    body[data-theme='dark'] .navlink:hover {
-      color: #ffffff;
-    }
-    
-    body[data-theme='dark'] .navlink::after {
-      background-color: var(--text-dark);
-    }
-    
-    body[data-theme='dark'] .seg{
-      border-color: var(--accent-dark);
-      background: rgba(255,255,255,0.05);
-    }
-    
-    body[data-theme='dark'] .seg button{
-      color: var(--text-dark);
-    }
-    
-    body[data-theme='dark'] .seg button.active{
-      background: rgba(255,255,255,0.15);
-      color: #ffffff;
-    }
-    
-    body[data-theme='dark'] .hamburger span {
-      background-color: var(--text-dark);
-    }
-    
-    body[data-theme='dark'] section {
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-    
-    body[data-theme='dark'] .card,
-    body[data-theme='dark'] .service-card,
-    body[data-theme='dark'] .simulation-feature {
-      background: var(--card-bg-dark);
-      border: 1px solid var(--card-border-dark);
-      box-shadow: var(--card-shadow-dark);
-    }
-    
-    body[data-theme='dark'] .card::before,
-    body[data-theme='dark'] .service-card::before,
-    body[data-theme='dark'] .simulation-feature::before {
-      background: linear-gradient(90deg, 
-        rgba(255,255,255,0) 0%, 
-        rgba(255,255,255,0.1) 50%, 
-        rgba(255,255,255,0) 100%);
-    }
-    
-    body[data-theme='dark'] .card:hover,
-    body[data-theme='dark'] .service-card:hover,
-    body[data-theme='dark'] .simulation-feature:hover {
-      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-    
-    body[data-theme='dark'] .simulation-subtitle {
-      color: var(--muted-dark);
-    }
+    .sim-tab:hover{background:rgba(0,0,0,0.04);transform:translateY(-1px)}
+    .sim-tab.active{background:#111;color:#fff;border-color:#111;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+    .sim-tab .tab-icon{font-size:18px}
 
-    @media (max-width: 768px) {
-      header {
-        padding: 12px 16px;
-      }
-      
-      .hamburger {
-        display: flex;
-      }
-      
-      nav {
-        position: fixed;
-        top: 70px;
-        left: 0;
-        right: 0;
-        background: rgba(255,255,255,0.98);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        flex-direction: column;
-        padding: 20px;
-        gap: 16px;
-        transform: translateY(-100%);
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        border-bottom: 1px solid rgba(0,0,0,0.1);
-        z-index: 50;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      }
-      
-      nav.active {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
-      }
-      
-      .navlink {
-        padding: 12px 0;
-        font-size: 16px;
-        width: 100%;
-        text-align: center;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
-      }
-      
-      .navlink:last-child {
-        border-bottom: none;
-      }
-      
-      .mode-toggle {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        margin-top: 10px;
-        padding-top: 15px;
-        border-top: 1px solid rgba(0,0,0,0.1);
-      }
-      
-      .hero-inner {
-        gap: 24px;
-      }
-      
-      .code-title {
-        font-size: 32px;
-      }
-      
-      section {
-        padding: 50px 0;
-      }
-      
-      .wrap {
-        padding: 36px 16px;
-      }
-      
-      .card, .service-card {
-        padding: 20px;
-      }
-      
-      .simulation-title {
-        font-size: 32px;
-      }
-      
-      .canvas-wrapper {
-        height: 350px;
-      }
+    /* === CANVAS === */
+    .canvas-box{
+      width:100%;max-width:900px;margin:0 auto 24px;
+      border-radius:16px;overflow:hidden;
+      border:1px solid rgba(0,0,0,0.08);
+      box-shadow:0 8px 32px rgba(0,0,0,0.06);
+      background:#0a0a12;position:relative;
+      aspect-ratio:16/9;
     }
-    
-    @media (max-width: 480px) {
-      .code-title {
-        font-size: 28px;
-      }
-      
-      .hero {
-        min-height: 60vh;
-      }
-      
-      .simulation-title {
-        font-size: 24px;
-      }
-      
-      .canvas-wrapper {
-        height: 250px;
-      }
-      
-      .simulation-subtitle {
-        font-size: 15px;
-      }
+    #simCanvas{width:100%;height:100%;display:block;cursor:crosshair}
+
+    /* === INFO BAR === */
+    .sim-info{
+      max-width:900px;margin:0 auto 20px;padding:16px 20px;
+      border-radius:12px;border:1px solid rgba(0,0,0,0.06);
+      background:rgba(0,0,0,0.02);
+      font-size:12px;color:var(--muted-light);text-align:left;
+      display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;
     }
-    
-    body[data-theme='dark'] nav {
-      background: rgba(0,0,0,0.98);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+    .sim-info .sim-desc{flex:1;min-width:200px}
+    .sim-info .sim-fps{font-weight:700;font-size:14px;color:var(--text-light)}
+
+    /* === BACK BUTTON === */
+    .back-link{
+      display:inline-flex;align-items:center;gap:8px;
+      color:var(--muted-light);text-decoration:none;font-size:13px;font-weight:500;
+      margin-top:16px;transition:color .3s;
     }
-    
-    body[data-theme='dark'] .navlink {
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+    .back-link:hover{color:var(--text-light)}
+
+    /* === DARK MODE === */
+    body[data-theme='dark']{background:var(--bg-dark);color:var(--text-dark)}
+    body[data-theme='dark'] header{background:rgba(0,0,0,0.92);border-bottom:1px solid rgba(255,255,255,0.06)}
+    body[data-theme='dark'] .brand .mini{color:#f0f0f0}
+    body[data-theme='dark'] .navlink{color:#ccc}
+    body[data-theme='dark'] .navlink::after{background:#fff}
+    body[data-theme='dark'] .seg{border-color:#444;background:rgba(255,255,255,0.05)}
+    body[data-theme='dark'] .seg button.active{background:rgba(255,255,255,0.15)}
+    body[data-theme='dark'] .hamburger span{background:#f0f0f0}
+    body[data-theme='dark'] footer{color:var(--muted-dark)}
+    body[data-theme='dark'] .subtitle{color:var(--muted-dark)}
+    body[data-theme='dark'] .sim-tab{color:var(--text-dark);border-color:rgba(255,255,255,0.1)}
+    body[data-theme='dark'] .sim-tab:hover{background:rgba(255,255,255,0.05)}
+    body[data-theme='dark'] .sim-tab.active{background:#fff;color:#000;border-color:#fff}
+    body[data-theme='dark'] .canvas-box{border-color:rgba(255,255,255,0.06);box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+    body[data-theme='dark'] .sim-info{border-color:rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);color:var(--muted-dark)}
+    body[data-theme='dark'] .sim-info .sim-fps{color:var(--text-dark)}
+
+    /* === RESPONSIVE === */
+    @media(max-width:768px){
+      nav{position:fixed;top:0;right:-100%;width:260px;height:100vh;flex-direction:column;justify-content:center;gap:24px;background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);transition:right .3s;z-index:65;padding:20px}
+      body[data-theme='dark'] nav{background:rgba(0,0,0,0.96)}
+      nav.active{right:0}
+      .hamburger{display:flex}
+      .sim-page h1{font-size:28px}
+      .sim-tabs{gap:6px}
+      .sim-tab{padding:8px 14px;font-size:12px}
     }
-    
-    body[data-theme='dark'] .navlink:last-child {
-      border-bottom: none;
+    @media(max-width:480px){
+      .sim-page h1{font-size:22px}
+      .sim-info{flex-direction:column;text-align:center}
     }
-    
-    body[data-theme='dark'] .mode-toggle {
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-      
-      .panel {
-        transform: none !important;
-      }
-      
-      .typing-cursor {
-        animation: none;
-        opacity: 1;
-      }
-      
-      .simulation-title {
-        animation: none;
-      }
+    @media(prefers-reduced-motion:reduce){
+      .sim-page h1{animation:none}
     }
   </style>
 </head>
@@ -910,10 +162,8 @@
     <div class="brand">
       <div class="mini" id="brandMini">&lt;/&gt;</div>
     </div>
-    <button class="hamburger" id="hamburger" aria-label="Menú principal">
-      <span></span>
-      <span></span>
-      <span></span>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
     </button>
     <nav id="nav">
       <a class="navlink" href="index.html#inicio" data-i18n="nav_home">Home</a>
@@ -927,7 +177,7 @@
           <button data-mode="light" data-i18n="mode_light">Light</button>
           <button data-mode="dark" data-i18n="mode_dark">Dark</button>
         </div>
-        <div class="seg" style="margin-top: 4px;">
+        <div class="seg" style="margin-top:4px">
           <button data-lang="en" class="active">EN</button>
           <button data-lang="es">ES</button>
         </div>
@@ -935,651 +185,402 @@
     </nav>
   </header>
 
-  <div class="panels" id="panels"></div>
+  <main>
+    <div class="sim-page">
+      <h1 data-i18n="sim_title">Interactive Simulations Lab</h1>
+      <p class="subtitle" data-i18n="sim_subtitle">Experiment with physics, algorithms, and orbital mechanics in real time.</p>
 
-  <main class="wrap">
-    <section class="simulation-container">
-      <div class="simulation-header">
-        <h1 class="simulation-title" data-i18n="sim_title">Interactive Simulations Lab</h1>
-        <p class="simulation-subtitle" data-i18n="sim_subtitle">
-          Experiment with physical models, fluid dynamics, and visual algorithms directly in your browser.
-        </p>
+      <div class="sim-tabs" id="simTabs">
+        <button class="sim-tab active" data-sim="particles" onclick="switchSim('particles')">
+          <span class="tab-icon">✦</span>
+          <span data-i18n="tab_particles">Particle Network</span>
+        </button>
+        <button class="sim-tab" data-sim="life" onclick="switchSim('life')">
+          <span class="tab-icon">⬡</span>
+          <span data-i18n="tab_life">Game of Life</span>
+        </button>
+        <button class="sim-tab" data-sim="orbits" onclick="switchSim('orbits')">
+          <span class="tab-icon">◎</span>
+          <span data-i18n="tab_orbits">Gravity Orbits</span>
+        </button>
       </div>
-      
-      <div class="canvas-wrapper">
+
+      <div class="canvas-box">
         <canvas id="simCanvas"></canvas>
       </div>
-      
-      <div class="simulation-grid">
-        <div class="simulation-feature" onclick="initSimulation('particles')">
-          <div class="simulation-feature-icon">✨</div>
-          <h3 data-i18n="feat_phys_t">Physical Models</h3>
-          <p data-i18n="feat_phys_p">Active: Interactive particle system with gravity, friction, and cursor repulsion.</p>
-        </div>
-        
-        <div class="simulation-feature" onclick="initSimulation('fluids')">
-          <div class="simulation-feature-icon">🌊</div>
-          <h3 data-i18n="feat_fluid_t">Fluid Simulations</h3>
-          <p data-i18n="feat_fluid_p">Click to activate: Interactive water ripple simulation.</p>
-        </div>
-        
-        <div class="simulation-feature" onclick="initSimulation('algorithms')">
-          <div class="simulation-feature-icon">🧠</div>
-          <h3 data-i18n="feat_algo_t">Visual Algorithms</h3>
-          <p data-i18n="feat_algo_p">Click to activate: Conway's Game of Life Cellular Automata.</p>
-        </div>
+
+      <div class="sim-info">
+        <div class="sim-desc" id="simDesc" data-i18n="desc_particles">Move your mouse to repel particles. They connect with nearby neighbors.</div>
+        <div class="sim-fps" id="fpsCounter">-- FPS</div>
       </div>
-      
-      <a href="index.html" class="back-button">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 8H1M8 15L1 8l7-7"/>
-        </svg>
+
+      <a href="index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 8H1M8 15L1 8l7-7"/></svg>
         <span data-i18n="back_btn">Back to Home</span>
       </a>
-    </section>
+    </div>
   </main>
 
   <footer>
     <p>© 2023 ProtonLab – www.protonlab.site</p>
-    <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
-      <span data-i18n="footer_text">Innovation in every line of code, precision in every physical component.</span> <a href="pi.html" class="footer-pi">π</a>
+    <p style="margin-top:10px;font-size:11px;opacity:.7">
+      <span data-i18n="footer_text">Innovation in every line of code, precision in every physical component.</span>
+      <a href="pi.html" class="footer-pi">π</a>
     </p>
   </footer>
 
   <script>
-    // ========================================
-    // [NUEVO] PERSISTENCIA CON LOCALSTORAGE
-    // ========================================
-    const STORAGE_KEYS = {
-      THEME: 'protonlab_theme',
-      LANG: 'protonlab_lang'
+    // === STORAGE ===
+    const STORAGE_KEYS = { THEME:'protonlab_theme', LANG:'protonlab_lang' };
+    function setPref(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+    function getPref(k,d){try{return localStorage.getItem(k)||d}catch(e){return d}}
+
+    // === TRANSLATIONS ===
+    const T = {
+      nav_home:     {en:"Home",es:"Inicio"},
+      nav_services: {en:"Services",es:"Servicios"},
+      nav_departments:{en:"Departments",es:"Departamentos"},
+      nav_contact:  {en:"Contact",es:"Contacto"},
+      nav_about:    {en:"About",es:"Acerca"},
+      mode_auto:    {en:"Auto",es:"Auto"},
+      mode_light:   {en:"Light",es:"Claro"},
+      mode_dark:    {en:"Dark",es:"Oscuro"},
+      sim_title:    {en:"Interactive Simulations Lab",es:"Laboratorio de Simulaciones Interactivas"},
+      sim_subtitle: {en:"Experiment with physics, algorithms, and orbital mechanics in real time.",es:"Experimenta con física, algoritmos y mecánica orbital en tiempo real."},
+      tab_particles:{en:"Particle Network",es:"Red de Partículas"},
+      tab_life:     {en:"Game of Life",es:"Juego de la Vida"},
+      tab_orbits:   {en:"Gravity Orbits",es:"Órbitas Gravitacionales"},
+      desc_particles:{en:"Move your mouse to repel particles. They connect with nearby neighbors.",es:"Mueve el mouse para repeler partículas. Se conectan con vecinos cercanos."},
+      desc_life:    {en:"Click or drag to draw cells. They evolve by Conway's rules: birth at 3 neighbors, survival at 2–3.",es:"Haz clic o arrastra para dibujar células. Evolucionan según Conway: nacen con 3 vecinos, sobreviven con 2–3."},
+      desc_orbits:  {en:"Click to place gravity wells. Orbiting bodies are attracted to each well.",es:"Haz clic para colocar pozos de gravedad. Los cuerpos en órbita son atraídos hacia cada pozo."},
+      back_btn:     {en:"Back to Home",es:"Volver al Inicio"},
+      footer_text:  {en:"Innovation in every line of code, precision in every physical component.",es:"Innovación en cada línea de código, precisión en cada componente físico."}
     };
 
-    function setPreference(key, value) {
-      try {
-        localStorage.setItem(key, value);
-      } catch (e) {
-        console.warn('No se pudo guardar en localStorage', e);
-      }
-    }
-
-    function getPreference(key, defaultValue = null) {
-      try {
-        return localStorage.getItem(key) || defaultValue;
-      } catch (e) {
-        console.warn('No se pudo leer localStorage', e);
-        return defaultValue;
-      }
-    }
-
-    // === Traducciones (Inglés predefinido) ===
-    const translations = {
-      nav_home: { en: "Home", es: "Inicio" },
-      nav_services: { en: "Services", es: "Servicios" },
-      nav_departments: { en: "Departments", es: "Departamentos" },
-      nav_contact: { en: "Contact", es: "Contacto" },
-      nav_about: { en: "About", es: "Acerca" },
-      mode_auto: { en: "Auto", es: "Auto" },
-      mode_light: { en: "Light", es: "Claro" },
-      mode_dark: { en: "Dark", es: "Oscuro" },
-      sim_title: { en: "Interactive Simulations Lab", es: "Laboratorio de Simulaciones Interactivas" },
-      sim_subtitle: { en: "Experiment with physical models, fluid dynamics, and visual algorithms directly in your browser.", es: "Experimenta con modelos físicos, dinámica de fluidos y algoritmos visuales directamente en tu navegador." },
-      feat_fluid_t: { en: "Fluid Simulations", es: "Simulaciones de Fluidos" },
-      feat_fluid_p: { en: "Click to activate: Interactive water ripple simulation on the canvas.", es: "Clic para activar: Simulación interactiva de ondas de agua en el lienzo." },
-      feat_phys_t: { en: "Physical Models", es: "Modelos Físicos" },
-      feat_phys_p: { en: "Click to activate: Interactive particle system with gravity, friction, and cursor repulsion.", es: "Clic para activar: Sistema de partículas interactivo con gravedad, fricción y repulsión del cursor." },
-      feat_algo_t: { en: "Visual Algorithms", es: "Algoritmos Visuales" },
-      feat_algo_p: { en: "Click to activate: Conway's Game of Life cellular automata simulator.", es: "Clic para activar: Simulador de autómatas celulares Juego de la Vida de Conway." },
-      back_btn: { en: "Back to Home", es: "Volver al Inicio" },
-      footer_text: { en: "Innovation in every line of code, precision in every physical component.", es: "Innovación en cada línea de código, precisión en cada componente físico." }
-    };
-
-    // [MODIFICADO] Función changeLanguage mejorada
-    function changeLanguage(lang) {
-      document.documentElement.lang = lang;
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[key]) {
-          el.textContent = translations[key][lang];
-        }
+    function changeLang(lang){
+      document.documentElement.lang=lang;
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const k=el.getAttribute('data-i18n');
+        if(T[k])el.textContent=T[k][lang];
       });
-      document.querySelectorAll('[data-lang]').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === lang);
-      });
-      // Re-apply active state to simulation cards
-      if (typeof currentSim !== 'undefined') {
-        updateActiveCardUI(currentSim, lang);
-      }
+      document.querySelectorAll('[data-lang]').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
     }
 
-    // === Modo de color ===
-    const modeButtons = document.querySelectorAll('.seg button[data-mode]');
-    
-    function applyTheme(mode) {
-      if (mode === 'auto') {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.body.dataset.theme = prefersDark ? 'dark' : 'light';
-      } else {
-        document.body.dataset.theme = mode;
-      }
+    // === THEME ===
+    function applyTheme(m){
+      if(m==='auto'){document.body.dataset.theme=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}
+      else{document.body.dataset.theme=m}
     }
-
-    // [MODIFICADO] Cargar tema guardado al inicio
-    const savedTheme = getPreference(STORAGE_KEYS.THEME, 'auto');
-    // Activar visualmente el botón correspondiente
-    modeButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.mode === savedTheme);
-    });
+    const modeButtons=document.querySelectorAll('.seg button[data-mode]');
+    const savedTheme=getPref(STORAGE_KEYS.THEME,'auto');
+    modeButtons.forEach(b=>b.classList.toggle('active',b.dataset.mode===savedTheme));
     applyTheme(savedTheme);
+    modeButtons.forEach(b=>b.addEventListener('click',function(){
+      modeButtons.forEach(x=>x.classList.remove('active'));this.classList.add('active');
+      setPref(STORAGE_KEYS.THEME,this.dataset.mode);applyTheme(this.dataset.mode);
+    }));
+    if(savedTheme==='auto')window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{if(getPref(STORAGE_KEYS.THEME)==='auto')applyTheme('auto')});
 
-    // [MODIFICADO] Event listeners para botones de tema (ahora guardan en localStorage)
-    modeButtons.forEach(btn => {
-      btn.addEventListener('click', function() {
-        modeButtons.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        const selectedMode = this.dataset.mode;
-        setPreference(STORAGE_KEYS.THEME, selectedMode);
-        applyTheme(selectedMode);
-      });
-    });
+    const savedLang=getPref(STORAGE_KEYS.LANG,'en');
+    changeLang(savedLang);
+    document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',function(){
+      setPref(STORAGE_KEYS.LANG,this.dataset.lang);changeLang(this.dataset.lang);
+    }));
 
-    // [MODIFICADO] Si el usuario tiene guardado 'auto', reaccionamos a cambios del sistema
-    if (savedTheme === 'auto') {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if (getPreference(STORAGE_KEYS.THEME) === 'auto') {
-          applyTheme('auto');
-        }
-      });
+    // === HAMBURGER ===
+    const hamburger=document.getElementById('hamburger'),nav=document.getElementById('nav');
+    let menuOpen=false;
+    function toggleMenu(){menuOpen=!menuOpen;hamburger.classList.toggle('active');nav.classList.toggle('active');document.body.style.overflow=menuOpen?'hidden':''}
+    hamburger.addEventListener('click',toggleMenu);
+    document.querySelectorAll('.navlink').forEach(l=>l.addEventListener('click',()=>{if(menuOpen)toggleMenu()}));
+    document.addEventListener('click',e=>{if(menuOpen&&!nav.contains(e.target)&&!hamburger.contains(e.target))toggleMenu()});
+    window.addEventListener('resize',()=>{if(innerWidth>768&&menuOpen)toggleMenu()});
+
+    // === BRAND CLICK ===
+    document.getElementById('brandMini').addEventListener('click',()=>location.href='index.html');
+
+    // ============================================
+    //   SIMULATION ENGINE
+    // ============================================
+    const canvas=document.getElementById('simCanvas');
+    const ctx=canvas.getContext('2d');
+    const descEl=document.getElementById('simDesc');
+    const fpsEl=document.getElementById('fpsCounter');
+    let animId=null;
+    let currentSim='particles';
+    let mouse={x:null,y:null,down:false};
+    let lastTime=performance.now(),frameCount=0,fps=0;
+
+    function resize(){
+      const box=canvas.parentElement;
+      canvas.width=box.clientWidth;
+      canvas.height=box.clientHeight;
+    }
+    window.addEventListener('resize',()=>{resize();switchSim(currentSim)});
+
+    canvas.addEventListener('mousemove',e=>{const r=canvas.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top});
+    canvas.addEventListener('mousedown',e=>{mouse.down=true;if(currentSim==='orbits'){const r=canvas.getBoundingClientRect();handleOrbitClick(e.clientX-r.left,e.clientY-r.top)}});
+    canvas.addEventListener('mouseup',()=>mouse.down=false);
+    canvas.addEventListener('mouseleave',()=>{mouse.x=null;mouse.y=null;mouse.down=false});
+    canvas.addEventListener('touchmove',e=>{e.preventDefault();const t=e.touches[0];const r=canvas.getBoundingClientRect();mouse.x=t.clientX-r.left;mouse.y=t.clientY-r.top},{passive:false});
+    canvas.addEventListener('touchstart',e=>{mouse.down=true;const t=e.touches[0];const r=canvas.getBoundingClientRect();mouse.x=t.clientX-r.left;mouse.y=t.clientY-r.top;if(currentSim==='orbits')handleOrbitClick(mouse.x,mouse.y)});
+    canvas.addEventListener('touchend',()=>{mouse.down=false;mouse.x=null;mouse.y=null});
+
+    function updateFPS(){
+      frameCount++;
+      const now=performance.now();
+      if(now-lastTime>=1000){fps=frameCount;frameCount=0;lastTime=now;fpsEl.textContent=fps+' FPS'}
     }
 
-    // [MODIFICADO] Cargar idioma guardado al inicio
-    const savedLang = getPreference(STORAGE_KEYS.LANG, 'en');
-    changeLanguage(savedLang);
+    // ============================================
+    //  1. PARTICLE NETWORK
+    // ============================================
+    let particles=[];
+    const LINK_DIST=120;
 
-    // [MODIFICADO] Event listeners para botones de idioma (ahora guardan en localStorage)
-    document.querySelectorAll('[data-lang]').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const selectedLang = this.dataset.lang;
-        setPreference(STORAGE_KEYS.LANG, selectedLang);
-        changeLanguage(selectedLang);
-      });
-    });
-
-    // === PARALLAX PANELS ===
-    const panels = document.getElementById('panels');
-    const rainbowColors = ['color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-violet'];
-    const occupiedPositions = [];
-    
-    function isOverlapping(pos1, pos2, size1, size2, margin = 5) {
-      const left1 = parseFloat(pos1.left); const top1 = parseFloat(pos1.top);
-      const left2 = parseFloat(pos2.left); const top2 = parseFloat(pos2.top);
-      const right1 = left1 + size1.width + margin; const bottom1 = top1 + size1.height + margin;
-      const right2 = left2 + size2.width + margin; const bottom2 = top2 + size2.height + margin;
-      return !(right1 < left2 || left1 > right2 || bottom1 < top2 || top1 > bottom2);
-    }
-    
-    function getRandomPosition(sizeType) {
-      let leftMin, leftMax, topMin, topMax, size;
-      switch(sizeType) {
-        case 'large': leftMin = 2; leftMax = 70; topMin = 15; topMax = 70; size = { width: 20, height: 15 }; break;
-        case 'medium': leftMin = 5; leftMax = 75; topMin = 10; topMax = 75; size = { width: 16, height: 12 }; break;
-        case 'small': leftMin = 8; leftMax = 82; topMin = 5; topMax = 80; size = { width: 12, height: 8 }; break;
-      }
-      let attempts = 0; const maxAttempts = 50;
-      while (attempts < maxAttempts) {
-        const position = { left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%', top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%' };
-        let hasOverlap = false;
-        for (const occupied of occupiedPositions) { if (isOverlapping(position, occupied.position, size, occupied.size)) { hasOverlap = true; break; } }
-        if (!hasOverlap) { occupiedPositions.push({ position, size }); return position; }
-        attempts++;
-      }
-      const fallbackPosition = { left: (leftMin + Math.random() * (leftMax - leftMin)).toFixed(1) + '%', top: (topMin + Math.random() * (topMax - topMin)).toFixed(1) + '%' };
-      occupiedPositions.push({ position: fallbackPosition, size }); return fallbackPosition;
-    }
-    
-    function shuffleArray(array) {
-      const newArray = [...array];
-      for (let i = newArray.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; }
-      return newArray;
-    }
-    
-    const shuffledColors = shuffleArray(rainbowColors);
-    const largePanelsContent = [
-      { speed: 0.9, lines: ['// Simulación iniciando...', 'const model = new ParticleSystem();', 'model.initialize(1000);', 'model.run();', '// Cargando parámetros...'] },
-      { speed: 0.8, lines: ['<simulation/>', 'parameters = {', '  gravity: 9.81,', '  friction: 0.98,', '  timeStep: 0.016', '}', 'runSimulation(parameters);'] },
-      { speed: 0.7, lines: ['// Calculando trayectorias', 'for (let i = 0; i < 100; i++) {', '  updatePosition(particles[i]);', '  applyForces(particles[i]);', '  checkCollisions(particles[i]);', '}', 'renderFrame();'] },
-      { speed: 0.6, lines: ['class FluidSimulation {', '  constructor() {', '    this.particles = [];', '    this.forces = [];', '    this.time = 0;', '  }', '  step() {', '    // Actualizar física', '  }', '}'] }
-    ];
-    
-    const mediumPanelsContent = [
-      { speed: 0.5, lines: ['// Configuración física', 'const physicsConfig = {', '  gravity: [0, -9.81, 0],', '  airResistance: 0.01,', '  elasticity: 0.8', '}', 'applyConfig(physicsConfig);'] },
-      { speed: 0.45, lines: ['func calculateForces() {', '  for particle in particles {', '    particle.acceleration =', '      gravity + dragForce', '  }', '}', 'updateSystem();'] },
-      { speed: 0.4, lines: ['public class Simulation {', '  public void update() {', '    applyPhysics();', '    handleCollisions();', '    render();', '  }', '}'] },
-      { speed: 0.35, lines: ['-- Base de datos simulaciones', 'CREATE TABLE simulations (', '  id INT PRIMARY KEY,', '  name VARCHAR(100),', '  parameters JSON', ');', 'INSERT...'] },
-      { speed: 0.3, lines: ['import SwiftUI', 'struct SimulationView: View {', '  @State var isRunning = false', '  var body: some View {', '    ParticleSystem()', '  }', '}'] }
-    ];
-    
-    const smallPanelsContent = [
-      { speed: 0.25, lines: ['npm install...', '✓ Physics Engine', 'simulation ready'] },
-      { speed: 0.2, lines: ['git commit -m', '"add: fluid sim"', 'push origin dev'] },
-      { speed: 0.18, lines: ['SIMULATION MODE', 'WARNING: high CPU', 'parameters valid'] },
-      { speed: 0.15, lines: ['CPU: 78% load', 'GPU: 45% load', 'FPS: 60 stable'] },
-      { speed: 0.12, lines: ['test simulation', '✓ 25/25 passed', 'accuracy: 99.2%'] },
-      { speed: 0.1, lines: ['docker build', 'image: ready', 'simulation: run'] }
-    ];
-    
-    const largePanels = largePanelsContent.map(content => ({ ...content, ...getRandomPosition('large') }));
-    const mediumPanels = mediumPanelsContent.map(content => ({ ...content, ...getRandomPosition('medium') }));
-    const smallPanels = smallPanelsContent.map(content => ({ ...content, ...getRandomPosition('small') }));
-    
-    function typeText(element, text, speed, onComplete) {
-      let i = 0; element.innerHTML = '';
-      function typeChar() {
-        if (i < text.length) {
-          const char = text.charAt(i); element.innerHTML += char === ' ' ? '&nbsp;' : char; i++;
-          let delay = speed;
-          if (char === '.' || char === ';' || char === '}') delay = speed * 3;
-          else if (char === ',' || char === ' ') delay = speed * 1.5;
-          setTimeout(typeChar, delay);
-        } else if (onComplete) { setTimeout(onComplete, 1000); }
-      }
-      typeChar();
-    }
-    
-    function animatePanel(panel, lines, isSmall = false) {
-      const inner = panel.querySelector('.inner'); let currentLine = 0; let isAnimating = false; let timeoutId = null;
-      function stopAnimation() { isAnimating = false; if (timeoutId) { clearTimeout(timeoutId); timeoutId = null; } }
-      function typeNextLine() {
-        if (!isAnimating) return;
-        if (currentLine < lines.length) {
-          const lineElement = document.createElement('div'); lineElement.className = 'code-line'; inner.appendChild(lineElement);
-          const baseSpeed = isSmall ? 25 + Math.random() * 20 : 40 + Math.random() * 30;
-          typeText(lineElement, lines[currentLine], baseSpeed, () => {
-            if (!isAnimating) return; currentLine++;
-            if (currentLine < lines.length) { timeoutId = setTimeout(typeNextLine, isSmall ? 200 : 300); }
-            else { timeoutId = setTimeout(() => { if (!isAnimating) return; inner.innerHTML = ''; currentLine = 0; timeoutId = setTimeout(typeNextLine, isSmall ? 500 : 800); }, isSmall ? 1500 : 2000); }
-          });
-        }
-      }
-      return { start: () => { if (!isAnimating) { isAnimating = true; typeNextLine(); } }, stop: () => { stopAnimation(); } };
-    }
-    
-    const animationControllers = new Map();
-    const panelObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const controller = animationControllers.get(entry.target);
-        if (entry.isIntersecting) { if (controller) controller.start(); }
-        else { if (controller) controller.stop(); }
-      });
-    }, { root: null, rootMargin: '100px', threshold: 0 });
-    
-    largePanels.forEach((c, index) => {
-      const el = document.createElement('div'); el.className = 'panel large ' + shuffledColors[index % shuffledColors.length];
-      el.style.left = c.left; el.style.top = c.top; const inner = document.createElement('div'); inner.className = 'inner';
-      el.appendChild(inner); panels.appendChild(el); c.el = el;
-      const controller = animatePanel(el, c.lines, false); animationControllers.set(el, controller); panelObserver.observe(el);
-    });
-    
-    const shuffledColorsMedium = shuffleArray(rainbowColors);
-    mediumPanels.forEach((c, index) => {
-      const el = document.createElement('div'); el.className = 'panel medium ' + shuffledColorsMedium[index % shuffledColorsMedium.length];
-      el.style.left = c.left; el.style.top = c.top; const inner = document.createElement('div'); inner.className = 'inner';
-      el.appendChild(inner); panels.appendChild(el); c.el = el;
-      const controller = animatePanel(el, c.lines, false); animationControllers.set(el, controller); panelObserver.observe(el);
-    });
-    
-    const shuffledColorsSmall = shuffleArray(rainbowColors);
-    smallPanels.forEach((c, index) => {
-      const el = document.createElement('div'); el.className = 'panel small ' + shuffledColorsSmall[index % shuffledColorsSmall.length];
-      el.style.left = c.left; el.style.top = c.top; const inner = document.createElement('div'); inner.className = 'inner';
-      el.appendChild(inner); panels.appendChild(el); c.el = el;
-      const controller = animatePanel(el, c.lines, true); animationControllers.set(el, controller); panelObserver.observe(el);
-    });
-
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const scrollY = window.scrollY;
-          largePanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
-          mediumPanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
-          smallPanels.forEach(c => { c.el.style.transform = `translate3d(0, ${-scrollY * c.speed}px, 0)`; });
-          ticking = false;
+    function initParticles(){
+      particles=[];
+      const count=Math.min(Math.floor(canvas.width*canvas.height/6000),200);
+      for(let i=0;i<count;i++){
+        particles.push({
+          x:Math.random()*canvas.width,
+          y:Math.random()*canvas.height,
+          vx:(Math.random()-0.5)*0.8,
+          vy:(Math.random()-0.5)*0.8,
+          r:Math.random()*2+1,
+          hue:Math.floor(Math.random()*60)+240
         });
-        ticking = true;
       }
-    });
-
-    // === Ocultar header ===
-    const topbar = document.getElementById('topbar'); 
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if(y > lastScroll + 10) topbar.classList.add('hidden');
-      else if(y < lastScroll - 10) topbar.classList.remove('hidden');
-      lastScroll = y;
-    });
-
-    // === Menú hamburguesa ===
-    const hamburger = document.getElementById('hamburger');
-    const nav = document.getElementById('nav');
-    let isMenuOpen = false;
-    function toggleMenu() {
-      isMenuOpen = !isMenuOpen;
-      hamburger.classList.toggle('active'); nav.classList.toggle('active');
-      document.body.style.overflow = isMenuOpen ? 'hidden' : '';
     }
-    hamburger.addEventListener('click', toggleMenu);
-    document.querySelectorAll('.navlink').forEach(link => { link.addEventListener('click', () => { if (isMenuOpen) toggleMenu(); }); });
-    document.addEventListener('click', (e) => { if (isMenuOpen && !nav.contains(e.target) && !hamburger.contains(e.target)) toggleMenu(); });
-    window.addEventListener('resize', () => { if (window.innerWidth > 768 && isMenuOpen) toggleMenu(); });
 
-    // === SIMULADOR MULTI-ESTADO ===
-    const canvas = document.getElementById('simCanvas');
-    const ctx = canvas.getContext('2d');
-    let animationId;
-    let currentSim = 'particles';
-    let mouse = { x: null, y: null, radius: 100, isDown: false };
-    
-    // Resize canvas
-    function resizeCanvas() {
-      canvas.width = canvas.parentElement.clientWidth;
-      canvas.height = canvas.parentElement.clientHeight;
-      if(currentSim === 'fluids') initFluids();
-      if(currentSim === 'algorithms') initAlgorithms();
-      if(currentSim === 'particles') initParticles();
-    }
-    window.addEventListener('resize', resizeCanvas);
-    
-    canvas.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    });
-    
-    canvas.addEventListener('mousedown', () => mouse.isDown = true);
-    canvas.addEventListener('mouseup', () => mouse.isDown = false);
-    canvas.addEventListener('mouseout', () => {
-      mouse.x = undefined;
-      mouse.y = undefined;
-      mouse.isDown = false;
-    });
+    function drawParticles(){
+      ctx.fillStyle='rgba(10,10,18,0.25)';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    // --- 1. SIMULACIÓN DE PARTÍCULAS ---
-    let particlesArray = [];
-    class Particle {
-      constructor(x, y, directionX, directionY, size, color) {
-        this.x = x; this.y = y;
-        this.directionX = directionX; this.directionY = directionY;
-        this.size = size; this.color = color;
-        this.baseX = this.x; this.baseY = this.y;
-        this.density = (Math.random() * 30) + 1;
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-      }
-      update() {
-        if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-        if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
-        
-        let dx = mouse.x - this.x;
-        let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < mouse.radius) {
-          let forceDirectionX = dx / distance;
-          let forceDirectionY = dy / distance;
-          let force = (mouse.radius - distance) / mouse.radius;
-          let directionX = forceDirectionX * force * this.density;
-          let directionY = forceDirectionY * force * this.density;
-          this.x -= directionX;
-          this.y -= directionY;
-        } else {
-          if (this.x !== this.baseX) { this.x -= (this.x - this.baseX) / 10; }
-          if (this.y !== this.baseY) { this.y -= (this.y - this.baseY) / 10; }
+      for(let i=0;i<particles.length;i++){
+        const p=particles[i];
+        // Mouse repulsion
+        if(mouse.x!=null){
+          const dx=p.x-mouse.x,dy=p.y-mouse.y;
+          const dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<120&&dist>0){
+            const force=((120-dist)/120)*2;
+            p.vx+=dx/dist*force;
+            p.vy+=dy/dist*force;
+          }
         }
-        
-        this.x += this.directionX;
-        this.y += this.directionY;
-        this.draw();
+        // Friction
+        p.vx*=0.97;p.vy*=0.97;
+        p.x+=p.vx;p.y+=p.vy;
+        // Bounce
+        if(p.x<0){p.x=0;p.vx*=-0.5}
+        if(p.x>canvas.width){p.x=canvas.width;p.vx*=-0.5}
+        if(p.y<0){p.y=0;p.vy*=-0.5}
+        if(p.y>canvas.height){p.y=canvas.height;p.vy*=-0.5}
+
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=`hsla(${p.hue},80%,70%,0.9)`;ctx.fill();
       }
-    }
-    
-    function initParticles() {
-      particlesArray = [];
-      let numberOfParticles = (canvas.height * canvas.width) / 9000;
-      for (let i = 0; i < numberOfParticles * 2; i++) {
-        let size = (Math.random() * 2) + 1;
-        let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-        let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-        particlesArray.push(new Particle(x, y, (Math.random() * 2) - 1, (Math.random() * 2) - 1, size, '#b478ff'));
-      }
-    }
-    
-    function drawParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < particlesArray.length; i++) {
-        particlesArray[i].update();
-      }
-      for (let a = 0; a < particlesArray.length; a++) {
-        for (let b = a; b < particlesArray.length; b++) {
-          let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
-                         ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-          if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-            let opacityValue = 1 - (distance / 20000);
-            ctx.strokeStyle = 'rgba(180, 120, 255,' + opacityValue + ')';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-            ctx.stroke();
+      // Lines
+      for(let i=0;i<particles.length;i++){
+        for(let j=i+1;j<particles.length;j++){
+          const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;
+          const d=dx*dx+dy*dy;
+          if(d<LINK_DIST*LINK_DIST){
+            const alpha=1-Math.sqrt(d)/LINK_DIST;
+            ctx.strokeStyle=`rgba(140,130,255,${alpha*0.5})`;
+            ctx.lineWidth=alpha*1.5;
+            ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();
           }
         }
       }
     }
 
-    // --- 2. SIMULACIÓN DE FLUIDOS (Water Ripples) ---
-    let fluidW, fluidH, fluidScale = 4;
-    let buf1, buf2;
-    let fluidImageData;
+    // ============================================
+    //  2. CONWAY'S GAME OF LIFE
+    // ============================================
+    const CELL=8;
+    let lifeCols,lifeRows,lifeGrid,lifeNext;
+    let lifeTickTimer=0;
+    const LIFE_SPEED=80; // ms per tick
 
-    function initFluids() {
-      fluidW = Math.floor(canvas.width / fluidScale);
-      fluidH = Math.floor(canvas.height / fluidScale);
-      buf1 = new Float32Array(fluidW * fluidH);
-      buf2 = new Float32Array(fluidW * fluidH);
-      fluidImageData = ctx.createImageData(fluidW, fluidH);
-      ctx.fillStyle = '#0a0e1a';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    function initLife(){
+      lifeCols=Math.floor(canvas.width/CELL);
+      lifeRows=Math.floor(canvas.height/CELL);
+      lifeGrid=new Uint8Array(lifeCols*lifeRows);
+      lifeNext=new Uint8Array(lifeCols*lifeRows);
+      // Random seed
+      for(let i=0;i<lifeGrid.length;i++) lifeGrid[i]=Math.random()>0.82?1:0;
+      lifeTickTimer=performance.now();
     }
 
-    function dropAt(cx, cy, radius, strength) {
-      let sx = Math.floor(cx / fluidScale);
-      let sy = Math.floor(cy / fluidScale);
-      for (let y = Math.max(0, sy - radius); y < Math.min(fluidH, sy + radius); y++) {
-        for (let x = Math.max(0, sx - radius); x < Math.min(fluidW, sx + radius); x++) {
-          let dx = x - sx, dy = y - sy;
-          let dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < radius) {
-            buf1[y * fluidW + x] += strength * (1 - dist / radius);
+    function drawLife(){
+      // Paint with mouse
+      if(mouse.x!=null&&mouse.down){
+        const cx=Math.floor(mouse.x/CELL),cy=Math.floor(mouse.y/CELL);
+        for(let dx=-1;dx<=1;dx++){
+          for(let dy=-1;dy<=1;dy++){
+            const nx=cx+dx,ny=cy+dy;
+            if(nx>=0&&nx<lifeCols&&ny>=0&&ny<lifeRows) lifeGrid[ny*lifeCols+nx]=1;
+          }
+        }
+      }
+
+      // Step logic at fixed rate
+      const now=performance.now();
+      if(now-lifeTickTimer>LIFE_SPEED){
+        lifeTickTimer=now;
+        for(let y=0;y<lifeRows;y++){
+          for(let x=0;x<lifeCols;x++){
+            let sum=0;
+            for(let dy=-1;dy<=1;dy++){for(let dx=-1;dx<=1;dx++){
+              if(dx===0&&dy===0)continue;
+              const nx=(x+dx+lifeCols)%lifeCols, ny=(y+dy+lifeRows)%lifeRows;
+              sum+=lifeGrid[ny*lifeCols+nx];
+            }}
+            const idx=y*lifeCols+x;
+            const alive=lifeGrid[idx];
+            lifeNext[idx]=(alive&&(sum===2||sum===3))||(!alive&&sum===3)?1:0;
+          }
+        }
+        const tmp=lifeGrid;lifeGrid=lifeNext;lifeNext=tmp;
+      }
+
+      // Draw
+      ctx.fillStyle='#0a0a12';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      for(let y=0;y<lifeRows;y++){
+        for(let x=0;x<lifeCols;x++){
+          if(lifeGrid[y*lifeCols+x]){
+            const hue=(x*3+y*5)%360;
+            ctx.fillStyle=`hsl(${hue},85%,60%)`;
+            ctx.fillRect(x*CELL,y*CELL,CELL-1,CELL-1);
           }
         }
       }
     }
 
-    function drawFluids() {
-      // Mouse interaction
-      if (mouse.x != null && mouse.y != null) {
-        dropAt(mouse.x, mouse.y, 3, 150);
+    // ============================================
+    //  3. GRAVITY ORBITS
+    // ============================================
+    let wells=[];
+    let orbiters=[];
+
+    function initOrbits(){
+      wells=[];
+      orbiters=[];
+      // Central well
+      wells.push({x:canvas.width/2,y:canvas.height/2,mass:800});
+      // Spawn orbiters
+      for(let i=0;i<60;i++){
+        const angle=Math.random()*Math.PI*2;
+        const dist=60+Math.random()*180;
+        const speed=1.5+Math.random()*1.5;
+        orbiters.push({
+          x:canvas.width/2+Math.cos(angle)*dist,
+          y:canvas.height/2+Math.sin(angle)*dist,
+          vx:-Math.sin(angle)*speed,
+          vy: Math.cos(angle)*speed,
+          r:1+Math.random()*2,
+          hue:Math.floor(Math.random()*360),
+          trail:[]
+        });
       }
-      // Random drops
-      if (Math.random() < 0.02) {
-        dropAt(
-          Math.random() * canvas.width,
-          Math.random() * canvas.height,
-          4, 300
-        );
+    }
+
+    function handleOrbitClick(x,y){
+      if(wells.length<8) wells.push({x,y,mass:400+Math.random()*400});
+    }
+
+    function drawOrbits(){
+      ctx.fillStyle='rgba(10,10,18,0.15)';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+
+      // Draw wells
+      for(const w of wells){
+        const grad=ctx.createRadialGradient(w.x,w.y,0,w.x,w.y,30);
+        grad.addColorStop(0,'rgba(255,200,100,0.9)');
+        grad.addColorStop(0.5,'rgba(255,100,50,0.3)');
+        grad.addColorStop(1,'rgba(255,50,0,0)');
+        ctx.fillStyle=grad;
+        ctx.beginPath();ctx.arc(w.x,w.y,30,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(w.x,w.y,3,0,Math.PI*2);ctx.fill();
       }
 
-      // Propagation
-      let damping = 0.96;
-      for (let y = 1; y < fluidH - 1; y++) {
-        for (let x = 1; x < fluidW - 1; x++) {
-          let idx = y * fluidW + x;
-          buf2[idx] = (
-            buf1[idx - 1] +
-            buf1[idx + 1] +
-            buf1[idx - fluidW] +
-            buf1[idx + fluidW]
-          ) / 2 - buf2[idx];
-          buf2[idx] *= damping;
+      // Update and draw orbiters
+      for(const o of orbiters){
+        // Gravity from all wells
+        for(const w of wells){
+          const dx=w.x-o.x,dy=w.y-o.y;
+          const distSq=dx*dx+dy*dy;
+          const dist=Math.sqrt(distSq);
+          if(dist<5)continue;
+          const force=w.mass/(distSq+500);
+          o.vx+=dx/dist*force;
+          o.vy+=dy/dist*force;
         }
-      }
+        // Speed limit
+        const spd=Math.sqrt(o.vx*o.vx+o.vy*o.vy);
+        if(spd>6){o.vx*=6/spd;o.vy*=6/spd}
 
-      // Render to small imageData
-      let d = fluidImageData.data;
-      for (let y = 0; y < fluidH; y++) {
-        for (let x = 0; x < fluidW; x++) {
-          let idx = y * fluidW + x;
-          let val = buf2[idx];
-          let pIdx = idx * 4;
-          d[pIdx]     = Math.max(0, Math.min(255, 10 + val * 0.2));
-          d[pIdx + 1] = Math.max(0, Math.min(255, 30 + Math.abs(val) * 0.6));
-          d[pIdx + 2] = Math.max(0, Math.min(255, 80 + val * 1.5));
-          d[pIdx + 3] = 255;
+        o.x+=o.vx;o.y+=o.vy;
+
+        // Trail
+        o.trail.push({x:o.x,y:o.y});
+        if(o.trail.length>40)o.trail.shift();
+
+        // Draw trail
+        for(let t=0;t<o.trail.length-1;t++){
+          const alpha=t/o.trail.length*0.5;
+          ctx.strokeStyle=`hsla(${o.hue},80%,60%,${alpha})`;
+          ctx.lineWidth=o.r*0.6;
+          ctx.beginPath();ctx.moveTo(o.trail[t].x,o.trail[t].y);ctx.lineTo(o.trail[t+1].x,o.trail[t+1].y);ctx.stroke();
         }
-      }
+        // Draw body
+        ctx.fillStyle=`hsl(${o.hue},80%,65%)`;
+        ctx.beginPath();ctx.arc(o.x,o.y,o.r,0,Math.PI*2);ctx.fill();
 
-      // Scale up to canvas
-      ctx.imageSmoothingEnabled = true;
-      createImageBitmap(fluidImageData).then(bmp => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(bmp, 0, 0, canvas.width, canvas.height);
-        bmp.close();
-      });
-
-      // Swap buffers
-      let temp = buf1;
-      buf1 = buf2;
-      buf2 = temp;
-    }
-
-    // --- 3. ALGORITMOS VISUALES (Conway's Game of Life) ---
-    const CELL_SIZE = 10;
-    let cols, rows;
-    let grid, nextGrid;
-
-    function buildGrid() {
-      return new Array(cols).fill(null).map(() => new Array(rows).fill(0));
-    }
-
-    function initAlgorithms() {
-      cols = Math.floor(canvas.width / CELL_SIZE);
-      rows = Math.floor(canvas.height / CELL_SIZE);
-      grid = buildGrid();
-      nextGrid = buildGrid();
-      
-      for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
-          grid[i][j] = Math.random() > 0.85 ? 1 : 0;
-        }
+        // Wrap
+        if(o.x<-50)o.x=canvas.width+50;
+        if(o.x>canvas.width+50)o.x=-50;
+        if(o.y<-50)o.y=canvas.height+50;
+        if(o.y>canvas.height+50)o.y=-50;
       }
     }
 
-    function drawAlgorithms() {
-      ctx.fillStyle = 'rgba(0,0,0,0.3)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      // Allow mouse to paint cells
-      if (mouse.x && mouse.y && mouse.isDown) {
-        let cx = Math.floor(mouse.x / CELL_SIZE);
-        let cy = Math.floor(mouse.y / CELL_SIZE);
-        if (cx >= 0 && cx < cols && cy >= 0 && cy < rows) {
-          grid[cx][cy] = 1;
-        }
-      }
+    // ============================================
+    //   MAIN LOOP & SWITCHER
+    // ============================================
+    const descKeys={particles:'desc_particles',life:'desc_life',orbits:'desc_orbits'};
 
-      for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
-          let state = grid[i][j];
-          if (state === 1) {
-            ctx.fillStyle = `hsl(${(i + j) * 2}, 100%, 60%)`;
-            ctx.fillRect(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
-          }
-          
-          let sum = 0;
-          for (let x = -1; x < 2; x++) {
-            for (let y = -1; y < 2; y++) {
-              let col = (i + x + cols) % cols;
-              let row = (j + y + rows) % rows;
-              sum += grid[col][row];
-            }
-          }
-          sum -= state;
-          
-          if (state === 0 && sum === 3) {
-            nextGrid[i][j] = 1;
-          } else if (state === 1 && (sum < 2 || sum > 3)) {
-            nextGrid[i][j] = 0;
-          } else {
-            nextGrid[i][j] = state;
-          }
-        }
-      }
-      
-      let temp = grid;
-      grid = nextGrid;
-      nextGrid = temp;
+    function switchSim(name){
+      currentSim=name;
+      // Update tabs
+      document.querySelectorAll('.sim-tab').forEach(b=>b.classList.toggle('active',b.dataset.sim===name));
+      // Update description
+      const lang=document.documentElement.lang||'en';
+      const dk=descKeys[name];
+      if(dk&&T[dk])descEl.textContent=T[dk][lang];
+      // Init
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      if(name==='particles')initParticles();
+      else if(name==='life')initLife();
+      else if(name==='orbits')initOrbits();
     }
 
-    // --- MAIN ANIMATION LOOP ---
-    function animate() {
-      animationId = requestAnimationFrame(animate);
-      if (currentSim === 'particles') drawParticles();
-      else if (currentSim === 'fluids') drawFluids();
-      else if (currentSim === 'algorithms') drawAlgorithms();
-    }
-    
-    // Switch Simulation
-    function updateActiveCardUI(type, lang) {
-      let activeText = lang === 'es' ? 'Activo: ' : 'Active: ';
-      let cards = document.querySelectorAll('.simulation-feature');
-      let targetIndex = type === 'particles' ? 0 : type === 'fluids' ? 1 : 2;
-      
-      // Reset all cards to their translation default
-      cards.forEach(card => {
-        let p = card.querySelector('p');
-        let key = p.getAttribute('data-i18n');
-        if(key && translations[key]) {
-          p.textContent = translations[key][lang];
-        }
-      });
-      
-      // Inject Active state to the target card
-      let targetP = cards[targetIndex].querySelector('p');
-      let baseText = targetP.textContent.replace('Click to activate: ', '').replace('Clic para activar: ', '');
-      targetP.innerHTML = `<span style="color:var(--primary)">${activeText}</span>${baseText}`;
+    function mainLoop(){
+      animId=requestAnimationFrame(mainLoop);
+      updateFPS();
+      if(currentSim==='particles')drawParticles();
+      else if(currentSim==='life')drawLife();
+      else if(currentSim==='orbits')drawOrbits();
     }
 
-    function initSimulation(type) {
-      currentSim = type;
-      if (type === 'particles') initParticles();
-      if (type === 'fluids') initFluids();
-      if (type === 'algorithms') initAlgorithms();
-      
-      let lang = document.documentElement.lang || 'en';
-      updateActiveCardUI(type, lang);
-    }
-
-    // Default load
-    window.addEventListener('load', () => {
-      resizeCanvas();
+    // === INIT ===
+    window.addEventListener('load',()=>{
+      resize();
       initParticles();
-      initSimulation('particles');
-      animate();
+      mainLoop();
     });
   </script>
 </body>
