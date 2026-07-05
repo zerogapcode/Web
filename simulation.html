@@ -349,37 +349,41 @@
       margin-top: 20px;
     }
 
-    .construction-container {
+    .simulation-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      min-height: 60vh;
+      justify-content: flex-start;
+      min-height: 80vh;
       text-align: center;
-      padding: 40px 20px;
+      padding: 20px;
+      width: 100%;
+      position: relative;
+      z-index: 10;
     }
     
-    .construction-icon {
-      font-size: 80px;
+    .simulation-header {
       margin-bottom: 30px;
-      animation: constructionPulse 2s infinite ease-in-out;
     }
     
-    @keyframes constructionPulse {
-      0%, 100% { transform: scale(1) rotate(0deg); }
-      25% { transform: scale(1.1) rotate(5deg); }
-      50% { transform: scale(1.05) rotate(-5deg); }
-      75% { transform: scale(1.1) rotate(5deg); }
-    }
-    
-    .construction-title {
-      font-size: 48px;
+    .simulation-title {
+      font-size: 40px;
       font-weight: 700;
-      margin-bottom: 20px;
-      background: linear-gradient(90deg, #ff6464, #ffa550, #ffdc64, #64dc96, #64b4ff, #b478ff);
-      background-size: 400% 400%;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #64b4ff, #b478ff, #ff6464);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 4s ease infinite;
+    }
+    
+    .simulation-subtitle {
+      font-size: 18px;
+      color: var(--muted-light);
+      max-width: 650px;
+      margin: 0 auto;
+    }
       background-clip: text;
       animation: gradientShift 4s ease infinite;
     }
@@ -390,47 +394,41 @@
       100% { background-position: 0% 50%; }
     }
     
-    .construction-subtitle {
-      font-size: 20px;
-      color: var(--muted-light);
-      margin-bottom: 40px;
-      max-width: 600px;
-    }
-    
-    .construction-progress {
+    .canvas-wrapper {
       width: 100%;
-      max-width: 400px;
-      height: 8px;
-      background: rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
+      max-width: 900px;
+      height: 450px;
+      margin: 0 auto 40px;
+      border-radius: 16px;
       overflow: hidden;
-      margin: 30px 0;
+      border: 1px solid var(--card-border-light);
+      box-shadow: var(--card-shadow-light);
+      background: rgba(0, 0, 0, 0.85);
+      position: relative;
     }
     
-    .construction-progress-bar {
+    body[data-theme='dark'] .canvas-wrapper {
+      border: 1px solid var(--card-border-dark);
+      box-shadow: var(--card-shadow-dark);
+      background: rgba(0, 0, 0, 0.95);
+    }
+    
+    #simCanvas {
+      width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, #ff6464, #ffa550, #ffdc64, #64dc96, #64b4ff, #b478ff);
-      background-size: 400% 400%;
-      border-radius: 4px;
-      width: 65%;
-      animation: gradientShift 4s ease infinite, progressPulse 3s infinite;
+      display: block;
+      cursor: crosshair;
     }
     
-    @keyframes progressPulse {
-      0%, 100% { width: 65%; }
-      50% { width: 68%; }
-    }
-    
-    .construction-grid {
+    .simulation-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      margin-top: 40px;
       width: 100%;
-      max-width: 800px;
+      max-width: 900px;
     }
     
-    .construction-feature {
+    .simulation-feature {
       background: var(--card-bg-light);
       border-radius: 16px;
       padding: 24px;
@@ -442,9 +440,10 @@
       text-align: center;
       position: relative;
       overflow: hidden;
+      cursor: pointer;
     }
     
-    .construction-feature::before {
+    .simulation-feature::before {
       content: '';
       position: absolute;
       top: 0;
@@ -458,23 +457,28 @@
       z-index: 1;
     }
     
-    .construction-feature:hover {
+    .simulation-feature:hover {
       transform: translate3d(0, -5px, 0);
       box-shadow: 0 12px 40px rgba(0,0,0,0.15);
       border-color: rgba(255, 255, 255, 0.4);
     }
     
-    .construction-feature-icon {
+    .simulation-feature-icon {
       font-size: 40px;
       margin-bottom: 15px;
+      transition: transform 0.3s ease;
     }
     
-    .construction-feature h3 {
+    .simulation-feature:hover .simulation-feature-icon {
+      transform: scale(1.1);
+    }
+    
+    .simulation-feature h3 {
       margin: 0 0 10px;
       font-size: 18px;
     }
     
-    .construction-feature p {
+    .simulation-feature p {
       font-size: 14px;
       color: var(--muted-light);
       margin: 0;
@@ -729,7 +733,7 @@
     
     body[data-theme='dark'] .card,
     body[data-theme='dark'] .service-card,
-    body[data-theme='dark'] .construction-feature {
+    body[data-theme='dark'] .simulation-feature {
       background: var(--card-bg-dark);
       border: 1px solid var(--card-border-dark);
       box-shadow: var(--card-shadow-dark);
@@ -737,7 +741,7 @@
     
     body[data-theme='dark'] .card::before,
     body[data-theme='dark'] .service-card::before,
-    body[data-theme='dark'] .construction-feature::before {
+    body[data-theme='dark'] .simulation-feature::before {
       background: linear-gradient(90deg, 
         rgba(255,255,255,0) 0%, 
         rgba(255,255,255,0.1) 50%, 
@@ -746,16 +750,12 @@
     
     body[data-theme='dark'] .card:hover,
     body[data-theme='dark'] .service-card:hover,
-    body[data-theme='dark'] .construction-feature:hover {
+    body[data-theme='dark'] .simulation-feature:hover {
       box-shadow: 0 16px 40px rgba(0,0,0,0.5);
       border-color: rgba(255, 255, 255, 0.2);
     }
     
-    body[data-theme='dark'] .construction-progress {
-      background: rgba(255, 255, 255, 0.1);
-    }
-    
-    body[data-theme='dark'] .construction-subtitle {
+    body[data-theme='dark'] .simulation-subtitle {
       color: var(--muted-dark);
     }
 
@@ -835,12 +835,12 @@
         padding: 20px;
       }
       
-      .construction-title {
-        font-size: 36px;
+      .simulation-title {
+        font-size: 32px;
       }
       
-      .construction-icon {
-        font-size: 60px;
+      .canvas-wrapper {
+        height: 350px;
       }
     }
     
@@ -853,16 +853,16 @@
         min-height: 60vh;
       }
       
-      .construction-title {
-        font-size: 28px;
+      .simulation-title {
+        font-size: 24px;
       }
       
-      .construction-icon {
-        font-size: 50px;
+      .canvas-wrapper {
+        height: 250px;
       }
       
-      .construction-subtitle {
-        font-size: 16px;
+      .simulation-subtitle {
+        font-size: 15px;
       }
     }
     
@@ -901,9 +901,7 @@
         opacity: 1;
       }
       
-      .construction-icon,
-      .construction-title,
-      .construction-progress-bar {
+      .simulation-title {
         animation: none;
       }
     }
@@ -943,35 +941,35 @@
   <div class="panels" id="panels"></div>
 
   <main class="wrap">
-    <section class="construction-container">
-      <div class="construction-icon">🚧</div>
-      <h1 class="construction-title" data-i18n="const_title">UNDER CONSTRUCTION</h1>
-      <p class="construction-subtitle" data-i18n="const_subtitle">
-        We are working on incredible interactive simulations. 
-        Soon you will be able to experiment with physical models, visual algorithms and much more.
-      </p>
-      
-      <div class="construction-progress">
-        <div class="construction-progress-bar"></div>
+    <section class="simulation-container">
+      <div class="simulation-header">
+        <h1 class="simulation-title" data-i18n="sim_title">Interactive Simulations Lab</h1>
+        <p class="simulation-subtitle" data-i18n="sim_subtitle">
+          Experiment with physical models, fluid dynamics, and visual algorithms directly in your browser.
+        </p>
       </div>
       
-      <div class="construction-grid">
-        <div class="construction-feature">
-          <div class="construction-feature-icon">🌊</div>
-          <h3 data-i18n="feat_fluid_t">Fluid Simulations</h3>
-          <p data-i18n="feat_fluid_p">Visualize the behavior of liquids and gases in real time</p>
-        </div>
-        
-        <div class="construction-feature">
-          <div class="construction-feature-icon">🔬</div>
+      <div class="canvas-wrapper">
+        <canvas id="simCanvas"></canvas>
+      </div>
+      
+      <div class="simulation-grid">
+        <div class="simulation-feature" onclick="initSimulation('particles')">
+          <div class="simulation-feature-icon">✨</div>
           <h3 data-i18n="feat_phys_t">Physical Models</h3>
-          <p data-i18n="feat_phys_p">Experiments with gravity, collisions and particle systems</p>
+          <p data-i18n="feat_phys_p">Active: Interactive particle system with gravity, friction, and cursor repulsion.</p>
         </div>
         
-        <div class="construction-feature">
-          <div class="construction-feature-icon">🧠</div>
+        <div class="simulation-feature" onclick="alert('Coming soon!')">
+          <div class="simulation-feature-icon">🌊</div>
+          <h3 data-i18n="feat_fluid_t">Fluid Simulations</h3>
+          <p data-i18n="feat_fluid_p">Coming soon: Visualize the behavior of liquids and gases in real time.</p>
+        </div>
+        
+        <div class="simulation-feature" onclick="alert('Coming soon!')">
+          <div class="simulation-feature-icon">🧠</div>
           <h3 data-i18n="feat_algo_t">Visual Algorithms</h3>
-          <p data-i18n="feat_algo_p">Observe how algorithms work interactively</p>
+          <p data-i18n="feat_algo_p">Coming soon: Observe how algorithms work interactively.</p>
         </div>
       </div>
       
@@ -1027,14 +1025,14 @@
       mode_auto: { en: "Auto", es: "Auto" },
       mode_light: { en: "Light", es: "Claro" },
       mode_dark: { en: "Dark", es: "Oscuro" },
-      const_title: { en: "UNDER CONSTRUCTION", es: "EN CONSTRUCCIÓN" },
-      const_subtitle: { en: "We are working on incredible interactive simulations. Soon you will be able to experiment with physical models, visual algorithms and much more.", es: "Estamos trabajando en increíbles simulaciones interactivas. Pronto podrás experimentar con modelos físicos, algoritmos visuales y mucho más." },
+      sim_title: { en: "Interactive Simulations Lab", es: "Laboratorio de Simulaciones Interactivas" },
+      sim_subtitle: { en: "Experiment with physical models, fluid dynamics, and visual algorithms directly in your browser.", es: "Experimenta con modelos físicos, dinámica de fluidos y algoritmos visuales directamente en tu navegador." },
       feat_fluid_t: { en: "Fluid Simulations", es: "Simulaciones de Fluidos" },
-      feat_fluid_p: { en: "Visualize the behavior of liquids and gases in real time", es: "Visualiza el comportamiento de líquidos y gases en tiempo real" },
+      feat_fluid_p: { en: "Coming soon: Visualize the behavior of liquids and gases in real time.", es: "Próximamente: Visualiza el comportamiento de líquidos y gases en tiempo real." },
       feat_phys_t: { en: "Physical Models", es: "Modelos Físicos" },
-      feat_phys_p: { en: "Experiments with gravity, collisions and particle systems", es: "Experimentos con gravedad, colisiones y sistemas de partículas" },
+      feat_phys_p: { en: "Active: Interactive particle system with gravity, friction, and cursor repulsion.", es: "Activo: Sistema de partículas interactivo con gravedad, fricción y repulsión del cursor." },
       feat_algo_t: { en: "Visual Algorithms", es: "Algoritmos Visuales" },
-      feat_algo_p: { en: "Observe how algorithms work interactively", es: "Observa cómo funcionan los algoritmos de forma interactiva" },
+      feat_algo_p: { en: "Coming soon: Observe how algorithms work interactively.", es: "Próximamente: Observa cómo funcionan los algoritmos de forma interactiva." },
       back_btn: { en: "Back to Home", es: "Volver al Inicio" },
       footer_text: { en: "Innovation in every line of code, precision in every physical component.", es: "Innovación en cada línea de código, precisión en cada componente físico." }
     };
@@ -1274,6 +1272,148 @@
     document.querySelectorAll('.navlink').forEach(link => { link.addEventListener('click', () => { if (isMenuOpen) toggleMenu(); }); });
     document.addEventListener('click', (e) => { if (isMenuOpen && !nav.contains(e.target) && !hamburger.contains(e.target)) toggleMenu(); });
     window.addEventListener('resize', () => { if (window.innerWidth > 768 && isMenuOpen) toggleMenu(); });
+
+    // === SIMULACIÓN DE PARTÍCULAS ===
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+    let particlesArray;
+    let mouse = { x: null, y: null, radius: 100 };
+    
+    // Resize canvas
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+    
+    canvas.addEventListener('mouseout', () => {
+      mouse.x = undefined;
+      mouse.y = undefined;
+    });
+
+    class Particle {
+      constructor(x, y, directionX, directionY, size, color) {
+        this.x = x;
+        this.y = y;
+        this.directionX = directionX;
+        this.directionY = directionY;
+        this.size = size;
+        this.color = color;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = (Math.random() * 30) + 1;
+      }
+      
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+      
+      update() {
+        // Collisions with canvas borders
+        if (this.x > canvas.width || this.x < 0) {
+          this.directionX = -this.directionX;
+        }
+        if (this.y > canvas.height || this.y < 0) {
+          this.directionY = -this.directionY;
+        }
+        
+        // Mouse collision (repulsion)
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        let forceDirectionX = dx / distance;
+        let forceDirectionY = dy / distance;
+        let maxDistance = mouse.radius;
+        let force = (maxDistance - distance) / maxDistance;
+        let directionX = forceDirectionX * force * this.density;
+        let directionY = forceDirectionY * force * this.density;
+        
+        if (distance < mouse.radius) {
+          this.x -= directionX;
+          this.y -= directionY;
+        } else {
+          if (this.x !== this.baseX) {
+            let dx = this.x - this.baseX;
+            this.x -= dx / 10;
+          }
+          if (this.y !== this.baseY) {
+            let dy = this.y - this.baseY;
+            this.y -= dy / 10;
+          }
+        }
+        
+        // Move particle
+        this.x += this.directionX;
+        this.y += this.directionY;
+        
+        this.draw();
+      }
+    }
+    
+    function initParticles() {
+      particlesArray = [];
+      let numberOfParticles = (canvas.height * canvas.width) / 9000;
+      for (let i = 0; i < numberOfParticles * 2; i++) {
+        let size = (Math.random() * 2) + 1;
+        let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+        let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+        let directionX = (Math.random() * 2) - 1;
+        let directionY = (Math.random() * 2) - 1;
+        let color = '#b478ff';
+        particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+      }
+    }
+    
+    function connectParticles() {
+      let opacityValue = 1;
+      for (let a = 0; a < particlesArray.length; a++) {
+        for (let b = a; b < particlesArray.length; b++) {
+          let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
+                         ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+          if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+            opacityValue = 1 - (distance / 20000);
+            ctx.strokeStyle = 'rgba(180, 120, 255,' + opacityValue + ')';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+    
+    function animateParticles() {
+      requestAnimationFrame(animateParticles);
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      
+      for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+      }
+      connectParticles();
+    }
+    
+    // Default load
+    window.addEventListener('load', () => {
+      resizeCanvas();
+      initParticles();
+      animateParticles();
+    });
+    
+    function initSimulation(type) {
+      if (type === 'particles') {
+        initParticles(); // Restart particles
+      }
+    }
   </script>
 </body>
 </html>
