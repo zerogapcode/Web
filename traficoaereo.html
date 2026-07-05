@@ -778,42 +778,35 @@
     </div>
 
     <div id="menu-panel">
-        <!-- Language Selector -->
-        <div class="menu-section" style="padding-bottom: 15px; display: flex; justify-content: center; gap: 10px;">
-            <button id="lang-es" class="lang-btn active" style="padding: 5px 15px; border-radius: 15px; background: rgba(76, 175, 80, 0.8); color: white; border: none; cursor: pointer;">ES</button>
-            <button id="lang-en" class="lang-btn" style="padding: 5px 15px; border-radius: 15px; background: rgba(255,255,255,0.1); color: white; border: none; cursor: pointer;">EN</button>
-        </div>
-
         <!-- Compartir vista actual -->
         <div class="menu-section" style="padding-bottom: 15px;">
             <button id="menu-share-flight-btn" class="share-flight-menu-btn" style="width: 100%; padding: 14px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(30, 64, 175, 0.9)); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; opacity: 1; font-weight: 500; backdrop-filter: blur(10px);">
                 <span>📤</span>
-                <span data-i18n="menu_share">Compartir Vista Actual</span>
+                <span>Compartir Vista Actual</span>
             </button>
         </div>
 
         <div class="menu-section">
-            <h3 data-i18n="menu_loc">Ubicación</h3>
+            <h3>Ubicación</h3>
             <div class="filter-group" style="position: relative;">
-                <label for="airport-search-input" data-i18n="search_airport">Buscar Aeropuerto</label>
+                <label for="airport-search-input">Buscar Aeropuerto</label>
                 <input
                     type="text"
                     id="airport-search-input"
                     class="search-input"
-                    data-i18n-placeholder="placeholder_airport"
                     placeholder="Escribe nombre o código de aeropuerto..."
                     autocomplete="off"
                     style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; font-size: 14px;"
                 >
                 <div id="airport-suggestions" class="airport-suggestions" style="display: none;"></div>
             </div>
-            <button id="use-my-location" style="width: 100%; margin-top: 15px;" data-i18n="use_my_loc">Usar Mi Ubicación</button>
+            <button id="use-my-location" style="width: 100%; margin-top: 15px;">Usar Mi Ubicación</button>
             <div class="filter-group" style="margin-top: 15px;">
-                <label><span data-i18n="current_loc">Actual:</span> <span id="location" data-i18n="detecting">Detectando...</span></label>
+                <label>Actual: <span id="location">Detectando...</span></label>
             </div>
             <div class="slider-group" style="margin-top: 20px;">
                 <label>
-                    <span data-i18n="search_radius">Radio de Búsqueda (km)</span>
+                    <span>Radio de Búsqueda (km)</span>
                     <span id="search-radius-value">100</span>
                 </label>
 
@@ -829,147 +822,147 @@
                 </div>
             </div>
             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-                <label style="font-size: 13px; font-weight: bold; color: #ddd;" data-i18n="flight_search">Búsqueda de Vuelo/Aeronave</label>
+                <label style="font-size: 13px; font-weight: bold; color: #ddd;">Búsqueda de Vuelo/Aeronave</label>
                 <div class="search-container">
-                    <input type="text" id="flight-search-input" class="search-input" data-i18n-placeholder="placeholder_flight" placeholder="Indicativo o Hex (ej: UAL123 o A1B2C3)" maxlength="10">
-                    <button id="flight-search-btn" class="search-btn" data-i18n="btn_search">Buscar</button>
+                    <input type="text" id="flight-search-input" class="search-input" placeholder="Indicativo o Hex (ej: UAL123 o A1B2C3)" maxlength="10">
+                    <button id="flight-search-btn" class="search-btn">Buscar</button>
                 </div>
                 <div id="search-status" style="display: none;"></div>
             </div>
         </div>
 
         <div class="menu-section">
-            <h3 data-i18n="stats">Estadísticas</h3>
+            <h3>Estadísticas</h3>
             <div class="stat-row">
-                <span class="stat-label" data-i18n="aircraft">Aeronaves:</span>
+                <span class="stat-label">Aeronaves:</span>
                 <span class="stat-value" id="aircraft-count">0</span>
             </div>
             <div class="stat-row">
-                <span class="stat-label" data-i18n="last_update">Actualización:</span>
+                <span class="stat-label">Actualización:</span>
                 <span class="stat-value" id="last-update">--</span>
             </div>
         </div>
 
         <div class="menu-section">
-            <h3 data-i18n="controls">Controles y Navegación</h3>
+            <h3>Controles y Navegación</h3>
             <div class="menu-buttons">
-                <button id="reset-camera" data-i18n="reset_cam">Reiniciar Vista</button>
-                <button id="clear-trails" data-i18n="clear_trails">Limpiar Estelas</button>
-                <button id="toggle-controls" data-i18n="flight_mode">Modo Vuelo (WASD)</button>
+                <button id="reset-camera">Reiniciar Vista</button>
+                <button id="clear-trails">Limpiar Estelas</button>
+                <button id="toggle-controls">Modo Vuelo (WASD)</button>
             </div>
             <div class="checkbox-group" style="margin-top: 20px;">
                 <input type="checkbox" id="auto-rotate" checked>
-                <label for="auto-rotate" data-i18n="auto_rotate">Auto-rotación tras inactividad (10s)</label>
+                <label for="auto-rotate">Auto-rotación tras inactividad (10s)</label>
             </div>
             <div class="checkbox-group" style="margin-top: 15px;">
                 <input type="checkbox" id="show-compass">
-                <label for="show-compass" data-i18n="show_compass">Mostrar brújula</label>
+                <label for="show-compass">Mostrar brújula</label>
             </div>
             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-                <label style="font-size: 13px; font-weight: bold; color: #ddd;" data-i18n="flight_tracking">Seguimiento de Vuelo</label>
+                <label style="font-size: 13px; font-weight: bold; color: #ddd;">Seguimiento de Vuelo</label>
                 <div class="checkbox-group" style="margin-top: 15px;">
                     <input type="checkbox" id="follow-aircraft" checked>
-                    <label for="follow-aircraft" data-i18n="activate_tracking">Activar Seguimiento</label>
+                    <label for="follow-aircraft">Activar Seguimiento</label>
                 </div>
                 <div class="checkbox-group" style="margin-top: 15px;">
                     <input type="checkbox" id="surf-mode">
-                    <label for="surf-mode" data-i18n="surf_mode">Modo Surf</label>
+                    <label for="surf-mode">Modo Surf</label>
                 </div>
                 <div style="margin-top: 10px;">
-                    <label style="font-size: 12px; color: #aaa;" data-i18n="surf_desc">Clic en aeronave para seleccionar • Surf cambia automáticamente</label>
+                    <label style="font-size: 12px; color: #aaa;">Clic en aeronave para seleccionar • Surf cambia automáticamente</label>
                 </div>
                 <div id="followed-aircraft-info" style="margin-top: 10px; display: none;">
-                    <label style="font-size: 12px; color: #4CAF50;"><span data-i18n="following">Siguiendo:</span> <span id="followed-aircraft-name">--</span></label>
+                    <label style="font-size: 12px; color: #4CAF50;">Siguiendo: <span id="followed-aircraft-name">--</span></label>
                 </div>
             </div>
         </div>
 
         <div class="menu-section">
-            <h3 data-i18n="visual_settings">Ajustes de Visualización</h3>
+            <h3>Ajustes de Visualización</h3>
             <div class="slider-group">
                 <label>
-                    <span data-i18n="trail_length">Longitud de Estela</span>
+                    <span>Longitud de Estela</span>
                     <span id="trail-length-value">1000</span>
                 </label>
                 <input type="range" id="trail-length" min="10" max="20000" value="1000">
             </div>
             <div class="slider-group">
                 <label>
-                    <span data-i18n="line_thickness">Grosor de Línea</span>
+                    <span>Grosor de Línea</span>
                     <span id="line-thickness-value">2</span>
                 </label>
                 <input type="range" id="line-thickness" min="0.5" max="10" step="0.5" value="2">
             </div>
             <div class="checkbox-group" style="margin-top: 20px;">
                 <input type="checkbox" id="color-by-speed">
-                <label for="color-by-speed" data-i18n="color_by_speed">Color por velocidad (vs altitud)</label>
+                <label for="color-by-speed">Color por velocidad (vs altitud)</label>
             </div>
             <div class="checkbox-group" style="margin-top: 15px;">
                 <input type="checkbox" id="show-airport-labels" checked>
-                <label for="show-airport-labels" data-i18n="show_airport_labels">Mostrar etiqueta aeropuerto</label>
+                <label for="show-airport-labels">Mostrar etiqueta aeropuerto</label>
             </div>
             <div class="checkbox-group" style="margin-top: 15px; margin-left: 20px;">
                 <input type="checkbox" id="label-show-city" checked>
-                <label for="label-show-city" data-i18n="show_city_name">Mostrar nombre ciudad</label>
+                <label for="label-show-city">Mostrar nombre ciudad</label>
             </div>
             <div class="checkbox-group" style="margin-top: 15px; margin-left: 20px;">
                 <input type="checkbox" id="label-standing" checked>
-                <label for="label-standing" data-i18n="vertical_label">Orientación vertical</label>
+                <label for="label-standing">Orientación vertical</label>
             </div>
         </div>
 
         <div class="menu-section">
-            <h3 data-i18n="map_terrain">Mapa y Terreno</h3>
+            <h3>Mapa y Terreno</h3>
             <div class="filter-group">
-                <label for="map-layer-select" data-i18n="map_layer">Capa de Mapa</label>
+                <label for="map-layer-select">Capa de Mapa</label>
                 <select id="map-layer-select">
-                    <option value="none" data-i18n="layer_none">Ninguna</option>
-                    <option value="dark" data-i18n="layer_dark">Oscuro (con etiquetas)</option>
-                    <option value="dark-nolabels" data-i18n="layer_dark_nolabels">Oscuro (sin etiquetas)</option>
-                    <option value="dark-terrain" data-i18n="layer_dark_3d">3D - oscuro (con etiquetas)</option>
-                    <option value="dark-nolabels-terrain" data-i18n="layer_dark_nolabels_3d">3D - oscuro (sin etiquetas)</option>
-                    <option value="satellite" data-i18n="layer_satellite" selected>Satélite</option>
-                    <option value="wireframe" data-i18n="layer_wireframe">Wireframe</option>
+                    <option value="none">Ninguna</option>
+                    <option value="dark">Oscuro (con etiquetas)</option>
+                    <option value="dark-nolabels">Oscuro (sin etiquetas)</option>
+                    <option value="dark-terrain">3D - oscuro (con etiquetas)</option>
+                    <option value="dark-nolabels-terrain">3D - oscuro (sin etiquetas)</option>
+                    <option value="satellite" selected>Satélite</option>
+                    <option value="wireframe">Wireframe</option>
                 </select>
             </div>
             <div class="filter-group" style="margin-top: 15px;">
-                <label><span data-i18n="gps_elevation">Elevación GPS:</span> <span id="gps-elevation">--</span> pies</label>
+                <label>Elevación GPS: <span id="gps-elevation">--</span> pies</label>
             </div>
             <div class="checkbox-group" style="margin-top: 15px;">
                 <input type="checkbox" id="show-boundaries" checked>
-                <label for="show-boundaries" data-i18n="show_boundaries">Mostrar Fronteras</label>
+                <label for="show-boundaries">Mostrar Fronteras</label>
             </div>
         </div>
 
         <div class="menu-section">
-            <h3 data-i18n="airspace">Espacio Aéreo</h3>
+            <h3>Espacio Aéreo</h3>
             <div class="checkbox-group">
                 <input type="checkbox" id="show-airspace">
-                <label for="show-airspace" data-i18n="show_airspace">Mostrar Espacio Aéreo</label>
+                <label for="show-airspace">Mostrar Espacio Aéreo</label>
             </div>
             <div class="checkbox-group" style="margin-left: 20px;">
                 <input type="checkbox" id="show-class-b" checked>
-                <label for="show-class-b" data-i18n="class_b">Clase B (Mayor)</label>
+                <label for="show-class-b">Clase B (Mayor)</label>
             </div>
             <div class="checkbox-group" style="margin-left: 20px;">
                 <input type="checkbox" id="show-class-c" checked>
-                <label for="show-class-c" data-i18n="class_c">Clase C (Medio)</label>
+                <label for="show-class-c">Clase C (Medio)</label>
             </div>
             <div class="checkbox-group" style="margin-left: 20px;">
                 <input type="checkbox" id="show-class-d" checked>
-                <label for="show-class-d" data-i18n="class_d">Clase D (Pequeño)</label>
+                <label for="show-class-d">Clase D (Pequeño)</label>
             </div>
             <div class="checkbox-group" style="margin-left: 20px;">
                 <input type="checkbox" id="airspace-focus-only" checked>
-                <label for="airspace-focus-only" data-i18n="airspace_focus">Solo Radio de Enfoque</label>
+                <label for="airspace-focus-only">Solo Radio de Enfoque</label>
             </div>
             <div class="checkbox-group" style="margin-left: 20px;">
                 <input type="checkbox" id="airspace-wireframe-only">
-                <label for="airspace-wireframe-only" data-i18n="airspace_wireframe">Solo Wireframe (sin relleno)</label>
+                <label for="airspace-wireframe-only">Solo Wireframe (sin relleno)</label>
             </div>
             <div class="slider-group" style="margin-top: 20px;">
                 <label>
-                    <span data-i18n="airspace_opacity">Opacidad Espacio Aéreo</span>
+                    <span>Opacidad Espacio Aéreo</span>
                     <span id="airspace-opacity-value">0.3</span>
                 </label>
                 <input type="range" id="airspace-opacity" min="0.1" max="0.8" step="0.1" value="0.3">
@@ -988,61 +981,61 @@
         </div>
 
         <div class="menu-section">
-            <h3 data-i18n="filters">Filtros</h3>
+            <h3>Filtros</h3>
             <div class="checkbox-group" style="margin-bottom: 20px;">
                 <input type="checkbox" id="filter-remove-mode">
-                <label for="filter-remove-mode" data-i18n="filter_remove">Eliminar aeronaves filtradas (vs ocultar)</label>
+                <label for="filter-remove-mode">Eliminar aeronaves filtradas (vs ocultar)</label>
             </div>
             <div class="filter-group">
-                <label for="filter-callsign" data-i18n="filter_callsign">Indicativo / Hex</label>
+                <label for="filter-callsign">Indicativo / Hex</label>
                 <input type="text" id="filter-callsign" placeholder="ej: UAL123, A1B2C3">
             </div>
             <div class="filter-group">
-                <label for="filter-type" data-i18n="filter_type">Tipo de Aeronave</label>
+                <label for="filter-type">Tipo de Aeronave</label>
                 <input type="text" id="filter-type" placeholder="ej: B738, A320">
             </div>
             <div class="filter-group">
-                <label for="filter-altitude-min" data-i18n="filter_alt_min">Altitud Mínima (pies)</label>
+                <label for="filter-altitude-min">Altitud Mínima (pies)</label>
                 <input type="number" id="filter-altitude-min" placeholder="0">
             </div>
             <div class="filter-group">
-                <label for="filter-altitude-max" data-i18n="filter_alt_max">Altitud Máxima (pies)</label>
+                <label for="filter-altitude-max">Altitud Máxima (pies)</label>
                 <input type="number" id="filter-altitude-max" value="100000">
             </div>
             <div class="checkbox-group">
                 <input type="checkbox" id="filter-ground" checked>
-                <label for="filter-ground" data-i18n="filter_ground">Mostrar en tierra</label>
+                <label for="filter-ground">Mostrar en tierra</label>
             </div>
-            <button id="reset-filters" style="width: 100%; margin-top: 20px;" data-i18n="reset_filters">Restablecer Filtros</button>
+            <button id="reset-filters" style="width: 100%; margin-top: 20px;">Restablecer Filtros</button>
         </div>
 
         <div class="menu-section">
-            <h3 data-i18n="recording">Grabación y Reproducción</h3>
+            <h3>Grabación y Reproducción</h3>
             <div class="menu-buttons">
-                <button id="menu-record-btn" data-i18n="start_recording">Iniciar Grabación</button>
-                <button id="play-recording-btn" style="display: none;" data-i18n="play_recording">Reproducir Grabación</button>
-                <button id="play-pause-btn" style="display: none;" data-i18n="play">▶ Reproducir</button>
-                <button id="stop-playback-btn" style="display: none;" data-i18n="stop">⏹ Detener</button>
-                <button id="save-recording-btn" style="display: none;" data-i18n="save_recording">Guardar Grabación</button>
-                <button id="load-recording-btn" data-i18n="load_recording">Cargar Grabación</button>
-                <button id="clear-recording-btn" style="display: none;" data-i18n="clear_recording">Limpiar Grabación</button>
+                <button id="menu-record-btn">Iniciar Grabación</button>
+                <button id="play-recording-btn" style="display: none;">Reproducir Grabación</button>
+                <button id="play-pause-btn" style="display: none;">▶ Reproducir</button>
+                <button id="stop-playback-btn" style="display: none;">⏹ Detener</button>
+                <button id="save-recording-btn" style="display: none;">Guardar Grabación</button>
+                <button id="load-recording-btn">Cargar Grabación</button>
+                <button id="clear-recording-btn" style="display: none;">Limpiar Grabación</button>
             </div>
             <div class="stat-row" style="margin-top: 15px;">
-                <span class="stat-label" data-i18n="rec_status">Grabación:</span>
-                <span class="stat-value" id="recording-status" data-i18n="inactive">Inactiva</span>
+                <span class="stat-label">Grabación:</span>
+                <span class="stat-value" id="recording-status">Inactiva</span>
             </div>
             <div class="stat-row">
-                <span class="stat-label" data-i18n="duration">Duración:</span>
+                <span class="stat-label">Duración:</span>
                 <span class="stat-value" id="recording-duration">0:00</span>
             </div>
             <div class="stat-row">
-                <span class="stat-label" data-i18n="memory">Memoria:</span>
+                <span class="stat-label">Memoria:</span>
                 <span class="stat-value" id="recording-memory">0 MB</span>
             </div>
 
             <!-- Playback Timeline -->
             <div id="timeline-container" style="display: none; margin-top: 20px;">
-                <label style="font-size: 13px; color: #ddd; margin-bottom: 8px; display: block;" data-i18n="timeline">Línea de Tiempo</label>
+                <label style="font-size: 13px; color: #ddd; margin-bottom: 8px; display: block;">Línea de Tiempo</label>
                 <input type="range" id="timeline-slider" min="0" max="100" value="0" style="width: 100%; accent-color: #4CAF50;">
                 <div style="display: flex; justify-content: space-between; font-size: 12px; color: #aaa; margin-top: 8px;">
                     <span id="current-time">0:00</span>
@@ -1052,7 +1045,7 @@
 
             <!-- Playback Speed Controls -->
             <div id="speed-controls" style="display: none; margin-top: 20px;">
-                <label style="font-size: 13px; color: #ddd; margin-bottom: 12px; display: block;" data-i18n="playback_speed">Velocidad Reproducción</label>
+                <label style="font-size: 13px; color: #ddd; margin-bottom: 12px; display: block;">Velocidad Reproducción</label>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
                     <button class="speed-btn" data-speed="0.5">0.5x</button>
                     <button class="speed-btn active" data-speed="1">1x</button>
@@ -1070,11 +1063,11 @@
         </div>
 
         <div class="menu-section">
-            <h3 data-i18n="adv_settings">Ajustes Avanzados</h3>
+            <h3>Ajustes Avanzados</h3>
 
             <div class="slider-group">
                 <label>
-                    <span data-i18n="alt_scale">Escala de Altitud</span>
+                    <span>Escala de Altitud</span>
                     <span id="altitude-scale-value">1.0</span>
                 </label>
                 <input type="range" id="altitude-scale" min="0.05" max="10.0" step="0.05" value="1.0">
@@ -1082,7 +1075,7 @@
 
             <div class="slider-group">
                 <label>
-                    <span data-i18n="floor_height">Elevación Terreno (pies)</span>
+                    <span>Elevación Terreno (pies)</span>
                     <span id="floor-height-value">0</span>
                 </label>
                 <input type="range" id="floor-height" min="-1000" max="15000" step="100" value="0">
@@ -1090,7 +1083,7 @@
 
             <div class="slider-group">
                 <label>
-                    <span data-i18n="fog_distance">Distancia de Niebla</span>
+                    <span>Distancia de Niebla</span>
                     <span id="fog-distance-value">20000</span>
                 </label>
                 <input type="range" id="fog-distance" min="500" max="20000" step="100" value="20000">
@@ -1098,40 +1091,40 @@
 
             <div class="checkbox-group" style="margin-top: 20px;">
                 <input type="checkbox" id="show-axes">
-                <label for="show-axes" data-i18n="show_axes">Mostrar ejes coordenados</label>
+                <label for="show-axes">Mostrar ejes coordenados</label>
             </div>
 
             <div class="checkbox-group" style="margin-top: 15px;">
                 <input type="checkbox" id="show-grid">
-                <label for="show-grid" data-i18n="show_grid">Mostrar cuadrícula terreno</label>
+                <label for="show-grid">Mostrar cuadrícula terreno</label>
             </div>
 
             <div class="checkbox-group" style="margin-top: 15px;">
                 <input type="checkbox" id="focused-tiles-mode" checked>
-                <label for="focused-tiles-mode" data-i18n="focused_tiles">Modo enfocado (mostrar dentro del radio)</label>
+                <label for="focused-tiles-mode">Modo enfocado (mostrar dentro del radio)</label>
             </div>
 
             <div class="slider-group" style="margin-top: 20px;">
                 <label>
-                    <span style="font-size: 13px;" data-i18n="map_brightness">Brillo del Mapa</span>
+                    <span style="font-size: 13px;">Brillo del Mapa</span>
                     <span id="map-brightness-value" style="font-size: 13px;">90%</span>
                 </label>
                 <input type="range" id="map-brightness" min="0.1" max="2.0" step="0.1" value=".9">
             </div>
 
             <div class="filter-group" style="margin-top: 20px;">
-                <label for="terrain-density-select" data-i18n="terrain_density">Densidad Wireframe</label>
+                <label for="terrain-density-select">Densidad Wireframe</label>
                 <select id="terrain-density-select">
-                    <option value="16" data-i18n="density_low">Baja (rápido)</option>
-                    <option value="32" data-i18n="density_med">Media</option>
-                    <option value="64" data-i18n="density_high" selected>Alta</option>
-                    <option value="128" data-i18n="density_vhigh">Muy Alta</option>
+                    <option value="16">Baja (rápido)</option>
+                    <option value="32">Media</option>
+                    <option value="64" selected>Alta</option>
+                    <option value="128">Muy Alta</option>
                 </select>
             </div>
 
             <div class="slider-group" style="margin-top: 15px;">
                 <label>
-                    <span style="font-size: 13px;" data-i18n="color_hue">Tono Color</span>
+                    <span style="font-size: 13px;">Tono Color</span>
                     <span id="terrain-hue-value" style="font-size: 13px;">0° (gris)</span>
                 </label>
                 <input type="range" id="terrain-hue" min="0" max="360" step="1" value="0">
@@ -1139,7 +1132,7 @@
 
             <div class="slider-group" style="margin-top: 10px;">
                 <label>
-                    <span style="font-size: 13px;" data-i18n="brightness">Brillantez</span>
+                    <span style="font-size: 13px;">Brillantez</span>
                     <span id="terrain-brightness-value" style="font-size: 13px;">50%</span>
                 </label>
                 <input type="range" id="terrain-brightness" min="10" max="90" step="5" value="50">
@@ -1147,12 +1140,12 @@
 
             <div class="checkbox-group" style="margin-top: 15px;">
                 <input type="checkbox" id="elevation-gradient" checked>
-                <label for="elevation-gradient" data-i18n="elevation_grad">Gradiente elevación</label>
+                <label for="elevation-gradient">Gradiente elevación</label>
             </div>
 
             <div class="slider-group" style="margin-left: 20px; margin-top: 10px;">
                 <label>
-                    <span style="font-size: 13px;" data-i18n="grad_intensity">Intensidad Gradiente</span>
+                    <span style="font-size: 13px;">Intensidad Gradiente</span>
                     <span id="gradient-intensity-value" style="font-size: 13px;">2.6x</span>
                 </label>
                 <input type="range" id="gradient-intensity" min="0" max="4.0" step="0.1" value="2.6">
@@ -1190,246 +1183,6 @@
         import { Line2 } from 'three/addons/lines/Line2.js';
         import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
         import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
-
-        // ==========================================
-        // SISTEMA DE TRADUCCIONES (I18N)
-        // ==========================================
-        const translations = {
-            en: {
-                "menu_share": "Share Current View",
-                "menu_loc": "Location",
-                "search_airport": "Search Airport",
-                "placeholder_airport": "Type name or code...",
-                "use_my_loc": "Use My Location",
-                "current_loc": "Current: ",
-                "search_radius": "Search Radius (km)",
-                "flight_search": "Flight/Aircraft Search",
-                "placeholder_flight": "Callsign or Hex (e.g. UAL123)",
-                "btn_search": "Search",
-                "stats": "Statistics",
-                "aircraft": "Aircraft:",
-                "last_update": "Last Update:",
-                "controls": "Controls & Navigation",
-                "reset_cam": "Reset View",
-                "clear_trails": "Clear Trails",
-                "flight_mode": "Flight Mode (WASD)",
-                "auto_rotate": "Auto-rotate on idle (10s)",
-                "show_compass": "Show compass",
-                "flight_tracking": "Flight Tracking",
-                "activate_tracking": "Activate Tracking",
-                "surf_mode": "Surf Mode",
-                "surf_desc": "Click an aircraft to select • Surf auto-switches",
-                "following": "Following:",
-                "visual_settings": "Visual Settings",
-                "trail_length": "Trail Length",
-                "line_thickness": "Line Thickness",
-                "color_by_speed": "Color by speed (vs altitude)",
-                "show_airport_labels": "Show airport labels",
-                "show_city_name": "Show city name",
-                "vertical_label": "Vertical orientation",
-                "map_terrain": "Map & Terrain",
-                "map_layer": "Map Layer",
-                "layer_none": "None",
-                "layer_dark": "Dark (with labels)",
-                "layer_dark_nolabels": "Dark (no labels)",
-                "layer_dark_3d": "3D - dark (with labels)",
-                "layer_dark_nolabels_3d": "3D - dark (no labels)",
-                "layer_satellite": "Satellite",
-                "layer_wireframe": "Wireframe",
-                "gps_elevation": "GPS Elevation:",
-                "show_boundaries": "Show Boundaries",
-                "airspace": "Airspace",
-                "show_airspace": "Show Airspace",
-                "class_b": "Class B (Major)",
-                "class_c": "Class C (Medium)",
-                "class_d": "Class D (Small)",
-                "airspace_focus": "Focus Radius Only",
-                "airspace_wireframe": "Wireframe Only (no fill)",
-                "airspace_opacity": "Airspace Opacity",
-                "filters": "Filters",
-                "filter_remove": "Remove filtered aircraft (vs hide)",
-                "filter_callsign": "Callsign / Hex",
-                "filter_type": "Aircraft Type",
-                "filter_alt_min": "Min Altitude (ft)",
-                "filter_alt_max": "Max Altitude (ft)",
-                "filter_ground": "Show on ground",
-                "reset_filters": "Reset Filters",
-                "recording": "Recording & Playback",
-                "start_recording": "Start Recording",
-                "play_recording": "Play Recording",
-                "play": "▶ Play",
-                "stop": "⏹ Stop",
-                "save_recording": "Save Recording",
-                "load_recording": "Load Recording",
-                "clear_recording": "Clear Recording",
-                "rec_status": "Recording:",
-                "inactive": "Inactive",
-                "duration": "Duration:",
-                "memory": "Memory:",
-                "timeline": "Timeline",
-                "playback_speed": "Playback Speed",
-                "adv_settings": "Advanced Settings",
-                "alt_scale": "Altitude Scale",
-                "floor_height": "Terrain Elevation (ft)",
-                "fog_distance": "Fog Distance",
-                "show_axes": "Show coordinate axes",
-                "show_grid": "Show terrain grid",
-                "focused_tiles": "Focused mode (show within radius)",
-                "map_brightness": "Map Brightness",
-                "terrain_density": "Wireframe Density",
-                "density_low": "Low (fast)",
-                "density_med": "Medium",
-                "density_high": "High",
-                "density_vhigh": "Very High",
-                "color_hue": "Color Hue",
-                "brightness": "Brightness",
-                "elevation_grad": "Elevation Gradient",
-                "grad_intensity": "Gradient Intensity",
-                "loading": "Initializing 3D Space...",
-                "detecting": "Detecting..."
-            },
-            es: {
-                "menu_share": "Compartir Vista Actual",
-                "menu_loc": "Ubicación",
-                "search_airport": "Buscar Aeropuerto",
-                "placeholder_airport": "Escribe nombre o código de aeropuerto...",
-                "use_my_loc": "Usar Mi Ubicación",
-                "current_loc": "Actual:",
-                "search_radius": "Radio de Búsqueda (km)",
-                "flight_search": "Búsqueda de Vuelo/Aeronave",
-                "placeholder_flight": "Indicativo o Hex (ej: UAL123)",
-                "btn_search": "Buscar",
-                "stats": "Estadísticas",
-                "aircraft": "Aeronaves:",
-                "last_update": "Actualización:",
-                "controls": "Controles y Navegación",
-                "reset_cam": "Reiniciar Vista",
-                "clear_trails": "Limpiar Estelas",
-                "flight_mode": "Modo Vuelo (WASD)",
-                "auto_rotate": "Auto-rotación tras inactividad (10s)",
-                "show_compass": "Mostrar brújula",
-                "flight_tracking": "Seguimiento de Vuelo",
-                "activate_tracking": "Activar Seguimiento",
-                "surf_mode": "Modo Surf",
-                "surf_desc": "Clic en aeronave para seleccionar • Surf cambia automáticamente",
-                "following": "Siguiendo:",
-                "visual_settings": "Ajustes de Visualización",
-                "trail_length": "Longitud de Estela",
-                "line_thickness": "Grosor de Línea",
-                "color_by_speed": "Color por velocidad (vs altitud)",
-                "show_airport_labels": "Mostrar etiqueta aeropuerto",
-                "show_city_name": "Mostrar nombre ciudad",
-                "vertical_label": "Orientación vertical",
-                "map_terrain": "Mapa y Terreno",
-                "map_layer": "Capa de Mapa",
-                "layer_none": "Ninguna",
-                "layer_dark": "Oscuro (con etiquetas)",
-                "layer_dark_nolabels": "Oscuro (sin etiquetas)",
-                "layer_dark_3d": "3D - oscuro (con etiquetas)",
-                "layer_dark_nolabels_3d": "3D - oscuro (sin etiquetas)",
-                "layer_satellite": "Satélite",
-                "layer_wireframe": "Wireframe",
-                "gps_elevation": "Elevación GPS:",
-                "show_boundaries": "Mostrar Fronteras",
-                "airspace": "Espacio Aéreo",
-                "show_airspace": "Mostrar Espacio Aéreo",
-                "class_b": "Clase B (Mayor)",
-                "class_c": "Clase C (Medio)",
-                "class_d": "Clase D (Pequeño)",
-                "airspace_focus": "Solo Radio de Enfoque",
-                "airspace_wireframe": "Solo Wireframe (sin relleno)",
-                "airspace_opacity": "Opacidad Espacio Aéreo",
-                "filters": "Filtros",
-                "filter_remove": "Eliminar aeronaves filtradas (vs ocultar)",
-                "filter_callsign": "Indicativo / Hex",
-                "filter_type": "Tipo de Aeronave",
-                "filter_alt_min": "Altitud Mínima (pies)",
-                "filter_alt_max": "Altitud Máxima (pies)",
-                "filter_ground": "Mostrar en tierra",
-                "reset_filters": "Restablecer Filtros",
-                "recording": "Grabación y Reproducción",
-                "start_recording": "Iniciar Grabación",
-                "play_recording": "Reproducir Grabación",
-                "play": "▶ Reproducir",
-                "stop": "⏹ Detener",
-                "save_recording": "Guardar Grabación",
-                "load_recording": "Cargar Grabación",
-                "clear_recording": "Limpiar Grabación",
-                "rec_status": "Grabación:",
-                "inactive": "Inactiva",
-                "duration": "Duración:",
-                "memory": "Memoria:",
-                "timeline": "Línea de Tiempo",
-                "playback_speed": "Velocidad Reproducción",
-                "adv_settings": "Ajustes Avanzados",
-                "alt_scale": "Escala de Altitud",
-                "floor_height": "Elevación Terreno (pies)",
-                "fog_distance": "Distancia de Niebla",
-                "show_axes": "Mostrar ejes coordenados",
-                "show_grid": "Mostrar cuadrícula terreno",
-                "focused_tiles": "Modo enfocado (mostrar dentro del radio)",
-                "map_brightness": "Brillo del Mapa",
-                "terrain_density": "Densidad Wireframe",
-                "density_low": "Baja (rápido)",
-                "density_med": "Media",
-                "density_high": "Alta",
-                "density_vhigh": "Muy Alta",
-                "color_hue": "Tono Color",
-                "brightness": "Brillantez",
-                "elevation_grad": "Gradiente elevación",
-                "grad_intensity": "Intensidad Gradiente",
-                "loading": "Inicializando Espacio 3D...",
-                "detecting": "Detecting..." // Actually "Detectando..." in Spanish, fixed below
-            }
-        };
-        // Fix for missing Spanish key
-        translations.es.detecting = "Detectando...";
-        
-        let currentLang = localStorage.getItem('traficoaereo_lang') || (navigator.language.startsWith('es') ? 'es' : 'en');
-
-        function updateLanguageUI() {
-            // Update buttons
-            document.getElementById('lang-es').classList.toggle('active', currentLang === 'es');
-            document.getElementById('lang-en').classList.toggle('active', currentLang === 'en');
-            document.getElementById('lang-es').style.background = currentLang === 'es' ? 'rgba(76, 175, 80, 0.8)' : 'rgba(255,255,255,0.1)';
-            document.getElementById('lang-en').style.background = currentLang === 'en' ? 'rgba(76, 175, 80, 0.8)' : 'rgba(255,255,255,0.1)';
-
-            // Update texts
-            const dict = translations[currentLang];
-            
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (dict[key]) {
-                    el.innerText = dict[key];
-                }
-            });
-            
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (dict[key]) {
-                    el.setAttribute('placeholder', dict[key]);
-                }
-            });
-            
-            // Save to local storage
-            localStorage.setItem('traficoaereo_lang', currentLang);
-        }
-
-        // Apply immediately
-        document.addEventListener('DOMContentLoaded', () => {
-            updateLanguageUI();
-            
-            document.getElementById('lang-es').addEventListener('click', () => {
-                currentLang = 'es';
-                updateLanguageUI();
-            });
-            
-            document.getElementById('lang-en').addEventListener('click', () => {
-                currentLang = 'en';
-                updateLanguageUI();
-            });
-        });
-        // ==========================================
 
         // Coordenadas de aeropuertos
         const airports = {
@@ -3191,8 +2944,8 @@
             const viewCenterTile = latLonToTile(viewCenter.lat, viewCenter.lon, zoomLevel);
 
             // Calcular radio de cuadrícula para cubrir área visible
-            const radiusMultiplier = 2.0; // Reducido para optimización
-            const extraTiles = 2; // Reducido para optimización
+            const radiusMultiplier = 3.5;
+            const extraTiles = 5;
             const tilesNeeded = Math.ceil((viewRadius * radiusMultiplier) / kmPerTile);
             const gridRadius = Math.ceil(tilesNeeded / 2) + extraTiles;
 
@@ -6316,7 +6069,7 @@
             }
         }
 
-        // Load random US airport as default (fallback)
+        // Load random US airport as default
         function loadRandomUSAirport() {
             // Get all US airport codes
             const usAirportCodes = [
@@ -6374,7 +6127,7 @@
                         });
                     },
                     error => {
-                        console.log('Geolocation error, loading airport by IP', error);
+                        console.log('Geolocation error, loading random US airport', error);
 
                         // Track GPS error
                         trackGAEvent('gps_location_error', {
@@ -6382,19 +6135,19 @@
                             'error_message': error.message
                         });
 
-                        loadAirportByIP();
+                        loadRandomUSAirport();
                     },
                     { enableHighAccuracy: true }
                 );
             } else {
-                console.log('Geolocation not supported, loading airport by IP');
+                console.log('Geolocation not supported, loading random US airport');
 
                 // Track geolocation not supported
                 trackGAEvent('gps_location_error', {
                     'error_message': 'not_supported'
                 });
 
-                loadAirportByIP();
+                loadRandomUSAirport();
             }
         }
 
@@ -9034,7 +8787,7 @@
                 }, 2000);
 
                 // Still need a default airport for initial view
-                loadAirportByIP();
+                loadRandomUSAirport();
             }
             // Handle airport parameter with CSV database
             else if (airportParam) {
@@ -9063,19 +8816,19 @@
                             selectAirport(airport);
                             console.log(`✅ Loaded airport from CSV: ${code} - ${airport.name}`);
                         } else {
-                            console.warn(`⚠️ Airport ${code} not found in database, loading by IP`);
-                            loadAirportByIP();
+                            console.warn(`⚠️ Airport ${code} not found in database, loading random airport`);
+                            loadRandomUSAirport();
                         }
                     } catch (error) {
                         console.error('❌ Error loading airport from URL:', error);
                         // Fallback to random airport on error
-                        loadAirportByIP();
+                        loadRandomUSAirport();
                     }
                 }
             }
-            // No URL parameters - load by IP
+            // No URL parameters - load random US airport
             else {
-                loadAirportByIP();
+                loadRandomUSAirport();
             }
 
             // Update aircraft data periodically
