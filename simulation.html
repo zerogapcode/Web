@@ -1049,6 +1049,10 @@
       document.querySelectorAll('[data-lang]').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang);
       });
+      // Re-apply active state to simulation cards
+      if (typeof currentSim !== 'undefined') {
+        updateActiveCardUI(currentSim, lang);
+      }
     }
 
     // === Modo de color ===
@@ -1555,24 +1559,34 @@
     }
     
     // Switch Simulation
+    function updateActiveCardUI(type, lang) {
+      let activeText = lang === 'es' ? 'Activo: ' : 'Active: ';
+      let cards = document.querySelectorAll('.simulation-feature');
+      let targetIndex = type === 'particles' ? 0 : type === 'fluids' ? 1 : 2;
+      
+      // Reset all cards to their translation default
+      cards.forEach(card => {
+        let p = card.querySelector('p');
+        let key = p.getAttribute('data-i18n');
+        if(key && translations[key]) {
+          p.textContent = translations[key][lang];
+        }
+      });
+      
+      // Inject Active state to the target card
+      let targetP = cards[targetIndex].querySelector('p');
+      let baseText = targetP.textContent.replace('Click to activate: ', '').replace('Clic para activar: ', '');
+      targetP.innerHTML = `<span style="color:var(--primary)">${activeText}</span>${baseText}`;
+    }
+
     function initSimulation(type) {
       currentSim = type;
       if (type === 'particles') initParticles();
       if (type === 'fluids') initFluids();
       if (type === 'algorithms') initAlgorithms();
       
-      // Update active states on cards
-      document.querySelectorAll('.simulation-feature p').forEach(p => {
-        const text = p.getAttribute('data-i18n');
-        if (text) p.innerHTML = translations[text][currentLang];
-      });
-      
-      let activeText = currentLang === 'es' ? 'Activo: ' : 'Active: ';
-      let cards = document.querySelectorAll('.simulation-feature');
-      let targetIndex = type === 'particles' ? 0 : type === 'fluids' ? 1 : 2;
-      let targetP = cards[targetIndex].querySelector('p');
-      let baseText = targetP.innerHTML.replace('Click to activate: ', '').replace('Clic para activar: ', '');
-      targetP.innerHTML = `<span style="color:var(--primary)">${activeText}</span>${baseText}`;
+      let lang = document.documentElement.lang || 'en';
+      updateActiveCardUI(type, lang);
     }
 
     // Default load
