@@ -1087,6 +1087,77 @@
             }
         }
     </style>
+
+    <style>
+        .language-selector {
+            position: relative;
+            margin-left: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+        .lang-menu {
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            list-style: none;
+            padding: 8px 0;
+            margin: 0;
+            width: 140px;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .lang-menu.show {
+            display: flex;
+        }
+        .lang-menu li a {
+            display: block;
+            padding: 8px 16px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background 0.2s ease;
+        }
+        .lang-menu li a:hover {
+            background: rgba(255, 215, 0, 0.15);
+            color: #FFD700;
+        }
+        
+        @media (max-width: 768px) {
+            .language-selector {
+                margin: 1rem 0;
+            }
+            .lang-menu {
+                position: static;
+                width: 100%;
+                border: none;
+                box-shadow: none;
+                background: transparent;
+            }
+        }
+    </style>
+
 </head>
 <body>
 
@@ -1103,11 +1174,20 @@
                 <span class="navbar-logo-text">Drai<span>Ven</span></span>
             </a>
             <ul class="navbar-links" id="navLinks">
-                <li><a href="#features">Beneficios</a></li>
-                <li><a href="#how-it-works">Cómo Funciona</a></li>
-                <li><a href="#screenshots">La App</a></li>
-                <li><a href="#drivers">Conductores</a></li>
-                <li><a href="#download" class="navbar-cta">Descargar App</a></li>
+                <li><a href="#features" data-i18n="nav_benefits">Beneficios</a></li>
+                <li><a href="#how-it-works" data-i18n="nav_howitworks">Cómo Funciona</a></li>
+                <li><a href="#screenshots" data-i18n="nav_app">La App</a></li>
+                <li><a href="#drivers" data-i18n="nav_drivers">Conductores</a></li>
+                
+                <li><a href="#download" class="navbar-cta" data-i18n="nav_download">Descargar App</a></li>
+                <li class="language-selector">
+                    <button id="langToggle" class="lang-btn" aria-label="Cambiar idioma">🇪🇸 ES</button>
+                    <ul class="lang-menu" id="langMenu">
+                        <li><a href="#" data-lang="es">🇪🇸 Español</a></li>
+                        <li><a href="#" data-lang="pt">🇧🇷 Português</a></li>
+                    </ul>
+                </li>
+
             </ul>
             <button class="navbar-toggle" id="navToggle" aria-label="Abrir menú">
                 <span></span>
@@ -1128,32 +1208,32 @@
                     <span class="hero-badge-dot"></span>
                     Disponible ahora en tu ciudad
                 </div>
-                <h1>Tu mototaxi <span class="highlight">seguro</span>, a un clic de distancia</h1>
+                <h1><span data-i18n="hero_title_1">Tu mototaxi</span> <span class="highlight" data-i18n="hero_title_highlight">seguro</span><span data-i18n="hero_title_2">, a un clic de distancia</span></h1>
                 <p class="hero-description">
-                    Evade el tráfico, ahorra tiempo y viaja protegido. DraiVen conecta pasajeros con mototaxistas verificados en segundos. Rápido, confiable y al mejor precio.
+                    <span data-i18n="hero_desc">Evade el tráfico, ahorra tiempo y viaja protegido. DraiVen conecta pasajeros con mototaxistas verificados en segundos. Rápido, confiable y al mejor precio.</span>
                 </p>
                 <div class="hero-buttons">
                     <a href="https://play.google.com/store/apps/details?id=com.draiven.app" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="btn-download-play">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 0 1 0 1.38l-2.302 2.302L15.396 12l2.302-2.492zM5.864 2.658L16.8 9.99l-2.302 2.302-8.634-8.634z"/></svg>
-                        Descargar en Google Play
+                        <span data-i18n="btn_play">Descargar en Google Play</span>
                     </a>
                     <a href="#drivers" class="btn btn-outline" id="btn-driver-hero">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-                        Soy Conductor
+                        <span data-i18n="btn_driver">Soy Conductor</span>
                     </a>
                 </div>
                 <div class="hero-stats">
                     <div class="hero-stat">
                         <div class="hero-stat-number">500+</div>
-                        <div class="hero-stat-label">Conductores</div>
+                        <div class="hero-stat-label" data-i18n="nav_drivers">Conductores</div>
                     </div>
                     <div class="hero-stat">
                         <div class="hero-stat-number">10K+</div>
-                        <div class="hero-stat-label">Viajes realizados</div>
+                        <div class="hero-stat-label" data-i18n="stat_trips">Viajes realizados</div>
                     </div>
                     <div class="hero-stat">
                         <div class="hero-stat-number">4.8★</div>
-                        <div class="hero-stat-label">Calificación</div>
+                        <div class="hero-stat-label" data-i18n="stat_rating">Calificación</div>
                     </div>
                 </div>
             </div>
@@ -1174,9 +1254,9 @@
     <section class="features" id="features">
         <div class="container">
             <div class="features-header reveal">
-                <span class="section-label">Beneficios</span>
-                <h2 class="section-title">¿Por qué elegir DraiVen?</h2>
-                <p class="section-subtitle">Diseñada con tu seguridad y comodidad como prioridad. Cada función fue pensada para que tu viaje sea una experiencia premium.</p>
+                <span class="section-label" data-i18n="nav_benefits">Beneficios</span>
+                <h2 class="section-title" data-i18n="feat_title">¿Por qué elegir DraiVen?</h2>
+                <p class="section-subtitle" data-i18n="feat_subtitle">Diseñada con tu seguridad y comodidad como prioridad. Cada función fue pensada para que tu viaje sea una experiencia premium.</p>
             </div>
             <div class="features-grid">
                 <!-- Feature 1: Security -->
@@ -1184,32 +1264,32 @@
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
                     </div>
-                    <h3>Seguridad Primero</h3>
-                    <p>Cada conductor pasa por un riguroso proceso de verificación de identidad, antecedentes y documentos del vehículo. Tu tranquilidad es nuestra prioridad.</p>
+                    <h3 data-i18n="feat1_t">Seguridad Primero</h3>
+                    <p data-i18n="feat1_d">Cada conductor pasa por un riguroso proceso de verificación de identidad, antecedentes y documentos del vehículo. Tu tranquilidad es nuestra prioridad.</p>
                 </div>
                 <!-- Feature 2: Pricing -->
                 <div class="feature-card reveal reveal-delay-2">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     </div>
-                    <h3>Precios Transparentes</h3>
-                    <p>Conoce el costo exacto antes de confirmar tu viaje. Sin tarifas ocultas, sin sorpresas. Negocia o acepta la tarifa propuesta directamente desde la app.</p>
+                    <h3 data-i18n="feat2_t">Precios Transparentes</h3>
+                    <p data-i18n="feat2_d">Conoce el costo exacto antes de confirmar tu viaje. Sin tarifas ocultas, sin sorpresas. Negocia o acepta la tarifa propuesta directamente desde la app.</p>
                 </div>
                 <!-- Feature 3: GPS -->
                 <div class="feature-card reveal reveal-delay-3">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
                     </div>
-                    <h3>GPS en Tiempo Real</h3>
-                    <p>Sigue la ruta de tu mototaxi en un mapa en vivo. Comparte tu ubicación con familiares y amigos para mayor seguridad durante todo el trayecto.</p>
+                    <h3 data-i18n="feat3_t">GPS en Tiempo Real</h3>
+                    <p data-i18n="feat3_d">Sigue la ruta de tu mototaxi en un mapa en vivo. Comparte tu ubicación con familiares y amigos para mayor seguridad durante todo el trayecto.</p>
                 </div>
                 <!-- Feature 4: Chat -->
                 <div class="feature-card reveal reveal-delay-4">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="9.01" y2="10"/><line x1="15" y1="10" x2="15.01" y2="10"/></svg>
                     </div>
-                    <h3>Chat Privado</h3>
-                    <p>Comunícate con tu conductor por texto y notas de voz directamente en la app. Sin necesidad de compartir tu número telefónico personal.</p>
+                    <h3 data-i18n="feat4_t">Chat Privado</h3>
+                    <p data-i18n="feat4_d">Comunícate con tu conductor por texto y notas de voz directamente en la app. Sin necesidad de compartir tu número telefónico personal.</p>
                 </div>
             </div>
         </div>
@@ -1221,25 +1301,25 @@
     <section class="how-it-works" id="how-it-works">
         <div class="container">
             <div class="how-it-works-header reveal">
-                <span class="section-label">Cómo Funciona</span>
-                <h2 class="section-title">Tu viaje en 3 simples pasos</h2>
-                <p class="section-subtitle">Pedir un mototaxi nunca fue tan fácil. En menos de un minuto estarás en camino.</p>
+                <span class="section-label" data-i18n="nav_howitworks">Cómo Funciona</span>
+                <h2 class="section-title" data-i18n="hiw_title">Tu viaje en 3 simples pasos</h2>
+                <p class="section-subtitle" data-i18n="hiw_subtitle">Pedir un mototaxi nunca fue tan fácil. En menos de un minuto estarás en camino.</p>
             </div>
             <div class="steps-grid">
                 <div class="step-card reveal reveal-delay-1">
                     <div class="step-number">1</div>
-                    <h3>Elige tu destino</h3>
-                    <p>Abre la app, selecciona a dónde quieres ir y recibe al instante una tarifa estimada justa y transparente.</p>
+                    <h3 data-i18n="step1_t">Elige tu destino</h3>
+                    <p data-i18n="step1_d">Abre la app, selecciona a dónde quieres ir y recibe al instante una tarifa estimada justa y transparente.</p>
                 </div>
                 <div class="step-card reveal reveal-delay-2">
                     <div class="step-number">2</div>
-                    <h3>Conecta con un conductor</h3>
-                    <p>Un mototaxista verificado cerca de ti aceptará tu solicitud. Podrás ver su perfil, calificación y placa antes de subir.</p>
+                    <h3 data-i18n="step2_t">Conecta con un conductor</h3>
+                    <p data-i18n="step2_d">Un mototaxista verificado cerca de ti aceptará tu solicitud. Podrás ver su perfil, calificación y placa antes de subir.</p>
                 </div>
                 <div class="step-card reveal reveal-delay-3">
                     <div class="step-number">3</div>
-                    <h3>¡Viaja y llega rápido!</h3>
-                    <p>Sigue la ruta en tiempo real, chatea con tu conductor y evade el tráfico como un experto. ¡Así de simple!</p>
+                    <h3 data-i18n="step3_t">¡Viaja y llega rápido!</h3>
+                    <p data-i18n="step3_d">Sigue la ruta en tiempo real, chatea con tu conductor y evade el tráfico como un experto. ¡Así de simple!</p>
                 </div>
             </div>
         </div>
@@ -1251,9 +1331,9 @@
     <section class="screenshots" id="screenshots">
         <div class="container">
             <div class="screenshots-header reveal">
-                <span class="section-label">La App</span>
-                <h2 class="section-title">Conoce DraiVen por dentro</h2>
-                <p class="section-subtitle">Una interfaz intuitiva y moderna diseñada tanto para pasajeros como conductores.</p>
+                <span class="section-label" data-i18n="nav_app">La App</span>
+                <h2 class="section-title" data-i18n="app_title">Conoce DraiVen por dentro</h2>
+                <p class="section-subtitle" data-i18n="app_subtitle">Una interfaz intuitiva y moderna diseñada tanto para pasajeros como conductores.</p>
             </div>
         </div>
         <div class="screenshots-track">
@@ -1279,30 +1359,30 @@
         <div class="container">
             <div class="drivers-card reveal">
                 <div class="drivers-content">
-                    <span class="section-label">Conductores</span>
-                    <h2 class="section-title">Genera ingresos con tu moto</h2>
-                    <p>Únete a la red de mototaxistas de DraiVen. Tú decides cuándo trabajar, cuánto cobrar y las rutas que prefieras. Sin jefes, sin horarios fijos.</p>
+                    <span class="section-label" data-i18n="nav_drivers">Conductores</span>
+                    <h2 class="section-title" data-i18n="drv_title">Genera ingresos con tu moto</h2>
+                    <p data-i18n="drv_subtitle">Únete a la red de mototaxistas de DraiVen. Tú decides cuándo trabajar, cuánto cobrar y las rutas que prefieras. Sin jefes, sin horarios fijos.</p>
                     <ul class="drivers-benefits">
                         <li>
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                            Recibe pagos directos por cada viaje completado
+                            <span data-i18n="drv_b1">Recibe pagos directos por cada viaje completado</span>
                         </li>
                         <li>
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                            Panel de ganancias en tiempo real
+                            <span data-i18n="drv_b2">Panel de ganancias en tiempo real</span>
                         </li>
                         <li>
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                            Soporte 24/7 para conductores
+                            <span data-i18n="drv_b3">Soporte 24/7 para conductores</span>
                         </li>
                         <li>
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                            Registro gratuito — sin costos iniciales
+                            <span data-i18n="drv_b4">Registro gratuito — sin costos iniciales</span>
                         </li>
                     </ul>
                     <a href="#" class="btn btn-primary" id="btn-register-driver">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                        Regístrate como Conductor
+                        <span data-i18n="btn_reg">Regístrate como Conductor</span>
                     </a>
                 </div>
                 <div class="drivers-visual">
@@ -1318,16 +1398,16 @@
     <section class="download-cta" id="download">
         <div class="container">
             <div class="download-cta-inner reveal">
-                <span class="section-label">Descarga Gratis</span>
-                <h2 class="section-title">¿Listo para moverte más rápido?</h2>
-                <p>Descarga DraiVen ahora y experimenta una nueva forma de transporte en tu ciudad. Disponible en Google Play.</p>
+                <span class="section-label" data-i18n="dl_label">Descarga Gratis</span>
+                <h2 class="section-title" data-i18n="dl_title">¿Listo para moverte más rápido?</h2>
+                <p data-i18n="dl_desc">Descarga DraiVen ahora y experimenta una nueva forma de transporte en tu ciudad. Disponible en Google Play.</p>
                 <div class="hero-buttons">
                     <a href="https://play.google.com/store/apps/details?id=com.draiven.app" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="btn-download-footer">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 0 1 0 1.38l-2.302 2.302L15.396 12l2.302-2.492zM5.864 2.658L16.8 9.99l-2.302 2.302-8.634-8.634z"/></svg>
-                        Descargar en Google Play
+                        <span data-i18n="btn_play">Descargar en Google Play</span>
                     </a>
                     <a href="#drivers" class="btn btn-outline" id="btn-driver-footer">
-                        Descargar para Conductores
+                        <span data-i18n="btn_driver_dl">Descargar para Conductores</span>
                     </a>
                 </div>
             </div>
@@ -1345,36 +1425,36 @@
                         <img src="images/log_o.png" alt="DraiVen" width="32" height="32">
                         <span class="footer-logo-text">Drai<span>Ven</span></span>
                     </div>
-                    <p>La app de mototaxis más segura y confiable. Conectamos pasajeros y conductores para un transporte rápido, económico y protegido.</p>
+                    <p data-i18n="ft_desc">La app de mototaxis más segura y confiable. Conectamos pasajeros y conductores para un transporte rápido, económico y protegido.</p>
                 </div>
                 <div class="footer-column">
-                    <h4>Producto</h4>
+                    <h4 data-i18n="ft_prod">Producto</h4>
                     <ul>
-                        <li><a href="#features">Beneficios</a></li>
-                        <li><a href="#how-it-works">Cómo Funciona</a></li>
-                        <li><a href="#screenshots">La App</a></li>
-                        <li><a href="#download">Descargar</a></li>
+                        <li><a href="#features" data-i18n="nav_benefits">Beneficios</a></li>
+                        <li><a href="#how-it-works" data-i18n="nav_howitworks">Cómo Funciona</a></li>
+                        <li><a href="#screenshots" data-i18n="nav_app">La App</a></li>
+                        <li><a href="#download" data-i18n="ft_dl">Descargar</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h4>Legal</h4>
+                    <h4 data-i18n="ft_leg">Legal</h4>
                     <ul>
-                        <li><a href="#">Términos de Servicio</a></li>
-                        <li><a href="#">Política de Privacidad</a></li>
-                        <li><a href="#">Centro Legal</a></li>
+                        <li><a href="#" data-i18n="ft_terms">Términos de Servicio</a></li>
+                        <li><a href="#" data-i18n="ft_priv">Política de Privacidad</a></li>
+                        <li><a href="#" data-i18n="ft_cent">Centro Legal</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h4>Contacto</h4>
+                    <h4 data-i18n="ft_cont">Contacto</h4>
                     <ul>
                         <li><a href="mailto:draiven.soporte@protonlab.site">draiven.soporte@protonlab.site</a></li>
-                        <li><a href="#drivers">Conductores</a></li>
-                        <li><a href="#">Soporte</a></li>
+                        <li><a href="#drivers" data-i18n="nav_drivers">Conductores</a></li>
+                        <li><a href="#" data-i18n="ft_sup">Soporte</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 DraiVen. Todos los derechos reservados.</p>
+                <p>&copy; <span data-i18n="ft_copy">2026 DraiVen. Todos los derechos reservados.</span></p>
                 <div class="footer-social">
                     <a href="#" aria-label="Instagram">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
@@ -1460,6 +1540,60 @@
                 }
             });
         });
+    </script>
+
+
+    <script>
+        const translations = {"nav_benefits": {"es": "Beneficios", "pt": "Benef\u00edcios"}, "nav_howitworks": {"es": "C\u00f3mo Funciona", "pt": "Como Funciona"}, "nav_app": {"es": "La App", "pt": "O App"}, "nav_drivers": {"es": "Conductores", "pt": "Motoristas"}, "nav_download": {"es": "Descargar App", "pt": "Baixar App"}, "hero_badge": {"es": "Disponible ahora en tu ciudad", "pt": "Dispon\u00edvel agora na sua cidade"}, "hero_title_1": {"es": "Tu mototaxi", "pt": "Seu motot\u00e1xi"}, "hero_title_highlight": {"es": "seguro", "pt": "seguro"}, "hero_title_2": {"es": ", a un clic de distancia", "pt": ", a um clique de dist\u00e2ncia"}, "hero_desc": {"es": "Evade el tr\u00e1fico, ahorra tiempo y viaja protegido. DraiVen conecta pasajeros con mototaxistas verificados en segundos. R\u00e1pido, confiable y al mejor precio.", "pt": "Evite o tr\u00e2nsito, economize tempo e viaje protegido. DraiVen conecta passageiros a mototaxistas verificados em segundos. R\u00e1pido, confi\u00e1vel e com o melhor pre\u00e7o."}, "btn_play": {"es": "Descargar en Google Play", "pt": "Baixar no Google Play"}, "btn_driver": {"es": "Soy Conductor", "pt": "Sou Motorista"}, "stat_trips": {"es": "Viajes realizados", "pt": "Viagens realizadas"}, "stat_rating": {"es": "Calificaci\u00f3n", "pt": "Avalia\u00e7\u00e3o"}, "feat_title": {"es": "\u00bfPor qu\u00e9 elegir DraiVen?", "pt": "Por que escolher a DraiVen?"}, "feat_subtitle": {"es": "Dise\u00f1ada con tu seguridad y comodidad como prioridad. Cada funci\u00f3n fue pensada para que tu viaje sea una experiencia premium.", "pt": "Projetada com sua seguran\u00e7a e conforto como prioridade. Cada recurso foi pensado para tornar sua viagem uma experi\u00eancia premium."}, "feat1_t": {"es": "Seguridad Primero", "pt": "Seguran\u00e7a em Primeiro Lugar"}, "feat1_d": {"es": "Cada conductor pasa por un riguroso proceso de verificaci\u00f3n de identidad, antecedentes y documentos del veh\u00edculo. Tu tranquilidad es nuestra prioridad.", "pt": "Cada motorista passa por um rigoroso processo de verifica\u00e7\u00e3o de identidade, antecedentes e documentos do ve\u00edculo. Sua tranquilidade \u00e9 nossa prioridade."}, "feat2_t": {"es": "Precios Transparentes", "pt": "Pre\u00e7os Transparentes"}, "feat2_d": {"es": "Conoce el costo exacto antes de confirmar tu viaje. Sin tarifas ocultas, sin sorpresas. Negocia o acepta la tarifa propuesta directamente desde la app.", "pt": "Saiba o custo exato antes de confirmar sua viagem. Sem taxas ocultas, sem surpresas. Negocie ou aceite a tarifa proposta diretamente pelo app."}, "feat3_t": {"es": "GPS en Tiempo Real", "pt": "GPS em Tempo Real"}, "feat3_d": {"es": "Sigue la ruta de tu mototaxi en un mapa en vivo. Comparte tu ubicaci\u00f3n con familiares y amigos para mayor seguridad durante todo el trayecto.", "pt": "Acompanhe a rota do seu motot\u00e1xi em um mapa ao vivo. Compartilhe sua localiza\u00e7\u00e3o com familiares e amigos para maior seguran\u00e7a durante todo o trajeto."}, "feat4_t": {"es": "Chat Privado", "pt": "Chat Privado"}, "feat4_d": {"es": "Comun\u00edcate con tu conductor por texto y notas de voz directamente en la app. Sin necesidad de compartir tu n\u00famero telef\u00f3nico personal.", "pt": "Comunique-se com seu motorista por texto e notas de voz diretamente no app. Sem necessidade de compartilhar seu n\u00famero de telefone pessoal."}, "hiw_title": {"es": "Tu viaje en 3 simples pasos", "pt": "Sua viagem em 3 passos simples"}, "hiw_subtitle": {"es": "Pedir un mototaxi nunca fue tan f\u00e1cil. En menos de un minuto estar\u00e1s en camino.", "pt": "Pedir um motot\u00e1xi nunca foi t\u00e3o f\u00e1cil. Em menos de um minuto voc\u00ea estar\u00e1 a caminho."}, "step1_t": {"es": "Elige tu destino", "pt": "Escolha seu destino"}, "step1_d": {"es": "Abre la app, selecciona a d\u00f3nde quieres ir y recibe al instante una tarifa estimada justa y transparente.", "pt": "Abra o app, selecione para onde quer ir e receba instantaneamente uma estimativa de tarifa justa e transparente."}, "step2_t": {"es": "Conecta con un conductor", "pt": "Conecte-se a um motorista"}, "step2_d": {"es": "Un mototaxista verificado cerca de ti aceptar\u00e1 tu solicitud. Podr\u00e1s ver su perfil, calificaci\u00f3n y placa antes de subir.", "pt": "Um mototaxista verificado perto de voc\u00ea aceitar\u00e1 sua solicita\u00e7\u00e3o. Voc\u00ea poder\u00e1 ver seu perfil, avalia\u00e7\u00e3o e placa antes de embarcar."}, "step3_t": {"es": "\u00a1Viaja y llega r\u00e1pido!", "pt": "Viaje e chegue r\u00e1pido!"}, "step3_d": {"es": "Sigue la ruta en tiempo real, chatea con tu conductor y evade el tr\u00e1fico como un experto. \u00a1As\u00ed de simple!", "pt": "Acompanhe a rota em tempo real, converse com seu motorista e evite o tr\u00e2nsito como um especialista. Simples assim!"}, "app_title": {"es": "Conoce DraiVen por dentro", "pt": "Conhe\u00e7a a DraiVen por dentro"}, "app_subtitle": {"es": "Una interfaz intuitiva y moderna dise\u00f1ada tanto para pasajeros como conductores.", "pt": "Uma interface intuitiva e moderna projetada tanto para passageiros quanto para motoristas."}, "drv_title": {"es": "Genera ingresos con tu moto", "pt": "Gere renda com sua moto"}, "drv_subtitle": {"es": "\u00danete a la red de mototaxistas de DraiVen. T\u00fa decides cu\u00e1ndo trabajar, cu\u00e1nto cobrar y las rutas que prefieras. Sin jefes, sin horarios fijos.", "pt": "Junte-se \u00e0 rede de mototaxistas da DraiVen. Voc\u00ea decide quando trabalhar, quanto cobrar e as rotas que preferir. Sem chefes, sem hor\u00e1rios fixos."}, "drv_b1": {"es": "Recibe pagos directos por cada viaje completado", "pt": "Receba pagamentos diretos por cada viagem conclu\u00edda"}, "drv_b2": {"es": "Panel de ganancias en tiempo real", "pt": "Painel de ganhos em tempo real"}, "drv_b3": {"es": "Soporte 24/7 para conductores", "pt": "Suporte 24/7 para motoristas"}, "drv_b4": {"es": "Registro gratuito \u2014 sin costos iniciales", "pt": "Registro gratuito \u2014 sem custos iniciais"}, "btn_reg": {"es": "Reg\u00edstrate como Conductor", "pt": "Cadastre-se como Motorista"}, "dl_label": {"es": "Descarga Gratis", "pt": "Baixe Gr\u00e1tis"}, "dl_title": {"es": "\u00bfListo para moverte m\u00e1s r\u00e1pido?", "pt": "Pronto para se mover mais r\u00e1pido?"}, "dl_desc": {"es": "Descarga DraiVen ahora y experimenta una nueva forma de transporte en tu ciudad. Disponible en Google Play.", "pt": "Baixe a DraiVen agora e experimente uma nova forma de transporte na sua cidade. Dispon\u00edvel no Google Play."}, "btn_driver_dl": {"es": "Descargar para Conductores", "pt": "Baixar para Motoristas"}, "ft_desc": {"es": "La app de mototaxis m\u00e1s segura y confiable. Conectamos pasajeros y conductores para un transporte r\u00e1pido, econ\u00f3mico y protegido.", "pt": "O app de motot\u00e1xi mais seguro e confi\u00e1vel. Conectamos passageiros e motoristas para um transporte r\u00e1pido, econ\u00f4mico e protegido."}, "ft_prod": {"es": "Producto", "pt": "Produto"}, "ft_dl": {"es": "Descargar", "pt": "Baixar"}, "ft_leg": {"es": "Legal", "pt": "Legal"}, "ft_terms": {"es": "T\u00e9rminos de Servicio", "pt": "Termos de Servi\u00e7o"}, "ft_priv": {"es": "Pol\u00edtica de Privacidad", "pt": "Pol\u00edtica de Privacidade"}, "ft_cent": {"es": "Centro Legal", "pt": "Centro Legal"}, "ft_cont": {"es": "Contacto", "pt": "Contato"}, "ft_sup": {"es": "Soporte", "pt": "Suporte"}, "ft_copy": {"es": "2026 DraiVen. Todos los derechos reservados.", "pt": "2026 DraiVen. Todos os direitos reservados."}};
+        
+        const langToggle = document.getElementById('langToggle');
+        const langMenu = document.getElementById('langMenu');
+        
+        if (langToggle && langMenu) {
+            langToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langMenu.classList.toggle('show');
+            });
+            
+            document.addEventListener('click', () => {
+                langMenu.classList.remove('show');
+            });
+        }
+        
+        function setLanguage(lang) {
+            localStorage.setItem('draiven_lang', lang);
+            
+            // Update button UI
+            if(langToggle) {
+                if(lang === 'es') {
+                    langToggle.innerHTML = '🇪🇸 ES';
+                } else if(lang === 'pt') {
+                    langToggle.innerHTML = '🇧🇷 PT';
+                }
+            }
+            
+            // Update all translated elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[key] && translations[key][lang]) {
+                    el.innerHTML = translations[key][lang];
+                }
+            });
+            
+            document.documentElement.lang = lang;
+        }
+        
+        document.querySelectorAll('.lang-menu a').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = e.target.getAttribute('data-lang');
+                setLanguage(lang);
+            });
+        });
+        
+        // Initialize
+        const savedLang = localStorage.getItem('draiven_lang') || 'es';
+        setLanguage(savedLang);
     </script>
 
 </body>
