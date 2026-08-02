@@ -202,9 +202,9 @@
       border-radius: 999px;
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: inherit;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #333333;
       font-weight: 600;
       font-size: 14px;
       letter-spacing: 0.02em;
@@ -215,9 +215,9 @@
     }
     .estoquia-link:hover {
       transform: translateY(-2px);
-      background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.5);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
       gap: 6px;
       padding: 6px 14px;
     }
@@ -231,14 +231,13 @@
       transform: scale(1.1) rotate(5deg);
     }
     body[data-theme='dark'] .estoquia-link {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
-      color: #f0f0f0;
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #ffffff;
     }
     body[data-theme='dark'] .estoquia-link:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.4);
-      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
     }
 
     /* Animación de texto en botones */
