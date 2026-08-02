@@ -104,7 +104,7 @@
             border: 1px solid var(--border-color);
         }
 
-        .theme-toggle {
+        .theme-toggle, .lang-toggle {
             background: none;
             border: 1px solid var(--border-color);
             border-radius: 50%;
@@ -118,7 +118,11 @@
             transition: var(--transition);
         }
 
-        .theme-toggle:hover {
+        .lang-toggle {
+            font-size: 1.2rem;
+        }
+
+        .theme-toggle:hover, .lang-toggle:hover {
             background-color: var(--bg-secondary);
         }
 
@@ -320,26 +324,31 @@
                 <img src="images/Estoquia.jpg" alt="Estoquia Logo" class="logo-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'#000\'/><text x=\'50\' y=\'65\' font-family=\'Arial\' font-size=\'50\' font-weight=\'bold\' fill=\'#FFF\' text-anchor=\'middle\'>E</text></svg>'">
                 Estoquia
             </a>
-            <button class="theme-toggle" id="theme-btn" aria-label="Cambiar tema">
-                <!-- Moon icon para modo claro, se cambiará con JS -->
-                <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-            </button>
+            <div style="display: flex; gap: 12px;">
+                <button class="lang-toggle" id="lang-btn" aria-label="Cambiar idioma">
+                    🇪🇸
+                </button>
+                <button class="theme-toggle" id="theme-btn" aria-label="Cambiar tema">
+                    <!-- Moon icon para modo claro, se cambiará con JS -->
+                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero container">
         <div class="hero-text">
-            <h1 class="hero-title">El control de tu negocio, en la palma de tu mano.</h1>
-            <p class="hero-subtitle">Una aplicación de Punto de Venta y Gestión de Inventario extremadamente rápida, minimalista y sin complicaciones. Sincronizada en la nube en tiempo real.</p>
+            <h1 class="hero-title" data-i18n="hero_title">El control de tu negocio, en la palma de tu mano.</h1>
+            <p class="hero-subtitle" data-i18n="hero_subtitle">Una aplicación de Punto de Venta y Gestión de Inventario extremadamente rápida, minimalista y sin complicaciones. Sincronizada en la nube en tiempo real.</p>
             <a href="#" class="btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
                     <path d="M5 12h14"></path>
                     <path d="M12 5v14"></path>
                 </svg>
-                Descargar en Google Play
+                <span data-i18n="hero_cta">Descargar en Google Play</span>
             </a>
         </div>
         <div class="hero-image">
@@ -351,45 +360,45 @@
     <section class="features">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Diseñada para la eficiencia</h2>
+                <h2 class="section-title" data-i18n="section_title">Diseñada para la eficiencia</h2>
             </div>
             
             <div class="features-grid">
                 <!-- Feature 1 -->
                 <div class="feature-card">
                     <div class="feature-icon">⚡</div>
-                    <h3 class="feature-title">Punto de Venta Rápido (POS)</h3>
-                    <p class="feature-desc">Búsqueda de productos al instante y escaneo de códigos de barras utilizando la cámara de tu dispositivo.</p>
+                    <h3 class="feature-title" data-i18n="feat1_title">Punto de Venta Rápido (POS)</h3>
+                    <p class="feature-desc" data-i18n="feat1_desc">Búsqueda de productos al instante y escaneo de códigos de barras utilizando la cámara de tu dispositivo.</p>
                 </div>
                 <!-- Feature 2 -->
                 <div class="feature-card">
                     <div class="feature-icon">🖨️</div>
-                    <h3 class="feature-title">Impresión de Tickets</h3>
-                    <p class="feature-desc">Conexión Bluetooth nativa y fluida con impresoras térmicas para imprimir recibos físicos en segundos.</p>
+                    <h3 class="feature-title" data-i18n="feat2_title">Impresión de Tickets</h3>
+                    <p class="feature-desc" data-i18n="feat2_desc">Conexión Bluetooth nativa y fluida con impresoras térmicas para imprimir recibos físicos en segundos.</p>
                 </div>
                 <!-- Feature 3 -->
                 <div class="feature-card">
                     <div class="feature-icon">☁️</div>
-                    <h3 class="feature-title">Inventario en la Nube</h3>
-                    <p class="feature-desc">Control de stock y alertas de existencias sincronizadas al instante en múltiples dispositivos vía Firebase.</p>
+                    <h3 class="feature-title" data-i18n="feat3_title">Inventario en la Nube</h3>
+                    <p class="feature-desc" data-i18n="feat3_desc">Control de stock y alertas de existencias sincronizadas al instante en múltiples dispositivos vía Firebase.</p>
                 </div>
                 <!-- Feature 4 -->
                 <div class="feature-card">
                     <div class="feature-icon">👥</div>
-                    <h3 class="feature-title">Gestión de Empleados</h3>
-                    <p class="feature-desc">Crea usuarios con roles específicos (Ej. Administrador vs. Cajero) para mantener la seguridad y el control.</p>
+                    <h3 class="feature-title" data-i18n="feat4_title">Gestión de Empleados</h3>
+                    <p class="feature-desc" data-i18n="feat4_desc">Crea usuarios con roles específicos (Ej. Administrador vs. Cajero) para mantener la seguridad y el control.</p>
                 </div>
                 <!-- Feature 5 -->
                 <div class="feature-card">
                     <div class="feature-icon">📊</div>
-                    <h3 class="feature-title">Panel de Control</h3>
-                    <p class="feature-desc">Métricas y estadísticas en tiempo real sobre las ventas, productos más vendidos y el estado general del negocio.</p>
+                    <h3 class="feature-title" data-i18n="feat5_title">Panel de Control</h3>
+                    <p class="feature-desc" data-i18n="feat5_desc">Métricas y estadísticas en tiempo real sobre las ventas, productos más vendidos y el estado general del negocio.</p>
                 </div>
                 <!-- Feature 6 -->
                 <div class="feature-card">
                     <div class="feature-icon">🌍</div>
-                    <h3 class="feature-title">Soporte Multilingüe</h3>
-                    <p class="feature-desc">Interfaz disponible de forma nativa en Español, Inglés y Portugués, adaptándose a tu equipo de trabajo.</p>
+                    <h3 class="feature-title" data-i18n="feat6_title">Soporte Multilingüe</h3>
+                    <p class="feature-desc" data-i18n="feat6_desc">Interfaz disponible de forma nativa en Español, Inglés y Portugués, adaptándose a tu equipo de trabajo.</p>
                 </div>
             </div>
         </div>
@@ -403,12 +412,12 @@
                 Estoquia
             </div>
             <div class="footer-links">
-                <a href="estoquia-privacidad.html">Política de Privacidad</a>
-                <a href="estoquia-terminos.html">Términos y Condiciones</a>
-                <a href="#">Soporte</a>
+                <a href="estoquia-privacidad.html" id="link-privacy" data-i18n="footer_privacy">Política de Privacidad</a>
+                <a href="estoquia-terminos.html" id="link-terms" data-i18n="footer_terms">Términos y Condiciones</a>
+                <a href="#" data-i18n="footer_support">Soporte</a>
             </div>
             <div class="copyright">
-                &copy; <script>document.write(new Date().getFullYear())</script> Estoquia. Todos los derechos reservados.
+                &copy; <script>document.write(new Date().getFullYear())</script> Estoquia.<span data-i18n="footer_copyright"> Todos los derechos reservados.</span>
             </div>
         </div>
     </footer>
@@ -441,6 +450,130 @@
                 themeIcon.innerHTML = iconSun;
             }
         });
+        // Sistema Multi-idioma
+        const translations = {
+            es: {
+                hero_title: "El control de tu negocio, en la palma de tu mano.",
+                hero_subtitle: "Una aplicación de Punto de Venta y Gestión de Inventario extremadamente rápida, minimalista y sin complicaciones. Sincronizada en la nube en tiempo real.",
+                hero_cta: "Descargar en Google Play",
+                section_title: "Diseñada para la eficiencia",
+                feat1_title: "Punto de Venta Rápido (POS)",
+                feat1_desc: "Búsqueda de productos al instante y escaneo de códigos de barras utilizando la cámara de tu dispositivo.",
+                feat2_title: "Impresión de Tickets",
+                feat2_desc: "Conexión Bluetooth nativa y fluida con impresoras térmicas para imprimir recibos físicos en segundos.",
+                feat3_title: "Inventario en la Nube",
+                feat3_desc: "Control de stock y alertas de existencias sincronizadas al instante en múltiples dispositivos vía Firebase.",
+                feat4_title: "Gestión de Empleados",
+                feat4_desc: "Crea usuarios con roles específicos (Ej. Administrador vs. Cajero) para mantener la seguridad y el control.",
+                feat5_title: "Panel de Control",
+                feat5_desc: "Métricas y estadísticas en tiempo real sobre las ventas, productos más vendidos y el estado general del negocio.",
+                feat6_title: "Soporte Multilingüe",
+                feat6_desc: "Interfaz disponible de forma nativa en Español, Inglés y Portugués, adaptándose a tu equipo de trabajo.",
+                footer_privacy: "Política de Privacidad",
+                footer_terms: "Términos y Condiciones",
+                footer_support: "Soporte",
+                footer_copyright: " Todos los derechos reservados."
+            },
+            en: {
+                hero_title: "Control your business, in the palm of your hand.",
+                hero_subtitle: "An extremely fast, minimalist, and hassle-free Point of Sale and Inventory Management application. Synced to the cloud in real-time.",
+                hero_cta: "Download on Google Play",
+                section_title: "Designed for efficiency",
+                feat1_title: "Fast Point of Sale (POS)",
+                feat1_desc: "Instant product search and barcode scanning using your device's camera.",
+                feat2_title: "Receipt Printing",
+                feat2_desc: "Native and seamless Bluetooth connection with thermal printers to print physical receipts in seconds.",
+                feat3_title: "Cloud Inventory",
+                feat3_desc: "Stock control and low inventory alerts synced instantly across multiple devices via Firebase.",
+                feat4_title: "Employee Management",
+                feat4_desc: "Create users with specific roles (e.g., Administrator vs. Cashier) to maintain security and control.",
+                feat5_title: "Dashboard",
+                feat5_desc: "Real-time metrics and statistics on sales, top-selling products, and the overall state of the business.",
+                feat6_title: "Multilingual Support",
+                feat6_desc: "Interface natively available in Spanish, English, and Portuguese, adapting to your team.",
+                footer_privacy: "Privacy Policy",
+                footer_terms: "Terms and Conditions",
+                footer_support: "Support",
+                footer_copyright: " All rights reserved."
+            },
+            pt: {
+                hero_title: "O controle do seu negócio, na palma da sua mão.",
+                hero_subtitle: "Um aplicativo de Ponto de Venda e Gestão de Estoque extremamente rápido, minimalista e sem complicações. Sincronizado na nuvem em tempo real.",
+                hero_cta: "Baixar no Google Play",
+                section_title: "Projetada para a eficiência",
+                feat1_title: "Ponto de Venda Rápido (PDV)",
+                feat1_desc: "Busca de produtos instantânea e leitura de códigos de barras usando a câmera do seu dispositivo.",
+                feat2_title: "Impressão de Recibos",
+                feat2_desc: "Conexão Bluetooth nativa e fluida com impressoras térmicas para imprimir recibos em segundos.",
+                feat3_title: "Estoque na Nuvem",
+                feat3_desc: "Controle de estoque e alertas de disponibilidade sincronizados em tempo real em múltiplos dispositivos via Firebase.",
+                feat4_title: "Gestão de Funcionários",
+                feat4_desc: "Crie usuários com funções específicas (ex: Administrador vs. Caixa) para manter a segurança e o controle.",
+                feat5_title: "Painel de Controle",
+                feat5_desc: "Métricas e estatísticas em tempo real sobre vendas, produtos mais vendidos e o estado geral do negócio.",
+                feat6_title: "Suporte Multilíngue",
+                feat6_desc: "Interface disponível nativamente em Espanhol, Inglês e Português, adaptando-se à sua equipe de trabalho.",
+                footer_privacy: "Política de Privacidade",
+                footer_terms: "Termos e Condições",
+                footer_support: "Suporte",
+                footer_copyright: " Todos os direitos reservados."
+            }
+        };
+
+        const flags = { es: "🇪🇸", en: "🇺🇸", pt: "🇧🇷" };
+        const langs = ["es", "en", "pt"];
+        const langBtn = document.getElementById('lang-btn');
+        let currentLang = localStorage.getItem('estoquia-lang') || 'es';
+
+        function applyLanguage(lang) {
+            document.documentElement.lang = lang;
+            langBtn.textContent = flags[lang];
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    // Si el elemento tiene un icono SVG adentro (ej. el botón), solo cambiar el texto.
+                    // Si tiene span adentro, cambiar el texto del elemento en sí
+                    if (el.tagName === 'SPAN') {
+                        el.textContent = translations[lang][key];
+                    } else {
+                        // Tratar de cambiar solo el textNode final si hay otros elementos
+                        let textSet = false;
+                        el.childNodes.forEach(child => {
+                            if (child.nodeType === Node.TEXT_NODE && child.textContent.trim().length > 0) {
+                                child.textContent = translations[lang][key];
+                                textSet = true;
+                            }
+                        });
+                        if (!textSet) el.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            // Update footer links
+            const privacyLink = document.getElementById('link-privacy');
+            const termsLink = document.getElementById('link-terms');
+            if (lang === 'es') {
+                privacyLink.href = 'estoquia-privacidad.html';
+                termsLink.href = 'estoquia-terminos.html';
+            } else if (lang === 'en') {
+                privacyLink.href = 'estoquia-privacy.html';
+                termsLink.href = 'estoquia-terms.html';
+            } else {
+                privacyLink.href = 'estoquia-privacidade.html';
+                termsLink.href = 'estoquia-termos.html';
+            }
+        }
+
+        langBtn.addEventListener('click', () => {
+            let nextIndex = (langs.indexOf(currentLang) + 1) % langs.length;
+            currentLang = langs[nextIndex];
+            localStorage.setItem('estoquia-lang', currentLang);
+            applyLanguage(currentLang);
+        });
+
+        // Initialize language
+        applyLanguage(currentLang);
     </script>
 </body>
 </html>
