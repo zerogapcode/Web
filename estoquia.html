@@ -414,6 +414,7 @@
             <div class="footer-links">
                 <a href="estoquia-privacidad.html" id="link-privacy" data-i18n="footer_privacy">Política de Privacidad</a>
                 <a href="estoquia-terminos.html" id="link-terms" data-i18n="footer_terms">Términos y Condiciones</a>
+                <a href="estoquia-eliminar-cuenta.html" id="link-delete" data-i18n="footer_delete">Eliminar Cuenta</a>
                 <a href="#" data-i18n="footer_support">Soporte</a>
             </div>
             <div class="copyright">
@@ -471,6 +472,7 @@
                 feat6_desc: "Interfaz disponible de forma nativa en Español, Inglés y Portugués, adaptándose a tu equipo de trabajo.",
                 footer_privacy: "Política de Privacidad",
                 footer_terms: "Términos y Condiciones",
+                footer_delete: "Eliminar Cuenta",
                 footer_support: "Soporte",
                 footer_copyright: " Todos los derechos reservados."
             },
@@ -493,6 +495,7 @@
                 feat6_desc: "Interface natively available in Spanish, English, and Portuguese, adapting to your team.",
                 footer_privacy: "Privacy Policy",
                 footer_terms: "Terms and Conditions",
+                footer_delete: "Delete Account",
                 footer_support: "Support",
                 footer_copyright: " All rights reserved."
             },
@@ -515,6 +518,7 @@
                 feat6_desc: "Interface disponível nativamente em Espanhol, Inglês e Português, adaptando-se à sua equipe de trabalho.",
                 footer_privacy: "Política de Privacidade",
                 footer_terms: "Termos e Condições",
+                footer_delete: "Excluir Conta",
                 footer_support: "Suporte",
                 footer_copyright: " Todos os direitos reservados."
             }
@@ -553,15 +557,19 @@
             // Update footer links
             const privacyLink = document.getElementById('link-privacy');
             const termsLink = document.getElementById('link-terms');
+            const deleteLink = document.getElementById('link-delete');
             if (lang === 'es') {
                 privacyLink.href = 'estoquia-privacidad.html';
                 termsLink.href = 'estoquia-terminos.html';
+                deleteLink.href = 'estoquia-eliminar-cuenta.html';
             } else if (lang === 'en') {
                 privacyLink.href = 'estoquia-privacy.html';
                 termsLink.href = 'estoquia-terms.html';
+                deleteLink.href = 'estoquia-delete-account.html';
             } else {
                 privacyLink.href = 'estoquia-privacidade.html';
                 termsLink.href = 'estoquia-termos.html';
+                deleteLink.href = 'estoquia-excluir-conta.html';
             }
         }
 

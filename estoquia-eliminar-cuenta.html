@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Cuenta - Estoquia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #000000;
+            --primary-light: #e0e0e0;
+            --bg-color: #f9f9f9;
+            --text-main: #333333;
+            --text-light: #555555;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-main);
+            background: var(--bg-color);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 50px 60px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e0e0e0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 1.05rem;
+        }
+
+        .btn-delete {
+            display: inline-block;
+            background-color: #000000;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background-color: #333333;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Solicitud de Eliminación de Cuenta</h1>
+        </div>
+
+        <p>En Estoquia respetamos tu privacidad y el control sobre tus datos. Si deseas eliminar tu cuenta y todos los datos asociados (incluyendo tu inventario, configuración y credenciales), puedes solicitarlo de la siguiente manera:</p>
+        
+        <p><strong>1. Mediante la Aplicación:</strong><br>
+        Si tienes la aplicación instalada, ve a los ajustes de tu perfil dentro de la aplicación y selecciona la opción "Eliminar Cuenta". Los datos se borrarán permanentemente de nuestros servidores.</p>
+        
+        <p><strong>2. Mediante Correo Electrónico:</strong><br>
+        Si ya no tienes acceso a la aplicación, puedes solicitar la eliminación manual de tus datos enviándonos un correo electrónico desde la dirección vinculada a tu cuenta.</p>
+        
+        <a href="mailto:soporte@zerogapcode.com?subject=Solicitud%20de%20Eliminacion%20de%20Cuenta%20Estoquia&body=Por%20favor%2C%20eliminen%20mi%20cuenta%20de%20Estoquia%20asociada%20a%20este%20correo%20electrónico.%0A%0AGracias." class="btn-delete">Solicitar por Correo</a>
+    </div>
+</body>
+</html>
