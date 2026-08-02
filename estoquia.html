@@ -3,17 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Política de Privacidad - Estoquia</title>
-    <!-- Se añadió la fuente moderna Inter de Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Estoquia - Punto de Venta y Gestión de Inventario</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* Variables Globales (Modo Claro por Defecto) */
         :root {
-            --primary: #0056b3;
-            --primary-light: #e6f0fa;
-            --bg-color: #f4f7f6;
-            --text-main: #334155;
-            --text-light: #64748b;
-            --card-bg: #ffffff;
+            --bg-base: #FFFFFF;
+            --bg-secondary: #F9F9F9;
+            --text-primary: #000000;
+            --text-secondary: #555555;
+            --border-color: #E0E0E0;
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --btn-bg: #000000;
+            --btn-text: #FFFFFF;
+            --btn-hover: #333333;
+            --feature-bg: #FFFFFF;
+            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.04);
+            --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Variables Modo Oscuro */
+        [data-theme="dark"] {
+            --bg-base: #000000;
+            --bg-secondary: #121212;
+            --text-primary: #FFFFFF;
+            --text-secondary: #AAAAAA;
+            --border-color: #333333;
+            --nav-bg: rgba(0, 0, 0, 0.85);
+            --btn-bg: #FFFFFF;
+            --btn-text: #000000;
+            --btn-hover: #E0E0E0;
+            --feature-bg: #1A1A1A;
+            --shadow-subtle: 0 4px 20px rgba(255, 255, 255, 0.02);
+            --shadow-hover: 0 10px 30px rgba(255, 255, 255, 0.05);
         }
 
         * {
@@ -23,153 +48,399 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.7;
-            color: var(--text-main);
-            /* Fondo con gradiente sutil y moderno */
-            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: var(--card-bg);
-            padding: 50px 60px;
-            border-radius: 16px;
-            /* Sombra suave y profesional estilo glass/modern */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.02);
-            border: 1px solid rgba(255,255,255,0.8);
+            padding: 0 24px;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid #e2e8f0;
+        /* Navegación (Glassmorphism) */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: var(--transition);
         }
 
-        h1 {
-            color: #0f172a;
-            font-size: 2.2rem;
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             font-weight: 700;
-            margin-bottom: 10px;
+            font-size: 1.25rem;
             letter-spacing: -0.02em;
         }
 
-        .date {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            font-weight: 400;
-            display: inline-block;
-            background: var(--primary-light);
-            padding: 4px 12px;
-            border-radius: 20px;
-            color: var(--primary);
+        .logo-img {
+            height: 32px;
+            width: 32px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
         }
 
-        h2 {
-            color: var(--primary);
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin: 40px 0 15px 0;
-            letter-spacing: -0.01em;
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: var(--transition);
         }
 
-        /* Detalle visual antes de cada título h2 */
-        h2::before {
-            content: '';
-            display: inline-block;
-            width: 6px;
-            height: 22px;
-            background: var(--primary);
-            border-radius: 4px;
-            margin-right: 12px;
+        .theme-toggle:hover {
+            background-color: var(--bg-secondary);
         }
 
-        p {
-            margin-bottom: 16px;
-            font-size: 1.05rem;
+        /* Hero Section */
+        .hero {
+            padding: 160px 0 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
         }
 
-        ul {
+        .hero-text {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
             margin-bottom: 24px;
-            padding-left: 20px;
-            list-style-type: none;
         }
 
-        li {
-            margin-bottom: 12px;
-            font-size: 1.05rem;
-            position: relative;
-            padding-left: 24px;
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-weight: 400;
         }
 
-        /* Viñetas personalizadas para la lista */
-        li::before {
-            content: '•';
-            color: var(--primary);
-            font-size: 1.5rem;
-            position: absolute;
-            left: 0;
-            top: -4px;
-        }
-
-        strong {
-            color: #1e293b;
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            padding: 16px 32px;
+            border-radius: 30px;
             font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
         }
 
-        @media (max-width: 600px) {
-            .container {
-                padding: 30px 20px;
+        .btn-primary:hover {
+            background-color: var(--btn-hover);
+            transform: translateY(-2px);
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            max-height: 600px;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Beneficios (Grid) */
+        .features {
+            padding: 100px 0;
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background-color: var(--feature-bg);
+            padding: 40px 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-subtle);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0;
+            background-color: var(--bg-base);
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .footer-logo img {
+            height: 24px;
+            border-radius: 6px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 120px 0 60px;
             }
-            h1 {
-                font-size: 1.8rem;
+            .hero-title {
+                font-size: 3rem;
             }
-            body {
-                padding: 20px 10px;
+            .hero-image img {
+                max-height: 450px;
+            }
+            .btn-primary {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Política de Privacidad de Estoquia</h1>
-            <p class="date"><strong>Última actualización:</strong> 2 de agosto de 2026</p>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="container nav-content">
+            <a href="#" class="logo-container">
+                <img src="images/Estoquia.jpg" alt="Estoquia Logo" class="logo-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'#000\'/><text x=\'50\' y=\'65\' font-family=\'Arial\' font-size=\'50\' font-weight=\'bold\' fill=\'#FFF\' text-anchor=\'middle\'>E</text></svg>'">
+                Estoquia
+            </a>
+            <button class="theme-toggle" id="theme-btn" aria-label="Cambiar tema">
+                <!-- Moon icon para modo claro, se cambiará con JS -->
+                <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
         </div>
+    </header>
 
-        <p>Gracias por usar Estoquia. Nos tomamos muy en serio tu privacidad. Esta política de privacidad describe cómo recopilamos, usamos y protegemos tus datos de usuario cuando utilizas nuestra aplicación móvil de punto de venta y gestión de inventario.</p>
+    <!-- Hero Section -->
+    <section class="hero container">
+        <div class="hero-text">
+            <h1 class="hero-title">El control de tu negocio, en la palma de tu mano.</h1>
+            <p class="hero-subtitle">Una aplicación de Punto de Venta y Gestión de Inventario extremadamente rápida, minimalista y sin complicaciones. Sincronizada en la nube en tiempo real.</p>
+            <a href="#" class="btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                    <path d="M5 12h14"></path>
+                    <path d="M12 5v14"></path>
+                </svg>
+                Descargar en Google Play
+            </a>
+        </div>
+        <div class="hero-image">
+            <img src="images/estoquia_mockup.jpg" alt="Estoquia App en Android" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 400 800\'><rect width=\'400\' height=\'800\' rx=\'40\' fill=\'#F9F9F9\' stroke=\'#E0E0E0\' stroke-width=\'4\'/><rect x=\'20\' y=\'100\' width=\'360\' height=\'680\' rx=\'20\' fill=\'#FFFFFF\'/><text x=\'200\' y=\'400\' font-family=\'Arial\' font-size=\'24\' fill=\'#AAAAAA\' text-anchor=\'middle\'>Mockup placeholder</text></svg>'">
+        </div>
+    </section>
 
-        <h2>1. Datos que Recopilamos</h2>
-        <p>Para brindarte el mejor servicio y permitir que la aplicación funcione correctamente, Estoquia recopila los siguientes datos:</p>
-        <ul>
-            <li><strong>Información Personal:</strong> Recopilamos tu dirección de correo electrónico cuando te registras e inicias sesión en nuestra aplicación.</li>
-            <li><strong>Fotos y Contenido:</strong> Recopilamos las fotografías de los productos que decides subir de forma opcional a tu inventario.</li>
-        </ul>
+    <!-- Funcionalidades (Features Grid) -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Diseñada para la eficiencia</h2>
+            </div>
+            
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Punto de Venta Rápido (POS)</h3>
+                    <p class="feature-desc">Búsqueda de productos al instante y escaneo de códigos de barras utilizando la cámara de tu dispositivo.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon">🖨️</div>
+                    <h3 class="feature-title">Impresión de Tickets</h3>
+                    <p class="feature-desc">Conexión Bluetooth nativa y fluida con impresoras térmicas para imprimir recibos físicos en segundos.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon">☁️</div>
+                    <h3 class="feature-title">Inventario en la Nube</h3>
+                    <p class="feature-desc">Control de stock y alertas de existencias sincronizadas al instante en múltiples dispositivos vía Firebase.</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">Gestión de Empleados</h3>
+                    <p class="feature-desc">Crea usuarios con roles específicos (Ej. Administrador vs. Cajero) para mantener la seguridad y el control.</p>
+                </div>
+                <!-- Feature 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Panel de Control</h3>
+                    <p class="feature-desc">Métricas y estadísticas en tiempo real sobre las ventas, productos más vendidos y el estado general del negocio.</p>
+                </div>
+                <!-- Feature 6 -->
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3 class="feature-title">Soporte Multilingüe</h3>
+                    <p class="feature-desc">Interfaz disponible de forma nativa en Español, Inglés y Portugués, adaptándose a tu equipo de trabajo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <h2>2. Uso de los Datos</h2>
-        <p>Utilizamos la información recopilada exclusivamente para los siguientes propósitos:</p>
-        <ul>
-            <li><strong>Gestión de la cuenta:</strong> Para autenticar tu identidad y asegurar el acceso a los datos de tu empresa.</li>
-            <li><strong>Funcionalidad de la aplicación:</strong> Para permitir el correcto funcionamiento del inventario, como mostrar el catálogo de tus productos con sus respectivas fotos en los distintos dispositivos de tu negocio.</li>
-        </ul>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="images/Estoquia.jpg" alt="Estoquia" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'#000\'/><text x=\'50\' y=\'65\' font-family=\'Arial\' font-size=\'50\' font-weight=\'bold\' fill=\'#FFF\' text-anchor=\'middle\'>E</text></svg>'">
+                Estoquia
+            </div>
+            <div class="footer-links">
+                <a href="estoquia-privacidad.html">Política de Privacidad</a>
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Soporte</a>
+            </div>
+            <div class="copyright">
+                &copy; <script>document.write(new Date().getFullYear())</script> Estoquia. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
 
-        <h2>3. Seguridad de los Datos</h2>
-        <p>Toda la información que recopilamos (incluyendo correos electrónicos, fotos y datos de inventario) se transmite de forma cifrada (encriptada en tránsito). Estoquia utiliza servicios de infraestructura seguros en la nube para garantizar que tu información esté protegida contra accesos no autorizados.</p>
+    <!-- Script para Modo Oscuro/Claro -->
+    <script>
+        const themeBtn = document.getElementById('theme-btn');
+        const themeIcon = document.getElementById('theme-icon');
+        
+        // Iconos SVG
+        const iconMoon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+        const iconSun = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
 
-        <h2>4. Eliminación de los Datos</h2>
-        <p>Puedes solicitar la eliminación permanente de tu cuenta y de todos tus datos asociados en cualquier momento. Para hacerlo, puedes utilizar la opción de eliminación de cuenta directamente en los ajustes de la aplicación (cuando esté disponible) o ponerte en contacto con nosotros por correo electrónico para gestionar la eliminación completa de tus datos de nuestros servidores.</p>
+        // Check local storage
+        const savedTheme = localStorage.getItem('estoquia-theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.innerHTML = iconSun;
+        }
 
-        <h2>5. Cambios en esta Política</h2>
-        <p>Es posible que actualicemos nuestra Política de Privacidad periódicamente. Te notificaremos cualquier cambio publicando la nueva Política de Privacidad en esta misma página.</p>
-
-        <h2>6. Contacto</h2>
-        <p>Si tienes alguna pregunta o sugerencia sobre nuestra Política de Privacidad, por favor contáctanos.</p>
-    </div>
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('estoquia-theme', 'light');
+                themeIcon.innerHTML = iconMoon;
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('estoquia-theme', 'dark');
+                themeIcon.innerHTML = iconSun;
+            }
+        });
+    </script>
 </body>
 </html>
