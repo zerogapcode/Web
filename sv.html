@@ -482,8 +482,10 @@
             transform: none;
         }
     </style>
+  <script src="js/config.js"></script>
 </head>
 <body class="bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
+
     <div id="root"></div>
 
     <!-- Contenedor Carlitos (añadido fuera del root de React) -->
@@ -563,11 +565,11 @@
         };
 
         // --- CONFIGURACIÓN CARLITOS ---
-        const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        
         
         function getNgrokHeaders() {
             return {
-                'ngrok-skip-browser-warning': 'true',
+                
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             };
@@ -715,7 +717,7 @@
                 
                 currentSessionId = "carlitos-session-" + Date.now();
                 
-                const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const testResponse = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: getNgrokHeaders(),
                     body: JSON.stringify({
@@ -832,7 +834,7 @@
             const typingIndicator = showCarlitosTyping();
             
             try {
-                const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const response = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: getNgrokHeaders(),
                     body: JSON.stringify({ 
@@ -1549,5 +1551,6 @@
             }
         });
     </script>
+
 </body>
 </html>

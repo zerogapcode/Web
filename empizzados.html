@@ -1093,8 +1093,11 @@
             }
         }
     </style>
+  <script src="js/config.js"></script>
 </head>
 <body>
+
+
 
     <header>
         <img src="empi.png" alt="Empizzados" class="logo-image">
@@ -1603,7 +1606,7 @@
     <script>
         // --- LOGICA DEL CHATBOT ENZO ---
         // USANDO LA MISMA URL QUE EN CASARES.HTML (servidor de Balú)
-        const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        
         
         const enzobotFloatBtn = document.getElementById('enzobot-float-btn');
         const enzobotButtonContainer = document.getElementById('enzobot-button-container');
@@ -1688,10 +1691,10 @@
                 currentSessionId = "empizzados-enzo-session-" + Date.now();
                 
                 // Usando el mismo servidor que casares.html pero con el asistente "enzo"
-                const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const testResponse = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true',
+                        
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
@@ -1790,10 +1793,10 @@
             
             try {
                 // Enviar mensaje especificando que es para el asistente "enzo"
-                const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const response = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true',
+                        
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
@@ -1955,6 +1958,7 @@
             highlightActiveSection();
         });
     </script>
+
 
 </body>
 </html>

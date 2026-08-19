@@ -1246,8 +1246,11 @@
             }
         }
     </style>
+  <script src="js/config.js"></script>
 </head>
 <body>
+
+
     <header>
         <div class="header-container">
             <div class="header-title">
@@ -1404,7 +1407,7 @@
     
     <script>
         // Script para funcionalidad del botón de Balú
-        const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        
         
         // Elementos DOM
         const baluFloatBtn = document.getElementById('balu-float-btn');
@@ -1464,10 +1467,10 @@
                 currentSessionId = "balu-session-" + Date.now();
                 
                 // Enviar petición de inicialización al asistente "balu"
-                const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const testResponse = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true',
+                        
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
@@ -1598,10 +1601,10 @@
             
             try {
                 // Enviar mensaje especificando que es para el asistente "balu"
-                const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const response = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true',
+                        
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
@@ -1720,5 +1723,6 @@
         window.addEventListener("scroll", revealOnScroll);
         revealOnScroll();
     </script>
+
 </body>
 </html>

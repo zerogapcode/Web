@@ -1008,8 +1008,11 @@
             }
         }
     </style>
+  <script src="js/config.js"></script>
 </head>
 <body>
+
+
     <!-- Skip to main content for accessibility -->
     <a href="#inicio" class="skip-to-main">Saltar al contenido principal</a>
 
@@ -1206,7 +1209,7 @@
 
     <script>
         // Configuración del servidor - Usar variable de entorno en producción
-        const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        
         const MAX_RETRIES = 3;
         const RETRY_DELAY = 2000;
         
@@ -1363,10 +1366,10 @@
                 
                 currentSessionId = "lola-session-" + Date.now();
                 
-                const testResponse = await fetchWithRetry(`${OLLAMA_SERVER_URL}/chat`, {
+                const testResponse = await fetchWithRetry(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true',
+                        
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
@@ -1527,10 +1530,10 @@
             const typingIndicator = showLolaTyping();
             
             try {
-                const response = await fetchWithRetry(`${OLLAMA_SERVER_URL}/chat`, {
+                const response = await fetchWithRetry(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true',
+                        
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
@@ -1653,5 +1656,6 @@
             });
         });
     </script>
+
 </body>
 </html>

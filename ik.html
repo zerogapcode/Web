@@ -1216,8 +1216,11 @@
         document.body.appendChild(n)
     }();
     </script>
+  <script src="js/config.js"></script>
 </head>
 <body>
+
+
     <noscript>You need to enable JavaScript to run this app.</noscript>
 
     <!-- Pantalla inicial con logo centrado -->
@@ -1633,7 +1636,7 @@
     <!-- Script para funcionalidad del botón Rey -->
     <script>
         // Configuración
-        const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        
         
         // Elementos DOM
         const reyFloatBtn = document.getElementById('rey-float-btn');
@@ -1856,10 +1859,10 @@
                 currentSessionId = "rey-session-" + Date.now();
                 
                 // Enviar petición de inicialización al asistente "rey"
-                const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const testResponse = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true',
+                        
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
@@ -1981,10 +1984,10 @@
             
             try {
                 // Enviar mensaje especificando que es para el asistente "rey"
-                const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const response = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true',
+                        
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
@@ -2159,5 +2162,6 @@
             }
         });
     </script>
+
 </body>
 </html>

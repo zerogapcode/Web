@@ -341,8 +341,11 @@
             .editor-info .editor-badge { display: inline-flex; }
         }
     </style>
+  <script src="js/config.js"></script>
 </head>
 <body>
+
+
     <div class="container">
         <header>
             <h1><i class="fas fa-money-check-alt"></i> Sistema de Control de Pagos</h1>
@@ -1089,7 +1092,7 @@
         let sofiChatOpen = false;
         let sofiSessionId = null;
         let sofiGenerating = false;
-        const SOFI_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        
         
         function initializeSofiChat() {
             sofiSessionId = "sofi-session-" + Date.now();
@@ -1165,11 +1168,11 @@
             showSofiTyping();
             
             try {
-                const response = await fetch(`${SOFI_SERVER_URL}/chat`, {
+                const response = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
+                        
                     },
                     body: JSON.stringify({
                         message: text,
@@ -1220,5 +1223,6 @@
         }
         */
     </script>
+
 </body>
 </html>

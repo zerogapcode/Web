@@ -53,16 +53,16 @@
     // ========================================
     
     // URL CORREGIDA: Usando tu dominio de ngrok
-    const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+    
     
     console.log('🚀 Configuración de producción activada');
-    console.log('🌐 URL del backend:', OLLAMA_SERVER_URL);
+    console.log('🌐 URL del backend:', CONFIG.API_SERVER_URL);
     console.log('🔗 Verificando conexión...');
 
     // Función de utilidad para añadir headers de ngrok
     function getNgrokHeaders() {
       return {
-        'ngrok-skip-browser-warning': 'true',
+        
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       };
@@ -1303,7 +1303,7 @@
       try {
         updateDebugStatus('checking', '🔍 Verificando servidor...');
         
-        const response = await fetch(`${OLLAMA_SERVER_URL}/health`, {
+        const response = await fetch(CONFIG.API_SERVER_URL, {
           headers: getNgrokHeaders()
         });
         
@@ -1325,8 +1325,8 @@
         isServerAvailable = false;
         
         let errorMsg = currentLang === 'en'
-          ? `❌ Could not connect to server<br>URL: ${OLLAMA_SERVER_URL}<br>Error: ${error.message}<br><br>Possible solutions:<br>1. Check that OllamaServer.py is running<br>2. Verify that ngrok is active<br>3. Check your internet connection`
-          : `❌ No se pudo conectar al servidor<br>URL: ${OLLAMA_SERVER_URL}<br>Error: ${error.message}<br><br>Posibles soluciones:<br>1. Verifica que el backend OllamaServer.py esté corriendo<br>2. Revisa que ngrok esté activo<br>3. Verifica tu conexión a internet`;
+          ? `❌ Could not connect to server<br>URL: ${CONFIG.API_SERVER_URL}<br>Error: ${error.message}<br><br>Possible solutions:<br>1. Check that OllamaServer.py is running<br>2. Verify that ngrok is active<br>3. Check your internet connection`
+          : `❌ No se pudo conectar al servidor<br>URL: ${CONFIG.API_SERVER_URL}<br>Error: ${error.message}<br><br>Posibles soluciones:<br>1. Verifica que el backend OllamaServer.py esté corriendo<br>2. Revisa que ngrok esté activo<br>3. Verifica tu conexión a internet`;
         
         updateDebugStatus('offline');
         debugOutput.innerHTML = `<div class="error">${errorMsg}</div>`;
@@ -1373,7 +1373,7 @@
       try {
         console.log('📤 Enviando código para análisis...');
         
-        const response = await fetch(`${OLLAMA_SERVER_URL}/debug`, {
+        const response = await fetch(CONFIG.API_SERVER_URL, {
           method: 'POST',
           headers: getNgrokHeaders(),
           body: JSON.stringify({ 
@@ -1497,7 +1497,7 @@
         
         currentSessionId = "ai-session-" + Date.now();
         
-        const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+        const testResponse = await fetch(CONFIG.API_SERVER_URL, {
           method: 'POST',
           headers: getNgrokHeaders(),
           body: JSON.stringify({
@@ -1618,7 +1618,7 @@
       const typingIndicator = showAITyping();
       
       try {
-        const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+        const response = await fetch(CONFIG.API_SERVER_URL, {
           method: 'POST',
           headers: getNgrokHeaders(),
           body: JSON.stringify({ 
@@ -1671,7 +1671,7 @@
       matrixCanvas.height = window.innerHeight;
       
       console.log("✅ ProtonLab cargado correctamente");
-      console.log("🌐 URL del backend configurada:", OLLAMA_SERVER_URL);
+      console.log("🌐 URL del backend configurada:", CONFIG.API_SERVER_URL);
 
       const floatBtns = document.querySelectorAll('.float-btn');
       floatBtns.forEach(btn => btn.classList.add('init-hidden'));

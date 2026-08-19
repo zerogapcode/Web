@@ -1084,8 +1084,11 @@
       .topbar .inner { flex-direction: column; gap: 6px; }
     }
   </style>
+  <script src="js/config.js"></script>
 </head>
 <body>
+
+
 <div class="page-frame">
 
   <!-- TOPBAR -->
@@ -1505,7 +1508,7 @@
     setInterval(updateTimer, 1000);
 
     // Chat
-    const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+    
     const ASSISTANT_NAME = 'gameexpert';
 
     const gameBtn = document.getElementById('gameAIBtn');
@@ -1562,9 +1565,9 @@
       const typingId = showTypingIndicator();
 
       try {
-        const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+        const response = await fetch(CONFIG.API_SERVER_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json',  },
           body: JSON.stringify({ message: text, assistant: ASSISTANT_NAME, session_id: sessionId, stream: true, lang: 'es' })
         });
         if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
@@ -1645,5 +1648,6 @@
       }
     });
   </script>
+
 </body>
 </html>

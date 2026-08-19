@@ -1120,8 +1120,11 @@
             }
         }
     </style>
+  <script src="js/config.js"></script>
 </head>
 <body>
+
+
     <header>
         <div class="header-container">
             <img src="casares.png" alt="Casa Res Logo" class="header-logo" onerror="this.style.display='none'">
@@ -2082,7 +2085,7 @@
     <script>
         // --- LOGICA DEL CHATBOT KARL ---
         // USANDO LA MISMA URL QUE EN MENU.HTML (servidor de Balú)
-        const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        
         
         const karlFloatBtn = document.getElementById('karl-float-btn');
         const karlButtonContainer = document.getElementById('karl-button-container');
@@ -2164,10 +2167,10 @@
                 currentSessionId = "casares-karl-session-" + Date.now();
                 
                 // Usando el mismo servidor que menu.html pero con el asistente "karl"
-                const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const testResponse = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true',
+                        
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
@@ -2263,10 +2266,10 @@
             
             try {
                 // Enviar mensaje especificando que es para el asistente "karl"
-                const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const response = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: {
-                        'ngrok-skip-browser-warning': 'true',
+                        
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
@@ -2355,5 +2358,6 @@
             }
         });
     </script>
+
 </body>
 </html>

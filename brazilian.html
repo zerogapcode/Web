@@ -1250,8 +1250,11 @@
     }
   </style>
 <base target="_blank">
+  <script src="js/config.js"></script>
 </head>
 <body>
+
+
   <!-- Loading Screen -->
   <div class="loading-screen" id="loader">
     <div class="loading-logo">CS</div>
@@ -1933,7 +1936,7 @@
       });
 
       // ==================== SARA CHAT ====================
-      const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+      
       
       const saraFloatBtn = document.getElementById('sara-float-btn');
       const saraButtonContainer = document.getElementById('sara-button-container');
@@ -2074,10 +2077,10 @@
           addSaraMessage('Connecting to Sara...', false);
           currentSessionId = "cs-sara-session-" + Date.now();
           
-          const testResponse = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+          const testResponse = await fetch(CONFIG.API_SERVER_URL, {
             method: 'POST',
             headers: {
-              'ngrok-skip-browser-warning': 'true',
+              
               'Content-Type': 'application/json',
               'Accept': 'application/json'
             },
@@ -2169,10 +2172,10 @@
         const typingIndicator = showSaraTyping();
         
         try {
-          const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+          const response = await fetch(CONFIG.API_SERVER_URL, {
             method: 'POST',
             headers: {
-              'ngrok-skip-browser-warning': 'true',
+              
               'Content-Type': 'application/json',
               'Accept': 'application/json'
             },
@@ -2213,5 +2216,6 @@
 
     })();
   </script>
+
 </body>
 </html>

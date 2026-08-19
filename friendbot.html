@@ -769,8 +769,11 @@
           }
         }
     </style>
+  <script src="js/config.js"></script>
 </head>
 <body>
+
+
     <header id="topbar">
         <div class="brand">
             <div class="mini" id="brandMini" onclick="window.location.href='index.html'">&lt;/&gt;</div>
@@ -830,17 +833,17 @@
         // ========================================
         // CONFIGURACIÓN ACTUALIZADA
         // ========================================
-        const OLLAMA_SERVER_URL = 'https://liberatory-adeline-unlaudable.ngrok-free.dev';
+        
         const ASSISTANT_TYPE = 'amable'; // Debe coincidir exactamente con el servidor
         
         console.log('🚀 Alex - Asistente de Apoyo Emocional');
-        console.log('🌐 URL del backend:', OLLAMA_SERVER_URL);
+        console.log('🌐 URL del backend:', CONFIG.API_SERVER_URL);
         console.log('🤖 Asistente:', ASSISTANT_TYPE);
 
         // Función de utilidad para añadir headers de ngrok
         function getNgrokHeaders() {
             return {
-                'ngrok-skip-browser-warning': 'true',
+                
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             };
@@ -1252,7 +1255,7 @@
             try {
                 updateStatus('connecting', 'Conectando...');
                 
-                const response = await fetch(`${OLLAMA_SERVER_URL}/health`, {
+                const response = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'GET',
                     headers: getNgrokHeaders()
                 });
@@ -1306,7 +1309,7 @@
             // Verificar servidor antes de enviar
             if (!isServerAvailable) {
                 try {
-                    const healthCheck = await fetch(`${OLLAMA_SERVER_URL}/health`, {
+                    const healthCheck = await fetch(CONFIG.API_SERVER_URL, {
                         headers: getNgrokHeaders()
                     });
                     
@@ -1329,7 +1332,7 @@
                 // Usar streaming con fetch y ReadableStream
                 console.log('🌐 Iniciando stream al servidor...');
                 
-                const response = await fetch(`${OLLAMA_SERVER_URL}/chat`, {
+                const response = await fetch(CONFIG.API_SERVER_URL, {
                     method: 'POST',
                     headers: getNgrokHeaders(),
                     body: JSON.stringify({
@@ -1762,5 +1765,6 @@
         console.log('🔍 Debug info disponible: window.debugInfo()');
         console.log('🛠️  Force restore disponible: window.forceRestoreInterface()');
     </script>
+
 </body>
 </html>
