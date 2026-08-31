@@ -968,14 +968,14 @@ body{padding-bottom:calc(58px + env(safe-area-inset-bottom))}
 
 <button class="daniel-btn" type="button" id="danielAbrir" aria-expanded="false" aria-controls="danielPanel" aria-label="Abrir el asistente Daniel Bot">
   <span class="daniel-btn__punto" aria-hidden="true"></span>
-  <span class="daniel-btn__foto"><img src="images/agrepa/danybot.png" width="200" height="200" alt="" loading="lazy"></span>
+  <span class="daniel-btn__foto"><img src="images/agrepa/danybot.png?v=2" width="200" height="200" alt="" loading="lazy"></span>
   <span class="daniel-btn__txt">Daniel</span>
 </button>
 
 <section class="daniel-panel" id="danielPanel" data-abierto="false" role="dialog" aria-modal="false" aria-label="Asistente virtual Daniel Bot">
   <header class="daniel-panel__cab">
     <span class="daniel-avatar" aria-hidden="true">
-      <img src="images/agrepa/danybot.png" width="200" height="200" alt="">
+      <img src="images/agrepa/danybot.png?v=2" width="200" height="200" alt="">
     </span>
     <span class="daniel-panel__id">
       <b>Daniel Bot</b>
@@ -1021,7 +1021,7 @@ body{padding-bottom:calc(58px + env(safe-area-inset-bottom))}
   var ocupado = false;
   var iniciado = false;
 
-  var AVATAR = '<img src="images/agrepa/danybot.png" width="200" height="200" alt="">';
+  var AVATAR = '<img src="images/agrepa/danybot.png?v=2" width="200" height="200" alt="">';
 
   function escapar(t) {
     return String(t).replace(/[&<>"']/g, function (c) {
