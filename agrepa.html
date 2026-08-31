@@ -308,20 +308,27 @@ body{padding-bottom:calc(58px + env(safe-area-inset-bottom))}
   color:var(--ambar);
   will-change:transform;
 }
-.hex svg{display:block;width:100%;height:auto}
+.hex svg{display:block;width:100%;height:auto;overflow:visible}
 .hex polygon{
-  fill:none;stroke:currentColor;
+  fill:none;
+  stroke:currentColor;
+  stroke-linejoin:round;
   vector-effect:non-scaling-stroke;
 }
-/* grandes: cerca -> se mueven mas rapido y llevan un relleno minimo */
-.hex--g{width:clamp(220px,42vw,440px);opacity:.075}
-.hex--g polygon{stroke-width:1.5;fill:rgba(246,177,11,.02)}
-/* medianos */
-.hex--m{width:clamp(130px,26vw,268px);opacity:.10}
-.hex--m polygon{stroke-width:1.25}
-/* pequenos: lejos -> se mueven mas lento */
-.hex--p{width:clamp(74px,15vw,152px);opacity:.14}
-.hex--p polygon{stroke-width:1}
+/* el grosor crece con el tamano: el trazo grueso se lee cerca, el fino lejos */
+.hex--g{width:clamp(190px,34vw,360px);opacity:.20}
+.hex--g polygon{stroke-width:14}
+.hex--m{width:clamp(115px,22vw,220px);opacity:.24}
+.hex--m polygon{stroke-width:7}
+.hex--p{width:clamp(66px,13vw,128px);opacity:.28}
+.hex--p polygon{stroke-width:3.5}
+
+/* en el telefono el hexagono es mas chico: se afina el trazo en proporcion */
+@media (max-width:767px){
+  .hex--g polygon{stroke-width:9}
+  .hex--m polygon{stroke-width:4.5}
+  .hex--p polygon{stroke-width:2.5}
+}
 
 @media (prefers-reduced-motion:reduce){
   .hex{will-change:auto}
@@ -370,15 +377,15 @@ body{padding-bottom:calc(58px + env(safe-area-inset-bottom))}
 <body>
 
 <div class="hexes" aria-hidden="true">
-  <span class="hex hex--g" style="top:20%;left:68%;transform:rotate(8deg)" data-vel="0.12" data-giro="8"><svg viewBox="0 0 100 86.6" aria-hidden="true"><polygon points="25,0 75,0 100,43.3 75,86.6 25,86.6 0,43.3"></polygon></svg></span>
-  <span class="hex hex--g" style="top:48%;left:-7%;transform:rotate(-14deg)" data-vel="0.12" data-giro="-14"><svg viewBox="0 0 100 86.6" aria-hidden="true"><polygon points="25,0 75,0 100,43.3 75,86.6 25,86.6 0,43.3"></polygon></svg></span>
-  <span class="hex hex--g" style="top:78%;left:56%;transform:rotate(20deg)" data-vel="0.12" data-giro="20"><svg viewBox="0 0 100 86.6" aria-hidden="true"><polygon points="25,0 75,0 100,43.3 75,86.6 25,86.6 0,43.3"></polygon></svg></span>
-  <span class="hex hex--m" style="top:26%;left:14%;transform:rotate(-6deg)" data-vel="0.28" data-giro="-6"><svg viewBox="0 0 100 86.6" aria-hidden="true"><polygon points="25,0 75,0 100,43.3 75,86.6 25,86.6 0,43.3"></polygon></svg></span>
-  <span class="hex hex--m" style="top:52%;left:78%;transform:rotate(16deg)" data-vel="0.28" data-giro="16"><svg viewBox="0 0 100 86.6" aria-hidden="true"><polygon points="25,0 75,0 100,43.3 75,86.6 25,86.6 0,43.3"></polygon></svg></span>
-  <span class="hex hex--m" style="top:72%;left:6%;transform:rotate(-20deg)" data-vel="0.28" data-giro="-20"><svg viewBox="0 0 100 86.6" aria-hidden="true"><polygon points="25,0 75,0 100,43.3 75,86.6 25,86.6 0,43.3"></polygon></svg></span>
-  <span class="hex hex--p" style="top:22%;left:44%;transform:rotate(12deg)" data-vel="0.45" data-giro="12"><svg viewBox="0 0 100 86.6" aria-hidden="true"><polygon points="25,0 75,0 100,43.3 75,86.6 25,86.6 0,43.3"></polygon></svg></span>
-  <span class="hex hex--p" style="top:38%;left:26%;transform:rotate(-10deg)" data-vel="0.45" data-giro="-10"><svg viewBox="0 0 100 86.6" aria-hidden="true"><polygon points="25,0 75,0 100,43.3 75,86.6 25,86.6 0,43.3"></polygon></svg></span>
-  <span class="hex hex--p" style="top:56%;left:84%;transform:rotate(24deg)" data-vel="0.45" data-giro="24"><svg viewBox="0 0 100 86.6" aria-hidden="true"><polygon points="25,0 75,0 100,43.3 75,86.6 25,86.6 0,43.3"></polygon></svg></span>
+  <span class="hex hex--g" style="top:20%;left:68%" data-vel="0.12"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
+  <span class="hex hex--g" style="top:48%;left:-7%" data-vel="0.12"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
+  <span class="hex hex--g" style="top:78%;left:56%" data-vel="0.12"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
+  <span class="hex hex--m" style="top:26%;left:14%" data-vel="0.28"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
+  <span class="hex hex--m" style="top:52%;left:78%" data-vel="0.28"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
+  <span class="hex hex--m" style="top:72%;left:6%" data-vel="0.28"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
+  <span class="hex hex--p" style="top:22%;left:44%" data-vel="0.45"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
+  <span class="hex hex--p" style="top:38%;left:26%" data-vel="0.45"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
+  <span class="hex hex--p" style="top:56%;left:84%" data-vel="0.45"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
 </div>
 
 <a class="saltar lbl" href="#contenido">Saltar al contenido</a>
@@ -791,8 +798,7 @@ body{padding-bottom:calc(58px + env(safe-area-inset-bottom))}
   var piezas = hexes.map(function (el) {
     return {
       el: el,
-      vel: parseFloat(el.getAttribute('data-vel')) || 0,
-      giro: parseFloat(el.getAttribute('data-giro')) || 0
+      vel: parseFloat(el.getAttribute('data-vel')) || 0
     };
   });
 
@@ -805,7 +811,7 @@ body{padding-bottom:calc(58px + env(safe-area-inset-bottom))}
       var p = piezas[i];
       // se desplazan hacia abajo un % del scroll: cuanto mas se retrasan,
       // mas lento se ven en pantalla (mas lejos)
-      p.el.style.transform = 'translate3d(0,' + (y * p.vel).toFixed(1) + 'px,0) rotate(' + p.giro + 'deg)';
+      p.el.style.transform = 'translate3d(0,' + (y * p.vel).toFixed(1) + 'px,0)';
     }
   }
 
