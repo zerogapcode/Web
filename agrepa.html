@@ -308,7 +308,13 @@ body{padding-bottom:calc(58px + env(safe-area-inset-bottom))}
   color:var(--ambar);
   will-change:transform;
 }
-.hex svg{display:block;width:100%;height:auto;overflow:visible}
+.hex svg{display:block;width:100%;height:auto;overflow:visible;position:relative;z-index:1}
+.hex__foto{
+  position:absolute;inset:0;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  background-position:center;background-size:cover;background-repeat:no-repeat;
+  opacity:.32;filter:grayscale(1) contrast(1.06) brightness(.85);
+}
 .hex polygon{
   fill:none;
   stroke:currentColor;
@@ -316,12 +322,12 @@ body{padding-bottom:calc(58px + env(safe-area-inset-bottom))}
   vector-effect:non-scaling-stroke;
 }
 /* el grosor crece con el tamano: el trazo grueso se lee cerca, el fino lejos */
-.hex--g{width:clamp(190px,34vw,360px);opacity:.20}
-.hex--g polygon{stroke-width:14}
-.hex--m{width:clamp(115px,22vw,220px);opacity:.24}
-.hex--m polygon{stroke-width:7}
-.hex--p{width:clamp(66px,13vw,128px);opacity:.28}
-.hex--p polygon{stroke-width:3.5}
+.hex--g{width:clamp(190px,34vw,360px)}
+.hex--g polygon{stroke-width:14;stroke-opacity:.20}
+.hex--m{width:clamp(115px,22vw,220px)}
+.hex--m polygon{stroke-width:7;stroke-opacity:.24}
+.hex--p{width:clamp(66px,13vw,128px)}
+.hex--p polygon{stroke-width:3.5;stroke-opacity:.28}
 
 /* en el telefono el hexagono es mas chico: se afina el trazo en proporcion */
 @media (max-width:767px){
@@ -377,15 +383,15 @@ body{padding-bottom:calc(58px + env(safe-area-inset-bottom))}
 <body>
 
 <div class="hexes" aria-hidden="true">
-  <span class="hex hex--g" style="top:20%;left:68%" data-vel="0.12"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
+  <span class="hex hex--g" style="top:20%;left:68%" data-vel="0.12"><span class="hex__foto" style="background-image:url(images/agrepa/hex-obra.jpg)"></span><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
   <span class="hex hex--g" style="top:48%;left:-7%" data-vel="0.12"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
   <span class="hex hex--g" style="top:78%;left:56%" data-vel="0.12"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
   <span class="hex hex--m" style="top:26%;left:14%" data-vel="0.28"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
   <span class="hex hex--m" style="top:52%;left:78%" data-vel="0.28"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
-  <span class="hex hex--m" style="top:72%;left:6%" data-vel="0.28"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
+  <span class="hex hex--m" style="top:72%;left:6%" data-vel="0.28"><span class="hex__foto" style="background-image:url(images/agrepa/hex-compactadora.jpg)"></span><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
   <span class="hex hex--p" style="top:22%;left:44%" data-vel="0.45"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
   <span class="hex hex--p" style="top:38%;left:26%" data-vel="0.45"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
-  <span class="hex hex--p" style="top:56%;left:84%" data-vel="0.45"><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
+  <span class="hex hex--p" style="top:56%;left:84%" data-vel="0.45"><span class="hex__foto" style="background-image:url(images/agrepa/hex-volteo.jpg)"></span><svg viewBox="0 0 100 115.47" aria-hidden="true"><polygon points="50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87"></polygon></svg></span>
 </div>
 
 <a class="saltar lbl" href="#contenido">Saltar al contenido</a>
