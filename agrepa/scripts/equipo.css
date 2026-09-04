@@ -1,0 +1,183 @@
+/* ================= EQUIPO ================= */
+.equipo__enc{display:flex;flex-direction:column;gap:14px;max-width:720px;margin-bottom:clamp(28px,4vw,46px)}
+.equipo__enc h1{font-size:var(--h2)}
+.equipo__enc>p:last-child{color:var(--texto-3);font-size:var(--cuerpo-lg)}
+
+/* ---- panal de hexagonos ---- */
+/* Rejilla hexagonal de punta arriba en coordenadas axiales (q, r).
+   Cada celda mide 20% del ancho y 25% del alto del panal; la posicion sale de
+   --x (= q + r/2) y --r. La caja mantiene la proporcion exacta del racimo:
+   5 hexagonos de ancho por 4 de alto, y cada hexagono es 1 : 1.1547.          */
+.panal-caja{container-type:inline-size}
+.panal{
+  position:relative;
+  width:100%;max-width:860px;margin:0 auto;
+  aspect-ratio:5 / 4.6188;
+}
+/* --f va de 0 a 1: es lo cerca que esta el puntero del centro de ESTE
+   hexagono. Lo escribe equipo.js cuadro a cuadro con una caida continua, de
+   modo que el tamano, el color y el grosor del trazo se reparten entre los
+   vecinos en vez de saltar por escalones.
+
+   --p es el aporte de la onda que recorre la colmena en reposo. Va aparte para
+   que no pise el relieve del puntero: solo suma tamano y un pelo de trazo, sin
+   tocar el color, que queda reservado para el hover. */
+.celda{
+  position:absolute;
+  --f:0;--p:0;
+  width:20%;height:25%;
+  left:calc(50% + var(--x) * 20% - 10%);
+  top:calc(50% + var(--r) * 18.75% - 12.5%);
+  margin:0;padding:0;border:0;background:transparent;
+  transform:scale(calc(1 + var(--f) * .26 + var(--p)));
+  z-index:0;
+}
+a.celda{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.celda__hex{
+  position:absolute;inset:0;
+  display:block;overflow:hidden;
+  background:var(--superficie);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+}
+.celda__hex img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:var(--pos,50% 30%);
+  filter:grayscale(calc(1 - var(--f))) contrast(1.05) brightness(calc(.82 + var(--f) * .18));
+}
+.celda__borde{
+  position:absolute;inset:0;
+  width:100%;height:100%;display:block;
+  overflow:visible;pointer-events:none;
+}
+.celda__borde polygon{
+  fill:none;stroke-linejoin:round;
+  stroke:#37373D;
+  stroke:color-mix(in srgb, #37373D, var(--ambar) calc(var(--f) * 100%));
+  stroke-width:calc(2.2 + var(--f) * 1.5 + var(--p) * 6);
+}
+
+/* Respaldo: si el script no toma el relieve (sin JavaScript, con pantalla
+   tactil o con "menos movimiento" activado), queda un realce simple. */
+.panal:not(.js) a.celda{transition:transform .3s cubic-bezier(.2,.85,.25,1)}
+.panal:not(.js) a.celda:hover{--f:1;z-index:6}
+
+.celda:focus{outline:none}
+.celda:focus-visible .celda__borde polygon{stroke:var(--ambar-claro);stroke-width:4}
+
+/* Centro de marca y celda decorativa: completan el circulo, no se pulsan. */
+.celda--marca .celda__hex{
+  background:linear-gradient(180deg,var(--ambar-claro) 0%,var(--ambar) 55%,var(--ambar-oscuro) 100%);
+  display:grid;place-items:center;
+}
+/* El isotipo va contenido dentro del hexagono, no recortado como los
+   retratos, y sin el tratamiento en gris que llevan las fotos. */
+.celda--marca .celda__hex img{
+  width:76%;height:auto;
+  object-fit:contain;object-position:center;
+  filter:none;
+}
+.celda--marca .celda__borde polygon{stroke:var(--ambar-oscuro)}
+.celda--deco .celda__hex{
+  background:repeating-linear-gradient(135deg,rgba(246,177,11,.14) 0 8px,transparent 8px 16px);
+}
+.celda--deco .celda__borde polygon{stroke:#2A2A2F}
+
+/* ---- lectura del nombre ---- */
+.panal__lectura{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  margin:clamp(22px,3.5vw,32px) auto 0;
+  max-width:520px;text-align:center;min-height:4.2em;
+}
+.panal__lectura b{
+  font-family:'Archivo Black','Arial Black',Impact,sans-serif;
+  font-weight:400;text-transform:uppercase;letter-spacing:-.01em;
+  font-size:clamp(1.0625rem,3.6vw,1.375rem);color:#fff;
+}
+.panal__lectura span{font-size:.875rem;color:var(--texto-3);line-height:1.5}
+
+/* ---- directorio (funciona sin JavaScript) ---- */
+.directorio{
+  margin-top:clamp(44px,6vw,76px);
+  padding-top:clamp(34px,5vw,54px);
+  border-top:1px solid var(--borde);
+}
+.directorio__enc{display:flex;flex-direction:column;gap:8px;margin-bottom:clamp(18px,3vw,26px)}
+.directorio__enc h2{font-size:var(--h3)}
+.directorio__enc p{color:var(--texto-4);font-size:.9375rem}
+.directorio__lista{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:0 clamp(20px,3vw,44px)}
+.persona{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 0;border-bottom:1px solid var(--borde-2);
+}
+.persona__hex{
+  flex:none;width:52px;aspect-ratio:100 / 115.47;
+  display:block;overflow:hidden;background:var(--superficie);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+}
+.persona__hex img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 30%);filter:grayscale(1) contrast(1.05) brightness(.86)}
+.persona__id{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:1px}
+.persona__id b{font-size:1.0625rem;font-weight:600;color:#fff;line-height:1.3}
+.persona__id>span{font-size:.8125rem;color:var(--texto-4)}
+.persona__tel{font-variant-numeric:tabular-nums}
+.persona__acc{display:flex;gap:8px;flex:none}
+.persona__acc a{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:44px;height:44px;flex:none;
+  border:1px solid var(--borde-2);color:var(--texto-2);
+  transition:border-color .18s ease,color .18s ease;
+}
+.persona__acc a:hover{border-color:var(--ambar);color:var(--ambar)}
+.persona:target{background:rgba(246,177,11,.06);box-shadow:inset 3px 0 0 var(--ambar);padding-left:12px}
+
+/* ---- ficha de contacto ---- */
+.ficha{
+  border:0;padding:0;background:transparent;color:var(--texto);
+  width:min(410px,calc(100vw - 32px));
+  max-height:calc(100dvh - 40px);
+  overflow:visible;
+}
+.ficha::backdrop{background:rgba(5,5,6,.8)}
+.ficha__caja{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+  padding:clamp(26px,6vw,34px) clamp(20px,5vw,30px) clamp(22px,5vw,28px);
+  background:var(--superficie);
+  border:1px solid var(--borde-2);border-top:3px solid var(--ambar);
+  text-align:center;
+}
+.ficha__hex{
+  width:128px;aspect-ratio:100 / 115.47;flex:none;
+  display:block;overflow:hidden;background:var(--asfalto);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+}
+.ficha__hex img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 30%)}
+.ficha__nom{font-size:clamp(1.25rem,4.6vw,1.5rem);color:#fff}
+.ficha__cargo{font-size:.875rem;color:var(--ambar);margin-top:-8px}
+.ficha__acc{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:2px}
+.ficha__acc .btn{width:100%}
+.ficha__mail{
+  font-size:.8125rem;color:var(--texto-4);word-break:break-all;
+  border-top:1px solid var(--borde);padding-top:14px;width:100%;
+}
+.ficha__cerrar{
+  position:absolute;top:8px;right:8px;
+  width:42px;height:42px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;border:0;color:var(--texto-3);cursor:pointer;
+}
+.ficha__cerrar:hover{color:var(--ambar)}
+
+/* ================= PUNTOS DE QUIEBRE — EQUIPO ================= */
+@media (min-width:600px){
+  .directorio__lista{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (min-width:1024px){
+  .equipo__enc h1{font-size:var(--h2s)}
+  .persona__hex{width:58px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .panal:not(.js) a.celda{transition:none}
+  .panal:not(.js) a.celda:hover{--f:.4}
+}
+.ficha__caja:focus{outline:none}
