@@ -1,588 +1,692 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estoquia - Punto de Venta y Gestión de Inventario</title>
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Variables Globales (Modo Claro por Defecto) */
-        :root {
-            --bg-base: #FFFFFF;
-            --bg-secondary: #F9F9F9;
-            --text-primary: #000000;
-            --text-secondary: #555555;
-            --border-color: #E0E0E0;
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --btn-bg: #000000;
-            --btn-text: #FFFFFF;
-            --btn-hover: #333333;
-            --feature-bg: #FFFFFF;
-            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.04);
-            --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Estoquia — Punto de venta e inventario para tu tienda</title>
+<meta name="description" id="meta-desc" content="Estoquia lleva las ventas, el inventario y los empleados de tu tienda, kiosko o minimarket desde una tablet Android. Sincronizado en la nube." />
+<link rel="canonical" href="https://protonlab.site/estoquia.html" />
+<link rel="icon" href="images/estoquia/icono.png" />
+<link rel="apple-touch-icon" href="images/estoquia/icono.png" />
 
-        /* Variables Modo Oscuro */
-        [data-theme="dark"] {
-            --bg-base: #000000;
-            --bg-secondary: #121212;
-            --text-primary: #FFFFFF;
-            --text-secondary: #AAAAAA;
-            --border-color: #333333;
-            --nav-bg: rgba(0, 0, 0, 0.85);
-            --btn-bg: #FFFFFF;
-            --btn-text: #000000;
-            --btn-hover: #E0E0E0;
-            --feature-bg: #1A1A1A;
-            --shadow-subtle: 0 4px 20px rgba(255, 255, 255, 0.02);
-            --shadow-hover: 0 10px 30px rgba(255, 255, 255, 0.05);
-        }
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://protonlab.site/estoquia.html" />
+<meta property="og:title" content="Estoquia — Punto de venta e inventario para tu tienda" />
+<meta property="og:description" content="Punto de venta, inventario, empleados y tickets térmicos desde una tablet Android. Sincronizado en la nube." />
+<meta property="og:image" content="https://protonlab.site/images/estoquia/inventario.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-base);
-            color: var(--text-primary);
-            line-height: 1.6;
-            transition: background-color 0.4s ease, color 0.4s ease;
-            overflow-x: hidden;
-        }
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "Estoquia",
+  "operatingSystem": "Android",
+  "applicationCategory": "BusinessApplication",
+  "url": "https://protonlab.site/estoquia.html",
+  "image": "https://protonlab.site/images/estoquia/icono.png",
+  "installUrl": "https://play.google.com/store/apps/details?id=com.estoquia.app",
+  "description": "Punto de venta e inventario para tiendas, kioskos y minimarkets, con impresión de tickets térmicos, control de empleados y sincronización en la nube.",
+  "author": { "@type": "Organization", "name": "ProtonLab", "url": "https://protonlab.site/" }
+}
+</script>
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+<style>
+  :root{
+    --page:#F9F9F9; --surface:#FFFFFF; --container:#F3EDF7; --container-line:#E7DFEC;
+    --line:#E9E3EE; --ink:#1C1B1F; --ink-2:#49454F; --ink-3:#6C6572; --ink-4:#9A93A1;
+    --brand:#26395A; --btn-bg:#1C1B1F; --btn-fg:#FFFFFF; --btn-outline:#DAD2E0;
+    --band:#26395A; --band-title:#FFFFFF; --band-text:#C9D4E5; --band-eyebrow:#A9BBD8; --band-line:#3D4F71;
+    --shadow:0 24px 60px rgba(38,57,90,.10); --dot:#CFC7D6;
+    --sans:Roboto,"Helvetica Neue",system-ui,-apple-system,sans-serif;
+    --display:"Space Grotesk",Roboto,"Helvetica Neue",system-ui,sans-serif;
+    --mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  [data-theme="dark"]{
+    --page:#141218; --surface:#1D1B20; --container:#211F26; --container-line:#322F38;
+    --line:#2B2930; --ink:#E6E0E9; --ink-2:#CAC4D0; --ink-3:#A8A2B0; --ink-4:#857F8D;
+    --brand:#9FB6DA; --btn-bg:#E6E0E9; --btn-fg:#1C1B1F; --btn-outline:#46424C;
+    --band:#1F2C44; --band-title:#FFFFFF; --band-text:#B9C6DC; --band-eyebrow:#8CA3C8; --band-line:#33415C;
+    --shadow:0 24px 60px rgba(0,0,0,.45); --dot:#46424C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--page);color:var(--ink);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    transition:background-color .3s ease,color .3s ease;
+  }
+  h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.022em}
+  a{color:var(--brand);text-decoration:none}
+  img{display:block;max-width:100%}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+  /* ---------- nav ---------- */
+  header{
+    position:sticky;top:0;z-index:60;background:var(--page);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand img{width:34px;height:34px;border-radius:9px;border:1px solid var(--container-line)}
+  .brand span{font-family:var(--display);font-size:19px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+  .nav-right{display:flex;align-items:center;gap:34px}
+  .nav-links{display:flex;align-items:center;gap:34px}
+  .nav-links a{font-size:14.5px;color:var(--ink-2)}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-tools{display:flex;align-items:center;gap:10px}
+  .chip{
+    display:flex;align-items:center;justify-content:center;width:40px;height:40px;
+    border:1px solid var(--container-line);border-radius:20px;background:transparent;
+    color:var(--ink-2);cursor:pointer;font-family:var(--sans);font-size:12.5px;font-weight:500;
+    letter-spacing:.04em;transition:background-color .2s ease
+  }
+  .chip:hover{background:var(--container)}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:12px;
+    background:var(--btn-bg);color:var(--btn-fg);border-radius:28px;
+    font-size:16px;font-weight:500;height:56px;padding:0 30px;
+    transition:opacity .2s ease,transform .2s ease
+  }
+  .btn:hover{opacity:.88;transform:translateY(-1px)}
+  .btn svg{fill:currentColor;flex-shrink:0}
+  .btn-sm{height:44px;padding:0 22px;font-size:14.5px;gap:9px;border-radius:22px}
+  .btn-ghost{
+    display:inline-flex;align-items:center;justify-content:center;height:56px;padding:0 26px;
+    border:1px solid var(--btn-outline);border-radius:28px;font-size:16px;font-weight:500;color:var(--ink)
+  }
+  .btn-ghost:hover{background:var(--container)}
+  .hamburger{display:none}
 
-        /* Navegación (Glassmorphism) */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: var(--nav-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            transition: var(--transition);
-        }
+  /* ---------- hero ---------- */
+  .hero{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:72px;align-items:center;padding:84px 0 92px}
+  .hero-text{display:flex;flex-direction:column;align-items:flex-start;gap:26px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:9px;height:30px;padding:0 14px;border-radius:15px;
+    background:var(--container);border:1px solid var(--container-line)
+  }
+  .eyebrow i{width:6px;height:6px;border-radius:3px;background:var(--brand)}
+  .eyebrow span{font-size:12.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+  h1{font-size:62px;line-height:1.04;letter-spacing:-.032em;text-wrap:pretty}
+  h1 span{display:block}
+  .lead{font-size:18.5px;line-height:1.62;color:var(--ink-2);font-weight:300;max-width:520px;text-wrap:pretty}
+  .hero-actions{display:flex;align-items:center;gap:18px;padding-top:6px;flex-wrap:wrap}
+  .meta{display:flex;align-items:center;gap:20px;padding-top:10px;flex-wrap:wrap}
+  .meta span{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);letter-spacing:.02em}
+  .meta i{width:4px;height:4px;border-radius:2px;background:var(--dot)}
+  .hero-shot{display:flex;justify-content:flex-end}
+  .frame{padding:14px;background:var(--container);border:1px solid var(--container-line);border-radius:26px;box-shadow:var(--shadow)}
+  .frame img{width:396px;border-radius:15px;border:1px solid var(--container-line)}
 
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
+  /* ---------- sections ---------- */
+  .band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:92px 0 100px}
+  .sec{padding:96px 0 104px}
+  .sec-head{display:flex;flex-direction:column;gap:14px;max-width:660px;padding-bottom:52px}
+  .sec-head h2{font-size:40px;line-height:1.12}
+  .sec-head p{font-size:17px;line-height:1.6;color:var(--ink-2);font-weight:300}
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1.25rem;
-            letter-spacing: -0.02em;
-        }
+  .shots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
+  .shot{display:flex;flex-direction:column;gap:18px}
+  .shot img{width:100%;height:400px;object-fit:cover;object-position:top;border-radius:14px;border:1px solid var(--container-line);background:var(--container)}
+  .shot-cap{display:flex;flex-direction:column;gap:7px}
+  .shot-cap b{font-family:var(--mono);font-size:11.5px;font-weight:400;letter-spacing:.08em;color:var(--brand)}
+  .shot-cap p{font-size:14.5px;line-height:1.58;color:var(--ink-2);font-weight:300}
 
-        .logo-img {
-            height: 32px;
-            width: 32px;
-            border-radius: 8px;
-            object-fit: cover;
-            border: 1px solid var(--border-color);
-        }
+  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  .card{display:flex;flex-direction:column;gap:16px;padding:32px 30px 34px;background:var(--container);border:1px solid var(--container-line);border-radius:18px}
+  .card svg{stroke:var(--brand);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .card h3{font-size:19px;letter-spacing:-.015em}
+  .card p{font-size:14.5px;line-height:1.62;color:var(--ink-2);font-weight:300}
 
-        .theme-toggle, .lang-toggle {
-            background: none;
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--text-primary);
-            transition: var(--transition);
-        }
+  .dir{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px;align-items:center;padding:60px 64px;background:var(--band);border-radius:24px}
+  .dir-text{display:flex;flex-direction:column;gap:22px;align-items:flex-start}
+  .dir-text b{font-family:var(--mono);font-size:11.5px;font-weight:400;letter-spacing:.1em;color:var(--band-eyebrow)}
+  .dir-text h2{font-size:38px;line-height:1.14;color:var(--band-title)}
+  .dir-text p{font-size:16.5px;line-height:1.65;color:var(--band-text);font-weight:300;max-width:470px;text-wrap:pretty}
+  .dir img{width:340px;height:330px;object-fit:cover;object-position:top;border-radius:16px;border:1px solid var(--band-line);margin-left:auto}
 
-        .lang-toggle {
-            font-size: 1.2rem;
-        }
+  .final{display:flex;flex-direction:column;align-items:center;gap:26px;padding:76px 40px 80px;background:var(--surface);border:1px solid var(--line);border-radius:24px;text-align:center}
+  .final img.ico{width:60px;height:60px;border-radius:15px;border:1px solid var(--container-line)}
+  .final h2{font-size:38px;line-height:1.14;max-width:640px}
+  .final p{font-size:17px;line-height:1.6;color:var(--ink-2);font-weight:300;max-width:520px;text-wrap:pretty}
 
-        .theme-toggle:hover, .lang-toggle:hover {
-            background-color: var(--bg-secondary);
-        }
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:56px 0 64px}
+  .foot-top{display:flex;align-items:flex-start;justify-content:space-between;gap:60px;flex-wrap:wrap}
+  .foot-brand{display:flex;flex-direction:column;gap:14px}
+  .foot-brand div{display:flex;align-items:center;gap:10px}
+  .foot-brand img{width:28px;height:28px;border-radius:8px;border:1px solid var(--container-line)}
+  .foot-brand strong{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:-.02em}
+  .foot-brand p{font-size:13.5px;line-height:1.6;color:var(--ink-3);font-weight:300;max-width:300px}
+  .foot-cols{display:flex;gap:72px;flex-wrap:wrap}
+  .foot-col{display:flex;flex-direction:column;gap:12px}
+  .foot-col b{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.09em;color:var(--ink-4)}
+  .foot-col a{font-size:14px;color:var(--ink-2)}
+  .foot-col a:hover{color:var(--ink)}
+  .foot-bot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:44px;padding-top:26px;border-top:1px solid var(--line);flex-wrap:wrap}
+  .foot-bot span{font-size:12.5px;color:var(--ink-4)}
+  .foot-bot code{font-family:var(--mono);font-size:11.5px;color:var(--ink-4);letter-spacing:.04em}
 
-        /* Hero Section */
-        .hero {
-            padding: 160px 0 100px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 60px;
-        }
-
-        .hero-text {
-            flex: 1;
-            max-width: 600px;
-        }
-
-        .hero-title {
-            font-size: 4rem;
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            font-weight: 400;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            padding: 16px 32px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--btn-hover);
-            transform: translateY(-2px);
-        }
-
-        .hero-image {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            position: relative;
-        }
-
-        .hero-image img {
-            max-width: 100%;
-            height: auto;
-            max-height: 600px;
-            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1));
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* Beneficios (Grid) */
-        .features {
-            padding: 100px 0;
-            background-color: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .feature-card {
-            background-color: var(--feature-bg);
-            padding: 40px 30px;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-subtle);
-            transition: var(--transition);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .feature-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            letter-spacing: -0.01em;
-        }
-
-        .feature-desc {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-
-        /* Footer */
-        footer {
-            padding: 60px 0;
-            background-color: var(--bg-base);
-            text-align: center;
-        }
-
-        .footer-logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            opacity: 0.8;
-        }
-
-        .footer-logo img {
-            height: 24px;
-            border-radius: 6px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-bottom: 20px;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--text-primary);
-        }
-
-        .copyright {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-                padding: 120px 0 60px;
-            }
-            .hero-title {
-                font-size: 3rem;
-            }
-            .hero-image img {
-                max-height: 450px;
-            }
-            .btn-primary {
-                width: 100%;
-            }
-        }
-    </style>
-  <script src="js/config.js"></script>
+  /* ---------- responsive ---------- */
+  @media (max-width:1080px){
+    .shots{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+    .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .hero{gap:48px}
+    h1{font-size:52px}
+    .frame img{width:100%}
+  }
+  @media (max-width:860px){
+    .nav-links{
+      display:none;position:absolute;top:72px;left:0;right:0;flex-direction:column;
+      align-items:stretch;gap:0;background:var(--page);border-bottom:1px solid var(--line);padding:8px 24px 16px
+    }
+    .nav-links.open{display:flex}
+    .nav-links a{padding:14px 0;font-size:16px;border-bottom:1px solid var(--line)}
+    .nav-links a:last-child{border-bottom:none}
+    .nav-right{gap:0}
+    .hamburger{
+      display:flex;align-items:center;justify-content:center;width:44px;height:44px;
+      border:none;background:var(--btn-bg);color:var(--btn-fg);border-radius:22px;cursor:pointer
+    }
+    .nav .btn-sm{display:none}
+    .hero{grid-template-columns:minmax(0,1fr);gap:32px;padding:40px 0 56px}
+    h1{font-size:40px;line-height:1.06;letter-spacing:-.03em}
+    .lead{font-size:16.5px}
+    .hero-actions{width:100%;flex-direction:column;align-items:stretch;gap:12px}
+    .hero-actions .btn,.hero-actions .btn-ghost{width:100%;height:54px}
+    .hero-shot{justify-content:stretch}
+    .frame{width:100%;padding:12px;border-radius:22px}
+    .band{padding:64px 0 68px}
+    .sec{padding:64px 0 68px}
+    .sec-head{padding-bottom:32px}
+    .sec-head h2{font-size:30px}
+    .sec-head p{font-size:15.5px}
+    .cards{grid-template-columns:minmax(0,1fr);gap:12px}
+    .card{flex-direction:row;gap:16px;padding:22px 20px 24px;border-radius:16px}
+    .card svg{flex-shrink:0;margin-top:2px;width:24px;height:24px}
+    .card-body{display:flex;flex-direction:column;gap:8px}
+    .card h3{font-size:17px}
+    .card p{font-size:14px;line-height:1.6}
+    .dir{grid-template-columns:minmax(0,1fr);gap:20px;padding:40px 26px 34px;border-radius:22px}
+    .dir-text{gap:20px}
+    .dir-text h2{font-size:28px;line-height:1.16}
+    .dir-text p{font-size:15.5px}
+    .dir img{width:100%;height:260px;border-radius:14px;margin-left:0}
+    .final{padding:48px 24px 52px;gap:20px;border-radius:22px}
+    .final h2{font-size:27px;line-height:1.16}
+    .final p{font-size:15.5px}
+    .final .btn{width:100%;height:54px;font-size:15.5px}
+    .foot-top{flex-direction:column;gap:34px}
+    .foot-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+    .foot-bot{flex-direction:column;align-items:flex-start;gap:8px;margin-top:34px}
+  }
+  @media (max-width:560px){
+    .shots{gap:16px}
+    .shot img{height:220px;border-radius:12px}
+    .shot{gap:12px}
+    .shot-cap b{font-size:10.5px}
+    .shot-cap p{font-size:13.5px;line-height:1.55}
+  }
+</style>
 </head>
 <body>
 
-    <!-- Header / Navbar -->
-    <header>
-        <div class="container nav-content">
-            <a href="#" class="logo-container">
-                <img src="images/Estoquia.jpg" alt="Estoquia Logo" class="logo-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'#000\'/><text x=\'50\' y=\'65\' font-family=\'Arial\' font-size=\'50\' font-weight=\'bold\' fill=\'#FFF\' text-anchor=\'middle\'>E</text></svg>'">
-                Estoquia
-            </a>
-            <div style="display: flex; gap: 12px;">
-                <button class="lang-toggle" id="lang-btn" aria-label="Cambiar idioma">
-                    🇪🇸
-                </button>
-                <button class="theme-toggle" id="theme-btn" aria-label="Cambiar tema">
-                    <!-- Moon icon para modo claro, se cambiará con JS -->
-                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
-            </div>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <img src="images/estoquia/icono.png" alt="Estoquia" width="34" height="34" />
+      <span>Estoquia</span>
+    </a>
+    <div class="nav-right">
+      <nav class="nav-links" id="navLinks">
+        <a href="#funciones" data-i18n="nav_features">Funciones</a>
+        <a href="#pantallas" data-i18n="nav_screens">La app por dentro</a>
+        <a href="#soporte" data-i18n="nav_support">Soporte</a>
+      </nav>
+      <div class="nav-tools">
+        <button class="chip" id="langBtn" aria-label="Cambiar idioma">ES</button>
+        <button class="chip" id="themeBtn" aria-label="Cambiar tema">
+          <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <a class="btn btn-sm" href="https://play.google.com/store/apps/details?id=com.estoquia.app" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24"><path d="M4.2 2.1 14.9 12 4.2 21.9a1.4 1.4 0 0 1-.7-1.2V3.3a1.4 1.4 0 0 1 .7-1.2z"></path></svg>
+          <span>Google Play</span>
+        </a>
+        <button class="hamburger" id="menuBtn" aria-label="Menú" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="wrap hero">
+    <div class="hero-text">
+      <div class="eyebrow"><i></i><span data-i18n="hero_eyebrow">Punto de venta e inventario</span></div>
+      <h1><span data-i18n="hero_title_a">Tu tienda entera,</span><span data-i18n="hero_title_b">en una tablet.</span></h1>
+      <p class="lead" data-i18n="hero_sub">Estoquia lleva las ventas, el inventario y los empleados de tu tienda, kiosko o minimarket. Rápida, intuitiva y sincronizada en la nube — sin los sistemas lentos y costosos de siempre.</p>
+      <div class="hero-actions">
+        <a class="btn" href="https://play.google.com/store/apps/details?id=com.estoquia.app" target="_blank" rel="noopener">
+          <svg width="19" height="19" viewBox="0 0 24 24"><path d="M4.2 2.1 14.9 12 4.2 21.9a1.4 1.4 0 0 1-.7-1.2V3.3a1.4 1.4 0 0 1 .7-1.2z"></path></svg>
+          <span data-i18n="cta_play">Descargar en Google Play</span>
+        </a>
+        <a class="btn-ghost" href="#pantallas" data-i18n="cta_see">Ver la app</a>
+      </div>
+      <div class="meta">
+        <span data-i18n="meta_platform">ANDROID · TABLET Y MÓVIL</span>
+        <i></i>
+        <span>ES · EN · PT</span>
+      </div>
+    </div>
+    <div class="hero-shot">
+      <div class="frame">
+        <img src="images/estoquia/inventario.jpg" alt="Pantalla de inventario de Estoquia" width="900" height="1353" />
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="pantallas">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-i18n="screens_title">Así se ve por dentro.</h2>
+        <p data-i18n="screens_sub">Capturas reales de la aplicación en una tablet. Sin adornos ni maquetas.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <img src="images/estoquia/inventario.jpg" alt="Inventario" loading="lazy" width="900" height="1353" />
+          <figcaption class="shot-cap">
+            <b data-i18n="s1_label">01 — INVENTARIO</b>
+            <p data-i18n="s1_desc">Todo tu stock con foto, SKU y precio. Alertas automáticas cuando algo se está acabando.</p>
+          </figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/estoquia/venta.jpg" alt="Punto de venta" loading="lazy" width="900" height="1353" />
+          <figcaption class="shot-cap">
+            <b data-i18n="s2_label">02 — VENTAS</b>
+            <p data-i18n="s2_desc">Escanea o busca, ajusta cantidades y cobra. El subtotal y los impuestos se calculan solos.</p>
+          </figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/estoquia/ticket.jpg" alt="Ticket de compra" loading="lazy" width="900" height="1353" />
+          <figcaption class="shot-cap">
+            <b data-i18n="s3_label">03 — TICKET</b>
+            <p data-i18n="s3_desc">Recibos con tu nombre, RIF, cajero y desglose, listos para la impresora térmica.</p>
+          </figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/estoquia/directorio.jpg" alt="Directorio de tiendas" loading="lazy" width="900" height="1353" />
+          <figcaption class="shot-cap">
+            <b data-i18n="s4_label">04 — DIRECTORIO</b>
+            <p data-i18n="s4_desc">Consulta el inventario de otros negocios de la red cuando te quedes sin un producto.</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="funciones">
+    <div class="sec-head">
+      <h2 data-i18n="feat_title">Todo lo que hace una caja registradora, y lo que no.</h2>
+      <p data-i18n="feat_sub">Seis piezas que trabajan juntas desde el primer día, sin instalación ni servidor propio.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <svg width="26" height="26" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"></rect><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"></path><path d="M10 12h4"></path></svg>
+        <div class="card-body">
+          <h3 data-i18n="f1_title">Inventario avanzado</h3>
+          <p data-i18n="f1_desc">Añade y organiza productos en segundos, léelos con la cámara como lector de código de barras, y deja que el stock bajo te avise solo.</p>
         </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero container">
-        <div class="hero-text">
-            <h1 class="hero-title" data-i18n="hero_title">El control de tu negocio, en la palma de tu mano.</h1>
-            <p class="hero-subtitle" data-i18n="hero_subtitle">Una aplicación de Punto de Venta y Gestión de Inventario extremadamente rápida, minimalista y sin complicaciones. Sincronizada en la nube en tiempo real.</p>
-            <a href="#" class="btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
-                    <path d="M5 12h14"></path>
-                    <path d="M12 5v14"></path>
-                </svg>
-                <span data-i18n="hero_cta">Descargar en Google Play</span>
-            </a>
+      </article>
+      <article class="card">
+        <svg width="26" height="26" viewBox="0 0 24 24"><circle cx="9.5" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle><path d="M2.5 3h2.3l2.4 12.1a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L21 6.8H6.2"></path></svg>
+        <div class="card-body">
+          <h3 data-i18n="f2_title">Punto de venta ágil</h3>
+          <p data-i18n="f2_desc">Un carrito que no estorba: escanea, suma cantidades y cobra. Subtotal, impuestos personalizados y total, calculados al vuelo.</p>
         </div>
-        <div class="hero-image">
-            <img src="images/estoquia_mockup.jpg" alt="Estoquia App en Android" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 400 800\'><rect width=\'400\' height=\'800\' rx=\'40\' fill=\'#F9F9F9\' stroke=\'#E0E0E0\' stroke-width=\'4\'/><rect x=\'20\' y=\'100\' width=\'360\' height=\'680\' rx=\'20\' fill=\'#FFFFFF\'/><text x=\'200\' y=\'400\' font-family=\'Arial\' font-size=\'24\' fill=\'#AAAAAA\' text-anchor=\'middle\'>Mockup placeholder</text></svg>'">
+      </article>
+      <article class="card">
+        <svg width="26" height="26" viewBox="0 0 24 24"><path d="M3 21h18"></path><rect x="5" y="12" width="3.4" height="6" rx="0.8"></rect><rect x="10.3" y="7" width="3.4" height="11" rx="0.8"></rect><rect x="15.6" y="14.5" width="3.4" height="3.5" rx="0.8"></rect></svg>
+        <div class="card-body">
+          <h3 data-i18n="f3_title">Dashboard en vivo</h3>
+          <p data-i18n="f3_desc">Ventas totales, ganancias netas e impuestos recaudados del día, con gráficos y la lista de lo más vendido.</p>
         </div>
-    </section>
-
-    <!-- Funcionalidades (Features Grid) -->
-    <section class="features">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-i18n="section_title">Diseñada para la eficiencia</h2>
-            </div>
-            
-            <div class="features-grid">
-                <!-- Feature 1 -->
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3 class="feature-title" data-i18n="feat1_title">Punto de Venta Rápido (POS)</h3>
-                    <p class="feature-desc" data-i18n="feat1_desc">Búsqueda de productos al instante y escaneo de códigos de barras utilizando la cámara de tu dispositivo.</p>
-                </div>
-                <!-- Feature 2 -->
-                <div class="feature-card">
-                    <div class="feature-icon">🖨️</div>
-                    <h3 class="feature-title" data-i18n="feat2_title">Impresión de Tickets</h3>
-                    <p class="feature-desc" data-i18n="feat2_desc">Conexión Bluetooth nativa y fluida con impresoras térmicas para imprimir recibos físicos en segundos.</p>
-                </div>
-                <!-- Feature 3 -->
-                <div class="feature-card">
-                    <div class="feature-icon">☁️</div>
-                    <h3 class="feature-title" data-i18n="feat3_title">Inventario en la Nube</h3>
-                    <p class="feature-desc" data-i18n="feat3_desc">Control de stock y alertas de existencias sincronizadas al instante en múltiples dispositivos vía Firebase.</p>
-                </div>
-                <!-- Feature 4 -->
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
-                    <h3 class="feature-title" data-i18n="feat4_title">Gestión de Empleados</h3>
-                    <p class="feature-desc" data-i18n="feat4_desc">Crea usuarios con roles específicos (Ej. Administrador vs. Cajero) para mantener la seguridad y el control.</p>
-                </div>
-                <!-- Feature 5 -->
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3 class="feature-title" data-i18n="feat5_title">Panel de Control</h3>
-                    <p class="feature-desc" data-i18n="feat5_desc">Métricas y estadísticas en tiempo real sobre las ventas, productos más vendidos y el estado general del negocio.</p>
-                </div>
-                <!-- Feature 6 -->
-                <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3 class="feature-title" data-i18n="feat6_title">Soporte Multilingüe</h3>
-                    <p class="feature-desc" data-i18n="feat6_desc">Interfaz disponible de forma nativa en Español, Inglés y Portugués, adaptándose a tu equipo de trabajo.</p>
-                </div>
-            </div>
+      </article>
+      <article class="card">
+        <svg width="26" height="26" viewBox="0 0 24 24"><path d="M7 9V3.5h10V9"></path><rect x="3" y="9" width="18" height="7" rx="1.5"></rect><path d="M7 14h10v6.5H7z"></path></svg>
+        <div class="card-body">
+          <h3 data-i18n="f4_title">Tickets de verdad</h3>
+          <p data-i18n="f4_desc">Impresoras térmicas por Bluetooth o red TCP/IP. Recibos con empresa, RIF, cajero y desglose — y credenciales para empleados nuevos.</p>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-logo">
-                <img src="images/Estoquia.jpg" alt="Estoquia" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'#000\'/><text x=\'50\' y=\'65\' font-family=\'Arial\' font-size=\'50\' font-weight=\'bold\' fill=\'#FFF\' text-anchor=\'middle\'>E</text></svg>'">
-                Estoquia
-            </div>
-            <div class="footer-links">
-                <a href="estoquia-privacidad.html" id="link-privacy" data-i18n="footer_privacy">Política de Privacidad</a>
-                <a href="estoquia-terminos.html" id="link-terms" data-i18n="footer_terms">Términos y Condiciones</a>
-                <a href="estoquia-eliminar-cuenta.html" id="link-delete" data-i18n="footer_delete">Eliminar Cuenta</a>
-                <a href="#" data-i18n="footer_support">Soporte</a>
-            </div>
-            <div class="copyright">
-                &copy; <script>document.write(new Date().getFullYear())</script> Estoquia.<span data-i18n="footer_copyright"> Todos los derechos reservados.</span>
-            </div>
+      </article>
+      <article class="card">
+        <svg width="26" height="26" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.2 20a5.8 5.8 0 0 1 11.6 0"></path><path d="M16 5.5a3.2 3.2 0 0 1 0 5"></path><path d="M17.4 14.3A6 6 0 0 1 20.8 20"></path></svg>
+        <div class="card-body">
+          <h3 data-i18n="f5_title">Empleados y permisos</h3>
+          <p data-i18n="f5_desc">Una cuenta por trabajador y dos roles claros. Tú decides quién ajusta precios, ve costos, entra a reportes o procesa devoluciones.</p>
         </div>
-    </footer>
+      </article>
+      <article class="card">
+        <svg width="26" height="26" viewBox="0 0 24 24"><path d="M7.2 18.6a4.5 4.5 0 0 1-.4-9A6 6 0 0 1 18 10.3a4.15 4.15 0 0 1-.6 8.3z"></path><path d="M12 17.6v-5.4"></path><path d="M9.7 14.5 12 12.2l2.3 2.3"></path></svg>
+        <div class="card-body">
+          <h3 data-i18n="f6_title">Nube y multi-dispositivo</h3>
+          <p data-i18n="f6_desc">Varias tablets en la misma tienda viendo el mismo inventario al segundo, sobre Google Cloud. Cambias de equipo, inicias sesión, ahí está todo.</p>
+        </div>
+      </article>
+    </div>
+  </section>
 
-    <!-- Script para Modo Oscuro/Claro -->
-    <script>
-        const themeBtn = document.getElementById('theme-btn');
-        const themeIcon = document.getElementById('theme-icon');
-        
-        // Iconos SVG
-        const iconMoon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
-        const iconSun = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+  <section class="wrap" style="padding-bottom:104px">
+    <div class="dir">
+      <div class="dir-text">
+        <b data-i18n="dir_eyebrow">LO QUE NINGUNA CAJA REGISTRADORA HACE</b>
+        <h2 data-i18n="dir_title">Cuando te quedas sin stock, la red responde.</h2>
+        <p data-i18n="dir_desc">El Directorio de Tiendas te deja descubrir otros negocios que usan Estoquia y revisar si tienen disponible el producto que a ti se te acabó — para no perder la venta ni al cliente.</p>
+      </div>
+      <img src="images/estoquia/directorio.jpg" alt="Directorio de tiendas en Estoquia" loading="lazy" width="900" height="1353" />
+    </div>
+  </section>
 
-        // Check local storage
-        const savedTheme = localStorage.getItem('estoquia-theme');
-        if (savedTheme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            themeIcon.innerHTML = iconSun;
-        }
+  <section class="wrap" style="padding-bottom:104px">
+    <div class="final">
+      <img class="ico" src="images/estoquia/icono.png" alt="Estoquia" width="60" height="60" />
+      <h2 data-i18n="final_title">Digitaliza tu tienda esta misma tarde.</h2>
+      <p data-i18n="final_sub">Descarga Estoquia, crea tu empresa y carga el primer producto. No hace falta instalar nada más.</p>
+      <a class="btn" href="https://play.google.com/store/apps/details?id=com.estoquia.app" target="_blank" rel="noopener" style="margin-top:6px">
+        <svg width="19" height="19" viewBox="0 0 24 24"><path d="M4.2 2.1 14.9 12 4.2 21.9a1.4 1.4 0 0 1-.7-1.2V3.3a1.4 1.4 0 0 1 .7-1.2z"></path></svg>
+        <span data-i18n="cta_play">Descargar en Google Play</span>
+      </a>
+    </div>
+  </section>
 
-        themeBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            if (currentTheme === 'dark') {
-                document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('estoquia-theme', 'light');
-                themeIcon.innerHTML = iconMoon;
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('estoquia-theme', 'dark');
-                themeIcon.innerHTML = iconSun;
-            }
-        });
-        // Sistema Multi-idioma
-        const translations = {
-            es: {
-                hero_title: "El control de tu negocio, en la palma de tu mano.",
-                hero_subtitle: "Una aplicación de Punto de Venta y Gestión de Inventario extremadamente rápida, minimalista y sin complicaciones. Sincronizada en la nube en tiempo real.",
-                hero_cta: "Descargar en Google Play",
-                section_title: "Diseñada para la eficiencia",
-                feat1_title: "Punto de Venta Rápido (POS)",
-                feat1_desc: "Búsqueda de productos al instante y escaneo de códigos de barras utilizando la cámara de tu dispositivo.",
-                feat2_title: "Impresión de Tickets",
-                feat2_desc: "Conexión Bluetooth nativa y fluida con impresoras térmicas para imprimir recibos físicos en segundos.",
-                feat3_title: "Inventario en la Nube",
-                feat3_desc: "Control de stock y alertas de existencias sincronizadas al instante en múltiples dispositivos vía Firebase.",
-                feat4_title: "Gestión de Empleados",
-                feat4_desc: "Crea usuarios con roles específicos (Ej. Administrador vs. Cajero) para mantener la seguridad y el control.",
-                feat5_title: "Panel de Control",
-                feat5_desc: "Métricas y estadísticas en tiempo real sobre las ventas, productos más vendidos y el estado general del negocio.",
-                feat6_title: "Soporte Multilingüe",
-                feat6_desc: "Interfaz disponible de forma nativa en Español, Inglés y Portugués, adaptándose a tu equipo de trabajo.",
-                footer_privacy: "Política de Privacidad",
-                footer_terms: "Términos y Condiciones",
-                footer_delete: "Eliminar Cuenta",
-                footer_support: "Soporte",
-                footer_copyright: " Todos los derechos reservados."
-            },
-            en: {
-                hero_title: "Control your business, in the palm of your hand.",
-                hero_subtitle: "An extremely fast, minimalist, and hassle-free Point of Sale and Inventory Management application. Synced to the cloud in real-time.",
-                hero_cta: "Download on Google Play",
-                section_title: "Designed for efficiency",
-                feat1_title: "Fast Point of Sale (POS)",
-                feat1_desc: "Instant product search and barcode scanning using your device's camera.",
-                feat2_title: "Receipt Printing",
-                feat2_desc: "Native and seamless Bluetooth connection with thermal printers to print physical receipts in seconds.",
-                feat3_title: "Cloud Inventory",
-                feat3_desc: "Stock control and low inventory alerts synced instantly across multiple devices via Firebase.",
-                feat4_title: "Employee Management",
-                feat4_desc: "Create users with specific roles (e.g., Administrator vs. Cashier) to maintain security and control.",
-                feat5_title: "Dashboard",
-                feat5_desc: "Real-time metrics and statistics on sales, top-selling products, and the overall state of the business.",
-                feat6_title: "Multilingual Support",
-                feat6_desc: "Interface natively available in Spanish, English, and Portuguese, adapting to your team.",
-                footer_privacy: "Privacy Policy",
-                footer_terms: "Terms and Conditions",
-                footer_delete: "Delete Account",
-                footer_support: "Support",
-                footer_copyright: " All rights reserved."
-            },
-            pt: {
-                hero_title: "O controle do seu negócio, na palma da sua mão.",
-                hero_subtitle: "Um aplicativo de Ponto de Venda e Gestão de Estoque extremamente rápido, minimalista e sem complicações. Sincronizado na nuvem em tempo real.",
-                hero_cta: "Baixar no Google Play",
-                section_title: "Projetada para a eficiência",
-                feat1_title: "Ponto de Venda Rápido (PDV)",
-                feat1_desc: "Busca de produtos instantânea e leitura de códigos de barras usando a câmera do seu dispositivo.",
-                feat2_title: "Impressão de Recibos",
-                feat2_desc: "Conexão Bluetooth nativa e fluida com impressoras térmicas para imprimir recibos em segundos.",
-                feat3_title: "Estoque na Nuvem",
-                feat3_desc: "Controle de estoque e alertas de disponibilidade sincronizados em tempo real em múltiplos dispositivos via Firebase.",
-                feat4_title: "Gestão de Funcionários",
-                feat4_desc: "Crie usuários com funções específicas (ex: Administrador vs. Caixa) para manter a segurança e o controle.",
-                feat5_title: "Painel de Controle",
-                feat5_desc: "Métricas e estatísticas em tempo real sobre vendas, produtos mais vendidos e o estado geral do negócio.",
-                feat6_title: "Suporte Multilíngue",
-                feat6_desc: "Interface disponível nativamente em Espanhol, Inglês e Português, adaptando-se à sua equipe de trabalho.",
-                footer_privacy: "Política de Privacidade",
-                footer_terms: "Termos e Condições",
-                footer_delete: "Excluir Conta",
-                footer_support: "Suporte",
-                footer_copyright: " Todos os direitos reservados."
-            }
-        };
+</main>
 
-        const flags = { es: "🇪🇸", en: "🇺🇸", pt: "🇧🇷" };
-        const langs = ["es", "en", "pt"];
-        const langBtn = document.getElementById('lang-btn');
-        let currentLang = localStorage.getItem('estoquia-lang') || 'es';
+<footer id="soporte">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div>
+          <img src="images/estoquia/icono.png" alt="Estoquia" width="28" height="28" />
+          <strong>Estoquia</strong>
+        </div>
+        <p data-i18n="foot_tagline">Punto de venta e inventario para tiendas, kioskos y minimarkets. Un producto de ProtonLab.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <b data-i18n="foot_legal">LEGAL</b>
+          <a id="linkPrivacy" href="estoquia-privacidad.html" data-i18n="foot_privacy">Política de privacidad</a>
+          <a id="linkTerms" href="estoquia-terminos.html" data-i18n="foot_terms">Términos y condiciones</a>
+          <a id="linkDelete" href="estoquia-eliminar-cuenta.html" data-i18n="foot_delete">Eliminar cuenta</a>
+        </div>
+        <div class="foot-col">
+          <b data-i18n="foot_contact">CONTACTO</b>
+          <a href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a>
+          <a href="https://wa.me/17542313968" target="_blank" rel="noopener">WhatsApp +1 754 231 3968</a>
+          <a href="index.html">protonlab.site</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>&copy; <span id="year"></span> Estoquia. <span data-i18n="foot_rights">Todos los derechos reservados.</span></span>
+      <code>com.estoquia.app</code>
+    </div>
+  </div>
+</footer>
 
-        function applyLanguage(lang) {
-            document.documentElement.lang = lang;
-            langBtn.textContent = flags[lang];
-            
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang] && translations[lang][key]) {
-                    // Si el elemento tiene un icono SVG adentro (ej. el botón), solo cambiar el texto.
-                    // Si tiene span adentro, cambiar el texto del elemento en sí
-                    if (el.tagName === 'SPAN') {
-                        el.textContent = translations[lang][key];
-                    } else {
-                        // Tratar de cambiar solo el textNode final si hay otros elementos
-                        let textSet = false;
-                        el.childNodes.forEach(child => {
-                            if (child.nodeType === Node.TEXT_NODE && child.textContent.trim().length > 0) {
-                                child.textContent = translations[lang][key];
-                                textSet = true;
-                            }
-                        });
-                        if (!textSet) el.textContent = translations[lang][key];
-                    }
-                }
-            });
+<script>
+(function () {
+  "use strict";
 
-            // Update footer links
-            const privacyLink = document.getElementById('link-privacy');
-            const termsLink = document.getElementById('link-terms');
-            const deleteLink = document.getElementById('link-delete');
-            if (lang === 'es') {
-                privacyLink.href = 'estoquia-privacidad.html';
-                termsLink.href = 'estoquia-terminos.html';
-                deleteLink.href = 'estoquia-eliminar-cuenta.html';
-            } else if (lang === 'en') {
-                privacyLink.href = 'estoquia-privacy.html';
-                termsLink.href = 'estoquia-terms.html';
-                deleteLink.href = 'estoquia-delete-account.html';
-            } else {
-                privacyLink.href = 'estoquia-privacidade.html';
-                termsLink.href = 'estoquia-termos.html';
-                deleteLink.href = 'estoquia-excluir-conta.html';
-            }
-        }
+  /* ---------- año ---------- */
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-        langBtn.addEventListener('click', () => {
-            let nextIndex = (langs.indexOf(currentLang) + 1) % langs.length;
-            currentLang = langs[nextIndex];
-            localStorage.setItem('estoquia-lang', currentLang);
-            applyLanguage(currentLang);
-        });
+  /* ---------- tema ---------- */
+  var ICON_MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+  var ICON_SUN = '<circle cx="12" cy="12" r="4.2"></circle><path d="M12 1.8v2.4"></path><path d="M12 19.8v2.4"></path><path d="M4.4 4.4l1.7 1.7"></path><path d="M17.9 17.9l1.7 1.7"></path><path d="M1.8 12h2.4"></path><path d="M19.8 12h2.4"></path><path d="M4.4 19.6l1.7-1.7"></path><path d="M17.9 6.1l1.7-1.7"></path>';
+  var themeBtn = document.getElementById("themeBtn");
+  var themeIcon = document.getElementById("themeIcon");
 
-        // Initialize language
-        applyLanguage(currentLang);
-    </script>
+  function applyTheme(mode) {
+    if (mode === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+      themeIcon.innerHTML = ICON_SUN;
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      themeIcon.innerHTML = ICON_MOON;
+    }
+  }
+
+  var savedTheme = null;
+  try { savedTheme = localStorage.getItem("estoquia-theme"); } catch (e) {}
+  if (!savedTheme && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    savedTheme = "dark";
+  }
+  applyTheme(savedTheme);
+
+  themeBtn.addEventListener("click", function () {
+    var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(next);
+    try { localStorage.setItem("estoquia-theme", next); } catch (e) {}
+  });
+
+  /* ---------- menú móvil ---------- */
+  var menuBtn = document.getElementById("menuBtn");
+  var navLinks = document.getElementById("navLinks");
+  menuBtn.addEventListener("click", function () {
+    var open = navLinks.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  navLinks.addEventListener("click", function (e) {
+    if (e.target.tagName === "A") {
+      navLinks.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  /* ---------- idioma ---------- */
+  var T = {
+    es: {
+      page_title: "Estoquia — Punto de venta e inventario para tu tienda",
+      page_desc: "Estoquia lleva las ventas, el inventario y los empleados de tu tienda, kiosko o minimarket desde una tablet Android. Sincronizado en la nube.",
+      nav_features: "Funciones",
+      nav_screens: "La app por dentro",
+      nav_support: "Soporte",
+      hero_eyebrow: "Punto de venta e inventario",
+      hero_title_a: "Tu tienda entera,",
+      hero_title_b: "en una tablet.",
+      hero_sub: "Estoquia lleva las ventas, el inventario y los empleados de tu tienda, kiosko o minimarket. Rápida, intuitiva y sincronizada en la nube — sin los sistemas lentos y costosos de siempre.",
+      cta_play: "Descargar en Google Play",
+      cta_see: "Ver la app",
+      meta_platform: "ANDROID · TABLET Y MÓVIL",
+      screens_title: "Así se ve por dentro.",
+      screens_sub: "Capturas reales de la aplicación en una tablet. Sin adornos ni maquetas.",
+      s1_label: "01 — INVENTARIO",
+      s1_desc: "Todo tu stock con foto, SKU y precio. Alertas automáticas cuando algo se está acabando.",
+      s2_label: "02 — VENTAS",
+      s2_desc: "Escanea o busca, ajusta cantidades y cobra. El subtotal y los impuestos se calculan solos.",
+      s3_label: "03 — TICKET",
+      s3_desc: "Recibos con tu nombre, RIF, cajero y desglose, listos para la impresora térmica.",
+      s4_label: "04 — DIRECTORIO",
+      s4_desc: "Consulta el inventario de otros negocios de la red cuando te quedes sin un producto.",
+      feat_title: "Todo lo que hace una caja registradora, y lo que no.",
+      feat_sub: "Seis piezas que trabajan juntas desde el primer día, sin instalación ni servidor propio.",
+      f1_title: "Inventario avanzado",
+      f1_desc: "Añade y organiza productos en segundos, léelos con la cámara como lector de código de barras, y deja que el stock bajo te avise solo.",
+      f2_title: "Punto de venta ágil",
+      f2_desc: "Un carrito que no estorba: escanea, suma cantidades y cobra. Subtotal, impuestos personalizados y total, calculados al vuelo.",
+      f3_title: "Dashboard en vivo",
+      f3_desc: "Ventas totales, ganancias netas e impuestos recaudados del día, con gráficos y la lista de lo más vendido.",
+      f4_title: "Tickets de verdad",
+      f4_desc: "Impresoras térmicas por Bluetooth o red TCP/IP. Recibos con empresa, RIF, cajero y desglose — y credenciales para empleados nuevos.",
+      f5_title: "Empleados y permisos",
+      f5_desc: "Una cuenta por trabajador y dos roles claros. Tú decides quién ajusta precios, ve costos, entra a reportes o procesa devoluciones.",
+      f6_title: "Nube y multi-dispositivo",
+      f6_desc: "Varias tablets en la misma tienda viendo el mismo inventario al segundo, sobre Google Cloud. Cambias de equipo, inicias sesión, ahí está todo.",
+      dir_eyebrow: "LO QUE NINGUNA CAJA REGISTRADORA HACE",
+      dir_title: "Cuando te quedas sin stock, la red responde.",
+      dir_desc: "El Directorio de Tiendas te deja descubrir otros negocios que usan Estoquia y revisar si tienen disponible el producto que a ti se te acabó — para no perder la venta ni al cliente.",
+      final_title: "Digitaliza tu tienda esta misma tarde.",
+      final_sub: "Descarga Estoquia, crea tu empresa y carga el primer producto. No hace falta instalar nada más.",
+      foot_tagline: "Punto de venta e inventario para tiendas, kioskos y minimarkets. Un producto de ProtonLab.",
+      foot_legal: "LEGAL",
+      foot_contact: "CONTACTO",
+      foot_privacy: "Política de privacidad",
+      foot_terms: "Términos y condiciones",
+      foot_delete: "Eliminar cuenta",
+      foot_rights: "Todos los derechos reservados."
+    },
+    en: {
+      page_title: "Estoquia — Point of sale and inventory for your shop",
+      page_desc: "Estoquia runs the sales, inventory and staff of your shop, kiosk or minimarket from an Android tablet. Synced to the cloud.",
+      nav_features: "Features",
+      nav_screens: "Inside the app",
+      nav_support: "Support",
+      hero_eyebrow: "Point of sale and inventory",
+      hero_title_a: "Your whole store,",
+      hero_title_b: "in one tablet.",
+      hero_sub: "Estoquia runs the sales, inventory and staff of your shop, kiosk or minimarket. Fast, intuitive and synced to the cloud — without the slow, expensive systems you are used to.",
+      cta_play: "Download on Google Play",
+      cta_see: "See the app",
+      meta_platform: "ANDROID · TABLET AND PHONE",
+      screens_title: "This is what it looks like inside.",
+      screens_sub: "Real screenshots of the app on a tablet. No mockups, no dressing up.",
+      s1_label: "01 — INVENTORY",
+      s1_desc: "All your stock with photo, SKU and price. Automatic alerts when something is running out.",
+      s2_label: "02 — SALES",
+      s2_desc: "Scan or search, adjust quantities and charge. Subtotal and taxes are worked out for you.",
+      s3_label: "03 — RECEIPT",
+      s3_desc: "Receipts with your business name, tax ID, cashier and itemised total, ready for the thermal printer.",
+      s4_label: "04 — DIRECTORY",
+      s4_desc: "Check the inventory of other businesses on the network when you run out of a product.",
+      feat_title: "Everything a cash register does, and what it doesn't.",
+      feat_sub: "Six pieces that work together from day one — no installation, no server of your own.",
+      f1_title: "Advanced inventory",
+      f1_desc: "Add and organise products in seconds, read them with the camera as a barcode scanner, and let low stock warn you on its own.",
+      f2_title: "Nimble point of sale",
+      f2_desc: "A cart that stays out of the way: scan, add quantities, charge. Subtotal, custom taxes and total worked out on the fly.",
+      f3_title: "Live dashboard",
+      f3_desc: "Total sales, net profit and taxes collected for the day, with charts and your best-selling products.",
+      f4_title: "Receipts that print",
+      f4_desc: "Thermal printers over Bluetooth or TCP/IP. Receipts with company, tax ID, cashier and itemised total — plus access credentials for new staff.",
+      f5_title: "Staff and permissions",
+      f5_desc: "One account per worker and two clear roles. You decide who adjusts prices, sees costs, opens reports or processes returns.",
+      f6_title: "Cloud and multi-device",
+      f6_desc: "Several tablets in the same shop seeing the same inventory to the second, on Google Cloud. Switch devices, sign in, everything is there.",
+      dir_eyebrow: "WHAT NO CASH REGISTER DOES",
+      dir_title: "When you run out of stock, the network answers.",
+      dir_desc: "The Store Directory lets you find other businesses using Estoquia and check whether they have the product you just ran out of — so you don't lose the sale or the customer.",
+      final_title: "Digitise your shop this afternoon.",
+      final_sub: "Download Estoquia, create your company and add your first product. Nothing else to install.",
+      foot_tagline: "Point of sale and inventory for shops, kiosks and minimarkets. A ProtonLab product.",
+      foot_legal: "LEGAL",
+      foot_contact: "CONTACT",
+      foot_privacy: "Privacy policy",
+      foot_terms: "Terms and conditions",
+      foot_delete: "Delete account",
+      foot_rights: "All rights reserved."
+    },
+    pt: {
+      page_title: "Estoquia — Ponto de venda e estoque para a sua loja",
+      page_desc: "O Estoquia cuida das vendas, do estoque e dos funcionários da sua loja, quiosque ou minimercado a partir de um tablet Android. Sincronizado na nuvem.",
+      nav_features: "Funcionalidades",
+      nav_screens: "O app por dentro",
+      nav_support: "Suporte",
+      hero_eyebrow: "Ponto de venda e estoque",
+      hero_title_a: "Sua loja inteira,",
+      hero_title_b: "em um tablet.",
+      hero_sub: "O Estoquia cuida das vendas, do estoque e dos funcionários da sua loja, quiosque ou minimercado. Rápido, intuitivo e sincronizado na nuvem — sem os sistemas lentos e caros de sempre.",
+      cta_play: "Baixar no Google Play",
+      cta_see: "Ver o app",
+      meta_platform: "ANDROID · TABLET E CELULAR",
+      screens_title: "É assim por dentro.",
+      screens_sub: "Capturas reais do aplicativo em um tablet. Sem enfeites nem maquetes.",
+      s1_label: "01 — ESTOQUE",
+      s1_desc: "Todo o seu estoque com foto, SKU e preço. Alertas automáticos quando algo está acabando.",
+      s2_label: "02 — VENDAS",
+      s2_desc: "Escaneie ou busque, ajuste quantidades e cobre. O subtotal e os impostos são calculados sozinhos.",
+      s3_label: "03 — RECIBO",
+      s3_desc: "Recibos com o nome da empresa, CNPJ, caixa e detalhamento, prontos para a impressora térmica.",
+      s4_label: "04 — DIRETÓRIO",
+      s4_desc: "Consulte o estoque de outros negócios da rede quando faltar um produto no seu.",
+      feat_title: "Tudo o que uma caixa registradora faz, e o que ela não faz.",
+      feat_sub: "Seis peças que trabalham juntas desde o primeiro dia, sem instalação nem servidor próprio.",
+      f1_title: "Estoque avançado",
+      f1_desc: "Adicione e organize produtos em segundos, leia-os com a câmera como leitor de código de barras, e deixe o estoque baixo avisar sozinho.",
+      f2_title: "Ponto de venda ágil",
+      f2_desc: "Um carrinho que não atrapalha: escaneie, some quantidades e cobre. Subtotal, impostos personalizados e total, calculados na hora.",
+      f3_title: "Painel ao vivo",
+      f3_desc: "Vendas totais, lucro líquido e impostos arrecadados do dia, com gráficos e a lista dos mais vendidos.",
+      f4_title: "Recibos de verdade",
+      f4_desc: "Impressoras térmicas por Bluetooth ou rede TCP/IP. Recibos com empresa, CNPJ, caixa e detalhamento — e credenciais de acesso para novos funcionários.",
+      f5_title: "Funcionários e permissões",
+      f5_desc: "Uma conta por trabalhador e dois papéis claros. Você decide quem ajusta preços, vê custos, acessa relatórios ou processa devoluções.",
+      f6_title: "Nuvem e multidispositivo",
+      f6_desc: "Vários tablets na mesma loja vendo o mesmo estoque no mesmo segundo, sobre o Google Cloud. Troque de aparelho, faça login, está tudo lá.",
+      dir_eyebrow: "O QUE NENHUMA CAIXA REGISTRADORA FAZ",
+      dir_title: "Quando o estoque acaba, a rede responde.",
+      dir_desc: "O Diretório de Lojas permite descobrir outros negócios que usam o Estoquia e verificar se eles têm o produto que acabou no seu — para não perder a venda nem o cliente.",
+      final_title: "Digitalize sua loja hoje mesmo.",
+      final_sub: "Baixe o Estoquia, crie sua empresa e cadastre o primeiro produto. Não é preciso instalar mais nada.",
+      foot_tagline: "Ponto de venda e estoque para lojas, quiosques e minimercados. Um produto da ProtonLab.",
+      foot_legal: "LEGAL",
+      foot_contact: "CONTATO",
+      foot_privacy: "Política de privacidade",
+      foot_terms: "Termos e condições",
+      foot_delete: "Excluir conta",
+      foot_rights: "Todos os direitos reservados."
+    }
+  };
+
+  var LEGAL = {
+    es: ["estoquia-privacidad.html", "estoquia-terminos.html", "estoquia-eliminar-cuenta.html"],
+    en: ["estoquia-privacy.html", "estoquia-terms.html", "estoquia-delete-account.html"],
+    pt: ["estoquia-privacidade.html", "estoquia-termos.html", "estoquia-excluir-conta.html"]
+  };
+
+  var LANGS = ["es", "en", "pt"];
+  var LABEL = { es: "ES", en: "EN", pt: "PT" };
+  var langBtn = document.getElementById("langBtn");
+  var metaDesc = document.getElementById("meta-desc");
+
+  function applyLanguage(lang) {
+    var dict = T[lang];
+    if (!dict) return;
+
+    document.documentElement.lang = lang;
+    document.title = dict.page_title;
+    metaDesc.setAttribute("content", dict.page_desc);
+    langBtn.textContent = LABEL[lang];
+
+    var nodes = document.querySelectorAll("[data-i18n]");
+    for (var i = 0; i < nodes.length; i++) {
+      var key = nodes[i].getAttribute("data-i18n");
+      if (dict[key]) nodes[i].textContent = dict[key];
+    }
+
+    document.getElementById("linkPrivacy").href = LEGAL[lang][0];
+    document.getElementById("linkTerms").href = LEGAL[lang][1];
+    document.getElementById("linkDelete").href = LEGAL[lang][2];
+  }
+
+  var currentLang = null;
+  try { currentLang = localStorage.getItem("estoquia-lang"); } catch (e) {}
+  if (LANGS.indexOf(currentLang) === -1) {
+    var nav = (navigator.language || "es").slice(0, 2).toLowerCase();
+    currentLang = LANGS.indexOf(nav) !== -1 ? nav : "es";
+  }
+  applyLanguage(currentLang);
+
+  langBtn.addEventListener("click", function () {
+    currentLang = LANGS[(LANGS.indexOf(currentLang) + 1) % LANGS.length];
+    try { localStorage.setItem("estoquia-lang", currentLang); } catch (e) {}
+    applyLanguage(currentLang);
+  });
+})();
+</script>
 </body>
 </html>
