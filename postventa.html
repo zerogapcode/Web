@@ -165,32 +165,10 @@
       <defs><linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070C16"></stop><stop offset="0.55" stop-color="#070C16" stop-opacity="0"></stop></linearGradient></defs>
     </svg>
 
-    <!-- capa 3: silueta auto -->
-    <svg class="silh-car" data-depth="0.42" data-mouse="0.9" viewBox="0 0 620 200" style="position: absolute; left: -6%; bottom: 8%; width: 62vw; max-width: 900px; opacity: .55; pointer-events: none" aria-hidden="true">
-      <g fill="none" stroke="var(--b-light)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
-        <path d="M26 138 L64 134 C92 92 150 72 232 68 L332 66 C384 66 424 82 472 120 L562 128 C582 130 590 140 584 150 L566 158 L486 160"></path>
-        <path d="M424 160 L192 160"></path>
-        <path d="M130 160 L44 158 C22 156 18 150 26 138"></path>
-        <path d="M124 128 L156 90 L232 82 L304 82 L304 128 Z"></path>
-        <path d="M318 82 L392 84 C414 90 436 104 452 122 L318 126 Z"></path>
-        <circle cx="161" cy="160" r="30"></circle><circle cx="161" cy="160" r="13"></circle>
-        <circle cx="455" cy="160" r="30"></circle><circle cx="455" cy="160" r="13"></circle>
-        <path d="M566 136 L586 136"></path><path d="M30 142 L48 142"></path>
-      </g>
-    </svg>
+    <!-- capa 3: matrix code -->
+    <canvas id="matrixCanvas" data-depth="0.4" data-mouse="0.8" style="position: absolute; top: 0; left: -10%; width: 120%; height: 120%; pointer-events: none; opacity: 0.15;"></canvas>
 
-    <!-- capa 4: silueta moto -->
-    <svg class="silh-moto" data-depth="0.66" data-mouse="1.4" viewBox="0 0 400 200" style="position: absolute; right: 4%; bottom: 6%; width: 26vw; max-width: 380px; opacity: .5; pointer-events: none" aria-hidden="true">
-      <g fill="none" stroke="var(--b-light)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
-        <circle cx="82" cy="150" r="42"></circle><circle cx="82" cy="150" r="16"></circle>
-        <circle cx="326" cy="150" r="42"></circle><circle cx="326" cy="150" r="16"></circle>
-        <path d="M82 150 L150 92 L250 82 L326 150"></path>
-        <path d="M150 94 C176 70 238 68 262 82"></path>
-        <ellipse cx="200" cy="96" rx="42" ry="17"></ellipse>
-        <path d="M300 92 L326 60 L360 72"></path><path d="M326 150 L316 74"></path>
-        <path d="M128 150 L292 158"></path><path d="M120 128 L170 122"></path>
-      </g>
-    </svg>
+    
 
     <div class="wrap" style="position: relative; z-index: 2; width: 100%">
       <div class="hero-grid" style="display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 56px; align-items: center">
@@ -635,6 +613,47 @@
 
   kick();
   window.addEventListener("load", kick);
+
+  /* ---------- Matrix Effect ---------- */
+  var canvas = document.getElementById('matrixCanvas');
+  if (canvas) {
+    var ctx = canvas.getContext('2d');
+    var matrixWidth = window.innerWidth * 1.2;
+    var matrixHeight = window.innerHeight * 1.2;
+    canvas.width = matrixWidth;
+    canvas.height = matrixHeight;
+    var chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&*';
+    var fontSize = 14;
+    var columns = Math.floor(matrixWidth / fontSize) + 1;
+    var drops = [];
+    for (var i = 0; i < columns; i++) { drops[i] = Math.random() * -100; }
+    
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(7, 12, 22, 0.08)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      var computed = getComputedStyle(document.documentElement);
+      var color = computed.getPropertyValue('--b-light').trim() || '#6D9FCC';
+      ctx.fillStyle = color;
+      ctx.font = fontSize + 'px "IBM Plex Mono", monospace';
+      
+      for (var i = 0; i < drops.length; i++) {
+        var text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 40);
+    window.addEventListener('resize', function() {
+      matrixWidth = window.innerWidth * 1.2;
+      matrixHeight = window.innerHeight * 1.2;
+      canvas.width = matrixWidth;
+      canvas.height = matrixHeight;
+    });
+  }
+
 })();
 </script>
 </body>
