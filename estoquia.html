@@ -41,7 +41,7 @@
     --line:#E9E3EE; --ink:#1C1B1F; --ink-2:#49454F; --ink-3:#6C6572; --ink-4:#9A93A1;
     --brand:#26395A; --btn-bg:#1C1B1F; --btn-fg:#FFFFFF; --btn-outline:#DAD2E0;
     --band:#26395A; --band-title:#FFFFFF; --band-text:#C9D4E5; --band-eyebrow:#A9BBD8; --band-line:#3D4F71;
-    --shadow:0 24px 60px rgba(38,57,90,.10); --dot:#CFC7D6;
+    --shadow:0 24px 60px rgba(38,57,90,.10); --dot:#CFC7D6; --lattice:38,57,90;
     --sans:Roboto,"Helvetica Neue",system-ui,-apple-system,sans-serif;
     --display:"Space Grotesk",Roboto,"Helvetica Neue",system-ui,sans-serif;
     --mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -51,7 +51,7 @@
     --line:#2B2930; --ink:#E6E0E9; --ink-2:#CAC4D0; --ink-3:#A8A2B0; --ink-4:#857F8D;
     --brand:#9FB6DA; --btn-bg:#E6E0E9; --btn-fg:#1C1B1F; --btn-outline:#46424C;
     --band:#1F2C44; --band-title:#FFFFFF; --band-text:#B9C6DC; --band-eyebrow:#8CA3C8; --band-line:#33415C;
-    --shadow:0 24px 60px rgba(0,0,0,.45); --dot:#46424C;
+    --shadow:0 24px 60px rgba(0,0,0,.45); --dot:#46424C; --lattice:159,182,218;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -103,7 +103,7 @@
   .hamburger{display:none}
 
   /* ---------- hero ---------- */
-  .hero{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:72px;align-items:center;padding:84px 0 92px}
+  .hero{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:72px;align-items:center;padding:76px 0 88px}
   .hero-text{display:flex;flex-direction:column;align-items:flex-start;gap:26px}
   .eyebrow{
     display:inline-flex;align-items:center;gap:9px;height:30px;padding:0 14px;border-radius:15px;
@@ -119,8 +119,16 @@
   .meta span{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);letter-spacing:.02em}
   .meta i{width:4px;height:4px;border-radius:2px;background:var(--dot)}
   .hero-shot{display:flex;justify-content:flex-end}
-  .frame{padding:14px;background:var(--container);border:1px solid var(--container-line);border-radius:26px;box-shadow:var(--shadow)}
-  .frame img{width:396px;border-radius:15px;border:1px solid var(--container-line)}
+  .frame{width:100%;max-width:512px;padding:14px;background:var(--container);border:1px solid var(--container-line);border-radius:26px;box-shadow:var(--shadow)}
+  .frame img{width:100%;height:auto;border-radius:15px;border:1px solid var(--container-line)}
+
+  .hero-section{position:relative}
+  .hero-section > canvas{
+    position:absolute;inset:0;width:100%;height:100%;
+    pointer-events:none;z-index:0;opacity:0;transition:opacity .6s ease
+  }
+  .hero-section > canvas.ready{opacity:1}
+  .hero{position:relative;z-index:1}
 
   /* ---------- sections ---------- */
   .band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:92px 0 100px}
@@ -177,7 +185,6 @@
     .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
     .hero{gap:48px}
     h1{font-size:52px}
-    .frame img{width:100%}
   }
   @media (max-width:860px){
     .nav-links{
@@ -199,7 +206,7 @@
     .hero-actions{width:100%;flex-direction:column;align-items:stretch;gap:12px}
     .hero-actions .btn,.hero-actions .btn-ghost{width:100%;height:54px}
     .hero-shot{justify-content:stretch}
-    .frame{width:100%;padding:12px;border-radius:22px}
+    .frame{max-width:none;padding:12px;border-radius:22px}
     .band{padding:64px 0 68px}
     .sec{padding:64px 0 68px}
     .sec-head{padding-bottom:32px}
@@ -266,27 +273,30 @@
 
 <main id="top">
 
-  <section class="wrap hero">
-    <div class="hero-text">
-      <div class="eyebrow"><i></i><span data-i18n="hero_eyebrow">Punto de venta e inventario</span></div>
-      <h1><span data-i18n="hero_title_a">Tu tienda entera,</span><span data-i18n="hero_title_b">en una tablet.</span></h1>
-      <p class="lead" data-i18n="hero_sub">Estoquia lleva las ventas, el inventario y los empleados de tu tienda, kiosko o minimarket. Rápida, intuitiva y sincronizada en la nube — sin los sistemas lentos y costosos de siempre.</p>
-      <div class="hero-actions">
-        <a class="btn" href="https://play.google.com/store/apps/details?id=com.estoquia.app" target="_blank" rel="noopener">
-          <svg width="19" height="19" viewBox="0 0 24 24"><path d="M4.2 2.1 14.9 12 4.2 21.9a1.4 1.4 0 0 1-.7-1.2V3.3a1.4 1.4 0 0 1 .7-1.2z"></path></svg>
-          <span data-i18n="cta_play">Descargar en Google Play</span>
-        </a>
-        <a class="btn-ghost" href="#pantallas" data-i18n="cta_see">Ver la app</a>
+  <section class="hero-section">
+    <canvas id="lattice" aria-hidden="true"></canvas>
+    <div class="wrap hero">
+      <div class="hero-text">
+        <div class="eyebrow"><i></i><span data-i18n="hero_eyebrow">Punto de venta e inventario</span></div>
+        <h1><span data-i18n="hero_title_a">Tu tienda entera,</span><span data-i18n="hero_title_b">en una tablet.</span></h1>
+        <p class="lead" data-i18n="hero_sub">Estoquia lleva las ventas, el inventario y los empleados de tu tienda, kiosko o minimarket. Rápida, intuitiva y sincronizada en la nube — sin los sistemas lentos y costosos de siempre.</p>
+        <div class="hero-actions">
+          <a class="btn" href="https://play.google.com/store/apps/details?id=com.estoquia.app" target="_blank" rel="noopener">
+            <svg width="19" height="19" viewBox="0 0 24 24"><path d="M4.2 2.1 14.9 12 4.2 21.9a1.4 1.4 0 0 1-.7-1.2V3.3a1.4 1.4 0 0 1 .7-1.2z"></path></svg>
+            <span data-i18n="cta_play">Descargar en Google Play</span>
+          </a>
+          <a class="btn-ghost" href="#pantallas" data-i18n="cta_see">Ver la app</a>
+        </div>
+        <div class="meta">
+          <span data-i18n="meta_platform">ANDROID · TABLET Y MÓVIL</span>
+          <i></i>
+          <span>ES · EN · PT</span>
+        </div>
       </div>
-      <div class="meta">
-        <span data-i18n="meta_platform">ANDROID · TABLET Y MÓVIL</span>
-        <i></i>
-        <span>ES · EN · PT</span>
-      </div>
-    </div>
-    <div class="hero-shot">
-      <div class="frame">
-        <img src="images/estoquia/inventario.jpg" alt="Pantalla de inventario de Estoquia" width="900" height="1353" />
+      <div class="hero-shot">
+        <div class="frame">
+          <img src="images/estoquia/inventario.jpg" alt="Pantalla de inventario de Estoquia" width="900" height="1353" />
+        </div>
       </div>
     </div>
   </section>
@@ -685,6 +695,183 @@
     currentLang = LANGS[(LANGS.indexOf(currentLang) + 1) % LANGS.length];
     try { localStorage.setItem("estoquia-lang", currentLang); } catch (e) {}
     applyLanguage(currentLang);
+  });
+
+  /* ---------- retícula isométrica del fondo ---------- */
+  var lattice = (function () {
+    var canvas = document.getElementById("lattice");
+    if (!canvas || !canvas.getContext) return null;
+
+    var section = canvas.parentNode;
+    var ctx = canvas.getContext("2d");
+    var STEP = 34;                    // paso horizontal
+    var ROW = STEP * 0.866;           // sin(60°): misma geometría que el cubo del icono
+    var REACH = 190;                  // radio de influencia del puntero
+    var PUSH = 7;                     // desplazamiento máximo de un nodo
+
+    var grid = [], cols = 0, rows = 0, w = 0, h = 0;
+    var rgb = "38,57,90";
+    var baseAlpha = 0.13;
+    var target = { x: -9999, y: -9999 };
+    var eased = { x: -9999, y: -9999 };
+    var raf = null;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function readColors() {
+      var cs = getComputedStyle(document.documentElement);
+      rgb = (cs.getPropertyValue("--lattice") || "38,57,90").trim();
+      baseAlpha = document.documentElement.getAttribute("data-theme") === "dark" ? 0.17 : 0.13;
+    }
+
+    function build() {
+      var r = section.getBoundingClientRect();
+      w = Math.ceil(r.width);
+      h = Math.ceil(r.height);
+      if (!w || !h) return;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      cols = Math.ceil(w / STEP) + 3;
+      rows = Math.ceil(h / ROW) + 3;
+      grid = [];
+      for (var j = 0; j < rows; j++) {
+        var row = [];
+        var offset = (j % 2) ? STEP / 2 : 0;
+        for (var i = 0; i < cols; i++) {
+          row.push({ x: (i - 1) * STEP + offset, y: (j - 1) * ROW, t: 0, px: 0, py: 0 });
+        }
+        grid.push(row);
+      }
+      draw();
+    }
+
+    function at(i, j) {
+      return (j >= 0 && j < rows && i >= 0 && i < cols) ? grid[j][i] : null;
+    }
+
+    function draw() {
+      if (!grid.length) return;
+      ctx.clearRect(0, 0, w, h);
+
+      var i, j, n, dx, dy, dist, t;
+
+      for (j = 0; j < rows; j++) {
+        for (i = 0; i < cols; i++) {
+          n = grid[j][i];
+          dx = n.x - eased.x;
+          dy = n.y - eased.y;
+          dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < REACH) {
+            t = 1 - dist / REACH;
+            n.t = t * t;
+            var shove = dist > 0.001 ? (PUSH * n.t) / dist : 0;
+            n.px = n.x + dx * shove;
+            n.py = n.y + dy * shove;
+          } else {
+            n.t = 0;
+            n.px = n.x;
+            n.py = n.y;
+          }
+        }
+      }
+
+      // aristas: sólo aparecen cerca del puntero, dibujando la estructura del cubo
+      ctx.lineWidth = 1;
+      for (j = 0; j < rows; j++) {
+        for (i = 0; i < cols; i++) {
+          n = grid[j][i];
+          if (n.t < 0.12) continue;
+          var down = (j % 2 === 0) ? [i - 1, i] : [i, i + 1];
+          var links = [at(i + 1, j), at(down[0], j + 1), at(down[1], j + 1)];
+          for (var k = 0; k < 3; k++) {
+            var m = links[k];
+            if (!m) continue;
+            var strength = (n.t + m.t) / 2;
+            if (strength < 0.06) continue;
+            ctx.strokeStyle = "rgba(" + rgb + "," + (strength * 0.42).toFixed(3) + ")";
+            ctx.beginPath();
+            ctx.moveTo(n.px, n.py);
+            ctx.lineTo(m.px, m.py);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // nodos en reposo: un solo trazado para toda la retícula
+      ctx.fillStyle = "rgba(" + rgb + "," + baseAlpha + ")";
+      ctx.beginPath();
+      for (j = 0; j < rows; j++) {
+        for (i = 0; i < cols; i++) {
+          n = grid[j][i];
+          if (n.t > 0) continue;
+          ctx.moveTo(n.px + 1.25, n.py);
+          ctx.arc(n.px, n.py, 1.25, 0, 6.2832);
+        }
+      }
+      ctx.fill();
+
+      // nodos iluminados
+      for (j = 0; j < rows; j++) {
+        for (i = 0; i < cols; i++) {
+          n = grid[j][i];
+          if (n.t <= 0) continue;
+          ctx.fillStyle = "rgba(" + rgb + "," + (baseAlpha + n.t * 0.55).toFixed(3) + ")";
+          ctx.beginPath();
+          ctx.arc(n.px, n.py, 1.25 + n.t * 1.7, 0, 6.2832);
+          ctx.fill();
+        }
+      }
+    }
+
+    function tick() {
+      eased.x += (target.x - eased.x) * 0.18;
+      eased.y += (target.y - eased.y) * 0.18;
+      draw();
+      if (Math.abs(target.x - eased.x) > 0.4 || Math.abs(target.y - eased.y) > 0.4) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        eased.x = target.x;
+        eased.y = target.y;
+        draw();
+        raf = null;
+      }
+    }
+
+    function nudge() {
+      if (reduce) return;
+      if (raf === null) raf = requestAnimationFrame(tick);
+    }
+
+    section.addEventListener("pointermove", function (e) {
+      var r = canvas.getBoundingClientRect();
+      target.x = e.clientX - r.left;
+      target.y = e.clientY - r.top;
+      nudge();
+    });
+    section.addEventListener("pointerleave", function () {
+      target.x = -9999;
+      target.y = -9999;
+      nudge();
+    });
+
+    var resizeTimer = null;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(build, 150);
+    });
+
+    readColors();
+    build();
+    canvas.classList.add("ready");
+    window.addEventListener("load", build);
+
+    return { refresh: function () { readColors(); draw(); }, rebuild: build };
+  })();
+
+  themeBtn.addEventListener("click", function () {
+    if (lattice) lattice.refresh();
   });
 })();
 </script>
