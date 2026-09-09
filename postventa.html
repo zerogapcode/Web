@@ -288,7 +288,7 @@
 
         <!-- teléfono del taller, pegado -->
         <div class="sticky" style="position: sticky; top: 110px; display: flex; justify-content: center">
-          <div data-depth="-0.1" class="phone reveal">
+          <div data-depth="-0.1" data-slide-x="1800" class="phone reveal">
             <div class="screen">
               <div class="appbar"><span>Orden #0142</span><span class="chip" style="background: var(--b-soft); color: var(--b-deep)">Cotizada</span></div>
               <div style="display: flex; flex-direction: column; gap: 12px; padding: 4px 16px 16px">
@@ -555,12 +555,13 @@
      Cada capa se mueve según qué tan lejos está el centro de su sección del
      centro de la ventana, multiplicado por su profundidad. En el hero, además,
      responde al puntero. */
-  var layers = Array.prototype.map.call(root.querySelectorAll("[data-depth]"), function (el) {
+  var layers = Array.prototype.map.call(root.querySelectorAll("[data-depth], [data-slide-x]"), function (el) {
     var section = el.closest("#hero, #recorrido, #roles, #adapta, #demo") || el.parentElement;
     return {
       el: el,
       depth: parseFloat(el.getAttribute("data-depth")) || 0,
       mouse: parseFloat(el.getAttribute("data-mouse")) || 0,
+      slideX: parseFloat(el.getAttribute("data-slide-x")) || 0,
       section: section,
       base: el.style.transform || ""
     };
@@ -584,6 +585,12 @@
       var y = progress * L.depth * 260;
       var x = 0;
       if (L.mouse && L.section === hero) { x += mouse.x * L.mouse * 14; y += mouse.y * L.mouse * 10; }
+      if (L.slideX) {
+        var elR = L.el.getBoundingClientRect();
+        var elCenterY = elR.top - y + elR.height / 2;
+        var slideProgress = (vh / 2 - elCenterY) / vh;
+        x += Math.max(0, -slideProgress) * L.slideX;
+      }
       L.el.style.transform = L.base + " translate3d(" + x.toFixed(2) + "px," + y.toFixed(2) + "px,0)";
     }
     if (fill && tl) {
