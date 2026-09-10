@@ -77,6 +77,51 @@
     .tab.on i { background: var(--b-tab); }
     .tab i { display: flex; align-items: center; justify-content: center; width: 52px; height: 28px; border-radius: 14px; }
 
+    /* ---- ventana de Windows ----
+       Se dibuja a su tamaño real (1280 × 800 de la app, más los 32 px de la
+       barra de título) y el script la escala al ancho de su hueco. El hueco
+       sobresale del borde derecho de la pantalla un 20 % de su ancho: la
+       sección recorta ese sobrante. */
+    .sticky .phone { position: relative; z-index: 1; }
+    .win-slot { position: absolute; top: 70px; width: min(900px, 62.5vw); aspect-ratio: 1280 / 832; right: calc(-0.2 * min(900px, 62.5vw) - max(32px, (100vw - 1176px) / 2)); }
+    .win { width: 1280px; height: 832px; transform-origin: 0 0; transform: scale(0.703125); border-radius: 11px; overflow: hidden; background: #F6F8FB; color: #16181D; font-family: Manrope, system-ui, sans-serif; box-shadow: 0 0 0 1px rgba(255,255,255,0.16), 0 70px 160px -30px rgba(0,0,0,0.95); display: flex; flex-direction: column; }
+    .win-bar { height: 32px; flex-shrink: 0; display: flex; align-items: center; background: #EDF0F4; border-bottom: 1px solid #E3E8EF; font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; font-size: 12px; color: #1B1B1B; }
+    .win-bar img { width: 16px; height: 16px; margin: 0 10px 0 12px; }
+    .win-ctl { margin-left: auto; display: flex; height: 100%; }
+    .win-ctl span { width: 46px; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .win-ctl svg { width: 10px; height: 10px; stroke: #1B1B1B; stroke-width: 1; fill: none; }
+    .win-app { flex: 1; display: flex; min-height: 0; }
+    .win-rail { width: 256px; flex-shrink: 0; padding-top: 8px; display: flex; flex-direction: column; background: #F6F8FB; border-right: 1px solid #E3E8EF; }
+    .win-item { height: 56px; display: flex; align-items: center; gap: 16px; padding-left: 12px; font-size: 14px; font-weight: 500; color: #5F6E85; }
+    .win-item i { position: relative; width: 56px; height: 32px; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+    .win-item svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .win-item.on { color: var(--b); font-weight: 600; }
+    .win-item.on i { background: var(--b-tab); }
+    .win-badge { position: absolute; top: 1px; left: 32px; min-width: 16px; height: 16px; padding: 0 4px; box-sizing: border-box; border-radius: 8px; background: #BA1A1A; color: #FFFFFF; font-size: 11px; font-weight: 600; line-height: 16px; text-align: center; font-style: normal; }
+    .win-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .win-appbar { height: 64px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+    .win-appbar b { font-size: 22px; font-weight: 700; }
+    .win-btn { height: 40px; padding: 0 24px 0 16px; border-radius: 12px; background: var(--b); color: #FFFFFF; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; margin-right: 8px; }
+    .win-btn svg { width: 18px; height: 18px; stroke: #FFFFFF; stroke-width: 2; fill: none; stroke-linecap: round; }
+    .win-tabs { height: 48px; flex-shrink: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid #E3E8EF; }
+    .win-tab { display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; color: #5F6E85; }
+    .win-tab span { position: relative; height: 100%; display: flex; align-items: center; }
+    .win-tab.on { color: var(--b); font-weight: 600; }
+    .win-tab.on span::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--b); }
+    .win-table { padding: 8px 16px 0; }
+    .win-row { display: grid; grid-template-columns: 76px 220px 170px 108px 146px 140px minmax(0, 1fr); align-items: center; height: 52px; padding: 0 24px; border-bottom: 1px solid #E3E8EF; font-size: 14px; white-space: nowrap; }
+    .win-row span { overflow: hidden; text-overflow: ellipsis; }
+    .win-row .n { text-align: right; font-variant-numeric: tabular-nums; }
+    .win-row .f { font-weight: 600; }
+    .win-row .m { color: #5F6E85; }
+    .win-head { height: 56px; background: #EAEEF4; border-bottom: 0; font-weight: 600; color: #43474E; font-size: 13.5px; }
+    .win-head .sort { display: flex; align-items: center; gap: 4px; color: #16181D; }
+    .win-head .sort svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .win-chip { display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .c-client { background: #FFF1D6; color: #8A5A00; }
+    .c-shop { background: var(--b-soft); color: var(--b-deep); }
+    .c-ready { background: var(--b); color: #FFFFFF; }
+
     /* ---- iconos marketing ---- */
     .ic { width: 28px; height: 28px; stroke: var(--b-light); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -114,7 +159,8 @@
       .hero-actions { flex-direction: column; align-items: stretch !important; }
       .hero-actions .btn, .hero-actions .btn-ghost { width: 100%; }
       .two { grid-template-columns: minmax(0, 1fr) !important; }
-      .two .sticky { position: static !important; }
+      .two .sticky { position: static !important; flex-direction: column; align-items: center; }
+      .win-slot { position: relative; top: auto; right: auto; align-self: flex-start; width: calc((100vw - 20px) * 1.25); margin-bottom: -64px; }
       .h2 { font-size: clamp(30px, 8.5vw, 44px) !important; }
       .cards3 { grid-template-columns: minmax(0, 1fr) !important; }
       .adapt { grid-template-columns: minmax(0, 1fr) !important; }
@@ -286,9 +332,60 @@
           </div>
         </div>
 
-        <!-- teléfono del taller, pegado -->
+        <!-- teléfono del taller, pegado; detrás, la app de Windows -->
         <div class="sticky" style="position: sticky; top: 110px; display: flex; justify-content: center">
-          <div data-depth="-0.1" data-slide-x="1800" class="phone reveal">
+
+          <!-- app de Windows: entra desde la derecha antes que el teléfono y queda con un 20 % fuera de la vista -->
+          <div class="win-slot reveal" data-reveal-early data-slide-x="1400" data-slide-lead="0.45" role="img" aria-label="Postventa para Windows: órdenes de trabajo del taller">
+            <div class="win">
+              <div class="win-bar">
+                <img src="images/postventa/app-icon.png" alt="">
+                <span>Postventa</span>
+                <div class="win-ctl">
+                  <span><svg viewBox="0 0 10 10"><path d="M0 5.5h10"></path></svg></span>
+                  <span><svg viewBox="0 0 10 10"><rect x="0.5" y="0.5" width="9" height="9" rx="1.5"></rect></svg></span>
+                  <span><svg viewBox="0 0 10 10"><path d="M0.5 0.5l9 9M9.5 0.5l-9 9"></path></svg></span>
+                </div>
+              </div>
+              <div class="win-app">
+                <div class="win-rail">
+                  <div class="win-item"><i><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></i><span>Agenda</span></div>
+                  <div class="win-item on"><i><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg></i><span>Taller</span></div>
+                  <div class="win-item"><i><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg></i><span>Clientes</span></div>
+                  <div class="win-item"><i><svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"></path><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg><em class="win-badge">3</em></i><span>Bandeja</span></div>
+                  <div class="win-item"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></i><span>Más</span></div>
+                </div>
+                <div class="win-main">
+                  <div class="win-appbar">
+                    <b>Taller</b>
+                    <div class="win-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>Abrir orden</div>
+                  </div>
+                  <div class="win-tabs">
+                    <div class="win-tab on"><span>Activas</span></div>
+                    <div class="win-tab"><span>Entregadas</span></div>
+                    <div class="win-tab"><span>Canceladas</span></div>
+                  </div>
+                  <div class="win-table">
+                    <div class="win-row win-head"><span class="sort">Folio<svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></span><span>Vehículo</span><span>Cliente</span><span>Mecánico</span><span>Estado</span><span>Promesa</span><span class="n">Total</span></div>
+                    <div class="win-row"><span class="f">#0142</span><span>Toyota Hilux 2023 ABC-123</span><span>Andrés Rojas</span><span>L. Paredes</span><span><em class="win-chip c-client">Cotizada</em></span><span>sáb, 12 sept 2026</span><span class="n">$ 311,00</span></div>
+                    <div class="win-row"><span class="f">#0141</span><span>Yamaha MT-07 MOT-981</span><span>Sofía Herrera</span><span>J. Ortega</span><span><em class="win-chip c-shop">En diagnóstico</em></span><span>vie, 11 sept 2026</span><span class="n">—</span></div>
+                    <div class="win-row"><span class="f">#0140</span><span>Ford F-350 2021 CAM-450</span><span>Transportes del Norte</span><span>L. Paredes</span><span><em class="win-chip c-shop">En proceso</em></span><span>vie, 11 sept 2026</span><span class="n">$ 1.240,00</span></div>
+                    <div class="win-row"><span class="f">#0139</span><span>Chevrolet Onix 2022 KDT-208</span><span>Mariana Soto</span><span>R. Castillo</span><span><em class="win-chip c-ready">Lista para entrega</em></span><span>jue, 10 sept 2026</span><span class="n">$ 185,50</span></div>
+                    <div class="win-row"><span class="f">#0138</span><span>Honda TRX 420 ATV-073</span><span>Diego Paz</span><span class="m">Sin asignar</span><span><em class="win-chip c-shop">Abierta</em></span><span>—</span><span class="n">—</span></div>
+                    <div class="win-row"><span class="f">#0137</span><span>Nissan Frontier 2020 FRT-332</span><span>Luis Carrasco</span><span>J. Ortega</span><span><em class="win-chip c-shop">Aprobada</em></span><span>lun, 14 sept 2026</span><span class="n">$ 642,00</span></div>
+                    <div class="win-row"><span class="f">#0136</span><span>Kia Sportage 2023 SPT-771</span><span>Paula Vega</span><span>R. Castillo</span><span><em class="win-chip c-client">Cotizada</em></span><span>lun, 14 sept 2026</span><span class="n">$ 420,00</span></div>
+                    <div class="win-row"><span class="f">#0135</span><span>Suzuki V-Strom 650 MOT-514</span><span>Tomás Ibarra</span><span>L. Paredes</span><span><em class="win-chip c-shop">En proceso</em></span><span>sáb, 12 sept 2026</span><span class="n">$ 268,00</span></div>
+                    <div class="win-row"><span class="f">#0134</span><span>Hyundai Tucson 2021 TCS-905</span><span>Elena Ruiz</span><span>J. Ortega</span><span><em class="win-chip c-shop">En proceso</em></span><span>mar, 15 sept 2026</span><span class="n">$ 530,00</span></div>
+                    <div class="win-row"><span class="f">#0133</span><span>Mazda CX-5 2022 CXV-118</span><span>Jorge Salas</span><span>R. Castillo</span><span><em class="win-chip c-shop">Aprobada</em></span><span>mar, 15 sept 2026</span><span class="n">$ 790,00</span></div>
+                    <div class="win-row"><span class="f">#0132</span><span>Isuzu NPR 2019 NPR-620</span><span>Frío Express</span><span>L. Paredes</span><span><em class="win-chip c-client">Cotizada</em></span><span>mié, 16 sept 2026</span><span class="n">$ 1.980,00</span></div>
+                    <div class="win-row"><span class="f">#0131</span><span>Toyota Corolla 2020 CRL-447</span><span>Ana Morales</span><span>J. Ortega</span><span><em class="win-chip c-ready">Lista para entrega</em></span><span>jue, 10 sept 2026</span><span class="n">$ 215,00</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div data-depth="-0.1" data-slide-x="2600" class="phone reveal">
             <div class="screen">
               <div class="appbar"><span>Orden #0142</span><span class="chip" style="background: var(--b-soft); color: var(--b-deep)" data-i18n="mock_status">Cotizada</span></div>
               <div style="display: flex; flex-direction: column; gap: 12px; padding: 4px 16px 16px">
@@ -533,19 +630,36 @@
   });
 
   /* ---------- revelado al entrar en pantalla ---------- */
+  /* Lo marcado con data-reveal-early no espera a verse un 18 %: empieza a
+     aparecer un poco antes de asomar. */
   var reveals = root.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window && !reduce) {
-    var io = new IntersectionObserver(function (entries) {
+    var onEnter = function (entries, obs) {
       entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+        if (en.isIntersecting) { en.target.classList.add("in"); obs.unobserve(en.target); }
       });
-    }, { threshold: 0.18, rootMargin: "0px 0px -8% 0px" });
-    Array.prototype.forEach.call(reveals, function (el) { io.observe(el); });
+    };
+    var io = new IntersectionObserver(onEnter, { threshold: 0.18, rootMargin: "0px 0px -8% 0px" });
+    var ioEarly = new IntersectionObserver(onEnter, { threshold: 0, rootMargin: "0px 0px 12% 0px" });
+    Array.prototype.forEach.call(reveals, function (el) {
+      (el.hasAttribute("data-reveal-early") ? ioEarly : io).observe(el);
+    });
   } else {
     Array.prototype.forEach.call(reveals, function (el) { el.classList.add("in"); });
   }
 
   /* ---------- menú de anclas en móvil: nada que hacer, los enlaces son <a> ---------- */
+
+  /* ---------- ventana de Windows ----------
+     Se dibuja a 1280 px y se escala al ancho de su hueco. Va antes del corte
+     de movimiento reducido: sin escalar, la ventana se saldría de su sitio. */
+  var winSlot = root.querySelector(".win-slot");
+  var winEl = root.querySelector(".win");
+  function fitWindow() {
+    if (winSlot && winEl) winEl.style.transform = "scale(" + (winSlot.clientWidth / 1280).toFixed(5) + ")";
+  }
+  fitWindow();
+  window.addEventListener("resize", fitWindow);
 
   if (reduce) return;
 
@@ -560,6 +674,10 @@
       depth: parseFloat(el.getAttribute("data-depth")) || 0,
       mouse: parseFloat(el.getAttribute("data-mouse")) || 0,
       slideX: parseFloat(el.getAttribute("data-slide-x")) || 0,
+      /* Adelanta la llegada una fracción de pantalla: con 0.45 la ventana de
+         Windows ya ha entrado cuando el teléfono (que sale desde 2600 px)
+         empieza a asomar. */
+      lead: parseFloat(el.getAttribute("data-slide-lead")) || 0,
       section: section,
       base: el.style.transform || ""
     };
@@ -853,7 +971,7 @@
         var elR = L.el.getBoundingClientRect();
         var elCenterY = elR.top - y + elR.height / 2;
         var slideProgress = (vh / 2 - elCenterY) / vh;
-        x += Math.max(0, -slideProgress) * L.slideX;
+        x += Math.max(0, -(slideProgress + L.lead)) * L.slideX;
       }
       L.el.style.transform = L.base + " translate3d(" + x.toFixed(2) + "px," + y.toFixed(2) + "px,0)";
     }
