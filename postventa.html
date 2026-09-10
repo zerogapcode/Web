@@ -25,7 +25,7 @@
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Postventa",
-  "operatingSystem": "Android",
+  "operatingSystem": "Android, Windows",
   "applicationCategory": "BusinessApplication",
   "url": "https://protonlab.site/postventa.html",
   "image": "https://protonlab.site/images/postventa/og.jpg",
@@ -433,7 +433,7 @@
         <div style="display: flex; flex-direction: column; gap: 20px">
           <div class="eyebrow reveal" data-i18n="adapt_eyebrow">Se adapta a tu concesionario</div>
           <h2 class="h2 reveal d1" style="font-size: clamp(36px, 4.4vw, 60px); line-height: 1.02; text-wrap: balance" data-i18n="features_title">Tu marca. Tus reglas. Lo que apagas, desaparece.</h2>
-          <p class="reveal d2" style="font-size: 18px; line-height: 1.6; color: #9AA7BC; font-weight: 300; text-wrap: pretty" data-i18n="adapt_desc">Cada concesionario decide qué funciones ofrece, y la decisión no es cosmética: lo que se apaga desaparece de las dos apps y las reglas de seguridad dejan de aceptarlo. La app toma el color de tu marca. Probalo acá.</p>
+          <p class="reveal d2" style="font-size: 18px; line-height: 1.6; color: #9AA7BC; font-weight: 300; text-wrap: pretty" data-i18n="adapt_desc">Cada concesionario decide qué funciones ofrece, y la decisión no es cosmética: lo que se apaga desaparece de las dos apps y las reglas de seguridad dejan de aceptarlo. La app toma el color de tu marca. Pruébalo aquí.</p>
           <div class="reveal d3" style="display: flex; flex-direction: column; gap: 10px; margin-top: 6px">
             <span class="mono" style="font-size: 11.5px; letter-spacing: .12em; color: #5F6E85" data-i18n="adapt_color">COLOR DE MARCA</span>
             <div style="display: flex; gap: 12px; align-items: center">
@@ -478,13 +478,6 @@
               <span style="font-size: 13px; color: #9AA7BC; line-height: 1.45" data-i18n="feat_loyalty_desc">Se acreditan solos al entregar; el propietario ve su saldo.</span>
             </span>
             <span class="sw off"><i></i></span>
-          </button>
-          <button type="button" class="feat" data-key="inspections" aria-pressed="true" style="display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px 18px; border-radius: 14px; background: rgba(255,255,255,0.03); min-min-height: 120px; width: 100%; box-sizing: border-box; border: 0; text-align: left; cursor: pointer; color: inherit; font: inherit">
-            <span style="display: flex; flex-direction: column; gap: 4px">
-              <span style="font-weight: 600; font-size: 15.5px" data-i18n="feat_inspections">Inspecciones</span>
-              <span style="font-size: 13px; color: #9AA7BC; line-height: 1.45" data-i18n="feat_inspections_desc">Listas de revisión dentro de la orden de trabajo.</span>
-            </span>
-            <span class="sw on"><i></i></span>
           </button>
           <div style="display: flex; align-items: center; gap: 10px; padding: 12px 18px 10px; font-size: 12.5px; color: #5F6E85; line-height: 1.5">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5F6E85" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0"><rect x="3" y="11" width="18" height="10" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
@@ -558,7 +551,7 @@
         </div>
         <div style="display: flex; flex-direction: column; gap: 10px">
           <span class="mono" style="font-size: 11px; letter-spacing: .1em; color: #5F6E85" data-i18n="footer_platform">PLATAFORMA</span>
-          <span style="font-size: 14px; color: #9AA7BC">Android · Windows · Web · Tablets</span>
+          <span style="font-size: 14px; color: #9AA7BC">Android · Windows · Tablets</span>
           <span style="font-size: 14px; color: #9AA7BC">Español · English · Português</span>
         </div>
         <div style="display: flex; flex-direction: column; gap: 10px">
@@ -761,7 +754,7 @@
       timeline_eyebrow: "Una orden de trabajo, de punta a punta",
       timeline_desc: 'Sin llamadas para preguntar "¿ya está mi carro?". Cada cambio de estado de la orden le llega como aviso, y las decisiones que son suyas —aprobar la cotización, calificar la entrega— las toma desde la app.',
       adapt_eyebrow: "Se adapta a tu concesionario",
-      adapt_desc: "Cada concesionario decide qué funciones ofrece, y la decisión no es cosmética: lo que se apaga desaparece de las dos apps y las reglas de seguridad dejan de aceptarlo. La app toma el color de tu marca. Probalo acá.",
+      adapt_desc: "Cada concesionario decide qué funciones ofrece, y la decisión no es cosmética: lo que se apaga desaparece de las dos apps y las reglas de seguridad dejan de aceptarlo. La app toma el color de tu marca. Pruébalo aquí.",
       adapt_color: "COLOR DE MARCA",
       swatch_blue: "Color de marca: Azul",
       swatch_red: "Color de marca: Rojo",
@@ -777,8 +770,6 @@
       feat_ratings_desc: "De 1 a 5 al recibir el vehículo.",
       feat_loyalty: "Puntos de lealtad",
       feat_loyalty_desc: "Se acreditan solos al entregar; el propietario ve su saldo.",
-      feat_inspections: "Inspecciones",
-      feat_inspections_desc: "Listas de revisión dentro de la orden de trabajo.",
       feat_denied: "Con la función apagada, un cliente que se saltara la app recibiría",
       service_eyebrow: "Mantenimiento que se calcula solo",
       feat_1_desc: "El taller define sus planes de mantenimiento con intervalos de km y de tiempo. Cada vehículo tiene el suyo y el sistema calcula la fecha y el kilometraje del próximo servicio.",
@@ -924,8 +915,6 @@
       feat_ratings_desc: "From 1 to 5 when they get the vehicle back.",
       feat_loyalty: "Loyalty points",
       feat_loyalty_desc: "Credited automatically at delivery; the owner sees their balance.",
-      feat_inspections: "Inspections",
-      feat_inspections_desc: "Checklists inside the work order.",
       feat_denied: "With the feature turned off, a client who bypassed the app would get",
       service_eyebrow: "Maintenance that calculates itself",
       feat_1_desc: "The shop defines its maintenance plans with mileage and time intervals. Each vehicle has its own, and the system calculates the date and mileage of the next service.",
@@ -1071,8 +1060,6 @@
       feat_ratings_desc: "De 1 a 5 ao receber o veículo.",
       feat_loyalty: "Pontos de fidelidade",
       feat_loyalty_desc: "Creditados automaticamente na entrega; o proprietário vê seu saldo.",
-      feat_inspections: "Inspeções",
-      feat_inspections_desc: "Listas de verificação dentro da ordem de serviço.",
       feat_denied: "Com a função desligada, um cliente que contornasse o app receberia",
       service_eyebrow: "Manutenção que se calcula sozinha",
       feat_1_desc: "A oficina define seus planos de manutenção com intervalos de km e de tempo. Cada veículo tem o seu, e o sistema calcula a data e a quilometragem da próxima revisão.",
