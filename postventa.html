@@ -140,13 +140,13 @@
         <img src="images/postventa/logo.png" alt="Postventa" style="height: 100px; width: auto; margin: 10px 0;">
       </div>
       <div class="nav-links" style="display: flex; align-items: center; gap: 32px">
-        <a href="#recorrido" style="font-size: 14.5px; color: #9AA7BC">Cómo funciona</a>
-        <a href="#roles" style="font-size: 14.5px; color: #9AA7BC">Taller y propietario</a>
-        <a href="#adapta" style="font-size: 14.5px; color: #9AA7BC">Se adapta</a>
+        <a href="#recorrido" style="font-size: 14.5px; color: #9AA7BC" data-i18n="nav_how">Cómo funciona</a>
+        <a href="#roles" style="font-size: 14.5px; color: #9AA7BC" data-i18n="nav_roles">Taller y propietario</a>
+        <a href="#adapta" style="font-size: 14.5px; color: #9AA7BC" data-i18n="nav_adapts">Se adapta</a>
       </div>
       <div style="display: flex; align-items: center; gap: 16px">
         <button id="langBtn" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; padding: 8px 12px; background: rgba(255,255,255,0.06); color: #C7D1E0; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: all 0.2s">ES</button>
-        <a class="btn" href="#demo" style="height: 44px; padding: 0 20px; font-size: 14.5px; border-radius: 10px">Pedir una demo</a>
+        <a class="btn" href="#demo" style="height: 44px; padding: 0 20px; font-size: 14.5px; border-radius: 10px" data-i18n="nav_demo">Pedir una demo</a>
       </div>
     </div>
   </div>
@@ -177,12 +177,12 @@
     <div class="wrap" style="position: relative; z-index: 2; width: 100%">
       <div class="hero-grid" style="display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 56px; align-items: center">
         <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 28px">
-          <div class="eyebrow reveal in" style="display: flex; align-items: center; gap: 10px"><span style="width: 28px; height: 1px; background: var(--b-light); display: block"></span>Postventa para concesionarios</div>
-          <h1 class="hero-title reveal in d1" style="font-size: clamp(48px, 6.4vw, 92px); line-height: 0.98; text-wrap: balance">El taller, en el bolsillo de tu cliente.</h1>
-          <p class="reveal in d2" style="font-size: 19px; line-height: 1.6; color: #9AA7BC; font-weight: 300; max-width: 540px; text-wrap: pretty">Postventa conecta a tu concesionario con cada vehículo que vendiste: citas, órdenes de trabajo, cotizaciones que el cliente aprueba desde su celular, chat con el taller y grúa. Una sola app, con tu marca.</p>
+          <div class="eyebrow reveal in" style="display: flex; align-items: center; gap: 10px"><span style="width: 28px; height: 1px; background: var(--b-light); display: block"></span><span data-i18n="hero_eyebrow">Postventa para concesionarios</span></div>
+          <h1 class="hero-title reveal in d1" style="font-size: clamp(48px, 6.4vw, 92px); line-height: 0.98; text-wrap: balance" data-i18n="hero_title">El taller, en el bolsillo de tu cliente.</h1>
+          <p class="reveal in d2" style="font-size: 19px; line-height: 1.6; color: #9AA7BC; font-weight: 300; max-width: 540px; text-wrap: pretty"><span data-i18n="hero_desc">Postventa conecta a tu concesionario con cada vehículo que vendiste: citas, órdenes de trabajo, cotizaciones que el cliente aprueba desde su celular, chat con el taller y grúa. Una sola app, con tu marca.</span></p>
           <div class="hero-actions reveal in d3" style="display: flex; align-items: center; gap: 16px; padding-top: 6px">
-            <a class="btn" href="#demo">Pedir una demo</a>
-            <a class="btn-ghost" href="#recorrido">Ver cómo funciona</a>
+            <a class="btn" href="#demo" data-i18n="nav_demo">Pedir una demo</a>
+            <a class="btn-ghost" href="#recorrido" data-i18n="hero_how">Ver cómo funciona</a>
           </div>
           <div class="reveal in d4 mono" style="display: flex; align-items: center; gap: 18px; font-size: 12px; color: #5F6E85; letter-spacing: .04em; flex-wrap: wrap">
             <span>AUTOS · MOTOS · CAMIONES · CUATRIMOTOS</span>
@@ -453,23 +453,23 @@
         <div style="display: flex; align-items: center; gap: 10px">
           <img src="images/postventa/logo.png" alt="Postventa" style="height: 90px; width: auto;">
         </div>
-        <p style="font-size: 13.5px; line-height: 1.6; color: #5F6E85; max-width: 320px; font-weight: 300">Postventa de vehículos para concesionarios y propietarios. Un producto de ProtonLab.</p>
+        <p style="font-size: 13.5px; line-height: 1.6; color: #5F6E85; max-width: 320px; font-weight: 300"><span data-i18n="footer_desc">Postventa de vehículos para concesionarios y propietarios. Un producto de ProtonLab.</span></p>
       </div>
       <div style="display: flex; gap: 64px; flex-wrap: wrap">
         <div style="display: flex; flex-direction: column; gap: 10px">
-          <span class="mono" style="font-size: 11px; letter-spacing: .1em; color: #5F6E85">CONTACTO</span>
+          <span class="mono" style="font-size: 11px; letter-spacing: .1em; color: #5F6E85" data-i18n="footer_contact">CONTACTO</span>
           <a href="mailto:gapcode@protonmail.com" style="font-size: 14px; color: #9AA7BC">gapcode@protonmail.com</a>
           <a href="https://wa.me/17542313968" style="font-size: 14px; color: #9AA7BC">WhatsApp +1 754 231 3968</a>
           <a href="index.html" style="font-size: 14px; color: #9AA7BC">protonlab.site</a>
         </div>
         <div style="display: flex; flex-direction: column; gap: 10px">
-          <span class="mono" style="font-size: 11px; letter-spacing: .1em; color: #5F6E85">PLATAFORMA</span>
+          <span class="mono" style="font-size: 11px; letter-spacing: .1em; color: #5F6E85" data-i18n="footer_platform">PLATAFORMA</span>
           <span style="font-size: 14px; color: #9AA7BC">Android · Windows · Web · Tablets</span>
           <span style="font-size: 14px; color: #9AA7BC">Español · English · Português</span>
         </div>
         <div style="display: flex; flex-direction: column; gap: 10px">
-          <span class="mono" style="font-size: 11px; letter-spacing: .1em; color: #5F6E85">LEGAL</span>
-          <a href="postventa-terminos.html" style="font-size: 14px; color: #9AA7BC">Términos y Condiciones</a>
+          <span class="mono" style="font-size: 11px; letter-spacing: .1em; color: #5F6E85" data-i18n="footer_legal">LEGAL</span>
+          <a href="postventa-terminos.html" style="font-size: 14px; color: #9AA7BC" data-i18n="footer_terms">Términos y Condiciones</a>
         </div>
       </div>
     </div>
@@ -568,19 +568,86 @@
     };
   });
   
-  // Language Selector
+  // Language Selector and Dictionary
+  var T = {
+    es: {
+      nav_how: "Cómo funciona",
+      nav_roles: "Taller y propietario",
+      nav_adapts: "Se adapta",
+      nav_demo: "Pedir una demo",
+      hero_eyebrow: "Postventa para concesionarios",
+      hero_title: "El taller, en el bolsillo de tu cliente.",
+      hero_desc: "Postventa conecta a tu concesionario con cada vehículo que vendiste: citas, órdenes de trabajo, cotizaciones que el cliente aprueba desde su celular, chat con el taller y grúa. Una sola app, con tu marca.",
+      hero_how: "Ver cómo funciona",
+      footer_desc: "Postventa de vehículos para concesionarios y propietarios. Un producto de ProtonLab.",
+      footer_contact: "CONTACTO",
+      footer_platform: "PLATAFORMA",
+      footer_legal: "LEGAL",
+      footer_terms: "Términos y Condiciones"
+    },
+    en: {
+      nav_how: "How it works",
+      nav_roles: "Shop & Owner",
+      nav_adapts: "Adapts to you",
+      nav_demo: "Request a demo",
+      hero_eyebrow: "Aftersales for dealerships",
+      hero_title: "The workshop, in your client's pocket.",
+      hero_desc: "Postventa connects your dealership with every vehicle you sold: appointments, work orders, quotes approved from their phone, chat with the shop, and towing. A single app, with your brand.",
+      hero_how: "See how it works",
+      footer_desc: "Vehicle aftersales for dealerships and owners. A ProtonLab product.",
+      footer_contact: "CONTACT",
+      footer_platform: "PLATFORM",
+      footer_legal: "LEGAL",
+      footer_terms: "Terms and Conditions"
+    },
+    pt: {
+      nav_how: "Como funciona",
+      nav_roles: "Oficina e dono",
+      nav_adapts: "Adapta-se",
+      nav_demo: "Solicitar demo",
+      hero_eyebrow: "Pós-venda para concessionárias",
+      hero_title: "A oficina, no bolso do seu cliente.",
+      hero_desc: "O Postventa conecta sua concessionária com cada veículo que você vendeu: agendamentos, ordens de serviço, orçamentos aprovados pelo celular, chat com a oficina e guincho. Um único app, com sua marca.",
+      hero_how: "Ver como funciona",
+      footer_desc: "Pós-venda de veículos para concessionárias e proprietários. Um produto ProtonLab.",
+      footer_contact: "CONTATO",
+      footer_platform: "PLATAFORMA",
+      footer_legal: "LEGAL",
+      footer_terms: "Termos e Condições"
+    }
+  };
+
   var langBtn = document.getElementById("langBtn");
   var LANGS = ["es", "en", "pt"];
   var LABEL = { es: "ES", en: "EN", pt: "PT" };
   var currentLang = "es";
+
+  function applyLanguage(lang) {
+    var dict = T[lang];
+    if (!dict) return;
+    document.documentElement.lang = lang;
+    langBtn.textContent = LABEL[lang];
+
+    var nodes = document.querySelectorAll("[data-i18n]");
+    for (var i = 0; i < nodes.length; i++) {
+      var key = nodes[i].getAttribute("data-i18n");
+      if (dict[key]) nodes[i].textContent = dict[key];
+    }
+  }
+
+  // Check saved language
+  try { 
+    var saved = localStorage.getItem("postventa-lang");
+    if (LANGS.indexOf(saved) !== -1) currentLang = saved;
+  } catch (e) {}
+  
+  applyLanguage(currentLang);
   
   if (langBtn) {
     langBtn.addEventListener("click", function () {
       currentLang = LANGS[(LANGS.indexOf(currentLang) + 1) % LANGS.length];
-      langBtn.textContent = LABEL[currentLang];
-      
-      // TODO: Call applyLanguage(currentLang) here when the dictionary is ready
-      // example: applyLanguage(currentLang);
+      try { localStorage.setItem("postventa-lang", currentLang); } catch (e) {}
+      applyLanguage(currentLang);
     });
     
     langBtn.addEventListener("mouseover", function() {
@@ -590,6 +657,7 @@
       langBtn.style.background = "rgba(255,255,255,0.06)";
     });
   }
+
 
   var hero = document.getElementById("hero");
   var fill = document.getElementById("tl-fill");
