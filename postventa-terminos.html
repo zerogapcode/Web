@@ -4,10 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Términos y Condiciones — Postventa</title>
+<meta name="description" content="Condiciones de uso de Postventa para concesionarios, su personal y propietarios de vehículos.">
 <meta name="theme-color" content="#070C16">
+<link rel="canonical" href="https://protonlab.site/postventa-terminos.html">
+<link rel="alternate" hreflang="es" href="https://protonlab.site/postventa-terminos.html">
+<link rel="alternate" hreflang="en" href="https://protonlab.site/postventa-terms.html">
+<link rel="alternate" hreflang="pt" href="https://protonlab.site/postventa-termos.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root { --b-light: #6D9FCC; }
   body { margin: 0; background: #070C16; color: #EEF2F8; font-family: Manrope, system-ui, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
@@ -15,57 +20,111 @@
   h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
   h2 { font-size: 20px; margin-top: 40px; color: #FFFFFF; }
   p, ul { margin: 0 0 20px; font-size: 15px; color: #9AA7BC; font-weight: 300; }
-  li { margin-bottom: 8px; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 10px; }
+  strong { color: #D5DDEA; font-weight: 600; }
   a { color: var(--b-light); text-decoration: none; }
   a:hover { color: #FFFFFF; }
   .wrap { max-width: 720px; margin: 0 auto; padding: 64px 24px 100px; }
   .nav { padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .nav-in { max-width: 720px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .back { font-family: Inter, sans-serif; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .langs { display: flex; gap: 6px; font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 600; }
+  .langs a { padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); color: #C7D1E0; }
+  .langs a[aria-current] { background: rgba(255,255,255,0.1); color: #FFFFFF; }
+  .date { color: #5F6E85; font-size: 14px; }
 </style>
 </head>
 <body>
   <div class="nav">
-    <div style="max-width: 720px; margin: 0 auto;">
-      <a href="postventa.html" style="font-family: Inter, sans-serif; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+    <div class="nav-in">
+      <a class="back" href="postventa.html">
         <img src="images/postventa/logo.png" alt="Postventa" style="height: 70px; width: auto;">
         Volver
       </a>
+      <div class="langs">
+        <a href="postventa-terminos.html" hreflang="es" lang="es" aria-current="page">ES</a>
+        <a href="postventa-terms.html" hreflang="en" lang="en">EN</a>
+        <a href="postventa-termos.html" hreflang="pt" lang="pt">PT</a>
+      </div>
     </div>
   </div>
 
   <div class="wrap">
     <h1>Términos y Condiciones de Uso</h1>
-    <p style="color: #5F6E85; font-size: 14px;">Última actualización: Septiembre de 2026</p>
+    <p class="date">Última actualización: 10 de septiembre de 2026</p>
 
-    <p>Bienvenido a Postventa, una plataforma SaaS (Software as a Service) operada por ProtonLab. Estos Términos y Condiciones regulan el acceso y uso de nuestra aplicación (disponible en Android, iOS, Windows, Web y Tablets) tanto para concesionarios ("El Concesionario") como para propietarios de vehículos ("El Usuario").</p>
+    <p>Postventa es una plataforma de ProtonLab para la gestión de la postventa de vehículos. Estos términos regulan el uso de la app de Postventa, disponible para Android (teléfonos y tablets) y Windows, tanto por los concesionarios y talleres («el Concesionario») y su personal como por los propietarios de vehículos («el Propietario»). Al crear una cuenta o usar la app, aceptas estos términos.</p>
 
-    <h2>1. Descripción del Servicio</h2>
-    <p>Postventa es un sistema multi-tenant de gestión postventa de vehículos. Permite a los concesionarios administrar su agenda, órdenes de trabajo, cotizaciones y comunicación con los clientes. Para los propietarios, funciona como un canal directo con el taller para agendar citas, aprobar presupuestos, reportar fallas, solicitar asistencia (grúa) e interactuar vía chat.</p>
+    <h2>1. El servicio</h2>
+    <p>Postventa permite a los concesionarios gestionar su agenda de citas, su parque de vehículos, sus órdenes de trabajo con sus cotizaciones y la comunicación con sus clientes. Para los propietarios es un canal directo con su taller: ver el próximo mantenimiento, pedir citas, aprobar o rechazar cotizaciones, chatear, reportar fallas y, si el taller lo ofrece, pedir grúa.</p>
+    <p>Cada concesionario trabaja en un espacio aislado: solo su personal accede a sus datos.</p>
 
-    <h2>2. Cuentas y Accesos</h2>
+    <h2>2. Cuentas</h2>
     <ul>
-      <li><strong>Concesionarios:</strong> Son responsables de mantener la confidencialidad de los accesos de su personal (administradores y asesores). Cada concesionario opera en un entorno aislado (tenant) y es el único responsable de la información de sus clientes, inventario y vehículos que ingresa al sistema.</li>
-      <li><strong>Propietarios (Usuarios Finales):</strong> Acceden mediante autenticación segura (Google Sign-In o teléfono) y pueden vincular sus vehículos mediante el código único del taller y la placa o VIN. El usuario es responsable de la exactitud de los datos y reportes de fallas ingresados.</li>
+      <li>Para usar Postventa necesitas una cuenta. Puedes entrar con correo y contraseña, con tu cuenta de Google o con tu número de teléfono.</li>
+      <li>Eres responsable de que la información que das sea correcta y de mantener seguro tu acceso. Avísanos si crees que alguien entró a tu cuenta.</li>
+      <li>Debes ser mayor de edad para usar Postventa.</li>
     </ul>
 
-    <h2>3. Privacidad y Datos (Firebase & Cloud)</h2>
-    <p>La plataforma está construida utilizando infraestructuras en la nube (incluyendo Firebase y Google Cloud Platform). Los datos se almacenan de manera encriptada y segura.</p>
+    <h2>3. Concesionarios y su personal</h2>
     <ul>
-      <li>El Concesionario es el responsable del tratamiento de los datos personales de sus clientes. ProtonLab actúa únicamente como procesador de datos tecnológicos.</li>
-      <li>Las fotografías, chats y cotizaciones aprobadas desde el celular del cliente se almacenan directamente en el expediente del vehículo y no se comparten con terceros.</li>
+      <li>El Concesionario da de alta a su personal y le asigna un rol (administrador, asesor, mecánico, recepción o grúa); cada rol solo ve y hace lo que le corresponde. El Concesionario es responsable de quién tiene acceso y de retirarlo cuando alguien deja el taller.</li>
+      <li>Es responsable de los datos de clientes, vehículos, órdenes y cobros que registra: de que sean exactos y de tener derecho a registrarlos.</li>
+      <li>Decide qué funciones opcionales ofrece a sus clientes (reportes de falla, grúa, calificaciones y puntos de lealtad). Lo que desactiva deja de estar disponible y el sistema rechaza su uso.</li>
     </ul>
 
-    <h2>4. Reglas de Seguridad y Módulos Opcionales</h2>
-    <p>El Concesionario tiene la capacidad de activar o desactivar módulos opcionales (ej. reportes de falla, grúa, sistema de lealtad y calificaciones). La disponibilidad de estas funciones para el Usuario dependerá de la configuración establecida por su taller. Las interacciones con módulos desactivados serán rechazadas automáticamente por las reglas de seguridad de nuestra arquitectura de base de datos.</p>
+    <h2>4. Propietarios</h2>
+    <ul>
+      <li>El Propietario vincula su vehículo con el código del taller y la placa. El taller revisa la solicitud y la acepta o la rechaza.</li>
+      <li>Es responsable de que los datos que informa sean verdaderos, como el kilometraje o la descripción de una falla.</li>
+      <li>Cuando aprueba una cotización desde la app, la aprobación queda registrada con fecha y hora y le comunica al taller que autoriza el trabajo cotizado. Si la rechaza, la orden vuelve al taller.</li>
+    </ul>
 
-    <h2>5. Responsabilidades Legales</h2>
-    <p>ProtonLab proporciona la herramienta tecnológica para facilitar la gestión postventa, pero no tiene injerencia en las reparaciones, cotizaciones, o estado de los vehículos. Cualquier disputa relacionada con costos, reparaciones defectuosas, tiempos de entrega o disponibilidad de citas debe resolverse directamente entre el Propietario y el Concesionario.</p>
-    <p>El servicio se provee "tal cual". Hacemos nuestro mejor esfuerzo para garantizar un 99.9% de tiempo de actividad (uptime), pero no nos hacemos responsables por caídas temporales de los servidores en la nube de GCP o problemas de conectividad del dispositivo del usuario.</p>
+    <h2>5. Uso aceptable</h2>
+    <p>No está permitido:</p>
+    <ul>
+      <li>Usar Postventa para fines ilegales o fraudulentos.</li>
+      <li>Acceder, o intentar acceder, a datos de otros concesionarios o usuarios.</li>
+      <li>Saltarse las reglas de seguridad o usar la plataforma de forma automatizada fuera de la app.</li>
+      <li>Subir contenido ofensivo, ilegal o que no tengas derecho a compartir.</li>
+      <li>Hacerte pasar por otra persona o por otro taller.</li>
+    </ul>
+    <p>Podemos suspender o cerrar las cuentas que incumplan estos términos.</p>
 
-    <h2>6. Modificaciones de los Términos</h2>
-    <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios significativos serán notificados a través de la plataforma o por correo electrónico al Concesionario.</p>
+    <h2>6. Lo que Postventa no hace</h2>
+    <ul>
+      <li><strong>No repara vehículos ni fija precios.</strong> ProtonLab ofrece la herramienta; los trabajos, precios, garantías, plazos de entrega y la disponibilidad de citas los decide cada concesionario. Cualquier desacuerdo sobre ellos se resuelve entre el Propietario y el Concesionario.</li>
+      <li><strong>No procesa pagos.</strong> Los cobros que registra el taller son un registro de lo que recibió, no un pago hecho a través de la app.</li>
+      <li><strong>No gestiona los puntos de lealtad ni la grúa.</strong> Los ofrece cada concesionario, y sus condiciones dependen de él.</li>
+      <li><strong>No es un servicio de emergencias.</strong> Ante un accidente o un riesgo para las personas, llama a los servicios de emergencia de tu país.</li>
+    </ul>
 
-    <h2>7. Contacto</h2>
-    <p>Para dudas técnicas o legales sobre estos Términos, comuníquese con nosotros al correo: <a href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a> o mediante nuestro canal de WhatsApp de soporte.</p>
+    <h2>7. Contenido, datos y propiedad</h2>
+    <ul>
+      <li>Los datos, mensajes y fotos que subes siguen siendo tuyos o del concesionario. Nos das permiso para guardarlos, procesarlos y mostrárselos a quien corresponda, solo para prestar el servicio.</li>
+      <li>Cómo tratamos los datos personales, con quién se comparten y cómo eliminar tu cuenta se explica en la <a href="postventa-privacidad.html">Política de privacidad</a>.</li>
+      <li>La app, su diseño y su código son de ProtonLab. Puedes usarla, pero no copiarla, modificarla ni revenderla.</li>
+    </ul>
+
+    <h2>8. Disponibilidad</h2>
+    <p>Postventa funciona sobre la infraestructura de Google Cloud y Firebase. Hacemos lo posible por que esté disponible y funcione bien, pero no podemos garantizar que no haya interrupciones o errores, y no respondemos por las caídas de esos proveedores ni por problemas de conexión del dispositivo. El servicio se ofrece «tal cual».</p>
+
+    <h2>9. Responsabilidad</h2>
+    <p>En la medida en que lo permita la ley, ProtonLab no responde por daños indirectos ni por las decisiones que concesionarios o propietarios tomen a partir de la información de la app. Los recordatorios de mantenimiento se calculan con los datos registrados y son orientativos: no sustituyen las indicaciones del fabricante ni del taller.</p>
+
+    <h2>10. Baja</h2>
+    <p>Puedes dejar de usar Postventa cuando quieras y pedir que eliminemos tu cuenta, como se explica en la <a href="postventa-privacidad.html">Política de privacidad</a>.</p>
+
+    <h2>11. Cambios en estos términos</h2>
+    <p>Podemos modificar estos términos. Publicaremos la nueva versión en esta página con su fecha, y los cambios importantes se avisarán en la app o por correo a los concesionarios. Si sigues usando Postventa después de un cambio, lo aceptas.</p>
+
+    <h2>12. Contacto</h2>
+    <p>Para cualquier duda sobre estos términos, escríbenos a <a href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a> o por <a href="https://wa.me/17542313968">WhatsApp</a>.</p>
   </div>
+<script>
+  // Al volver a la página de Postventa, que siga en este idioma.
+  try { localStorage.setItem("postventa-lang", "es"); } catch (e) {}
+</script>
 </body>
 </html>
