@@ -144,7 +144,10 @@
         <a href="#roles" style="font-size: 14.5px; color: #9AA7BC">Taller y propietario</a>
         <a href="#adapta" style="font-size: 14.5px; color: #9AA7BC">Se adapta</a>
       </div>
-      <a class="btn" href="#demo" style="height: 44px; padding: 0 20px; font-size: 14.5px; border-radius: 10px">Pedir una demo</a>
+      <div style="display: flex; align-items: center; gap: 16px">
+        <button id="langBtn" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; padding: 8px 12px; background: rgba(255,255,255,0.06); color: #C7D1E0; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: all 0.2s">ES</button>
+        <a class="btn" href="#demo" style="height: 44px; padding: 0 20px; font-size: 14.5px; border-radius: 10px">Pedir una demo</a>
+      </div>
     </div>
   </div>
 
@@ -564,6 +567,30 @@
       base: el.style.transform || ""
     };
   });
+  
+  // Language Selector
+  var langBtn = document.getElementById("langBtn");
+  var LANGS = ["es", "en", "pt"];
+  var LABEL = { es: "ES", en: "EN", pt: "PT" };
+  var currentLang = "es";
+  
+  if (langBtn) {
+    langBtn.addEventListener("click", function () {
+      currentLang = LANGS[(LANGS.indexOf(currentLang) + 1) % LANGS.length];
+      langBtn.textContent = LABEL[currentLang];
+      
+      // TODO: Call applyLanguage(currentLang) here when the dictionary is ready
+      // example: applyLanguage(currentLang);
+    });
+    
+    langBtn.addEventListener("mouseover", function() {
+      langBtn.style.background = "rgba(255,255,255,0.12)";
+    });
+    langBtn.addEventListener("mouseout", function() {
+      langBtn.style.background = "rgba(255,255,255,0.06)";
+    });
+  }
+
   var hero = document.getElementById("hero");
   var fill = document.getElementById("tl-fill");
   var tl = root.querySelector(".tl");
