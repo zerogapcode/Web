@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descargas — Postventa</title>
+<meta name="description" content="Descarga Postventa para Windows y los manuales del concesionario, del propietario y del tester.">
+<meta name="theme-color" content="#070C16">
+<link rel="canonical" href="https://protonlab.site/postventa-descargas.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&family=Manrope:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --b: #1B5E9E; --b-light: #6D9FCC; --b-ink: #A2C0DC; }
+  html, body { margin: 0; background: #070C16; }
+  body { color: #EEF2F8; font-family: Manrope, "Helvetica Neue", system-ui, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: Inter, "Helvetica Neue", system-ui, sans-serif; margin: 0; letter-spacing: -0.02em; }
+  p { margin: 0; }
+  a { color: var(--b-light); text-decoration: none; }
+  a:hover { color: #FFFFFF; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+  .nav { border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .nav-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 16px; }
+  .back { font-family: Inter, sans-serif; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .lang { font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600; padding: 8px 12px; background: rgba(255,255,255,0.06); color: #C7D1E0; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; }
+  .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--b-ink); }
+  .hero { padding-block: 64px 40px; display: flex; flex-direction: column; gap: 16px; }
+  .hero h1 { font-size: clamp(34px, 6vw, 56px); line-height: 1.04; font-weight: 800; text-wrap: balance; }
+  .hero p { font-size: 18px; color: #9AA7BC; font-weight: 300; max-width: 36em; }
+  .card { border: 1px solid rgba(255,255,255,0.09); background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); border-radius: 20px; padding: 32px; }
+  .card h2 { font-size: 26px; font-weight: 700; }
+  .meta { font-size: 13px; color: #5F6E85; letter-spacing: .02em; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 12px; background: var(--b); color: #FFFFFF; font-weight: 600; font-size: 15px; box-sizing: border-box; }
+  .btn:hover { color: #FFFFFF; filter: brightness(1.12); }
+  .btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.16); color: #EEF2F8; font-weight: 600; font-size: 15px; box-sizing: border-box; }
+  .btn-ghost:hover { background: rgba(255,255,255,0.06); color: #FFFFFF; }
+  .btn svg, .btn-ghost svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .steps { display: flex; flex-direction: column; gap: 14px; margin: 0; padding: 0; list-style: none; }
+  .steps li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 12px; font-size: 15.5px; color: #C7D1E0; }
+  .steps b { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 14px; background: rgba(109,159,204,0.16); color: var(--b-light); font-family: Inter, sans-serif; font-size: 14px; }
+  .note { border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 18px 20px; font-size: 14.5px; color: #9AA7BC; display: flex; flex-direction: column; gap: 10px; }
+  .note strong { color: #EEF2F8; font-weight: 600; }
+  code { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: #C7D1E0; background: rgba(255,255,255,0.05); border-radius: 6px; padding: 2px 6px; }
+  pre { margin: 0; overflow-x: auto; background: #0B1220; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 12px 14px; }
+  pre code { background: none; padding: 0; font-size: 12.5px; white-space: pre; }
+  .manuals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .manual { display: flex; flex-direction: column; gap: 12px; padding: 24px; }
+  .manual h3 { font-size: 19px; font-weight: 700; }
+  .manual p { font-size: 14.5px; color: #9AA7BC; font-weight: 300; flex: 1; }
+  .section-title { display: flex; flex-direction: column; gap: 8px; margin: 56px 0 20px; }
+  .section-title h2 { font-size: 28px; font-weight: 700; }
+  .hash { font-size: 12px; color: #5F6E85; word-break: break-all; }
+  .foot { border-top: 1px solid rgba(255,255,255,0.06); margin-top: 72px; padding-block: 32px 48px; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px; }
+  .foot a { color: #9AA7BC; }
+  @media (max-width: 760px) {
+    .manuals { grid-template-columns: minmax(0, 1fr); }
+    .card { padding: 24px; }
+    .actions a { width: 100%; }
+  }
+</style>
+</head>
+<body>
+  <div class="nav">
+    <div class="wrap nav-in">
+      <a class="back" href="postventa.html">
+        <img src="images/postventa/logo.png" alt="Postventa" style="height: 64px; width: auto;">
+        <span data-i18n="back">Volver</span>
+      </a>
+      <button type="button" class="lang" id="langBtn">ES</button>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div class="hero">
+      <div class="eyebrow" data-i18n="eyebrow">Descargas</div>
+      <h1 data-i18n="title">Postventa para Windows y los manuales</h1>
+      <p data-i18n="lead">La app de escritorio para el mostrador del taller y las guías de uso para cada papel.</p>
+    </div>
+
+    <!-- ============ WINDOWS ============ -->
+    <section class="card" style="display: flex; flex-direction: column; gap: 24px" aria-labelledby="win-title">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <h2 id="win-title" data-i18n="win_title">Postventa para Windows</h2>
+        <p class="meta mono"><span data-i18n="win_version">Versión 1.0.6</span> · <span data-i18n="win_req">Windows 10 (1809 o posterior) u 11, 64 bits</span> · 30.6 MB</p>
+        <p style="color: #9AA7BC; font-weight: 300; max-width: 40em" data-i18n="win_desc">La misma cuenta y los mismos datos que en el teléfono, en una ventana grande: la tabla de órdenes ordenable, la agenda y la bandeja a la vez, con atajos de teclado.</p>
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="https://postventa-desktop.web.app/Postventa.msix" download>
+          <svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+          <span data-i18n="win_download">Descargar para Windows</span>
+        </a>
+        <a class="btn-ghost" href="https://postventa-desktop.web.app/postventa.crt" download>
+          <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8M8 12h5"></path><circle cx="15" cy="16" r="2"></circle></svg>
+          <span data-i18n="win_cert">Certificado (.crt)</span>
+        </a>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        <h3 style="font-size: 17px; font-weight: 700" data-i18n="steps_title">Instalación · la primera vez en cada equipo</h3>
+        <ol class="steps">
+          <li><b>1</b><span data-i18n="step1">Descarga el certificado y ábrelo con doble clic. Pulsa «Instalar certificado» y elige «Equipo local».</span></li>
+          <li><b>2</b><span data-i18n="step2">Marca «Colocar todos los certificados en el siguiente almacén», pulsa «Examinar», elige «Personas de confianza» y termina el asistente.</span></li>
+          <li><b>3</b><span data-i18n="step3">Descarga Postventa para Windows, ábrelo y pulsa «Instalar». Las siguientes versiones se instalan encima, sin repetir el certificado.</span></li>
+        </ol>
+      </div>
+
+      <div class="note">
+        <p><strong data-i18n="why_title">¿Por qué el certificado?</strong> <span data-i18n="why_body">Postventa para Windows está firmado con un certificado propio. Hasta que usemos uno comercial, Windows necesita que confíes en él una vez en cada equipo. Va en «Personas de confianza», no como entidad raíz: solo sirve para reconocer este programa.</span></p>
+        <p data-i18n="ps_title">Con PowerShell como administrador, desde la carpeta donde lo descargaste:</p>
+        <pre><code>Import-Certificate -FilePath .\postventa.crt -CertStoreLocation Cert:\LocalMachine\TrustedPeople</code></pre>
+        <p class="hash mono"><span data-i18n="sha">SHA-256 del instalador:</span> f125400b1e165cc45cb76b1f1d3ef390a6f5b81c90aa4952a0e6464b83ae4a9c</p>
+      </div>
+    </section>
+
+    <!-- ============ MANUALES ============ -->
+    <div class="section-title">
+      <div class="eyebrow" data-i18n="manuals_eyebrow">Manuales</div>
+      <h2 data-i18n="manuals_title">Guías de uso en PDF</h2>
+      <p style="color: #9AA7BC; font-weight: 300" data-i18n="manuals_lang">Disponibles en español.</p>
+    </div>
+
+    <div class="manuals">
+      <article class="card manual">
+        <div class="eyebrow" data-i18n="m1_eyebrow">Para el taller</div>
+        <h3 data-i18n="m1_title">Manual del concesionario</h3>
+        <p data-i18n="m1_desc">Montar el taller, los puestos del equipo, el parque de vehículos, la agenda y la orden de trabajo.</p>
+        <p class="meta mono">PDF · 197 KB</p>
+        <a class="btn-ghost" href="descargas/postventa-manual-concesionario.pdf" download>
+          <svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+          <span data-i18n="pdf">Descargar PDF</span>
+        </a>
+      </article>
+
+      <article class="card manual">
+        <div class="eyebrow" data-i18n="m2_eyebrow">Para el propietario</div>
+        <h3 data-i18n="m2_title">Tu vehículo, al día</h3>
+        <p data-i18n="m2_desc">Reclamar el vehículo, pedir citas, aprobar el presupuesto y hablar con el taller.</p>
+        <p class="meta mono">PDF · 164 KB</p>
+        <a class="btn-ghost" href="descargas/postventa-manual-propietario.pdf" download>
+          <svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+          <span data-i18n="pdf">Descargar PDF</span>
+        </a>
+      </article>
+
+      <article class="card manual">
+        <div class="eyebrow" data-i18n="m3_eyebrow">Para quien prueba</div>
+        <h3 data-i18n="m3_title">Manual del tester</h3>
+        <p data-i18n="m3_desc">Unirse a la prueba cerrada en Android, qué probar desde cada lado y cómo reportar un fallo.</p>
+        <p class="meta mono">PDF · 181 KB</p>
+        <a class="btn-ghost" href="descargas/postventa-manual-tester.pdf" download>
+          <svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+          <span data-i18n="pdf">Descargar PDF</span>
+        </a>
+      </article>
+    </div>
+
+    <div class="foot">
+      <a href="postventa.html" data-i18n="foot_home">Postventa</a>
+      <a href="https://wa.me/17542313968">WhatsApp</a>
+      <a href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a>
+      <a href="postventa-terminos.html" data-i18n="foot_terms" data-i18n-href="terms_href">Términos y Condiciones</a>
+      <a href="postventa-privacidad.html" data-i18n="foot_privacy" data-i18n-href="privacy_href">Política de privacidad</a>
+    </div>
+  </main>
+
+<script>
+(function () {
+  "use strict";
+  var T = {
+    es: {
+      page_title: "Descargas — Postventa",
+      back: "Volver",
+      eyebrow: "Descargas",
+      title: "Postventa para Windows y los manuales",
+      lead: "La app de escritorio para el mostrador del taller y las guías de uso para cada papel.",
+      win_title: "Postventa para Windows",
+      win_version: "Versión 1.0.6",
+      win_req: "Windows 10 (1809 o posterior) u 11, 64 bits",
+      win_desc: "La misma cuenta y los mismos datos que en el teléfono, en una ventana grande: la tabla de órdenes ordenable, la agenda y la bandeja a la vez, con atajos de teclado.",
+      win_download: "Descargar para Windows",
+      win_cert: "Certificado (.crt)",
+      steps_title: "Instalación · la primera vez en cada equipo",
+      step1: "Descarga el certificado y ábrelo con doble clic. Pulsa «Instalar certificado» y elige «Equipo local».",
+      step2: "Marca «Colocar todos los certificados en el siguiente almacén», pulsa «Examinar», elige «Personas de confianza» y termina el asistente.",
+      step3: "Descarga Postventa para Windows, ábrelo y pulsa «Instalar». Las siguientes versiones se instalan encima, sin repetir el certificado.",
+      why_title: "¿Por qué el certificado?",
+      why_body: "Postventa para Windows está firmado con un certificado propio. Hasta que usemos uno comercial, Windows necesita que confíes en él una vez en cada equipo. Va en «Personas de confianza», no como entidad raíz: solo sirve para reconocer este programa.",
+      ps_title: "Con PowerShell como administrador, desde la carpeta donde lo descargaste:",
+      sha: "SHA-256 del instalador:",
+      manuals_eyebrow: "Manuales",
+      manuals_title: "Guías de uso en PDF",
+      manuals_lang: "Disponibles en español.",
+      m1_eyebrow: "Para el taller",
+      m1_title: "Manual del concesionario",
+      m1_desc: "Montar el taller, los puestos del equipo, el parque de vehículos, la agenda y la orden de trabajo.",
+      m2_eyebrow: "Para el propietario",
+      m2_title: "Tu vehículo, al día",
+      m2_desc: "Reclamar el vehículo, pedir citas, aprobar el presupuesto y hablar con el taller.",
+      m3_eyebrow: "Para quien prueba",
+      m3_title: "Manual del tester",
+      m3_desc: "Unirse a la prueba cerrada en Android, qué probar desde cada lado y cómo reportar un fallo.",
+      pdf: "Descargar PDF",
+      foot_home: "Postventa",
+      foot_terms: "Términos y Condiciones",
+      foot_privacy: "Política de privacidad",
+      terms_href: "postventa-terminos.html",
+      privacy_href: "postventa-privacidad.html"
+    },
+    en: {
+      page_title: "Downloads — Postventa",
+      back: "Back",
+      eyebrow: "Downloads",
+      title: "Postventa for Windows and the manuals",
+      lead: "The desktop app for the shop's front desk and the user guides for each role.",
+      win_title: "Postventa for Windows",
+      win_version: "Version 1.0.6",
+      win_req: "Windows 10 (1809 or later) or 11, 64-bit",
+      win_desc: "The same account and data as on the phone, in a large window: the sortable orders table, the schedule and the inbox side by side, with keyboard shortcuts.",
+      win_download: "Download for Windows",
+      win_cert: "Certificate (.crt)",
+      steps_title: "Installation · first time on each computer",
+      step1: "Download the certificate and double-click it. Click “Install Certificate” and choose “Local Machine”.",
+      step2: "Select “Place all certificates in the following store”, click “Browse”, choose “Trusted People” and finish the wizard.",
+      step3: "Download Postventa for Windows, open it and click “Install”. Later versions install over it without repeating the certificate.",
+      why_title: "Why the certificate?",
+      why_body: "Postventa for Windows is signed with our own certificate. Until we use a commercial one, Windows needs you to trust it once on each computer. It goes into “Trusted People”, not as a root authority: it only serves to recognize this program.",
+      ps_title: "With PowerShell as administrator, from the folder where you downloaded it:",
+      sha: "Installer SHA-256:",
+      manuals_eyebrow: "Manuals",
+      manuals_title: "User guides in PDF",
+      manuals_lang: "Available in Spanish.",
+      m1_eyebrow: "For the shop",
+      m1_title: "Dealership manual",
+      m1_desc: "Setting up the shop, staff roles, the vehicle fleet, the schedule and the work order.",
+      m2_eyebrow: "For the owner",
+      m2_title: "Your vehicle, up to date",
+      m2_desc: "Claiming the vehicle, booking appointments, approving the quote and talking to the shop.",
+      m3_eyebrow: "For testers",
+      m3_title: "Tester manual",
+      m3_desc: "Joining the closed test on Android, what to test from each side and how to report a bug.",
+      pdf: "Download PDF",
+      foot_home: "Postventa",
+      foot_terms: "Terms and Conditions",
+      foot_privacy: "Privacy Policy",
+      terms_href: "postventa-terms.html",
+      privacy_href: "postventa-privacy.html"
+    },
+    pt: {
+      page_title: "Downloads — Postventa",
+      back: "Voltar",
+      eyebrow: "Downloads",
+      title: "Postventa para Windows e os manuais",
+      lead: "O app de desktop para a recepção da oficina e os guias de uso para cada função.",
+      win_title: "Postventa para Windows",
+      win_version: "Versão 1.0.6",
+      win_req: "Windows 10 (1809 ou posterior) ou 11, 64 bits",
+      win_desc: "A mesma conta e os mesmos dados do celular, em uma janela grande: a tabela de ordens ordenável, a agenda e a caixa de entrada lado a lado, com atalhos de teclado.",
+      win_download: "Baixar para Windows",
+      win_cert: "Certificado (.crt)",
+      steps_title: "Instalação · a primeira vez em cada computador",
+      step1: "Baixe o certificado e abra-o com clique duplo. Clique em “Instalar Certificado” e escolha “Máquina Local”.",
+      step2: "Marque “Colocar todos os certificados no repositório a seguir”, clique em “Procurar”, escolha “Pessoas Confiáveis” e conclua o assistente.",
+      step3: "Baixe o Postventa para Windows, abra-o e clique em “Instalar”. As próximas versões são instaladas por cima, sem repetir o certificado.",
+      why_title: "Por que o certificado?",
+      why_body: "O Postventa para Windows é assinado com um certificado próprio. Até usarmos um comercial, o Windows precisa que você confie nele uma vez em cada computador. Ele vai em “Pessoas Confiáveis”, não como autoridade raiz: serve apenas para reconhecer este programa.",
+      ps_title: "Com o PowerShell como administrador, na pasta onde você baixou:",
+      sha: "SHA-256 do instalador:",
+      manuals_eyebrow: "Manuais",
+      manuals_title: "Guias de uso em PDF",
+      manuals_lang: "Disponíveis em espanhol.",
+      m1_eyebrow: "Para a oficina",
+      m1_title: "Manual da concessionária",
+      m1_desc: "Configurar a oficina, as funções da equipe, a frota de veículos, a agenda e a ordem de serviço.",
+      m2_eyebrow: "Para o proprietário",
+      m2_title: "Seu veículo em dia",
+      m2_desc: "Reivindicar o veículo, agendar, aprovar o orçamento e falar com a oficina.",
+      m3_eyebrow: "Para quem testa",
+      m3_title: "Manual do tester",
+      m3_desc: "Entrar no teste fechado no Android, o que testar de cada lado e como relatar uma falha.",
+      pdf: "Baixar PDF",
+      foot_home: "Postventa",
+      foot_terms: "Termos e Condições",
+      foot_privacy: "Política de Privacidade",
+      terms_href: "postventa-termos.html",
+      privacy_href: "postventa-privacidade.html"
+    }
+  };
+
+  var LANGS = ["es", "en", "pt"];
+  var btn = document.getElementById("langBtn");
+  var current = "es";
+
+  function apply(lang) {
+    var dict = T[lang];
+    if (!dict) return;
+    current = lang;
+    document.documentElement.lang = lang;
+    document.title = dict.page_title;
+    btn.textContent = lang.toUpperCase();
+    var nodes = document.querySelectorAll("[data-i18n]");
+    for (var i = 0; i < nodes.length; i++) {
+      var key = nodes[i].getAttribute("data-i18n");
+      if (dict[key]) nodes[i].textContent = dict[key];
+    }
+    var links = document.querySelectorAll("[data-i18n-href]");
+    for (var j = 0; j < links.length; j++) {
+      var hrefKey = links[j].getAttribute("data-i18n-href");
+      if (dict[hrefKey]) links[j].setAttribute("href", dict[hrefKey]);
+    }
+  }
+
+  // El mismo idioma que eligió en la página de Postventa.
+  try {
+    var saved = localStorage.getItem("postventa-lang");
+    if (LANGS.indexOf(saved) !== -1) current = saved;
+  } catch (e) {}
+  apply(current);
+
+  btn.addEventListener("click", function () {
+    var next = LANGS[(LANGS.indexOf(current) + 1) % LANGS.length];
+    try { localStorage.setItem("postventa-lang", next); } catch (e) {}
+    apply(next);
+  });
+})();
+</script>
+</body>
+</html>
