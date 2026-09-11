@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Condo — Administración de condominios para residentes, garita y administración</title>
+<meta name="description" content="Condo conecta a residentes, garita y administración: estado de cuenta en vivo, pases QR para visitas, cobranza automática y comunicados oficiales. App para Android." />
+<link rel="canonical" href="https://protonlab.site/condo.html" />
+<link rel="icon" href="images/condo/icono.png" />
+<link rel="apple-touch-icon" href="images/condo/icono.png" />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://protonlab.site/condo.html" />
+<meta property="og:title" content="Condo — Tu condominio, en orden desde el teléfono" />
+<meta property="og:description" content="Estado de cuenta en vivo, pases QR para visitas, garita digital y comunicados oficiales." />
+<meta property="og:image" content="https://protonlab.site/images/condo/condo-logo.png" />
+<meta name="twitter:card" content="summary" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112..125,600..800&family=Instrument+Sans:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "Condo",
+  "operatingSystem": "Android",
+  "applicationCategory": "BusinessApplication",
+  "url": "https://protonlab.site/condo.html",
+  "image": "https://protonlab.site/images/condo/icono.png",
+  "description": "Administración de condominios: estado de cuenta, pases QR para visitas, escáner de garita, comunicados oficiales y cobranza automática.",
+  "author": { "@type": "Organization", "name": "ProtonLab", "url": "https://protonlab.site/" }
+}
+</script>
+
+<style>
+  :root{
+    --page:#F4F7FC; --sky:#E4EDFB; --surface:#FFFFFF; --line:#DDE5F1;
+    --ink:#0A1830; --ink-2:#3C4A61; --ink-3:#687690;
+    --navy:#022E6F; --blue:#2F6FE4; --blue-soft:#DCE7FB; --brand-text:#022E6F;
+    --btn-bg:#022E6F; --btn-fg:#FFFFFF;
+    --shadow:0 30px 70px -20px rgba(2,46,111,.28);
+    --sky-bld:2,46,111;
+    /* tema real de la app (core/ui Theme.kt) */
+    --app-primary:#0F766E; --app-pc:#B2DFDB; --app-onpc:#002019; --app-bg:#FAFAFA;
+    --app-sv:#EDEFEE; --app-ink:#1B1C1C; --app-ink-2:#3F4947;
+    --overdue:#B3261E; --due:#B26B00; --ok:#1B7F5A;
+    --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+    --sans:"Instrument Sans","Helvetica Neue",system-ui,-apple-system,sans-serif;
+    --android:Roboto,"Helvetica Neue",system-ui,sans-serif;
+  }
+  [data-theme="dark"]{
+    --page:#07101F; --sky:#0C1830; --surface:#0F1C33; --line:#1F2E4A;
+    --ink:#E9EEF7; --ink-2:#B3BFD3; --ink-3:#8290A8;
+    --blue:#6E9BF5; --blue-soft:#172A4D; --brand-text:#A9C2F5;
+    --btn-bg:#E9EEF7; --btn-fg:#07101F;
+    --shadow:0 30px 70px -20px rgba(0,0,0,.6);
+    --sky-bld:120,160,235;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--page);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color .3s,color .3s}
+  h1,h2,h3{font-family:var(--display);font-stretch:118%;font-weight:750;letter-spacing:-.025em;line-height:1.04;text-wrap:balance}
+  p{text-wrap:pretty}
+  a{color:var(--brand-text);text-decoration:none}
+  a:hover{color:var(--blue)}
+  img{display:block;max-width:100%}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  .wrap{max-width:1200px;margin:0 auto;padding-inline:24px}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+  .eyebrow::before{content:"";width:22px;height:2px;background:currentColor}
+
+  /* botones */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 26px;border-radius:999px;background:var(--btn-bg);color:var(--btn-fg);font-weight:600;font-size:15.5px;transition:transform .2s,box-shadow .2s}
+  .btn:hover{color:var(--btn-fg);transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(2,46,111,.55)}
+  .btn-sm{height:42px;padding:0 18px;font-size:14px}
+  .btn-ghost{display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 6px;font-weight:600;color:var(--ink)}
+  .btn-ghost svg{transition:transform .2s}
+  .btn-ghost:hover svg{transform:translateY(3px)}
+  .chip-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--ink-2);background:var(--surface)}
+  .chip-btn:hover{color:var(--ink)}
+
+  /* nav */
+  header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--page) 78%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
+  .brand{display:flex;align-items:center;gap:10px;color:var(--ink)}
+  .brand img{width:34px;height:34px;border-radius:8px;background:#fff}
+  .brand span{font-family:var(--display);font-stretch:125%;font-weight:800;font-size:18px;letter-spacing:.08em;color:var(--brand-text)}
+  .nav-links{display:flex;gap:30px}
+  .nav-links a{font-size:14.5px;color:var(--ink-2);font-weight:500}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-right{display:flex;align-items:center;gap:12px}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--page) 0%,var(--sky) 100%)}
+  .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:center;padding-block:76px 210px}
+  .hero h1{font-size:clamp(40px,5.4vw,70px);margin:22px 0 22px}
+  .hero h1 em{font-style:normal;color:var(--blue)}
+  .lead{font-size:19px;color:var(--ink-2);max-width:540px}
+  .hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:34px}
+  .hero-note{margin-top:26px;font-size:14px;color:var(--ink-3)}
+  .reveal{opacity:0;transform:translateY(18px);animation:up .8s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i,0) * 110ms + 80ms)}
+  @keyframes up{to{opacity:1;transform:none}}
+
+  .stage{position:relative;height:500px;perspective:1100px}
+  .tile{position:absolute;inset:40px 50px;border-radius:32px;background:#FFFFFF;box-shadow:var(--shadow);display:grid;place-items:center;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.2,1);will-change:transform}
+  .tile img{width:74%;transform:translateZ(40px)}
+  .tile::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--gx,30%) var(--gy,20%),rgba(47,111,228,.14),transparent 55%);pointer-events:none}
+  .float{position:absolute;display:flex;align-items:center;gap:12px;padding:12px 16px 12px 12px;border-radius:18px;background:var(--surface);border:1px solid var(--line);box-shadow:0 18px 40px -18px rgba(2,46,111,.35);font-size:14px;line-height:1.3;transition:transform .5s cubic-bezier(.2,.7,.2,1);white-space:nowrap}
+  .float b{display:block;font-weight:600;color:var(--ink)}
+  .float small{color:var(--ink-3);font-size:12.5px}
+  .float .ico{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;flex:none}
+  .f1{top:6px;left:-6px}.f2{bottom:74px;right:-18px}.f3{bottom:-4px;left:22px}
+  .skyline{position:absolute;left:0;right:0;bottom:0;height:260px;z-index:1;pointer-events:none}
+  .skyline svg{width:100%;height:100%;display:block}
+  .skyline .b1{fill:rgba(var(--sky-bld),.10)}
+  .skyline .b2{fill:rgba(var(--sky-bld),.18)}
+  .skyline .w{fill:rgba(var(--sky-bld),.14);transition:fill .5s}
+  .skyline .w.on{fill:#2F6FE4;transition:fill .15s}
+  [data-theme="dark"] .skyline .w.on{fill:#9CC0FF}
+
+  /* secciones */
+  section.sec{padding-block:110px}
+  .sec-head{max-width:720px;margin-bottom:48px}
+  .sec-head h2{font-size:clamp(32px,4vw,50px);margin-top:16px}
+  .sec-head p{margin-top:18px;font-size:18px;color:var(--ink-2)}
+
+  /* roles */
+  .tabs{display:inline-flex;gap:6px;padding:6px;border-radius:999px;background:var(--surface);border:1px solid var(--line);margin-bottom:40px;flex-wrap:wrap}
+  .tab{height:44px;padding:0 20px;border-radius:999px;font-weight:600;font-size:15px;color:var(--ink-2);display:inline-flex;align-items:center;gap:8px;transition:background .25s,color .25s}
+  .tab:hover{color:var(--ink)}
+  .tab[aria-selected="true"]{background:var(--navy);color:#fff}
+  [data-theme="dark"] .tab[aria-selected="true"]{background:var(--blue);color:#07101F}
+  .roles{display:grid;grid-template-columns:minmax(0,1fr) 300px minmax(0,1fr);gap:48px;align-items:center}
+  .bld{width:100%;max-width:440px;height:auto;display:block;margin:0 auto;overflow:visible}
+  .bld .wl{fill:#0D3F8C;transition:fill .45s;transition-delay:var(--d)}
+  .bld .wr{fill:#A9C3F1;transition:fill .45s;transition-delay:var(--d)}
+  .bld .z-lobby{fill:#A9C3F1;transition:fill .4s}
+  .bld .booth-win{fill:#A9C3F1;transition:fill .4s}
+  .bld .barrier{transform-box:view-box;transform-origin:381px 402px;transition:transform .8s cubic-bezier(.3,1.4,.5,1)}
+  .bld .z-signal path{opacity:0}
+  .bld .tag rect{fill:var(--surface);stroke:var(--line)}
+  .bld .tag text{font:600 13px var(--sans);fill:var(--ink)}
+  .bld .tag{opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s}
+  .bld[data-role="res"] .wl,.bld[data-role="res"] .wr{fill:#FFFFFF}
+  .bld[data-role="res"] .wr{fill:#2F6FE4}
+  .bld[data-role="res"] .tag-res,.bld[data-role="guard"] .tag-guard,.bld[data-role="admin"] .tag-admin{opacity:1;transform:none}
+  .bld[data-role="guard"] .booth-win{fill:#FFFFFF;filter:drop-shadow(0 0 6px #8FB4F7)}
+  .bld[data-role="guard"] .barrier{transform:rotate(-58deg)}
+  .bld[data-role="guard"] .z-lobby{fill:#2F6FE4}
+  .bld[data-role="admin"] .z-signal path{animation:sig 1.8s infinite}
+  .bld[data-role="admin"] .z-signal path:nth-child(2){animation-delay:.25s}
+  .bld[data-role="admin"] .z-signal path:nth-child(3){animation-delay:.5s}
+  .bld[data-role="admin"] .wl{animation:wave 1.8s infinite;animation-delay:var(--d)}
+  @keyframes sig{0%{opacity:0}30%{opacity:1}80%,100%{opacity:0}}
+  @keyframes wave{0%,100%{fill:#0D3F8C}40%{fill:#FFFFFF}}
+
+  .role-copy h3{font-size:30px;margin-bottom:14px}
+  .role-copy .pain{font-size:15px;color:var(--ink-3);margin-bottom:22px}
+  .role-copy .pain s{text-decoration-color:var(--overdue);text-decoration-thickness:2px}
+  .role-copy ul{list-style:none;display:flex;flex-direction:column;gap:16px}
+  .role-copy li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;color:var(--ink-2);font-size:15.5px}
+  .role-copy li svg{margin-top:2px;color:var(--blue)}
+  .role-copy li b{color:var(--ink);font-weight:600}
+  .fade{animation:fade .45s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* telefono (tema claro de la app) */
+  .phone{width:300px;height:620px;border-radius:44px;background:#0B1220;padding:10px;box-shadow:var(--shadow);margin:0 auto;position:relative}
+  .screen{width:100%;height:100%;border-radius:34px;overflow:hidden;background:var(--app-bg);font-family:var(--android);color:var(--app-ink);display:flex;flex-direction:column;position:relative}
+  .appbar{height:64px;padding:26px 16px 0;font-size:22px;line-height:28px;flex:none}
+  .app-body{flex:1;overflow:hidden;padding:8px 16px;display:flex;flex-direction:column;gap:12px}
+  .bottom-nav{height:80px;flex:none;background:#F0F2F1;display:flex;justify-content:space-around;align-items:center;padding-top:4px}
+  .bn{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--app-ink-2)}
+  .bn i{width:56px;height:32px;border-radius:16px;display:grid;place-items:center}
+  .bn.on i{background:var(--app-pc)}
+  .bn.on{color:var(--app-ink)}
+  .card{background:#fff;border-radius:12px;padding:16px}
+  .card.pc{background:var(--app-pc);color:var(--app-onpc)}
+  .amount{font-size:28px;line-height:36px;font-weight:500;margin-top:4px;font-variant-numeric:tabular-nums}
+  .status{display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:999px;color:#fff;font-size:11px;font-weight:500;letter-spacing:.04em}
+  .lrow{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:14px;color:var(--app-ink-2)}
+  .lrow b{font-weight:500;color:var(--app-ink);font-variant-numeric:tabular-nums}
+  .m3btn{height:40px;border-radius:20px;background:var(--app-primary);color:#fff;font-family:var(--android);font-size:14px;font-weight:500;letter-spacing:.01em;width:100%}
+  .m3btn.tonal{background:var(--app-sv);color:var(--app-ink)}
+  .sec-title{font-size:14px;font-weight:500;color:var(--app-primary);margin-top:4px}
+  .snack{position:absolute;left:12px;right:12px;bottom:92px;background:#313033;color:#F4EFF4;font-size:14px;padding:14px 16px;border-radius:4px;transform:translateY(20px);opacity:0;transition:.3s;pointer-events:none}
+  .snack.show{transform:none;opacity:1}
+  .viewfinder{flex:1;margin:-8px -16px;background:#101413;position:relative;display:grid;place-items:center;overflow:hidden}
+  .vf-frame{width:190px;height:190px;position:relative}
+  .vf-frame i{position:absolute;width:34px;height:34px;border:4px solid #fff}
+  .vf-frame i:nth-child(1){top:0;left:0;border-right:0;border-bottom:0;border-radius:10px 0 0 0}
+  .vf-frame i:nth-child(2){top:0;right:0;border-left:0;border-bottom:0;border-radius:0 10px 0 0}
+  .vf-frame i:nth-child(3){bottom:0;left:0;border-right:0;border-top:0;border-radius:0 0 0 10px}
+  .vf-frame i:nth-child(4){bottom:0;right:0;border-left:0;border-top:0;border-radius:0 0 10px 0}
+  .scanline{position:absolute;left:8px;right:8px;height:2px;background:#5EEAD4;box-shadow:0 0 12px #5EEAD4;animation:scan 2.2s ease-in-out infinite}
+  @keyframes scan{0%,100%{top:10px}50%{top:178px}}
+  .vf-hint{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#E3E3E3;font-size:14px}
+  .result{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px;color:#fff;white-space:pre-line;font-size:17px;line-height:1.45}
+  .result strong{font-size:40px;letter-spacing:.04em;font-weight:500;margin-bottom:12px}
+  .ann h4{font-size:16px;font-weight:500;margin:8px 0 6px}
+  .ann p{font-size:14px;color:var(--app-ink-2);line-height:20px}
+  .ann .meta{font-size:12px;color:var(--app-ink-2)}
+  .role-ctrl{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
+  .pill{height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14.5px;display:inline-flex;align-items:center;gap:8px;color:var(--ink)}
+  .pill:hover{border-color:var(--blue)}
+  .pill[aria-pressed="true"]{background:var(--blue-soft);border-color:var(--blue);color:var(--brand-text)}
+
+  /* pases */
+  .band{background:var(--navy);color:#E6EEFB}
+  .band .sec-head h2{color:#fff}
+  .band .sec-head p{color:#B9CAE8}
+  .band .eyebrow{color:#8FB4F7}
+  .pass-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+  .panel{background:#0B3A80;border:1px solid #1D4E97;border-radius:28px;padding:30px;display:flex;flex-direction:column;gap:18px}
+  .panel-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .panel-top span{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#8FB4F7;font-weight:600}
+  .field label{display:block;font-size:13px;color:#B9CAE8;margin-bottom:6px}
+  .field input{width:100%;height:50px;border-radius:14px;border:1px solid #2A5CA6;background:#062F6B;color:#fff;padding:0 16px;font:inherit;font-size:16px}
+  .field input:focus{outline:2px solid #8FB4F7;outline-offset:1px}
+  .seg{display:flex;gap:8px}
+  .seg button{height:44px;padding:0 18px;border-radius:12px;border:1px solid #2A5CA6;color:#DCE7FB;font-weight:600;font-size:14.5px}
+  .seg button[aria-pressed="true"]{background:#DCE7FB;color:#022E6F;border-color:#DCE7FB}
+  .hint{font-size:13.5px;color:#9FB6DC}
+  .btn-light{background:#fff;color:#022E6F}
+  .btn-light:hover{color:#022E6F}
+  .btn-line{background:transparent;border:1px solid #4E7BC0;color:#fff}
+  .btn-line:hover{color:#fff}
+  .btn[disabled]{opacity:.45;pointer-events:none}
+  .ticket{display:grid;grid-template-columns:132px minmax(0,1fr);gap:20px;align-items:center;background:#fff;color:#0A1830;border-radius:20px;padding:18px}
+  .ticket svg{width:132px;height:132px;display:block}
+  .ticket h4{font-family:var(--display);font-stretch:112%;font-size:19px;letter-spacing:-.01em}
+  .ticket p{font-size:13.5px;color:#3C4A61;margin-top:6px}
+  .ticket .state{margin-top:10px}
+  .empty{border:1.5px dashed #2A5CA6;border-radius:20px;height:170px;display:grid;place-items:center;color:#9FB6DC;font-size:14.5px;text-align:center;padding:20px}
+  .gate{border-radius:20px;min-height:240px;background:#101413;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px;white-space:pre-line;color:#fff;transition:background .35s;position:relative;overflow:hidden}
+  .gate strong{font-family:var(--android);font-weight:500;font-size:42px;letter-spacing:.04em;margin-bottom:8px}
+  .gate .scanline{animation-duration:.9s}
+  .switch{display:inline-flex;align-items:center;gap:10px;font-size:14.5px;color:#DCE7FB;font-weight:500}
+  .switch i{width:46px;height:28px;border-radius:14px;background:#2A5CA6;position:relative;transition:background .25s}
+  .switch i::after{content:"";position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .25s}
+  .switch[aria-checked="true"] i{background:#5EEAD4}
+  .switch[aria-checked="true"] i::after{transform:translateX(18px)}
+  .fine{font-size:13.5px;color:#9FB6DC;margin-top:26px;max-width:760px}
+
+  /* cuentas */
+  .calc{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:start}
+  .ctrl{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:30px;display:flex;flex-direction:column;gap:22px}
+  .ctrl label{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+  .budget{font-family:var(--display);font-stretch:112%;font-size:clamp(30px,3.4vw,42px);font-weight:750;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--ink)}
+  input[type=range]{width:100%;accent-color:var(--blue);height:28px}
+  .cur{display:flex;flex-wrap:wrap;gap:8px}
+  .verdict{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .verdict div{border-radius:18px;padding:16px;border:1px solid var(--line)}
+  .verdict small{display:block;font-size:13px;color:var(--ink-3);margin-bottom:4px}
+  .verdict b{font-family:var(--display);font-stretch:112%;font-size:24px;font-variant-numeric:tabular-nums}
+  .v-bad b{color:var(--overdue)} .v-good b{color:var(--ok)}
+  [data-theme="dark"] .v-bad b{color:#F2B8B5} [data-theme="dark"] .v-good b{color:#7FD8B0}
+  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:24px;background:var(--surface)}
+  table{width:100%;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums;min-width:460px}
+  th,td{padding:13px 18px;text-align:right;border-bottom:1px solid var(--line)}
+  th{font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+  th:first-child,td:first-child{text-align:left}
+  tfoot td{font-weight:600;border-bottom:0}
+  .plus{display:inline-block;margin-left:8px;font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:999px;background:var(--blue-soft);color:var(--brand-text)}
+
+  /* principios */
+  .principles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:36px;border-top:1px solid var(--line);padding-top:40px}
+  .principles h3{font-size:20px;font-stretch:112%;margin:18px 0 10px;letter-spacing:-.01em}
+  .principles p{font-size:15px;color:var(--ink-2)}
+  .principles .ic{width:48px;height:48px;border-radius:14px;background:var(--blue-soft);color:var(--brand-text);display:grid;place-items:center}
+
+  /* cta final */
+  .cta{position:relative;overflow:hidden;border-radius:36px;background:var(--navy);color:#fff;padding:72px 56px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:30px;align-items:center}
+  .cta h2{font-size:clamp(32px,4vw,52px);color:#fff}
+  .cta p{color:#B9CAE8;font-size:18px;margin-top:16px;max-width:560px}
+  .cta-actions{display:flex;flex-direction:column;gap:14px;align-items:flex-start;position:relative;z-index:1}
+  .cta-actions a.mail{color:#DCE7FB;font-weight:500}
+  .cta-actions a.mail:hover{color:#fff}
+  .cta-mark{position:absolute;right:-60px;bottom:-90px;width:340px;opacity:.10;pointer-events:none}
+
+  footer{padding-block:64px 40px;margin-top:110px;border-top:1px solid var(--line)}
+  .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .foot p{color:var(--ink-3);font-size:14.5px;max-width:340px;margin-top:14px}
+  .foot-col{display:flex;flex-direction:column;gap:10px;font-size:14.5px}
+  .foot-col b{font-size:12px;letter-spacing:.12em;color:var(--ink-3)}
+  .foot-bot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:44px;padding-top:24px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-3)}
+  .foot-bot code{font-size:12.5px}
+
+  @media (max-width:1040px){
+    .roles{grid-template-columns:minmax(0,1fr) 300px}
+    .roles .bld-col{grid-column:1/-1;order:3}
+    .principles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:860px){
+    .nav-links{display:none}
+    .hero-grid{grid-template-columns:minmax(0,1fr);padding-block:48px 170px}
+    .stage{height:400px;max-width:460px;width:100%;margin:0 auto}
+    .tile{inset:40px 30px}
+    .roles{grid-template-columns:minmax(0,1fr)}
+    .roles .bld-col{order:0}
+    .pass-grid,.calc,.cta{grid-template-columns:minmax(0,1fr)}
+    .cta{padding:48px 28px}
+    section.sec{padding-block:80px}
+  }
+  @media (max-width:520px){
+    .principles{grid-template-columns:minmax(0,1fr)}
+    .float{font-size:13px}
+    .f2{right:-4px}.f1{left:0}
+    .ticket{grid-template-columns:minmax(0,1fr);justify-items:start}
+    .btn-sm{display:none}
+    .panel{padding:22px}
+    .verdict{grid-template-columns:minmax(0,1fr)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Condo, inicio">
+      <img src="images/condo/icono.png" alt="" width="34" height="34" />
+      <span>CONDO</span>
+    </a>
+    <nav class="nav-links" aria-label="Secciones">
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#pases">Pases QR</a>
+      <a href="#cuentas">Cuentas claras</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="nav-right">
+      <button class="chip-btn" id="themeBtn" aria-label="Cambiar tema">
+        <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+      <a class="btn btn-sm" href="#contacto">Solicitar una demo</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow reveal" style="--i:0">App para condominios · Android</span>
+        <h1 class="reveal" style="--i:1">Cuentas claras, visitas sin esperas y avisos <em>que sí se leen</em>.</h1>
+        <p class="lead reveal" style="--i:2">Condo conecta a residentes, garita y administración: estado de cuenta en vivo, pases QR para tus visitas y un tablón oficial que reemplaza al grupo de WhatsApp.</p>
+        <div class="hero-cta reveal" style="--i:3">
+          <a class="btn" href="#contacto">Solicitar una demo</a>
+          <a class="btn-ghost" href="#como-funciona">Ver cómo funciona
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          </a>
+        </div>
+        <p class="hero-note reveal" style="--i:4">Para administradoras y comités. Moneda, zona horaria e idioma por condominio.</p>
+      </div>
+
+      <div class="stage reveal" id="stage" style="--i:2">
+        <div class="tile" id="tile"><img src="images/condo/condo-logo.png" alt="Logo de Condo: un edificio dentro de la letra C" width="1331" height="1182" /></div>
+        <div class="float f1" data-depth="34">
+          <span class="ico" style="background:#1B7F5A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span><b>ADELANTE</b><small>Pase de visita · Unidad 4B</small></span>
+        </div>
+        <div class="float f2" data-depth="52">
+          <span class="ico" style="background:#0F766E"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h5"/></svg></span>
+          <span><b>Comprobante enviado</b><small>La administración lo revisará</small></span>
+        </div>
+        <div class="float f3" data-depth="24">
+          <span class="ico" style="background:#022E6F"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 8.5a5 5 0 0 1 0 7M19 5.5a9 9 0 0 1 0 13"/></svg></span>
+          <span><b>Nuevo comunicado</b><small>Confirmar que lo leí</small></span>
+        </div>
+      </div>
+    </div>
+    <div class="skyline" aria-hidden="true"><svg id="skyline" preserveAspectRatio="xMidYMax slice"></svg></div>
+  </section>
+
+  <section class="sec wrap" id="como-funciona">
+    <div class="sec-head">
+      <span class="eyebrow">Cómo funciona</span>
+      <h2>Un edificio, tres puntos de vista.</h2>
+      <p>Cada perfil ve solo lo suyo. La garita no ve estados de cuenta y un residente no ve el escáner: la app nunca ofrece una acción que el servidor vaya a rechazar.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Perfiles">
+      <button class="tab" role="tab" data-role="res" aria-selected="true">Residente</button>
+      <button class="tab" role="tab" data-role="guard" aria-selected="false">Garita</button>
+      <button class="tab" role="tab" data-role="admin" aria-selected="false">Administración</button>
+    </div>
+
+    <div class="roles">
+      <div class="bld-col">
+        <svg class="bld" viewBox="0 0 440 470" role="img" aria-label="Edificio de Condo con garita">
+<ellipse cx="236" cy="420" rx="190" ry="38" fill="rgba(2,46,111,.09)"/>
+<g class="z-signal">
+<path d="M184,52 A16,16 0 0 1 216,52" fill="none" stroke="#2F6FE4" stroke-width="3" stroke-linecap="round"/>
+<path d="M170,52 A30,30 0 0 1 230,52" fill="none" stroke="#2F6FE4" stroke-width="3" stroke-linecap="round"/>
+<path d="M156,52 A44,44 0 0 1 244,52" fill="none" stroke="#2F6FE4" stroke-width="3" stroke-linecap="round"/>
+</g>
+<line x1="200" y1="95" x2="200" y2="56" stroke="#022E6F" stroke-width="3"/><circle cx="200" cy="54" r="4" fill="#022E6F"/>
+<polygon points="200,40 310,95 200,150 90,95" fill="#2F6FE4"/>
+<polygon points="90,95 200,150 200,400 90,345" fill="#022E6F"/>
+<polygon points="200,150 310,95 310,345 200,400" fill="#EAF1FD"/>
+<polygon class="win wl" style="--d:0ms" points="104,124 124,134 124,158 104,148"/>
+<polygon class="win wl" style="--d:60ms" points="136,140 156,150 156,174 136,164"/>
+<polygon class="win wl" style="--d:120ms" points="168,156 188,166 188,190 168,180"/>
+<polygon class="win wr" style="--d:180ms" points="214,165 234,155 234,179 214,189"/>
+<polygon class="win wr" style="--d:240ms" points="246,149 266,139 266,163 246,173"/>
+<polygon class="win wr" style="--d:300ms" points="278,133 298,123 298,147 278,157"/>
+<polygon class="win wl" style="--d:360ms" points="104,164 124,174 124,198 104,188"/>
+<polygon class="win wl" style="--d:0ms" points="136,180 156,190 156,214 136,204"/>
+<polygon class="win wl" style="--d:60ms" points="168,196 188,206 188,230 168,220"/>
+<polygon class="win wr" style="--d:120ms" points="214,205 234,195 234,219 214,229"/>
+<polygon class="win wr" style="--d:180ms" points="246,189 266,179 266,203 246,213"/>
+<polygon class="win wr" style="--d:240ms" points="278,173 298,163 298,187 278,197"/>
+<polygon class="win wl" style="--d:300ms" points="104,204 124,214 124,238 104,228"/>
+<polygon class="win wl" style="--d:360ms" points="136,220 156,230 156,254 136,244"/>
+<polygon class="win wl" style="--d:0ms" points="168,236 188,246 188,270 168,260"/>
+<polygon class="win wr" style="--d:60ms" points="214,245 234,235 234,259 214,269"/>
+<polygon class="win wr" style="--d:120ms" points="246,229 266,219 266,243 246,253"/>
+<polygon class="win wr" style="--d:180ms" points="278,213 298,203 298,227 278,237"/>
+<polygon class="win wl" style="--d:240ms" points="104,244 124,254 124,278 104,268"/>
+<polygon class="win wl" style="--d:300ms" points="136,260 156,270 156,294 136,284"/>
+<polygon class="win wl" style="--d:360ms" points="168,276 188,286 188,310 168,300"/>
+<polygon class="win wr" style="--d:0ms" points="214,285 234,275 234,299 214,309"/>
+<polygon class="win wr" style="--d:60ms" points="246,269 266,259 266,283 246,293"/>
+<polygon class="win wr" style="--d:120ms" points="278,253 298,243 298,267 278,277"/>
+<polygon class="win wl" style="--d:180ms" points="104,284 124,294 124,318 104,308"/>
+<polygon class="win wl" style="--d:240ms" points="136,300 156,310 156,334 136,324"/>
+<polygon class="win wl" style="--d:300ms" points="168,316 188,326 188,350 168,340"/>
+<polygon class="win wr" style="--d:360ms" points="214,325 234,315 234,339 214,349"/>
+<polygon class="win wr" style="--d:0ms" points="246,309 266,299 266,323 246,333"/>
+<polygon class="win wr" style="--d:60ms" points="278,293 298,283 298,307 278,317"/>
+<polygon class="z-lobby" points="228,350 264,332 264,372 228,390"/>
+<g class="z-guard">
+<polygon points="345,368 375,383 345,398 315,383" fill="#2F6FE4"/>
+<polygon points="315,383 345,398 345,434 315,419" fill="#022E6F"/>
+<polygon points="345,398 375,383 375,419 345,434" fill="#EAF1FD"/>
+<polygon class="booth-win" points="351,403 369,394 369,410 351,419"/>
+<rect x="378" y="398" width="5" height="26" rx="1.5" fill="#022E6F"/>
+<line class="barrier" x1="381" y1="402" x2="436" y2="429.5" stroke="#B3261E" stroke-width="5" stroke-linecap="round" stroke-dasharray="9 7"/>
+</g>
+<g class="tag tag-res"><rect x="8" y="188" width="86" height="28" rx="14"/><text x="51" y="206.5" text-anchor="middle">Tu unidad</text></g>
+<g class="tag tag-guard"><rect x="300" y="330" width="72" height="28" rx="14"/><text x="336" y="348.5" text-anchor="middle">Garita</text></g>
+<g class="tag tag-admin"><rect x="232" y="14" width="104" height="28" rx="14"/><text x="284" y="32.5" text-anchor="middle">Comunicado</text></g>
+</svg>
+      </div>
+
+      <div class="phone" aria-label="Pantalla de la app">
+        <div class="screen">
+          <!-- residente -->
+          <div class="scr" data-scr="res" style="display:contents">
+            <div class="appbar">Estado de cuenta</div>
+            <div class="app-body">
+              <div class="card pc">
+                <div style="font-size:14px">Saldo pendiente</div>
+                <div class="amount">$2,450.00</div>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:12px;font-size:14px">
+                  <span class="status" style="background:#B3261E">Vencido</span><span>$850.00</span>
+                </div>
+              </div>
+              <button class="m3btn" id="uploadBtn">Subir comprobante de pago</button>
+              <div class="sec-title">Pendiente</div>
+              <div class="card" style="padding:12px 16px">
+                <div class="lrow"><span>Cuota septiembre</span><b>$1,600.00</b></div>
+                <div class="lrow"><span id="chipRow"><span class="status" style="background:#B26B00">Pendiente de pago</span></span></div>
+              </div>
+              <div class="card" style="padding:12px 16px">
+                <div class="lrow"><span>Recargo agosto</span><b>$850.00</b></div>
+                <div class="lrow"><span><span class="status" style="background:#B3261E">Recargo</span></span></div>
+              </div>
+            </div>
+            <div class="bottom-nav">
+              <div class="bn on"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></i>Cuenta</div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3"/></svg></i>Pases</div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></i>Avisos</div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg></i>Ajustes</div>
+            </div>
+            <div class="snack" id="snack">Comprobante enviado. La administración lo revisará.</div>
+          </div>
+
+          <!-- garita -->
+          <div class="scr" data-scr="guard" style="display:none">
+            <div class="appbar">Escáner</div>
+            <div class="app-body">
+              <div class="viewfinder">
+                <div class="vf-frame"><i></i><i></i><i></i><i></i><div class="scanline"></div></div>
+                <div class="vf-hint">Apunta al código QR de la visita</div>
+                <div class="result" id="phoneResult" hidden></div>
+              </div>
+            </div>
+            <div class="bottom-nav">
+              <div class="bn on"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3M7 12h10"/></svg></i>Escáner</div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></i>Avisos</div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg></i>Ajustes</div>
+            </div>
+          </div>
+
+          <!-- administracion -->
+          <div class="scr" data-scr="admin" style="display:none">
+            <div class="appbar">Comunicados</div>
+            <div class="app-body">
+              <div class="card ann">
+                <span class="status" style="background:#B3261E">Urgente</span>
+                <h4>Corte de agua el jueves</h4>
+                <p>De 9:00 a 13:00 por mantenimiento de la cisterna. Llena tus depósitos el miércoles.</p>
+                <div class="meta" style="margin-top:10px" id="ackMeta">Enviado a todas las unidades</div>
+              </div>
+              <div class="card ann">
+                <h4>Asamblea ordinaria</h4>
+                <p>Revisaremos el presupuesto del próximo año y la reparación del portón.</p>
+              </div>
+              <button class="m3btn tonal" id="ackBtn">Confirmar que lo leí</button>
+            </div>
+            <div class="bottom-nav">
+              <div class="bn on"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></i>Avisos</div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3M7 12h10"/></svg></i>Escáner</div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg></i>Ajustes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-copy" id="roleCopy" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="band" id="pases">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <span class="eyebrow">Pases QR</span>
+        <h2>Tu visita entra sin esperar en la puerta.</h2>
+        <p>Pruébalo: crea un pase como residente y escanéalo como si fueras la garita.</p>
+      </div>
+
+      <div class="pass-grid">
+        <div class="panel">
+          <div class="panel-top"><span>1 · Residente</span></div>
+          <div class="field">
+            <label for="visitor">Nombre de la visita</label>
+            <input id="visitor" type="text" value="Laura Méndez" maxlength="40" autocomplete="off" />
+          </div>
+          <div>
+            <div class="seg" role="group" aria-label="Tipo de pase">
+              <button data-type="single" aria-pressed="true">Una vez</button>
+              <button data-type="recurring" aria-pressed="false">Recurrente</button>
+            </div>
+            <p class="hint" id="typeHint" style="margin-top:10px">Un solo ingreso, válido por 12 horas.</p>
+          </div>
+          <div id="passOut">
+            <div class="empty">Tu pase aparecerá aquí.</div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-light" id="createBtn">Crear pase</button>
+            <button class="btn btn-line" id="revokeBtn" disabled>Revocar pase</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-top">
+            <span>2 · Garita</span>
+            <button class="switch" id="offline" role="switch" aria-checked="false"><i></i>Sin conexión</button>
+          </div>
+          <div class="gate" id="gate" aria-live="polite">
+            <span style="color:#9FB6DC;font-size:15px">Crea un pase para poder escanearlo.</span>
+          </div>
+          <div><button class="btn btn-light" id="scanBtn" disabled>Escanear pase</button></div>
+        </div>
+      </div>
+
+      <p class="fine">La garita no guarda ninguna clave secreta: es un teléfono que rota entre turnos. Verifica cada pase en línea y, sin señal, compara la firma del QR con la del pase guardado. El código QR de esta demostración es ilustrativo.</p>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="cuentas">
+    <div class="sec-head">
+      <span class="eyebrow">Cuentas claras</span>
+      <h2>Ni un centavo de descuadre, mes tras mes.</h2>
+      <p>Condo reparte el presupuesto entre las unidades según su coeficiente con el método del resto mayor. Si cada cuota se redondea por separado, sobran o faltan centavos y la contabilidad deja de cuadrar. Mueve el presupuesto y compruébalo.</p>
+    </div>
+
+    <div class="calc">
+      <div class="ctrl">
+        <div>
+          <label for="budgetRange">Presupuesto mensual</label>
+          <div class="budget" id="budgetOut">$48,750.35</div>
+          <input id="budgetRange" type="range" min="1000000" max="25000000" step="1" value="4875035" aria-label="Presupuesto mensual" />
+        </div>
+        <div>
+          <label>Moneda</label>
+          <div class="cur" style="margin-top:10px" role="group" aria-label="Moneda">
+            <button class="pill" data-cur="MXN" aria-pressed="true">MXN</button>
+            <button class="pill" data-cur="COP" aria-pressed="false">COP</button>
+            <button class="pill" data-cur="USD" aria-pressed="false">USD</button>
+            <button class="pill" data-cur="CLP" aria-pressed="false">CLP</button>
+          </div>
+        </div>
+        <div class="verdict">
+          <div class="v-bad"><small>Redondeo por separado</small><b id="diffNaive">+$0.01</b></div>
+          <div class="v-good"><small>Con Condo</small><b id="diffCondo">$0.00</b></div>
+        </div>
+        <p style="font-size:14px;color:var(--ink-3)">El dinero nunca se guarda como decimal: se guarda como entero en la unidad menor de la moneda, con su código ISO 4217.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Unidad</th><th>Coeficiente</th><th>Por separado</th><th>Condo</th></tr></thead>
+          <tbody id="shareRows"></tbody>
+          <tfoot><tr><td>Total</td><td>100.00%</td><td id="sumNaive"></td><td id="sumCondo"></td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:40px">
+    <div class="sec-head" style="margin-bottom:0">
+      <span class="eyebrow">Pensado para comunidades reales</span>
+      <h2>Reglas que se cumplen solas.</h2>
+    </div>
+    <div class="principles" style="margin-top:44px">
+      <div>
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14a6 6 0 0 1 3 6"/></svg></div>
+        <h3>Cada rol, sus pantallas</h3>
+        <p>Residentes, garita y administración ven menús distintos, con los mismos permisos que valida el servidor.</p>
+      </div>
+      <div>
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <h3>Varios países</h3>
+        <p>Cada condominio define su moneda, zona horaria e idioma. Una misma cuenta puede pertenecer a varios y cambiar entre ellos.</p>
+      </div>
+      <div>
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="M12 8v5M12 16h.01"/></svg></div>
+        <h3>Alerta a un toque</h3>
+        <p>Emergencia médica, incendio o seguridad: la alerta llega de inmediato a la garita y a la administración, con tu unidad.</p>
+      </div>
+      <div>
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <h3>Tus datos, tuyos</h3>
+        <p>Cada titular puede exportar o eliminar sus datos personales cuando lo necesite.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="contacto" style="padding-top:70px">
+    <div class="cta">
+      <img class="cta-mark" src="images/condo/condo-logo.png" alt="" />
+      <div style="position:relative;z-index:1">
+        <h2>¿Administras un condominio?</h2>
+        <p>Te mostramos Condo en una llamada: cómo se emiten las cuotas, cómo entra una visita y cómo invitas a tus residentes con un código.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-light" href="https://wa.me/17542313968?text=Hola%2C%20quiero%20una%20demo%20de%20Condo" target="_blank" rel="noopener">Solicitar una demo</a>
+        <a class="mail" href="mailto:gapcode@protonmail.com?subject=Demo%20de%20Condo">gapcode@protonmail.com</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="brand" href="#top"><img src="images/condo/icono.png" alt="" width="34" height="34" /><span>CONDO</span></a>
+        <p>Administración de condominios para residentes, garita y administración. Un producto de ProtonLab.</p>
+      </div>
+      <div class="foot-col">
+        <b>CONTACTO</b>
+        <a href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a>
+        <a href="https://wa.me/17542313968" target="_blank" rel="noopener">WhatsApp +1 754 231 3968</a>
+        <a href="index.html">protonlab.site</a>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>&copy; <span id="year"></span> Condo. Todos los derechos reservados.</span>
+      <code>com.condowner.app</code>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var SVGNS = "http://www.w3.org/2000/svg";
+
+  $("#year").textContent = new Date().getFullYear();
+
+  /* ---------- tema ---------- */
+  var MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+  var SUN = '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>';
+  function setTheme(t) {
+    if (t === "dark") document.documentElement.setAttribute("data-theme", "dark");
+    else document.documentElement.removeAttribute("data-theme");
+    $("#themeIcon").innerHTML = t === "dark" ? SUN : MOON;
+  }
+  var saved = null;
+  try { saved = localStorage.getItem("condo-theme"); } catch (e) {}
+  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+  $("#themeBtn").addEventListener("click", function () {
+    var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    setTheme(next);
+    try { localStorage.setItem("condo-theme", next); } catch (e) {}
+  });
+
+  /* ---------- skyline: las ventanas se encienden al pasar ---------- */
+  var sky = $("#skyline");
+  var W = 1600, H = 260, seed = 7;
+  function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+  sky.setAttribute("viewBox", "0 0 " + W + " " + H);
+  var windows = [];
+  function el(tag, attrs) { var n = document.createElementNS(SVGNS, tag); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
+  for (var x = -20; x < W; ) {
+    var bw = 70 + rnd() * 90, bh = 120 + rnd() * 130;
+    sky.appendChild(el("rect", { x: x, y: H - bh, width: bw, height: bh, class: "b1" }));
+    x += bw + 6 + rnd() * 20;
+  }
+  for (x = 0; x < W; ) {
+    var fw = 60 + rnd() * 70, fh = 60 + rnd() * 120;
+    sky.appendChild(el("rect", { x: x, y: H - fh, width: fw, height: fh, class: "b2" }));
+    for (var wy = H - fh + 14; wy < H - 18; wy += 20) {
+      for (var wx = x + 10; wx < x + fw - 16; wx += 16) {
+        var w = el("rect", { x: wx, y: wy, width: 8, height: 11, rx: 1, class: "w" });
+        sky.appendChild(w);
+        windows.push({ n: w, cx: wx + 4, cy: wy + 5 });
+      }
+    }
+    x += fw + 26 + rnd() * 40;
+  }
+  function light(win, ms) {
+    win.n.classList.add("on");
+    clearTimeout(win.t);
+    win.t = setTimeout(function () { win.n.classList.remove("on"); }, ms);
+  }
+  var hero = $(".hero");
+  hero.addEventListener("pointermove", function (e) {
+    var m = sky.getScreenCTM();
+    if (!m) return;
+    var p = sky.createSVGPoint(); p.x = e.clientX; p.y = e.clientY;
+    var q = p.matrixTransform(m.inverse());
+    for (var i = 0; i < windows.length; i++) {
+      var dx = windows[i].cx - q.x, dy = (windows[i].cy - q.y) * 0.6;
+      if (dx * dx + dy * dy < 90 * 90) light(windows[i], 700 + Math.random() * 900);
+    }
+  });
+  if (!reduced) setInterval(function () {
+    light(windows[Math.floor(Math.random() * windows.length)], 1600 + Math.random() * 2400);
+  }, 260);
+
+  /* ---------- logo con inclinacion 3D ---------- */
+  var stage = $("#stage"), tile = $("#tile"), floats = $$(".float", stage);
+  if (!reduced && window.matchMedia("(hover: hover)").matches) {
+    stage.addEventListener("pointermove", function (e) {
+      var r = stage.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+      tile.style.transform = "rotateX(" + (-py * 12) + "deg) rotateY(" + (px * 16) + "deg)";
+      tile.style.setProperty("--gx", (px + 0.5) * 100 + "%");
+      tile.style.setProperty("--gy", (py + 0.5) * 100 + "%");
+      floats.forEach(function (f) {
+        var d = +f.getAttribute("data-depth");
+        f.style.transform = "translate(" + px * d + "px," + py * d + "px)";
+      });
+    });
+    stage.addEventListener("pointerleave", function () {
+      tile.style.transform = "";
+      floats.forEach(function (f) { f.style.transform = ""; });
+    });
+  }
+
+  /* ---------- roles ---------- */
+  var CHECK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+  var ROLES = {
+    res: {
+      title: "Residente",
+      pain: ["No sabe cuánto debe ni por qué.", "Su visita espera en la puerta."],
+      items: [
+        "<b>Estado de cuenta en vivo</b> con saldo, vencidos, cargos pendientes e historial.",
+        "<b>Comprobante de pago</b> desde el teléfono, sin ir a la oficina.",
+        "<b>Pases QR</b> de una vez (12 horas) o recurrentes (30 días) para el servicio doméstico.",
+        "<b>Paquetes en recepción</b>: sabes cuándo llegó uno a tu nombre."
+      ],
+      ctrl: '<button class="pill" data-act="upload">Probar: subir comprobante</button>'
+    },
+    guard: {
+      title: "Garita",
+      pain: ["Cuaderno de papel, sin trazabilidad."],
+      items: [
+        "<b>Escáner con la cámara</b>: la respuesta es ADELANTE o NO PASA, sin interpretar nada.",
+        "<b>Funciona sin señal</b>: valida contra la copia local de los pases.",
+        "<b>Ingreso sin QR</b> con placa opcional, registrado en la bitácora con usuario y hora.",
+        "<b>Paquetería</b> registrada al llegar, con aviso al residente."
+      ],
+      ctrl: '<button class="pill" data-act="scan">Probar: escanear</button><button class="pill" data-act="offline" aria-pressed="false">Sin conexión</button>'
+    },
+    admin: {
+      title: "Administración",
+      pain: ["Cobranza manual y opaca.", "Grupos de WhatsApp caóticos."],
+      items: [
+        "<b>Cuotas emitidas cada mes</b>, por monto fijo o prorrateadas por coeficiente.",
+        "<b>Recordatorios y recargos por mora</b> automáticos, con periodo de gracia y tope.",
+        "<b>Comunicados oficiales</b> con acuse de lectura, en lugar del grupo de WhatsApp.",
+        "<b>Alta del condominio</b> desde el teléfono: moneda, día de corte y códigos de invitación."
+      ],
+      ctrl: '<button class="pill" data-act="ack">Probar: confirmar lectura</button>'
+    }
+  };
+  var bld = $(".bld"), roleCopy = $("#roleCopy"), guardOffline = false;
+  function showRole(key) {
+    var r = ROLES[key];
+    $$(".tab").forEach(function (t) { t.setAttribute("aria-selected", String(t.getAttribute("data-role") === key)); });
+    if (bld) bld.setAttribute("data-role", key);
+    $$(".scr").forEach(function (s) { s.style.display = s.getAttribute("data-scr") === key ? "contents" : "none"; });
+    roleCopy.innerHTML =
+      '<div class="fade"><h3>' + r.title + '</h3><p class="pain">Antes: ' +
+      r.pain.map(function (p) { return "<s>" + p + "</s>"; }).join(" ") + "</p><ul>" +
+      r.items.map(function (i) { return "<li>" + CHECK + "<span>" + i + "</span></li>"; }).join("") +
+      '</ul><div class="role-ctrl">' + r.ctrl + "</div></div>";
+    var off = $('[data-act="offline"]', roleCopy);
+    if (off) off.setAttribute("aria-pressed", String(guardOffline));
+  }
+  $$(".tab").forEach(function (t, i, all) {
+    t.addEventListener("click", function () { showRole(t.getAttribute("data-role")); });
+    t.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      var n = all[(i + (e.key === "ArrowRight" ? 1 : all.length - 1)) % all.length];
+      n.focus(); n.click();
+    });
+  });
+
+  var snackT;
+  function upload() {
+    var s = $("#snack");
+    $("#chipRow").innerHTML = '<span class="status" style="background:#687690">En revisión</span>';
+    s.classList.add("show");
+    clearTimeout(snackT);
+    snackT = setTimeout(function () { s.classList.remove("show"); }, 2800);
+  }
+  $("#uploadBtn").addEventListener("click", upload);
+
+  function ack() {
+    var b = $("#ackBtn");
+    b.textContent = "Leído";
+    b.style.background = "#B2DFDB";
+    $("#ackMeta").textContent = "Confirmaste que lo leíste";
+  }
+  $("#ackBtn").addEventListener("click", ack);
+
+  var phoneT;
+  function phoneScan() {
+    var res = $("#phoneResult");
+    clearTimeout(phoneT);
+    res.hidden = true;
+    phoneT = setTimeout(function () {
+      res.style.background = "#1B7F5A";
+      res.innerHTML = "";
+      var s = document.createElement("strong"); s.textContent = "ADELANTE";
+      res.appendChild(s);
+      res.appendChild(document.createTextNode("Laura Méndez\nUnidad 4B" + (guardOffline ? "\n\nValidado sin conexión contra la copia local." : "")));
+      res.hidden = false;
+      phoneT = setTimeout(function () { res.hidden = true; }, 3200);
+    }, reduced ? 0 : 650);
+  }
+  roleCopy.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-act]");
+    if (!b) return;
+    var act = b.getAttribute("data-act");
+    if (act === "upload") upload();
+    if (act === "ack") ack();
+    if (act === "scan") phoneScan();
+    if (act === "offline") { guardOffline = !guardOffline; b.setAttribute("aria-pressed", String(guardOffline)); }
+  });
+  showRole("res");
+
+  /* ---------- demo de pases ---------- */
+  var pass = null, passType = "single", offline = false, serial = 0;
+  function hash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function qrSvg(text) {
+    var N = 25, s = hash(text) || 1, cells = "";
+    function bit() { s ^= s << 13; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return s & 1; }
+    function finder(fx, fy, x, y) {
+      var dx = x - fx, dy = y - fy;
+      if (dx < -1 || dy < -1 || dx > 7 || dy > 7) return null;
+      if (dx === -1 || dy === -1 || dx === 7 || dy === 7) return 0;
+      return (dx === 0 || dy === 0 || dx === 6 || dy === 6 || (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4)) ? 1 : 0;
+    }
+    for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) {
+      var f = finder(0, 0, x, y); if (f === null) f = finder(N - 7, 0, x, y); if (f === null) f = finder(0, N - 7, x, y);
+      var on = f !== null ? f : (y === 6 || x === 6) ? ((x + y) % 2 === 0 ? 1 : 0) : bit();
+      if (on) cells += '<rect x="' + (x + 2) + '" y="' + (y + 2) + '" width="1.02" height="1.02"/>';
+    }
+    return '<svg viewBox="0 0 29 29" role="img" aria-label="Código QR del pase de acceso"><rect width="29" height="29" fill="#fff"/><g fill="#0A1830">' + cells + "</g></svg>";
+  }
+  function renderPass() {
+    var out = $("#passOut");
+    if (!pass) { out.innerHTML = '<div class="empty">Tu pase aparecerá aquí.</div>'; return; }
+    var state = pass.revoked ? ["Revocado", "#B3261E"] : (pass.type === "single" && pass.uses > 0) ? ["Usado", "#687690"] : ["Activo", "#1B7F5A"];
+    out.innerHTML = '<div class="ticket fade">' + qrSvg(pass.name + "|" + pass.type + "|" + pass.serial) +
+      '<div><h4>Pase creado</h4><p class="who"></p><p>' +
+      (pass.type === "single" ? "Un solo ingreso, válido por 12 horas." : "Varios ingresos durante 30 días.") +
+      '</p><p>Comparte esta imagen con tu visita. La garita la escanea al entrar.</p><div class="state"><span class="status" style="background:' + state[1] + '">' + state[0] + "</span></div></div></div>";
+    $(".who", out).textContent = pass.name + " · Unidad 4B";
+  }
+  $$(".seg button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      passType = b.getAttribute("data-type");
+      $$(".seg button").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+      $("#typeHint").textContent = passType === "single" ? "Un solo ingreso, válido por 12 horas." : "Varios ingresos durante 30 días. Útil para servicio doméstico.";
+    });
+  });
+  $("#createBtn").addEventListener("click", function () {
+    var name = $("#visitor").value.trim();
+    if (!name) { $("#typeHint").textContent = "Escribe el nombre de la visita"; $("#visitor").focus(); return; }
+    pass = { name: name, type: passType, revoked: false, uses: 0, serial: ++serial };
+    renderPass();
+    $("#revokeBtn").disabled = false;
+    $("#scanBtn").disabled = false;
+    $("#gate").style.background = "#101413";
+    $("#gate").innerHTML = '<span style="color:#9FB6DC;font-size:15px">Apunta al código QR de la visita</span>';
+  });
+  $("#revokeBtn").addEventListener("click", function () {
+    if (!pass) return;
+    pass.revoked = true;
+    renderPass();
+    $("#revokeBtn").disabled = true;
+  });
+  $("#offline").addEventListener("click", function () {
+    offline = !offline;
+    this.setAttribute("aria-checked", String(offline));
+  });
+  $("#scanBtn").addEventListener("click", function () {
+    if (!pass) return;
+    var gate = $("#gate"), btn = this;
+    btn.disabled = true;
+    gate.style.background = "#101413";
+    gate.innerHTML = '<div class="scanline"></div><span style="color:#DCE7FB;font-size:15px">' + (offline ? "Comparando la firma con la copia local…" : "Verificando el pase…") + "</span>";
+    setTimeout(function () {
+      var ok = !pass.revoked && !(pass.type === "single" && pass.uses > 0);
+      var reason = pass.revoked ? "Pase revocado" : "Este pase ya se usó";
+      gate.style.background = ok ? "#1B7F5A" : "#B3261E";
+      gate.innerHTML = "";
+      var s = document.createElement("strong");
+      s.textContent = ok ? "ADELANTE" : "NO PASA";
+      gate.appendChild(s);
+      gate.appendChild(document.createTextNode(ok ? pass.name + "\nUnidad 4B" + (offline ? "\n\nValidado sin conexión contra la copia local." : "") : reason));
+      if (ok) { pass.uses++; renderPass(); }
+      btn.disabled = false;
+    }, reduced ? 0 : 950);
+  });
+
+  /* ---------- prorrateo por el metodo del resto mayor ---------- */
+  var UNITS = [["1A", 1137], ["1B", 1352], ["2A", 1137], ["2B", 1352], ["3A", 1137], ["3B", 1352], ["PH", 2533]];
+  var CUR = { MXN: { d: 2, scale: 1 }, USD: { d: 2, scale: 1 }, COP: { d: 2, scale: 100 }, CLP: { d: 0, scale: 1 } };
+  var cur = "MXN";
+  function fmt(minor, code) {
+    var d = CUR[code].d;
+    return new Intl.NumberFormat("es-MX", { style: "currency", currency: code, currencyDisplay: "narrowSymbol", minimumFractionDigits: d, maximumFractionDigits: d }).format(minor / Math.pow(10, d));
+  }
+  function calc() {
+    var v = +$("#budgetRange").value, c = CUR[cur], minor = v * c.scale;
+    $("#budgetOut").textContent = fmt(minor, cur) + " " + cur;
+    var naive = UNITS.map(function (u) { return Math.round(minor * u[1] / 10000); });
+    var base = UNITS.map(function (u) { return Math.floor(minor * u[1] / 10000); });
+    var rem = minor - base.reduce(function (a, b) { return a + b; }, 0);
+    var order = UNITS.map(function (u, i) { return [i, (minor * u[1]) % 10000]; }).sort(function (a, b) { return b[1] - a[1] || a[0] - b[0]; });
+    var extra = UNITS.map(function () { return 0; });
+    for (var k = 0; k < rem; k++) extra[order[k][0]] = 1;
+    var sumN = 0, sumC = 0, rows = "";
+    UNITS.forEach(function (u, i) {
+      var cv = base[i] + extra[i];
+      sumN += naive[i]; sumC += cv;
+      rows += "<tr><td>" + u[0] + "</td><td>" + (u[1] / 100).toFixed(2) + "%</td><td>" + fmt(naive[i], cur) + "</td><td>" + fmt(cv, cur) +
+        (extra[i] ? '<span class="plus">+1' + (c.d ? "¢" : "") + "</span>" : "") + "</td></tr>";
+    });
+    $("#shareRows").innerHTML = rows;
+    $("#sumNaive").textContent = fmt(sumN, cur);
+    $("#sumCondo").textContent = fmt(sumC, cur);
+    var diff = sumN - minor, box = $("#diffNaive").parentNode;
+    $("#diffNaive").textContent = (diff > 0 ? "+" : diff < 0 ? "−" : "") + fmt(Math.abs(diff), cur);
+    box.className = diff === 0 ? "v-good" : "v-bad";
+    $("#diffCondo").textContent = fmt(sumC - minor, cur);
+  }
+  $("#budgetRange").addEventListener("input", calc);
+  $$("[data-cur]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      cur = b.getAttribute("data-cur");
+      $$("[data-cur]").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+      calc();
+    });
+  });
+  calc();
+})();
+</script>
+</body>
+</html>
