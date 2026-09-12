@@ -80,6 +80,12 @@
   .btn-ghost:hover svg{transform:translateY(3px)}
   .chip-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--ink-2);background:var(--surface)}
   .chip-btn:hover{color:var(--ink)}
+  .lang{display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 10px 0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer}
+  .lang:hover{color:var(--ink)}
+  .lang:focus-within{outline:2px solid var(--blue);outline-offset:2px}
+  .lang select{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;font-weight:600;font-size:14px;letter-spacing:.04em;color:inherit;cursor:pointer;padding:0}
+  .lang select:focus{outline:0}
+  .lang option{color:#0A1830;background:#fff}
 
   /* nav */
   header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--page) 78%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
@@ -323,21 +329,29 @@
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="#top" aria-label="Condo, inicio">
+    <a class="brand" href="#top" aria-label="Condo, inicio" data-i18n-attr="aria-label:nav.home">
       <img src="images/condo/icono.png" alt="" width="48" height="48" />
       <span>CONDO</span>
     </a>
-    <nav class="nav-links" aria-label="Secciones">
-      <a href="#como-funciona">Cómo funciona</a>
-      <a href="#pases">Pases QR</a>
-      <a href="#cuentas">Cuentas claras</a>
-      <a href="#contacto">Contacto</a>
+    <nav class="nav-links" aria-label="Secciones" data-i18n-attr="aria-label:nav.sections">
+      <a href="#como-funciona" data-i18n="nav.how">Cómo funciona</a>
+      <a href="#pases" data-i18n="nav.passes">Pases QR</a>
+      <a href="#cuentas" data-i18n="nav.accounts">Cuentas claras</a>
+      <a href="#contacto" data-i18n="nav.contact">Contacto</a>
     </nav>
     <div class="nav-right">
-      <button class="chip-btn" id="themeBtn" aria-label="Cambiar tema">
+      <button class="chip-btn" id="themeBtn" aria-label="Cambiar tema" data-i18n-attr="aria-label:nav.theme">
         <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
       </button>
-      <a class="btn btn-sm" href="#contacto">Solicitar una demo</a>
+      <label class="lang" aria-label="Idioma" data-i18n-attr="aria-label:nav.language">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+        <select id="langSel">
+          <option value="es">ES</option>
+          <option value="en">EN</option>
+          <option value="pt">PT</option>
+        </select>
+      </label>
+      <a class="btn btn-sm" href="#contacto" data-i18n="cta.demo">Solicitar una demo</a>
     </div>
   </div>
 </header>
@@ -346,31 +360,31 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="eyebrow reveal" style="--i:0">App para condominios · Android</span>
-        <h1 class="reveal" style="--i:1">Cuentas claras, visitas sin esperas y avisos <em>que sí se leen</em>.</h1>
-        <p class="lead reveal" style="--i:2">Condo conecta a residentes, garita y administración: estado de cuenta en vivo, pases QR para tus visitas y un tablón oficial que reemplaza al grupo de WhatsApp.</p>
+        <span class="eyebrow reveal" style="--i:0" data-i18n="hero.eyebrow">App para condominios · Android</span>
+        <h1 class="reveal" style="--i:1" data-i18n-html="hero.title">Cuentas claras, visitas sin esperas y avisos <em>que sí se leen</em>.</h1>
+        <p class="lead reveal" style="--i:2" data-i18n="hero.lead">Condo conecta a residentes, garita y administración: estado de cuenta en vivo, pases QR para tus visitas y un tablón oficial que reemplaza al grupo de WhatsApp.</p>
         <div class="hero-cta reveal" style="--i:3">
-          <a class="btn" href="#contacto">Solicitar una demo</a>
-          <a class="btn-ghost" href="#como-funciona">Ver cómo funciona
+          <a class="btn" href="#contacto" data-i18n="cta.demo">Solicitar una demo</a>
+          <a class="btn-ghost" href="#como-funciona"><span data-i18n="hero.see">Ver cómo funciona</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
           </a>
         </div>
-        <p class="hero-note reveal" style="--i:4">Para administradoras y comités. Moneda, zona horaria e idioma por condominio.</p>
+        <p class="hero-note reveal" style="--i:4" data-i18n="hero.note">Para administradoras y comités. Moneda, zona horaria e idioma por condominio.</p>
       </div>
 
       <div class="stage reveal" id="stage" style="--i:2">
-        <div class="tile" id="tile"><img src="images/condo/CONDOFT.PNG" alt="Logo de Condo: un edificio dentro de la letra C" width="1331" height="1182" /></div>
+        <div class="tile" id="tile"><img src="images/condo/CONDOFT.PNG" alt="Logo de Condo: un edificio dentro de la letra C" data-i18n-attr="alt:hero.logoAlt" width="1331" height="1182" /></div>
         <div class="float f1" data-depth="34">
           <span class="ico" style="background:#1B7F5A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
-          <span><b>ADELANTE</b><small>Pase de visita · Unidad 4B</small></span>
+          <span><b data-i18n="gate.go">ADELANTE</b><small data-i18n="hero.f1">Pase de visita · Unidad 4B</small></span>
         </div>
         <div class="float f2" data-depth="52">
           <span class="ico" style="background:#0F766E"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h5"/></svg></span>
-          <span><b>Comprobante enviado</b><small>La administración lo revisará</small></span>
+          <span><b data-i18n="hero.f2t">Comprobante enviado</b><small data-i18n="hero.f2s">La administración lo revisará</small></span>
         </div>
         <div class="float f3" data-depth="24">
           <span class="ico" style="background:#022E6F"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 8.5a5 5 0 0 1 0 7M19 5.5a9 9 0 0 1 0 13"/></svg></span>
-          <span><b>Nuevo comunicado</b><small>Confirmar que lo leí</small></span>
+          <span><b data-i18n="hero.f3t">Nuevo comunicado</b><small data-i18n="phone.ack">Confirmar que lo leí</small></span>
         </div>
       </div>
     </div>
@@ -379,20 +393,20 @@
 
   <section class="sec wrap" id="como-funciona">
     <div class="sec-head">
-      <span class="eyebrow">Cómo funciona</span>
-      <h2>Un edificio, tres puntos de vista.</h2>
-      <p>Cada perfil ve solo lo suyo. La garita no ve estados de cuenta y un residente no ve el escáner: la app nunca ofrece una acción que el servidor vaya a rechazar.</p>
+      <span class="eyebrow" data-i18n="nav.how">Cómo funciona</span>
+      <h2 data-i18n="how.title">Un edificio, tres puntos de vista.</h2>
+      <p data-i18n="how.lead">Cada perfil ve solo lo suyo. La garita no ve estados de cuenta y un residente no ve el escáner: la app nunca ofrece una acción que el servidor vaya a rechazar.</p>
     </div>
 
-    <div class="tabs" role="tablist" aria-label="Perfiles">
-      <button class="tab" role="tab" data-role="res" aria-selected="true">Residente</button>
-      <button class="tab" role="tab" data-role="guard" aria-selected="false">Garita</button>
-      <button class="tab" role="tab" data-role="admin" aria-selected="false">Administración</button>
+    <div class="tabs" role="tablist" aria-label="Perfiles" data-i18n-attr="aria-label:how.tabsAria">
+      <button class="tab" role="tab" data-role="res" aria-selected="true" data-i18n="role.res">Residente</button>
+      <button class="tab" role="tab" data-role="guard" aria-selected="false" data-i18n="role.guard">Garita</button>
+      <button class="tab" role="tab" data-role="admin" aria-selected="false" data-i18n="role.admin">Administración</button>
     </div>
 
     <div class="roles">
       <div class="bld-col">
-        <svg class="bld" viewBox="0 0 440 470" role="img" aria-label="Edificio de Condo con garita">
+        <svg class="bld" viewBox="0 0 440 470" role="img" aria-label="Edificio de Condo con garita" data-i18n-attr="aria-label:how.bldAlt">
 <ellipse cx="236" cy="420" rx="190" ry="38" fill="rgba(2,46,111,.09)"/>
 <g class="z-signal">
 <path d="M184,52 A16,16 0 0 1 216,52" fill="none" stroke="#2F6FE4" stroke-width="3" stroke-linecap="round"/>
@@ -442,82 +456,82 @@
 <rect x="378" y="398" width="5" height="26" rx="1.5" fill="#022E6F"/>
 <line class="barrier" x1="381" y1="402" x2="436" y2="429.5" stroke="#B3261E" stroke-width="5" stroke-linecap="round" stroke-dasharray="9 7"/>
 </g>
-<g class="tag tag-res"><rect x="8" y="188" width="86" height="28" rx="14"/><text x="51" y="206.5" text-anchor="middle">Tu unidad</text></g>
-<g class="tag tag-guard"><rect x="300" y="330" width="72" height="28" rx="14"/><text x="336" y="348.5" text-anchor="middle">Garita</text></g>
-<g class="tag tag-admin"><rect x="232" y="14" width="104" height="28" rx="14"/><text x="284" y="32.5" text-anchor="middle">Comunicado</text></g>
+<g class="tag tag-res"><rect x="8" y="188" width="86" height="28" rx="14"/><text x="51" y="206.5" text-anchor="middle" data-i18n="bld.unit">Tu unidad</text></g>
+<g class="tag tag-guard"><rect x="300" y="330" width="72" height="28" rx="14"/><text x="336" y="348.5" text-anchor="middle" data-i18n="role.guard">Garita</text></g>
+<g class="tag tag-admin"><rect x="232" y="14" width="104" height="28" rx="14"/><text x="284" y="32.5" text-anchor="middle" data-i18n="bld.notice">Comunicado</text></g>
 </svg>
       </div>
 
-      <div class="phone" aria-label="Pantalla de la app">
+      <div class="phone" aria-label="Pantalla de la app" data-i18n-attr="aria-label:how.phoneAria">
         <div class="screen">
           <!-- residente -->
           <div class="scr" data-scr="res" style="display:contents">
-            <div class="appbar">Estado de cuenta</div>
+            <div class="appbar" data-i18n="phone.statement">Estado de cuenta</div>
             <div class="app-body">
               <div class="card pc">
-                <div style="font-size:14px">Saldo pendiente</div>
+                <div style="font-size:14px" data-i18n="phone.balance">Saldo pendiente</div>
                 <div class="amount">$2,450.00</div>
                 <div style="display:flex;align-items:center;gap:10px;margin-top:12px;font-size:14px">
-                  <span class="status" style="background:#B3261E">Vencido</span><span>$850.00</span>
+                  <span class="status" style="background:#B3261E" data-i18n="phone.overdue">Vencido</span><span>$850.00</span>
                 </div>
               </div>
-              <button class="m3btn" id="uploadBtn">Subir comprobante de pago</button>
-              <div class="sec-title">Pendiente</div>
+              <button class="m3btn" id="uploadBtn" data-i18n="phone.upload">Subir comprobante de pago</button>
+              <div class="sec-title" data-i18n="phone.pending">Pendiente</div>
               <div class="card" style="padding:12px 16px">
-                <div class="lrow"><span>Cuota septiembre</span><b>$1,600.00</b></div>
+                <div class="lrow"><span data-i18n="phone.feeSep">Cuota septiembre</span><b>$1,600.00</b></div>
                 <div class="lrow"><span id="chipRow"><span class="status" style="background:#B26B00">Pendiente de pago</span></span></div>
               </div>
               <div class="card" style="padding:12px 16px">
-                <div class="lrow"><span>Recargo agosto</span><b>$850.00</b></div>
-                <div class="lrow"><span><span class="status" style="background:#B3261E">Recargo</span></span></div>
+                <div class="lrow"><span data-i18n="phone.lateAug">Recargo agosto</span><b>$850.00</b></div>
+                <div class="lrow"><span><span class="status" style="background:#B3261E" data-i18n="phone.late">Recargo</span></span></div>
               </div>
             </div>
             <div class="bottom-nav">
-              <div class="bn on"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></i>Cuenta</div>
-              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3"/></svg></i>Pases</div>
-              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></i>Avisos</div>
-              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg></i>Ajustes</div>
+              <div class="bn on"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></i><span data-i18n="tab.account">Cuenta</span></div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3"/></svg></i><span data-i18n="tab.passes">Pases</span></div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></i><span data-i18n="tab.notices">Avisos</span></div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg></i><span data-i18n="tab.settings">Ajustes</span></div>
             </div>
-            <div class="snack" id="snack">Comprobante enviado. La administración lo revisará.</div>
+            <div class="snack" id="snack" data-i18n="phone.snack">Comprobante enviado. La administración lo revisará.</div>
           </div>
 
           <!-- garita -->
           <div class="scr" data-scr="guard" style="display:none">
-            <div class="appbar">Escáner</div>
+            <div class="appbar" data-i18n="tab.scanner">Escáner</div>
             <div class="app-body">
               <div class="viewfinder">
                 <div class="vf-frame"><i></i><i></i><i></i><i></i><div class="scanline"></div></div>
-                <div class="vf-hint">Apunta al código QR de la visita</div>
+                <div class="vf-hint" data-i18n="gate.aim">Apunta al código QR de la visita</div>
                 <div class="result" id="phoneResult" hidden></div>
               </div>
             </div>
             <div class="bottom-nav">
-              <div class="bn on"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3M7 12h10"/></svg></i>Escáner</div>
-              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></i>Avisos</div>
-              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg></i>Ajustes</div>
+              <div class="bn on"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3M7 12h10"/></svg></i><span data-i18n="tab.scanner">Escáner</span></div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></i><span data-i18n="tab.notices">Avisos</span></div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg></i><span data-i18n="tab.settings">Ajustes</span></div>
             </div>
           </div>
 
           <!-- administracion -->
           <div class="scr" data-scr="admin" style="display:none">
-            <div class="appbar">Comunicados</div>
+            <div class="appbar" data-i18n="phone.notices">Comunicados</div>
             <div class="app-body">
               <div class="card ann">
-                <span class="status" style="background:#B3261E">Urgente</span>
-                <h4>Corte de agua el jueves</h4>
-                <p>De 9:00 a 13:00 por mantenimiento de la cisterna. Llena tus depósitos el miércoles.</p>
-                <div class="meta" style="margin-top:10px" id="ackMeta">Enviado a todas las unidades</div>
+                <span class="status" style="background:#B3261E" data-i18n="phone.urgent">Urgente</span>
+                <h4 data-i18n="phone.ann1t">Corte de agua el jueves</h4>
+                <p data-i18n="phone.ann1b">De 9:00 a 13:00 por mantenimiento de la cisterna. Llena tus depósitos el miércoles.</p>
+                <div class="meta" style="margin-top:10px" id="ackMeta" data-i18n="phone.ackMeta">Enviado a todas las unidades</div>
               </div>
               <div class="card ann">
-                <h4>Asamblea ordinaria</h4>
-                <p>Revisaremos el presupuesto del próximo año y la reparación del portón.</p>
+                <h4 data-i18n="phone.ann2t">Asamblea ordinaria</h4>
+                <p data-i18n="phone.ann2b">Revisaremos el presupuesto del próximo año y la reparación del portón.</p>
               </div>
-              <button class="m3btn tonal" id="ackBtn">Confirmar que lo leí</button>
+              <button class="m3btn tonal" id="ackBtn" data-i18n="phone.ack">Confirmar que lo leí</button>
             </div>
             <div class="bottom-nav">
-              <div class="bn on"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></i>Avisos</div>
-              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3M7 12h10"/></svg></i>Escáner</div>
-              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg></i>Ajustes</div>
+              <div class="bn on"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></i><span data-i18n="tab.notices">Avisos</span></div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3M7 12h10"/></svg></i><span data-i18n="tab.scanner">Escáner</span></div>
+              <div class="bn"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg></i><span data-i18n="tab.settings">Ajustes</span></div>
             </div>
           </div>
         </div>
@@ -530,67 +544,67 @@
   <section class="band" id="pases">
     <div class="wrap sec">
       <div class="sec-head">
-        <span class="eyebrow">Pases QR</span>
-        <h2>Tu visita entra sin esperar en la puerta.</h2>
-        <p>Pruébalo: crea un pase como residente y escanéalo como si fueras la garita.</p>
+        <span class="eyebrow" data-i18n="nav.passes">Pases QR</span>
+        <h2 data-i18n="pass.title">Tu visita entra sin esperar en la puerta.</h2>
+        <p data-i18n="pass.lead">Pruébalo: crea un pase como residente y escanéalo como si fueras la garita.</p>
       </div>
 
       <div class="pass-grid">
         <div class="panel">
-          <div class="panel-top"><span>1 · Residente</span></div>
+          <div class="panel-top"><span data-i18n="pass.step1">1 · Residente</span></div>
           <div class="field">
-            <label for="visitor">Nombre de la visita</label>
+            <label for="visitor" data-i18n="pass.visitor">Nombre de la visita</label>
             <input id="visitor" type="text" value="Laura Méndez" maxlength="40" autocomplete="off" />
           </div>
           <div>
-            <div class="seg" role="group" aria-label="Tipo de pase">
-              <button data-type="single" aria-pressed="true">Una vez</button>
-              <button data-type="recurring" aria-pressed="false">Recurrente</button>
+            <div class="seg" role="group" aria-label="Tipo de pase" data-i18n-attr="aria-label:pass.typeAria">
+              <button data-type="single" aria-pressed="true" data-i18n="pass.once">Una vez</button>
+              <button data-type="recurring" aria-pressed="false" data-i18n="pass.recurring">Recurrente</button>
             </div>
-            <p class="hint" id="typeHint" style="margin-top:10px">Un solo ingreso, válido por 12 horas.</p>
+            <p class="hint" id="typeHint" style="margin-top:10px" data-i18n="pass.hintOnce">Un solo ingreso, válido por 12 horas.</p>
           </div>
           <div id="passOut">
-            <div class="empty">Tu pase aparecerá aquí.</div>
+            <div class="empty" data-i18n="pass.empty">Tu pase aparecerá aquí.</div>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <button class="btn btn-light" id="createBtn">Crear pase</button>
-            <button class="btn btn-line" id="revokeBtn" disabled>Revocar pase</button>
+            <button class="btn btn-light" id="createBtn" data-i18n="pass.create">Crear pase</button>
+            <button class="btn btn-line" id="revokeBtn" disabled data-i18n="pass.revoke">Revocar pase</button>
           </div>
         </div>
 
         <div class="panel">
           <div class="panel-top">
-            <span>2 · Garita</span>
-            <button class="switch" id="offline" role="switch" aria-checked="false"><i></i>Sin conexión</button>
+            <span data-i18n="pass.step2">2 · Garita</span>
+            <button class="switch" id="offline" role="switch" aria-checked="false"><i></i><span data-i18n="pass.offline">Sin conexión</span></button>
           </div>
           <div class="gate" id="gate" aria-live="polite">
-            <span style="color:#9FB6DC;font-size:15px">Crea un pase para poder escanearlo.</span>
+            <span style="color:#9FB6DC;font-size:15px" data-i18n="gate.createFirst">Crea un pase para poder escanearlo.</span>
           </div>
-          <div><button class="btn btn-light" id="scanBtn" disabled>Escanear pase</button></div>
+          <div><button class="btn btn-light" id="scanBtn" disabled data-i18n="pass.scan">Escanear pase</button></div>
         </div>
       </div>
 
-      <p class="fine">La garita no guarda ninguna clave secreta: es un teléfono que rota entre turnos. Verifica cada pase en línea y, sin señal, compara la firma del QR con la del pase guardado. El código QR de esta demostración es ilustrativo.</p>
+      <p class="fine" data-i18n="pass.fine">La garita no guarda ninguna clave secreta: es un teléfono que rota entre turnos. Verifica cada pase en línea y, sin señal, compara la firma del QR con la del pase guardado. El código QR de esta demostración es ilustrativo.</p>
     </div>
   </section>
 
   <section class="sec wrap" id="cuentas">
     <div class="sec-head">
-      <span class="eyebrow">Cuentas claras</span>
-      <h2>Ni un centavo de descuadre, mes tras mes.</h2>
-      <p>Condo reparte el presupuesto entre las unidades según su coeficiente con el método del resto mayor. Si cada cuota se redondea por separado, sobran o faltan centavos y la contabilidad deja de cuadrar. Mueve el presupuesto y compruébalo.</p>
+      <span class="eyebrow" data-i18n="nav.accounts">Cuentas claras</span>
+      <h2 data-i18n="acc.title">Ni un centavo de descuadre, mes tras mes.</h2>
+      <p data-i18n="acc.lead">Condo reparte el presupuesto entre las unidades según su coeficiente con el método del resto mayor. Si cada cuota se redondea por separado, sobran o faltan centavos y la contabilidad deja de cuadrar. Mueve el presupuesto y compruébalo.</p>
     </div>
 
     <div class="calc">
       <div class="ctrl">
         <div>
-          <label for="budgetRange">Presupuesto mensual</label>
+          <label for="budgetRange" data-i18n="acc.budget">Presupuesto mensual</label>
           <div class="budget" id="budgetOut">$48,750.35</div>
-          <input id="budgetRange" type="range" min="1000000" max="25000000" step="1" value="4875035" aria-label="Presupuesto mensual" />
+          <input id="budgetRange" type="range" min="1000000" max="25000000" step="1" value="4875035" aria-label="Presupuesto mensual" data-i18n-attr="aria-label:acc.budget" />
         </div>
         <div>
-          <label>Moneda</label>
-          <div class="cur" style="margin-top:10px" role="group" aria-label="Moneda">
+          <label data-i18n="acc.currency">Moneda</label>
+          <div class="cur" style="margin-top:10px" role="group" aria-label="Moneda" data-i18n-attr="aria-label:acc.currency">
             <button class="pill" data-cur="MXN" aria-pressed="true">MXN</button>
             <button class="pill" data-cur="COP" aria-pressed="false">COP</button>
             <button class="pill" data-cur="USD" aria-pressed="false">USD</button>
@@ -598,17 +612,17 @@
           </div>
         </div>
         <div class="verdict">
-          <div class="v-bad"><small>Redondeo por separado</small><b id="diffNaive">+$0.01</b></div>
-          <div class="v-good"><small>Con Condo</small><b id="diffCondo">$0.00</b></div>
+          <div class="v-bad"><small data-i18n="acc.naive">Redondeo por separado</small><b id="diffNaive">+$0.01</b></div>
+          <div class="v-good"><small data-i18n="acc.withCondo">Con Condo</small><b id="diffCondo">$0.00</b></div>
         </div>
-        <p style="font-size:14px;color:var(--ink-3)">El dinero nunca se guarda como decimal: se guarda como entero en la unidad menor de la moneda, con su código ISO 4217.</p>
+        <p style="font-size:14px;color:var(--ink-3)" data-i18n="acc.note">El dinero nunca se guarda como decimal: se guarda como entero en la unidad menor de la moneda, con su código ISO 4217.</p>
       </div>
 
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Unidad</th><th>Coeficiente</th><th>Por separado</th><th>Condo</th></tr></thead>
+          <thead><tr><th data-i18n="acc.thUnit">Unidad</th><th data-i18n="acc.thShare">Coeficiente</th><th data-i18n="acc.thNaive">Por separado</th><th>Condo</th></tr></thead>
           <tbody id="shareRows"></tbody>
-          <tfoot><tr><td>Total</td><td>100.00%</td><td id="sumNaive"></td><td id="sumCondo"></td></tr></tfoot>
+          <tfoot><tr><td data-i18n="acc.total">Total</td><td>100.00%</td><td id="sumNaive"></td><td id="sumCondo"></td></tr></tfoot>
         </table>
       </div>
     </div>
@@ -616,29 +630,29 @@
 
   <section class="wrap" style="padding-bottom:40px">
     <div class="sec-head" style="margin-bottom:0">
-      <span class="eyebrow">Pensado para comunidades reales</span>
-      <h2>Reglas que se cumplen solas.</h2>
+      <span class="eyebrow" data-i18n="pri.eyebrow">Pensado para comunidades reales</span>
+      <h2 data-i18n="pri.title">Reglas que se cumplen solas.</h2>
     </div>
     <div class="principles" style="margin-top:44px">
       <div>
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14a6 6 0 0 1 3 6"/></svg></div>
-        <h3>Cada rol, sus pantallas</h3>
-        <p>Residentes, garita y administración ven menús distintos, con los mismos permisos que valida el servidor.</p>
+        <h3 data-i18n="pri.1t">Cada rol, sus pantallas</h3>
+        <p data-i18n="pri.1b">Residentes, garita y administración ven menús distintos, con los mismos permisos que valida el servidor.</p>
       </div>
       <div>
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></div>
-        <h3>Varios países</h3>
-        <p>Cada condominio define su moneda, zona horaria e idioma. Una misma cuenta puede pertenecer a varios y cambiar entre ellos.</p>
+        <h3 data-i18n="pri.2t">Varios países</h3>
+        <p data-i18n="pri.2b">Cada condominio define su moneda, zona horaria e idioma. Una misma cuenta puede pertenecer a varios y cambiar entre ellos.</p>
       </div>
       <div>
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="M12 8v5M12 16h.01"/></svg></div>
-        <h3>Alerta a un toque</h3>
-        <p>Emergencia médica, incendio o seguridad: la alerta llega de inmediato a la garita y a la administración, con tu unidad.</p>
+        <h3 data-i18n="pri.3t">Alerta a un toque</h3>
+        <p data-i18n="pri.3b">Emergencia médica, incendio o seguridad: la alerta llega de inmediato a la garita y a la administración, con tu unidad.</p>
       </div>
       <div>
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
-        <h3>Tus datos, tuyos</h3>
-        <p>Cada titular puede exportar o eliminar sus datos personales cuando lo necesite.</p>
+        <h3 data-i18n="pri.4t">Tus datos, tuyos</h3>
+        <p data-i18n="pri.4b">Cada titular puede exportar o eliminar sus datos personales cuando lo necesite.</p>
       </div>
     </div>
   </section>
@@ -647,11 +661,11 @@
     <div class="cta">
       <img class="cta-mark" src="images/condo/CONDOFT.PNG" alt="" />
       <div style="position:relative;z-index:1">
-        <h2>¿Administras un condominio?</h2>
-        <p>Te mostramos Condo en una llamada: cómo se emiten las cuotas, cómo entra una visita y cómo invitas a tus residentes con un código.</p>
+        <h2 data-i18n="cta.title">¿Administras un condominio?</h2>
+        <p data-i18n="cta.lead">Te mostramos Condo en una llamada: cómo se emiten las cuotas, cómo entra una visita y cómo invitas a tus residentes con un código.</p>
       </div>
       <div class="cta-actions">
-        <a class="btn btn-light" href="https://wa.me/17542313968?text=Hola%2C%20quiero%20una%20demo%20de%20Condo" target="_blank" rel="noopener">Solicitar una demo</a>
+        <a class="btn btn-light" id="waDemo" href="https://wa.me/17542313968?text=Hola%2C%20quiero%20una%20demo%20de%20Condo" target="_blank" rel="noopener" data-i18n="cta.demo">Solicitar una demo</a>
         <a class="mail" href="mailto:gapcode@protonmail.com?subject=Demo%20de%20Condo">gapcode@protonmail.com</a>
       </div>
     </div>
@@ -663,21 +677,21 @@
     <div class="foot">
       <div>
         <a class="brand" href="#top"><img src="images/condo/icono.png" alt="" width="48" height="48" /><span>CONDO</span></a>
-        <p>Administración de condominios para residentes, garita y administración. Un producto de ProtonLab.</p>
+        <p data-i18n="foot.about">Administración de condominios para residentes, garita y administración. Un producto de ProtonLab.</p>
       </div>
       <div class="foot-col">
-        <b>CONTACTO</b>
+        <b data-i18n="foot.contact">CONTACTO</b>
         <a href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a>
         <a href="https://wa.me/17542313968" target="_blank" rel="noopener">WhatsApp +1 754 231 3968</a>
         <a href="index.html">protonlab.site</a>
       </div>
       <div class="foot-col">
-        <b>LEGAL</b>
-        <a href="privacidad.html">Política de Privacidad</a>
+        <b data-i18n="foot.legal">LEGAL</b>
+        <a href="privacidad.html" data-i18n="foot.privacy">Política de Privacidad</a>
       </div>
     </div>
     <div class="foot-bot">
-      <span>&copy; <span id="year"></span> Condo. Todos los derechos reservados.</span>
+      <span>&copy; <span id="year"></span> Condo. <span data-i18n="foot.rights">Todos los derechos reservados.</span></span>
       <code>com.condowner.app</code>
     </div>
   </div>
@@ -692,6 +706,482 @@
   var SVGNS = "http://www.w3.org/2000/svg";
 
   $("#year").textContent = new Date().getFullYear();
+
+  /* ---------- idiomas ---------- */
+  var LOCALES = { es: "es-MX", en: "en-US", pt: "pt-BR" };
+  var I18N =
+  {
+    "es": {
+      "meta.title": "Condo — Administración de condominios para residentes, garita y administración",
+      "meta.desc": "Condo conecta a residentes, garita y administración: estado de cuenta en vivo, pases QR para visitas, cobranza automática y comunicados oficiales. App para Android.",
+      "meta.ogTitle": "Condo — Tu condominio, en orden desde el teléfono",
+      "meta.ogDesc": "Estado de cuenta en vivo, pases QR para visitas, garita digital y comunicados oficiales.",
+      "nav.sections": "Secciones",
+      "nav.home": "Condo, inicio",
+      "nav.how": "Cómo funciona",
+      "nav.passes": "Pases QR",
+      "nav.accounts": "Cuentas claras",
+      "nav.contact": "Contacto",
+      "nav.theme": "Cambiar tema",
+      "nav.language": "Idioma",
+      "cta.demo": "Solicitar una demo",
+      "cta.title": "¿Administras un condominio?",
+      "cta.lead": "Te mostramos Condo en una llamada: cómo se emiten las cuotas, cómo entra una visita y cómo invitas a tus residentes con un código.",
+      "cta.waText": "Hola, quiero una demo de Condo",
+      "hero.eyebrow": "App para condominios · Android",
+      "hero.title": "Cuentas claras, visitas sin esperas y avisos <em>que sí se leen</em>.",
+      "hero.lead": "Condo conecta a residentes, garita y administración: estado de cuenta en vivo, pases QR para tus visitas y un tablón oficial que reemplaza al grupo de WhatsApp.",
+      "hero.see": "Ver cómo funciona",
+      "hero.note": "Para administradoras y comités. Moneda, zona horaria e idioma por condominio.",
+      "hero.logoAlt": "Logo de Condo: un edificio dentro de la letra C",
+      "hero.f1": "Pase de visita · Unidad 4B",
+      "hero.f2t": "Comprobante enviado",
+      "hero.f2s": "La administración lo revisará",
+      "hero.f3t": "Nuevo comunicado",
+      "gate.go": "ADELANTE",
+      "gate.no": "NO PASA",
+      "gate.aim": "Apunta al código QR de la visita",
+      "gate.createFirst": "Crea un pase para poder escanearlo.",
+      "gate.compare": "Comparando la firma con la copia local…",
+      "gate.verify": "Verificando el pase…",
+      "gate.revoked": "Pase revocado",
+      "gate.usedAlready": "Este pase ya se usó",
+      "gate.offlineNote": "\n\nValidado sin conexión contra la copia local.",
+      "phone.ack": "Confirmar que lo leí",
+      "phone.statement": "Estado de cuenta",
+      "phone.balance": "Saldo pendiente",
+      "phone.overdue": "Vencido",
+      "phone.upload": "Subir comprobante de pago",
+      "phone.pending": "Pendiente",
+      "phone.feeSep": "Cuota septiembre",
+      "phone.lateAug": "Recargo agosto",
+      "phone.late": "Recargo",
+      "phone.pendingPay": "Pendiente de pago",
+      "phone.review": "En revisión",
+      "phone.snack": "Comprobante enviado. La administración lo revisará.",
+      "phone.notices": "Comunicados",
+      "phone.urgent": "Urgente",
+      "phone.ann1t": "Corte de agua el jueves",
+      "phone.ann1b": "De 9:00 a 13:00 por mantenimiento de la cisterna. Llena tus depósitos el miércoles.",
+      "phone.ackMeta": "Enviado a todas las unidades",
+      "phone.ackDone": "Confirmaste que lo leíste",
+      "phone.read": "Leído",
+      "phone.ann2t": "Asamblea ordinaria",
+      "phone.ann2b": "Revisaremos el presupuesto del próximo año y la reparación del portón.",
+      "tab.account": "Cuenta",
+      "tab.passes": "Pases",
+      "tab.notices": "Avisos",
+      "tab.settings": "Ajustes",
+      "tab.scanner": "Escáner",
+      "how.title": "Un edificio, tres puntos de vista.",
+      "how.lead": "Cada perfil ve solo lo suyo. La garita no ve estados de cuenta y un residente no ve el escáner: la app nunca ofrece una acción que el servidor vaya a rechazar.",
+      "how.tabsAria": "Perfiles",
+      "how.bldAlt": "Edificio de Condo con garita",
+      "how.phoneAria": "Pantalla de la app",
+      "role.res": "Residente",
+      "role.guard": "Garita",
+      "role.admin": "Administración",
+      "role.before": "Antes: ",
+      "bld.unit": "Tu unidad",
+      "bld.notice": "Comunicado",
+      "r.res.p1": "No sabe cuánto debe ni por qué.",
+      "r.res.p2": "Su visita espera en la puerta.",
+      "r.res.i1": "<b>Estado de cuenta en vivo</b> con saldo, vencidos, cargos pendientes e historial.",
+      "r.res.i2": "<b>Comprobante de pago</b> desde el teléfono, sin ir a la oficina.",
+      "r.res.i3": "<b>Pases QR</b> de una vez (12 horas) o recurrentes (30 días) para el servicio doméstico.",
+      "r.res.i4": "<b>Paquetes en recepción</b>: sabes cuándo llegó uno a tu nombre.",
+      "r.res.try": "Probar: subir comprobante",
+      "r.guard.p1": "Cuaderno de papel, sin trazabilidad.",
+      "r.guard.i1": "<b>Escáner con la cámara</b>: la respuesta es ADELANTE o NO PASA, sin interpretar nada.",
+      "r.guard.i2": "<b>Funciona sin señal</b>: valida contra la copia local de los pases.",
+      "r.guard.i3": "<b>Ingreso sin QR</b> con placa opcional, registrado en la bitácora con usuario y hora.",
+      "r.guard.i4": "<b>Paquetería</b> registrada al llegar, con aviso al residente.",
+      "r.guard.try": "Probar: escanear",
+      "r.admin.p1": "Cobranza manual y opaca.",
+      "r.admin.p2": "Grupos de WhatsApp caóticos.",
+      "r.admin.i1": "<b>Cuotas emitidas cada mes</b>, por monto fijo o prorrateadas por coeficiente.",
+      "r.admin.i2": "<b>Recordatorios y recargos por mora</b> automáticos, con periodo de gracia y tope.",
+      "r.admin.i3": "<b>Comunicados oficiales</b> con acuse de lectura, en lugar del grupo de WhatsApp.",
+      "r.admin.i4": "<b>Alta del condominio</b> desde el teléfono: moneda, día de corte y códigos de invitación.",
+      "r.admin.try": "Probar: confirmar lectura",
+      "pass.title": "Tu visita entra sin esperar en la puerta.",
+      "pass.lead": "Pruébalo: crea un pase como residente y escanéalo como si fueras la garita.",
+      "pass.step1": "1 · Residente",
+      "pass.step2": "2 · Garita",
+      "pass.visitor": "Nombre de la visita",
+      "pass.typeAria": "Tipo de pase",
+      "pass.once": "Una vez",
+      "pass.recurring": "Recurrente",
+      "pass.create": "Crear pase",
+      "pass.revoke": "Revocar pase",
+      "pass.offline": "Sin conexión",
+      "pass.scan": "Escanear pase",
+      "pass.fine": "La garita no guarda ninguna clave secreta: es un teléfono que rota entre turnos. Verifica cada pase en línea y, sin señal, compara la firma del QR con la del pase guardado. El código QR de esta demostración es ilustrativo.",
+      "pass.empty": "Tu pase aparecerá aquí.",
+      "pass.created": "Pase creado",
+      "pass.share": "Comparte esta imagen con tu visita. La garita la escanea al entrar.",
+      "pass.unit": "Unidad 4B",
+      "pass.qrAlt": "Código QR del pase de acceso",
+      "pass.hintOnce": "Un solo ingreso, válido por 12 horas.",
+      "pass.hintRec": "Varios ingresos durante 30 días.",
+      "pass.hintRecLong": "Varios ingresos durante 30 días. Útil para servicio doméstico.",
+      "pass.needName": "Escribe el nombre de la visita",
+      "pass.active": "Activo",
+      "pass.used": "Usado",
+      "pass.revoked": "Revocado",
+      "acc.title": "Ni un centavo de descuadre, mes tras mes.",
+      "acc.lead": "Condo reparte el presupuesto entre las unidades según su coeficiente con el método del resto mayor. Si cada cuota se redondea por separado, sobran o faltan centavos y la contabilidad deja de cuadrar. Mueve el presupuesto y compruébalo.",
+      "acc.budget": "Presupuesto mensual",
+      "acc.currency": "Moneda",
+      "acc.naive": "Redondeo por separado",
+      "acc.withCondo": "Con Condo",
+      "acc.note": "El dinero nunca se guarda como decimal: se guarda como entero en la unidad menor de la moneda, con su código ISO 4217.",
+      "acc.thUnit": "Unidad",
+      "acc.thShare": "Coeficiente",
+      "acc.thNaive": "Por separado",
+      "acc.total": "Total",
+      "pri.eyebrow": "Pensado para comunidades reales",
+      "pri.title": "Reglas que se cumplen solas.",
+      "pri.1t": "Cada rol, sus pantallas",
+      "pri.1b": "Residentes, garita y administración ven menús distintos, con los mismos permisos que valida el servidor.",
+      "pri.2t": "Varios países",
+      "pri.2b": "Cada condominio define su moneda, zona horaria e idioma. Una misma cuenta puede pertenecer a varios y cambiar entre ellos.",
+      "pri.3t": "Alerta a un toque",
+      "pri.3b": "Emergencia médica, incendio o seguridad: la alerta llega de inmediato a la garita y a la administración, con tu unidad.",
+      "pri.4t": "Tus datos, tuyos",
+      "pri.4b": "Cada titular puede exportar o eliminar sus datos personales cuando lo necesite.",
+      "foot.about": "Administración de condominios para residentes, garita y administración. Un producto de ProtonLab.",
+      "foot.contact": "CONTACTO",
+      "foot.legal": "LEGAL",
+      "foot.privacy": "Política de Privacidad",
+      "foot.rights": "Todos los derechos reservados."
+    },
+    "en": {
+      "meta.title": "Condo — Condominium management for residents, security desk and management",
+      "meta.desc": "Condo connects residents, the security desk and management: live account statements, QR passes for visitors, automated billing and official notices. Android app.",
+      "meta.ogTitle": "Condo — Your building, in order from your phone",
+      "meta.ogDesc": "Live account statements, QR passes for visitors, a digital security desk and official notices.",
+      "nav.sections": "Sections",
+      "nav.home": "Condo, home",
+      "nav.how": "How it works",
+      "nav.passes": "QR passes",
+      "nav.accounts": "Clear accounts",
+      "nav.contact": "Contact",
+      "nav.theme": "Switch theme",
+      "nav.language": "Language",
+      "cta.demo": "Request a demo",
+      "cta.title": "Do you manage a building?",
+      "cta.lead": "We'll walk you through Condo on a call: how fees are issued, how a visitor gets in and how you invite your residents with a code.",
+      "cta.waText": "Hi, I'd like a demo of Condo",
+      "hero.eyebrow": "App for condominiums · Android",
+      "hero.title": "Clear accounts, visitors who don't wait and notices <em>people actually read</em>.",
+      "hero.lead": "Condo connects residents, the security desk and management: a live account statement, QR passes for your visitors and an official board that replaces the WhatsApp group.",
+      "hero.see": "See how it works",
+      "hero.note": "For property managers and boards. Currency, time zone and language per building.",
+      "hero.logoAlt": "Condo logo: a building inside the letter C",
+      "hero.f1": "Visitor pass · Unit 4B",
+      "hero.f2t": "Receipt sent",
+      "hero.f2s": "Management will review it",
+      "hero.f3t": "New notice",
+      "gate.go": "GO AHEAD",
+      "gate.no": "DO NOT ENTER",
+      "gate.aim": "Point at the visitor's QR code",
+      "gate.createFirst": "Create a pass so you can scan it.",
+      "gate.compare": "Comparing the signature with the local copy…",
+      "gate.verify": "Verifying the pass…",
+      "gate.revoked": "Pass revoked",
+      "gate.usedAlready": "This pass was already used",
+      "gate.offlineNote": "\n\nValidated offline against the local copy.",
+      "phone.ack": "Confirm I read it",
+      "phone.statement": "Account statement",
+      "phone.balance": "Outstanding balance",
+      "phone.overdue": "Overdue",
+      "phone.upload": "Upload payment receipt",
+      "phone.pending": "Pending",
+      "phone.feeSep": "September fee",
+      "phone.lateAug": "August late fee",
+      "phone.late": "Late fee",
+      "phone.pendingPay": "Payment pending",
+      "phone.review": "Under review",
+      "phone.snack": "Receipt sent. Management will review it.",
+      "phone.notices": "Notices",
+      "phone.urgent": "Urgent",
+      "phone.ann1t": "Water shutoff on Thursday",
+      "phone.ann1b": "From 9:00 to 13:00 for water tank maintenance. Fill your containers on Wednesday.",
+      "phone.ackMeta": "Sent to every unit",
+      "phone.ackDone": "You confirmed you read it",
+      "phone.read": "Read",
+      "phone.ann2t": "Ordinary assembly",
+      "phone.ann2b": "We'll review next year's budget and the gate repair.",
+      "tab.account": "Account",
+      "tab.passes": "Passes",
+      "tab.notices": "Notices",
+      "tab.settings": "Settings",
+      "tab.scanner": "Scanner",
+      "how.title": "One building, three points of view.",
+      "how.lead": "Each profile sees only its own. The security desk never sees account statements and a resident never sees the scanner: the app never offers an action the server would reject.",
+      "how.tabsAria": "Profiles",
+      "how.bldAlt": "Condo building with security desk",
+      "how.phoneAria": "App screen",
+      "role.res": "Resident",
+      "role.guard": "Security desk",
+      "role.admin": "Management",
+      "role.before": "Before: ",
+      "bld.unit": "Your unit",
+      "bld.notice": "Notice",
+      "r.res.p1": "They don't know how much they owe or why.",
+      "r.res.p2": "Their visitor waits at the gate.",
+      "r.res.i1": "<b>Live account statement</b> with balance, overdue amounts, pending charges and history.",
+      "r.res.i2": "<b>Payment receipt</b> from the phone, without going to the office.",
+      "r.res.i3": "<b>QR passes</b> for a single visit (12 hours) or recurring (30 days) for household staff.",
+      "r.res.i4": "<b>Packages at reception</b>: you know when one arrives in your name.",
+      "r.res.try": "Try it: upload a receipt",
+      "r.guard.p1": "A paper notebook, with no traceability.",
+      "r.guard.i1": "<b>Camera scanner</b>: the answer is GO AHEAD or DO NOT ENTER, nothing to interpret.",
+      "r.guard.i2": "<b>Works with no signal</b>: it validates against the local copy of the passes.",
+      "r.guard.i3": "<b>Entry without a QR</b> with optional plate, logged with user and time.",
+      "r.guard.i4": "<b>Packages</b> logged on arrival, with a notification to the resident.",
+      "r.guard.try": "Try it: scan",
+      "r.admin.p1": "Manual, opaque collections.",
+      "r.admin.p2": "Chaotic WhatsApp groups.",
+      "r.admin.i1": "<b>Fees issued every month</b>, at a fixed amount or prorated by share.",
+      "r.admin.i2": "<b>Automatic reminders and late fees</b>, with a grace period and a cap.",
+      "r.admin.i3": "<b>Official notices</b> with read receipts, instead of the WhatsApp group.",
+      "r.admin.i4": "<b>Building setup</b> from the phone: currency, billing day and invitation codes.",
+      "r.admin.try": "Try it: confirm reading",
+      "pass.title": "Your visitor gets in without waiting at the gate.",
+      "pass.lead": "Try it: create a pass as a resident and scan it as if you were the security desk.",
+      "pass.step1": "1 · Resident",
+      "pass.step2": "2 · Security desk",
+      "pass.visitor": "Visitor name",
+      "pass.typeAria": "Pass type",
+      "pass.once": "One time",
+      "pass.recurring": "Recurring",
+      "pass.create": "Create pass",
+      "pass.revoke": "Revoke pass",
+      "pass.offline": "Offline",
+      "pass.scan": "Scan pass",
+      "pass.fine": "The security desk holds no secret key: it is a phone that rotates between shifts. It verifies each pass online and, with no signal, compares the QR signature against the stored pass. The QR code in this demo is illustrative.",
+      "pass.empty": "Your pass will appear here.",
+      "pass.created": "Pass created",
+      "pass.share": "Share this image with your visitor. The security desk scans it on arrival.",
+      "pass.unit": "Unit 4B",
+      "pass.qrAlt": "Access pass QR code",
+      "pass.hintOnce": "A single entry, valid for 12 hours.",
+      "pass.hintRec": "Multiple entries for 30 days.",
+      "pass.hintRecLong": "Multiple entries for 30 days. Useful for household staff.",
+      "pass.needName": "Type the visitor's name",
+      "pass.active": "Active",
+      "pass.used": "Used",
+      "pass.revoked": "Revoked",
+      "acc.title": "Not a cent out of balance, month after month.",
+      "acc.lead": "Condo splits the budget among the units by their share using the largest remainder method. If each fee is rounded separately, cents are left over or missing and the books stop balancing. Move the budget and see for yourself.",
+      "acc.budget": "Monthly budget",
+      "acc.currency": "Currency",
+      "acc.naive": "Rounded separately",
+      "acc.withCondo": "With Condo",
+      "acc.note": "Money is never stored as a decimal: it is stored as an integer in the currency's minor unit, with its ISO 4217 code.",
+      "acc.thUnit": "Unit",
+      "acc.thShare": "Share",
+      "acc.thNaive": "Separately",
+      "acc.total": "Total",
+      "pri.eyebrow": "Built for real communities",
+      "pri.title": "Rules that enforce themselves.",
+      "pri.1t": "Each role, its own screens",
+      "pri.1b": "Residents, security desk and management see different menus, with the same permissions the server validates.",
+      "pri.2t": "Several countries",
+      "pri.2b": "Each building sets its currency, time zone and language. One account can belong to several and switch between them.",
+      "pri.3t": "Alert in one tap",
+      "pri.3b": "Medical emergency, fire or security: the alert reaches the security desk and management at once, with your unit.",
+      "pri.4t": "Your data stays yours",
+      "pri.4b": "Anyone can export or delete their personal data whenever they need to.",
+      "foot.about": "Condominium management for residents, security desk and management. A ProtonLab product.",
+      "foot.contact": "CONTACT",
+      "foot.legal": "LEGAL",
+      "foot.privacy": "Privacy Policy",
+      "foot.rights": "All rights reserved."
+    },
+    "pt": {
+      "meta.title": "Condo — Gestão de condomínios para moradores, portaria e administração",
+      "meta.desc": "O Condo conecta moradores, portaria e administração: extrato ao vivo, passes QR para visitantes, cobrança automática e avisos oficiais. App para Android.",
+      "meta.ogTitle": "Condo — Seu condomínio em ordem, pelo celular",
+      "meta.ogDesc": "Extrato ao vivo, passes QR para visitantes, portaria digital e avisos oficiais.",
+      "nav.sections": "Seções",
+      "nav.home": "Condo, início",
+      "nav.how": "Como funciona",
+      "nav.passes": "Passes QR",
+      "nav.accounts": "Contas claras",
+      "nav.contact": "Contato",
+      "nav.theme": "Alternar tema",
+      "nav.language": "Idioma",
+      "cta.demo": "Solicitar uma demo",
+      "cta.title": "Você administra um condomínio?",
+      "cta.lead": "Mostramos o Condo em uma ligação: como as taxas são emitidas, como um visitante entra e como você convida os moradores com um código.",
+      "cta.waText": "Olá, quero uma demo do Condo",
+      "hero.eyebrow": "App para condomínios · Android",
+      "hero.title": "Contas claras, visitas sem espera e avisos <em>que realmente se leem</em>.",
+      "hero.lead": "O Condo conecta moradores, portaria e administração: extrato ao vivo, passes QR para suas visitas e um mural oficial que substitui o grupo de WhatsApp.",
+      "hero.see": "Veja como funciona",
+      "hero.note": "Para administradoras e síndicos. Moeda, fuso horário e idioma por condomínio.",
+      "hero.logoAlt": "Logo do Condo: um prédio dentro da letra C",
+      "hero.f1": "Passe de visita · Unidade 4B",
+      "hero.f2t": "Comprovante enviado",
+      "hero.f2s": "A administração vai analisar",
+      "hero.f3t": "Novo aviso",
+      "gate.go": "PODE ENTRAR",
+      "gate.no": "NÃO PASSA",
+      "gate.aim": "Aponte para o código QR da visita",
+      "gate.createFirst": "Crie um passe para poder escaneá-lo.",
+      "gate.compare": "Comparando a assinatura com a cópia local…",
+      "gate.verify": "Verificando o passe…",
+      "gate.revoked": "Passe revogado",
+      "gate.usedAlready": "Este passe já foi usado",
+      "gate.offlineNote": "\n\nValidado sem conexão com a cópia local.",
+      "phone.ack": "Confirmar que li",
+      "phone.statement": "Extrato",
+      "phone.balance": "Saldo pendente",
+      "phone.overdue": "Vencido",
+      "phone.upload": "Enviar comprovante de pagamento",
+      "phone.pending": "Pendente",
+      "phone.feeSep": "Taxa de setembro",
+      "phone.lateAug": "Multa de agosto",
+      "phone.late": "Multa",
+      "phone.pendingPay": "Pagamento pendente",
+      "phone.review": "Em análise",
+      "phone.snack": "Comprovante enviado. A administração vai analisar.",
+      "phone.notices": "Avisos",
+      "phone.urgent": "Urgente",
+      "phone.ann1t": "Corte de água na quinta",
+      "phone.ann1b": "Das 9h às 13h para manutenção da cisterna. Encha seus reservatórios na quarta.",
+      "phone.ackMeta": "Enviado a todas as unidades",
+      "phone.ackDone": "Você confirmou a leitura",
+      "phone.read": "Lido",
+      "phone.ann2t": "Assembleia ordinária",
+      "phone.ann2b": "Vamos revisar o orçamento do próximo ano e o reparo do portão.",
+      "tab.account": "Conta",
+      "tab.passes": "Passes",
+      "tab.notices": "Avisos",
+      "tab.settings": "Ajustes",
+      "tab.scanner": "Leitor",
+      "how.title": "Um prédio, três pontos de vista.",
+      "how.lead": "Cada perfil vê apenas o que é seu. A portaria não vê extratos e o morador não vê o leitor: o app nunca oferece uma ação que o servidor vá recusar.",
+      "how.tabsAria": "Perfis",
+      "how.bldAlt": "Prédio do Condo com portaria",
+      "how.phoneAria": "Tela do app",
+      "role.res": "Morador",
+      "role.guard": "Portaria",
+      "role.admin": "Administração",
+      "role.before": "Antes: ",
+      "bld.unit": "Sua unidade",
+      "bld.notice": "Aviso",
+      "r.res.p1": "Não sabe quanto deve nem por quê.",
+      "r.res.p2": "A visita espera no portão.",
+      "r.res.i1": "<b>Extrato ao vivo</b> com saldo, vencidos, cobranças pendentes e histórico.",
+      "r.res.i2": "<b>Comprovante de pagamento</b> pelo celular, sem ir à administração.",
+      "r.res.i3": "<b>Passes QR</b> de uma vez (12 horas) ou recorrentes (30 dias) para o serviço doméstico.",
+      "r.res.i4": "<b>Encomendas na portaria</b>: você sabe quando chega uma no seu nome.",
+      "r.res.try": "Testar: enviar comprovante",
+      "r.guard.p1": "Caderno de papel, sem rastreabilidade.",
+      "r.guard.i1": "<b>Leitor pela câmera</b>: a resposta é PODE ENTRAR ou NÃO PASSA, sem interpretar nada.",
+      "r.guard.i2": "<b>Funciona sem sinal</b>: valida com a cópia local dos passes.",
+      "r.guard.i3": "<b>Entrada sem QR</b> com placa opcional, registrada no livro com usuário e hora.",
+      "r.guard.i4": "<b>Encomendas</b> registradas na chegada, com aviso ao morador.",
+      "r.guard.try": "Testar: escanear",
+      "r.admin.p1": "Cobrança manual e opaca.",
+      "r.admin.p2": "Grupos de WhatsApp caóticos.",
+      "r.admin.i1": "<b>Taxas emitidas todo mês</b>, com valor fixo ou rateadas por fração ideal.",
+      "r.admin.i2": "<b>Lembretes e multas por atraso</b> automáticos, com carência e teto.",
+      "r.admin.i3": "<b>Avisos oficiais</b> com confirmação de leitura, no lugar do grupo de WhatsApp.",
+      "r.admin.i4": "<b>Cadastro do condomínio</b> pelo celular: moeda, dia de fechamento e códigos de convite.",
+      "r.admin.try": "Testar: confirmar leitura",
+      "pass.title": "Sua visita entra sem esperar no portão.",
+      "pass.lead": "Teste: crie um passe como morador e escaneie como se fosse a portaria.",
+      "pass.step1": "1 · Morador",
+      "pass.step2": "2 · Portaria",
+      "pass.visitor": "Nome da visita",
+      "pass.typeAria": "Tipo de passe",
+      "pass.once": "Uma vez",
+      "pass.recurring": "Recorrente",
+      "pass.create": "Criar passe",
+      "pass.revoke": "Revogar passe",
+      "pass.offline": "Sem conexão",
+      "pass.scan": "Escanear passe",
+      "pass.fine": "A portaria não guarda nenhuma chave secreta: é um celular que troca de mãos a cada turno. Verifica cada passe on-line e, sem sinal, compara a assinatura do QR com a do passe guardado. O código QR desta demonstração é ilustrativo.",
+      "pass.empty": "Seu passe vai aparecer aqui.",
+      "pass.created": "Passe criado",
+      "pass.share": "Compartilhe esta imagem com sua visita. A portaria escaneia na entrada.",
+      "pass.unit": "Unidade 4B",
+      "pass.qrAlt": "Código QR do passe de acesso",
+      "pass.hintOnce": "Uma única entrada, válida por 12 horas.",
+      "pass.hintRec": "Várias entradas durante 30 dias.",
+      "pass.hintRecLong": "Várias entradas durante 30 dias. Útil para o serviço doméstico.",
+      "pass.needName": "Escreva o nome da visita",
+      "pass.active": "Ativo",
+      "pass.used": "Usado",
+      "pass.revoked": "Revogado",
+      "acc.title": "Nem um centavo de diferença, mês após mês.",
+      "acc.lead": "O Condo divide o orçamento entre as unidades pela fração ideal com o método do maior resto. Se cada taxa for arredondada isoladamente, sobram ou faltam centavos e a contabilidade deixa de fechar. Mova o orçamento e comprove.",
+      "acc.budget": "Orçamento mensal",
+      "acc.currency": "Moeda",
+      "acc.naive": "Arredondado em separado",
+      "acc.withCondo": "Com o Condo",
+      "acc.note": "O dinheiro nunca é guardado como decimal: é guardado como inteiro na menor unidade da moeda, com seu código ISO 4217.",
+      "acc.thUnit": "Unidade",
+      "acc.thShare": "Fração ideal",
+      "acc.thNaive": "Em separado",
+      "acc.total": "Total",
+      "pri.eyebrow": "Pensado para comunidades reais",
+      "pri.title": "Regras que se cumprem sozinhas.",
+      "pri.1t": "Cada perfil, suas telas",
+      "pri.1b": "Moradores, portaria e administração veem menus diferentes, com as mesmas permissões que o servidor valida.",
+      "pri.2t": "Vários países",
+      "pri.2b": "Cada condomínio define sua moeda, fuso horário e idioma. Uma mesma conta pode pertencer a vários e alternar entre eles.",
+      "pri.3t": "Alerta com um toque",
+      "pri.3b": "Emergência médica, incêndio ou segurança: o alerta chega na hora à portaria e à administração, com sua unidade.",
+      "pri.4t": "Seus dados são seus",
+      "pri.4b": "Cada titular pode exportar ou excluir seus dados pessoais quando precisar.",
+      "foot.about": "Gestão de condomínios para moradores, portaria e administração. Um produto ProtonLab.",
+      "foot.contact": "CONTATO",
+      "foot.legal": "LEGAL",
+      "foot.privacy": "Política de Privacidade",
+      "foot.rights": "Todos os direitos reservados."
+    }
+  };
+
+  // Preferencia guardada; si no hay, el idioma del navegador; si tampoco, espanol.
+  var lang = (function () {
+    try { var saved = localStorage.getItem("condo-lang"); if (saved && I18N[saved]) return saved; } catch (e) {}
+    var nav = (navigator.language || "es").slice(0, 2).toLowerCase();
+    return I18N[nav] ? nav : "es";
+  })();
+
+  function t(key) {
+    var d = I18N[lang];
+    if (d && d[key] != null) return d[key];
+    return I18N.es[key] != null ? I18N.es[key] : key;
+  }
+  function setMeta(sel, value) { var n = $(sel); if (n) n.setAttribute("content", value); }
+
+  function applyI18n() {
+    document.documentElement.lang = lang;
+    $$("[data-i18n]").forEach(function (n) { n.textContent = t(n.getAttribute("data-i18n")); });
+    $$("[data-i18n-html]").forEach(function (n) { n.innerHTML = t(n.getAttribute("data-i18n-html")); });
+    $$("[data-i18n-attr]").forEach(function (n) {
+      n.getAttribute("data-i18n-attr").split(",").forEach(function (pair) {
+        var kv = pair.split(":");
+        n.setAttribute(kv[0].trim(), t(kv[1].trim()));
+      });
+    });
+    document.title = t("meta.title");
+    setMeta('meta[name="description"]', t("meta.desc"));
+    setMeta('meta[property="og:title"]', t("meta.ogTitle"));
+    setMeta('meta[property="og:description"]', t("meta.ogDesc"));
+    var wa = $("#waDemo");
+    if (wa) wa.href = "https://wa.me/17542313968?text=" + encodeURIComponent(t("cta.waText"));
+    var sel = $("#langSel");
+    if (sel) sel.value = lang;
+  }
+  applyI18n();
 
   /* ---------- tema ---------- */
   var MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
@@ -776,49 +1266,38 @@
 
   /* ---------- roles ---------- */
   var CHECK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
-  var ROLES = {
-    res: {
-      title: "Residente",
-      pain: ["No sabe cuánto debe ni por qué.", "Su visita espera en la puerta."],
-      items: [
-        "<b>Estado de cuenta en vivo</b> con saldo, vencidos, cargos pendientes e historial.",
-        "<b>Comprobante de pago</b> desde el teléfono, sin ir a la oficina.",
-        "<b>Pases QR</b> de una vez (12 horas) o recurrentes (30 días) para el servicio doméstico.",
-        "<b>Paquetes en recepción</b>: sabes cuándo llegó uno a tu nombre."
-      ],
-      ctrl: '<button class="pill" data-act="upload">Probar: subir comprobante</button>'
-    },
-    guard: {
-      title: "Garita",
-      pain: ["Cuaderno de papel, sin trazabilidad."],
-      items: [
-        "<b>Escáner con la cámara</b>: la respuesta es ADELANTE o NO PASA, sin interpretar nada.",
-        "<b>Funciona sin señal</b>: valida contra la copia local de los pases.",
-        "<b>Ingreso sin QR</b> con placa opcional, registrado en la bitácora con usuario y hora.",
-        "<b>Paquetería</b> registrada al llegar, con aviso al residente."
-      ],
-      ctrl: '<button class="pill" data-act="scan">Probar: escanear</button><button class="pill" data-act="offline" aria-pressed="false">Sin conexión</button>'
-    },
-    admin: {
-      title: "Administración",
-      pain: ["Cobranza manual y opaca.", "Grupos de WhatsApp caóticos."],
-      items: [
-        "<b>Cuotas emitidas cada mes</b>, por monto fijo o prorrateadas por coeficiente.",
-        "<b>Recordatorios y recargos por mora</b> automáticos, con periodo de gracia y tope.",
-        "<b>Comunicados oficiales</b> con acuse de lectura, en lugar del grupo de WhatsApp.",
-        "<b>Alta del condominio</b> desde el teléfono: moneda, día de corte y códigos de invitación."
-      ],
-      ctrl: '<button class="pill" data-act="ack">Probar: confirmar lectura</button>'
-    }
-  };
-  var bld = $(".bld"), roleCopy = $("#roleCopy"), guardOffline = false;
+  function roles() {
+    return {
+      res: {
+        title: t("role.res"),
+        pain: [t("r.res.p1"), t("r.res.p2")],
+        items: [t("r.res.i1"), t("r.res.i2"), t("r.res.i3"), t("r.res.i4")],
+        ctrl: '<button class="pill" data-act="upload">' + t("r.res.try") + "</button>"
+      },
+      guard: {
+        title: t("role.guard"),
+        pain: [t("r.guard.p1")],
+        items: [t("r.guard.i1"), t("r.guard.i2"), t("r.guard.i3"), t("r.guard.i4")],
+        ctrl: '<button class="pill" data-act="scan">' + t("r.guard.try") +
+              '</button><button class="pill" data-act="offline" aria-pressed="false">' + t("pass.offline") + "</button>"
+      },
+      admin: {
+        title: t("role.admin"),
+        pain: [t("r.admin.p1"), t("r.admin.p2")],
+        items: [t("r.admin.i1"), t("r.admin.i2"), t("r.admin.i3"), t("r.admin.i4")],
+        ctrl: '<button class="pill" data-act="ack">' + t("r.admin.try") + "</button>"
+      }
+    };
+  }
+  var bld = $(".bld"), roleCopy = $("#roleCopy"), guardOffline = false, currentRole = "res";
   function showRole(key) {
-    var r = ROLES[key];
+    var r = roles()[key];
+    currentRole = key;
     $$(".tab").forEach(function (t) { t.setAttribute("aria-selected", String(t.getAttribute("data-role") === key)); });
     if (bld) bld.setAttribute("data-role", key);
     $$(".scr").forEach(function (s) { s.style.display = s.getAttribute("data-scr") === key ? "contents" : "none"; });
     roleCopy.innerHTML =
-      '<div class="fade"><h3>' + r.title + '</h3><p class="pain">Antes: ' +
+      '<div class="fade"><h3>' + r.title + '</h3><p class="pain">' + t("role.before") +
       r.pain.map(function (p) { return "<s>" + p + "</s>"; }).join(" ") + "</p><ul>" +
       r.items.map(function (i) { return "<li>" + CHECK + "<span>" + i + "</span></li>"; }).join("") +
       '</ul><div class="role-ctrl">' + r.ctrl + "</div></div>";
@@ -834,10 +1313,11 @@
     });
   });
 
-  var snackT;
+  var snackT, uploaded = false, acked = false;
   function upload() {
     var s = $("#snack");
-    $("#chipRow").innerHTML = '<span class="status" style="background:#687690">En revisión</span>';
+    uploaded = true;
+    $("#chipRow").innerHTML = '<span class="status" style="background:#687690">' + t("phone.review") + "</span>";
     s.classList.add("show");
     clearTimeout(snackT);
     snackT = setTimeout(function () { s.classList.remove("show"); }, 2800);
@@ -845,10 +1325,11 @@
   $("#uploadBtn").addEventListener("click", upload);
 
   function ack() {
+    acked = true;
     var b = $("#ackBtn");
-    b.textContent = "Leído";
+    b.textContent = t("phone.read");
     b.style.background = "#B2DFDB";
-    $("#ackMeta").textContent = "Confirmaste que lo leíste";
+    $("#ackMeta").textContent = t("phone.ackDone");
   }
   $("#ackBtn").addEventListener("click", ack);
 
@@ -860,9 +1341,9 @@
     phoneT = setTimeout(function () {
       res.style.background = "#1B7F5A";
       res.innerHTML = "";
-      var s = document.createElement("strong"); s.textContent = "ADELANTE";
+      var s = document.createElement("strong"); s.textContent = t("gate.go");
       res.appendChild(s);
-      res.appendChild(document.createTextNode("Laura Méndez\nUnidad 4B" + (guardOffline ? "\n\nValidado sin conexión contra la copia local." : "")));
+      res.appendChild(document.createTextNode(DEMO_NAME + "\n" + t("pass.unit") + (guardOffline ? t("gate.offlineNote") : "")));
       res.hidden = false;
       phoneT = setTimeout(function () { res.hidden = true; }, 3200);
     }, reduced ? 0 : 650);
@@ -879,6 +1360,7 @@
   showRole("res");
 
   /* ---------- demo de pases ---------- */
+  var DEMO_NAME = "Laura Méndez";
   var pass = null, passType = "single", offline = false, serial = 0;
   function hash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
   function qrSvg(text) {
@@ -895,34 +1377,34 @@
       var on = f !== null ? f : (y === 6 || x === 6) ? ((x + y) % 2 === 0 ? 1 : 0) : bit();
       if (on) cells += '<rect x="' + (x + 2) + '" y="' + (y + 2) + '" width="1.02" height="1.02"/>';
     }
-    return '<svg viewBox="0 0 29 29" role="img" aria-label="Código QR del pase de acceso"><rect width="29" height="29" fill="#fff"/><g fill="#0A1830">' + cells + "</g></svg>";
+    return '<svg viewBox="0 0 29 29" role="img" aria-label="' + t("pass.qrAlt") + '"><rect width="29" height="29" fill="#fff"/><g fill="#0A1830">' + cells + "</g></svg>";
   }
   function renderPass() {
     var out = $("#passOut");
-    if (!pass) { out.innerHTML = '<div class="empty">Tu pase aparecerá aquí.</div>'; return; }
-    var state = pass.revoked ? ["Revocado", "#B3261E"] : (pass.type === "single" && pass.uses > 0) ? ["Usado", "#687690"] : ["Activo", "#1B7F5A"];
+    if (!pass) { out.innerHTML = '<div class="empty">' + t("pass.empty") + "</div>"; return; }
+    var state = pass.revoked ? [t("pass.revoked"), "#B3261E"] : (pass.type === "single" && pass.uses > 0) ? [t("pass.used"), "#687690"] : [t("pass.active"), "#1B7F5A"];
     out.innerHTML = '<div class="ticket fade">' + qrSvg(pass.name + "|" + pass.type + "|" + pass.serial) +
-      '<div><h4>Pase creado</h4><p class="who"></p><p>' +
-      (pass.type === "single" ? "Un solo ingreso, válido por 12 horas." : "Varios ingresos durante 30 días.") +
-      '</p><p>Comparte esta imagen con tu visita. La garita la escanea al entrar.</p><div class="state"><span class="status" style="background:' + state[1] + '">' + state[0] + "</span></div></div></div>";
-    $(".who", out).textContent = pass.name + " · Unidad 4B";
+      '<div><h4>' + t("pass.created") + '</h4><p class="who"></p><p>' +
+      (pass.type === "single" ? t("pass.hintOnce") : t("pass.hintRec")) +
+      '</p><p>' + t("pass.share") + '</p><div class="state"><span class="status" style="background:' + state[1] + '">' + state[0] + "</span></div></div></div>";
+    $(".who", out).textContent = pass.name + " · " + t("pass.unit");
   }
   $$(".seg button").forEach(function (b) {
     b.addEventListener("click", function () {
       passType = b.getAttribute("data-type");
       $$(".seg button").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
-      $("#typeHint").textContent = passType === "single" ? "Un solo ingreso, válido por 12 horas." : "Varios ingresos durante 30 días. Útil para servicio doméstico.";
+      $("#typeHint").textContent = passType === "single" ? t("pass.hintOnce") : t("pass.hintRecLong");
     });
   });
   $("#createBtn").addEventListener("click", function () {
     var name = $("#visitor").value.trim();
-    if (!name) { $("#typeHint").textContent = "Escribe el nombre de la visita"; $("#visitor").focus(); return; }
+    if (!name) { $("#typeHint").textContent = t("pass.needName"); $("#visitor").focus(); return; }
     pass = { name: name, type: passType, revoked: false, uses: 0, serial: ++serial };
     renderPass();
     $("#revokeBtn").disabled = false;
     $("#scanBtn").disabled = false;
     $("#gate").style.background = "#101413";
-    $("#gate").innerHTML = '<span style="color:#9FB6DC;font-size:15px">Apunta al código QR de la visita</span>';
+    $("#gate").innerHTML = '<span style="color:#9FB6DC;font-size:15px">' + t("gate.aim") + "</span>";
   });
   $("#revokeBtn").addEventListener("click", function () {
     if (!pass) return;
@@ -939,16 +1421,16 @@
     var gate = $("#gate"), btn = this;
     btn.disabled = true;
     gate.style.background = "#101413";
-    gate.innerHTML = '<div class="scanline"></div><span style="color:#DCE7FB;font-size:15px">' + (offline ? "Comparando la firma con la copia local…" : "Verificando el pase…") + "</span>";
+    gate.innerHTML = '<div class="scanline"></div><span style="color:#DCE7FB;font-size:15px">' + (offline ? t("gate.compare") : t("gate.verify")) + "</span>";
     setTimeout(function () {
       var ok = !pass.revoked && !(pass.type === "single" && pass.uses > 0);
-      var reason = pass.revoked ? "Pase revocado" : "Este pase ya se usó";
+      var reason = pass.revoked ? t("gate.revoked") : t("gate.usedAlready");
       gate.style.background = ok ? "#1B7F5A" : "#B3261E";
       gate.innerHTML = "";
       var s = document.createElement("strong");
-      s.textContent = ok ? "ADELANTE" : "NO PASA";
+      s.textContent = ok ? t("gate.go") : t("gate.no");
       gate.appendChild(s);
-      gate.appendChild(document.createTextNode(ok ? pass.name + "\nUnidad 4B" + (offline ? "\n\nValidado sin conexión contra la copia local." : "") : reason));
+      gate.appendChild(document.createTextNode(ok ? pass.name + "\n" + t("pass.unit") + (offline ? t("gate.offlineNote") : "") : reason));
       if (ok) { pass.uses++; renderPass(); }
       btn.disabled = false;
     }, reduced ? 0 : 950);
@@ -960,7 +1442,7 @@
   var cur = "MXN";
   function fmt(minor, code) {
     var d = CUR[code].d;
-    return new Intl.NumberFormat("es-MX", { style: "currency", currency: code, currencyDisplay: "narrowSymbol", minimumFractionDigits: d, maximumFractionDigits: d }).format(minor / Math.pow(10, d));
+    return new Intl.NumberFormat(LOCALES[lang], { style: "currency", currency: code, currencyDisplay: "narrowSymbol", minimumFractionDigits: d, maximumFractionDigits: d }).format(minor / Math.pow(10, d));
   }
   function calc() {
     var v = +$("#budgetRange").value, c = CUR[cur], minor = v * c.scale;
@@ -995,6 +1477,28 @@
     });
   });
   calc();
+  /* ---------- cambio de idioma ---------- */
+  // Lo que dibuja el JavaScript no lo alcanza applyI18n: hay que volver a
+  // generarlo, conservando el estado de la demostracion.
+  function refreshDynamic() {
+    showRole(currentRole);
+    $("#typeHint").textContent = passType === "single" ? t("pass.hintOnce") : t("pass.hintRecLong");
+    renderPass();
+    var gate = $("#gate");
+    gate.style.background = "#101413";
+    gate.innerHTML = '<span style="color:#9FB6DC;font-size:15px">' + (pass ? t("gate.aim") : t("gate.createFirst")) + "</span>";
+    $("#chipRow").innerHTML = '<span class="status" style="background:' + (uploaded ? "#687690" : "#B26B00") +
+      '">' + (uploaded ? t("phone.review") : t("phone.pendingPay")) + "</span>";
+    if (acked) ack();
+    calc();
+  }
+  $("#langSel").addEventListener("change", function () {
+    lang = I18N[this.value] ? this.value : "es";
+    try { localStorage.setItem("condo-lang", lang); } catch (e) {}
+    applyI18n();
+    refreshDynamic();
+  });
+  refreshDynamic();
 })();
 </script>
 </body>
