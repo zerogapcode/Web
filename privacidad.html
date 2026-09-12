@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Políticas de Privacidad — Condo</title>
 <meta name="description" content="Condo conecta a residentes, garita y administración: estado de cuenta en vivo, pases QR para visitas, cobranza automática y comunicados oficiales. App para Android." />
-<link rel="canonical" href="https://protonlab.site/condo.html" />
+<link rel="canonical" href="https://protonlab.site/privacidad.html" />
 <link rel="icon" href="images/condo/icono.png" />
 <link rel="apple-touch-icon" href="images/condo/icono.png" />
 
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://protonlab.site/condo.html" />
+<meta property="og:url" content="https://protonlab.site/privacidad.html" />
 <meta property="og:title" content="Condo — Tu condominio, en orden desde el teléfono" />
 <meta property="og:description" content="Estado de cuenta en vivo, pases QR para visitas, garita digital y comunicados oficiales." />
 <meta property="og:image" content="https://protonlab.site/images/condo/CONDOFT.PNG" />
@@ -80,6 +80,12 @@
   .btn-ghost:hover svg{transform:translateY(3px)}
   .chip-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--ink-2);background:var(--surface)}
   .chip-btn:hover{color:var(--ink)}
+  .lang{display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 10px 0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer}
+  .lang:hover{color:var(--ink)}
+  .lang:focus-within{outline:2px solid var(--blue);outline-offset:2px}
+  .lang select{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;font-weight:600;font-size:14px;letter-spacing:.04em;color:inherit;cursor:pointer;padding:0}
+  .lang select:focus{outline:0}
+  .lang option{color:#0A1830;background:#fff}
 
   /* nav */
   header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--page) 78%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
@@ -323,21 +329,29 @@
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="condo.html#top" aria-label="Condo, inicio">
+    <a class="brand" href="condo.html#top" aria-label="Condo, inicio" data-i18n-attr="aria-label:nav.home">
       <img src="images/condo/icono.png" alt="" width="48" height="48" />
       <span>CONDO</span>
     </a>
-    <nav class="nav-links" aria-label="Secciones">
-      <a href="condo.html#como-funciona">Cómo funciona</a>
-      <a href="condo.html#pases">Pases QR</a>
-      <a href="condo.html#cuentas">Cuentas claras</a>
-      <a href="condo.html#contacto">Contacto</a>
+    <nav class="nav-links" aria-label="Secciones" data-i18n-attr="aria-label:nav.sections">
+      <a href="condo.html#como-funciona" data-i18n="nav.how">Cómo funciona</a>
+      <a href="condo.html#pases" data-i18n="nav.passes">Pases QR</a>
+      <a href="condo.html#cuentas" data-i18n="nav.accounts">Cuentas claras</a>
+      <a href="condo.html#contacto" data-i18n="nav.contact">Contacto</a>
     </nav>
     <div class="nav-right">
-      <button class="chip-btn" id="themeBtn" aria-label="Cambiar tema">
+      <button class="chip-btn" id="themeBtn" aria-label="Cambiar tema" data-i18n-attr="aria-label:nav.theme">
         <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
       </button>
-      <a class="btn btn-sm" href="condo.html#contacto">Solicitar una demo</a>
+      <label class="lang" aria-label="Idioma" data-i18n-attr="aria-label:nav.language">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+        <select id="langSel">
+          <option value="es">ES</option>
+          <option value="en">EN</option>
+          <option value="pt">PT</option>
+        </select>
+      </label>
+      <a class="btn btn-sm" href="condo.html#contacto" data-i18n="cta.demo">Solicitar una demo</a>
     </div>
   </div>
 </header>
@@ -345,51 +359,51 @@
 <main id="top">
   <section class="sec wrap">
     <div class="sec-head">
-      <span class="eyebrow">Legal</span>
-      <h2>Políticas de Privacidad</h2>
-      <p>Última actualización: Septiembre 2026</p>
+      <span class="eyebrow" data-i18n="legal.eyebrow">Legal</span>
+      <h2 data-i18n="legal.title">Políticas de Privacidad</h2>
+      <p data-i18n="legal.updated">Última actualización: Septiembre 2026</p>
     </div>
     
     <div style="max-width: 800px; color: var(--ink-2); font-size: 16px; display: flex; flex-direction: column; gap: 24px;">
       
       <div>
-        <h3 style="color: var(--ink); margin-bottom: 12px; font-size: 24px;">1. Información que recopilamos</h3>
-        <p>En Condo, recopilamos información personal mínima y estrictamente necesaria para la correcta administración y operatividad de tu condominio. Esta información puede incluir:</p>
+        <h3 style="color: var(--ink); margin-bottom: 12px; font-size: 24px;" data-i18n="s1.title">1. Información que recopilamos</h3>
+        <p data-i18n="s1.intro">En Condo, recopilamos información personal mínima y estrictamente necesaria para la correcta administración y operatividad de tu condominio. Esta información puede incluir:</p>
         <ul style="margin-top: 10px; margin-left: 20px; display: flex; flex-direction: column; gap: 8px;">
-          <li><b>Datos de cuenta:</b> Nombre, correo electrónico y número de teléfono de los residentes.</li>
-          <li><b>Datos de la unidad:</b> Número de casa o departamento y coeficiente de participación.</li>
-          <li><b>Datos de visitantes:</b> Nombres de los visitantes o personal recurrente autorizados mediante pases QR.</li>
+          <li data-i18n-html="s1.i1"><b>Datos de cuenta:</b> Nombre, correo electrónico y número de teléfono de los residentes.</li>
+          <li data-i18n-html="s1.i2"><b>Datos de la unidad:</b> Número de casa o departamento y coeficiente de participación.</li>
+          <li data-i18n-html="s1.i3"><b>Datos de visitantes:</b> Nombres de los visitantes o personal recurrente autorizados mediante pases QR.</li>
         </ul>
       </div>
 
       <div>
-        <h3 style="color: var(--ink); margin-bottom: 12px; font-size: 24px;">2. Uso de la información</h3>
-        <p>La información recopilada se utiliza exclusivamente para:</p>
+        <h3 style="color: var(--ink); margin-bottom: 12px; font-size: 24px;" data-i18n="s2.title">2. Uso de la información</h3>
+        <p data-i18n="s2.intro">La información recopilada se utiliza exclusivamente para:</p>
         <ul style="margin-top: 10px; margin-left: 20px; display: flex; flex-direction: column; gap: 8px;">
-          <li>Permitir el acceso a la plataforma (app y panel administrativo).</li>
-          <li>Distribuir cuotas y mantener un registro transparente de las finanzas del condominio.</li>
-          <li>Generar y validar pases de acceso QR en la garita.</li>
-          <li>Enviar comunicados oficiales y notificaciones de emergencia.</li>
+          <li data-i18n="s2.i1">Permitir el acceso a la plataforma (app y panel administrativo).</li>
+          <li data-i18n="s2.i2">Distribuir cuotas y mantener un registro transparente de las finanzas del condominio.</li>
+          <li data-i18n="s2.i3">Generar y validar pases de acceso QR en la garita.</li>
+          <li data-i18n="s2.i4">Enviar comunicados oficiales y notificaciones de emergencia.</li>
         </ul>
       </div>
 
       <div>
-        <h3 style="color: var(--ink); margin-bottom: 12px; font-size: 24px;">3. Compartición de datos</h3>
-        <p>Tus datos son privados y pertenecen a tu comunidad. <b>Condo no vende, alquila ni comparte tu información personal con terceros con fines comerciales o publicitarios.</b> La información solo es accesible por:</p>
+        <h3 style="color: var(--ink); margin-bottom: 12px; font-size: 24px;" data-i18n="s3.title">3. Compartición de datos</h3>
+        <p data-i18n-html="s3.intro">Tus datos son privados y pertenecen a tu comunidad. <b>Condo no vende, alquila ni comparte tu información personal con terceros con fines comerciales o publicitarios.</b> La información solo es accesible por:</p>
         <ul style="margin-top: 10px; margin-left: 20px; display: flex; flex-direction: column; gap: 8px;">
-          <li>El comité y/o empresa administradora del condominio (según sus permisos).</li>
-          <li>El personal de garita (únicamente la información de acceso y alertas autorizadas).</li>
+          <li data-i18n="s3.i1">El comité y/o empresa administradora del condominio (según sus permisos).</li>
+          <li data-i18n="s3.i2">El personal de garita (únicamente la información de acceso y alertas autorizadas).</li>
         </ul>
       </div>
 
       <div>
-        <h3 style="color: var(--ink); margin-bottom: 12px; font-size: 24px;">4. Tus derechos (Control y Eliminación)</h3>
-        <p>Como usuario, tienes derecho a acceder, modificar o eliminar tu información personal en cualquier momento. Puedes solicitar la exportación de tus datos o la eliminación definitiva de tu cuenta desde la sección de Ajustes de la aplicación, o contactando al administrador de tu condominio.</p>
+        <h3 style="color: var(--ink); margin-bottom: 12px; font-size: 24px;" data-i18n="s4.title">4. Tus derechos (Control y Eliminación)</h3>
+        <p data-i18n="s4.body">Como usuario, tienes derecho a acceder, modificar o eliminar tu información personal en cualquier momento. Puedes solicitar la exportación de tus datos o la eliminación definitiva de tu cuenta desde la sección de Ajustes de la aplicación, o contactando al administrador de tu condominio.</p>
       </div>
 
       <div>
-        <h3 style="color: var(--ink); margin-bottom: 12px; font-size: 24px;">5. Contacto</h3>
-        <p>Si tienes alguna pregunta o inquietud sobre estas políticas o el manejo de tus datos, por favor contáctanos en <a href="mailto:gapcode@protonmail.com" style="color: var(--brand-text); font-weight: 500;">gapcode@protonmail.com</a>.</p>
+        <h3 style="color: var(--ink); margin-bottom: 12px; font-size: 24px;" data-i18n="s5.title">5. Contacto</h3>
+        <p data-i18n-html="s5.body">Si tienes alguna pregunta o inquietud sobre estas políticas o el manejo de tus datos, por favor contáctanos en <a href="mailto:gapcode@protonmail.com" style="color: var(--brand-text); font-weight: 500;">gapcode@protonmail.com</a>.</p>
       </div>
 
     </div>
@@ -401,21 +415,21 @@
     <div class="foot">
       <div>
         <a class="brand" href="condo.html#top"><img src="images/condo/icono.png" alt="" width="48" height="48" /><span>CONDO</span></a>
-        <p>Administración de condominios para residentes, garita y administración. Un producto de ProtonLab.</p>
+        <p data-i18n="foot.about">Administración de condominios para residentes, garita y administración. Un producto de ProtonLab.</p>
       </div>
       <div class="foot-col">
-        <b>CONTACTO</b>
+        <b data-i18n="foot.contact">CONTACTO</b>
         <a href="mailto:gapcode@protonmail.com">gapcode@protonmail.com</a>
         <a href="https://wa.me/17542313968" target="_blank" rel="noopener">WhatsApp +1 754 231 3968</a>
         <a href="index.html">protonlab.site</a>
       </div>
       <div class="foot-col">
-        <b>LEGAL</b>
-        <a href="privacidad.html">Política de Privacidad</a>
+        <b data-i18n="foot.legal">LEGAL</b>
+        <a href="privacidad.html" data-i18n="foot.privacy">Política de Privacidad</a>
       </div>
     </div>
     <div class="foot-bot">
-      <span>&copy; <span id="year"></span> Condo. Todos los derechos reservados.</span>
+      <span>&copy; <span id="year"></span> Condo. <span data-i18n="foot.rights">Todos los derechos reservados.</span></span>
       <code>com.condowner.app</code>
     </div>
   </div>
@@ -424,315 +438,201 @@
 <script>
 (function () {
   "use strict";
+  // Esta pagina tenia copiado el script completo de condo.html. Ese codigo
+  // buscaba el horizonte de edificios, que aqui no existe, y lanzaba un error
+  // que cortaba todo lo que venia despues. Se deja solo lo que esta pagina usa.
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
-  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var SVGNS = "http://www.w3.org/2000/svg";
 
   $("#year").textContent = new Date().getFullYear();
 
   /* ---------- tema ---------- */
   var MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
   var SUN = '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>';
-  function setTheme(t) {
-    if (t === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  function setTheme(mode) {
+    if (mode === "dark") document.documentElement.setAttribute("data-theme", "dark");
     else document.documentElement.removeAttribute("data-theme");
-    $("#themeIcon").innerHTML = t === "dark" ? SUN : MOON;
+    $("#themeIcon").innerHTML = mode === "dark" ? SUN : MOON;
   }
-  var saved = null;
-  try { saved = localStorage.getItem("condo-theme"); } catch (e) {}
-  setTheme(saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+  var savedTheme = null;
+  try { savedTheme = localStorage.getItem("condo-theme"); } catch (e) {}
+  setTheme(savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
   $("#themeBtn").addEventListener("click", function () {
     var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
     setTheme(next);
     try { localStorage.setItem("condo-theme", next); } catch (e) {}
   });
 
-  /* ---------- skyline: las ventanas se encienden al pasar ---------- */
-  var sky = $("#skyline");
-  var W = 1600, H = 260, seed = 7;
-  function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
-  sky.setAttribute("viewBox", "0 0 " + W + " " + H);
-  var windows = [];
-  function el(tag, attrs) { var n = document.createElementNS(SVGNS, tag); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
-  for (var x = -20; x < W; ) {
-    var bw = 70 + rnd() * 90, bh = 120 + rnd() * 130;
-    sky.appendChild(el("rect", { x: x, y: H - bh, width: bw, height: bh, class: "b1" }));
-    x += bw + 6 + rnd() * 20;
-  }
-  for (x = 0; x < W; ) {
-    var fw = 60 + rnd() * 70, fh = 60 + rnd() * 120;
-    sky.appendChild(el("rect", { x: x, y: H - fh, width: fw, height: fh, class: "b2" }));
-    for (var wy = H - fh + 14; wy < H - 18; wy += 20) {
-      for (var wx = x + 10; wx < x + fw - 16; wx += 16) {
-        var w = el("rect", { x: wx, y: wy, width: 8, height: 11, rx: 1, class: "w" });
-        sky.appendChild(w);
-        windows.push({ n: w, cx: wx + 4, cy: wy + 5 });
-      }
-    }
-    x += fw + 26 + rnd() * 40;
-  }
-  function light(win, ms) {
-    win.n.classList.add("on");
-    clearTimeout(win.t);
-    win.t = setTimeout(function () { win.n.classList.remove("on"); }, ms);
-  }
-  var hero = $(".hero");
-  hero.addEventListener("pointermove", function (e) {
-    var m = sky.getScreenCTM();
-    if (!m) return;
-    var p = sky.createSVGPoint(); p.x = e.clientX; p.y = e.clientY;
-    var q = p.matrixTransform(m.inverse());
-    for (var i = 0; i < windows.length; i++) {
-      var dx = windows[i].cx - q.x, dy = (windows[i].cy - q.y) * 0.6;
-      if (dx * dx + dy * dy < 90 * 90) light(windows[i], 700 + Math.random() * 900);
-    }
-  });
-  if (!reduced) setInterval(function () {
-    light(windows[Math.floor(Math.random() * windows.length)], 1600 + Math.random() * 2400);
-  }, 260);
-
-  /* ---------- logo con inclinacion 3D ---------- */
-  var stage = $("#stage"), tile = $("#tile"), floats = $$(".float", stage);
-  if (!reduced && window.matchMedia("(hover: hover)").matches) {
-    stage.addEventListener("pointermove", function (e) {
-      var r = stage.getBoundingClientRect();
-      var px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
-      tile.style.transform = "rotateX(" + (-py * 12) + "deg) rotateY(" + (px * 16) + "deg)";
-      tile.style.setProperty("--gx", (px + 0.5) * 100 + "%");
-      tile.style.setProperty("--gy", (py + 0.5) * 100 + "%");
-      floats.forEach(function (f) {
-        var d = +f.getAttribute("data-depth");
-        f.style.transform = "translate(" + px * d + "px," + py * d + "px)";
-      });
-    });
-    stage.addEventListener("pointerleave", function () {
-      tile.style.transform = "";
-      floats.forEach(function (f) { f.style.transform = ""; });
-    });
-  }
-
-  /* ---------- roles ---------- */
-  var CHECK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
-  var ROLES = {
-    res: {
-      title: "Residente",
-      pain: ["No sabe cuánto debe ni por qué.", "Su visita espera en la puerta."],
-      items: [
-        "<b>Estado de cuenta en vivo</b> con saldo, vencidos, cargos pendientes e historial.",
-        "<b>Comprobante de pago</b> desde el teléfono, sin ir a la oficina.",
-        "<b>Pases QR</b> de una vez (12 horas) o recurrentes (30 días) para el servicio doméstico.",
-        "<b>Paquetes en recepción</b>: sabes cuándo llegó uno a tu nombre."
-      ],
-      ctrl: '<button class="pill" data-act="upload">Probar: subir comprobante</button>'
+  /* ---------- idiomas ---------- */
+  // Misma clave de almacenamiento que condo.html: el idioma elegido en una
+  // pagina se mantiene al pasar a la otra.
+  var I18N =
+  {
+    "es": {
+      "nav.sections": "Secciones",
+      "nav.home": "Condo, inicio",
+      "nav.how": "Cómo funciona",
+      "nav.passes": "Pases QR",
+      "nav.accounts": "Cuentas claras",
+      "nav.contact": "Contacto",
+      "nav.theme": "Cambiar tema",
+      "nav.language": "Idioma",
+      "cta.demo": "Solicitar una demo",
+      "foot.about": "Administración de condominios para residentes, garita y administración. Un producto de ProtonLab.",
+      "foot.contact": "CONTACTO",
+      "foot.legal": "LEGAL",
+      "foot.privacy": "Política de Privacidad",
+      "foot.rights": "Todos los derechos reservados.",
+      "meta.title": "Políticas de Privacidad — Condo",
+      "meta.desc": "Cómo Condo recopila, usa y protege los datos personales de residentes, garita y administración. Control, exportación y eliminación de tus datos.",
+      "legal.eyebrow": "Legal",
+      "legal.title": "Políticas de Privacidad",
+      "legal.updated": "Última actualización: Septiembre 2026",
+      "s1.title": "1. Información que recopilamos",
+      "s1.intro": "En Condo, recopilamos información personal mínima y estrictamente necesaria para la correcta administración y operatividad de tu condominio. Esta información puede incluir:",
+      "s1.i1": "<b>Datos de cuenta:</b> Nombre, correo electrónico y número de teléfono de los residentes.",
+      "s1.i2": "<b>Datos de la unidad:</b> Número de casa o departamento y coeficiente de participación.",
+      "s1.i3": "<b>Datos de visitantes:</b> Nombres de los visitantes o personal recurrente autorizados mediante pases QR.",
+      "s2.title": "2. Uso de la información",
+      "s2.intro": "La información recopilada se utiliza exclusivamente para:",
+      "s2.i1": "Permitir el acceso a la plataforma (app y panel administrativo).",
+      "s2.i2": "Distribuir cuotas y mantener un registro transparente de las finanzas del condominio.",
+      "s2.i3": "Generar y validar pases de acceso QR en la garita.",
+      "s2.i4": "Enviar comunicados oficiales y notificaciones de emergencia.",
+      "s3.title": "3. Compartición de datos",
+      "s3.intro": "Tus datos son privados y pertenecen a tu comunidad. <b>Condo no vende, alquila ni comparte tu información personal con terceros con fines comerciales o publicitarios.</b> La información solo es accesible por:",
+      "s3.i1": "El comité y/o empresa administradora del condominio (según sus permisos).",
+      "s3.i2": "El personal de garita (únicamente la información de acceso y alertas autorizadas).",
+      "s4.title": "4. Tus derechos (Control y Eliminación)",
+      "s4.body": "Como usuario, tienes derecho a acceder, modificar o eliminar tu información personal en cualquier momento. Puedes solicitar la exportación de tus datos o la eliminación definitiva de tu cuenta desde la sección de Ajustes de la aplicación, o contactando al administrador de tu condominio.",
+      "s5.title": "5. Contacto",
+      "s5.body": "Si tienes alguna pregunta o inquietud sobre estas políticas o el manejo de tus datos, por favor contáctanos en <a href=\"mailto:gapcode@protonmail.com\" style=\"color: var(--brand-text); font-weight: 500;\">gapcode@protonmail.com</a>.",
+      "meta.ogTitle": "Políticas de Privacidad — Condo",
+      "meta.ogDesc": "Cómo Condo recopila, usa y protege los datos personales de residentes, garita y administración. Control, exportación y eliminación de tus datos."
     },
-    guard: {
-      title: "Garita",
-      pain: ["Cuaderno de papel, sin trazabilidad."],
-      items: [
-        "<b>Escáner con la cámara</b>: la respuesta es ADELANTE o NO PASA, sin interpretar nada.",
-        "<b>Funciona sin señal</b>: valida contra la copia local de los pases.",
-        "<b>Ingreso sin QR</b> con placa opcional, registrado en la bitácora con usuario y hora.",
-        "<b>Paquetería</b> registrada al llegar, con aviso al residente."
-      ],
-      ctrl: '<button class="pill" data-act="scan">Probar: escanear</button><button class="pill" data-act="offline" aria-pressed="false">Sin conexión</button>'
+    "en": {
+      "nav.sections": "Sections",
+      "nav.home": "Condo, home",
+      "nav.how": "How it works",
+      "nav.passes": "QR passes",
+      "nav.accounts": "Clear accounts",
+      "nav.contact": "Contact",
+      "nav.theme": "Switch theme",
+      "nav.language": "Language",
+      "cta.demo": "Request a demo",
+      "foot.about": "Condominium management for residents, security desk and management. A ProtonLab product.",
+      "foot.contact": "CONTACT",
+      "foot.legal": "LEGAL",
+      "foot.privacy": "Privacy Policy",
+      "foot.rights": "All rights reserved.",
+      "meta.title": "Privacy Policy — Condo",
+      "meta.desc": "How Condo collects, uses and protects the personal data of residents, security desk and management. Control, export and deletion of your data.",
+      "legal.eyebrow": "Legal",
+      "legal.title": "Privacy Policy",
+      "legal.updated": "Last updated: September 2026",
+      "s1.title": "1. Information we collect",
+      "s1.intro": "At Condo we collect the minimum personal information strictly necessary to properly manage and operate your building. This information may include:",
+      "s1.i1": "<b>Account data:</b> residents' name, email address and phone number.",
+      "s1.i2": "<b>Unit data:</b> house or apartment number and ownership share.",
+      "s1.i3": "<b>Visitor data:</b> names of visitors or recurring staff authorised through QR passes.",
+      "s2.title": "2. How we use the information",
+      "s2.intro": "The information collected is used exclusively to:",
+      "s2.i1": "Grant access to the platform (app and admin panel).",
+      "s2.i2": "Allocate fees and keep a transparent record of the building's finances.",
+      "s2.i3": "Issue and validate QR access passes at the security desk.",
+      "s2.i4": "Send official notices and emergency alerts.",
+      "s3.title": "3. Data sharing",
+      "s3.intro": "Your data is private and belongs to your community. <b>Condo does not sell, rent or share your personal information with third parties for commercial or advertising purposes.</b> The information is only accessible to:",
+      "s3.i1": "The building's board and/or management company (according to their permissions).",
+      "s3.i2": "The security desk staff (access information and authorised alerts only).",
+      "s4.title": "4. Your rights (control and deletion)",
+      "s4.body": "As a user, you have the right to access, modify or delete your personal information at any time. You can request an export of your data or the permanent deletion of your account from the Settings section of the app, or by contacting your building's administrator.",
+      "s5.title": "5. Contact",
+      "s5.body": "If you have any question or concern about these policies or how your data is handled, please contact us at <a href=\"mailto:gapcode@protonmail.com\" style=\"color: var(--brand-text); font-weight: 500;\">gapcode@protonmail.com</a>.",
+      "meta.ogTitle": "Privacy Policy — Condo",
+      "meta.ogDesc": "How Condo collects, uses and protects the personal data of residents, security desk and management. Control, export and deletion of your data."
     },
-    admin: {
-      title: "Administración",
-      pain: ["Cobranza manual y opaca.", "Grupos de WhatsApp caóticos."],
-      items: [
-        "<b>Cuotas emitidas cada mes</b>, por monto fijo o prorrateadas por coeficiente.",
-        "<b>Recordatorios y recargos por mora</b> automáticos, con periodo de gracia y tope.",
-        "<b>Comunicados oficiales</b> con acuse de lectura, en lugar del grupo de WhatsApp.",
-        "<b>Alta del condominio</b> desde el teléfono: moneda, día de corte y códigos de invitación."
-      ],
-      ctrl: '<button class="pill" data-act="ack">Probar: confirmar lectura</button>'
+    "pt": {
+      "nav.sections": "Seções",
+      "nav.home": "Condo, início",
+      "nav.how": "Como funciona",
+      "nav.passes": "Passes QR",
+      "nav.accounts": "Contas claras",
+      "nav.contact": "Contato",
+      "nav.theme": "Alternar tema",
+      "nav.language": "Idioma",
+      "cta.demo": "Solicitar uma demo",
+      "foot.about": "Gestão de condomínios para moradores, portaria e administração. Um produto ProtonLab.",
+      "foot.contact": "CONTATO",
+      "foot.legal": "LEGAL",
+      "foot.privacy": "Política de Privacidade",
+      "foot.rights": "Todos os direitos reservados.",
+      "meta.title": "Política de Privacidade — Condo",
+      "meta.desc": "Como o Condo coleta, usa e protege os dados pessoais de moradores, portaria e administração. Controle, exportação e exclusão dos seus dados.",
+      "legal.eyebrow": "Legal",
+      "legal.title": "Política de Privacidade",
+      "legal.updated": "Última atualização: setembro de 2026",
+      "s1.title": "1. Informações que coletamos",
+      "s1.intro": "No Condo, coletamos o mínimo de informações pessoais estritamente necessárias para a correta administração e operação do seu condomínio. Essas informações podem incluir:",
+      "s1.i1": "<b>Dados da conta:</b> nome, e-mail e telefone dos moradores.",
+      "s1.i2": "<b>Dados da unidade:</b> número da casa ou apartamento e fração ideal.",
+      "s1.i3": "<b>Dados de visitantes:</b> nomes dos visitantes ou profissionais recorrentes autorizados por passes QR.",
+      "s2.title": "2. Uso das informações",
+      "s2.intro": "As informações coletadas são usadas exclusivamente para:",
+      "s2.i1": "Permitir o acesso à plataforma (app e painel administrativo).",
+      "s2.i2": "Distribuir taxas e manter um registro transparente das finanças do condomínio.",
+      "s2.i3": "Gerar e validar passes de acesso QR na portaria.",
+      "s2.i4": "Enviar avisos oficiais e notificações de emergência.",
+      "s3.title": "3. Compartilhamento de dados",
+      "s3.intro": "Seus dados são privados e pertencem à sua comunidade. <b>O Condo não vende, aluga nem compartilha suas informações pessoais com terceiros para fins comerciais ou publicitários.</b> As informações só podem ser acessadas por:",
+      "s3.i1": "O conselho e/ou a administradora do condomínio (conforme suas permissões).",
+      "s3.i2": "A equipe de portaria (apenas as informações de acesso e os alertas autorizados).",
+      "s4.title": "4. Seus direitos (controle e exclusão)",
+      "s4.body": "Como usuário, você tem o direito de acessar, alterar ou excluir suas informações pessoais a qualquer momento. Você pode solicitar a exportação dos seus dados ou a exclusão definitiva da sua conta na seção Ajustes do aplicativo, ou entrando em contato com o administrador do seu condomínio.",
+      "s5.title": "5. Contato",
+      "s5.body": "Se você tiver qualquer dúvida ou preocupação sobre estas políticas ou sobre o tratamento dos seus dados, entre em contato pelo <a href=\"mailto:gapcode@protonmail.com\" style=\"color: var(--brand-text); font-weight: 500;\">gapcode@protonmail.com</a>.",
+      "meta.ogTitle": "Política de Privacidade — Condo",
+      "meta.ogDesc": "Como o Condo coleta, usa e protege os dados pessoais de moradores, portaria e administração. Controle, exportação e exclusão dos seus dados."
     }
   };
-  var bld = $(".bld"), roleCopy = $("#roleCopy"), guardOffline = false;
-  function showRole(key) {
-    var r = ROLES[key];
-    $$(".tab").forEach(function (t) { t.setAttribute("aria-selected", String(t.getAttribute("data-role") === key)); });
-    if (bld) bld.setAttribute("data-role", key);
-    $$(".scr").forEach(function (s) { s.style.display = s.getAttribute("data-scr") === key ? "contents" : "none"; });
-    roleCopy.innerHTML =
-      '<div class="fade"><h3>' + r.title + '</h3><p class="pain">Antes: ' +
-      r.pain.map(function (p) { return "<s>" + p + "</s>"; }).join(" ") + "</p><ul>" +
-      r.items.map(function (i) { return "<li>" + CHECK + "<span>" + i + "</span></li>"; }).join("") +
-      '</ul><div class="role-ctrl">' + r.ctrl + "</div></div>";
-    var off = $('[data-act="offline"]', roleCopy);
-    if (off) off.setAttribute("aria-pressed", String(guardOffline));
+
+  var lang = (function () {
+    try { var saved = localStorage.getItem("condo-lang"); if (saved && I18N[saved]) return saved; } catch (e) {}
+    var nav = (navigator.language || "es").slice(0, 2).toLowerCase();
+    return I18N[nav] ? nav : "es";
+  })();
+
+  function t(key) {
+    var d = I18N[lang];
+    if (d && d[key] != null) return d[key];
+    return I18N.es[key] != null ? I18N.es[key] : key;
   }
-  $$(".tab").forEach(function (t, i, all) {
-    t.addEventListener("click", function () { showRole(t.getAttribute("data-role")); });
-    t.addEventListener("keydown", function (e) {
-      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-      var n = all[(i + (e.key === "ArrowRight" ? 1 : all.length - 1)) % all.length];
-      n.focus(); n.click();
+  function setMeta(sel, value) { var n = $(sel); if (n) n.setAttribute("content", value); }
+
+  function applyI18n() {
+    document.documentElement.lang = lang;
+    $$("[data-i18n]").forEach(function (n) { n.textContent = t(n.getAttribute("data-i18n")); });
+    $$("[data-i18n-html]").forEach(function (n) { n.innerHTML = t(n.getAttribute("data-i18n-html")); });
+    $$("[data-i18n-attr]").forEach(function (n) {
+      n.getAttribute("data-i18n-attr").split(",").forEach(function (pair) {
+        var kv = pair.split(":");
+        n.setAttribute(kv[0].trim(), t(kv[1].trim()));
+      });
     });
-  });
+    document.title = t("meta.title");
+    setMeta('meta[name="description"]', t("meta.desc"));
+    setMeta('meta[property="og:title"]', t("meta.ogTitle"));
+    setMeta('meta[property="og:description"]', t("meta.ogDesc"));
+    var sel = $("#langSel");
+    if (sel) sel.value = lang;
+  }
+  applyI18n();
 
-  var snackT;
-  function upload() {
-    var s = $("#snack");
-    $("#chipRow").innerHTML = '<span class="status" style="background:#687690">En revisión</span>';
-    s.classList.add("show");
-    clearTimeout(snackT);
-    snackT = setTimeout(function () { s.classList.remove("show"); }, 2800);
-  }
-  $("#uploadBtn").addEventListener("click", upload);
-
-  function ack() {
-    var b = $("#ackBtn");
-    b.textContent = "Leído";
-    b.style.background = "#B2DFDB";
-    $("#ackMeta").textContent = "Confirmaste que lo leíste";
-  }
-  $("#ackBtn").addEventListener("click", ack);
-
-  var phoneT;
-  function phoneScan() {
-    var res = $("#phoneResult");
-    clearTimeout(phoneT);
-    res.hidden = true;
-    phoneT = setTimeout(function () {
-      res.style.background = "#1B7F5A";
-      res.innerHTML = "";
-      var s = document.createElement("strong"); s.textContent = "ADELANTE";
-      res.appendChild(s);
-      res.appendChild(document.createTextNode("Laura Méndez\nUnidad 4B" + (guardOffline ? "\n\nValidado sin conexión contra la copia local." : "")));
-      res.hidden = false;
-      phoneT = setTimeout(function () { res.hidden = true; }, 3200);
-    }, reduced ? 0 : 650);
-  }
-  roleCopy.addEventListener("click", function (e) {
-    var b = e.target.closest("[data-act]");
-    if (!b) return;
-    var act = b.getAttribute("data-act");
-    if (act === "upload") upload();
-    if (act === "ack") ack();
-    if (act === "scan") phoneScan();
-    if (act === "offline") { guardOffline = !guardOffline; b.setAttribute("aria-pressed", String(guardOffline)); }
+  $("#langSel").addEventListener("change", function () {
+    lang = I18N[this.value] ? this.value : "es";
+    try { localStorage.setItem("condo-lang", lang); } catch (e) {}
+    applyI18n();
   });
-  showRole("res");
-
-  /* ---------- demo de pases ---------- */
-  var pass = null, passType = "single", offline = false, serial = 0;
-  function hash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
-  function qrSvg(text) {
-    var N = 25, s = hash(text) || 1, cells = "";
-    function bit() { s ^= s << 13; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return s & 1; }
-    function finder(fx, fy, x, y) {
-      var dx = x - fx, dy = y - fy;
-      if (dx < -1 || dy < -1 || dx > 7 || dy > 7) return null;
-      if (dx === -1 || dy === -1 || dx === 7 || dy === 7) return 0;
-      return (dx === 0 || dy === 0 || dx === 6 || dy === 6 || (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4)) ? 1 : 0;
-    }
-    for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) {
-      var f = finder(0, 0, x, y); if (f === null) f = finder(N - 7, 0, x, y); if (f === null) f = finder(0, N - 7, x, y);
-      var on = f !== null ? f : (y === 6 || x === 6) ? ((x + y) % 2 === 0 ? 1 : 0) : bit();
-      if (on) cells += '<rect x="' + (x + 2) + '" y="' + (y + 2) + '" width="1.02" height="1.02"/>';
-    }
-    return '<svg viewBox="0 0 29 29" role="img" aria-label="Código QR del pase de acceso"><rect width="29" height="29" fill="#fff"/><g fill="#0A1830">' + cells + "</g></svg>";
-  }
-  function renderPass() {
-    var out = $("#passOut");
-    if (!pass) { out.innerHTML = '<div class="empty">Tu pase aparecerá aquí.</div>'; return; }
-    var state = pass.revoked ? ["Revocado", "#B3261E"] : (pass.type === "single" && pass.uses > 0) ? ["Usado", "#687690"] : ["Activo", "#1B7F5A"];
-    out.innerHTML = '<div class="ticket fade">' + qrSvg(pass.name + "|" + pass.type + "|" + pass.serial) +
-      '<div><h4>Pase creado</h4><p class="who"></p><p>' +
-      (pass.type === "single" ? "Un solo ingreso, válido por 12 horas." : "Varios ingresos durante 30 días.") +
-      '</p><p>Comparte esta imagen con tu visita. La garita la escanea al entrar.</p><div class="state"><span class="status" style="background:' + state[1] + '">' + state[0] + "</span></div></div></div>";
-    $(".who", out).textContent = pass.name + " · Unidad 4B";
-  }
-  $$(".seg button").forEach(function (b) {
-    b.addEventListener("click", function () {
-      passType = b.getAttribute("data-type");
-      $$(".seg button").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
-      $("#typeHint").textContent = passType === "single" ? "Un solo ingreso, válido por 12 horas." : "Varios ingresos durante 30 días. Útil para servicio doméstico.";
-    });
-  });
-  $("#createBtn").addEventListener("click", function () {
-    var name = $("#visitor").value.trim();
-    if (!name) { $("#typeHint").textContent = "Escribe el nombre de la visita"; $("#visitor").focus(); return; }
-    pass = { name: name, type: passType, revoked: false, uses: 0, serial: ++serial };
-    renderPass();
-    $("#revokeBtn").disabled = false;
-    $("#scanBtn").disabled = false;
-    $("#gate").style.background = "#101413";
-    $("#gate").innerHTML = '<span style="color:#9FB6DC;font-size:15px">Apunta al código QR de la visita</span>';
-  });
-  $("#revokeBtn").addEventListener("click", function () {
-    if (!pass) return;
-    pass.revoked = true;
-    renderPass();
-    $("#revokeBtn").disabled = true;
-  });
-  $("#offline").addEventListener("click", function () {
-    offline = !offline;
-    this.setAttribute("aria-checked", String(offline));
-  });
-  $("#scanBtn").addEventListener("click", function () {
-    if (!pass) return;
-    var gate = $("#gate"), btn = this;
-    btn.disabled = true;
-    gate.style.background = "#101413";
-    gate.innerHTML = '<div class="scanline"></div><span style="color:#DCE7FB;font-size:15px">' + (offline ? "Comparando la firma con la copia local…" : "Verificando el pase…") + "</span>";
-    setTimeout(function () {
-      var ok = !pass.revoked && !(pass.type === "single" && pass.uses > 0);
-      var reason = pass.revoked ? "Pase revocado" : "Este pase ya se usó";
-      gate.style.background = ok ? "#1B7F5A" : "#B3261E";
-      gate.innerHTML = "";
-      var s = document.createElement("strong");
-      s.textContent = ok ? "ADELANTE" : "NO PASA";
-      gate.appendChild(s);
-      gate.appendChild(document.createTextNode(ok ? pass.name + "\nUnidad 4B" + (offline ? "\n\nValidado sin conexión contra la copia local." : "") : reason));
-      if (ok) { pass.uses++; renderPass(); }
-      btn.disabled = false;
-    }, reduced ? 0 : 950);
-  });
-
-  /* ---------- prorrateo por el metodo del resto mayor ---------- */
-  var UNITS = [["1A", 1137], ["1B", 1352], ["2A", 1137], ["2B", 1352], ["3A", 1137], ["3B", 1352], ["PH", 2533]];
-  var CUR = { MXN: { d: 2, scale: 1 }, USD: { d: 2, scale: 1 }, COP: { d: 2, scale: 100 }, CLP: { d: 0, scale: 1 } };
-  var cur = "MXN";
-  function fmt(minor, code) {
-    var d = CUR[code].d;
-    return new Intl.NumberFormat("es-MX", { style: "currency", currency: code, currencyDisplay: "narrowSymbol", minimumFractionDigits: d, maximumFractionDigits: d }).format(minor / Math.pow(10, d));
-  }
-  function calc() {
-    var v = +$("#budgetRange").value, c = CUR[cur], minor = v * c.scale;
-    $("#budgetOut").textContent = fmt(minor, cur) + " " + cur;
-    var naive = UNITS.map(function (u) { return Math.round(minor * u[1] / 10000); });
-    var base = UNITS.map(function (u) { return Math.floor(minor * u[1] / 10000); });
-    var rem = minor - base.reduce(function (a, b) { return a + b; }, 0);
-    var order = UNITS.map(function (u, i) { return [i, (minor * u[1]) % 10000]; }).sort(function (a, b) { return b[1] - a[1] || a[0] - b[0]; });
-    var extra = UNITS.map(function () { return 0; });
-    for (var k = 0; k < rem; k++) extra[order[k][0]] = 1;
-    var sumN = 0, sumC = 0, rows = "";
-    UNITS.forEach(function (u, i) {
-      var cv = base[i] + extra[i];
-      sumN += naive[i]; sumC += cv;
-      rows += "<tr><td>" + u[0] + "</td><td>" + (u[1] / 100).toFixed(2) + "%</td><td>" + fmt(naive[i], cur) + "</td><td>" + fmt(cv, cur) +
-        (extra[i] ? '<span class="plus">+1' + (c.d ? "¢" : "") + "</span>" : "") + "</td></tr>";
-    });
-    $("#shareRows").innerHTML = rows;
-    $("#sumNaive").textContent = fmt(sumN, cur);
-    $("#sumCondo").textContent = fmt(sumC, cur);
-    var diff = sumN - minor, box = $("#diffNaive").parentNode;
-    $("#diffNaive").textContent = (diff > 0 ? "+" : diff < 0 ? "−" : "") + fmt(Math.abs(diff), cur);
-    box.className = diff === 0 ? "v-good" : "v-bad";
-    $("#diffCondo").textContent = fmt(sumC - minor, cur);
-  }
-  $("#budgetRange").addEventListener("input", calc);
-  $$("[data-cur]").forEach(function (b) {
-    b.addEventListener("click", function () {
-      cur = b.getAttribute("data-cur");
-      $$("[data-cur]").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
-      calc();
-    });
-  });
-  calc();
 })();
 </script>
 </body>
