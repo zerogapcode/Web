@@ -49,7 +49,7 @@
     --btn-glow:0 18px 40px -16px rgba(127,209,245,.55);
     --glow-core:rgba(41,79,140,.55); --glow-core-2:rgba(27,43,73,.22);
     --glow-violet:rgba(183,156,240,.16); --glow-op:.20;
-    --shadow-xl:0 70px 130px -34px rgba(0,0,0,.85);
+    --shadow-xl:0 70px 130px -34px rgba(0,0,0,.85);--spot:rgba(127,209,245,.17);
     --shadow-md:0 30px 60px -22px rgba(0,0,0,.9);
     --grid-line:rgba(255,255,255,.028); --lattice:159,182,218; --lattice-a:.16;
     --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -70,7 +70,7 @@
     --btn-glow:0 18px 40px -18px rgba(27,43,73,.55);
     --glow-core:rgba(127,209,245,.32); --glow-core-2:rgba(159,182,218,.18);
     --glow-violet:rgba(183,156,240,.22); --glow-op:.5;
-    --shadow-xl:0 50px 100px -34px rgba(27,43,73,.34);
+    --shadow-xl:0 50px 100px -34px rgba(27,43,73,.34);--spot:rgba(30,110,150,.11);
     --shadow-md:0 24px 50px -22px rgba(27,43,73,.30);
     --grid-line:rgba(27,43,73,.035); --lattice:38,57,90; --lattice-a:.13;
   }
@@ -247,25 +247,24 @@
   .card h3{font-size:20px;letter-spacing:-.02em}
   .card p{font-size:14.5px;line-height:1.64;font-weight:300;color:var(--ink-2)}
 
-  /* Las tarjetas se encienden al entrar en pantalla. El estado apagado sólo
-     existe si el JS arrancó (.js-anim), para que sin JS se vean completas. */
-  .js-anim .cards .card{
-    opacity:.3;transform:translateY(18px);border-color:var(--hair);
-    transition:opacity .75s cubic-bezier(.2,.75,.25,1),transform .75s cubic-bezier(.2,.75,.25,1),border-color .75s ease
+  /* Al pasar el ratón la tarjeta se ilumina: un foco sigue al cursor,
+     el borde se define y el icono enciende. Sólo donde hay hover real,
+     para que en táctil no quede un estado pegado. */
+  .card{position:relative;isolation:isolate}
+  .card > *{position:relative;z-index:1}
+  .card::before{
+    content:"";position:absolute;inset:0;z-index:0;border-radius:inherit;pointer-events:none;
+    background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),var(--spot),transparent 62%);
+    opacity:0;transition:opacity .4s ease
   }
-  .js-anim .cards .card .ico{
-    color:var(--ink-4);
-    transition:color .75s ease,border-color .75s ease,box-shadow .75s ease
+  .card .ico{transition:color .35s ease,border-color .35s ease,box-shadow .35s ease,transform .35s ease}
+  @media (hover:hover) and (pointer:fine){
+    .card{transition:transform .35s cubic-bezier(.2,.75,.25,1),border-color .35s ease,box-shadow .35s ease}
+    .card:hover{transform:translateY(-5px);border-color:var(--glass-line-2);box-shadow:var(--shadow-md)}
+    .card:hover::before{opacity:1}
+    .card:hover .ico{border-color:var(--glass-line-2);box-shadow:0 10px 26px -12px var(--accent);transform:translateY(-1px)}
   }
-  .js-anim .cards .card.lit{opacity:1;transform:none;border-color:var(--glass-line)}
-  .js-anim .cards .card.lit .ico{
-    color:var(--accent);border-color:var(--glass-line-2);
-    box-shadow:0 8px 24px -12px var(--accent)
-  }
-  .js-anim .cards .card.lit:hover{transform:translateY(-3px);border-color:var(--glass-line-2)}
-  /* escalonado por columna: la fila se enciende de izquierda a derecha */
-  .js-anim .cards .card:nth-child(3n-1){transition-delay:.09s}
-  .js-anim .cards .card:nth-child(3n){transition-delay:.18s}
+
 
   /* ---------- banda directorio ---------- */
   .dir{
@@ -398,8 +397,9 @@
   @media (prefers-reduced-motion:reduce){
     .rise{animation:none}
     .net *{animation:none}
-    .js-anim .cards .card{opacity:1;transform:none;transition:none}
-    .js-anim .cards .card .ico{color:var(--accent);transition:none}
+    .card,.card .ico,.card::before{transition:none}
+    .card:hover{transform:none}
+    .card:hover .ico{transform:none}
     html{scroll-behavior:auto}
   }
 
@@ -417,8 +417,6 @@
     .shot:nth-child(even){transform:none}
     .shot:nth-child(even):hover{transform:translateY(-3px)}
     .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .js-anim .cards .card:nth-child(3n-1),.js-anim .cards .card:nth-child(3n){transition-delay:0s}
-    .js-anim .cards .card:nth-child(2n){transition-delay:.09s}
     .strip-in{grid-template-columns:repeat(3,minmax(0,1fr))}
     .cap{padding:26px 22px 28px;border-bottom:1px solid var(--hair)}
     .cap:nth-child(3n){border-right:none}
@@ -468,7 +466,6 @@
     .shot-cap b{font-size:9.5px}
     .shot-cap p{font-size:13px;line-height:1.55}
     .cards{grid-template-columns:minmax(0,1fr);gap:11px}
-    .js-anim .cards .card{transition-delay:0s !important}
     .card{flex-direction:row;gap:15px;padding:20px 18px 22px;border-radius:18px}
     .card .ico{width:40px;height:40px;border-radius:12px}
     .card .ico svg{width:19px;height:19px}
@@ -511,43 +508,6 @@
   }
 </style>
 
-<script>
-/* Enciende las tarjetas de funciones a medida que entran en pantalla.
-   Va en la cabecera y en su propio ámbito: si el script del pie fallara,
-   las tarjetas se encienden igual. */
-(function () {
-  "use strict";
-  document.documentElement.classList.add("js-anim");
-
-  function lightUp() {
-    var cards = document.querySelectorAll(".cards .card");
-    if (!cards.length) return;
-
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || !("IntersectionObserver" in window)) {
-      for (var i = 0; i < cards.length; i++) cards[i].classList.add("lit");
-      return;
-    }
-
-    var io = new IntersectionObserver(function (entries) {
-      for (var i = 0; i < entries.length; i++) {
-        if (entries[i].isIntersecting) {
-          entries[i].target.classList.add("lit");
-          io.unobserve(entries[i].target);
-        }
-      }
-    }, { threshold: 0.2, rootMargin: "0px 0px -10% 0px" });
-
-    for (var j = 0; j < cards.length; j++) io.observe(cards[j]);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", lightUp);
-  } else {
-    lightUp();
-  }
-})();
-</script>
 </head>
 <body>
 
@@ -1330,6 +1290,24 @@
 
     return { refresh: function () { readColors(); draw(); }, rebuild: build };
   })();
+})();
+</script>
+
+<script>
+/* El foco de cada tarjeta sigue al cursor. Si esto no corre, la variable
+   cae a su valor por defecto y el foco queda centrado: se ilumina igual. */
+(function () {
+  "use strict";
+  if (!window.matchMedia || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+  var cards = document.querySelectorAll(".cards .card");
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].addEventListener("pointermove", function (e) {
+      var r = this.getBoundingClientRect();
+      this.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      this.style.setProperty("--my", (e.clientY - r.top) + "px");
+    });
+  }
 })();
 </script>
 </body>
