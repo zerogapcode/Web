@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Estoquia — Punto de venta e inventario para tu tienda</title>
 <meta name="description" id="meta-desc" content="Estoquia lleva las ventas, el inventario y los empleados de tu tienda, kiosko o minimarket desde una tablet Android. Sincronizado en la nube." />
+<meta name="theme-color" content="#060A12" />
 <link rel="canonical" href="https://protonlab.site/estoquia.html" />
 <link rel="icon" href="images/estoquia/icono.png" />
 <link rel="apple-touch-icon" href="images/estoquia/icono.png" />
@@ -18,7 +19,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
 <script type="application/ld+json">
 {
@@ -36,207 +37,391 @@
 </script>
 
 <style>
+  /* ============ tokens: profundidad y cristal ============ */
   :root{
-    --page:#F9F9F9; --surface:#FFFFFF; --container:#F3EDF7; --container-line:#E7DFEC;
-    --line:#E9E3EE; --ink:#1C1B1F; --ink-2:#49454F; --ink-3:#6C6572; --ink-4:#9A93A1;
-    --brand:#26395A; --btn-bg:#1C1B1F; --btn-fg:#FFFFFF; --btn-outline:#DAD2E0;
-    --band:#26395A; --band-title:#FFFFFF; --band-text:#C9D4E5; --band-eyebrow:#A9BBD8; --band-line:#3D4F71;
-    --shadow:0 24px 60px rgba(38,57,90,.10); --dot:#CFC7D6; --lattice:38,57,90;
-    --sans:Roboto,"Helvetica Neue",system-ui,-apple-system,sans-serif;
-    --display:"Space Grotesk",Roboto,"Helvetica Neue",system-ui,sans-serif;
-    --mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --page:#060A12; --float:rgba(13,20,35,.86);
+    --glass-a:rgba(255,255,255,.07); --glass-b:rgba(255,255,255,.017);
+    --glass-line:rgba(255,255,255,.10); --glass-line-2:rgba(255,255,255,.16);
+    --hair:rgba(255,255,255,.07); --tint:rgba(255,255,255,.015);
+    --ink:#F2F6FD; --ink-2:#A3B1C9; --ink-3:#6B7A95; --ink-4:#4E5B73;
+    --accent:#7FD1F5; --accent-2:#B79CF0; --ok:#5FD39A;
+    --btn-bg:linear-gradient(180deg,#FFFFFF,#D7E4F5); --btn-fg:#06101E;
+    --btn-glow:0 18px 40px -16px rgba(127,209,245,.55);
+    --glow-core:rgba(41,79,140,.55); --glow-core-2:rgba(27,43,73,.22);
+    --glow-violet:rgba(183,156,240,.16); --glow-op:.20;
+    --shadow-xl:0 70px 130px -34px rgba(0,0,0,.85);
+    --shadow-md:0 30px 60px -22px rgba(0,0,0,.9);
+    --grid-line:rgba(255,255,255,.028); --lattice:159,182,218; --lattice-a:.16;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --display:Sora,"Segoe UI",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    /* la banda del directorio se mantiene navy en ambos temas */
+    --band-line:rgba(255,255,255,.11); --band-title:#FFFFFF;
+    --band-text:#BECBE3; --band-eyebrow:#C7B5F7; --band-check:#D9E3F4;
   }
-  [data-theme="dark"]{
-    --page:#141218; --surface:#1D1B20; --container:#211F26; --container-line:#322F38;
-    --line:#2B2930; --ink:#E6E0E9; --ink-2:#CAC4D0; --ink-3:#A8A2B0; --ink-4:#857F8D;
-    --brand:#9FB6DA; --btn-bg:#E6E0E9; --btn-fg:#1C1B1F; --btn-outline:#46424C;
-    --band:#1F2C44; --band-title:#FFFFFF; --band-text:#B9C6DC; --band-eyebrow:#8CA3C8; --band-line:#33415C;
-    --shadow:0 24px 60px rgba(0,0,0,.45); --dot:#46424C; --lattice:159,182,218;
+  [data-theme="light"]{
+    --page:#F4F6FB; --float:rgba(255,255,255,.96);
+    --glass-a:rgba(255,255,255,.90); --glass-b:rgba(255,255,255,.55);
+    --glass-line:rgba(27,43,73,.12); --glass-line-2:rgba(27,43,73,.18);
+    --hair:rgba(27,43,73,.11); --tint:rgba(27,43,73,.015);
+    --ink:#101A2C; --ink-2:#46566F; --ink-3:#6B7A95; --ink-4:#8794A9;
+    --accent:#1E6E96; --accent-2:#6B4BC0; --ok:#1F8A5B;
+    --btn-bg:linear-gradient(180deg,#22365A,#101A2C); --btn-fg:#FFFFFF;
+    --btn-glow:0 18px 40px -18px rgba(27,43,73,.55);
+    --glow-core:rgba(127,209,245,.32); --glow-core-2:rgba(159,182,218,.18);
+    --glow-violet:rgba(183,156,240,.22); --glow-op:.5;
+    --shadow-xl:0 50px 100px -34px rgba(27,43,73,.34);
+    --shadow-md:0 24px 50px -22px rgba(27,43,73,.30);
+    --grid-line:rgba(27,43,73,.035); --lattice:38,57,90; --lattice-a:.13;
   }
+
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
     background:var(--page);color:var(--ink);font-family:var(--sans);
     -webkit-font-smoothing:antialiased;overflow-x:hidden;
-    transition:background-color .3s ease,color .3s ease;
+    transition:background-color .35s ease,color .35s ease;
   }
-  h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.022em}
-  a{color:var(--brand);text-decoration:none}
+  h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.035em;text-wrap:pretty}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--ink)}
   img{display:block;max-width:100%}
-  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+  .mono{font-family:var(--mono)}
+
+  /* ---------- superficies ---------- */
+  .glass{
+    border:1px solid var(--glass-line);border-radius:22px;
+    background:linear-gradient(165deg,var(--glass-a),var(--glass-b));
+    transition:border-color .35s ease,transform .35s ease
+  }
+  .glass:hover{border-color:var(--glass-line-2);transform:translateY(-3px)}
+  .glow{position:absolute;pointer-events:none;border-radius:50%}
+
+  /* ---------- botones ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:11px;
+    height:56px;padding:0 28px;border-radius:16px;background:var(--btn-bg);color:var(--btn-fg);
+    font-size:16px;font-weight:600;letter-spacing:-.012em;box-shadow:var(--btn-glow);
+    transition:transform .2s ease,box-shadow .2s ease
+  }
+  .btn:hover{color:var(--btn-fg);transform:translateY(-2px)}
+  .btn svg{fill:currentColor;flex-shrink:0}
+  .btn-sm{height:42px;padding:0 20px;border-radius:13px;font-size:14px;gap:9px;box-shadow:none}
+  .btn-ghost{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 24px;
+    border:1px solid var(--glass-line-2);border-radius:16px;background:var(--glass-a);
+    color:var(--ink);font-size:16px;font-weight:500;transition:border-color .2s ease,transform .2s ease
+  }
+  .btn-ghost:hover{color:var(--ink);transform:translateY(-2px)}
+  .btn-ghost svg{stroke:currentColor;fill:none;flex-shrink:0}
+  .chip{
+    display:flex;align-items:center;justify-content:center;width:42px;height:42px;
+    border:1px solid var(--glass-line);border-radius:13px;background:var(--glass-a);
+    color:var(--ink-2);cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.06em;
+    transition:border-color .2s ease,color .2s ease
+  }
+  .chip:hover{border-color:var(--glass-line-2);color:var(--ink)}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 16px;border-radius:17px;
+    border:1px solid var(--glass-line);background:var(--glass-a)
+  }
+  .eyebrow i{width:6px;height:6px;border-radius:3px;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  .eyebrow span{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-2)}
+  .label{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent)}
 
   /* ---------- nav ---------- */
   header{
-    position:sticky;top:0;z-index:60;background:var(--page);
-    border-bottom:1px solid var(--line);
+    position:sticky;top:0;z-index:60;
+    border-bottom:1px solid var(--hair);
+    background:var(--page);background:color-mix(in srgb,var(--page) 82%,transparent);
+    backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px)
   }
-  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
-  .brand{display:flex;align-items:center;gap:11px}
-  .brand img{width:34px;height:34px;border-radius:9px;border:1px solid var(--container-line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:40px;height:78px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{width:34px;height:34px;border-radius:10px;border:1px solid var(--glass-line-2)}
   .brand span{font-family:var(--display);font-size:19px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
-  .nav-right{display:flex;align-items:center;gap:34px}
-  .nav-links{display:flex;align-items:center;gap:34px}
+  .nav-right{display:flex;align-items:center;gap:36px}
+  .nav-links{display:flex;align-items:center;gap:30px}
   .nav-links a{font-size:14.5px;color:var(--ink-2)}
   .nav-links a:hover{color:var(--ink)}
   .nav-tools{display:flex;align-items:center;gap:10px}
-  .chip{
-    display:flex;align-items:center;justify-content:center;width:40px;height:40px;
-    border:1px solid var(--container-line);border-radius:20px;background:transparent;
-    color:var(--ink-2);cursor:pointer;font-family:var(--sans);font-size:12.5px;font-weight:500;
-    letter-spacing:.04em;transition:background-color .2s ease
-  }
-  .chip:hover{background:var(--container)}
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:12px;
-    background:var(--btn-bg);color:var(--btn-fg);border-radius:28px;
-    font-size:16px;font-weight:500;height:56px;padding:0 30px;
-    transition:opacity .2s ease,transform .2s ease
-  }
-  .btn:hover{opacity:.88;transform:translateY(-1px)}
-  .btn svg{fill:currentColor;flex-shrink:0}
-  .btn-sm{height:44px;padding:0 22px;font-size:14.5px;gap:9px;border-radius:22px}
-  .btn-ghost{
-    display:inline-flex;align-items:center;justify-content:center;height:56px;padding:0 26px;
-    border:1px solid var(--btn-outline);border-radius:28px;font-size:16px;font-weight:500;color:var(--ink)
-  }
-  .btn-ghost:hover{background:var(--container)}
   .hamburger{display:none}
 
   /* ---------- hero ---------- */
-  .hero{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:72px;align-items:center;padding:76px 0 88px}
-  .hero-text{display:flex;flex-direction:column;align-items:flex-start;gap:26px}
-  .eyebrow{
-    display:inline-flex;align-items:center;gap:9px;height:30px;padding:0 14px;border-radius:15px;
-    background:var(--container);border:1px solid var(--container-line)
-  }
-  .eyebrow i{width:6px;height:6px;border-radius:3px;background:var(--brand)}
-  .eyebrow span{font-size:12.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
-  h1{font-size:62px;line-height:1.04;letter-spacing:-.032em;text-wrap:pretty}
-  h1 span{display:block}
-  .lead{font-size:18.5px;line-height:1.62;color:var(--ink-2);font-weight:300;max-width:520px;text-wrap:pretty}
-  .hero-actions{display:flex;align-items:center;gap:18px;padding-top:6px;flex-wrap:wrap}
-  .meta{display:flex;align-items:center;gap:20px;padding-top:10px;flex-wrap:wrap}
-  .meta span{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);letter-spacing:.02em}
-  .meta i{width:4px;height:4px;border-radius:2px;background:var(--dot)}
-  .hero-shot{display:flex;justify-content:flex-end}
-  .frame{width:100%;max-width:512px;padding:14px;background:var(--container);border:1px solid var(--container-line);border-radius:26px;box-shadow:var(--shadow)}
-  .frame img{width:100%;height:auto;border-radius:15px;border:1px solid var(--container-line)}
-
-  .hero-section{position:relative}
+  .hero-section{position:relative;overflow:hidden}
   .hero-section > canvas{
     position:absolute;inset:0;width:100%;height:100%;
-    pointer-events:none;z-index:0;opacity:0;transition:opacity .6s ease
+    pointer-events:none;z-index:1;opacity:0;transition:opacity .6s ease
   }
   .hero-section > canvas.ready{opacity:1}
-  .hero{position:relative;z-index:1}
+  .ambient{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .ambient .g1{
+    top:-300px;left:50%;margin-left:-480px;width:1120px;height:900px;border-radius:0;
+    background:radial-gradient(ellipse at center,var(--glow-core),var(--glow-core-2) 42%,transparent 70%)
+  }
+  .ambient .g2{
+    top:120px;left:-260px;width:760px;height:760px;
+    background:radial-gradient(circle at center,var(--glow-violet),transparent 66%)
+  }
+  .ambient .grid{
+    position:absolute;inset:0;
+    background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);
+    background-size:88px 88px;
+    -webkit-mask-image:linear-gradient(180deg,#000 0,#000 60%,transparent 100%);
+    mask-image:linear-gradient(180deg,#000 0,#000 60%,transparent 100%)
+  }
+  .hero{position:relative;z-index:2;display:grid;grid-template-columns:1.04fr 1fr;gap:56px;align-items:center;padding:96px 0 104px}
+  .hero-text{display:flex;flex-direction:column;align-items:flex-start;gap:28px}
+  h1{font-size:78px;line-height:.99;letter-spacing:-.04em}
+  h1 span{display:block}
+  h1 .dim{color:var(--ink-3)}
+  [data-theme="light"] h1 .dim{color:#5D7295}
+  .lead{max-width:505px;font-size:19px;line-height:1.66;font-weight:300;color:var(--ink-2)}
+  .hero-actions{display:flex;align-items:center;gap:14px;padding-top:4px;flex-wrap:wrap}
+  .meta{display:flex;align-items:center;gap:16px;padding-top:6px;flex-wrap:wrap}
+  .meta span{font-family:var(--mono);font-size:12px;letter-spacing:.07em;color:var(--ink-3)}
+  .meta i{width:4px;height:4px;border-radius:2px;background:var(--ink-4)}
 
-  /* ---------- sections ---------- */
-  .band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:92px 0 100px}
-  .sec{padding:96px 0 104px}
-  .sec-head{display:flex;flex-direction:column;gap:14px;max-width:660px;padding-bottom:52px}
-  .sec-head h2{font-size:40px;line-height:1.12}
-  .sec-head p{font-size:17px;line-height:1.6;color:var(--ink-2);font-weight:300}
+  .stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:660px}
+  .stage .s1{top:20px;right:-60px;width:560px;height:560px;background:radial-gradient(circle at center,var(--accent),transparent 64%);opacity:var(--glow-op)}
+  .stage .s2{bottom:10px;left:-80px;width:420px;height:420px;background:radial-gradient(circle at center,var(--accent-2),transparent 66%);opacity:var(--glow-op)}
+  .device{
+    position:relative;z-index:2;width:428px;padding:14px;border-radius:32px;
+    border:1px solid var(--glass-line-2);
+    background:linear-gradient(152deg,rgba(255,255,255,.17),rgba(255,255,255,.03) 58%);
+    box-shadow:var(--shadow-xl);
+    transform:perspective(1900px) rotateY(-16deg) rotateX(7deg) rotate(1.2deg)
+  }
+  [data-theme="light"] .device{background:linear-gradient(152deg,rgba(255,255,255,.98),rgba(255,255,255,.72) 58%)}
+  .device img{width:100%;height:auto;border-radius:21px}
+  .device .sheen{position:absolute;inset:14px;border-radius:21px;pointer-events:none;background:linear-gradient(200deg,rgba(255,255,255,.14),rgba(255,255,255,0) 36%)}
+  .readout{
+    position:absolute;z-index:3;display:flex;flex-direction:column;gap:7px;
+    padding:16px 20px 17px;border-radius:18px;border:1px solid var(--glass-line-2);
+    background:var(--float);box-shadow:var(--shadow-md)
+  }
+  .readout b{font-family:var(--mono);font-size:10.5px;font-weight:400;letter-spacing:.14em;color:var(--ink-3)}
+  .readout strong{font-family:var(--display);font-size:30px;font-weight:600;letter-spacing:-.03em;color:var(--ink);line-height:1}
+  .readout.a{left:-6px;top:92px;transform:rotate(-2.2deg)}
+  .readout.b{right:-14px;bottom:96px;transform:rotate(1.8deg)}
+  .readout .row{display:flex;align-items:center;gap:9px}
+  .readout .dot{width:7px;height:7px;border-radius:4px;background:var(--ok);box-shadow:0 0 9px var(--ok)}
 
-  .shots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
-  .shot{display:flex;flex-direction:column;gap:18px}
-  .shot img{width:100%;height:400px;object-fit:cover;object-position:top;border-radius:14px;border:1px solid var(--container-line);background:var(--container)}
-  .shot-cap{display:flex;flex-direction:column;gap:7px}
-  .shot-cap b{font-family:var(--mono);font-size:11.5px;font-weight:400;letter-spacing:.08em;color:var(--brand)}
-  .shot-cap p{font-size:14.5px;line-height:1.58;color:var(--ink-2);font-weight:300}
+  /* ---------- franja de capacidades ---------- */
+  .strip{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);background:var(--tint)}
+  .strip-in{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+  .cap{display:flex;flex-direction:column;gap:8px;padding:30px 26px 32px;border-right:1px solid var(--hair)}
+  .cap:first-child{padding-left:0}
+  .cap:last-child{padding-right:0;border-right:none}
+  .cap b{font-family:var(--mono);font-size:10.5px;font-weight:400;letter-spacing:.14em;color:var(--accent)}
+  .cap strong{font-size:14.5px;font-weight:500;color:var(--ink)}
+  .cap span{font-size:13px;font-weight:300;color:var(--ink-3)}
 
-  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
-  .card{display:flex;flex-direction:column;gap:16px;padding:32px 30px 34px;background:var(--container);border:1px solid var(--container-line);border-radius:18px}
-  .card svg{stroke:var(--brand);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-  .card h3{font-size:19px;letter-spacing:-.015em}
-  .card p{font-size:14.5px;line-height:1.62;color:var(--ink-2);font-weight:300}
+  /* ---------- secciones ---------- */
+  .sec{position:relative;z-index:2;padding:108px 0 0}
+  .sec-head{display:flex;flex-direction:column;gap:16px;max-width:660px;padding-bottom:56px}
+  .sec-head h2{font-size:48px;line-height:1.06}
+  .sec-head p{font-size:17px;line-height:1.62;font-weight:300;color:var(--ink-2)}
+  .head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:48px}
+  .head-row .sec-head{padding-bottom:0}
+  .head-row > span{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink-3);padding-bottom:6px;white-space:nowrap}
 
-  .dir{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px;align-items:center;padding:60px 64px;background:var(--band);border-radius:24px}
-  .dir-text{display:flex;flex-direction:column;gap:22px;align-items:flex-start}
-  .dir-text b{font-family:var(--mono);font-size:11.5px;font-weight:400;letter-spacing:.1em;color:var(--band-eyebrow)}
-  .dir-text h2{font-size:38px;line-height:1.14;color:var(--band-title)}
-  .dir-text p{font-size:16.5px;line-height:1.65;color:var(--band-text);font-weight:300;max-width:470px;text-wrap:pretty}
-  .dir img{width:340px;height:330px;object-fit:cover;object-position:top;border-radius:16px;border:1px solid var(--band-line);margin-left:auto}
+  .shots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;align-items:start;padding-top:56px}
+  .shot{display:flex;flex-direction:column;gap:18px;padding:12px 12px 22px}
+  .shot:nth-child(even){transform:translateY(34px)}
+  .shot:nth-child(even):hover{transform:translateY(31px)}
+  .shot img{width:100%;height:380px;object-fit:cover;object-position:top;border-radius:15px;background:var(--glass-a)}
+  .shot-cap{display:flex;flex-direction:column;gap:8px;padding:0 10px}
+  .shot-cap b{font-family:var(--mono);font-size:10.5px;font-weight:400;letter-spacing:.14em;color:var(--accent)}
+  .shot-cap p{font-size:14px;line-height:1.6;font-weight:300;color:var(--ink-2)}
 
-  .final{display:flex;flex-direction:column;align-items:center;gap:26px;padding:76px 40px 80px;background:var(--surface);border:1px solid var(--line);border-radius:24px;text-align:center}
-  .final img.ico{width:60px;height:60px;border-radius:15px;border:1px solid var(--container-line)}
-  .final h2{font-size:38px;line-height:1.14;max-width:640px}
-  .final p{font-size:17px;line-height:1.6;color:var(--ink-2);font-weight:300;max-width:520px;text-wrap:pretty}
+  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .card{display:flex;flex-direction:column;gap:18px;padding:32px 30px 34px}
+  .card .ico{
+    display:flex;align-items:center;justify-content:center;width:46px;height:46px;flex-shrink:0;
+    border:1px solid var(--glass-line);border-radius:14px;background:var(--glass-a);color:var(--accent)
+  }
+  .card svg{stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .card-body{display:flex;flex-direction:column;gap:9px}
+  .card h3{font-size:20px;letter-spacing:-.02em}
+  .card p{font-size:14.5px;line-height:1.64;font-weight:300;color:var(--ink-2)}
+
+  /* ---------- banda directorio ---------- */
+  .dir{
+    position:relative;overflow:hidden;border-radius:32px;border:1px solid var(--band-line);
+    background:linear-gradient(140deg,rgba(41,79,140,.34),rgba(27,43,73,.20) 46%,rgba(255,255,255,.02))
+  }
+  [data-theme="light"] .dir{background:linear-gradient(140deg,#1E3055,#16243F 62%,#121D33)}
+  .dir .dglow{top:-160px;right:-120px;width:700px;height:700px;background:radial-gradient(circle at center,var(--accent-2),transparent 66%);opacity:.22}
+  .dir-in{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:64px 64px 64px 60px}
+  .dir-text{display:flex;flex-direction:column;align-items:flex-start;gap:24px}
+  .dir-text > b{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.16em;color:var(--band-eyebrow)}
+  .dir-text h2{font-size:44px;line-height:1.08;color:var(--band-title)}
+  .dir-text > p{max-width:460px;font-size:16.5px;line-height:1.68;font-weight:300;color:var(--band-text)}
+  .checks{display:flex;flex-direction:column;gap:12px;padding-top:6px}
+  .checks div{display:flex;align-items:center;gap:12px}
+  .checks i{
+    display:flex;align-items:center;justify-content:center;width:26px;height:26px;flex-shrink:0;
+    border:1px solid rgba(255,255,255,.16);border-radius:9px;background:rgba(255,255,255,.06);color:var(--band-eyebrow)
+  }
+  .checks svg{stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .checks span{font-size:15px;color:var(--band-check)}
+  .dir-shot{position:relative;display:flex;justify-content:flex-end}
+  .dir-shot .net{position:absolute;left:-70px;top:-30px;opacity:.55;pointer-events:none}
+  .dir-frame{
+    position:relative;z-index:2;width:320px;padding:12px;border-radius:26px;
+    border:1px solid rgba(255,255,255,.16);
+    background:linear-gradient(152deg,rgba(255,255,255,.16),rgba(255,255,255,.03) 60%);
+    box-shadow:0 50px 100px -30px rgba(0,0,0,.8);
+    transform:perspective(1600px) rotateY(-11deg) rotateX(5deg)
+  }
+  .dir-frame img{width:100%;height:400px;object-fit:cover;object-position:top;border-radius:17px}
+
+  /* ---------- cierre ---------- */
+  .final{
+    position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:24px;
+    padding:84px 48px 88px;border-radius:32px;border:1px solid var(--glass-line);
+    background:linear-gradient(180deg,var(--glass-a),var(--glass-b));text-align:center
+  }
+  .final .fglow{bottom:-340px;left:50%;margin-left:-400px;width:800px;height:620px;background:radial-gradient(circle at center,var(--accent),transparent 64%);opacity:calc(var(--glow-op) + .06)}
+  .final > *:not(.glow){position:relative;z-index:1}
+  .final img.ico{width:64px;height:64px;border-radius:19px;border:1px solid var(--glass-line-2);box-shadow:var(--shadow-md)}
+  .final h2{max-width:640px;font-size:46px;line-height:1.08}
+  .final p{max-width:520px;font-size:17px;line-height:1.64;font-weight:300;color:var(--ink-2)}
+  .final code{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;color:var(--ink-3)}
 
   /* ---------- footer ---------- */
-  footer{border-top:1px solid var(--line);padding:56px 0 64px}
-  .foot-top{display:flex;align-items:flex-start;justify-content:space-between;gap:60px;flex-wrap:wrap}
-  .foot-brand{display:flex;flex-direction:column;gap:14px}
-  .foot-brand div{display:flex;align-items:center;gap:10px}
-  .foot-brand img{width:28px;height:28px;border-radius:8px;border:1px solid var(--container-line)}
-  .foot-brand strong{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:-.02em}
-  .foot-brand p{font-size:13.5px;line-height:1.6;color:var(--ink-3);font-weight:300;max-width:300px}
+  footer{position:relative;z-index:2;margin-top:128px;border-top:1px solid var(--hair);background:var(--tint)}
+  .foot-in{padding:60px 0 56px}
+  .foot-top{display:flex;align-items:flex-start;justify-content:space-between;gap:64px;flex-wrap:wrap}
+  .foot-brand{display:flex;flex-direction:column;gap:16px;max-width:320px}
+  .foot-brand div{display:flex;align-items:center;gap:11px}
+  .foot-brand img{width:30px;height:30px;border-radius:9px;border:1px solid var(--glass-line)}
+  .foot-brand strong{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+  .foot-brand p{font-size:13.5px;line-height:1.66;font-weight:300;color:var(--ink-3)}
   .foot-cols{display:flex;gap:72px;flex-wrap:wrap}
-  .foot-col{display:flex;flex-direction:column;gap:12px}
-  .foot-col b{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.09em;color:var(--ink-4)}
+  .foot-col{display:flex;flex-direction:column;gap:13px}
+  .foot-col b{font-family:var(--mono);font-size:10.5px;font-weight:400;letter-spacing:.15em;color:var(--ink-4)}
   .foot-col a{font-size:14px;color:var(--ink-2)}
-  .foot-col a:hover{color:var(--ink)}
-  .foot-bot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:44px;padding-top:26px;border-top:1px solid var(--line);flex-wrap:wrap}
+  .foot-bot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:52px;padding-top:26px;border-top:1px solid var(--hair);flex-wrap:wrap}
   .foot-bot span{font-size:12.5px;color:var(--ink-4)}
-  .foot-bot code{font-family:var(--mono);font-size:11.5px;color:var(--ink-4);letter-spacing:.04em}
+  .foot-bot code{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-4)}
+
+  /* ---------- una sola entrada orquestada ---------- */
+  @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  .rise{animation:rise .85s cubic-bezier(.2,.75,.25,1) both}
+  .rise.d1{animation-delay:.07s} .rise.d2{animation-delay:.14s}
+  .rise.d3{animation-delay:.21s} .rise.d4{animation-delay:.28s}
+  .rise.d5{animation-delay:.36s} .rise.d6{animation-delay:.44s}
+  .stage .rise{animation-name:rise}
+  @media (prefers-reduced-motion:reduce){
+    .rise{animation:none}
+    html{scroll-behavior:auto}
+  }
 
   /* ---------- responsive ---------- */
-  @media (max-width:1080px){
-    .shots{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
-    .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .hero{gap:48px}
-    h1{font-size:52px}
+  @media (max-width:1180px){
+    h1{font-size:64px}
+    .hero{gap:40px}
+    .device{width:380px}
+    .stage{min-height:600px}
+    .shot img{height:320px}
   }
-  @media (max-width:860px){
+  @media (max-width:1080px){
+    .wrap{padding:0 28px}
+    .shots{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+    .shot:nth-child(even){transform:none}
+    .shot:nth-child(even):hover{transform:translateY(-3px)}
+    .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .strip-in{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .cap{padding:26px 22px 28px;border-bottom:1px solid var(--hair)}
+    .cap:nth-child(3n){border-right:none}
+    .cap:nth-child(n+4){border-bottom:none}
+    .cap:first-child{padding-left:22px}
+    .cap:last-child{padding-right:22px}
+    .dir-in{grid-template-columns:1fr;gap:36px;padding:48px 40px 44px}
+    .dir-text h2{font-size:36px}
+    .dir-shot{justify-content:center}
+    .dir-shot .net{left:50%;margin-left:-210px;top:-40px}
+  }
+  @media (max-width:880px){
     .nav-links{
-      display:none;position:absolute;top:72px;left:0;right:0;flex-direction:column;
-      align-items:stretch;gap:0;background:var(--page);border-bottom:1px solid var(--line);padding:8px 24px 16px
+      display:none;position:absolute;top:78px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;
+      background:var(--page);border-bottom:1px solid var(--hair);padding:8px 28px 16px
     }
     .nav-links.open{display:flex}
-    .nav-links a{padding:14px 0;font-size:16px;border-bottom:1px solid var(--line)}
+    .nav-links a{padding:15px 0;font-size:16px;border-bottom:1px solid var(--hair)}
     .nav-links a:last-child{border-bottom:none}
     .nav-right{gap:0}
-    .hamburger{
-      display:flex;align-items:center;justify-content:center;width:44px;height:44px;
-      border:none;background:var(--btn-bg);color:var(--btn-fg);border-radius:22px;cursor:pointer
-    }
     .nav .btn-sm{display:none}
-    .hero{grid-template-columns:minmax(0,1fr);gap:32px;padding:40px 0 56px}
-    h1{font-size:40px;line-height:1.06;letter-spacing:-.03em}
+    .hamburger{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--glass-line);border-radius:13px;background:var(--glass-a);color:var(--ink-2);cursor:pointer}
+    .hamburger svg{stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round}
+    .hero{grid-template-columns:minmax(0,1fr);gap:20px;padding:48px 0 56px}
+    h1{font-size:46px;line-height:1.02}
     .lead{font-size:16.5px}
-    .hero-actions{width:100%;flex-direction:column;align-items:stretch;gap:12px}
-    .hero-actions .btn,.hero-actions .btn-ghost{width:100%;height:54px}
-    .hero-shot{justify-content:stretch}
-    .frame{max-width:none;padding:12px;border-radius:22px}
-    .band{padding:64px 0 68px}
-    .sec{padding:64px 0 68px}
-    .sec-head{padding-bottom:32px}
-    .sec-head h2{font-size:30px}
+    .hero-actions{width:100%;flex-direction:column;align-items:stretch;gap:11px}
+    .hero-actions .btn,.hero-actions .btn-ghost{width:100%;height:54px;font-size:16px}
+    .stage{min-height:0;padding-top:24px}
+    .device{width:min(300px,78vw);padding:11px;border-radius:26px;transform:perspective(1400px) rotateY(-10deg) rotateX(5deg) rotate(.8deg)}
+    .device img{border-radius:17px}
+    .device .sheen{inset:11px;border-radius:17px}
+    .readout{padding:12px 15px 13px;border-radius:15px;gap:5px}
+    .readout b{font-size:9.5px}
+    .readout strong{font-size:23px}
+    .readout.a{left:0;top:40px}
+    .readout.b{right:0;bottom:36px}
+    .sec{padding:68px 0 0}
+    .sec-head{padding-bottom:28px}
+    .sec-head h2{font-size:32px;line-height:1.08}
     .sec-head p{font-size:15.5px}
-    .cards{grid-template-columns:minmax(0,1fr);gap:12px}
-    .card{flex-direction:row;gap:16px;padding:22px 20px 24px;border-radius:16px}
-    .card svg{flex-shrink:0;margin-top:2px;width:24px;height:24px}
-    .card-body{display:flex;flex-direction:column;gap:8px}
+    .head-row > span{display:none}
+    .shots{padding-top:28px;gap:14px}
+    .shot{padding:9px 9px 16px;gap:13px;border-radius:18px}
+    .shot img{height:190px;border-radius:12px}
+    .shot-cap{padding:0 7px;gap:6px}
+    .shot-cap b{font-size:9.5px}
+    .shot-cap p{font-size:13px;line-height:1.55}
+    .cards{grid-template-columns:minmax(0,1fr);gap:11px}
+    .card{flex-direction:row;gap:15px;padding:20px 18px 22px;border-radius:18px}
+    .card .ico{width:40px;height:40px;border-radius:12px}
+    .card .ico svg{width:19px;height:19px}
+    .card-body{display:flex;flex-direction:column;gap:7px}
     .card h3{font-size:17px}
-    .card p{font-size:14px;line-height:1.6}
-    .dir{grid-template-columns:minmax(0,1fr);gap:20px;padding:40px 26px 34px;border-radius:22px}
+    .card p{font-size:13.5px;line-height:1.6}
+    .dir{border-radius:26px}
+    .dir-in{padding:34px 24px 30px;gap:20px}
     .dir-text{gap:20px}
-    .dir-text h2{font-size:28px;line-height:1.16}
-    .dir-text p{font-size:15.5px}
-    .dir img{width:100%;height:260px;border-radius:14px;margin-left:0}
-    .final{padding:48px 24px 52px;gap:20px;border-radius:22px}
-    .final h2{font-size:27px;line-height:1.16}
+    .dir-text > b{font-size:10px;letter-spacing:.15em}
+    .dir-text h2{font-size:29px;line-height:1.12}
+    .dir-text > p{font-size:15px}
+    .dir-shot .net{display:none}
+    .dir-frame{width:min(230px,66vw);padding:9px;border-radius:20px;transform:perspective(1300px) rotateY(-8deg) rotateX(4deg)}
+    .dir-frame img{height:280px;border-radius:14px}
+    .final{padding:48px 24px 52px;gap:18px;border-radius:26px}
+    .final img.ico{width:56px;height:56px;border-radius:17px}
+    .final h2{font-size:30px;line-height:1.1}
     .final p{font-size:15.5px}
-    .final .btn{width:100%;height:54px;font-size:15.5px}
-    .foot-top{flex-direction:column;gap:34px}
-    .foot-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+    .final .btn{width:100%;height:54px}
+    footer{margin-top:68px}
+    .foot-in{padding:40px 0 44px}
+    .foot-top{flex-direction:column;gap:28px}
+    .foot-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}
     .foot-bot{flex-direction:column;align-items:flex-start;gap:8px;margin-top:34px}
   }
   @media (max-width:560px){
-    .shots{gap:16px}
-    .shot img{height:220px;border-radius:12px}
-    .shot{gap:12px}
-    .shot-cap b{font-size:10.5px}
-    .shot-cap p{font-size:13.5px;line-height:1.55}
+    .wrap{padding:0 20px}
+    h1{font-size:40px;letter-spacing:-.035em}
+    .strip-in{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .cap{padding:22px 18px}
+    .cap:first-child{padding-left:18px}
+    .cap:last-child{padding-right:18px}
+    .cap:nth-child(3n){border-right:1px solid var(--hair)}
+    .cap:nth-child(2n){border-right:none}
+    .cap:nth-child(n+4){border-bottom:1px solid var(--hair)}
+    .cap:last-child{border-bottom:none}
+    .shot img{height:170px}
+    .foot-cols{gap:20px}
   }
 </style>
 </head>
@@ -252,19 +437,20 @@
       <nav class="nav-links" id="navLinks">
         <a href="#funciones" data-i18n="nav_features">Funciones</a>
         <a href="#pantallas" data-i18n="nav_screens">La app por dentro</a>
+        <a href="#directorio" data-i18n="nav_directory">Directorio</a>
         <a href="#soporte" data-i18n="nav_support">Soporte</a>
       </nav>
       <div class="nav-tools">
         <button class="chip" id="langBtn" aria-label="Cambiar idioma">ES</button>
         <button class="chip" id="themeBtn" aria-label="Cambiar tema">
-          <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg id="themeIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 1.8v2.4"></path><path d="M12 19.8v2.4"></path><path d="M4.4 4.4l1.7 1.7"></path><path d="M17.9 17.9l1.7 1.7"></path><path d="M1.8 12h2.4"></path><path d="M19.8 12h2.4"></path><path d="M4.4 19.6l1.7-1.7"></path><path d="M17.9 6.1l1.7-1.7"></path></svg>
         </button>
         <a class="btn btn-sm" href="https://play.google.com/store/apps/details?id=com.estoquia.app" target="_blank" rel="noopener">
-          <svg width="15" height="15" viewBox="0 0 24 24"><path d="M4.2 2.1 14.9 12 4.2 21.9a1.4 1.4 0 0 1-.7-1.2V3.3a1.4 1.4 0 0 1 .7-1.2z"></path></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M4.2 2.1 14.9 12 4.2 21.9a1.4 1.4 0 0 1-.7-1.2V3.3a1.4 1.4 0 0 1 .7-1.2z"></path></svg>
           <span>Google Play</span>
         </a>
         <button class="hamburger" id="menuBtn" aria-label="Menú" aria-expanded="false">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path></svg>
         </button>
       </div>
     </div>
@@ -274,115 +460,174 @@
 <main id="top">
 
   <section class="hero-section">
+    <div class="ambient" aria-hidden="true">
+      <span class="glow g1"></span>
+      <span class="glow g2"></span>
+      <span class="grid"></span>
+    </div>
     <canvas id="lattice" aria-hidden="true"></canvas>
+
     <div class="wrap hero">
       <div class="hero-text">
-        <div class="eyebrow"><i></i><span data-i18n="hero_eyebrow">Punto de venta e inventario</span></div>
-        <h1><span data-i18n="hero_title_a">Tu tienda entera,</span><span data-i18n="hero_title_b">en una tablet.</span></h1>
-        <p class="lead" data-i18n="hero_sub">Estoquia lleva las ventas, el inventario y los empleados de tu tienda, kiosko o minimarket. Rápida, intuitiva y sincronizada en la nube — sin los sistemas lentos y costosos de siempre.</p>
-        <div class="hero-actions">
+        <div class="eyebrow rise"><i></i><span data-i18n="hero_eyebrow">Punto de venta · inventario</span></div>
+        <h1 class="rise d1"><span data-i18n="hero_title_a">Tu tienda entera,</span><span class="dim" data-i18n="hero_title_b">en una tablet.</span></h1>
+        <p class="lead rise d2" data-i18n="hero_sub">Ventas, inventario y empleados de tu tienda, kiosko o minimarket — en una sola app, sincronizada en la nube. Sin servidor propio, sin instalación, sin los sistemas lentos de siempre.</p>
+        <div class="hero-actions rise d3">
           <a class="btn" href="https://play.google.com/store/apps/details?id=com.estoquia.app" target="_blank" rel="noopener">
-            <svg width="19" height="19" viewBox="0 0 24 24"><path d="M4.2 2.1 14.9 12 4.2 21.9a1.4 1.4 0 0 1-.7-1.2V3.3a1.4 1.4 0 0 1 .7-1.2z"></path></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M4.2 2.1 14.9 12 4.2 21.9a1.4 1.4 0 0 1-.7-1.2V3.3a1.4 1.4 0 0 1 .7-1.2z"></path></svg>
             <span data-i18n="cta_play">Descargar en Google Play</span>
           </a>
-          <a class="btn-ghost" href="#pantallas" data-i18n="cta_see">Ver la app</a>
+          <a class="btn-ghost" href="#pantallas">
+            <span data-i18n="cta_see">Ver la app por dentro</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+          </a>
         </div>
-        <div class="meta">
+        <div class="meta rise d4">
           <span data-i18n="meta_platform">ANDROID · TABLET Y MÓVIL</span>
           <i></i>
           <span>ES · EN · PT</span>
+          <i></i>
+          <span>GOOGLE CLOUD</span>
         </div>
       </div>
-      <div class="hero-shot">
-        <div class="frame">
+
+      <div class="stage">
+        <span class="glow s1" aria-hidden="true"></span>
+        <span class="glow s2" aria-hidden="true"></span>
+
+        <div class="device rise d1">
           <img src="images/estoquia/inventario.jpg" alt="Pantalla de inventario de Estoquia" width="900" height="1353" />
+          <span class="sheen"></span>
+        </div>
+
+        <div class="readout a rise d5">
+          <b>TOTAL ITEMS</b>
+          <strong>6</strong>
+        </div>
+        <div class="readout b rise d6">
+          <b>LOW STOCK</b>
+          <div class="row"><span class="dot"></span><strong>0</strong></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="band" id="pantallas">
-    <div class="wrap">
+  <section class="strip">
+    <div class="wrap strip-in">
+      <div class="cap">
+        <b>01</b>
+        <strong data-i18n="cap1_t">Lector de código</strong>
+        <span data-i18n="cap1_s">con la cámara</span>
+      </div>
+      <div class="cap">
+        <b>02</b>
+        <strong data-i18n="cap2_t">Tickets térmicos</strong>
+        <span data-i18n="cap2_s">Bluetooth o TCP/IP</span>
+      </div>
+      <div class="cap">
+        <b>03</b>
+        <strong data-i18n="cap3_t">Roles y permisos</strong>
+        <span data-i18n="cap3_s">una cuenta por empleado</span>
+      </div>
+      <div class="cap">
+        <b>04</b>
+        <strong data-i18n="cap4_t">Multi-dispositivo</strong>
+        <span data-i18n="cap4_s">varias tablets, un inventario</span>
+      </div>
+      <div class="cap">
+        <b>05</b>
+        <strong data-i18n="cap5_t">Impuestos propios</strong>
+        <span data-i18n="cap5_s">calculados al vuelo</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="pantallas">
+    <div class="head-row">
       <div class="sec-head">
-        <h2 data-i18n="screens_title">Así se ve por dentro.</h2>
-        <p data-i18n="screens_sub">Capturas reales de la aplicación en una tablet. Sin adornos ni maquetas.</p>
+        <span class="label" data-i18n="screens_eyebrow">LA APP POR DENTRO</span>
+        <h2 data-i18n="screens_title">Así se ve de verdad.</h2>
+        <p data-i18n="screens_sub">Capturas directas de una tienda real funcionando en tablet. Sin maquetas ni pantallas de relleno.</p>
       </div>
-      <div class="shots">
-        <figure class="shot">
-          <img src="images/estoquia/inventario.jpg" alt="Inventario" loading="lazy" width="900" height="1353" />
-          <figcaption class="shot-cap">
-            <b data-i18n="s1_label">01 — INVENTARIO</b>
-            <p data-i18n="s1_desc">Todo tu stock con foto, SKU y precio. Alertas automáticas cuando algo se está acabando.</p>
-          </figcaption>
-        </figure>
-        <figure class="shot">
-          <img src="images/estoquia/venta.jpg" alt="Punto de venta" loading="lazy" width="900" height="1353" />
-          <figcaption class="shot-cap">
-            <b data-i18n="s2_label">02 — VENTAS</b>
-            <p data-i18n="s2_desc">Escanea o busca, ajusta cantidades y cobra. El subtotal y los impuestos se calculan solos.</p>
-          </figcaption>
-        </figure>
-        <figure class="shot">
-          <img src="images/estoquia/ticket.jpg" alt="Ticket de compra" loading="lazy" width="900" height="1353" />
-          <figcaption class="shot-cap">
-            <b data-i18n="s3_label">03 — TICKET</b>
-            <p data-i18n="s3_desc">Recibos con tu nombre, RIF, cajero y desglose, listos para la impresora térmica.</p>
-          </figcaption>
-        </figure>
-        <figure class="shot">
-          <img src="images/estoquia/directorio.jpg" alt="Directorio de tiendas" loading="lazy" width="900" height="1353" />
-          <figcaption class="shot-cap">
-            <b data-i18n="s4_label">04 — DIRECTORIO</b>
-            <p data-i18n="s4_desc">Consulta el inventario de otros negocios de la red cuando te quedes sin un producto.</p>
-          </figcaption>
-        </figure>
-      </div>
+      <span data-i18n="screens_count">04 PANTALLAS</span>
+    </div>
+
+    <div class="shots">
+      <figure class="shot glass">
+        <img src="images/estoquia/inventario.jpg" alt="Inventario" loading="lazy" width="900" height="1353" />
+        <figcaption class="shot-cap">
+          <b data-i18n="s1_label">01 — INVENTARIO</b>
+          <p data-i18n="s1_desc">Todo tu stock con foto, SKU y precio. Alertas automáticas cuando algo se está acabando.</p>
+        </figcaption>
+      </figure>
+      <figure class="shot glass">
+        <img src="images/estoquia/venta.jpg" alt="Punto de venta" loading="lazy" width="900" height="1353" />
+        <figcaption class="shot-cap">
+          <b data-i18n="s2_label">02 — VENTAS</b>
+          <p data-i18n="s2_desc">Escanea o busca, ajusta cantidades y cobra. El subtotal y los impuestos se calculan solos.</p>
+        </figcaption>
+      </figure>
+      <figure class="shot glass">
+        <img src="images/estoquia/ticket.jpg" alt="Ticket de compra" loading="lazy" width="900" height="1353" />
+        <figcaption class="shot-cap">
+          <b data-i18n="s3_label">03 — TICKET</b>
+          <p data-i18n="s3_desc">Recibos con tu nombre, RIF, cajero y desglose, listos para la impresora térmica.</p>
+        </figcaption>
+      </figure>
+      <figure class="shot glass">
+        <img src="images/estoquia/directorio.jpg" alt="Directorio de tiendas" loading="lazy" width="900" height="1353" />
+        <figcaption class="shot-cap">
+          <b data-i18n="s4_label">04 — DIRECTORIO</b>
+          <p data-i18n="s4_desc">Consulta el inventario de otros negocios de la red cuando te quedes sin un producto.</p>
+        </figcaption>
+      </figure>
     </div>
   </section>
 
   <section class="wrap sec" id="funciones">
     <div class="sec-head">
+      <span class="label" data-i18n="feat_eyebrow">FUNCIONES</span>
       <h2 data-i18n="feat_title">Todo lo que hace una caja registradora, y lo que no.</h2>
       <p data-i18n="feat_sub">Seis piezas que trabajan juntas desde el primer día, sin instalación ni servidor propio.</p>
     </div>
     <div class="cards">
-      <article class="card">
-        <svg width="26" height="26" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"></rect><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"></path><path d="M10 12h4"></path></svg>
+      <article class="card glass">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"></rect><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"></path><path d="M10 12h4"></path></svg></div>
         <div class="card-body">
           <h3 data-i18n="f1_title">Inventario avanzado</h3>
           <p data-i18n="f1_desc">Añade y organiza productos en segundos, léelos con la cámara como lector de código de barras, y deja que el stock bajo te avise solo.</p>
         </div>
       </article>
-      <article class="card">
-        <svg width="26" height="26" viewBox="0 0 24 24"><circle cx="9.5" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle><path d="M2.5 3h2.3l2.4 12.1a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L21 6.8H6.2"></path></svg>
+      <article class="card glass">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="9.5" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle><path d="M2.5 3h2.3l2.4 12.1a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L21 6.8H6.2"></path></svg></div>
         <div class="card-body">
           <h3 data-i18n="f2_title">Punto de venta ágil</h3>
           <p data-i18n="f2_desc">Un carrito que no estorba: escanea, suma cantidades y cobra. Subtotal, impuestos personalizados y total, calculados al vuelo.</p>
         </div>
       </article>
-      <article class="card">
-        <svg width="26" height="26" viewBox="0 0 24 24"><path d="M3 21h18"></path><rect x="5" y="12" width="3.4" height="6" rx="0.8"></rect><rect x="10.3" y="7" width="3.4" height="11" rx="0.8"></rect><rect x="15.6" y="14.5" width="3.4" height="3.5" rx="0.8"></rect></svg>
+      <article class="card glass">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 21h18"></path><rect x="5" y="12" width="3.4" height="6" rx="0.8"></rect><rect x="10.3" y="7" width="3.4" height="11" rx="0.8"></rect><rect x="15.6" y="14.5" width="3.4" height="3.5" rx="0.8"></rect></svg></div>
         <div class="card-body">
           <h3 data-i18n="f3_title">Dashboard en vivo</h3>
           <p data-i18n="f3_desc">Ventas totales, ganancias netas e impuestos recaudados del día, con gráficos y la lista de lo más vendido.</p>
         </div>
       </article>
-      <article class="card">
-        <svg width="26" height="26" viewBox="0 0 24 24"><path d="M7 9V3.5h10V9"></path><rect x="3" y="9" width="18" height="7" rx="1.5"></rect><path d="M7 14h10v6.5H7z"></path></svg>
+      <article class="card glass">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M7 9V3.5h10V9"></path><rect x="3" y="9" width="18" height="7" rx="1.5"></rect><path d="M7 14h10v6.5H7z"></path></svg></div>
         <div class="card-body">
           <h3 data-i18n="f4_title">Tickets de verdad</h3>
           <p data-i18n="f4_desc">Impresoras térmicas por Bluetooth o red TCP/IP. Recibos con empresa, RIF, cajero y desglose — y credenciales para empleados nuevos.</p>
         </div>
       </article>
-      <article class="card">
-        <svg width="26" height="26" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.2 20a5.8 5.8 0 0 1 11.6 0"></path><path d="M16 5.5a3.2 3.2 0 0 1 0 5"></path><path d="M17.4 14.3A6 6 0 0 1 20.8 20"></path></svg>
+      <article class="card glass">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.2 20a5.8 5.8 0 0 1 11.6 0"></path><path d="M16 5.5a3.2 3.2 0 0 1 0 5"></path><path d="M17.4 14.3A6 6 0 0 1 20.8 20"></path></svg></div>
         <div class="card-body">
           <h3 data-i18n="f5_title">Empleados y permisos</h3>
           <p data-i18n="f5_desc">Una cuenta por trabajador y dos roles claros. Tú decides quién ajusta precios, ve costos, entra a reportes o procesa devoluciones.</p>
         </div>
       </article>
-      <article class="card">
-        <svg width="26" height="26" viewBox="0 0 24 24"><path d="M7.2 18.6a4.5 4.5 0 0 1-.4-9A6 6 0 0 1 18 10.3a4.15 4.15 0 0 1-.6 8.3z"></path><path d="M12 17.6v-5.4"></path><path d="M9.7 14.5 12 12.2l2.3 2.3"></path></svg>
+      <article class="card glass">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M7.2 18.6a4.5 4.5 0 0 1-.4-9A6 6 0 0 1 18 10.3a4.15 4.15 0 0 1-.6 8.3z"></path><path d="M12 17.6v-5.4"></path><path d="M9.7 14.5 12 12.2l2.3 2.3"></path></svg></div>
         <div class="card-body">
           <h3 data-i18n="f6_title">Nube y multi-dispositivo</h3>
           <p data-i18n="f6_desc">Varias tablets en la misma tienda viendo el mismo inventario al segundo, sobre Google Cloud. Cambias de equipo, inicias sesión, ahí está todo.</p>
@@ -391,42 +636,82 @@
     </div>
   </section>
 
-  <section class="wrap" style="padding-bottom:104px">
+  <section class="wrap sec" id="directorio">
     <div class="dir">
-      <div class="dir-text">
-        <b data-i18n="dir_eyebrow">LO QUE NINGUNA CAJA REGISTRADORA HACE</b>
-        <h2 data-i18n="dir_title">Cuando te quedas sin stock, la red responde.</h2>
-        <p data-i18n="dir_desc">El Directorio de Tiendas te deja descubrir otros negocios que usan Estoquia y revisar si tienen disponible el producto que a ti se te acabó — para no perder la venta ni al cliente.</p>
+      <span class="glow dglow" aria-hidden="true"></span>
+      <div class="dir-in">
+        <div class="dir-text">
+          <b data-i18n="dir_eyebrow">LO QUE NINGUNA CAJA REGISTRADORA HACE</b>
+          <h2 data-i18n="dir_title">Cuando te quedas sin stock, la red responde.</h2>
+          <p data-i18n="dir_desc">El Directorio de Tiendas te deja descubrir otros negocios que usan Estoquia y revisar si tienen disponible el producto que a ti se te acabó — para no perder la venta ni al cliente.</p>
+          <div class="checks">
+            <div>
+              <i><svg width="13" height="13" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></i>
+              <span data-i18n="dir_b1">Buscas el producto, no la tienda</span>
+            </div>
+            <div>
+              <i><svg width="13" height="13" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></i>
+              <span data-i18n="dir_b2">Tú decides qué parte de tu inventario se ve</span>
+            </div>
+            <div>
+              <i><svg width="13" height="13" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></i>
+              <span data-i18n="dir_b3">Cuantas más tiendas, más útil para todas</span>
+            </div>
+          </div>
+        </div>
+        <div class="dir-shot">
+          <svg class="net" width="420" height="420" viewBox="0 0 420 420" fill="none" aria-hidden="true">
+            <circle cx="210" cy="210" r="90" stroke="rgba(255,255,255,.13)" stroke-width="1"></circle>
+            <circle cx="210" cy="210" r="145" stroke="rgba(255,255,255,.09)" stroke-width="1"></circle>
+            <circle cx="210" cy="210" r="200" stroke="rgba(255,255,255,.06)" stroke-width="1"></circle>
+            <path d="M210 210 L318 142 M210 210 L96 168 M210 210 L142 322 M210 210 L306 300" stroke="rgba(199,181,247,.45)" stroke-width="1"></path>
+            <circle cx="210" cy="210" r="6" fill="#C7B5F7"></circle>
+            <circle cx="318" cy="142" r="4" fill="rgba(255,255,255,.75)"></circle>
+            <circle cx="96" cy="168" r="4" fill="rgba(255,255,255,.55)"></circle>
+            <circle cx="142" cy="322" r="4" fill="rgba(255,255,255,.55)"></circle>
+            <circle cx="306" cy="300" r="4" fill="rgba(255,255,255,.75)"></circle>
+          </svg>
+          <div class="dir-frame">
+            <img src="images/estoquia/directorio.jpg" alt="Directorio de tiendas en Estoquia" loading="lazy" width="900" height="1353" />
+          </div>
+        </div>
       </div>
-      <img src="images/estoquia/directorio.jpg" alt="Directorio de tiendas en Estoquia" loading="lazy" width="900" height="1353" />
     </div>
   </section>
 
-  <section class="wrap" style="padding-bottom:104px">
+  <section class="wrap sec">
     <div class="final">
-      <img class="ico" src="images/estoquia/icono.png" alt="Estoquia" width="60" height="60" />
+      <span class="glow fglow" aria-hidden="true"></span>
+      <img class="ico" src="images/estoquia/icono.png" alt="Estoquia" width="64" height="64" />
       <h2 data-i18n="final_title">Digitaliza tu tienda esta misma tarde.</h2>
       <p data-i18n="final_sub">Descarga Estoquia, crea tu empresa y carga el primer producto. No hace falta instalar nada más.</p>
-      <a class="btn" href="https://play.google.com/store/apps/details?id=com.estoquia.app" target="_blank" rel="noopener" style="margin-top:6px">
-        <svg width="19" height="19" viewBox="0 0 24 24"><path d="M4.2 2.1 14.9 12 4.2 21.9a1.4 1.4 0 0 1-.7-1.2V3.3a1.4 1.4 0 0 1 .7-1.2z"></path></svg>
+      <a class="btn" href="https://play.google.com/store/apps/details?id=com.estoquia.app" target="_blank" rel="noopener" style="margin-top:8px">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M4.2 2.1 14.9 12 4.2 21.9a1.4 1.4 0 0 1-.7-1.2V3.3a1.4 1.4 0 0 1 .7-1.2z"></path></svg>
         <span data-i18n="cta_play">Descargar en Google Play</span>
       </a>
+      <code>com.estoquia.app</code>
     </div>
   </section>
 
 </main>
 
 <footer id="soporte">
-  <div class="wrap">
+  <div class="wrap foot-in">
     <div class="foot-top">
       <div class="foot-brand">
         <div>
-          <img src="images/estoquia/icono.png" alt="Estoquia" width="28" height="28" />
+          <img src="images/estoquia/icono.png" alt="Estoquia" width="30" height="30" />
           <strong>Estoquia</strong>
         </div>
         <p data-i18n="foot_tagline">Punto de venta e inventario para tiendas, kioskos y minimarkets. Un producto de ProtonLab.</p>
       </div>
       <div class="foot-cols">
+        <div class="foot-col">
+          <b data-i18n="foot_product">PRODUCTO</b>
+          <a href="#funciones" data-i18n="nav_features">Funciones</a>
+          <a href="#pantallas" data-i18n="nav_screens">La app por dentro</a>
+          <a href="#directorio" data-i18n="nav_directory">Directorio</a>
+        </div>
         <div class="foot-col">
           <b data-i18n="foot_legal">LEGAL</b>
           <a id="linkPrivacy" href="estoquia-privacidad.html" data-i18n="foot_privacy">Política de privacidad</a>
@@ -455,33 +740,34 @@
   /* ---------- año ---------- */
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  /* ---------- tema ---------- */
+  /* ---------- tema (oscuro por defecto) ---------- */
   var ICON_MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
   var ICON_SUN = '<circle cx="12" cy="12" r="4.2"></circle><path d="M12 1.8v2.4"></path><path d="M12 19.8v2.4"></path><path d="M4.4 4.4l1.7 1.7"></path><path d="M17.9 17.9l1.7 1.7"></path><path d="M1.8 12h2.4"></path><path d="M19.8 12h2.4"></path><path d="M4.4 19.6l1.7-1.7"></path><path d="M17.9 6.1l1.7-1.7"></path>';
   var themeBtn = document.getElementById("themeBtn");
   var themeIcon = document.getElementById("themeIcon");
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
 
   function applyTheme(mode) {
-    if (mode === "dark") {
-      document.documentElement.setAttribute("data-theme", "dark");
-      themeIcon.innerHTML = ICON_SUN;
+    if (mode === "light") {
+      document.documentElement.setAttribute("data-theme", "light");
+      themeIcon.innerHTML = ICON_MOON;
+      if (themeMeta) themeMeta.setAttribute("content", "#F4F6FB");
     } else {
       document.documentElement.removeAttribute("data-theme");
-      themeIcon.innerHTML = ICON_MOON;
+      themeIcon.innerHTML = ICON_SUN;
+      if (themeMeta) themeMeta.setAttribute("content", "#060A12");
     }
   }
 
   var savedTheme = null;
   try { savedTheme = localStorage.getItem("estoquia-theme"); } catch (e) {}
-  if (!savedTheme && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    savedTheme = "dark";
-  }
-  applyTheme(savedTheme);
+  applyTheme(savedTheme === "light" ? "light" : "dark");
 
   themeBtn.addEventListener("click", function () {
-    var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    var next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
     applyTheme(next);
     try { localStorage.setItem("estoquia-theme", next); } catch (e) {}
+    if (lattice) lattice.refresh();
   });
 
   /* ---------- menú móvil ---------- */
@@ -505,16 +791,24 @@
       page_desc: "Estoquia lleva las ventas, el inventario y los empleados de tu tienda, kiosko o minimarket desde una tablet Android. Sincronizado en la nube.",
       nav_features: "Funciones",
       nav_screens: "La app por dentro",
+      nav_directory: "Directorio",
       nav_support: "Soporte",
-      hero_eyebrow: "Punto de venta e inventario",
+      hero_eyebrow: "Punto de venta · inventario",
       hero_title_a: "Tu tienda entera,",
       hero_title_b: "en una tablet.",
-      hero_sub: "Estoquia lleva las ventas, el inventario y los empleados de tu tienda, kiosko o minimarket. Rápida, intuitiva y sincronizada en la nube — sin los sistemas lentos y costosos de siempre.",
+      hero_sub: "Ventas, inventario y empleados de tu tienda, kiosko o minimarket — en una sola app, sincronizada en la nube. Sin servidor propio, sin instalación, sin los sistemas lentos de siempre.",
       cta_play: "Descargar en Google Play",
-      cta_see: "Ver la app",
+      cta_see: "Ver la app por dentro",
       meta_platform: "ANDROID · TABLET Y MÓVIL",
-      screens_title: "Así se ve por dentro.",
-      screens_sub: "Capturas reales de la aplicación en una tablet. Sin adornos ni maquetas.",
+      cap1_t: "Lector de código", cap1_s: "con la cámara",
+      cap2_t: "Tickets térmicos", cap2_s: "Bluetooth o TCP/IP",
+      cap3_t: "Roles y permisos", cap3_s: "una cuenta por empleado",
+      cap4_t: "Multi-dispositivo", cap4_s: "varias tablets, un inventario",
+      cap5_t: "Impuestos propios", cap5_s: "calculados al vuelo",
+      screens_eyebrow: "LA APP POR DENTRO",
+      screens_title: "Así se ve de verdad.",
+      screens_sub: "Capturas directas de una tienda real funcionando en tablet. Sin maquetas ni pantallas de relleno.",
+      screens_count: "04 PANTALLAS",
       s1_label: "01 — INVENTARIO",
       s1_desc: "Todo tu stock con foto, SKU y precio. Alertas automáticas cuando algo se está acabando.",
       s2_label: "02 — VENTAS",
@@ -523,6 +817,7 @@
       s3_desc: "Recibos con tu nombre, RIF, cajero y desglose, listos para la impresora térmica.",
       s4_label: "04 — DIRECTORIO",
       s4_desc: "Consulta el inventario de otros negocios de la red cuando te quedes sin un producto.",
+      feat_eyebrow: "FUNCIONES",
       feat_title: "Todo lo que hace una caja registradora, y lo que no.",
       feat_sub: "Seis piezas que trabajan juntas desde el primer día, sin instalación ni servidor propio.",
       f1_title: "Inventario avanzado",
@@ -540,9 +835,13 @@
       dir_eyebrow: "LO QUE NINGUNA CAJA REGISTRADORA HACE",
       dir_title: "Cuando te quedas sin stock, la red responde.",
       dir_desc: "El Directorio de Tiendas te deja descubrir otros negocios que usan Estoquia y revisar si tienen disponible el producto que a ti se te acabó — para no perder la venta ni al cliente.",
+      dir_b1: "Buscas el producto, no la tienda",
+      dir_b2: "Tú decides qué parte de tu inventario se ve",
+      dir_b3: "Cuantas más tiendas, más útil para todas",
       final_title: "Digitaliza tu tienda esta misma tarde.",
       final_sub: "Descarga Estoquia, crea tu empresa y carga el primer producto. No hace falta instalar nada más.",
       foot_tagline: "Punto de venta e inventario para tiendas, kioskos y minimarkets. Un producto de ProtonLab.",
+      foot_product: "PRODUCTO",
       foot_legal: "LEGAL",
       foot_contact: "CONTACTO",
       foot_privacy: "Política de privacidad",
@@ -555,16 +854,24 @@
       page_desc: "Estoquia runs the sales, inventory and staff of your shop, kiosk or minimarket from an Android tablet. Synced to the cloud.",
       nav_features: "Features",
       nav_screens: "Inside the app",
+      nav_directory: "Directory",
       nav_support: "Support",
-      hero_eyebrow: "Point of sale and inventory",
+      hero_eyebrow: "Point of sale · inventory",
       hero_title_a: "Your whole store,",
       hero_title_b: "in one tablet.",
-      hero_sub: "Estoquia runs the sales, inventory and staff of your shop, kiosk or minimarket. Fast, intuitive and synced to the cloud — without the slow, expensive systems you are used to.",
+      hero_sub: "Sales, inventory and staff for your shop, kiosk or minimarket — in a single app, synced to the cloud. No server of your own, no installation, none of the slow systems you are used to.",
       cta_play: "Download on Google Play",
-      cta_see: "See the app",
+      cta_see: "See the app inside",
       meta_platform: "ANDROID · TABLET AND PHONE",
-      screens_title: "This is what it looks like inside.",
-      screens_sub: "Real screenshots of the app on a tablet. No mockups, no dressing up.",
+      cap1_t: "Barcode scanning", cap1_s: "with the camera",
+      cap2_t: "Thermal receipts", cap2_s: "Bluetooth or TCP/IP",
+      cap3_t: "Roles and permissions", cap3_s: "one account per employee",
+      cap4_t: "Multi-device", cap4_s: "several tablets, one inventory",
+      cap5_t: "Your own taxes", cap5_s: "worked out on the fly",
+      screens_eyebrow: "INSIDE THE APP",
+      screens_title: "This is what it really looks like.",
+      screens_sub: "Straight screenshots of a real shop running on a tablet. No mockups, no filler screens.",
+      screens_count: "04 SCREENS",
       s1_label: "01 — INVENTORY",
       s1_desc: "All your stock with photo, SKU and price. Automatic alerts when something is running out.",
       s2_label: "02 — SALES",
@@ -573,6 +880,7 @@
       s3_desc: "Receipts with your business name, tax ID, cashier and itemised total, ready for the thermal printer.",
       s4_label: "04 — DIRECTORY",
       s4_desc: "Check the inventory of other businesses on the network when you run out of a product.",
+      feat_eyebrow: "FEATURES",
       feat_title: "Everything a cash register does, and what it doesn't.",
       feat_sub: "Six pieces that work together from day one — no installation, no server of your own.",
       f1_title: "Advanced inventory",
@@ -590,9 +898,13 @@
       dir_eyebrow: "WHAT NO CASH REGISTER DOES",
       dir_title: "When you run out of stock, the network answers.",
       dir_desc: "The Store Directory lets you find other businesses using Estoquia and check whether they have the product you just ran out of — so you don't lose the sale or the customer.",
+      dir_b1: "You search for the product, not the shop",
+      dir_b2: "You decide which part of your inventory is visible",
+      dir_b3: "The more shops on it, the more useful for all of them",
       final_title: "Digitise your shop this afternoon.",
       final_sub: "Download Estoquia, create your company and add your first product. Nothing else to install.",
       foot_tagline: "Point of sale and inventory for shops, kiosks and minimarkets. A ProtonLab product.",
+      foot_product: "PRODUCT",
       foot_legal: "LEGAL",
       foot_contact: "CONTACT",
       foot_privacy: "Privacy policy",
@@ -605,16 +917,24 @@
       page_desc: "O Estoquia cuida das vendas, do estoque e dos funcionários da sua loja, quiosque ou minimercado a partir de um tablet Android. Sincronizado na nuvem.",
       nav_features: "Funcionalidades",
       nav_screens: "O app por dentro",
+      nav_directory: "Diretório",
       nav_support: "Suporte",
-      hero_eyebrow: "Ponto de venda e estoque",
+      hero_eyebrow: "Ponto de venda · estoque",
       hero_title_a: "Sua loja inteira,",
       hero_title_b: "em um tablet.",
-      hero_sub: "O Estoquia cuida das vendas, do estoque e dos funcionários da sua loja, quiosque ou minimercado. Rápido, intuitivo e sincronizado na nuvem — sem os sistemas lentos e caros de sempre.",
+      hero_sub: "Vendas, estoque e funcionários da sua loja, quiosque ou minimercado — em um único app, sincronizado na nuvem. Sem servidor próprio, sem instalação, sem os sistemas lentos de sempre.",
       cta_play: "Baixar no Google Play",
-      cta_see: "Ver o app",
+      cta_see: "Ver o app por dentro",
       meta_platform: "ANDROID · TABLET E CELULAR",
-      screens_title: "É assim por dentro.",
-      screens_sub: "Capturas reais do aplicativo em um tablet. Sem enfeites nem maquetes.",
+      cap1_t: "Leitor de código", cap1_s: "com a câmera",
+      cap2_t: "Recibos térmicos", cap2_s: "Bluetooth ou TCP/IP",
+      cap3_t: "Papéis e permissões", cap3_s: "uma conta por funcionário",
+      cap4_t: "Multidispositivo", cap4_s: "vários tablets, um estoque",
+      cap5_t: "Impostos próprios", cap5_s: "calculados na hora",
+      screens_eyebrow: "O APP POR DENTRO",
+      screens_title: "É assim de verdade.",
+      screens_sub: "Capturas diretas de uma loja real funcionando em tablet. Sem maquetes nem telas de enchimento.",
+      screens_count: "04 TELAS",
       s1_label: "01 — ESTOQUE",
       s1_desc: "Todo o seu estoque com foto, SKU e preço. Alertas automáticos quando algo está acabando.",
       s2_label: "02 — VENDAS",
@@ -623,6 +943,7 @@
       s3_desc: "Recibos com o nome da empresa, CNPJ, caixa e detalhamento, prontos para a impressora térmica.",
       s4_label: "04 — DIRETÓRIO",
       s4_desc: "Consulte o estoque de outros negócios da rede quando faltar um produto no seu.",
+      feat_eyebrow: "FUNCIONALIDADES",
       feat_title: "Tudo o que uma caixa registradora faz, e o que ela não faz.",
       feat_sub: "Seis peças que trabalham juntas desde o primeiro dia, sem instalação nem servidor próprio.",
       f1_title: "Estoque avançado",
@@ -640,9 +961,13 @@
       dir_eyebrow: "O QUE NENHUMA CAIXA REGISTRADORA FAZ",
       dir_title: "Quando o estoque acaba, a rede responde.",
       dir_desc: "O Diretório de Lojas permite descobrir outros negócios que usam o Estoquia e verificar se eles têm o produto que acabou no seu — para não perder a venda nem o cliente.",
+      dir_b1: "Você busca o produto, não a loja",
+      dir_b2: "Você decide que parte do seu estoque aparece",
+      dir_b3: "Quanto mais lojas na rede, mais útil para todas",
       final_title: "Digitalize sua loja hoje mesmo.",
       final_sub: "Baixe o Estoquia, crie sua empresa e cadastre o primeiro produto. Não é preciso instalar mais nada.",
       foot_tagline: "Ponto de venda e estoque para lojas, quiosques e minimercados. Um produto da ProtonLab.",
+      foot_product: "PRODUTO",
       foot_legal: "LEGAL",
       foot_contact: "CONTATO",
       foot_privacy: "Política de privacidade",
@@ -710,8 +1035,8 @@
     var PUSH = 7;                     // desplazamiento máximo de un nodo
 
     var grid = [], cols = 0, rows = 0, w = 0, h = 0;
-    var rgb = "38,57,90";
-    var baseAlpha = 0.13;
+    var rgb = "159,182,218";
+    var baseAlpha = 0.16;
     var target = { x: -9999, y: -9999 };
     var eased = { x: -9999, y: -9999 };
     var raf = null;
@@ -719,8 +1044,8 @@
 
     function readColors() {
       var cs = getComputedStyle(document.documentElement);
-      rgb = (cs.getPropertyValue("--lattice") || "38,57,90").trim();
-      baseAlpha = document.documentElement.getAttribute("data-theme") === "dark" ? 0.17 : 0.13;
+      rgb = (cs.getPropertyValue("--lattice") || "159,182,218").trim();
+      baseAlpha = parseFloat(cs.getPropertyValue("--lattice-a")) || 0.16;
     }
 
     function build() {
@@ -869,10 +1194,6 @@
 
     return { refresh: function () { readColors(); draw(); }, rebuild: build };
   })();
-
-  themeBtn.addEventListener("click", function () {
-    if (lattice) lattice.refresh();
-  });
 })();
 </script>
 </body>
