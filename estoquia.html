@@ -269,6 +269,66 @@
   .checks span{font-size:15px;color:var(--band-check)}
   .dir-shot{position:relative;display:flex;justify-content:flex-end}
   .dir-shot .net{position:absolute;left:-70px;top:-30px;opacity:.55;pointer-events:none}
+
+  /* la red responde: un pulso sale del centro, recorre cada radio
+     y enciende la tienda que contesta. Ciclo único de 4.5s. */
+  .net .spoke{stroke:rgba(199,181,247,.45);stroke-width:1}
+  .net .pulse{
+    stroke:#D8CBFB;stroke-width:1.7;stroke-linecap:round;fill:none;
+    stroke-dasharray:22 190;stroke-dashoffset:22;opacity:0;
+    animation:net-travel 4.5s cubic-bezier(.35,.05,.25,1) infinite
+  }
+  .net .s1{animation-delay:.15s} .net .s2{animation-delay:.33s}
+  .net .s3{animation-delay:.51s} .net .s4{animation-delay:.69s}
+
+  .net .halo{
+    fill:none;stroke:#D8CBFB;stroke-width:1;opacity:0;
+    transform-box:fill-box;transform-origin:50% 50%;
+    animation:net-halo 4.5s ease-out infinite
+  }
+  .net .h1{animation-delay:1.15s} .net .h2{animation-delay:1.33s}
+  .net .h3{animation-delay:1.51s} .net .h4{animation-delay:1.69s}
+
+  .net .node{
+    --o:.55;opacity:var(--o);
+    transform-box:fill-box;transform-origin:50% 50%;
+    animation:net-flash 4.5s ease-in-out infinite
+  }
+  .net .n1,.net .n4{--o:.78}
+  .net .n1{animation-delay:1.05s} .net .n2{animation-delay:1.23s}
+  .net .n3{animation-delay:1.41s} .net .n4{animation-delay:1.59s}
+
+  .net .ping{
+    opacity:0;transform-box:fill-box;transform-origin:50% 50%;
+    animation:net-ping 4.5s cubic-bezier(.2,.6,.3,1) infinite
+  }
+  .net .hub{transform-box:fill-box;transform-origin:50% 50%;animation:net-hub 4.5s ease-in-out infinite}
+  .net .ring{animation:net-breathe 4.5s ease-in-out infinite}
+  .net .r2{animation-delay:.3s} .net .r3{animation-delay:.6s}
+
+  @keyframes net-travel{
+    0%,6%{stroke-dashoffset:22;opacity:0}
+    11%{opacity:1}
+    28%{stroke-dashoffset:-132;opacity:1}
+    33%,100%{stroke-dashoffset:-132;opacity:0}
+  }
+  @keyframes net-halo{
+    0%{opacity:0;transform:scale(1)}
+    6%{opacity:.7;transform:scale(1)}
+    26%,100%{opacity:0;transform:scale(3.4)}
+  }
+  @keyframes net-flash{
+    0%,100%{opacity:var(--o);transform:scale(1)}
+    8%{opacity:1;transform:scale(1.9)}
+    34%{opacity:var(--o);transform:scale(1)}
+  }
+  @keyframes net-ping{
+    0%{opacity:0;transform:scale(.45)}
+    8%{opacity:.5}
+    55%,100%{opacity:0;transform:scale(2.2)}
+  }
+  @keyframes net-hub{0%,100%{transform:scale(1)}50%{transform:scale(1.22)}}
+  @keyframes net-breathe{0%,100%{opacity:1}50%{opacity:.45}}
   .dir-frame{
     position:relative;z-index:2;width:320px;padding:12px;border-radius:26px;
     border:1px solid rgba(255,255,255,.16);
@@ -317,6 +377,7 @@
   .stage .rise{animation-name:rise}
   @media (prefers-reduced-motion:reduce){
     .rise{animation:none}
+    .net *{animation:none}
     html{scroll-behavior:auto}
   }
 
@@ -661,15 +722,27 @@
         </div>
         <div class="dir-shot">
           <svg class="net" width="420" height="420" viewBox="0 0 420 420" fill="none" aria-hidden="true">
-            <circle cx="210" cy="210" r="90" stroke="rgba(255,255,255,.13)" stroke-width="1"></circle>
-            <circle cx="210" cy="210" r="145" stroke="rgba(255,255,255,.09)" stroke-width="1"></circle>
-            <circle cx="210" cy="210" r="200" stroke="rgba(255,255,255,.06)" stroke-width="1"></circle>
-            <path d="M210 210 L318 142 M210 210 L96 168 M210 210 L142 322 M210 210 L306 300" stroke="rgba(199,181,247,.45)" stroke-width="1"></path>
-            <circle cx="210" cy="210" r="6" fill="#C7B5F7"></circle>
-            <circle cx="318" cy="142" r="4" fill="rgba(255,255,255,.75)"></circle>
-            <circle cx="96" cy="168" r="4" fill="rgba(255,255,255,.55)"></circle>
-            <circle cx="142" cy="322" r="4" fill="rgba(255,255,255,.55)"></circle>
-            <circle cx="306" cy="300" r="4" fill="rgba(255,255,255,.75)"></circle>
+            <circle class="ring r1" cx="210" cy="210" r="90" stroke="rgba(255,255,255,.13)" stroke-width="1"></circle>
+            <circle class="ring r2" cx="210" cy="210" r="145" stroke="rgba(255,255,255,.09)" stroke-width="1"></circle>
+            <circle class="ring r3" cx="210" cy="210" r="200" stroke="rgba(255,255,255,.06)" stroke-width="1"></circle>
+            <circle class="ping" cx="210" cy="210" r="90" stroke="#C7B5F7" stroke-width="1"></circle>
+            <path class="spoke" d="M210 210 L318 142"></path>
+            <path class="spoke" d="M210 210 L96 168"></path>
+            <path class="spoke" d="M210 210 L142 322"></path>
+            <path class="spoke" d="M210 210 L306 300"></path>
+            <path class="pulse s1" d="M210 210 L318 142"></path>
+            <path class="pulse s2" d="M210 210 L96 168"></path>
+            <path class="pulse s3" d="M210 210 L142 322"></path>
+            <path class="pulse s4" d="M210 210 L306 300"></path>
+            <circle class="halo h1" cx="318" cy="142" r="4"></circle>
+            <circle class="halo h2" cx="96" cy="168" r="4"></circle>
+            <circle class="halo h3" cx="142" cy="322" r="4"></circle>
+            <circle class="halo h4" cx="306" cy="300" r="4"></circle>
+            <circle class="hub" cx="210" cy="210" r="6" fill="#C7B5F7"></circle>
+            <circle class="node n1" cx="318" cy="142" r="4" fill="#FFFFFF"></circle>
+            <circle class="node n2" cx="96" cy="168" r="4" fill="#FFFFFF"></circle>
+            <circle class="node n3" cx="142" cy="322" r="4" fill="#FFFFFF"></circle>
+            <circle class="node n4" cx="306" cy="300" r="4" fill="#FFFFFF"></circle>
           </svg>
           <div class="dir-frame">
             <img src="images/estoquia/directorio.jpg" alt="Directorio de tiendas en Estoquia" loading="lazy" width="900" height="1353" />
