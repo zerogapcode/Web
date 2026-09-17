@@ -158,6 +158,13 @@
   .download-box{ position:relative; overflow:hidden; border-radius:44px; background:var(--coral); padding:96px 80px; min-height:620px;
                  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px; text-align:center; }
   .dot{ position:absolute; border-radius:50%; }
+  .dot-a{ left:-60px; top:-60px; width:220px; height:220px; background:var(--yellow); }
+  .dot-b{ right:120px; top:40px; width:90px; height:90px; background:var(--blue); }
+  .dot-c{ right:-80px; bottom:-80px; width:280px; height:280px; background:var(--magenta); }
+  .dot-d{ left:160px; bottom:50px; width:60px; height:60px; background:var(--teal); }
+  /* Con el movimiento activo el JS coloca cada círculo con transform desde la
+     esquina. Sin JS, o con "reducir movimiento", se quedan en su sitio fijo. */
+  .download-box.is-floating .dot{ left:0; top:0; right:auto; bottom:auto; will-change:transform; }
   .download-box > :not(.dot){ position:relative; }
   .app-tile{ width:160px; height:160px; border-radius:44px; background:var(--bg); display:flex; align-items:center; justify-content:center; }
   .app-tile img{ width:124px; height:124px; object-fit:contain; }
@@ -217,9 +224,10 @@
     .download-box{ padding:64px 20px; border-radius:32px; min-height:0; }
     .app-tile{ width:120px; height:120px; border-radius:32px; }
     .app-tile img{ width:92px; height:92px; }
-    .dot-a{ width:120px !important; height:120px !important; }
-    .dot-c{ width:160px !important; height:160px !important; }
-    .dot-b, .dot-d{ display:none; }
+    .dot-a{ width:120px; height:120px; }
+    .dot-b{ width:56px; height:56px; right:24px; top:24px; }
+    .dot-c{ width:160px; height:160px; }
+    .dot-d{ width:40px; height:40px; left:28px; bottom:28px; }
     footer{ padding:24px 16px 32px; flex-direction:column; align-items:flex-start; }
   }
 </style>
@@ -381,16 +389,16 @@
 
     <section id="descargar" class="download">
       <div class="download-box">
-        <span class="dot dot-a" aria-hidden="true" style="left:-60px;top:-60px;width:220px;height:220px;background:var(--yellow)"></span>
-        <span class="dot dot-b" aria-hidden="true" style="right:120px;top:40px;width:90px;height:90px;background:var(--blue)"></span>
-        <span class="dot dot-c" aria-hidden="true" style="right:-80px;bottom:-80px;width:280px;height:280px;background:var(--magenta)"></span>
-        <span class="dot dot-d" aria-hidden="true" style="left:160px;bottom:50px;width:60px;height:60px;background:var(--teal)"></span>
-        <div class="app-tile"><img src="images/wea/weaft.png" alt="" width="124" height="124" /></div>
-        <h2>Descarga Wea y empieza a sumar</h2>
-        <p>Disponible para Android.</p>
+        <span class="dot dot-a" aria-hidden="true"></span>
+        <span class="dot dot-b" aria-hidden="true"></span>
+        <span class="dot dot-c" aria-hidden="true"></span>
+        <span class="dot dot-d" aria-hidden="true"></span>
+        <div class="app-tile" data-keep-clear><img src="images/wea/weaft.png" alt="" width="124" height="124" /></div>
+        <h2 data-keep-clear>Descarga Wea y empieza a sumar</h2>
+        <p data-keep-clear>Disponible para Android.</p>
         <!-- TODO: cambiar href por la ficha de Google Play cuando la app esté publicada
              (https://play.google.com/store/apps/details?id=com.wea.loyalty). -->
-        <a class="btn btn-dark btn-store" href="#descargar">
+        <a class="btn btn-dark btn-store" href="#descargar" data-keep-clear>
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.5v17l14-8.5z"/></svg>
           <span style="text-align:left"><small>Disponible en</small><strong>Google Play</strong></span>
         </a>
@@ -410,5 +418,241 @@
   </footer>
 
 </div>
+<script>
+/* Círculos del cuadro de descarga.
+
+   Cada círculo se mueve al azar por el espacio libre ALREDEDOR del texto.
+   Su posición se describe con dos valores: dónde está en el contorno del
+   bloque de texto (t) y cuánto se aleja de él (o). Moviendo ambos hacia
+   destinos al azar, el círculo rodea el texto por arriba, abajo o los lados,
+   pero nunca lo atraviesa: el azul y el magenta no tienen contraste
+   suficiente con el texto oscuro.
+
+   Pueden asomar por los bordes (el cuadro los recorta), dejando siempre
+   visible al menos un cuarto de su tamaño. */
+(function () {
+  var box = document.querySelector('.download-box');
+  if (!box) return;
+  var dotEls = Array.prototype.slice.call(box.querySelectorAll('.dot'));
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  var GAP = 10;        // separación mínima entre círculo y texto
+  var OUTSIDE = 0.75;  // fracción del radio que puede salirse del cuadro
+
+  var W = 0, H = 0, zone = null, dots = [];
+  var raf = 0, last = 0, visible = true, running = false;
+
+  function measure() {
+    var b = box.getBoundingClientRect();
+    W = b.width; H = b.height;
+    var z = null;
+    box.querySelectorAll('[data-keep-clear]').forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      var x1 = r.left - b.left, y1 = r.top - b.top;
+      var x2 = x1 + r.width, y2 = y1 + r.height;
+      z = z ? { x1: Math.min(z.x1, x1), y1: Math.min(z.y1, y1),
+                x2: Math.max(z.x2, x2), y2: Math.max(z.y2, y2) }
+            : { x1: x1, y1: y1, x2: x2, y2: y2 };
+    });
+    // Sin texto que medir, una zona de tamaño cero en el centro.
+    zone = z || { x1: W / 2, y1: H / 2, x2: W / 2, y2: H / 2 };
+  }
+
+  // Longitud del contorno: 4 lados + 4 esquinas (cada esquina cuenta como
+  // un cuarto de círculo del radio base del círculo, para que la velocidad
+  // en las curvas sea parecida a la de los lados).
+  function perimeter(d) {
+    var w = zone.x2 - zone.x1, h = zone.y2 - zone.y1;
+    return 2 * w + 2 * h + 4 * (Math.PI / 2) * (d.r + GAP);
+  }
+
+  // Punto del borde del texto y dirección hacia fuera para el parámetro t.
+  function frame(d, t) {
+    var w = zone.x2 - zone.x1, h = zone.y2 - zone.y1;
+    var arc = (Math.PI / 2) * (d.r + GAP);
+    var P = perimeter(d);
+    t = ((t % P) + P) % P;
+    // Recorrido en sentido horario empezando por el lado de arriba.
+    var segs = [
+      { len: w,   f: function (u) { return [zone.x1 + u, zone.y1, -Math.PI / 2]; } },
+      { len: arc, f: function (u) { return [zone.x2, zone.y1, -Math.PI / 2 + (u / arc) * Math.PI / 2]; } },
+      { len: h,   f: function (u) { return [zone.x2, zone.y1 + u, 0]; } },
+      { len: arc, f: function (u) { return [zone.x2, zone.y2, (u / arc) * Math.PI / 2]; } },
+      { len: w,   f: function (u) { return [zone.x2 - u, zone.y2, Math.PI / 2]; } },
+      { len: arc, f: function (u) { return [zone.x1, zone.y2, Math.PI / 2 + (u / arc) * Math.PI / 2]; } },
+      { len: h,   f: function (u) { return [zone.x1, zone.y2 - u, Math.PI]; } },
+      { len: arc, f: function (u) { return [zone.x1, zone.y1, Math.PI + (u / arc) * Math.PI / 2]; } }
+    ];
+    for (var i = 0; i < segs.length; i++) {
+      if (t <= segs[i].len || i === segs.length - 1) {
+        var v = segs[i].f(Math.min(t, segs[i].len));
+        return { bx: v[0], by: v[1], nx: Math.cos(v[2]), ny: Math.sin(v[2]) };
+      }
+      t -= segs[i].len;
+    }
+  }
+
+  // Cuánto puede alejarse del texto en ese punto sin salirse de los límites.
+  function maxOffset(d, f) {
+    var lo = -OUTSIDE * d.r, hiX = W + OUTSIDE * d.r, hiY = H + OUTSIDE * d.r;
+    var base = d.r + GAP, best = Infinity;
+    if (f.nx > 1e-6) best = Math.min(best, (hiX - f.bx) / f.nx);
+    if (f.nx < -1e-6) best = Math.min(best, (lo - f.bx) / f.nx);
+    if (f.ny > 1e-6) best = Math.min(best, (hiY - f.by) / f.ny);
+    if (f.ny < -1e-6) best = Math.min(best, (lo - f.by) / f.ny);
+    return Math.max(0, best - base);
+  }
+
+  // ¿En este punto del contorno el círculo cabe sin quedar casi oculto?
+  // En móvil el texto ocupa casi todo el ancho y por los lados no hay sitio.
+  function fits(d, t) {
+    var f = frame(d, t), dist = d.r + GAP;
+    var x = f.bx + f.nx * dist, y = f.by + f.ny * dist, m = OUTSIDE * d.r;
+    return x >= -m && x <= W + m && y >= -m && y <= H + m;
+  }
+
+  function position(d) {
+    var f = frame(d, d.t);
+    var o = Math.min(d.o, maxOffset(d, f));
+    var dist = d.r + GAP + o;
+    return { x: f.bx + f.nx * dist, y: f.by + f.ny * dist };
+  }
+
+  function pickTarget(d) {
+    var P = perimeter(d);
+    d.tt = Math.random() * P;
+    for (var i = 0; i < 30 && !fits(d, d.tt); i++) d.tt = Math.random() * P;
+    // Por el camino más corto alrededor del texto.
+    var diff = ((d.tt - d.t) % P + P) % P;
+    d.dir = diff <= P / 2 ? 1 : -1;
+    d.remaining = d.dir === 1 ? diff : P - diff;
+    var f = frame(d, d.tt);
+    d.to = Math.random() * maxOffset(d, f);
+  }
+
+  // Parámetro del contorno más cercano a una posición dada.
+  function nearestT(d, x, y) {
+    var P = perimeter(d), bestT = 0, bestD = Infinity, n = 360;
+    for (var i = 0; i < n; i++) {
+      var t = (i / n) * P, f = frame(d, t);
+      var dx = x - f.bx, dy = y - f.by, dd = dx * dx + dy * dy;
+      // Solo cuenta si el punto queda por fuera del texto en ese lado.
+      if (dx * f.nx + dy * f.ny >= 0 && dd < bestD) { bestD = dd; bestT = t; }
+    }
+    return bestT;
+  }
+
+  function render(d, dt) {
+    var p = position(d);
+    // Transición suave desde la posición anterior (arranque o cambio de tamaño).
+    if (d.blend < 1) {
+      d.blend = Math.min(1, d.blend + dt / 0.9);
+      var e = 1 - Math.pow(1 - d.blend, 3);
+      p.x = d.fromX + (p.x - d.fromX) * e;
+      p.y = d.fromY + (p.y - d.fromY) * e;
+    }
+    d.x = p.x; d.y = p.y;
+    d.el.style.transform = 'translate3d(' + (p.x - d.r).toFixed(1) + 'px,' + (p.y - d.r).toFixed(1) + 'px,0)';
+  }
+
+  function setup() {
+    measure();
+    var b = box.getBoundingClientRect();
+    dots = dotEls.map(function (el) {
+      var rect = el.getBoundingClientRect();
+      var r = rect.width / 2;
+      var cx = rect.left - b.left + r, cy = rect.top - b.top + r;
+      var d = {
+        el: el, r: r, t: 0, o: 0, vt: 0,
+        // Los pequeños van más rápido que los grandes.
+        speed: 60 * Math.sqrt(90 / Math.max(r * 2, 30)) * (0.8 + Math.random() * 0.4),
+        blend: 0, fromX: cx, fromY: cy, x: cx, y: cy
+      };
+      d.t = nearestT(d, cx, cy);
+      var f = frame(d, d.t);
+      d.o = Math.max(0, (cx - f.bx) * f.nx + (cy - f.by) * f.ny - (r + GAP));
+      pickTarget(d);
+      return d;
+    });
+  }
+
+  function step(now) {
+    raf = requestAnimationFrame(step);
+    // Tope al paso de tiempo: al volver a la pestaña no dan un salto.
+    var dt = Math.min((now - (last || now)) / 1000, 0.05);
+    last = now;
+    if (!visible) return;
+
+    dots.forEach(function (d) {
+      if (d.remaining < 2 && Math.abs(d.to - d.o) < 2) pickTarget(d);
+
+      // Acelera al salir y frena al llegar.
+      var want = d.speed * Math.min(1, d.remaining / 90 + 0.08);
+      // Donde no cabe (lados del texto en móvil) pasa rápido para no
+      // quedarse medio escondido fuera del cuadro.
+      if (!fits(d, d.t)) want *= 4;
+      d.vt += (want - d.vt) * Math.min(1, dt * 2);
+      var move = Math.min(d.remaining, d.vt * dt);
+      d.t += d.dir * move;
+      d.remaining -= move;
+
+      // La distancia al texto se acerca a su destino de forma suave.
+      d.o += (d.to - d.o) * Math.min(1, dt * 0.7);
+
+      render(d, dt);
+    });
+  }
+
+  function start() {
+    if (running || reduce.matches) return;
+    running = true;
+    setup();
+    box.classList.add('is-floating');
+    dots.forEach(function (d) { render(d, 0); });
+    last = 0;
+    raf = requestAnimationFrame(step);
+  }
+
+  function stop() {
+    if (!running) return;
+    running = false;
+    cancelAnimationFrame(raf);
+    box.classList.remove('is-floating');
+    dotEls.forEach(function (el) { el.style.transform = ''; });
+  }
+
+  // Solo se anima mientras el cuadro está en pantalla.
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+    }).observe(box);
+  }
+
+  // Al cambiar el tamaño de la ventana se recalculan los límites y cada
+  // círculo se desliza a su nuevo sitio desde donde estaba, sin saltos.
+  var resizeTimer = 0;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      if (!running) return;
+      var oldP = dots.map(perimeter);
+      measure();
+      dots.forEach(function (d, i) {
+        d.fromX = d.x; d.fromY = d.y; d.blend = 0;
+        d.r = d.el.offsetWidth / 2;
+        d.t = d.t * (perimeter(d) / oldP[i]);
+        pickTarget(d);
+      });
+    }, 150);
+  });
+
+  // Si alguien activa "reducir movimiento" con la página abierta, se detiene.
+  var onReduce = function () { reduce.matches ? stop() : start(); };
+  if (reduce.addEventListener) reduce.addEventListener('change', onReduce);
+
+  // Espera a las fuentes: cambian el tamaño del titular y con ello la zona.
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
+})();
+</script>
 </body>
 </html>
