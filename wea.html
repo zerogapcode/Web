@@ -92,7 +92,11 @@
 
   .stack{ position:relative; height:600px; }
   .stack .logo{ position:absolute; top:0; right:10px; width:300px; height:300px; object-fit:contain; }
-  .card{ position:absolute; width:410px; padding:18px 18px 16px; border-radius:22px; display:flex; flex-direction:column; gap:14px; }
+  .card{ position:absolute; width:410px; padding:18px 18px 16px; border-radius:22px; display:flex; flex-direction:column; gap:14px;
+          --rot:0deg; transform:rotate(var(--rot));
+          transition:transform .45s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease; }
+  .card-logo{ transition:transform .45s cubic-bezier(.34,1.56,.64,1); }
+  .bar i{ transition:filter .3s ease; }
   .card-row{ display:flex; align-items:center; gap:12px; }
   .card-logo{ width:44px; height:44px; flex:none; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:800; font-size:20px; }
   .card-name{ flex:1; display:flex; flex-direction:column; min-width:0; }
@@ -104,13 +108,25 @@
   .bar{ height:6px; border-radius:3px; }
   .bar i{ display:block; height:6px; border-radius:3px; }
   .card-foot{ font-size:13px; font-weight:700; }
-  .card-1{ left:0; top:190px; background:var(--brown); color:#fff; transform:rotate(-8deg); box-shadow:0 18px 36px -14px rgba(107,62,38,.55); }
-  .card-2{ left:90px; top:320px; background:var(--blue); color:#fff; transform:rotate(-2deg); box-shadow:0 18px 36px -14px rgba(29,78,216,.55); }
-  .card-3{ left:170px; top:450px; background:var(--yellow); color:var(--ink); transform:rotate(4deg); box-shadow:0 18px 36px -14px rgba(245,179,1,.6); }
+  .card-1{ left:0; top:190px; background:var(--brown); color:#fff; --rot:-8deg; --glow:rgba(107,62,38,.55); z-index:1; box-shadow:0 18px 36px -14px var(--glow); }
+  .card-2{ left:90px; top:320px; background:var(--blue); color:#fff; --rot:-2deg; --glow:rgba(29,78,216,.55); z-index:2; box-shadow:0 18px 36px -14px var(--glow); }
+  .card-3{ left:170px; top:450px; background:var(--yellow); color:var(--ink); --rot:4deg; --glow:rgba(245,179,1,.6); z-index:3; box-shadow:0 18px 36px -14px var(--glow); }
   .card-1 .bar, .card-2 .bar{ background:rgba(255,255,255,.28); }
   .card-1 .bar i, .card-2 .bar i{ background:#fff; }
   .card-3 .bar{ background:rgba(34,28,23,.18); }
   .card-3 .bar i{ background:var(--ink); }
+
+
+  /* Al pasar el ratón la tarjeta se endereza, sube al frente y rebota un poco.
+     Solo en dispositivos con puntero real y si no se pidió reducir movimiento. */
+  @media (hover:hover) and (prefers-reduced-motion:no-preference){
+    .card:hover{ z-index:10; transform:translateY(-16px) rotate(0deg) scale(1.05); box-shadow:0 34px 60px -18px var(--glow); }
+    .card:hover .card-logo{ transform:rotate(-10deg) scale(1.1); }
+    .card:hover .bar i{ filter:brightness(1.15); }
+  }
+  @media (hover:hover) and (prefers-reduced-motion:reduce){
+    .card:hover{ z-index:10; box-shadow:0 34px 60px -18px var(--glow); }
+  }
 
   /* ---------- franja de categorías ---------- */
   .band{ background:var(--ink); padding:56px 80px; }
