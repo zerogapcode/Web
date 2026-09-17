@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wea — Todos tus programas de fidelidad en un solo lugar</title>
+<meta name="description" content="Wea reúne los programas de puntos de todos tus comercios favoritos en una sola app Android. Escanea el QR, suma puntos con cada compra y canjea premios." />
+<meta name="theme-color" content="#FFF8F1" />
+<link rel="canonical" href="https://protonlab.site/wea.html" />
+<link rel="icon" href="images/wea/weaft.png" />
+<link rel="apple-touch-icon" href="images/wea/weaft.png" />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://protonlab.site/wea.html" />
+<meta property="og:title" content="Wea — Todos tus programas de fidelidad en un solo lugar" />
+<meta property="og:description" content="Escanea el QR de cualquier comercio, suma puntos con cada compra y canjea premios. Una sola app para todas tus tiendas." />
+<meta property="og:image" content="https://protonlab.site/images/wea/weaft.png" />
+<meta name="twitter:card" content="summary" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "Wea",
+  "operatingSystem": "Android",
+  "applicationCategory": "LifestyleApplication",
+  "url": "https://protonlab.site/wea.html",
+  "image": "https://protonlab.site/images/wea/weaft.png",
+  "description": "App de fidelización multi-comercio: los clientes se unen escaneando un QR, acumulan puntos con cada compra y canjean premios; los negocios crean su programa con su logo y sus colores.",
+  "author": { "@type": "Organization", "name": "ProtonLab", "url": "https://protonlab.site/" }
+}
+</script>
+
+<style>
+  :root{
+    --bg:#FFF8F1; --ink:#221C17; --muted:#5E544C; --line:#EFE5DB;
+    --coral:#F2542D; --coral-soft:#FFE9E1; --coral-text:#B3371A; --coral-strong:#E23E17;
+    --teal:#1FA88F; --teal-soft:#DDF5EF; --teal-icon:#12806C;
+    --blue:#1D4ED8; --yellow:#F5B301; --yellow-text:#8A5A00;
+    --brown:#6B3E26; --magenta:#C026D3; --purple:#7C3AED;
+    --display:'Outfit', system-ui, sans-serif;
+    --body:'Nunito Sans', system-ui, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); -webkit-font-smoothing:antialiased; }
+  img{ display:block; max-width:100%; }
+  a{ color:inherit; }
+  h1,h2,h3{ font-family:var(--display); margin:0; }
+  p{ margin:0; }
+  .wrap{ max-width:1440px; margin:0 auto; }
+
+  /* ---------- botones y chips ---------- */
+  .btn{ display:inline-flex; align-items:center; gap:14px; min-height:60px; padding:0 26px; border-radius:18px;
+        font-family:var(--display); font-weight:700; font-size:18px; text-decoration:none; transition:transform .15s ease, background-color .15s ease; }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn:focus-visible, .nav a:focus-visible, .brand:focus-visible, footer a:focus-visible{ outline:3px solid var(--blue); outline-offset:3px; }
+  .btn-dark{ background:var(--ink); color:var(--bg); }
+  .btn-dark:hover{ background:#3A3029; color:var(--bg); }
+  .btn-outline{ border:2px solid var(--ink); color:var(--ink); }
+  .btn-outline:hover{ background:var(--ink); color:var(--bg); }
+  .btn-store{ min-height:64px; }
+  .btn-store small{ display:block; font-family:var(--body); font-size:12px; font-weight:700; opacity:.85; }
+  .btn-store strong{ display:block; font-size:20px; font-weight:700; line-height:1.1; }
+  .chip{ display:inline-block; padding:8px 16px; border-radius:999px; font-size:15px; font-weight:800; }
+  .chip-coral{ background:var(--coral-soft); color:var(--coral-text); }
+  .chip-dark{ background:var(--ink); color:var(--teal-soft); }
+
+  /* ---------- cabecera ---------- */
+  header{ padding:28px 80px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+  .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; border-radius:12px; }
+  .brand img{ width:52px; height:52px; object-fit:contain; }
+  .brand span{ font-family:var(--display); font-weight:800; font-size:30px; letter-spacing:-1px; }
+  .nav{ display:flex; gap:40px; }
+  .nav a{ font-size:17px; font-weight:700; text-decoration:none; border-radius:6px; }
+  .nav a:hover{ color:var(--coral-text); }
+  header .btn{ min-height:48px; padding:0 24px; font-size:16px; border-radius:16px; }
+
+  /* ---------- portada ---------- */
+  .hero{ padding:40px 80px 80px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:64px; align-items:center; }
+  .hero-copy{ display:flex; flex-direction:column; align-items:flex-start; gap:28px; }
+  .hero h1{ font-weight:800; font-size:clamp(44px, 5.4vw, 78px); line-height:1.02; letter-spacing:-.032em; }
+  .hero h1 .c1{ color:var(--coral-strong); }
+  .hero h1 .c2{ color:var(--blue); }
+  .hero p{ max-width:540px; font-size:21px; line-height:1.55; color:var(--muted); }
+  .cta-row{ display:flex; flex-wrap:wrap; gap:16px; }
+
+  .stack{ position:relative; height:600px; }
+  .stack .logo{ position:absolute; top:0; right:10px; width:300px; height:300px; object-fit:contain; }
+  .card{ position:absolute; width:410px; padding:18px 18px 16px; border-radius:22px; display:flex; flex-direction:column; gap:14px; }
+  .card-row{ display:flex; align-items:center; gap:12px; }
+  .card-logo{ width:44px; height:44px; flex:none; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:800; font-size:20px; }
+  .card-name{ flex:1; display:flex; flex-direction:column; min-width:0; }
+  .card-name b{ font-family:var(--display); font-weight:700; font-size:19px; }
+  .card-name span{ font-size:13px; opacity:.85; }
+  .card-pts{ display:flex; flex-direction:column; align-items:flex-end; }
+  .card-pts b{ font-family:var(--display); font-weight:800; font-size:26px; line-height:1.1; }
+  .card-pts span{ font-size:11px; font-weight:700; opacity:.85; }
+  .bar{ height:6px; border-radius:3px; }
+  .bar i{ display:block; height:6px; border-radius:3px; }
+  .card-foot{ font-size:13px; font-weight:700; }
+  .card-1{ left:0; top:190px; background:var(--brown); color:#fff; transform:rotate(-8deg); box-shadow:0 18px 36px -14px rgba(107,62,38,.55); }
+  .card-2{ left:90px; top:320px; background:var(--blue); color:#fff; transform:rotate(-2deg); box-shadow:0 18px 36px -14px rgba(29,78,216,.55); }
+  .card-3{ left:170px; top:450px; background:var(--yellow); color:var(--ink); transform:rotate(4deg); box-shadow:0 18px 36px -14px rgba(245,179,1,.6); }
+  .card-1 .bar, .card-2 .bar{ background:rgba(255,255,255,.28); }
+  .card-1 .bar i, .card-2 .bar i{ background:#fff; }
+  .card-3 .bar{ background:rgba(34,28,23,.18); }
+  .card-3 .bar i{ background:var(--ink); }
+
+  /* ---------- franja de categorías ---------- */
+  .band{ background:var(--ink); padding:56px 80px; }
+  .band p{ font-family:var(--display); font-weight:700; font-size:26px; color:var(--bg); margin-bottom:28px; }
+  .pills{ display:flex; flex-wrap:wrap; gap:14px; list-style:none; margin:0; padding:0; }
+  .pills li{ display:flex; align-items:center; gap:10px; padding:14px 24px; border-radius:999px; font-family:var(--display); font-weight:700; font-size:20px; }
+
+  /* ---------- secciones ---------- */
+  .section{ padding:120px 80px; }
+  .section-head{ display:flex; flex-direction:column; align-items:flex-start; gap:16px; max-width:760px; margin-bottom:56px; }
+  h2{ font-weight:800; font-size:clamp(38px, 4.2vw, 60px); line-height:1.05; letter-spacing:-.03em; }
+  .steps{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; list-style:none; margin:0; padding:0; }
+  .step{ padding:36px; border-radius:28px; background:#fff; border:1px solid var(--line); display:flex; flex-direction:column; gap:20px; }
+  .step-icon{ width:64px; height:64px; border-radius:20px; display:flex; align-items:center; justify-content:center; }
+  .step-num{ font-family:var(--display); font-weight:800; font-size:16px; }
+  .step h3{ font-weight:700; font-size:30px; }
+  .step p{ font-size:18px; line-height:1.55; color:var(--muted); }
+
+  .biz{ margin:0 40px; padding:96px 80px; border-radius:44px; background:var(--teal); display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:64px; align-items:center; }
+  .biz-copy{ display:flex; flex-direction:column; align-items:flex-start; gap:24px; }
+  .biz-copy p{ font-size:20px; line-height:1.55; }
+  .features{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0; }
+  .feature{ padding:26px; border-radius:22px; background:#fff; display:flex; flex-direction:column; gap:10px; }
+  .feature svg{ color:var(--teal-icon); }
+  .feature h3{ font-weight:700; font-size:21px; }
+  .feature p{ font-size:16px; line-height:1.5; color:var(--muted); }
+
+  .download{ padding:120px 40px 80px; }
+  .download-box{ position:relative; overflow:hidden; border-radius:44px; background:var(--coral); padding:96px 80px; min-height:620px;
+                 display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px; text-align:center; }
+  .dot{ position:absolute; border-radius:50%; }
+  .download-box > :not(.dot){ position:relative; }
+  .app-tile{ width:160px; height:160px; border-radius:44px; background:var(--bg); display:flex; align-items:center; justify-content:center; }
+  .app-tile img{ width:124px; height:124px; object-fit:contain; }
+  .download-box h2{ max-width:820px; font-size:clamp(40px, 5vw, 72px); }
+  .download-box p{ font-size:21px; font-weight:700; }
+
+  footer{ padding:32px 80px 40px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .footer-brand{ display:flex; align-items:center; gap:12px; font-size:15px; color:var(--muted); }
+  .footer-brand img{ width:36px; height:36px; object-fit:contain; }
+  footer nav{ display:flex; gap:28px; }
+  footer nav a{ font-size:15px; font-weight:700; text-decoration:none; border-radius:6px; }
+  footer nav a:hover{ color:var(--coral-text); }
+
+  /* ---------- tableta ---------- */
+  @media (max-width:1100px){
+    header{ padding:24px 40px; }
+    .nav{ gap:24px; }
+    .hero{ grid-template-columns:1fr; padding:24px 40px 64px; gap:40px; }
+    .stack{ width:100%; max-width:600px; margin:0 auto; }
+    .band, .section{ padding-left:40px; padding-right:40px; }
+    .section{ padding-top:96px; padding-bottom:96px; }
+    .steps{ grid-template-columns:1fr; }
+    .biz{ grid-template-columns:1fr; margin:0 24px; padding:64px 40px; gap:40px; }
+    .download{ padding:96px 24px 64px; }
+    footer{ padding:28px 40px 36px; }
+  }
+
+  /* ---------- móvil ---------- */
+  @media (max-width:680px){
+    header{ padding:16px 16px; }
+    .nav{ display:none; }
+    .brand img{ width:42px; height:42px; }
+    .brand span{ font-size:26px; }
+    header .btn{ min-height:44px; padding:0 16px; font-size:15px; }
+    .hero{ padding:16px 16px 48px; }
+    .hero p{ font-size:18px; }
+    .cta-row, .cta-row .btn{ width:100%; }
+    .cta-row .btn{ justify-content:center; }
+    .stack{ height:470px; }
+    .stack .logo{ width:170px; height:170px; right:0; }
+    .card{ width:calc(100% - 48px); max-width:360px; padding:14px 14px 12px; gap:10px; }
+    .card-1{ top:140px; left:0; }
+    .card-2{ top:240px; left:16px; }
+    .card-3{ top:340px; left:32px; }
+    .card-name b{ font-size:16px; }
+    .card-pts b{ font-size:21px; }
+    .band{ padding:40px 16px; }
+    .band p{ font-size:21px; }
+    .pills li{ font-size:16px; padding:10px 16px; }
+    .section{ padding:72px 16px; }
+    .section-head{ margin-bottom:36px; }
+    .step{ padding:26px; }
+    .step h3{ font-size:25px; }
+    .biz{ margin:0 12px; padding:48px 20px; border-radius:32px; }
+    .features{ grid-template-columns:1fr; }
+    .download{ padding:72px 12px 48px; }
+    .download-box{ padding:64px 20px; border-radius:32px; min-height:0; }
+    .app-tile{ width:120px; height:120px; border-radius:32px; }
+    .app-tile img{ width:92px; height:92px; }
+    .dot-a{ width:120px !important; height:120px !important; }
+    .dot-c{ width:160px !important; height:160px !important; }
+    .dot-b, .dot-d{ display:none; }
+    footer{ padding:24px 16px 32px; flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <a class="brand" href="#inicio" aria-label="Wea, inicio">
+      <img src="images/wea/weaft.png" alt="" width="52" height="52" />
+      <span>Wea</span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#negocios">Para negocios</a>
+      <a href="#descargar">Descargar</a>
+    </nav>
+    <a class="btn btn-dark" href="#descargar">Descargar la app</a>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero">
+      <div class="hero-copy">
+        <span class="chip chip-coral">Una sola app para todas tus tiendas</span>
+        <h1>Todos tus programas de <span class="c1">fidelidad</span> en <span class="c2">un solo lugar</span></h1>
+        <p>Escanea el QR de cualquier comercio, suma puntos con cada compra y canjea premios. Sin tarjetas de cartón que se pierden, sin una app distinta por cada tienda.</p>
+        <div class="cta-row">
+          <a class="btn btn-dark btn-store" href="#descargar">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.5v17l14-8.5z"/></svg>
+            <span><small>Disponible en</small><strong>Google Play</strong></span>
+          </a>
+          <a class="btn btn-outline" href="#negocios">Tengo un negocio</a>
+        </div>
+      </div>
+
+      <div class="stack" aria-hidden="true">
+        <img class="logo" src="images/wea/weaft.png" alt="" width="300" height="300" />
+        <div class="card card-1">
+          <div class="card-row">
+            <div class="card-logo" style="color:var(--brown)">L</div>
+            <div class="card-name"><b>Cafetería Luna</b><span>Cafetería</span></div>
+            <div class="card-pts"><b>420</b><span>puntos</span></div>
+          </div>
+          <div class="bar"><i style="width:84%"></i></div>
+          <div class="card-foot">Te faltan 80 puntos para Pan dulce gratis</div>
+        </div>
+        <div class="card card-2">
+          <div class="card-row">
+            <div class="card-logo" style="color:var(--blue)">N</div>
+            <div class="card-name"><b>Barbería Norte</b><span>Belleza</span></div>
+            <div class="card-pts"><b>1.250</b><span>puntos</span></div>
+          </div>
+          <div class="bar"><i style="width:100%"></i></div>
+          <div class="card-foot">¡Corte gratis disponible!</div>
+        </div>
+        <div class="card card-3">
+          <div class="card-row">
+            <div class="card-logo" style="color:var(--yellow-text)">P</div>
+            <div class="card-name"><b>Gimnasio Pulso</b><span>Gimnasio</span></div>
+            <div class="card-pts"><b>60</b><span>puntos</span></div>
+          </div>
+          <div class="bar"><i style="width:30%"></i></div>
+          <div class="card-foot">Te faltan 140 puntos para Batido proteico</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" aria-label="Categorías">
+      <p>Cada tienda con su logo y su color. Todas en tu bolsillo.</p>
+      <ul class="pills">
+        <li style="background:var(--coral);color:var(--ink)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h13v5a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3v2M12 3v2"/></svg>Cafeterías</li>
+        <li style="background:var(--teal);color:var(--ink)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v8a2 2 0 0 0 2 2v8"/><path d="M10 3v8a2 2 0 0 1-2 2"/><path d="M17 21V3c-2 1-3 4-3 8h3"/></svg>Restaurantes</li>
+        <li style="background:var(--yellow);color:var(--ink)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9l1.5-5h13L20 9"/><path d="M4 9h16v2a3 3 0 0 1-6 0 3 3 0 0 1-4 0 3 3 0 0 1-6 0z"/><path d="M5 13v7h14v-7"/></svg>Tiendas</li>
+        <li style="background:var(--magenta);color:#fff">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.5 15.5M14.5 14.5L20 20M8.5 8.5L12 12"/></svg>Belleza</li>
+        <li style="background:var(--blue);color:#fff">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3 9.5v5M21 9.5v5M6.5 12h11"/></svg>Gimnasios</li>
+        <li style="background:var(--purple);color:#fff">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1-5.4 3.1 1.3-6L3.3 9.2l6.1-.6z"/></svg>Y más</li>
+      </ul>
+    </section>
+
+    <section id="como-funciona" class="section">
+      <div class="section-head">
+        <span class="chip chip-coral">Para clientes</span>
+        <h2>Tres pasos y ya estás sumando</h2>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <div class="step-icon" style="background:var(--coral);color:var(--ink)">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M4 12h16"/></svg>
+          </div>
+          <span class="step-num" style="color:var(--coral-text)">Paso 1</span>
+          <h3>Escanea el QR</h3>
+          <p>Apunta la cámara al código del negocio y te unes a su programa al instante. ¿Sin cámara? Escribe su código de 8 caracteres.</p>
+        </li>
+        <li class="step">
+          <div class="step-icon" style="background:var(--blue);color:#fff">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+          </div>
+          <span class="step-num" style="color:var(--blue)">Paso 2</span>
+          <h3>Suma puntos</h3>
+          <p>Muestra tu QR de miembro en caja. El cajero suma tus puntos por cada visita o según lo que gastes.</p>
+        </li>
+        <li class="step">
+          <div class="step-icon" style="background:var(--yellow);color:var(--ink)">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12"/><path d="M12 8C10 4 6.5 4.5 7 7c.3 1.2 2.5 1 5 1 2.5 0 4.7.2 5-1 .5-2.5-3-3-5 1z"/></svg>
+          </div>
+          <span class="step-num" style="color:var(--yellow-text)">Paso 3</span>
+          <h3>Canjea premios</h3>
+          <p>Cuando alcanzas los puntos, eliges tu premio y el negocio te lo entrega en el mostrador.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="negocios" class="biz">
+      <div class="biz-copy">
+        <span class="chip chip-dark">Para negocios</span>
+        <h2>Tu programa de lealtad, con tu logo y tus colores</h2>
+        <p>Crea tu negocio en minutos, imprime tu código QR y empieza a premiar a quienes vuelven.</p>
+        <a class="btn btn-dark" href="#descargar">Crear mi negocio</a>
+      </div>
+      <ul class="features">
+        <li class="feature">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2"/><circle cx="12" cy="7.5" r="1.2"/><circle cx="15.5" cy="10" r="1.2"/><path d="M12 21a2.5 2.5 0 0 1 0-5h2a3 3 0 0 0 3-3"/></svg>
+          <h3>Tu marca</h3>
+          <p>Sube tu logo y elige tu color, o crea uno a tu medida.</p>
+        </li>
+        <li class="feature">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+          <h3>Reglas a tu manera</h3>
+          <p>Puntos fijos por visita o por cada peso gastado.</p>
+        </li>
+        <li class="feature">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 20h2M20 14v2"/></svg>
+          <h3>Modo cajero</h3>
+          <p>Escanea el QR del cliente y suma puntos en segundos.</p>
+        </li>
+        <li class="feature">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12"/><path d="M12 8C10 4 6.5 4.5 7 7c.3 1.2 2.5 1 5 1 2.5 0 4.7.2 5-1 .5-2.5-3-3-5 1z"/></svg>
+          <h3>Premios</h3>
+          <p>Crea, ordena y activa premios con stock limitado o ilimitado.</p>
+        </li>
+        <li class="feature">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h3l6 4V6L7 10z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg>
+          <h3>Avisos</h3>
+          <p>Envía avisos a todos tus miembros desde la app.</p>
+        </li>
+        <li class="feature">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+          <h3>Tu panel</h3>
+          <p>Miembros, puntos emitidos y canjes de un vistazo.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="descargar" class="download">
+      <div class="download-box">
+        <span class="dot dot-a" aria-hidden="true" style="left:-60px;top:-60px;width:220px;height:220px;background:var(--yellow)"></span>
+        <span class="dot dot-b" aria-hidden="true" style="right:120px;top:40px;width:90px;height:90px;background:var(--blue)"></span>
+        <span class="dot dot-c" aria-hidden="true" style="right:-80px;bottom:-80px;width:280px;height:280px;background:var(--magenta)"></span>
+        <span class="dot dot-d" aria-hidden="true" style="left:160px;bottom:50px;width:60px;height:60px;background:var(--teal)"></span>
+        <div class="app-tile"><img src="images/wea/weaft.png" alt="" width="124" height="124" /></div>
+        <h2>Descarga Wea y empieza a sumar</h2>
+        <p>Disponible para Android.</p>
+        <!-- TODO: cambiar href por la ficha de Google Play cuando la app esté publicada
+             (https://play.google.com/store/apps/details?id=com.wea.loyalty). -->
+        <a class="btn btn-dark btn-store" href="#descargar">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.5v17l14-8.5z"/></svg>
+          <span style="text-align:left"><small>Disponible en</small><strong>Google Play</strong></span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand">
+      <img src="images/wea/weaft.png" alt="" width="36" height="36" />
+      <span>© 2026 Wea · Hecho por <a href="index.html">ProtonLab</a></span>
+    </div>
+    <nav aria-label="Pie de página">
+      <a href="index.html">ProtonLab</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+  </footer>
+
+</div>
+</body>
+</html>
