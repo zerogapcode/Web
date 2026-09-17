@@ -149,8 +149,32 @@
   .biz-copy{ display:flex; flex-direction:column; align-items:flex-start; gap:24px; }
   .biz-copy p{ font-size:20px; line-height:1.55; }
   .features{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; list-style:none; margin:0; padding:0; }
-  .feature{ padding:26px; border-radius:22px; background:#fff; display:flex; flex-direction:column; gap:10px; }
-  .feature svg{ color:var(--teal-icon); }
+  .feature{ padding:26px; border-radius:22px; background:#fff; display:flex; flex-direction:column; gap:10px;
+             transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease, background-color .3s ease; }
+  .feature svg{ color:var(--teal-icon); transition:color .3s ease, transform .35s cubic-bezier(.34,1.56,.64,1); }
+
+  /* Cada recuadro se ilumina con su propio color al pasar el ratón.
+     --glow: el anillo y el halo; --glow-soft: el halo difuso;
+     --glow-ink: el icono, oscurecido para que se lea sobre blanco;
+     --glow-tint: un fondo apenas teñido. */
+  .feature:nth-child(1){ --glow:#F2542D; --glow-soft:rgba(242,84,45,.55);  --glow-ink:#B3371A; --glow-tint:#FFF1EC; }
+  .feature:nth-child(2){ --glow:#F5B301; --glow-soft:rgba(245,179,1,.6);   --glow-ink:#8A5A00; --glow-tint:#FFF8E1; }
+  .feature:nth-child(3){ --glow:#1D4ED8; --glow-soft:rgba(29,78,216,.5);   --glow-ink:#1D4ED8; --glow-tint:#EEF3FF; }
+  .feature:nth-child(4){ --glow:#C026D3; --glow-soft:rgba(192,38,211,.5);  --glow-ink:#A21CAF; --glow-tint:#FCEFFD; }
+  .feature:nth-child(5){ --glow:#7C3AED; --glow-soft:rgba(124,58,237,.5);  --glow-ink:#6D28D9; --glow-tint:#F3EEFF; }
+  .feature:nth-child(6){ --glow:#65A30D; --glow-soft:rgba(101,163,13,.55); --glow-ink:#3F6212; --glow-tint:#F2F9E6; }
+
+  @media (hover:hover){
+    .feature:hover{
+      background-color:var(--glow-tint);
+      box-shadow:0 0 0 3px var(--glow), 0 0 36px 6px var(--glow-soft), 0 22px 44px -14px var(--glow-soft);
+    }
+    .feature:hover svg{ color:var(--glow-ink); }
+  }
+  @media (hover:hover) and (prefers-reduced-motion:no-preference){
+    .feature:hover{ transform:translateY(-6px); }
+    .feature:hover svg{ transform:scale(1.18) rotate(-8deg); }
+  }
   .feature h3{ font-weight:700; font-size:21px; }
   .feature p{ font-size:16px; line-height:1.5; color:var(--muted); }
 
