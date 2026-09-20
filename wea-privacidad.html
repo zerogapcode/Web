@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Política de Privacidad — Wea</title>
+<meta name="description" content="Qué datos recoge la app Wea, para qué se usan, qué ven los negocios a los que te unes y cómo eliminar tu cuenta." />
+<meta name="theme-color" content="#FFF8F1" />
+<link rel="canonical" href="https://protonlab.site/wea-privacidad.html" />
+<link rel="icon" href="images/wea/weaft.png" />
+<link rel="apple-touch-icon" href="images/wea/weaft.png" />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://protonlab.site/wea-privacidad.html" />
+<meta property="og:title" content="Política de Privacidad — Wea" />
+<meta property="og:description" content="Qué datos recoge Wea, con quién se comparten y cómo eliminar tu cuenta." />
+<meta property="og:image" content="https://protonlab.site/images/wea/weaft.png" />
+<meta name="twitter:card" content="summary" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --bg:#FFF8F1; --ink:#221C17; --muted:#5E544C; --line:#EFE5DB;
+    --coral:#F2542D; --coral-soft:#FFE9E1; --coral-text:#B3371A;
+    --teal:#1FA88F; --teal-soft:#DDF5EF; --blue:#1D4ED8;
+    --display:'Outfit', system-ui, sans-serif;
+    --body:'Nunito Sans', system-ui, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); -webkit-font-smoothing:antialiased; }
+  img{ display:block; max-width:100%; }
+  a{ color:var(--coral-text); }
+  a:hover{ color:var(--ink); }
+  h1,h2,h3{ font-family:var(--display); margin:0; }
+  p,ul{ margin:0; }
+  .wrap{ max-width:900px; margin:0 auto; padding:0 24px; }
+
+  header{ padding:24px 0; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink); }
+  .brand img{ width:44px; height:44px; object-fit:contain; }
+  .brand span{ font-family:var(--display); font-weight:800; font-size:26px; letter-spacing:-1px; }
+  .back{ font-size:16px; font-weight:700; text-decoration:none; color:var(--ink); }
+  .back:hover{ color:var(--coral-text); }
+
+  .hero{ padding:32px 0 8px; }
+  .chip{ display:inline-block; padding:8px 16px; border-radius:999px; background:var(--coral-soft); color:var(--coral-text); font-size:14px; font-weight:800; }
+  h1{ margin:16px 0 12px; font-weight:800; font-size:clamp(34px, 5vw, 52px); line-height:1.05; letter-spacing:-.03em; }
+  .lead{ font-size:19px; line-height:1.6; color:var(--muted); }
+  .updated{ margin-top:14px; font-size:15px; color:var(--muted); }
+
+  .toc{ margin:32px 0 8px; padding:20px 24px; background:#fff; border:1px solid var(--line); border-radius:20px; }
+  .toc h2{ font-size:17px; font-weight:700; margin-bottom:12px; }
+  .toc ol{ margin:0; padding-left:20px; columns:2; column-gap:28px; }
+  .toc li{ margin-bottom:6px; font-size:15px; }
+  @media (max-width:640px){ .toc ol{ columns:1; } }
+
+  section{ padding:36px 0 0; }
+  h2{ font-weight:700; font-size:clamp(24px, 3vw, 30px); line-height:1.2; margin-bottom:14px; }
+  section p{ font-size:17px; line-height:1.65; color:var(--ink); margin-bottom:14px; }
+  section ul{ padding-left:22px; margin-bottom:14px; }
+  section li{ font-size:17px; line-height:1.6; margin-bottom:10px; }
+  strong{ font-weight:800; }
+
+  .callout{ padding:20px 24px; border-radius:20px; background:var(--teal-soft); border:1px solid #BEE8DE; margin-bottom:16px; }
+  .callout p:last-child{ margin-bottom:0; }
+  .callout.warn{ background:var(--coral-soft); border-color:#F7C9B9; }
+
+  .steps{ counter-reset:step; list-style:none; padding:0; }
+  .steps li{ position:relative; padding-left:44px; }
+  .steps li::before{
+    counter-increment:step; content:counter(step);
+    position:absolute; left:0; top:-2px; width:30px; height:30px; border-radius:10px;
+    background:var(--ink); color:var(--bg); font-family:var(--display); font-weight:800; font-size:15px;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  table{ width:100%; border-collapse:collapse; margin-bottom:16px; font-size:16px; }
+  th,td{ text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ font-family:var(--display); font-weight:700; }
+  tbody tr:last-child td{ border-bottom:0; }
+  .table-card{ background:#fff; border:1px solid var(--line); border-radius:20px; overflow:hidden; }
+
+  footer{ margin-top:48px; padding:28px 0 40px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .footer-brand{ display:flex; align-items:center; gap:10px; font-size:15px; color:var(--muted); }
+  .footer-brand img{ width:32px; height:32px; object-fit:contain; }
+  footer nav{ display:flex; gap:24px; }
+  footer nav a{ font-size:15px; font-weight:700; text-decoration:none; color:var(--ink); }
+  footer nav a:hover{ color:var(--coral-text); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <a class="brand" href="wea.html">
+      <img src="images/wea/weaft.png" alt="" width="44" height="44" />
+      <span>Wea</span>
+    </a>
+    <a class="back" href="wea.html">Volver a Wea</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <span class="chip">Política de Privacidad</span>
+      <h1>Qué datos recoge Wea y qué hacemos con ellos</h1>
+      <p class="lead">Wea es una app de programas de fidelidad. Para que puedas acumular puntos en un comercio necesitamos guardar unos pocos datos tuyos. Aquí está todo, explicado sin rodeos.</p>
+      <p class="updated"><strong>Última actualización:</strong> 20 de septiembre de 2026 · Responsable: ProtonLab</p>
+    </div>
+
+    <div class="toc">
+      <h2>Contenido</h2>
+      <ol>
+        <li><a href="#datos">Datos que recogemos</a></li>
+        <li><a href="#uso">Para qué los usamos</a></li>
+        <li><a href="#negocios">Qué ven los negocios</a></li>
+        <li><a href="#terceros">Con quién se comparten</a></li>
+        <li><a href="#permisos">Permisos de la app</a></li>
+        <li><a href="#conservacion">Cuánto tiempo se guardan</a></li>
+        <li><a href="#eliminar">Cómo eliminar tu cuenta</a></li>
+        <li><a href="#seguridad">Seguridad</a></li>
+        <li><a href="#derechos">Tus derechos</a></li>
+        <li><a href="#menores">Menores de edad</a></li>
+        <li><a href="#cambios">Cambios en esta política</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ol>
+    </div>
+
+    <section id="datos">
+      <h2>1. Datos que recogemos</h2>
+      <p>Solo recogemos lo que hace falta para que la app funcione. <strong>No pedimos tu teléfono, tu dirección ni datos de pago</strong>, y Wea nunca procesa cobros: el dinero de tus compras lo cobra el comercio por sus medios habituales.</p>
+
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr><th>Qué</th><th>Cuándo</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Tu cuenta</strong><br />Nombre, correo electrónico y, si entras con Google, tu foto de perfil.</td>
+              <td>Al registrarte.</td>
+            </tr>
+            <tr>
+              <td><strong>Tus programas de fidelidad</strong><br />A qué comercios te uniste, tus puntos, tus visitas y la fecha de la última.</td>
+              <td>Al unirte a un comercio y cada vez que sumas o canjeas puntos.</td>
+            </tr>
+            <tr>
+              <td><strong>Tus movimientos</strong><br />Cada suma de puntos o canje, con la fecha, los puntos y, si el comercio cobra por monto, el importe de la compra.</td>
+              <td>Cada vez que el cajero registra una operación.</td>
+            </tr>
+            <tr>
+              <td><strong>Si creas un comercio</strong><br />Nombre, descripción, categoría, dirección, teléfono, horario, moneda, color y logo del negocio.</td>
+              <td>Al crearlo o editarlo. Estos datos son públicos para tus clientes dentro de la app.</td>
+            </tr>
+            <tr>
+              <td><strong>Identificador del dispositivo</strong><br />La app incluye el servicio de mensajería de Google, que puede generar un identificador para tu dispositivo.</td>
+              <td>Al abrir la app. Hoy <strong>no enviamos notificaciones push</strong>; los avisos de los comercios se ven dentro de la app.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>No recogemos tu ubicación</strong>, no usamos herramientas de analítica ni de publicidad, y no hay rastreadores de terceros dentro de la app.</p>
+    </section>
+
+    <section id="uso">
+      <h2>2. Para qué los usamos</h2>
+      <ul>
+        <li><strong>Identificarte</strong> para que entres a tu cuenta y veas tus puntos en cada comercio.</li>
+        <li><strong>Llevar la cuenta de tus puntos</strong>, tus visitas y tus canjes en cada programa al que te unes.</li>
+        <li><strong>Mostrar tu nombre al cajero</strong> cuando enseñas tu código QR, para que sepa a quién está atendiendo.</li>
+        <li><strong>Entregarte los avisos</strong> que envían los comercios de los que eres miembro.</li>
+        <li><strong>Prevenir fraude</strong>: los puntos solo los puede sumar el comercio, nunca el cliente por su cuenta.</li>
+      </ul>
+      <p>No usamos tus datos para publicidad ni para crear perfiles con fines comerciales, y <strong>no los vendemos a nadie</strong>.</p>
+    </section>
+
+    <section id="negocios">
+      <h2>3. Qué ven los negocios a los que te unes</h2>
+      <p>Esto es lo más importante de esta política, así que va aparte. Al unirte al programa de un comercio, <strong>ese comercio pasa a ver</strong>:</p>
+      <ul>
+        <li>Tu <strong>nombre</strong> y tu <strong>correo electrónico</strong>.</li>
+        <li>Tus <strong>puntos</strong>, tus <strong>visitas</strong>, la fecha en que te uniste y la de tu última visita.</li>
+        <li>El <strong>historial de tus operaciones en ese comercio</strong>: cuándo sumaste puntos, cuánto y qué premios canjeaste.</li>
+      </ul>
+      <div class="callout">
+        <p><strong>Cada comercio solo ve su propio programa.</strong> Un comercio no puede ver a qué otros comercios perteneces, ni los puntos ni las compras que tienes en ellos.</p>
+      </div>
+      <p>El comercio usa esos datos para gestionar su programa de fidelidad y es responsable del uso que les dé. Si te uniste por error o ya no quieres formar parte, puedes salirte del programa desde la app.</p>
+    </section>
+
+    <section id="terceros">
+      <h2>4. Con quién se comparten</h2>
+      <p>Wea funciona sobre <strong>Google Firebase</strong>, que aloja la base de datos, las cuentas, las imágenes y el servidor de la app. Google actúa como proveedor de infraestructura y trata los datos por cuenta nuestra. Puedes consultar su <a href="https://firebase.google.com/support/privacy" rel="noopener">política de privacidad de Firebase</a>.</p>
+      <p>Si entras con Google, la autenticación la gestiona Google con tu cuenta. La app y esta web también descargan sus tipografías desde Google Fonts, lo que implica una conexión a servidores de Google.</p>
+      <p>Fuera de eso, <strong>no compartimos tus datos con nadie más</strong>, salvo que nos lo exija la ley.</p>
+    </section>
+
+    <section id="permisos">
+      <h2>5. Permisos de la app</h2>
+      <ul>
+        <li><strong>Cámara</strong>: para escanear el código QR de un comercio y unirte a su programa, y para que el cajero lea tu código de miembro. Las imágenes de la cámara <strong>no se guardan ni se envían</strong>: solo se leen para interpretar el código.</li>
+        <li><strong>Fotos</strong>: solo si tienes un comercio y eliges un logo desde tu galería. Se sube únicamente la imagen que selecciones.</li>
+      </ul>
+      <p>Puedes retirar estos permisos cuando quieras desde los ajustes de Android; la app seguirá funcionando, aunque no podrás escanear códigos.</p>
+    </section>
+
+    <section id="conservacion">
+      <h2>6. Cuánto tiempo se guardan</h2>
+      <p>Tus datos se conservan mientras tengas la cuenta abierta. Si la eliminas, borramos tu perfil, tus programas de fidelidad, tus avisos y tu ficha en cada comercio.</p>
+      <div class="callout warn">
+        <p><strong>Una excepción que conviene que sepas:</strong> el registro de operaciones de cada comercio es su libro contable y <strong>no se borra</strong>. En él quedan las operaciones ya realizadas con la fecha, los puntos y el nombre con el que participaste, pero sin tu correo ni acceso a tu cuenta, que ya no existe.</p>
+      </div>
+    </section>
+
+    <section id="eliminar">
+      <h2>7. Cómo eliminar tu cuenta</h2>
+      <p>Puedes borrarla tú mismo desde la app, sin pedírnoslo:</p>
+      <ol class="steps">
+        <li>Abre Wea y entra en <strong>Perfil</strong>.</li>
+        <li>Pulsa <strong>Eliminar cuenta</strong>.</li>
+        <li>Confirma. El borrado es inmediato y no se puede deshacer.</li>
+      </ol>
+      <p>Al hacerlo pierdes los puntos acumulados en todos los comercios. <strong>Si eres dueño de algún comercio</strong>, la app te pedirá desactivarlo o transferirlo antes, para no dejar a sus clientes sin programa.</p>
+      <p>Si no puedes acceder a la app, escríbenos a <a href="mailto:gapcode@protonmail.com?subject=Eliminar%20mi%20cuenta%20de%20Wea">gapcode@protonmail.com</a> desde el correo de tu cuenta y la eliminamos por ti.</p>
+    </section>
+
+    <section id="seguridad">
+      <h2>8. Seguridad</h2>
+      <ul>
+        <li>Toda la comunicación entre la app y el servidor viaja <strong>cifrada (HTTPS)</strong>.</li>
+        <li><strong>Nunca almacenamos tu contraseña</strong>: la gestiona el sistema de cuentas de Google Firebase.</li>
+        <li>Las reglas del servidor impiden que un usuario lea los datos de otro. Tus puntos solo los puede modificar el comercio, y cada operación queda registrada.</li>
+      </ul>
+      <p>Ningún sistema es infalible, pero si detectáramos una brecha que te afecte, te avisaríamos por el correo de tu cuenta.</p>
+    </section>
+
+    <section id="derechos">
+      <h2>9. Tus derechos</h2>
+      <ul>
+        <li><strong>Ver</strong> tus datos: están en la app, en tu perfil y en cada tienda.</li>
+        <li><strong>Corregir</strong> tu nombre o tu foto desde tu perfil.</li>
+        <li><strong>Salir</strong> del programa de un comercio cuando quieras.</li>
+        <li><strong>Eliminar</strong> tu cuenta, como se explica arriba.</li>
+        <li><strong>Pedirnos una copia</strong> de tus datos escribiéndonos al correo de contacto.</li>
+      </ul>
+    </section>
+
+    <section id="menores">
+      <h2>10. Menores de edad</h2>
+      <p>Wea no está dirigida a menores de 13 años y no recogemos datos de ellos a sabiendas. Si crees que un menor a tu cargo creó una cuenta, escríbenos y la eliminaremos.</p>
+    </section>
+
+    <section id="cambios">
+      <h2>11. Cambios en esta política</h2>
+      <p>Si cambiamos algo, actualizaremos esta página y la fecha del encabezado. Cuando el cambio afecte de forma importante a tus datos, te avisaremos dentro de la app.</p>
+    </section>
+
+    <section id="contacto">
+      <h2>12. Contacto</h2>
+      <p>¿Dudas sobre tus datos o sobre esta política? Escríbenos a <a href="mailto:gapcode@protonmail.com?subject=Privacidad%20de%20Wea">gapcode@protonmail.com</a> y te respondemos.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand">
+      <img src="images/wea/weaft.png" alt="" width="32" height="32" />
+      <span>© 2026 Wea · Hecho por <a href="index.html">ProtonLab</a></span>
+    </div>
+    <nav aria-label="Pie de página">
+      <a href="wea.html">Wea</a>
+      <a href="index.html">ProtonLab</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+  </footer>
+
+</div>
+</body>
+</html>
