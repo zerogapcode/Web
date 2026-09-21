@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eliminar tu cuenta de Wea</title>
+<meta name="description" content="Cómo eliminar tu cuenta de Wea y todos tus datos, desde la app o solicitándolo por correo. Qué se borra y qué se conserva." />
+<meta name="theme-color" content="#FFF8F1" />
+<link rel="canonical" href="https://protonlab.site/wea-eliminar-cuenta.html" />
+<link rel="icon" href="images/wea/weaft.png" />
+<link rel="apple-touch-icon" href="images/wea/weaft.png" />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://protonlab.site/wea-eliminar-cuenta.html" />
+<meta property="og:title" content="Eliminar tu cuenta de Wea" />
+<meta property="og:description" content="Elimina tu cuenta desde la app o solicítalo por correo. Aquí está qué se borra y qué se conserva." />
+<meta property="og:image" content="https://protonlab.site/images/wea/weaft.png" />
+<meta name="twitter:card" content="summary" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --bg:#FFF8F1; --ink:#221C17; --muted:#5E544C; --line:#EFE5DB;
+    --coral:#F2542D; --coral-soft:#FFE9E1; --coral-text:#B3371A;
+    --teal-soft:#DDF5EF;
+    --display:'Outfit', system-ui, sans-serif;
+    --body:'Nunito Sans', system-ui, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); -webkit-font-smoothing:antialiased; }
+  img{ display:block; max-width:100%; }
+  a{ color:var(--coral-text); }
+  a:hover{ color:var(--ink); }
+  h1,h2{ font-family:var(--display); margin:0; }
+  p,ul{ margin:0; }
+  .wrap{ max-width:820px; margin:0 auto; padding:0 24px; }
+
+  header{ padding:24px 0; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink); }
+  .brand img{ width:44px; height:44px; object-fit:contain; }
+  .brand span{ font-family:var(--display); font-weight:800; font-size:26px; letter-spacing:-1px; }
+  .back{ font-size:16px; font-weight:700; text-decoration:none; color:var(--ink); }
+  .back:hover{ color:var(--coral-text); }
+
+  .hero{ padding:32px 0 8px; }
+  .chip{ display:inline-block; padding:8px 16px; border-radius:999px; background:var(--coral-soft); color:var(--coral-text); font-size:14px; font-weight:800; }
+  h1{ margin:16px 0 12px; font-weight:800; font-size:clamp(32px, 5vw, 48px); line-height:1.05; letter-spacing:-.03em; }
+  .lead{ font-size:19px; line-height:1.6; color:var(--muted); }
+
+  section{ padding:36px 0 0; }
+  h2{ font-weight:700; font-size:clamp(22px, 3vw, 28px); margin-bottom:14px; }
+  section p{ font-size:17px; line-height:1.65; margin-bottom:14px; }
+  section ul{ padding-left:22px; margin-bottom:14px; }
+  section li{ font-size:17px; line-height:1.6; margin-bottom:10px; }
+  strong{ font-weight:800; }
+
+  .card{ padding:24px; border-radius:22px; background:#fff; border:1px solid var(--line); margin-bottom:16px; }
+  .card h2{ margin-bottom:10px; }
+  .card p:last-child{ margin-bottom:0; }
+
+  .steps{ counter-reset:step; list-style:none; padding:0; margin:0; }
+  .steps li{ position:relative; padding-left:46px; margin-bottom:14px; }
+  .steps li:last-child{ margin-bottom:0; }
+  .steps li::before{
+    counter-increment:step; content:counter(step);
+    position:absolute; left:0; top:-2px; width:32px; height:32px; border-radius:11px;
+    background:var(--ink); color:var(--bg); font-family:var(--display); font-weight:800; font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  .btn{ display:inline-flex; align-items:center; gap:10px; min-height:56px; padding:0 26px; border-radius:18px;
+        background:var(--ink); color:var(--bg); font-family:var(--display); font-weight:700; font-size:17px; text-decoration:none; }
+  .btn:hover{ background:#3A3029; color:var(--bg); }
+
+  .callout{ padding:20px 24px; border-radius:20px; background:var(--coral-soft); border:1px solid #F7C9B9; margin-bottom:16px; }
+  .callout p:last-child{ margin-bottom:0; }
+  .ok{ background:var(--teal-soft); border-color:#BEE8DE; }
+
+  footer{ margin-top:48px; padding:28px 0 40px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .footer-brand{ display:flex; align-items:center; gap:10px; font-size:15px; color:var(--muted); }
+  .footer-brand img{ width:32px; height:32px; object-fit:contain; }
+  footer nav{ display:flex; gap:24px; }
+  footer nav a{ font-size:15px; font-weight:700; text-decoration:none; color:var(--ink); }
+  footer nav a:hover{ color:var(--coral-text); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <a class="brand" href="wea.html">
+      <img src="images/wea/weaft.png" alt="" width="44" height="44" />
+      <span>Wea</span>
+    </a>
+    <a class="back" href="wea.html">Volver a Wea</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <span class="chip">Eliminar cuenta</span>
+      <h1>Cómo eliminar tu cuenta de Wea y tus datos</h1>
+      <p class="lead">Puedes borrarla tú mismo en menos de un minuto, o pedirnos que lo hagamos si ya no tienes la app instalada.</p>
+    </div>
+
+    <section>
+      <div class="card">
+        <h2>Opción 1: desde la app</h2>
+        <p>Es inmediato y no hace falta esperar a que nadie lo apruebe.</p>
+        <ol class="steps">
+          <li>Abre Wea y entra en <strong>Perfil</strong>.</li>
+          <li>Pulsa <strong>Eliminar cuenta</strong>.</li>
+          <li>Confirma. Tu cuenta y tus datos se borran en ese momento.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h2>Opción 2: por correo</h2>
+        <p>Si ya desinstalaste la app o no puedes entrar, escríbenos <strong>desde la dirección de correo de tu cuenta</strong> para que podamos comprobar que eres tú.</p>
+        <p style="margin-bottom:20px">Eliminamos la cuenta en un plazo máximo de <strong>30 días</strong>, normalmente en menos.</p>
+        <a class="btn" href="mailto:gapcode@protonmail.com?subject=Eliminar%20mi%20cuenta%20de%20Wea&body=Quiero%20eliminar%20mi%20cuenta%20de%20Wea%20y%20todos%20los%20datos%20asociados.%0A%0ACorreo%20de%20la%20cuenta%3A%20%0A%0AGracias.">
+          Solicitar la eliminación por correo
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Qué se borra</h2>
+      <ul>
+        <li>Tu <strong>cuenta y tus datos de acceso</strong>: nombre, correo y foto de perfil.</li>
+        <li>Tus <strong>programas de fidelidad y tus puntos</strong> en todos los comercios.</li>
+        <li>Tu <strong>ficha de cliente</strong> en cada comercio al que te uniste, con tus visitas.</li>
+        <li>Tus <strong>avisos</strong> recibidos.</li>
+        <li>Las <strong>imágenes que hayas subido</strong>, como el logo de tu negocio.</li>
+      </ul>
+      <div class="callout ok">
+        <p>Al borrar la cuenta <strong>pierdes los puntos acumulados en todos los comercios</strong> y no se pueden recuperar. Si más adelante vuelves a Wea, empezarías de cero.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Qué se conserva, y por qué</h2>
+      <p>El registro de operaciones de cada comercio es su libro contable y <strong>no se borra</strong>. En él quedan las operaciones ya realizadas con la fecha, los puntos y el nombre con el que participaste.</p>
+      <p>No incluye tu correo ni ningún dato de acceso, y no se puede usar para identificarte dentro de la app, porque tu cuenta ya no existe.</p>
+    </section>
+
+    <section>
+      <h2>Si tienes un negocio en Wea</h2>
+      <div class="callout">
+        <p>La app <strong>no te dejará eliminar la cuenta mientras seas dueño de un negocio</strong>, para no dejar a sus clientes sin su programa de puntos y sin sus premios.</p>
+        <p>Antes tendrás que transferirlo a otra persona o desactivarlo. Si necesitas ayuda con eso, escríbenos al correo de arriba.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>¿Dudas?</h2>
+      <p>Escríbenos a <a href="mailto:gapcode@protonmail.com?subject=Wea%20-%20Consulta%20sobre%20mi%20cuenta">gapcode@protonmail.com</a>. Puedes consultar también la <a href="wea-privacidad.html">política de privacidad</a>, donde está el detalle de qué datos guardamos y para qué.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand">
+      <img src="images/wea/weaft.png" alt="" width="32" height="32" />
+      <span>© 2026 Wea · Hecho por <a href="index.html">ProtonLab</a></span>
+    </div>
+    <nav aria-label="Pie de página">
+      <a href="wea.html">Wea</a>
+      <a href="wea-privacidad.html">Privacidad</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+  </footer>
+
+</div>
+</body>
+</html>
