@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>404 – ProtonLab</title>
+  <meta name="description" content="The page you are looking for does not exist on ProtonLab." />
+  <meta name="robots" content="noindex" />
+  <!-- GitHub Pages sirve este archivo desde cualquier ruta: todas las rutas son absolutas -->
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    // Aplica el tema guardado antes de pintar para evitar un destello blanco en modo oscuro
+    (function () {
+      var mode = 'auto';
+      try { mode = localStorage.getItem('protonlab_theme') || 'auto'; } catch (e) {}
+      if (mode === 'auto') mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = mode;
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --muted: #6b7280;
+      --line: rgba(0, 0, 0, 0.08);
+      --header-bg: rgba(255, 255, 255, 0.95);
+      --rain: 0, 0, 0;
+      --accent: 100, 180, 255;
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    }
+    :root[data-theme='dark'] {
+      --bg: #000000;
+      --text: #f0f0f0;
+      --muted: #888888;
+      --line: rgba(255, 255, 255, 0.1);
+      --header-bg: rgba(0, 0, 0, 0.95);
+      --rain: 255, 255, 255;
+    }
+
+    * { box-sizing: border-box; font-family: var(--mono); }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    #rain {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      padding: 14px 20px;
+      background: var(--header-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      z-index: 2;
+    }
+    .mini {
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+    .mini:hover { transform: scale(1.1); }
+
+    main {
+      position: relative;
+      z-index: 1;
+      min-height: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 110px 24px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .code-title {
+      font-size: clamp(56px, 16vw, 128px);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      margin: 0;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .code-title .num {
+      display: inline-block;
+      min-width: 3ch;
+      text-align: center;
+    }
+    .subtitle {
+      display: block;
+      margin-top: 14px;
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    .terminal {
+      margin: 36px 0 0;
+      max-width: 640px;
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(var(--rain), 0.02);
+      font-size: 13px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+    .terminal .prompt { color: var(--muted); }
+    .terminal .path { color: rgb(var(--accent)); font-weight: 600; }
+    .terminal .status { color: #ff6464; font-weight: 600; }
+    .cursor {
+      display: inline-block;
+      width: 0.6em;
+      height: 1.1em;
+      vertical-align: text-bottom;
+      background: var(--text);
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    p.lead {
+      max-width: 640px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 32px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      color: var(--text);
+      background: rgba(var(--accent), 0.15);
+      border: 1px solid rgba(var(--accent), 0.3);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(var(--accent), 0.4);
+      border-color: rgb(var(--accent));
+    }
+    .btn.secondary {
+      background: transparent;
+      border-color: var(--line);
+    }
+    .btn:focus-visible,
+    .mini:focus-visible {
+      outline: 2px solid rgb(var(--accent));
+      outline-offset: 3px;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 0 24px 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+      .btn { flex: 1 1 100%; text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cursor { animation: none; }
+      .btn, .mini { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="rain" aria-hidden="true"></canvas>
+
+  <header>
+    <a class="mini" href="/" aria-label="ProtonLab – Home" data-i18n-aria="home_aria">&lt;/&gt;</a>
+  </header>
+
+  <main>
+    <h1 class="code-title">&lt;<span class="num" id="num">404</span>&gt;
+      <small class="subtitle" data-i18n="subtitle">Page not found.</small>
+    </h1>
+
+    <div class="terminal" role="note">
+      <div><span class="prompt">$</span> GET <span class="path" id="req-path">/</span></div>
+      <div><span class="prompt">&gt;</span> <span class="status">404 Not Found</span></div>
+      <div><span class="prompt">$</span> <span class="cursor" aria-hidden="true"></span></div>
+    </div>
+
+    <p class="lead" data-i18n="lead">The page you are looking for does not exist, was moved, or never compiled. Check the address or go back to the lab.</p>
+
+    <div class="actions">
+      <a class="btn" href="/" data-i18n="btn_home">Back to home</a>
+      <a class="btn secondary" href="/contacto.html" data-i18n="btn_contact">Contact</a>
+    </div>
+  </main>
+
+  <footer>© ProtonLab – www.protonlab.site</footer>
+
+  <script>
+    (function () {
+      var translations = {
+        subtitle: { en: 'Page not found.', es: 'Página no encontrada.', pt: 'Página não encontrada.' },
+        lead: {
+          en: 'The page you are looking for does not exist, was moved, or never compiled. Check the address or go back to the lab.',
+          es: 'La página que buscas no existe, se movió o nunca llegó a compilar. Revisa la dirección o vuelve al laboratorio.',
+          pt: 'A página que você procura não existe, foi movida ou nunca chegou a compilar. Verifique o endereço ou volte ao laboratório.'
+        },
+        btn_home: { en: 'Back to home', es: 'Volver al inicio', pt: 'Voltar ao início' },
+        btn_contact: { en: 'Contact', es: 'Contacto', pt: 'Contato' },
+        home_aria: { en: 'ProtonLab – Home', es: 'ProtonLab – Inicio', pt: 'ProtonLab – Início' },
+        title: { en: '404 – Page not found · ProtonLab', es: '404 – Página no encontrada · ProtonLab', pt: '404 – Página não encontrada · ProtonLab' }
+      };
+
+      // Idioma: el que el visitante eligió en la web; si no, el del navegador
+      var lang = null;
+      try { lang = localStorage.getItem('protonlab_lang'); } catch (e) {}
+      if (!translations.subtitle[lang]) {
+        var nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+        lang = translations.subtitle[nav] ? nav : 'en';
+      }
+      document.documentElement.lang = lang;
+      document.title = translations.title[lang];
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        el.textContent = translations[el.getAttribute('data-i18n')][lang];
+      });
+      document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+        el.setAttribute('aria-label', translations[el.getAttribute('data-i18n-aria')][lang]);
+      });
+      // Enlaces a la portada en el idioma activo
+      if (lang !== 'en') {
+        document.querySelectorAll('a[href="/"]').forEach(function (a) { a.href = '/?lang=' + lang; });
+      }
+
+      // Ruta solicitada (textContent: nunca se interpreta como HTML)
+      var path = window.location.pathname + window.location.search;
+      try { path = decodeURIComponent(path); } catch (e) {}
+      document.getElementById('req-path').textContent = path.length > 80 ? path.slice(0, 77) + '...' : path;
+
+      // Mismo acento aleatorio que los botones flotantes de la portada
+      var palettes = ['255, 100, 100', '255, 165, 80', '255, 220, 100', '100, 220, 150', '100, 180, 255', '180, 120, 255'];
+      document.documentElement.style.setProperty('--accent', palettes[Math.floor(Math.random() * palettes.length)]);
+
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Animación del título: caracteres aleatorios que se resuelven en "404"
+      var num = document.getElementById('num');
+      var target = '404';
+      var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*?<>';
+      if (!reduceMotion) {
+        var start = Date.now();
+        var timer = setInterval(function () {
+          var progress = (Date.now() - start) / 1400;
+          var solved = Math.min(target.length, Math.floor(progress * target.length));
+          var out = '';
+          for (var i = 0; i < target.length; i++) {
+            out += i < solved ? target[i] : chars[Math.floor(Math.random() * chars.length)];
+          }
+          num.textContent = out;
+          if (solved >= target.length) clearInterval(timer);
+        }, 60);
+      }
+
+      // Lluvia de caracteres de fondo, muy tenue (guiño al efecto Matrix de la portada)
+      if (reduceMotion) return;
+      var canvas = document.getElementById('rain');
+      var ctx = canvas.getContext('2d');
+      var fontSize = 16;
+      var columns = [];
+      function resize() {
+        var dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        var count = Math.ceil(window.innerWidth / fontSize);
+        columns = [];
+        for (var i = 0; i < count; i++) {
+          var trail = [];
+          for (var t = 0; t < 8; t++) trail.push(Math.random() < 0.5 ? '4' : '0');
+          columns.push({ y: Math.random() * -window.innerHeight, speed: 0.6 + Math.random() * 1.6, trail: trail });
+        }
+      }
+      function draw() {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        var rain = getComputedStyle(document.documentElement).getPropertyValue('--rain').trim();
+        ctx.font = fontSize + "px 'JetBrains Mono', monospace";
+        for (var i = 0; i < columns.length; i++) {
+          var col = columns[i];
+          col.y += col.speed;
+          if (col.y > window.innerHeight + 200) col.y = Math.random() * -200;
+          // De vez en cuando cambia un carácter del rastro, sin parpadeo constante
+          if (Math.random() < 0.02) col.trail[Math.floor(Math.random() * 8)] = Math.random() < 0.5 ? '4' : '0';
+          for (var j = 0; j < 8; j++) {
+            var alpha = 0.07 * (1 - j / 8);
+            ctx.fillStyle = 'rgba(' + rain + ',' + alpha + ')';
+            ctx.fillText(col.trail[j], i * fontSize, col.y - j * fontSize);
+          }
+        }
+        requestAnimationFrame(draw);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+      draw();
+    })();
+  </script>
+</body>
+</html>
