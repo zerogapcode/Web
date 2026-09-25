@@ -14,11 +14,19 @@
   <meta property="og:image" content="https://protonlab.site/images/ldev.png" />
 
   <!-- Twitter Meta Tags -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://protonlab.site/" />
-  <meta property="twitter:title" content="ProtonLab – Software & Hardware Development" />
-  <meta property="twitter:description" content="ProtonLab – Web development, multi-platform apps, software+hardware integration and electronics" />
-  <meta property="twitter:image" content="https://protonlab.site/images/ldev.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://protonlab.site/" />
+  <meta name="twitter:title" content="ProtonLab – Software & Hardware Development" />
+  <meta name="twitter:description" content="ProtonLab – Web development, multi-platform apps, software+hardware integration and electronics" />
+  <meta name="twitter:image" content="https://protonlab.site/images/ldev.png" />
+
+  <!-- Versiones por idioma (?lang=). El canonical lo pone js/main.js según el idioma activo -->
+  <link rel="alternate" hreflang="en" href="https://protonlab.site/" />
+  <link rel="alternate" hreflang="es" href="https://protonlab.site/?lang=es" />
+  <link rel="alternate" hreflang="pt" href="https://protonlab.site/?lang=pt" />
+  <link rel="alternate" hreflang="x-default" href="https://protonlab.site/" />
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
 
   <!-- Structured Data / JSON-LD -->
   <script type="application/ld+json">
@@ -30,10 +38,6 @@
     "url": "https://protonlab.site/",
     "telephone": "+17542313968",
     "email": "gapcode@protonmail.com",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Eastern US"
-    },
     "description": "Software and hardware development laboratory specializing in multi-platform applications, scalable web solutions, and electronic systems integration.",
     "openingHoursSpecification": [
       {
@@ -51,10 +55,11 @@
     ]
   }
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
-  <link rel="stylesheet" href="css/style.css?v=4" />
-  <script src="js/config.js"></script>
+  <link rel="stylesheet" href="css/style.css?v=5" />
+  <script src="js/config.js" defer></script>
 </head>
 
 <body>
@@ -62,7 +67,7 @@
 
   <header id="topbar">
     <div class="brand">
-      <div class="mini" id="brandMini">&lt;/&gt;</div>
+      <button type="button" class="mini" id="brandMini" aria-label="Replay title animation" data-i18n-aria="aria_brand">&lt;/&gt;</button>
       <!-- BOTÓN MEDICLOUD (original) -->
       <a href="medicloud.html" class="medicloud-link" aria-label="MediCloud">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -95,7 +100,7 @@
         <span>Estoquia</span>
       </a>
     </div>
-    <button class="hamburger" id="hamburger" aria-label="Menú principal">
+    <button type="button" class="hamburger" id="hamburger" aria-label="Main menu" data-i18n-aria="aria_menu" aria-controls="nav" aria-expanded="false">
       <span></span>
       <span></span>
       <span></span>
@@ -130,14 +135,14 @@
       <div class="hero-inner">
         <div class="hero-left">
           <h1 class="code-title"><span id="typedWrap">&lt;<span id="typed"></span>&gt;</span>
-            <small class="muted" id="typed-subtitle" data-i18n="hero_subtitle">Software and hardware within everyone's reach.</small></h1>
-          <p style="margin-top:18px" data-i18n="hero_p1">
-            We are a development laboratory specializing in multi-platform applications, scalable web solutions, 
-            and electronic systems integration. We combine cutting-edge technologies 
-            with agile methodologies to deliver innovative products that solve complex problems.</p>
-          <p style="margin-top:18px" data-i18n="hero_p2">
-            Our multidisciplinary approach allows us to tackle projects from conception to implementation, 
-            creating comprehensive solutions that connect the digital world with the physical.</p>
+            <small class="muted" id="typed-subtitle" data-i18n="hero_subtitle">Cutting-edge engineering for ambitious projects.</small></h1>
+          <p class="hero-text" data-i18n="hero_p1">
+            We transform complex ideas into market-ready products. As a technological innovation laboratory,
+            we master multi-platform app development (iOS, Android, Windows, macOS, Linux), scalable web architecture,
+            and electronic systems integration.</p>
+          <p class="hero-text" data-i18n="hero_p2">
+            We design, develop, and build. Our end-to-end approach ensures that every line of code and physical
+            component works in perfect synchronization to drive your vision forward.</p>
         </div>
       </div>
     </section>
@@ -148,8 +153,8 @@
       
       <div class="service-grid">
         <div class="service-card">
-          <h3 data-i18n="service_ios_title">iOS Development</h3>
-          <p data-i18n="service_ios_desc">Native applications for iPhone and iPad using Swift and SwiftUI. Optimized interfaces and exceptional user experience with full Apple ecosystem integration.</p>
+          <h3 data-i18n="service_ios_title">Multiplatform Development</h3>
+          <p data-i18n="service_ios_desc">Native and cross-platform applications for iOS, Android, Windows, macOS, and Linux. Optimized interfaces and exceptional user experience across all devices.</p>
         </div>
         
         <div class="service-card">
@@ -180,8 +185,8 @@
       
       <div class="service-grid">
         <div class="service-card">
-          <h3 data-i18n="dept_ios_title">iOS Development</h3>
-          <p data-i18n="dept_ios_desc">Specialists in Swift, SwiftUI, and the Apple ecosystem. Creation of high-performance native applications with fluid interfaces and exceptional user experiences.</p>
+          <h3 data-i18n="dept_ios_title">Mobile & Desktop Apps</h3>
+          <p data-i18n="dept_ios_desc">Specialists in creating high-performance applications for any operating system (Mobile & Desktop) with fluid interfaces and exceptional user experiences.</p>
         </div>
         
         <div class="service-card">
@@ -266,15 +271,15 @@
         </div>
       </div>
       
-      <div class="card" style="margin-top: 30px;">
+      <div class="card card-spaced">
         <h3 data-i18n="about_quality_title">Commitment to Quality</h3>
         <p data-i18n="about_quality_desc">At ProtonLab, we don't just deliver code; we deliver solutions that work, scale, and endure. Our commitment is to technical excellence and customer satisfaction in every project we undertake, ensuring that every line of code and every physical component meets the highest quality standards.</p>
       </div>
     </section>
 
     <footer>
-      <p>© 2023 ProtonLab – www.protonlab.site</p>
-      <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">
+      <p>© 2023–<span id="footer-year">2026</span> ProtonLab – www.protonlab.site</p>
+      <p class="footer-note">
         <span data-i18n="footer_text">Innovation in every line of code, precision in every physical component.</span> <a href="pi.html" class="footer-pi">π</a>
       </p>
     </footer>
@@ -293,56 +298,56 @@
   </div>
 
   <div id="password-modal">
-    <div class="password-modal-content">
+    <div class="password-modal-content" role="dialog" aria-modal="true" aria-labelledby="password-modal-title">
       <div class="password-modal-header">
-        <div class="password-modal-title" data-i18n="pay_modal_title">Payment Access</div>
-        <div class="password-modal-close" id="password-close-btn">×</div>
+        <div class="password-modal-title" id="password-modal-title" data-i18n="pay_modal_title">Payment Access</div>
+        <button type="button" class="password-modal-close" id="password-close-btn" aria-label="Close" data-i18n-aria="aria_close">×</button>
       </div>
       <div class="password-modal-body">
         <div class="password-input-container">
           <label for="password-input-field" class="password-input-label" data-i18n="pay_modal_label">Password</label>
-          <input type="password" id="password-input-field" placeholder="Enter password" autocomplete="off" />
+          <input type="password" id="password-input-field" placeholder="Enter password" data-i18n-placeholder="pay_modal_placeholder" autocomplete="off" />
           <div id="password-error" class="password-error" data-i18n="pay_modal_error">Incorrect password. Try again.</div>
         </div>
       </div>
       <div class="password-modal-footer">
-        <button id="password-submit-btn" class="password-submit-btn" data-i18n="pay_modal_btn">Access</button>
+        <button type="button" id="password-submit-btn" class="password-submit-btn" data-i18n="pay_modal_btn">Access</button>
       </div>
     </div>
   </div>
 
   <div class="float-buttons-container">
-    <div id="simulation-float-btn" class="float-btn" role="button" aria-label="Abrir Simulación">
-      <div class="float-icon-wrapper">
+    <a href="simulation.html" id="simulation-float-btn" class="float-btn" aria-label="Open Simulation" data-i18n-aria="aria_sim">
+      <span class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
           <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
           <line x1="12" y1="22.08" x2="12" y2="12"></line>
         </svg>
-      </div>
+      </span>
       <span class="btn-text" data-i18n="float_sim">Simulation</span>
-    </div>
+    </a>
 
-    <div id="pitfall-float-btn" class="float-btn" role="button" aria-label="Abrir Pitfall">
-      <div class="float-icon-wrapper">
+    <a href="pitfall.html" id="pitfall-float-btn" class="float-btn" aria-label="Open Pitfall" data-i18n-aria="aria_pitfall">
+      <span class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
         </svg>
-      </div>
+      </span>
       <span class="btn-text">Pitfall</span>
-    </div>
+    </a>
 
-    <div id="traffic-float-btn" class="float-btn" role="button" aria-label="Abrir Tráfico Aéreo">
-      <div class="float-icon-wrapper">
+    <a href="traficoaereo.html" id="traffic-float-btn" class="float-btn" aria-label="Open Air Traffic" data-i18n-aria="aria_traffic">
+      <span class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
         </svg>
-      </div>
+      </span>
       <span class="btn-text" data-i18n="float_traffic">Traffic</span>
-    </div>
+    </a>
 
-    <div id="debug-float-btn" class="float-btn" role="button" aria-label="Abrir Debugger">
-      <div class="float-icon-wrapper">
+    <button type="button" id="debug-float-btn" class="float-btn" aria-label="Open DebugBot" data-i18n-aria="aria_debug">
+      <span class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="8" y="2" width="8" height="12" rx="4" />
           <path d="M12 14v4" />
@@ -352,25 +357,25 @@
           <path d="M20 6l-4 2" />
           <path d="M4 6l4 2" />
         </svg>
-      </div>
+      </span>
       <span class="btn-text">DebugBot</span>
-    </div>
+    </button>
 
-    <div id="ai-float-btn" class="float-btn" role="button" aria-label="Abrir Asistente IA">
-      <div class="float-icon-wrapper">
+    <button type="button" id="ai-float-btn" class="float-btn" aria-label="Open RickGPT assistant" data-i18n-aria="aria_ai">
+      <span class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="11" width="18" height="10" rx="2" />
           <circle cx="12" cy="16" r="2" />
           <line x1="12" y1="6" x2="12" y2="11" />
           <circle cx="12" cy="4" r="2" />
         </svg>
-      </div>
+      </span>
       <span class="btn-text">RickGPT</span>
       <span class="status-dot"></span>
-    </div>
+    </button>
 
-    <div id="pagos-float-btn" class="float-btn" role="button" aria-label="Abrir Pagos">
-      <div class="float-icon-wrapper">
+    <button type="button" id="pagos-float-btn" class="float-btn" aria-label="Open Payments" data-i18n-aria="aria_pay">
+      <span class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
           <line x1="1" y1="10" x2="23" y2="10"></line>
@@ -378,23 +383,23 @@
           <line x1="10" y1="8" x2="10" y2="8"></line>
           <line x1="14" y1="8" x2="14" y2="8"></line>
         </svg>
-      </div>
+      </span>
       <span class="btn-text" data-i18n="float_pay">Payments</span>
-    </div>
+    </button>
 
-    <div id="galeria-float-btn" class="float-btn" role="button" aria-label="Abrir Galería">
-      <div class="float-icon-wrapper">
+    <a href="galeria.html" id="galeria-float-btn" class="float-btn" aria-label="Open Gallery" data-i18n-aria="aria_gallery">
+      <span class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
           <circle cx="8.5" cy="8.5" r="1.5"></circle>
           <polyline points="21 15 16 10 5 21"></polyline>
         </svg>
-      </div>
+      </span>
       <span class="btn-text" data-i18n="float_gallery">Gallery</span>
-    </div>
+    </a>
 
-    <div id="alex-float-btn" class="float-btn" role="button" aria-label="Abrir Alex BETA">
-      <div class="float-icon-wrapper">
+    <a href="friendbot.html" id="alex-float-btn" class="float-btn" aria-label="Open Alex BETA" data-i18n-aria="aria_alex">
+      <span class="float-icon-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
@@ -403,22 +408,22 @@
           <path d="M8 11H4"></path>
           <path d="M4 15h4"></path>
         </svg>
-      </div>
+      </span>
       <span class="btn-text">Alex BETA</span>
-      <span class="status-dot" style="background-color: #ffaa00; box-shadow: 0 0 8px #ffaa00;"></span>
-    </div>
+      <span class="status-dot status-dot--beta"></span>
+    </a>
   </div>
 
-  <div id="debug-chat-window">
+  <div id="debug-chat-window" role="dialog" aria-labelledby="debug-chat-title">
     <div class="debug-chat-header" id="debug-drag-handle">
-      <div class="debug-chat-title">🐛 DebugBot</div>
-      <div class="debug-chat-close" id="debug-close-btn">×</div>
+      <div class="debug-chat-title" id="debug-chat-title">🐛 DebugBot</div>
+      <button type="button" class="debug-chat-close" id="debug-close-btn" aria-label="Close" data-i18n-aria="aria_close">×</button>
     </div>
     <div class="debug-chat-body">
       <div class="debug-editor-container">
         <div class="debug-editor-header">
           <span data-i18n="debug_editor_title">Code Editor</span>
-          <select id="language-selector" class="language-selector">
+          <select id="language-selector" class="language-selector" aria-label="Programming language" data-i18n-aria="aria_code_lang">
             <option value="javascript">JavaScript</option>
             <option value="python">Python</option>
             <option value="java">Java</option>
@@ -444,7 +449,7 @@
         <div class="debug-output-header">
           <div class="debug-output-title"><span data-i18n="debug_analysis">Analysis</span><span id="debug-status" class="debug-status-indicator status-checking" data-i18n="debug_verifying">verifying...</span></div>
           <div class="debug-btn-container">
-            <button class="debug-action-btn" id="debug-analyze-btn" data-i18n="debug_btn_analyze">Analyze</button>
+            <button type="button" class="debug-action-btn" id="debug-analyze-btn" data-i18n="debug_btn_analyze">Analyze</button>
           </div>
         </div>
         <div id="debug-output">
@@ -466,19 +471,19 @@
     </div>
   </div>
 
-  <div id="ai-chat-window">
+  <div id="ai-chat-window" role="dialog" aria-labelledby="ai-chat-title">
     <div class="ai-chat-header" id="ai-drag-handle">
-      <div class="ai-chat-title">RickGPT</div>
-      <div class="ai-chat-close" id="ai-close-btn">×</div>
+      <div class="ai-chat-title" id="ai-chat-title">RickGPT</div>
+      <button type="button" class="ai-chat-close" id="ai-close-btn" aria-label="Close" data-i18n-aria="aria_close">×</button>
     </div>
     <div class="ai-chat-body" id="ai-messages"></div>
     <div class="ai-chat-input-container">
-      <textarea id="ai-input" class="ai-chat-input" placeholder="Conectando..." rows="1" disabled></textarea>
-      <button id="ai-send-btn" class="ai-chat-send" disabled>→</button>
+      <textarea id="ai-input" class="ai-chat-input" placeholder="Connecting..." rows="1" aria-label="Message for RickGPT" data-i18n-aria="aria_ai_input" disabled></textarea>
+      <button type="button" id="ai-send-btn" class="ai-chat-send" aria-label="Send" data-i18n-aria="aria_send" disabled>→</button>
     </div>
   </div>
 
   
-  <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

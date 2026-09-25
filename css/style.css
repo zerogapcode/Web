@@ -2059,3 +2059,74 @@
     body[data-theme='dark'] #password-submit-btn {
       color: var(--text-dark);
     }
+    /* ============================== */
+    /* BOTONES Y ENLACES NATIVOS      */
+    /* ============================== */
+    /* Los botones flotantes, los "×" y el </> ahora son <button>/<a>:
+       se quitan los estilos por defecto del navegador para que se vean igual que antes */
+    .float-btn,
+    .brand .mini,
+    .password-modal-close,
+    .debug-chat-close,
+    .ai-chat-close {
+      font-family: inherit;
+      padding: 0;
+      line-height: 1;
+      text-decoration: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .brand .mini {
+      background: none;
+      border: 0;
+    }
+
+    .float-btn,
+    .password-modal-close,
+    .debug-chat-close,
+    .ai-chat-close {
+      font-size: inherit;
+    }
+
+    .password-modal-close { font-size: 20px; }
+    .debug-chat-close,
+    .ai-chat-close { font-size: 18px; }
+
+    /* Foco visible solo al navegar con teclado */
+    .float-btn:focus-visible,
+    .brand .mini:focus-visible,
+    .hamburger:focus-visible,
+    .password-modal-close:focus-visible,
+    .debug-chat-close:focus-visible,
+    .ai-chat-close:focus-visible,
+    .seg button:focus-visible,
+    .navlink:focus-visible {
+      outline: 2px solid var(--btn-accent, #64b4ff);
+      outline-offset: 3px;
+    }
+
+    /* Con teclado, el botón se despliega igual que con hover */
+    .float-btn:focus-visible { width: 180px; }
+    .float-btn:focus-visible .btn-text {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    @media (max-width: 768px) {
+      .float-btn:focus-visible { width: 160px; }
+    }
+
+    /* ============================== */
+    /* ANTES ESTILOS INLINE           */
+    /* ============================== */
+    .hero-text { margin-top: 18px; }
+    .card-spaced { margin-top: 30px; }
+    .footer-note {
+      margin-top: 10px;
+      font-size: 11px;
+      opacity: 0.7;
+    }
+    .status-dot--beta {
+      background-color: #ffaa00;
+      box-shadow: 0 0 8px #ffaa00;
+    }

@@ -80,14 +80,9 @@
 
     // === Elementos DOM ===
     const floatButtonsContainer = document.querySelector('.float-buttons-container');
-    const simulationFloatBtn = document.getElementById('simulation-float-btn');
-    const pitfallFloatBtn = document.getElementById('pitfall-float-btn');
-    const trafficFloatBtn = document.getElementById('traffic-float-btn');
     const debugFloatBtn = document.getElementById('debug-float-btn');
     const aiFloatBtn = document.getElementById('ai-float-btn');
     const pagosFloatBtn = document.getElementById('pagos-float-btn');
-    const galeriaFloatBtn = document.getElementById('galeria-float-btn');
-    const alexFloatBtn = document.getElementById('alex-float-btn');
     
     const passwordModal = document.getElementById('password-modal');
     const passwordInputField = document.getElementById('password-input-field');
@@ -473,7 +468,7 @@
       service_maintenance_desc: { en: "Continuous maintenance services, updates, and technical support to ensure optimal operation of your systems in the long term.", es: "Servicios continuos de mantenimiento, actualizaciones y soporte técnico para garantizar el funcionamiento óptimo de tus sistemas a largo plazo.", pt: "Serviços de manutenção contínua, atualizações e suporte técnico para garantir o funcionamento ideal de seus sistemas a longo prazo." },
       dept_title: { en: "Departments", es: "Departamentos", pt: "Departamentos" },
       dept_lead: { en: "Specialized teams working in synergy to offer complete and innovative solutions.", es: "Equipos especializados trabajando en sinergia para ofrecer soluciones completas e innovadoras.", pt: "Equipes especializadas trabalhando em sinergia para oferecer soluções completas e inovadoras." },
-      dept_ios_title: { en: "Multiplatform Development", es: "Desarrollo Multiplataforma", pt: "Desenvolvimento Multiplataforma" },
+      dept_ios_title: { en: "Mobile & Desktop Apps", es: "Apps Móviles y de Escritorio", pt: "Apps Mobile e Desktop" },
       dept_ios_desc: { en: "Specialists in creating high-performance applications for any operating system (Mobile & Desktop) with fluid interfaces and exceptional user experiences.", es: "Especialistas en la creación de aplicaciones de alto rendimiento para cualquier sistema operativo (Móvil y Escritorio) con interfaces fluidas y experiencias de usuario excepcionales.", pt: "Especialistas na criação de aplicativos de alto desempenho para qualquer sistema operacional (Mobile & Desktop) com interfaces fluidas e experiências de usuário excepcionais." },
       dept_eng_title: { en: "Software Engineering", es: "Ingeniería de Software", pt: "Engenharia de Software" },
       dept_eng_desc: { en: "Systems architecture, backend development, databases, and APIs. Modern and scalable technologies to build robust and maintainable solutions.", es: "Arquitectura de sistemas, desarrollo backend, bases de datos y APIs. Tecnologías modernas y escalables para construir soluciones robustas y mantenibles.", pt: "Arquitetura de sistemas, desenvolvimento backend, bancos de dados e APIs. Tecnologias modernas e escaláveis para construir soluções robustas e fáceis de manter." },
@@ -516,6 +511,21 @@
       pay_modal_label: { en: "Password", es: "Contraseña", pt: "Senha" },
       pay_modal_error: { en: "Incorrect password. Try again.", es: "Contraseña incorrecta. Intente nuevamente.", pt: "Senha incorreta. Tente novamente." },
       pay_modal_btn: { en: "Access", es: "Acceder", pt: "Acessar" },
+      pay_modal_placeholder: { en: "Enter password", es: "Ingrese la contraseña", pt: "Digite a senha" },
+      aria_brand: { en: "Replay title animation", es: "Repetir animación del título", pt: "Repetir animação do título" },
+      aria_menu: { en: "Main menu", es: "Menú principal", pt: "Menu principal" },
+      aria_close: { en: "Close", es: "Cerrar", pt: "Fechar" },
+      aria_sim: { en: "Open Simulation", es: "Abrir Simulación", pt: "Abrir Simulação" },
+      aria_pitfall: { en: "Open Pitfall", es: "Abrir Pitfall", pt: "Abrir Pitfall" },
+      aria_traffic: { en: "Open Air Traffic", es: "Abrir Tráfico Aéreo", pt: "Abrir Tráfego Aéreo" },
+      aria_debug: { en: "Open DebugBot", es: "Abrir DebugBot", pt: "Abrir DebugBot" },
+      aria_ai: { en: "Open RickGPT assistant", es: "Abrir asistente RickGPT", pt: "Abrir assistente RickGPT" },
+      aria_pay: { en: "Open Payments", es: "Abrir Pagos", pt: "Abrir Pagamentos" },
+      aria_gallery: { en: "Open Gallery", es: "Abrir Galería", pt: "Abrir Galeria" },
+      aria_alex: { en: "Open Alex BETA", es: "Abrir Alex BETA", pt: "Abrir Alex BETA" },
+      aria_code_lang: { en: "Programming language", es: "Lenguaje de programación", pt: "Linguagem de programação" },
+      aria_ai_input: { en: "Message for RickGPT", es: "Mensaje para RickGPT", pt: "Mensagem para o RickGPT" },
+      aria_send: { en: "Send", es: "Enviar", pt: "Enviar" },
       float_sim: { en: "Simulation", es: "Simulación", pt: "Simulação" },
       float_traffic: { en: "Traffic", es: "Tráfico", pt: "Tráfego" },
       float_pay: { en: "Payments", es: "Pagos", pt: "Pagamentos" },
@@ -585,10 +595,19 @@
         }
       });
       
-      const passwordInput = document.getElementById('password-input-field');
-      if (passwordInput) {
-        passwordInput.placeholder = lang === 'en' ? "Enter password" : "Ingrese la contraseña";
-      }
+      document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const key = el.getAttribute('data-i18n-aria');
+        if (translations[key] && translations[key][lang]) {
+          el.setAttribute('aria-label', translations[key][lang]);
+        }
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (translations[key] && translations[key][lang]) {
+          el.placeholder = translations[key][lang];
+        }
+      });
       
       const aiInputEl = document.getElementById('ai-input');
       if (aiInputEl) {
@@ -599,6 +618,7 @@
       }
       
       document.documentElement.lang = lang;
+      updateCanonical(lang);
       
       if (debugEditor && editorInitialized) {
         const currentLanguage = languageSelector.value;
@@ -623,16 +643,50 @@
       }
     }
 
-    const savedLang = getPreference(STORAGE_KEYS.LANG, 'en');
-    changeLanguage(savedLang);
+    // Cada idioma tiene su propia URL (?lang=es / ?lang=pt) para que Google indexe las tres versiones
+    const SUPPORTED_LANGS = ['en', 'es', 'pt'];
+    const SITE_URL = 'https://protonlab.site/';
+
+    function langUrl(lang) {
+      return lang === 'en' ? SITE_URL : `${SITE_URL}?lang=${lang}`;
+    }
+
+    function updateCanonical(lang) {
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.rel = 'canonical';
+        document.head.appendChild(canonical);
+      }
+      canonical.href = langUrl(lang);
+    }
+
+    function syncLangInUrl(lang) {
+      const url = new URL(window.location.href);
+      if (lang === 'en') url.searchParams.delete('lang');
+      else url.searchParams.set('lang', lang);
+      history.replaceState(null, '', url);
+    }
+
+    const urlLang = new URLSearchParams(window.location.search).get('lang');
+    let initialLang = getPreference(STORAGE_KEYS.LANG, 'en');
+    if (SUPPORTED_LANGS.includes(urlLang)) {
+      initialLang = urlLang;
+      setPreference(STORAGE_KEYS.LANG, urlLang);
+    }
+    changeLanguage(initialLang);
 
     langButtons.forEach(btn => {
       btn.addEventListener('click', function() {
         const selectedLang = this.dataset.lang;
         setPreference(STORAGE_KEYS.LANG, selectedLang);
         changeLanguage(selectedLang);
+        syncLangInUrl(selectedLang);
       });
     });
+
+    const footerYear = document.getElementById('footer-year');
+    if (footerYear) footerYear.textContent = new Date().getFullYear();
 
     // === ANIMACIÓN TÍTULO ===
     const typed = document.getElementById('typed');
@@ -990,6 +1044,7 @@
     function toggleMenu() {
       isMenuOpen = !isMenuOpen;
       hamburger.classList.toggle('active');
+      hamburger.setAttribute('aria-expanded', String(isMenuOpen));
       nav.classList.toggle('active');
       
       if (isMenuOpen) {
@@ -1023,46 +1078,6 @@
       if (matrixOverlay.classList.contains('active')) {
         initMatrixEffect();
       }
-    });
-
-    // ========================================
-    // FUNCIONALIDAD SIMULACIÓN
-    // ========================================
-
-    simulationFloatBtn.addEventListener('click', () => {
-      window.location.href = 'simulation.html';
-    });
-
-    // ========================================
-    // FUNCIONALIDAD PITFALL
-    // ========================================
-
-    pitfallFloatBtn.addEventListener('click', () => {
-      window.location.href = 'pitfall.html';
-    });
-
-    // ========================================
-    // FUNCIONALIDAD TRÁFICO AÉREO
-    // ========================================
-
-    trafficFloatBtn.addEventListener('click', () => {
-      window.location.href = 'traficoaereo.html';
-    });
-
-    // ========================================
-    // FUNCIONALIDAD GALERÍA
-    // ========================================
-
-    galeriaFloatBtn.addEventListener('click', () => {
-      window.location.href = 'galeria.html';
-    });
-
-    // ========================================
-    // FUNCIONALIDAD ALEX BETA
-    // ========================================
-
-    alexFloatBtn.addEventListener('click', () => {
-      window.location.href = 'friendbot.html';
     });
 
     // ========================================
@@ -1125,6 +1140,13 @@
     });
     
     passwordCloseBtn.addEventListener('click', closePasswordModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && passwordModal.classList.contains('active')) {
+        closePasswordModal();
+        pagosFloatBtn.focus();
+      }
+    });
     
     passwordModal.addEventListener('click', (e) => {
       if (e.target === passwordModal) {
@@ -1136,11 +1158,29 @@
     // FUNCIONALIDAD DEBUGBOT - CON HEADERS NGrok
     // ========================================
     
-    require.config({ 
-      paths: { 
-        vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs' 
-      } 
-    });
+    // Monaco pesa varios MB: se descarga solo la primera vez que se abre DebugBot
+    const MONACO_BASE = 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs';
+    let monacoPromise = null;
+    let editorLoading = false;
+
+    function loadMonaco() {
+      if (!monacoPromise) {
+        monacoPromise = new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = `${MONACO_BASE}/loader.min.js`;
+          script.onload = () => {
+            require.config({ paths: { vs: MONACO_BASE } });
+            require(['vs/editor/editor.main'], resolve, reject);
+          };
+          script.onerror = reject;
+          document.head.appendChild(script);
+        }).catch(err => {
+          monacoPromise = null; // permite reintentar al volver a abrir DebugBot
+          throw err;
+        });
+      }
+      return monacoPromise;
+    }
 
     debugFloatBtn.addEventListener('click', () => {
       if (!isDebugChatOpen) openDebugChat();
@@ -1194,7 +1234,10 @@
     }
 
     function initDebugEditor() {
-      require(['vs/editor/editor.main'], () => {
+      if (editorLoading) return;
+      editorLoading = true;
+      loadMonaco().then(() => {
+        editorLoading = false;
         const theme = document.body.dataset.theme === 'dark' ? 'vs-dark' : 'vs';
         
         const exampleCode = translations.debug_editor_example[currentLang] || translations.debug_editor_example['en'];
@@ -1249,6 +1292,9 @@
         debugEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, analyzeCode);
         
         console.log('✅ Editor Debug inicializado');
+      }).catch(err => {
+        editorLoading = false;
+        console.error('No se pudo cargar el editor Monaco:', err);
       });
     }
 
