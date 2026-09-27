@@ -32,6 +32,7 @@
       --panel-alpha: 0.18;
       --panel-border-alpha: 0.5;
       --panel-text: #6b7280;
+      --err: #e5484d;
       --accent: 100, 180, 255;
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
     }
@@ -46,6 +47,7 @@
       --panel-alpha: 0.12;
       --panel-border-alpha: 0.4;
       --panel-text: #888888;
+      --err: #ff6b6b;
     }
 
     * { box-sizing: border-box; font-family: var(--mono); }
@@ -113,6 +115,33 @@
       white-space: pre;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+    .code-line.err { color: var(--err); }
+
+    /* Algunos paneles quedan torcidos (--tilt lo pone el JS) */
+    .panel .inner { transform: rotate(var(--tilt, 0deg)); }
+
+    /* Fallo momentáneo: el panel se parte en franjas y el texto se separa en rojo y cian.
+       Solo un panel a la vez y como mucho uno por segundo (muy por debajo de 3 destellos/s) */
+    .panel.glitch {
+      border-color: rgba(255, 60, 90, 0.9);
+      box-shadow: 0 18px 40px rgba(255, 60, 90, 0.35);
+    }
+    .panel.glitch .inner {
+      animation: glitch-slice 0.3s steps(1) both;
+      text-shadow: 2px 0 rgba(255, 0, 80, 0.75), -2px 0 rgba(0, 220, 255, 0.75);
+    }
+    @keyframes glitch-slice {
+      0%   { clip-path: inset(8% 0 50% 0);  transform: translateX(-6px) rotate(var(--tilt, 0deg)); }
+      33%  { clip-path: inset(45% 0 10% 0); transform: translateX(5px) rotate(var(--tilt, 0deg)); }
+      66%  { clip-path: inset(20% 0 30% 0); transform: translateX(-3px) rotate(var(--tilt, 0deg)); }
+      100% { clip-path: inset(0 0 0 0);     transform: rotate(var(--tilt, 0deg)); }
+    }
+
+    /* Fallo breve del título */
+    .code-title.glitch {
+      text-shadow: 3px 0 rgba(255, 0, 80, 0.7), -3px 0 rgba(0, 220, 255, 0.7);
+      transform: translateX(2px) skewX(-4deg);
     }
 
     header {
@@ -254,6 +283,7 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .cursor { animation: none; }
+      .panel.glitch .inner, .code-title.glitch { animation: none; transform: none; text-shadow: none; }
       .btn, .mini { transition: none; }
     }
   </style>
@@ -353,27 +383,44 @@
       // Paneles de cristal con código, como el fondo de la portada (versión 404)
       var panelContent = {
         large: [
-          { speed: 0.9, lines: ['// Buscando página...', 'const res = await fetch(path);', 'if (!res.ok) {', '  throw new Error(res.status);', '}', '// Error: 404'] },
-          { speed: 0.8, lines: ['#include <stdio.h>', 'int main() {', '  FILE *f = fopen(path, "r");', '  if (!f) return 404;', '}', 'exit> 404'] },
-          { speed: 0.7, lines: ['// Lectura sensor', 'val = analogRead(PAGE);', 'if (val == NULL) {', '  digitalWrite(LED, HIGH);', '  blink(404);', '}'] },
-          { speed: 0.6, lines: ['class Page {', '  constructor(path) {', '    this.path = path;', '    this.found = false;', '  }', '}', 'new Page(path); // 404'] }
+          { speed: 0.9, lines: ['// Buscando página...', 'const res = await fetch(path);', 'if (!res.ok) {', '  throw new Error(res.status);', '}', 'Uncaught Error: 404'] },
+          { speed: 0.8, lines: ['#include <stdio.h>', 'int main() {', '  char *page = NULL;', '  printf("%s", *page);', '}', 'Segmentation fault (core dumped)'] },
+          { speed: 0.7, lines: ['TypeError: page is undefined', '  at render (app.js:404:13)', '  at route (router.js:42:7)', '  at main (index.js:1:1)', 'Uncaught (in promise)'] },
+          { speed: 0.6, lines: ['class Page {', '  constructor(path) {', '    this.path = path;', '    this.found = false;', '  }', '}', 'NullPointerException'] }
         ],
         medium: [
-          { speed: 0.5, lines: ['-- Buscar página', 'SELECT * FROM pages', '  WHERE path = :path;', '-- 0 rows returned'] },
+          { speed: 0.5, lines: ['Kernel panic - not syncing:', 'VFS: Unable to mount', '  root fs on page', '---[ end Kernel panic ]---'] },
           { speed: 0.45, lines: ['$ git checkout page', 'error: pathspec', "  'page' did not match", '  any file(s) known'] },
-          { speed: 0.4, lines: ['guard let page = find(path)', 'else {', '  return .notFound', '}', '// 404'] },
+          { speed: 0.4, lines: ['SELECT * FROM pages', '  WHERE path = :path;', 'ERROR 1146 (42S02):', "Table 'pages' doesn't exist"] },
           { speed: 0.35, lines: ['$ ping page.html', 'Request timeout', 'Request timeout', '100% packet loss'] },
-          { speed: 0.3, lines: ['try:', '  open(path)', 'except FileNotFoundError:', '  print(404)'] }
+          { speed: 0.3, lines: ['Traceback (most recent call):', '  File "page.py", line 404', 'FileNotFoundError:', '  [Errno 2] page'] }
         ],
         small: [
           { speed: 0.25, lines: ['$ ls page.html', 'No such file', 'or directory'] },
-          { speed: 0.2, lines: ['HTTP/1.1 404', 'Not Found', 'content: none'] },
-          { speed: 0.18, lines: ['DEBUG MODE', 'WARNING: path', 'not resolved'] },
+          { speed: 0.2, lines: ['FATAL ERROR', '0x00000194', 'system halted'] },
+          { speed: 0.18, lines: ['HTTP/1.1 404', 'Not Found', 'content: none'] },
           { speed: 0.15, lines: ['test page.js', '✗ 0/1 passed', 'page missing'] },
-          { speed: 0.12, lines: ['CPU: 0% load', 'PAGE: null', 'NET: 404'] },
+          { speed: 0.12, lines: ['CPU: 404% load', 'MEM: overflow', 'NET: ▓▓░░ lost'] },
           { speed: 0.1, lines: ['docker run page', 'image: not found', 'exit code 404'] }
         ]
       };
+      // Las líneas que describen un fallo se pintan en rojo
+      var ERROR_LINE = /error|fault|panic|exception|fatal|✗|traceback|not found|timeout|loss|halted|undefined|uncaught|unable|doesn't exist|no such|overflow|lost/i;
+      var GLYPHS = '▓▒░█#@%&$!?<>/\\|01';
+      function randomGlyph() { return GLYPHS.charAt(Math.floor(Math.random() * GLYPHS.length)); }
+      function scramble(str, ratio) {
+        return str.replace(/\S/g, function (c) { return Math.random() < ratio ? randomGlyph() : c; });
+      }
+      // Crea una línea; algunas quedan descuadradas de forma permanente
+      function makeLine(text) {
+        var lineEl = document.createElement('div');
+        lineEl.className = 'code-line' + (ERROR_LINE.test(text) ? ' err' : '');
+        if (Math.random() < 0.2) {
+          var shift = (3 + Math.random() * 11) * (Math.random() < 0.5 ? -1 : 1);
+          lineEl.style.transform = 'translateX(' + shift.toFixed(1) + 'px)';
+        }
+        return lineEl;
+      }
       // Zonas de colocación y tamaño aproximado (en %) de cada tipo, igual que en la portada
       var zones = {
         large:  { left: [2, 70], top: [15, 70], w: 20, h: 15 },
@@ -423,20 +470,29 @@
             return;
           }
           var text = lines[lineIndex];
-          var lineEl = document.createElement('div');
-          lineEl.className = 'code-line';
+          var lineEl = makeLine(text);
           inner.appendChild(lineEl);
           var speed = isSmall ? 25 + Math.random() * 20 : 40 + Math.random() * 30;
           var i = 0;
           (function typeChar() {
             if (i < text.length) {
               var ch = text.charAt(i++);
-              lineEl.textContent += ch;
               var delay = speed;
               if (ch === '.' || ch === ';' || ch === '}') delay = speed * 3;
               else if (ch === ',' || ch === ' ') delay = speed * 1.5;
+              if (ch !== ' ' && Math.random() < 0.05) {
+                // Carácter corrupto que se corrige enseguida
+                lineEl.textContent = text.slice(0, i - 1) + randomGlyph();
+                setTimeout(function () {
+                  lineEl.textContent = text.slice(0, i);
+                  setTimeout(typeChar, delay);
+                }, 90 + Math.random() * 90);
+                return;
+              }
+              lineEl.textContent = text.slice(0, i);
               setTimeout(typeChar, delay);
             } else {
+              lineEl.dataset.full = text;
               lineIndex++;
               setTimeout(nextLine, 1000 + (isSmall ? 200 : 300));
             }
@@ -456,13 +512,15 @@
           el.style.top = pos.top.toFixed(1) + '%';
           var inner = document.createElement('div');
           inner.className = 'inner';
+          if (Math.random() < 0.3) {
+            inner.style.setProperty('--tilt', ((Math.random() * 2.4) - 1.2).toFixed(2) + 'deg');
+          }
           el.appendChild(inner);
           panelsEl.appendChild(el);
           placed.push({ el: el, speed: c.speed });
           if (reduceMotion) {
             c.lines.forEach(function (line) {
-              var lineEl = document.createElement('div');
-              lineEl.className = 'code-line';
+              var lineEl = makeLine(line);
               lineEl.textContent = line;
               inner.appendChild(lineEl);
             });
@@ -473,6 +531,44 @@
       });
 
       if (reduceMotion) return;
+
+      // Fallos momentáneos: un panel al azar cada 0,9–2,6 s, nunca dos a la vez
+      function glitchPanel(el) {
+        var lines = [].slice.call(el.querySelectorAll('.code-line[data-full]'));
+        lines.forEach(function (l) { l.textContent = scramble(l.dataset.full, 0.35); });
+        el.classList.add('glitch');
+        setTimeout(function () {
+          el.classList.remove('glitch');
+          // Solo se restauran las líneas que siguen en el panel (el bucle de escritura puede haberlo vaciado)
+          lines.forEach(function (l) { if (l.isConnected) l.textContent = l.dataset.full; });
+        }, 300);
+      }
+      (function scheduleGlitch() {
+        setTimeout(function () {
+          if (!document.hidden && placed.length) {
+            glitchPanel(placed[Math.floor(Math.random() * placed.length)].el);
+          }
+          scheduleGlitch();
+        }, 900 + Math.random() * 1700);
+      })();
+
+      // El título falla muy de vez en cuando, con algún dígito corrupto
+      var title = document.querySelector('.code-title');
+      (function scheduleTitleGlitch() {
+        setTimeout(function () {
+          if (!document.hidden) {
+            var chars = target.split('');
+            chars[Math.floor(Math.random() * chars.length)] = randomGlyph();
+            num.textContent = chars.join('');
+            title.classList.add('glitch');
+            setTimeout(function () {
+              num.textContent = target;
+              title.classList.remove('glitch');
+            }, 160);
+          }
+          scheduleTitleGlitch();
+        }, 5000 + Math.random() * 5000);
+      })();
 
       // Parallax: la 404 no suele tener scroll, así que los paneles también siguen al ratón.
       // Cada panel se desplaza según su "speed": los grandes (cercanos) más, los pequeños menos.
