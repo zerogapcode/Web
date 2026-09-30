@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HyperJump — Salta entre dimensiones</title>
+<meta name="description" content="HyperJump: juego de saltos vertical infinito para Android. Eres un teseracto (cubo 4D) que rebota en figuras geométricas a través de cuatro mundos: 2D, 3D, 4D y la Singularidad.">
+<meta name="theme-color" content="#07060F">
+<meta property="og:title" content="HyperJump — Salta entre dimensiones">
+<meta property="og:description" content="Eres un teseracto que rebota entre figuras geométricas y sube a través de cuatro mundos. Próximamente en Android.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://protonlab.site/hyperjump.html">
+<link rel="canonical" href="https://protonlab.site/hyperjump.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2307060F'/%3E%3Cg fill='none' stroke='%2335F0FF' stroke-width='1.6'%3E%3Crect x='5' y='5' width='16' height='16'/%3E%3Crect x='11' y='11' width='16' height='16' stroke='%23FF4FD8'/%3E%3Cpath d='M5 5l6 6M21 5l6 6M5 21l6 6M21 21l6 6'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #07060F;
+    --panel: #0E0C1E;
+    --line: #26224A;
+    --cyan: #35F0FF;
+    --magenta: #FF4FD8;
+    --violet: #8B7CFF;
+    --gold: #FFE45C;
+    --green: #7CFF9E;
+    --orange: #FF9F43;
+    --text: #EDEBFF;
+    --muted: #B3ADDB;
+    --dim: #8C86B5;
+    --display: 'Orbitron', 'Eurostile', 'Bank Gothic', sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--void);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: var(--cyan); }
+  a:hover { color: var(--text); }
+  :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  .wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+  /* grid floor */
+  .grid-bg {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(53,240,255,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(53,240,255,.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at 50% 20%, #000 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 20%, #000 30%, transparent 80%);
+  }
+
+  /* nav */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(7,6,15,.82);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+  .logo {
+    font-family: var(--display); font-weight: 900; font-size: 20px; letter-spacing: .12em;
+    color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 10px;
+  }
+  .logo span { color: var(--cyan); }
+  nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
+  nav ul a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+  nav ul a:hover { color: var(--cyan); }
+
+  /* buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 48px; padding: 0 24px;
+    font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: .1em; text-transform: uppercase;
+    text-decoration: none; border: 1.5px solid var(--cyan); color: var(--void); background: var(--cyan);
+    box-shadow: 0 0 24px rgba(53,240,255,.35);
+    transition: box-shadow .2s, transform .2s;
+  }
+  .btn:hover { color: var(--void); box-shadow: 0 0 40px rgba(53,240,255,.6); transform: translateY(-2px); }
+  .btn.ghost { background: transparent; color: var(--cyan); box-shadow: none; }
+  .btn.ghost:hover { color: var(--text); border-color: var(--text); }
+  .btn[aria-disabled="true"] { cursor: default; }
+
+  /* hero */
+  .hero { padding: 72px 0 88px; }
+  .hero .wrap { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+  .eyebrow { font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--magenta); margin: 0 0 20px; }
+  h1 {
+    font-family: var(--display); font-weight: 900; margin: 0 0 24px;
+    font-size: clamp(44px, 7vw, 88px); line-height: .98; letter-spacing: .02em;
+  }
+  h1 .glow { color: var(--cyan); text-shadow: 0 0 28px rgba(53,240,255,.55); display: block; }
+  .lead { font-size: 18px; color: var(--muted); max-width: 520px; margin: 0 0 36px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 48px; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); max-width: 540px; }
+  .stats div { padding: 16px 14px; border-right: 1px solid var(--line); }
+  .stats div:last-child { border-right: 0; }
+  .stats b { display: block; font-family: var(--display); font-size: 28px; color: var(--text); line-height: 1.1; }
+  .stats small { font-size: 12px; color: var(--dim); letter-spacing: .06em; text-transform: uppercase; }
+  .stage { position: relative; aspect-ratio: 1 / 1; width: 100%; max-width: 520px; justify-self: center; }
+  .stage::before {
+    content: ""; position: absolute; inset: 12%;
+    border: 1px dashed rgba(139,124,255,.35); border-radius: 50%;
+  }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .stage .tag {
+    position: absolute; font-size: 12px; letter-spacing: .12em; color: var(--dim); text-transform: uppercase;
+  }
+  .stage .tag.tl { top: 4%; left: 0; }
+  .stage .tag.br { bottom: 4%; right: 0; text-align: right; }
+  .stage .tag b { color: var(--magenta); font-weight: 500; }
+
+  /* sections */
+  section { padding: 96px 0; border-top: 1px solid var(--line); }
+  .sec-head { display: flex; align-items: baseline; gap: 20px; margin-bottom: 48px; flex-wrap: wrap; }
+  .sec-num { font-family: var(--display); font-size: 14px; color: var(--magenta); letter-spacing: .1em; }
+  h2 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 4vw, 44px); margin: 0; letter-spacing: .03em; line-height: 1.1; }
+  .sec-head p { flex-basis: 100%; margin: 12px 0 0; color: var(--muted); max-width: 640px; }
+  h3 { font-family: var(--display); font-weight: 700; font-size: 18px; margin: 0 0 8px; letter-spacing: .05em; }
+
+  /* how to play */
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .step { border: 1px solid var(--line); background: var(--panel); padding: 28px; }
+  .step svg { width: 48px; height: 48px; margin-bottom: 20px; }
+  .step p { margin: 0; color: var(--muted); font-size: 15px; }
+  .step .k { font-size: 12px; color: var(--dim); letter-spacing: .12em; margin-bottom: 6px; display: block; }
+
+  /* worlds */
+  .worlds { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); }
+  .world { padding: 28px 24px 32px; border-right: 1px solid var(--line); position: relative; min-height: 260px; display: flex; flex-direction: column; }
+  .world:last-child { border-right: 0; }
+  .world .big { font-family: var(--display); font-weight: 900; font-size: 56px; line-height: 1; margin-bottom: auto; }
+  .world h3 { margin-top: 32px; }
+  .world .m { font-size: 13px; color: var(--dim); }
+  .world .bar { position: absolute; left: 0; right: 0; top: 0; height: 3px; }
+  .w0 { background: #07060F; } .w0 .big { color: var(--cyan); } .w0 .bar { background: var(--cyan); }
+  .w1 { background: #0A0819; } .w1 .big { color: var(--violet); } .w1 .bar { background: var(--violet); }
+  .w2 { background: #12061A; } .w2 .big { color: var(--magenta); } .w2 .bar { background: var(--magenta); }
+  .w3 { background: #140C06; } .w3 .big { color: var(--gold); } .w3 .bar { background: var(--gold); }
+
+  /* shapes */
+  .shapes { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; margin-top: 56px; }
+  .shape { text-align: center; }
+  .shape svg { width: 100%; max-width: 88px; height: auto; aspect-ratio: 1; display: block; margin: 0 auto 12px; }
+  .shape b { display: block; font-size: 14px; font-weight: 500; }
+  .shape small { font-size: 12px; color: var(--dim); }
+  .power-meter { display: flex; gap: 3px; justify-content: center; margin-top: 6px; }
+  .power-meter i { width: 8px; height: 4px; background: var(--line); }
+  .power-meter i.on { background: currentColor; }
+
+  /* systems */
+  .systems { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px; }
+  .sys { grid-column: span 2; border: 1px solid var(--line); padding: 28px; background: var(--panel); }
+  .sys.wide { grid-column: span 3; }
+  .sys .chip {
+    display: inline-block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    padding: 4px 10px; border: 1px solid currentColor; margin-bottom: 18px;
+  }
+  .sys p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  /* characters */
+  .chars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .char { border: 1px solid var(--line); background: var(--panel); padding: 20px 20px 28px; }
+  .char canvas { width: 100%; aspect-ratio: 1; display: block; margin-bottom: 16px; }
+  .char .cells { font-size: 12px; color: var(--dim); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; display: block; }
+  .char p { margin: 0; color: var(--muted); font-size: 14px; }
+
+  /* powerups */
+  .powers { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+  .powers span { border: 1px solid currentColor; padding: 8px 16px; font-size: 14px; }
+
+  /* final cta */
+  .final { text-align: center; padding: 120px 0; }
+  .final h2 { font-size: clamp(32px, 5vw, 60px); margin-bottom: 20px; }
+  .final p { color: var(--muted); margin: 0 auto 36px; max-width: 520px; }
+  .final .cta { justify-content: center; margin: 0; }
+
+  footer { border-top: 1px solid var(--line); padding: 36px 0; font-size: 13px; color: var(--dim); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer a { color: var(--muted); }
+
+  @media (max-width: 900px) {
+    nav ul { display: none; }
+    .hero { padding: 40px 0 64px; }
+    .hero .wrap { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .stage { order: -1; max-width: 360px; }
+    .steps, .chars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .worlds { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .world:nth-child(2) { border-right: 0; }
+    .world:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .shapes { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 32px; }
+    .sys, .sys.wide { grid-column: span 3; }
+    section { padding: 72px 0; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 16px; }
+    .steps, .chars { grid-template-columns: minmax(0, 1fr); }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stats div:nth-child(2) { border-right: 0; }
+    .stats div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .worlds { grid-template-columns: minmax(0, 1fr); }
+    .world { border-right: 0; border-bottom: 1px solid var(--line); min-height: 0; }
+    .world:last-child { border-bottom: 0; }
+    .sys, .sys.wide { grid-column: span 6; }
+    .btn { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg" aria-hidden="true"></div>
+
+<nav aria-label="Principal">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="HyperJump, inicio">
+      <svg width="26" height="26" viewBox="0 0 32 32" fill="none" stroke-width="1.8" aria-hidden="true">
+        <rect x="4" y="4" width="17" height="17" stroke="#35F0FF"/>
+        <rect x="11" y="11" width="17" height="17" stroke="#FF4FD8"/>
+        <path d="M4 4l7 7M21 4l7 7M4 21l7 7M21 21l7 7" stroke="#35F0FF"/>
+      </svg>
+      HYPER<span>JUMP</span>
+    </a>
+    <ul>
+      <li><a href="#jugar">Cómo se juega</a></li>
+      <li><a href="#mundos">Mundos</a></li>
+      <li><a href="#sistemas">Modos</a></li>
+      <li><a href="#personajes">Personajes</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+  <header class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Juego de saltos · Android</p>
+        <h1>Salta entre <span class="glow">dimensiones.</span></h1>
+        <p class="lead">Eres un teseracto, un cubo de cuatro dimensiones. Rebota en figuras geométricas, esquiva enemigos y sube sin fin a través del Plano, el Espacio, el Hiperespacio y la Singularidad.</p>
+        <div class="cta">
+          <a class="btn" href="#descargar" aria-disabled="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.8v18.4c0 .5.5.8 1 .6l15.8-9.2c.4-.3.4-.9 0-1.2L5 2.2c-.5-.2-1 .1-1 .6z"/></svg>
+            Próximamente en Google Play
+          </a>
+          <a class="btn ghost" href="#jugar">Cómo se juega</a>
+        </div>
+        <div class="stats">
+          <div><b>4</b><small>Mundos</small></div>
+          <div><b>6</b><small>Figuras</small></div>
+          <div><b>5</b><small>Power-ups</small></div>
+          <div><b>4</b><small>Personajes</small></div>
+        </div>
+      </div>
+      <div class="stage">
+        <canvas id="hero-tesseract" aria-label="Teseracto girando en cuatro dimensiones" role="img"></canvas>
+        <div class="tag tl" aria-hidden="true">Rotación <b>XW · YZ</b></div>
+        <div class="tag br" aria-hidden="true">16 vértices · 32 aristas<br>8 celdas cúbicas</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="jugar">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num">01</span>
+        <h2>Cómo se juega</h2>
+        <p>Una partida dura lo que aguantes. Cada figura te lanza más alto; cuanto más compleja, más fuerte el impulso.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <svg viewBox="0 0 48 48" fill="none" stroke="#35F0FF" stroke-width="2" aria-hidden="true">
+            <rect x="15" y="6" width="18" height="36" rx="3" transform="rotate(-18 24 24)"/>
+            <path d="M6 38c4-6 10-9 18-9M42 38c-4-6-10-9-18-9" stroke="#8B7CFF"/>
+          </svg>
+          <span class="k">Paso 1</span>
+          <h3>Inclina</h3>
+          <p>Inclina el teléfono para moverte a los lados, o mantén pulsada la mitad izquierda o derecha de la pantalla.</p>
+        </div>
+        <div class="step">
+          <svg viewBox="0 0 48 48" fill="none" stroke="#FF4FD8" stroke-width="2" aria-hidden="true">
+            <path d="M24 6l16 28H8z"/>
+            <path d="M24 42V30M18 36l6-6 6 6" stroke="#35F0FF"/>
+          </svg>
+          <span class="k">Paso 2</span>
+          <h3>Rebota</h3>
+          <p>Toca triángulos, cuadrados, hexágonos, estrellas y esferas para impulsarte. Llena la barra FEVER recogiéndolas.</p>
+        </div>
+        <div class="step">
+          <svg viewBox="0 0 48 48" fill="none" stroke="#FFE45C" stroke-width="2" aria-hidden="true">
+            <path d="M24 42V8M14 18l10-10 10 10"/>
+            <path d="M8 42h32" stroke="#8B7CFF"/>
+          </svg>
+          <span class="k">Paso 3</span>
+          <h3>Sube</h3>
+          <p>Esquiva fractales, láseres, agujeros negros y cubos hostiles. Cada metro cuenta para tu récord y tus misiones.</p>
+        </div>
+      </div>
+
+      <div class="shapes" aria-label="Figuras y su impulso">
+        <div class="shape" style="color:#35F0FF">
+          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M40 12l26 46H14z"/></svg>
+          <b>Triángulo</b><small>1 punto</small>
+          <div class="power-meter" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="shape" style="color:#8B7CFF">
+          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="18" y="18" width="44" height="44"/></svg>
+          <b>Cuadrado</b><small>2 puntos</small>
+          <div class="power-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="shape" style="color:#7CFF9E">
+          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M40 14l25 18-10 30H25L15 32z"/></svg>
+          <b>Pentágono</b><small>5 puntos</small>
+          <div class="power-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="shape" style="color:#FF9F43">
+          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M40 14l23 13v26L40 66 17 53V27z"/></svg>
+          <b>Hexágono</b><small>10 puntos</small>
+          <div class="power-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+        </div>
+        <div class="shape" style="color:#FFE45C">
+          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M40 12l8 18 19 2-14 13 4 19-17-10-17 10 4-19-14-13 19-2z"/></svg>
+          <b>Estrella</b><small>25 puntos</small>
+          <div class="power-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+        </div>
+        <div class="shape" style="color:#FF4FD8">
+          <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="40" cy="40" r="24"/><ellipse cx="40" cy="40" rx="24" ry="8"/><ellipse cx="40" cy="40" rx="8" ry="24"/></svg>
+          <b>Esfera</b><small>50 puntos</small>
+          <div class="power-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mundos">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num">02</span>
+        <h2>Cuatro mundos</h2>
+        <p>Cada dimensión cambia el color, la música synthwave y los peligros. Los planetas pasan en paralaje mientras subes.</p>
+      </div>
+      <div class="worlds">
+        <div class="world w0"><div class="bar"></div><div class="big">2D</div><h3>Plano</h3><span class="m">Desde 0 m</span></div>
+        <div class="world w1"><div class="bar"></div><div class="big">3D</div><h3>Espacio</h3><span class="m">Desde 2 000 m</span></div>
+        <div class="world w2"><div class="bar"></div><div class="big">4D</div><h3>Hiperespacio</h3><span class="m">Desde 5 000 m</span></div>
+        <div class="world w3"><div class="bar"></div><div class="big">∞</div><h3>Singularidad</h3><span class="m">Desde 10 000 m</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sistemas">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num">03</span>
+        <h2>Cada partida cambia</h2>
+        <p>Modos que aparecen en plena subida y sistemas que te hacen volver cada día.</p>
+      </div>
+      <div class="systems">
+        <div class="sys wide" style="color:#FF4FD8">
+          <span class="chip">FEVER</span>
+          <h3 style="color:var(--text)">Modo FEVER</h3>
+          <p>Llena la barra recogiendo figuras. Durante 7 segundos: puntos ×2, imán, saltos más fuertes y música a tope.</p>
+        </div>
+        <div class="sys wide" style="color:#35F0FF">
+          <span class="chip">Portal</span>
+          <h3 style="color:var(--text)">Hiperviaje</h3>
+          <p>Cruza un portal y la cámara gira a vista frontal: esquiva asteroides, recoge cristales y sal con metros extra.</p>
+        </div>
+        <div class="sys" style="color:#FFE45C">
+          <span class="chip">Brújula</span>
+          <h3 style="color:var(--text)">Desvío</h3>
+          <p>Una flecha gira; tócala y su dirección decide hacia dónde se mueve el nivel durante 8 segundos.</p>
+        </div>
+        <div class="sys" style="color:#7CFF9E">
+          <span class="chip">Rango</span>
+          <h3 style="color:var(--text)">Misiones</h3>
+          <p>Tres misiones rotativas te dan experiencia para subir de rango, de Punto a Hiperforma.</p>
+        </div>
+        <div class="sys" style="color:#FF9F43">
+          <span class="chip">Diario</span>
+          <h3 style="color:var(--text)">Recompensas</h3>
+          <p>Calendario de 7 días con racha, ruleta diaria y potenciadores para tu siguiente partida.</p>
+        </div>
+      </div>
+      <div class="powers" aria-label="Power-ups">
+        <span style="color:#FF9F43">Cohete de hiperespacio</span>
+        <span style="color:#FF4FD8">Imán</span>
+        <span style="color:#35F0FF">Escudo</span>
+        <span style="color:#FFE45C">Multiplicador ×2</span>
+        <span style="color:#7CFF9E">Segunda vida</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="personajes">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num">04</span>
+        <h2>Politopos jugables</h2>
+        <p>Desbloquea figuras de cuatro dimensiones reales, cada una con su propio poder.</p>
+      </div>
+      <div class="chars">
+        <div class="char">
+          <canvas data-poly="tesseract" data-color="#35F0FF" aria-label="Teseracto girando" role="img"></canvas>
+          <span class="cells">8 celdas</span>
+          <h3>Teseracto</h3>
+          <p>FEVER dura 2 segundos más.</p>
+        </div>
+        <div class="char">
+          <canvas data-poly="5cell" data-color="#7CFF9E" aria-label="Pentácoron girando" role="img"></canvas>
+          <span class="cells">5 celdas</span>
+          <h3>Pentácoron</h3>
+          <p>Rebote de emergencia: te salva de caer cada 20 segundos.</p>
+        </div>
+        <div class="char">
+          <canvas data-poly="16cell" data-color="#FF4FD8" aria-label="16-celdas girando" role="img"></canvas>
+          <span class="cells">16 celdas</span>
+          <h3>16-celdas</h3>
+          <p>Imán permanente de corto alcance.</p>
+        </div>
+        <div class="char">
+          <canvas data-poly="24cell" data-color="#FFE45C" aria-label="24-celdas girando" role="img"></canvas>
+          <span class="cells">24 celdas</span>
+          <h3>24-celdas</h3>
+          <p>Escudo que se recarga solo cada 25 segundos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final" id="descargar">
+    <div class="wrap">
+      <h2>¿Hasta qué dimensión llegas?</h2>
+      <p>HyperJump llega pronto a Google Play. Gratis, con música original y sin necesidad de conexión para jugar.</p>
+      <div class="cta">
+        <a class="btn" href="#descargar" aria-disabled="true">Próximamente en Google Play</a>
+        <a class="btn ghost" href="contacto.html">Avísame</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 ZeroGap Code · HyperJump</span>
+    <span><a href="hyperjump-privacidad.html">Política de privacidad</a> · <a href="index.html">protonlab.site</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // --- 4D polytopes -------------------------------------------------------
+  function perms(base) {
+    // all distinct sign/position permutations of base (for 24-cell / 16-cell)
+    var out = {}, res = [];
+    function permute(arr, l) {
+      if (l === arr.length) {
+        var signs = arr.map(function (v) { return v === 0 ? [0] : [v, -v]; });
+        (function build(i, cur) {
+          if (i === 4) { var k = cur.join(','); if (!out[k]) { out[k] = 1; res.push(cur.slice()); } return; }
+          signs[i].forEach(function (s) { cur.push(s); build(i + 1, cur); cur.pop(); });
+        })(0, []);
+        return;
+      }
+      for (var i = l; i < arr.length; i++) {
+        var t = arr[l]; arr[l] = arr[i]; arr[i] = t;
+        permute(arr, l + 1);
+        t = arr[l]; arr[l] = arr[i]; arr[i] = t;
+      }
+    }
+    permute(base.slice(), 0);
+    return res;
+  }
+  function edgesByDistance(v) {
+    var min = Infinity, e = [], i, j, d;
+    for (i = 0; i < v.length; i++) for (j = i + 1; j < v.length; j++) {
+      d = dist2(v[i], v[j]); if (d > 1e-6 && d < min) min = d;
+    }
+    for (i = 0; i < v.length; i++) for (j = i + 1; j < v.length; j++) {
+      if (Math.abs(dist2(v[i], v[j]) - min) < 1e-4) e.push([i, j]);
+    }
+    return e;
+  }
+  function dist2(a, b) { var s = 0; for (var k = 0; k < 4; k++) s += (a[k] - b[k]) * (a[k] - b[k]); return s; }
+  function normalize(v) {
+    var r = 0; v.forEach(function (p) { r = Math.max(r, Math.hypot(p[0], p[1], p[2], p[3])); });
+    return v.map(function (p) { return p.map(function (c) { return c / r; }); });
+  }
+  var POLYS = {
+    tesseract: function () {
+      var v = [];
+      for (var i = 0; i < 16; i++) v.push([i & 1 ? 1 : -1, i & 2 ? 1 : -1, i & 4 ? 1 : -1, i & 8 ? 1 : -1]);
+      return v;
+    },
+    '5cell': function () {
+      var s = 1 / Math.sqrt(5);
+      return [[1, 1, 1, -s], [1, -1, -1, -s], [-1, 1, -1, -s], [-1, -1, 1, -s], [0, 0, 0, 4 * s]];
+    },
+    '16cell': function () { return perms([1, 0, 0, 0]); },
+    '24cell': function () { return perms([1, 1, 0, 0]); }
+  };
+  function build(name) {
+    var v = normalize(POLYS[name]());
+    return { v: v, e: edgesByDistance(v) };
+  }
+
+  function rotate(p, a, b, c) {
+    var x = p[0], y = p[1], z = p[2], w = p[3], ca, sa, t;
+    ca = Math.cos(a); sa = Math.sin(a); t = x * ca - w * sa; w = x * sa + w * ca; x = t;   // XW
+    ca = Math.cos(b); sa = Math.sin(b); t = y * ca - z * sa; z = y * sa + z * ca; y = t;   // YZ
+    ca = Math.cos(c); sa = Math.sin(c); t = z * ca - w * sa; w = z * sa + w * ca; z = t;   // ZW
+    ca = Math.cos(b * 0.6); sa = Math.sin(b * 0.6); t = x * ca - z * sa; z = x * sa + z * ca; x = t; // XZ
+    return [x, y, z, w];
+  }
+  function project(p, size) {
+    var k4 = 2.4 / (2.4 - p[3]);           // 4D → 3D perspective
+    var x = p[0] * k4, y = p[1] * k4, z = p[2] * k4;
+    var k3 = 3.4 / (3.4 - z);              // 3D → 2D perspective
+    return { x: x * k3 * size, y: y * k3 * size, w: p[3] };
+  }
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var views = [];
+
+  function View(canvas, poly, colorA, colorB, scale, speed, lineW) {
+    this.c = canvas; this.ctx = canvas.getContext('2d');
+    this.p = build(poly); this.a = colorA; this.b = colorB;
+    this.scale = scale; this.speed = speed; this.lineW = lineW; this.visible = true;
+  }
+  View.prototype.resize = function () {
+    var r = this.c.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
+    this.c.width = Math.max(1, Math.round(r.width * d));
+    this.c.height = Math.max(1, Math.round(r.height * d));
+    this.d = d;
+  };
+  View.prototype.draw = function (t) {
+    var ctx = this.ctx, W = this.c.width, H = this.c.height, s = Math.min(W, H) * this.scale;
+    var tt = t * this.speed;
+    ctx.clearRect(0, 0, W, H);
+    ctx.save(); ctx.translate(W / 2, H / 2);
+    var pts = this.p.v.map(function (p) { return project(rotate(p, tt, tt * 0.7, tt * 0.43), s); });
+    ctx.lineCap = 'round';
+    ctx.shadowBlur = 12 * this.d;
+    var self = this;
+    this.p.e.forEach(function (e) {
+      var A = pts[e[0]], B = pts[e[1]], wm = (A.w + B.w) / 2;
+      var near = wm > 0;
+      ctx.strokeStyle = near ? self.a : self.b;
+      ctx.shadowColor = ctx.strokeStyle;
+      ctx.globalAlpha = 0.45 + 0.55 * Math.min(1, Math.abs(wm) + 0.3);
+      ctx.lineWidth = self.lineW * self.d * (near ? 1.15 : 0.8);
+      ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+    });
+    ctx.globalAlpha = 1; ctx.shadowBlur = 8 * this.d;
+    pts.forEach(function (p) {
+      ctx.fillStyle = p.w > 0 ? '#EDEBFF' : self.b; ctx.shadowColor = ctx.fillStyle;
+      ctx.beginPath(); ctx.arc(p.x, p.y, 2.2 * self.d, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.restore();
+  };
+
+  var hero = document.getElementById('hero-tesseract');
+  if (hero) views.push(new View(hero, 'tesseract', '#35F0FF', '#FF4FD8', 0.27, 0.00032, 2));
+  document.querySelectorAll('canvas[data-poly]').forEach(function (c) {
+    var col = c.getAttribute('data-color');
+    views.push(new View(c, c.getAttribute('data-poly'), col, '#8B7CFF', 0.26, 0.00028, 1.4));
+  });
+
+  function resizeAll() { views.forEach(function (v) { v.resize(); }); }
+  resizeAll();
+  window.addEventListener('resize', resizeAll);
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        views.forEach(function (v) { if (v.c === en.target) v.visible = en.isIntersecting; });
+      });
+    });
+    views.forEach(function (v) { io.observe(v.c); });
+  }
+
+  if (reduce) {
+    views.forEach(function (v) { v.draw(2600); });
+  } else {
+    (function loop(t) {
+      views.forEach(function (v) { if (v.visible) v.draw(t + 2600); });
+      requestAnimationFrame(loop);
+    })(0);
+  }
+
+  // "Próximamente" buttons: keep focus/scroll, no navigation elsewhere
+  document.querySelectorAll('a[aria-disabled="true"]').forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      if (a.getAttribute('href') === '#descargar' && a.closest('#descargar')) ev.preventDefault();
+    });
+  });
+})();
+</script>
+</body>
+</html>
