@@ -1086,6 +1086,7 @@
                 <div class="seg">
                     <button data-lang="en" class="active">EN</button>
                     <button data-lang="es">ES</button>
+                    <button data-lang="pt">PT</button>
                 </div>
             </div>
         </nav>
@@ -1576,165 +1577,125 @@
 
         // === TRADUCCIONES (actualizadas con las nuevas claves) ===
         const translations = {
-            nav_home_index: { en: "Home", es: "Home" },
-            nav_inicio: { en: "Top", es: "Inicio" },
-            nav_projects: { en: "Projects", es: "Proyectos" },
-            nav_technologies: { en: "Technologies", es: "Tecnologías" },
-            nav_contact: { en: "Contact", es: "Contacto" },
-            mode_auto: { en: "Auto", es: "Auto" },
-            mode_light: { en: "Light", es: "Claro" },
-            mode_dark: { en: "Dark", es: "Oscuro" },
-            hero_subtitle: { en: "Gallery of innovative and functional web projects.", es: "Galería de proyectos web innovadores y funcionales." },
-            hero_desc1: { en: "A collection of web projects developed with the latest technologies and responsive design. From digital menus to interactive catalogs, each project has its own unique style and purpose.", es: "Una colección de proyectos web desarrollados con las últimas tecnologías y diseño responsivo. Desde menús digitales hasta catálogos interactivos, cada proyecto tiene su propio estilo y propósito único." },
-            hero_desc2: { en: "Explore our latest work and discover how we combine creativity, technology, and functionality to create exceptional digital experiences.", es: "Explora nuestros trabajos más recientes y descubre cómo combinamos creatividad, tecnología y funcionalidad para crear experiencias digitales excepcionales." },
-            projects_title: { en: "Our Projects", es: "Nuestros Proyectos" },
-            projects_lead: { en: "A selection of web projects developed with the latest technologies and responsive design.", es: "Una selección de proyectos web desarrollados con las últimas tecnologías y diseño responsivo." },
-            view_project: { en: "View Project", es: "Ver Proyecto" },
+            nav_home_index: { en: "Home", es: "Home", pt: "Home" },
+            nav_inicio: { en: "Top", es: "Inicio", pt: "Início" },
+            nav_projects: { en: "Projects", es: "Proyectos", pt: "Projetos" },
+            nav_technologies: { en: "Technologies", es: "Tecnologías", pt: "Tecnologias" },
+            nav_contact: { en: "Contact", es: "Contacto", pt: "Contato" },
+            mode_auto: { en: "Auto", es: "Auto", pt: "Auto" },
+            mode_light: { en: "Light", es: "Claro", pt: "Claro" },
+            mode_dark: { en: "Dark", es: "Oscuro", pt: "Escuro" },
+            hero_subtitle: { en: "Gallery of innovative and functional web projects.", es: "Galería de proyectos web innovadores y funcionales.", pt: "Galeria de projetos web inovadores e funcionais." },
+            hero_desc1: { en: "A collection of web projects developed with the latest technologies and responsive design. From digital menus to interactive catalogs, each project has its own unique style and purpose.", es: "Una colección de proyectos web desarrollados con las últimas tecnologías y diseño responsivo. Desde menús digitales hasta catálogos interactivos, cada proyecto tiene su propio estilo y propósito único.", pt: "Uma coleção de projetos web desenvolvidos com as mais recentes tecnologias e design responsivo. De menus digitais a catálogos interativos, cada projeto tem seu próprio estilo e propósito único." },
+            hero_desc2: { en: "Explore our latest work and discover how we combine creativity, technology, and functionality to create exceptional digital experiences.", es: "Explora nuestros trabajos más recientes y descubre cómo combinamos creatividad, tecnología y funcionalidad para crear experiencias digitales excepcionales.", pt: "Explore nossos trabalhos mais recentes e descubra como combinamos criatividade, tecnologia e funcionalidade para criar experiências digitais excepcionais." },
+            projects_title: { en: "Our Projects", es: "Nuestros Proyectos", pt: "Nossos Projetos" },
+            projects_lead: { en: "A selection of web projects developed with the latest technologies and responsive design.", es: "Una selección de proyectos web desarrollados con las últimas tecnologías y diseño responsivo.", pt: "Uma seleção de projetos web desenvolvidos com as mais recentes tecnologias e design responsivo." },
+            view_project: { en: "View Project", es: "Ver Proyecto", pt: "Ver Projeto" },
             
-            proj1_title: { en: "Balú Digital Menu", es: "Menú Digital Balú" },
-            proj1_desc: { en: "An interactive digital menu for Balú Charallave Restaurant with modern design, smooth navigation, and integrated virtual assistant. Perfect for showcasing dishes and facilitating orders.", es: "Un menú digital interactivo para el Restaurante Balú Charallave con diseño moderno, navegación suave y asistente virtual integrado. Perfecto para mostrar platillos y facilitar pedidos." },
-            tag_restaurant: { en: "Restaurant", es: "Restaurante" },
-            tag_digital: { en: "Digital", es: "Digital" },
-            tag_interactive: { en: "Interactive", es: "Interactivo" },
+            proj1_title: { en: "Balú Digital Menu", es: "Menú Digital Balú", pt: "Menu Digital Balú" },
+            proj1_desc: { en: "An interactive digital menu for Balú Charallave Restaurant with modern design, smooth navigation, and integrated virtual assistant. Perfect for showcasing dishes and facilitating orders.", es: "Un menú digital interactivo para el Restaurante Balú Charallave con diseño moderno, navegación suave y asistente virtual integrado. Perfecto para mostrar platillos y facilitar pedidos.", pt: "Um menu digital interativo para o Restaurante Balú Charallave com design moderno, navegação suave e assistente virtual integrado. Perfeito para mostrar pratos e facilitar pedidos." },
+            tag_restaurant: { en: "Restaurant", es: "Restaurante", pt: "Restaurante" },
+            tag_digital: { en: "Digital", es: "Digital", pt: "Digital" },
+            tag_interactive: { en: "Interactive", es: "Interactivo", pt: "Interativo" },
             
-            proj2_title: { en: "Interking - Internet Provider", es: "Interking - Proveedor de Internet" },
-            proj2_desc: { en: "Web platform for Interking, an internet service provider with professional design, plan information, and virtual assistant \"Rey\" for customer service.", es: "Plataforma web para Interking, proveedor de servicios de internet con diseño profesional, información de planes y asistente virtual \"Rey\" para atención al cliente." },
-            tag_technology: { en: "Technology", es: "Tecnología" },
-            tag_services: { en: "Services", es: "Servicios" },
-            tag_ai_assistant: { en: "AI Assistant", es: "Asistente IA" },
+            proj2_title: { en: "Interking - Internet Provider", es: "Interking - Proveedor de Internet", pt: "Interking - Provedor de Internet" },
+            proj2_desc: { en: "Web platform for Interking, an internet service provider with professional design, plan information, and virtual assistant \"Rey\" for customer service.", es: "Plataforma web para Interking, proveedor de servicios de internet con diseño profesional, información de planes y asistente virtual \"Rey\" para atención al cliente.", pt: "Plataforma web para Interking, provedor de serviços de internet com design profissional, informações de planos e assistente virtual \"Rey\" para atendimento ao cliente." },
+            tag_technology: { en: "Technology", es: "Tecnología", pt: "Tecnologia" },
+            tag_services: { en: "Services", es: "Servicios", pt: "Serviços" },
+            tag_ai_assistant: { en: "AI Assistant", es: "Asistente IA", pt: "Assistente IA" },
             
-            proj3_title: { en: "StarVenezuela - Digital Catalog", es: "StarVenezuela - Catálogo Digital" },
-            proj3_desc: { en: "Complete digital catalog for StarVenezuela with real-time inventory system, advanced filters, shopping cart, and virtual assistant \"Carlitos\".", es: "Catálogo digital completo para StarVenezuela con sistema de inventario en tiempo real, filtros avanzados, carrito de compras y asistente virtual \"Carlitos\"." },
-            tag_ecommerce: { en: "E-commerce", es: "E-commerce" },
-            tag_catalog: { en: "Catalog", es: "Catálogo" },
-            tag_inventory: { en: "Inventory", es: "Inventario" },
+            proj3_title: { en: "StarVenezuela - Digital Catalog", es: "StarVenezuela - Catálogo Digital", pt: "StarVenezuela - Catálogo Digital" },
+            proj3_desc: { en: "Complete digital catalog for StarVenezuela with real-time inventory system, advanced filters, shopping cart, and virtual assistant \"Carlitos\".", es: "Catálogo digital completo para StarVenezuela con sistema de inventario en tiempo real, filtros avanzados, carrito de compras y asistente virtual \"Carlitos\".", pt: "Catálogo digital completo para StarVenezuela com sistema de inventário em tempo real, filtros avançados, carrinho de compras e assistente virtual \"Carlitos\"." },
+            tag_ecommerce: { en: "E-commerce", es: "E-commerce", pt: "E-commerce" },
+            tag_catalog: { en: "Catalog", es: "Catálogo", pt: "Catálogo" },
+            tag_inventory: { en: "Inventory", es: "Inventario", pt: "Inventário" },
             
-            proj4_title: { en: "Casares - Gourmet Restaurant", es: "Casares - Restaurante Gourmet" },
-            proj4_desc: { en: "Website for Casares gourmet restaurant with elegant design, interactive tasting menu, and online reservation system. Includes gallery of dishes and culinary experiences.", es: "Web para el restaurante gourmet Casares con diseño elegante, menú degustación interactivo y sistema de reservas en línea. Incluye galería de platos y experiencias culinarias." },
-            tag_gourmet: { en: "Gourmet", es: "Gourmet" },
-            tag_reservations: { en: "Reservations", es: "Reservas" },
+            proj4_title: { en: "Casares - Gourmet Restaurant", es: "Casares - Restaurante Gourmet", pt: "Casares - Restaurante Gourmet" },
+            proj4_desc: { en: "Website for Casares gourmet restaurant with elegant design, interactive tasting menu, and online reservation system. Includes gallery of dishes and culinary experiences.", es: "Web para el restaurante gourmet Casares con diseño elegante, menú degustación interactivo y sistema de reservas en línea. Incluye galería de platos y experiencias culinarias.", pt: "Site para o restaurante gourmet Casares com design elegante, menu degustação interativo e sistema de reservas online. Inclui galeria de pratos e experiências culinárias." },
+            tag_gourmet: { en: "Gourmet", es: "Gourmet", pt: "Gourmet" },
+            tag_reservations: { en: "Reservations", es: "Reservas", pt: "Reservas" },
             
-            proj5_title: { en: "Empizzados - Pizzeria & Brewery", es: "Empizzados - Pizzería & Cervecería" },
-            proj5_desc: { en: "Website for Empizzados pizzeria and brewery with artisanal pizza catalog, beers, and online ordering system. Modern and dynamic design.", es: "Sitio web para la pizzería y cervecería Empizzados con catálogo de pizzas artesanales, cervezas y sistema de pedidos online. Diseño moderno y dinámico." },
-            tag_pizzeria: { en: "Pizzeria", es: "Pizzería" },
-            tag_online_orders: { en: "Online Orders", es: "Pedidos Online" },
-            tag_brewery: { en: "Brewery", es: "Cervecería" },
+            proj5_title: { en: "Empizzados - Pizzeria & Brewery", es: "Empizzados - Pizzería & Cervecería", pt: "Empizzados - Pizzaria & Cervejaria" },
+            proj5_desc: { en: "Website for Empizzados pizzeria and brewery with artisanal pizza catalog, beers, and online ordering system. Modern and dynamic design.", es: "Sitio web para la pizzería y cervecería Empizzados con catálogo de pizzas artesanales, cervezas y sistema de pedidos online. Diseño moderno y dinámico.", pt: "Site para a pizzaria e cervejaria Empizzados com catálogo de pizzas artesanais, cervejas e sistema de pedidos online. Design moderno e dinâmico." },
+            tag_pizzeria: { en: "Pizzeria", es: "Pizzería", pt: "Pizzaria" },
+            tag_online_orders: { en: "Online Orders", es: "Pedidos Online", pt: "Pedidos Online" },
+            tag_brewery: { en: "Brewery", es: "Cervecería", pt: "Cervejaria" },
             
-            proj6_title: { en: "Rancho e Lola Beach - Margarita Island", es: "Rancho e Lola Beach - Isla de Margarita" },
-            proj6_desc: { en: "Website for a resort on Margarita Island with vibrant design, interactive gallery, and virtual assistant \"Lola\". Includes parallax effects, online booking, and integrated chat.", es: "Página web para un resort en la Isla de Margarita con diseño vibrante, galería interactiva y asistente virtual \"Lola\". Incluye efectos parallax, reservas en línea y chat integrado." },
-            tag_resort: { en: "Resort", es: "Resort" },
-            tag_tourism: { en: "Tourism", es: "Turismo" },
+            proj6_title: { en: "Rancho e Lola Beach - Margarita Island", es: "Rancho e Lola Beach - Isla de Margarita", pt: "Rancho e Lola Beach - Ilha de Margarita" },
+            proj6_desc: { en: "Website for a resort on Margarita Island with vibrant design, interactive gallery, and virtual assistant \"Lola\". Includes parallax effects, online booking, and integrated chat.", es: "Página web para un resort en la Isla de Margarita con diseño vibrante, galería interactiva y asistente virtual \"Lola\". Incluye efectos parallax, reservas en línea y chat integrado.", pt: "Site para um resort na Ilha de Margarita com design vibrante, galeria interativa e assistente virtual \"Lola\". Inclui efeitos parallax, reservas online e chat integrado." },
+            tag_resort: { en: "Resort", es: "Resort", pt: "Resort" },
+            tag_tourism: { en: "Tourism", es: "Turismo", pt: "Turismo" },
             
-            proj7_title: {
-                en: "Arcade Games - Digital Game Store",
-                es: "Arcade Games - Tienda de Juegos Digitales"
-            },
-            proj7_desc: {
-                en: "E-commerce platform for digital PlayStation and Xbox games. Real-time inventory, shopping cart, instant delivery, and competitive prices on a wide selection of titles.",
-                es: "Plataforma de e-commerce para juegos digitales de PlayStation y Xbox. Inventario en tiempo real, carrito de compras, entrega instantánea y precios competitivos en una amplia selección de títulos."
-            },
-            tag_digital_store: {
-                en: "Digital Store",
-                es: "Tienda Digital"
-            },
-            tag_instant_delivery: {
-                en: "Instant Delivery",
-                es: "Entrega Instantánea"
-            },
+            proj7_title: { en: "Arcade Games - Digital Game Store", es: "Arcade Games - Tienda de Juegos Digitales", pt: "Arcade Games - Loja de Jogos Digitais" },
+            proj7_desc: { en: "E-commerce platform for digital PlayStation and Xbox games. Real-time inventory, shopping cart, instant delivery, and competitive prices on a wide selection of titles.", es: "Plataforma de e-commerce para juegos digitales de PlayStation y Xbox. Inventario en tiempo real, carrito de compras, entrega instantánea y precios competitivos en una amplia selección de títulos.", pt: "Plataforma de e-commerce para jogos digitais de PlayStation e Xbox. Inventário em tempo real, carrinho de compras, entrega instantânea e preços competitivos em uma ampla seleção de títulos." },
+            tag_digital_store: { en: "Digital Store", es: "Tienda Digital", pt: "Loja Digital" },
+            tag_instant_delivery: { en: "Instant Delivery", es: "Entrega Instantánea", pt: "Entrega Instantânea" },
 
-            proj9_title: {
-                en: "Agrepa Asfalcem - Road Construction Company",
-                es: "Agrepa Asfalcem - Constructora Vial"
-            },
-            proj9_desc: {
-                en: "Corporate website for a Venezuelan road construction company specializing in asphalt paving, active since 1981. Industrial design, mobile-first layout, SEO with LocalBusiness and FAQ structured data, and virtual assistant \"Daniel\".",
-                es: "Sitio corporativo para una constructora vial venezolana especializada en asfaltados, activa desde 1981. Diseño industrial, maquetado mobile-first, SEO con datos estructurados LocalBusiness y FAQ, y asistente virtual \"Daniel\"."
-            },
-            tag_construction: {
-                en: "Construction",
-                es: "Construcción"
-            },
-            tag_corporate: {
-                en: "Corporate",
-                es: "Corporativo"
-            },
-            tag_seo: {
-                en: "SEO",
-                es: "SEO"
-            },
-            proj8_title: {
-                en: "CS Brazilian Steakhouse - Authentic Churrasco Menu",
-                es: "CS Brazilian Steakhouse - Menú de Churrasco Auténtico"
-            },
-            proj8_desc: {
-                en: "Digital menu for a Brazilian steakhouse in Newark, DE. Features churrasco meats, caipirinhas, feijoada, and an extensive selection of Brazilian cocktails and spirits. Fully responsive with dynamic clip-path hero effect.",
-                es: "Menú digital para un restaurante brasileño en Newark, DE. Ofrece carnes de churrasco, caipirinhas, feijoada y una amplia selección de cócteles y destilados brasileños. Totalmente responsivo con efecto hero de clip-path dinámico."
-            },
-            tag_brazilian: {
-                en: "Brazilian",
-                es: "Brasileño"
-            },
-            tag_digital_menu: {
-                en: "Digital Menu",
-                es: "Menú Digital"
-            },
+            proj9_title: { en: "Agrepa Asfalcem - Road Construction Company", es: "Agrepa Asfalcem - Constructora Vial", pt: "Agrepa Asfalcem - Construtora Rodoviária" },
+            proj9_desc: { en: "Corporate website for a Venezuelan road construction company specializing in asphalt paving, active since 1981. Industrial design, mobile-first layout, SEO with LocalBusiness and FAQ structured data, and virtual assistant \"Daniel\".", es: "Sitio corporativo para una constructora vial venezolana especializada en asfaltados, activa desde 1981. Diseño industrial, maquetado mobile-first, SEO con datos estructurados LocalBusiness y FAQ, y asistente virtual \"Daniel\".", pt: "Site corporativo para uma construtora rodoviária venezuelana especializada em pavimentação asfáltica, ativa desde 1981. Design industrial, layout mobile-first, SEO com dados estruturados LocalBusiness e FAQ, e assistente virtual \"Daniel\"." },
+            tag_construction: { en: "Construction", es: "Construcción", pt: "Construção" },
+            tag_corporate: { en: "Corporate", es: "Corporativo", pt: "Corporativo" },
+            tag_seo: { en: "SEO", es: "SEO", pt: "SEO" },
+            
+            proj8_title: { en: "CS Brazilian Steakhouse - Authentic Churrasco Menu", es: "CS Brazilian Steakhouse - Menú de Churrasco Auténtico", pt: "CS Brazilian Steakhouse - Menu Autêntico de Churrasco" },
+            proj8_desc: { en: "Digital menu for a Brazilian steakhouse in Newark, DE. Features churrasco meats, caipirinhas, feijoada, and an extensive selection of Brazilian cocktails and spirits. Fully responsive with dynamic clip-path hero effect.", es: "Menú digital para un restaurante brasileño en Newark, DE. Ofrece carnes de churrasco, caipirinhas, feijoada y una amplia selección de cócteles y destilados brasileños. Totalmente responsivo con efecto hero de clip-path dinámico.", pt: "Menu digital para uma churrascaria brasileira em Newark, DE. Apresenta carnes de churrasco, caipirinhas, feijoada e uma ampla seleção de coquetéis e destilados brasileiros. Totalmente responsivo com efeito hero de clip-path dinâmico." },
+            tag_brazilian: { en: "Brazilian", es: "Brasileño", pt: "Brasileiro" },
+            tag_digital_menu: { en: "Digital Menu", es: "Menú Digital", pt: "Menu Digital" },
 
-
-            proj10_title: { en: "Wea - Loyalty Programs", es: "Wea - Programas de Fidelidad" },
-            proj10_desc: { en: "All your loyalty programs in one place.", es: "Todos tus programas de fidelidad en un solo lugar." },
-            tag_app: { en: "App", es: "App" },
-            tag_fintech: { en: "Fintech", es: "Fintech" },
-            tag_loyalty: { en: "Loyalty", es: "Fidelidad" },
+            proj10_title: { en: "Wea - Loyalty Programs", es: "Wea - Programas de Fidelidad", pt: "Wea - Programas de Fidelidade" },
+            proj10_desc: { en: "All your loyalty programs in one place.", es: "Todos tus programas de fidelidad en un solo lugar.", pt: "Todos os seus programas de fidelidade em um só lugar." },
+            tag_app: { en: "App", es: "App", pt: "App" },
+            tag_fintech: { en: "Fintech", es: "Fintech", pt: "Fintech" },
+            tag_loyalty: { en: "Loyalty", es: "Fidelidad", pt: "Fidelidade" },
             
-            proj11_title: { en: "Condo - Condominium Management", es: "Condo - Administración de Condominios" },
-            proj11_desc: { en: "Condominium management for residents, security, and administration.", es: "Administración de condominios para residentes, garita y administración." },
-            tag_real_estate: { en: "Real Estate", es: "Inmobiliaria" },
-            tag_management: { en: "Management", es: "Gestión" },
+            proj11_title: { en: "Condo - Condominium Management", es: "Condo - Administración de Condominios", pt: "Condo - Administração de Condomínios" },
+            proj11_desc: { en: "Condominium management for residents, security, and administration.", es: "Administración de condominios para residentes, garita y administración.", pt: "Administração de condomínios para residentes, portaria e administração." },
+            tag_real_estate: { en: "Real Estate", es: "Inmobiliaria", pt: "Imobiliária" },
+            tag_management: { en: "Management", es: "Gestión", pt: "Gestão" },
             
-            proj12_title: { en: "Estoquia - Point of Sale", es: "Estoquia - Punto de Venta" },
-            proj12_desc: { en: "Point of sale and inventory management for your store.", es: "Punto de venta e inventario para tu tienda." },
-            tag_retail: { en: "Retail", es: "Retail" },
-            tag_inventory_mgmt: { en: "Inventory", es: "Inventario" },
-            tag_pos: { en: "POS", es: "Punto de Venta" },
+            proj12_title: { en: "Estoquia - Point of Sale", es: "Estoquia - Punto de Venta", pt: "Estoquia - Ponto de Venda" },
+            proj12_desc: { en: "Point of sale and inventory management for your store.", es: "Punto de venta e inventario para tu tienda.", pt: "Ponto de venda e gerenciamento de inventário para sua loja." },
+            tag_retail: { en: "Retail", es: "Retail", pt: "Varejo" },
+            tag_inventory_mgmt: { en: "Inventory", es: "Inventario", pt: "Inventário" },
+            tag_pos: { en: "POS", es: "Punto de Venta", pt: "PDV" },
             
-            proj13_title: { en: "Postventa - Dealership Aftersales", es: "Postventa - Postventa de Concesionarios" },
-            proj13_desc: { en: "Your dealership's aftersales management, in a single app.", es: "La postventa de tu concesionario, en una app." },
-            tag_automotive: { en: "Automotive", es: "Automotriz" },
-            tag_saas: { en: "SaaS", es: "SaaS" },
+            proj13_title: { en: "Postventa - Dealership Aftersales", es: "Postventa - Postventa de Concesionarios", pt: "Postventa - Pós-venda de Concessionárias" },
+            proj13_desc: { en: "Your dealership's aftersales management, in a single app.", es: "La postventa de tu concesionario, en una app.", pt: "A gestão de pós-venda da sua concessionária, em um único aplicativo." },
+            tag_automotive: { en: "Automotive", es: "Automotriz", pt: "Automotivo" },
+            tag_saas: { en: "SaaS", es: "SaaS", pt: "SaaS" },
             
-
-            proj14_title: { en: "HyperJump - Dimensional Arcade", es: "HyperJump - Arcade Dimensional" },
-            proj14_desc: { en: "Infinite vertical jumping game for Android. Play as a tesseract bouncing through geometric shapes across 4 dimensions.", es: "Juego de saltos vertical infinito para Android. Eres un teseracto rebotando en figuras geométricas a través de 4 dimensiones." },
-            tag_game: { en: "Gaming", es: "Videojuego" },
-            tag_mobile: { en: "Mobile", es: "Móvil" },
-            tag_arcade: { en: "Arcade", es: "Arcade" },
+            proj14_title: { en: "HyperJump - Dimensional Arcade", es: "HyperJump - Arcade Dimensional", pt: "HyperJump - Arcade Dimensional" },
+            proj14_desc: { en: "Infinite vertical jumping game for Android. Play as a tesseract bouncing through geometric shapes across 4 dimensions.", es: "Juego de saltos vertical infinito para Android. Eres un teseracto rebotando en figuras geométricas a través de 4 dimensiones.", pt: "Jogo de saltos verticais infinito para Android. Jogue como um tesseract quicando através de formas geométricas em 4 dimensões." },
+            tag_game: { en: "Gaming", es: "Videojuego", pt: "Jogos" },
+            tag_mobile: { en: "Mobile", es: "Móvil", pt: "Mobile" },
+            tag_arcade: { en: "Arcade", es: "Arcade", pt: "Arcade" },
             
-            tech_title: { en: "Technologies Used", es: "Tecnologías Utilizadas" },
-            tech_lead: { en: "These projects implement the following technologies and features:", es: "Estos proyectos implementan las siguientes tecnologías y características:" },
-            tech_frontend: { en: "Frontend", es: "Frontend" },
-            tech_responsive: { en: "Responsive Design", es: "Diseño Responsivo" },
-            tech_parallax: { en: "Parallax Effects", es: "Efectos Parallax" },
-            tech_animations: { en: "CSS Animations", es: "Animaciones CSS" },
-            tech_ai_assistants: { en: "AI Assistants", es: "Asistentes IA" },
-            ai_balu: { en: "Balú - Restaurant Assistant", es: "Balú - Asistente de Restaurante" },
-            ai_rey: { en: "Rey - Interking Assistant", es: "Rey - Asistente de Interking" },
-            ai_carlitos: { en: "Carlitos - Catalog Assistant", es: "Carlitos - Asistente de Catálogo" },
-            ai_lola: { en: "Lola - Resort Assistant", es: "Lola - Asistente de Resort" },
-            tech_experience: { en: "Experience", es: "Experiencia" },
-            exp_mobile: { en: "Mobile Optimized", es: "Optimizado para móviles" },
-            exp_nav: { en: "Intuitive Navigation", es: "Navegación intuitiva" },
-            exp_ui: { en: "Modern Interfaces", es: "Interfaces modernas" },
-            exp_perf: { en: "Optimized Performance", es: "Performance optimizada" },
-            tech_footer: { en: "Each project is optimized for an exceptional user experience on mobile and desktop devices, implementing best modern web development practices.", es: "Cada proyecto está optimizado para una experiencia de usuario excepcional en dispositivos móviles y desktop, implementando las mejores prácticas de desarrollo web moderno." },
+            tech_title: { en: "Technologies Used", es: "Tecnologías Utilizadas", pt: "Tecnologias Utilizadas" },
+            tech_lead: { en: "These projects implement the following technologies and features:", es: "Estos proyectos implementan las siguientes tecnologías y características:", pt: "Esses projetos implementam as seguintes tecnologias e recursos:" },
+            tech_frontend: { en: "Frontend", es: "Frontend", pt: "Frontend" },
+            tech_responsive: { en: "Responsive Design", es: "Diseño Responsivo", pt: "Design Responsivo" },
+            tech_parallax: { en: "Parallax Effects", es: "Efectos Parallax", pt: "Efeitos Parallax" },
+            tech_animations: { en: "CSS Animations", es: "Animaciones CSS", pt: "Animações CSS" },
+            tech_ai_assistants: { en: "AI Assistants", es: "Asistentes IA", pt: "Assistentes IA" },
+            ai_balu: { en: "Balú - Restaurant Assistant", es: "Balú - Asistente de Restaurante", pt: "Balú - Assistente de Restaurante" },
+            ai_rey: { en: "Rey - Interking Assistant", es: "Rey - Asistente de Interking", pt: "Rey - Assistente de Interking" },
+            ai_carlitos: { en: "Carlitos - Catalog Assistant", es: "Carlitos - Asistente de Catálogo", pt: "Carlitos - Assistente de Catálogo" },
+            ai_lola: { en: "Lola - Resort Assistant", es: "Lola - Asistente de Resort", pt: "Lola - Assistente de Resort" },
+            tech_experience: { en: "Experience", es: "Experiencia", pt: "Experiência" },
+            exp_mobile: { en: "Mobile Optimized", es: "Optimizado para móviles", pt: "Otimizado para Mobile" },
+            exp_nav: { en: "Intuitive Navigation", es: "Navegación intuitiva", pt: "Navegação Intuitiva" },
+            exp_ui: { en: "Modern Interfaces", es: "Interfaces modernas", pt: "Interfaces Modernas" },
+            exp_perf: { en: "Optimized Performance", es: "Performance optimizada", pt: "Performance Otimizada" },
+            tech_footer: { en: "Each project is optimized for an exceptional user experience on mobile and desktop devices, implementing best modern web development practices.", es: "Cada proyecto está optimizado para una experiencia de usuario excepcional en dispositivos móviles y desktop, implementando las mejores prácticas de desarrollo web moderno.", pt: "Cada projeto é otimizado para uma experiência de usuário excepcional em dispositivos móveis e desktop, implementando as melhores práticas de desenvolvimento web moderno." },
             
-            more_projects_title: { en: "More Projects", es: "Más Proyectos" },
-            more_projects_lead: { en: "Interested in seeing more of our work or developing a similar project?", es: "¿Interesado en ver más de nuestro trabajo o desarrollar un proyecto similar?" },
-            contact_card_title: { en: "Contact", es: "Contacto" },
-            contact_card_text: { en: "If you have a project in mind or want to know more about our services, feel free to contact us. We specialize in custom web development, interactive applications, and innovative digital solutions.", es: "Si tienes un proyecto en mente o quieres saber más sobre nuestros servicios, no dudes en contactarnos. Estamos especializados en desarrollo web a medida, aplicaciones interactivas y soluciones digitales innovadoras." },
-            back_home: { en: "Back to Home", es: "Volver a Inicio" },
+            more_projects_title: { en: "More Projects", es: "Más Proyectos", pt: "Mais Projetos" },
+            more_projects_lead: { en: "Interested in seeing more of our work or developing a similar project?", es: "¿Interesado en ver más de nuestro trabajo o desarrollar un proyecto similar?", pt: "Interessado em ver mais do nosso trabalho ou desenvolver um projeto semelhante?" },
+            contact_card_title: { en: "Contact", es: "Contacto", pt: "Contato" },
+            contact_card_text: { en: "If you have a project in mind or want to know more about our services, feel free to contact us. We specialize in custom web development, interactive applications, and innovative digital solutions.", es: "Si tienes un proyecto en mente o quieres saber más sobre nuestros servicios, no dudes en contactarnos. Estamos especializados en desarrollo web a medida, aplicaciones interactivas y soluciones digitales innovadoras.", pt: "Se você tem um projeto em mente ou quer saber mais sobre nossos serviços, sinta-se à vontade para entrar em contato conosco. Somos especializados em desenvolvimento web personalizado, aplicativos interativos e soluções digitais inovadoras." },
+            back_home: { en: "Back to Home", es: "Volver a Inicio", pt: "Voltar ao Início" },
             
-            footer_copy: { en: "© 2023 ProtonLab – Project Gallery", es: "© 2023 ProtonLab – Galería de Proyectos" },
-            footer_slogan: { en: "Innovation in every line of code, creativity in every project.", es: "Innovación en cada línea de código, creatividad en cada proyecto." }
+            footer_copy: { en: "© 2023 ProtonLab – Project Gallery", es: "© 2023 ProtonLab – Galería de Proyectos", pt: "© 2023 ProtonLab – Galeria de Projetos" },
+            footer_slogan: { en: "Innovation in every line of code, creativity in every project.", es: "Innovación en cada línea de código, creatividad en cada proyecto.", pt: "Inovação em cada linha de código, criatividade em cada projeto." }
         };
 
         const langButtons = document.querySelectorAll('[data-lang]');
