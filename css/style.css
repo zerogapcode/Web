@@ -240,11 +240,204 @@
       border-color: rgba(255, 255, 255, 0.5);
     }
 
+    
+    /* ===== NUEVO BOTÓN WEA (magenta) ===== */
+    .wea-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(255, 42, 95, 0.1);
+      border: 1px solid rgba(255, 42, 95, 0.2);
+      color: #ff2a5f;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .wea-link:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 42, 95, 0.2);
+      border-color: rgba(255, 42, 95, 0.4);
+      box-shadow: 0 8px 20px rgba(255, 42, 95, 0.15);
+      gap: 6px;
+      padding: 6px 14px;
+    }
+    .wea-link svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      transition: transform 0.3s ease;
+    }
+    .wea-link:hover svg {
+      transform: scale(1.1);
+    }
+    body[data-theme='dark'] .wea-link {
+      background: rgba(255, 42, 95, 0.15);
+      border-color: rgba(255, 42, 95, 0.3);
+      color: #ff4d79;
+    }
+    body[data-theme='dark'] .wea-link:hover {
+      background: rgba(255, 42, 95, 0.25);
+      border-color: rgba(255, 42, 95, 0.5);
+    }
+
+    /* ===== NUEVO BOTÓN POSTVENTA (naranja) ===== */
+    .postventa-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(255, 90, 0, 0.1);
+      border: 1px solid rgba(255, 90, 0, 0.2);
+      color: #ff5a00;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .postventa-link:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 90, 0, 0.2);
+      border-color: rgba(255, 90, 0, 0.4);
+      box-shadow: 0 8px 20px rgba(255, 90, 0, 0.15);
+      gap: 6px;
+      padding: 6px 14px;
+    }
+    .postventa-link svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      transition: transform 0.3s ease;
+    }
+    .postventa-link:hover svg {
+      transform: scale(1.1);
+    }
+    body[data-theme='dark'] .postventa-link {
+      background: rgba(255, 90, 0, 0.15);
+      border-color: rgba(255, 90, 0, 0.3);
+      color: #ff7626;
+    }
+    body[data-theme='dark'] .postventa-link:hover {
+      background: rgba(255, 90, 0, 0.25);
+      border-color: rgba(255, 90, 0, 0.5);
+    }
+
+    /* ===== NUEVO BOTÓN CONDO (teal) ===== */
+    .condo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(15, 118, 110, 0.1);
+      border: 1px solid rgba(15, 118, 110, 0.2);
+      color: #0f766e;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .condo-link:hover {
+      transform: translateY(-2px);
+      background: rgba(15, 118, 110, 0.2);
+      border-color: rgba(15, 118, 110, 0.4);
+      box-shadow: 0 8px 20px rgba(15, 118, 110, 0.15);
+      gap: 6px;
+      padding: 6px 14px;
+    }
+    .condo-link svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      transition: transform 0.3s ease;
+    }
+    .condo-link:hover svg {
+      transform: scale(1.1);
+    }
+    body[data-theme='dark'] .condo-link {
+      background: rgba(15, 118, 110, 0.15);
+      border-color: rgba(15, 118, 110, 0.3);
+      color: #14b8a6;
+    }
+    body[data-theme='dark'] .condo-link:hover {
+      background: rgba(15, 118, 110, 0.25);
+      border-color: rgba(15, 118, 110, 0.5);
+    }
+
+    /* ===== NUEVO BOTÓN HYPERJUMP (cyan) ===== */
+    .hyperjump-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(53, 240, 255, 0.1);
+      border: 1px solid rgba(53, 240, 255, 0.2);
+      color: #0b9cb0;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .hyperjump-link:hover {
+      transform: translateY(-2px);
+      background: rgba(53, 240, 255, 0.2);
+      border-color: rgba(53, 240, 255, 0.4);
+      box-shadow: 0 8px 20px rgba(53, 240, 255, 0.15);
+      gap: 6px;
+      padding: 6px 14px;
+    }
+    .hyperjump-link svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      transition: transform 0.3s ease;
+    }
+    .hyperjump-link:hover svg {
+      transform: scale(1.1);
+    }
+    body[data-theme='dark'] .hyperjump-link {
+      background: rgba(53, 240, 255, 0.15);
+      border-color: rgba(53, 240, 255, 0.3);
+      color: #35f0ff;
+    }
+    body[data-theme='dark'] .hyperjump-link:hover {
+      background: rgba(53, 240, 255, 0.25);
+      border-color: rgba(53, 240, 255, 0.5);
+    }
+
     /* Animación de texto en botones */
     .medicloud-link span,
     .axiom-link span,
     .draiven-link span,
-    .estoquia-link span {
+    .estoquia-link span,
+    .wea-link span,
+    .postventa-link span,
+    .condo-link span,
+    .hyperjump-link span {
       display: block;
       max-width: 0;
       opacity: 0;
@@ -255,7 +448,11 @@
     .medicloud-link:hover span,
     .axiom-link:hover span,
     .draiven-link:hover span,
-    .estoquia-link:hover span {
+    .estoquia-link:hover span,
+    .wea-link:hover span,
+    .postventa-link:hover span,
+    .condo-link:hover span,
+    .hyperjump-link:hover span {
       max-width: 80px;
       opacity: 1;
     }
